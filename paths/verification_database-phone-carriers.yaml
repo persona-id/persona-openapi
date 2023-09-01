@@ -1,0 +1,145 @@
+post:
+  description: Create a new phone carrier database verification
+  operationId: create-a-phone-carrier-database-verification
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            data:
+              properties:
+                attributes:
+                  properties:
+                    address-postal-code:
+                      description: Postal code of the individual
+                      type: string
+                    address-street-1:
+                      description: Address line 1 of the individual
+                      type: string
+                    address-street-2:
+                      description: Address line 2 of the individual
+                      type: string
+                    address-subdivision:
+                      description: State/Province of the individual
+                      type: string
+                    birthdate:
+                      description: Birthdate of the individual
+                      format: date
+                      type: string
+                    name-first:
+                      description: First name of the individual
+                      type: string
+                    name-last:
+                      description: Last name of the individual
+                      type: string
+                    phone-number:
+                      description: Phone number of the individual
+                      type: string
+                    verification-template-id:
+                      description: >-
+                        ID of Verification Template. You can find your
+                        Verification Template IDs
+                        [here](https://app.withpersona.com/dashboard/verification-templates?filter=%7B%22type%22%3A%5B%22verification-template%2Fdatabase-phone-carrier"%5D%7D)
+                      type: string
+                  required:
+                    - verification-template-id
+                    - phone-number
+                    - name-first
+                    - name-last
+                    - address-street-1
+                    - address-subdivision
+                    - address-postal-code
+                    - birthdate
+                  type: object
+              type: object
+          required:
+            - data
+          type: object
+  responses:
+    '201':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: Created
+              value:
+                data:
+                  type: verification/database-phone-carrier
+                  id: ver_sg4L6Zax4TfXrVsGbVaBoSdr
+                  attributes:
+                    status: initiated
+                    created-at: '2022-08-03T03:15:56.000Z'
+                    created-at-ts: 1659496556
+                    submitted-at: null
+                    submitted-at-ts: null
+                    completed-at: null
+                    completed-at-ts: null
+                    country-code: US
+                    name-first: ALEXANDER
+                    checks: []
+                  relationships:
+                    inquiry:
+                      data: null
+          schema:
+            properties:
+              data:
+                properties:
+                  attributes:
+                    properties:
+                      checks:
+                        type: array
+                      completed-at: {}
+                      completed-at-ts: {}
+                      country-code:
+                        examples:
+                          - US
+                        type: string
+                      created-at:
+                        examples:
+                          - '2022-08-03T03:15:56.000Z'
+                        type: string
+                      created-at-ts:
+                        default: 0
+                        examples:
+                          - 1659496556
+                        type: integer
+                      name-first:
+                        examples:
+                          - ALEXANDER
+                        type: string
+                      status:
+                        examples:
+                          - initiated
+                        type: string
+                      submitted-at: {}
+                      submitted-at-ts: {}
+                    type: object
+                  id:
+                    examples:
+                      - ver_sg4L6Zax4TfXrVsGbVaBoSdr
+                    type: string
+                  relationships:
+                    properties:
+                      inquiry:
+                        properties:
+                          data: {}
+                        type: object
+                    type: object
+                  type:
+                    examples:
+                      - verification/database-phone-carrier
+                    type: string
+                type: object
+            type: object
+      description: Created
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Create a Phone Carrier Database Verification
+  tags:
+    - Phone Carrier Database Verifications

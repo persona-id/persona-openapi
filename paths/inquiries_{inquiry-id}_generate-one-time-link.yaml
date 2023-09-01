@@ -1,0 +1,187 @@
+post:
+  description: Creates a new inquiry session and returns `meta.one-time-link`.
+  operationId: generate-a-one-time-link
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - description: Inquiry ID (starts with "inq_")
+      in: path
+      name: inquiry-id
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            meta:
+              properties:
+                expires_in_seconds:
+                  description: Number of seconds from now to expire the key (minimum 0)
+                  format: int32
+                  type: integer
+              type: object
+          type: object
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value:
+                data:
+                  type: inquiry
+                  id: inq_5FrMN7NAGgFdGGysCDd7DaBW
+                  attributes:
+                    status: pending
+                    reference-id: null
+                    note: null
+                    behaviors:
+                      request-spoof-attempts: null
+                      user-agent-spoof-attempts: null
+                      distraction-events: null
+                      hesitation-baseline: null
+                      hesitation-count: null
+                      hesitation-time: null
+                      shortcut-copies: null
+                      shortcut-pastes: null
+                      autofill-cancels: null
+                      autofill-starts: null
+                      devtools-open: null
+                      completion-time: null
+                      hesitation-percentage: null
+                      behavior-threat-level: null
+                    tags: []
+                    creator: tim@withpersona.com
+                    reviewer-comment: null
+                    created-at: '2023-03-28T18:34:32.000Z'
+                    started-at: '2023-03-28T18:35:10.000Z'
+                    completed-at: null
+                    failed-at: null
+                    marked-for-review-at: null
+                    decisioned-at: null
+                    expired-at: null
+                    redacted-at: null
+                    previous-step-name: verification_government_id
+                    next-step-name: retry_verification_government_id
+                    name-first: null
+                    name-middle: null
+                    name-last: null
+                    birthdate: null
+                    address-street-1: null
+                    address-street-2: null
+                    address-city: null
+                    address-subdivision: null
+                    address-subdivision-abbr: null
+                    address-postal-code: null
+                    address-postal-code-abbr: null
+                    social-security-number: null
+                    identification-number: null
+                    email-address: null
+                    phone-number: null
+                    fields:
+                      birthdate:
+                        type: date
+                        value: null
+                      name-last:
+                        type: string
+                        value: null
+                      name-first:
+                        type: string
+                        value: null
+                      name-middle:
+                        type: string
+                        value: null
+                      address-city:
+                        type: string
+                        value: null
+                      phone-number:
+                        type: string
+                        value: null
+                      email-address:
+                        type: string
+                        value: null
+                      address-street-1:
+                        type: string
+                        value: null
+                      address-street-2:
+                        type: string
+                        value: null
+                      address-postal-code:
+                        type: string
+                        value: null
+                      address-subdivision:
+                        type: string
+                        value: null
+                      identification-number:
+                        type: string
+                        value: null
+                  relationships:
+                    account:
+                      data:
+                        type: account
+                        id: act_upTNZ3D5NRAFJ39fzS2rHhAb
+                    template:
+                      data: null
+                    inquiry-template:
+                      data:
+                        type: inquiry-template
+                        id: itmpl_mNKRtWCMWB9Lbccc85DjgJnK
+                    inquiry-template-version:
+                      data:
+                        type: inquiry-template-version
+                        id: itmplv_1ivdvZUKPLAtWgsQdEvmi6wj
+                    reviewer:
+                      data: null
+                    reports:
+                      data: []
+                    verifications:
+                      data:
+                        - type: verification/government-id
+                          id: ver_vSLcWNjsUAmxPHZvACeZRGL2
+                    sessions:
+                      data:
+                        - type: inquiry-session
+                          id: iqse_855s3uUxjLyfKPsdbAtAkehL
+                        - type: inquiry-session
+                          id: iqse_7CDqaiuqzDEgBDaXZLevaEuM
+                        - type: inquiry-session
+                          id: iqse_SL9t4jHMAQADHhHqn91XzNfX
+                        - type: inquiry-session
+                          id: iqse_39i9ona6wnm8fM6AGFKSbGkj
+                    documents:
+                      data:
+                        - type: document/government-id
+                          id: doc_88AXwf9FSrLrQ17FowVpTM7x
+                    selfies:
+                      data: []
+                meta:
+                  one-time-link: https://withpersona.com/verify?code=us1-asdf
+                  one-time-link-short: https://perso.na/verify?code=ABC123
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/Inquiry.yaml
+              meta:
+                properties:
+                  one-time-link:
+                    examples:
+                      - https://withpersona.com/verify?code=us1-asdf
+                    type: string
+                  one-time-link-short:
+                    examples:
+                      - https://perso.na/verify?code=ABC123
+                    type: string
+                type: object
+            type: object
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Generate a one-time link
+  tags:
+    - Inquiries

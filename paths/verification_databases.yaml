@@ -1,0 +1,144 @@
+post:
+  description: Create a new database verification
+  operationId: create-a-database-verification
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            data:
+              properties:
+                attributes:
+                  properties:
+                    address-city:
+                      description: City of residence for the individual
+                      type: string
+                    address-postal-code:
+                      description: Postal code of the individual
+                      type: string
+                    address-street-1:
+                      description: First address street line of the individual
+                      type: string
+                    address-street-2:
+                      description: Second address street line of the individual
+                      type: string
+                    address-subdivision:
+                      description: State or province or locality of the individual
+                      type: string
+                    birthdate:
+                      description: Birthdate of the individual
+                      format: date
+                      type: string
+                    country-code:
+                      description: Country of residence for the individual
+                      type: string
+                    identification-number:
+                      description: Unique ID number of the individual
+                      type: string
+                    name-first:
+                      description: Given/first name of the individual
+                      type: string
+                    name-last:
+                      description: Family/last name of the individual
+                      type: string
+                    verification-template-id:
+                      description: >-
+                        ID of Verification Template. You can find your
+                        Verification Template IDs
+                        [here](https://app.withpersona.com/dashboard/verification-templates?filter=%7B%22type%22%3A%5B%22verification-template%2Fdatabase"%5D%7D)
+                      type: string
+                  required:
+                    - verification-template-id
+                    - country-code
+                  type: object
+              type: object
+          required:
+            - data
+          type: object
+  responses:
+    '201':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: Created
+              value:
+                data:
+                  type: verification/database
+                  id: ver_6hhbmCZyhrhTjqHVwwP66QGe
+                  attributes:
+                    status: initiated
+                    created-at: '2022-08-02T04:53:19.000Z'
+                    created-at-ts: 1659415999
+                    submitted-at: null
+                    submitted-at-ts: null
+                    completed-at: null
+                    completed-at-ts: null
+                    country-code: null
+                    name-first: ALEXANDER
+                    name-middle: null
+                    checks: []
+                  relationships:
+                    inquiry:
+                      data: null
+          schema:
+            properties:
+              data:
+                properties:
+                  attributes:
+                    properties:
+                      checks:
+                        type: array
+                      completed-at: {}
+                      completed-at-ts: {}
+                      country-code: {}
+                      created-at:
+                        examples:
+                          - '2022-08-02T04:53:19.000Z'
+                        type: string
+                      created-at-ts:
+                        default: 0
+                        examples:
+                          - 1659415999
+                        type: integer
+                      name-first:
+                        examples:
+                          - ALEXANDER
+                        type: string
+                      name-middle: {}
+                      status:
+                        examples:
+                          - initiated
+                        type: string
+                      submitted-at: {}
+                      submitted-at-ts: {}
+                    type: object
+                  id:
+                    examples:
+                      - ver_6hhbmCZyhrhTjqHVwwP66QGe
+                    type: string
+                  relationships:
+                    properties:
+                      inquiry:
+                        properties:
+                          data: {}
+                        type: object
+                    type: object
+                  type:
+                    examples:
+                      - verification/database
+                    type: string
+                type: object
+            type: object
+      description: Created
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Create a Database Verification
+  tags:
+    - Database Verifications

@@ -1,0 +1,31 @@
+post:
+  description: Generates a one-time link for a specific Inquiry Session.
+  operationId: generate-a-one-time-link-for-an-inquiry-session
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - name: inquiry-session-id
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value: {}
+          schema:
+            properties: {}
+            type: object
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Generate a one-time link for Inquiry Session
+  tags:
+    - Inquiry Sessions

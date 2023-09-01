@@ -1,0 +1,196 @@
+get:
+  description: Retrieve a selfie ID verification
+  operationId: retrieve-a-selfie-verification
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - name: verification-id
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value:
+                data:
+                  type: verification/selfie
+                  id: ver_dCvHHPUHxvb5j2iYKfjwafBU
+                  attributes:
+                    status: passed
+                    created-at: '2022-07-28T21:54:23.000Z'
+                    created-at-ts: 1659045263
+                    submitted-at: '2022-07-28T21:54:29.000Z'
+                    submitted-at-ts: 1659045269
+                    completed-at: '2022-07-28T21:54:33.000Z'
+                    completed-at-ts: 1659045273
+                    country-code: null
+                    entity-confidence-reasons: []
+                    document-similarity-score: null
+                    selfie-similarity-score-left: 100
+                    selfie-similarity-score-right: 100
+                    checks:
+                      - name: selfie_id_comparison
+                        status: not_applicable
+                        reasons:
+                          - no_government_id
+                        metadata: {}
+                      - name: selfie_pose_detection
+                        status: passed
+                        reasons: []
+                        metadata: {}
+                      - name: selfie_multiple_faces_detection
+                        status: passed
+                        reasons: []
+                        metadata: {}
+                      - name: selfie_pose_repeat_detection
+                        status: passed
+                        reasons: []
+                        metadata: {}
+                      - name: selfie_account_comparison
+                        status: not_applicable
+                        reasons:
+                          - no_account_selfie_present
+                        metadata: {}
+                      - name: selfie_suspicious_entity_detection
+                        status: passed
+                        reasons: []
+                        metadata: {}
+                      - name: selfie_liveness_detection
+                        status: passed
+                        reasons: []
+                        metadata: {}
+                      - name: selfie_glasses_detection
+                        status: passed
+                        reasons: []
+                        metadata: {}
+                      - name: selfie_glare_detection
+                        status: failed
+                        reasons:
+                          - too_much_glare
+                        metadata: {}
+                      - name: selfie_public_figure_detection
+                        status: passed
+                        reasons: []
+                        metadata: {}
+                      - name: selfie_age_comparison
+                        status: not_applicable
+                        reasons:
+                          - no_reference_birthdate
+                        metadata: {}
+                      - name: selfie_face_covering_detection
+                        status: passed
+                        reasons: []
+                        metadata: {}
+                    capture-method: photo
+                  relationships:
+                    inquiry:
+                      data: null
+          schema:
+            properties:
+              data:
+                properties:
+                  attributes:
+                    properties:
+                      capture-method:
+                        examples:
+                          - photo
+                        type: string
+                      checks:
+                        items:
+                          properties:
+                            metadata:
+                              properties: {}
+                              type: object
+                            name:
+                              examples:
+                                - selfie_id_comparison
+                              type: string
+                            reasons:
+                              items:
+                                examples:
+                                  - no_government_id
+                                type: string
+                              type: array
+                            status:
+                              examples:
+                                - not_applicable
+                              type: string
+                          type: object
+                        type: array
+                      completed-at:
+                        examples:
+                          - '2022-07-28T21:54:33.000Z'
+                        type: string
+                      completed-at-ts:
+                        default: 0
+                        examples:
+                          - 1659045273
+                        type: integer
+                      country-code: {}
+                      created-at:
+                        examples:
+                          - '2022-07-28T21:54:23.000Z'
+                        type: string
+                      created-at-ts:
+                        default: 0
+                        examples:
+                          - 1659045263
+                        type: integer
+                      document-similarity-score: {}
+                      entity-confidence-reasons:
+                        type: array
+                      selfie-similarity-score-left:
+                        default: 0
+                        examples:
+                          - 100
+                        type: integer
+                      selfie-similarity-score-right:
+                        default: 0
+                        examples:
+                          - 100
+                        type: integer
+                      status:
+                        examples:
+                          - passed
+                        type: string
+                      submitted-at:
+                        examples:
+                          - '2022-07-28T21:54:29.000Z'
+                        type: string
+                      submitted-at-ts:
+                        default: 0
+                        examples:
+                          - 1659045269
+                        type: integer
+                    type: object
+                  id:
+                    examples:
+                      - ver_dCvHHPUHxvb5j2iYKfjwafBU
+                    type: string
+                  relationships:
+                    properties:
+                      inquiry:
+                        properties:
+                          data: {}
+                        type: object
+                    type: object
+                  type:
+                    examples:
+                      - verification/selfie
+                    type: string
+                type: object
+            type: object
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Retrieve a Selfie Verification
+  tags:
+    - Selfie Verifications

@@ -1,0 +1,111 @@
+post:
+  description: >-
+    Submit a selfie verification for processing. Can only submit `initiated`
+    verifications
+  operationId: submit-a-selfie-verification
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - name: verification-id
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value:
+                data:
+                  type: verification/selfie
+                  id: ver_dCvHHPUHxvb5j2iYKfjwafBU
+                  attributes:
+                    status: submitted
+                    created-at: '2022-07-28T21:54:23.000Z'
+                    created-at-ts: 1659045263
+                    submitted-at: '2022-07-28T21:54:29.000Z'
+                    submitted-at-ts: 1659045269
+                    completed-at: null
+                    completed-at-ts: null
+                    country-code: null
+                    entity-confidence-reasons: []
+                    document-similarity-score: null
+                    selfie-similarity-score-left: null
+                    selfie-similarity-score-right: null
+                    checks: []
+                    capture-method: photo
+                  relationships:
+                    inquiry:
+                      data: null
+          schema:
+            properties:
+              data:
+                properties:
+                  attributes:
+                    properties:
+                      capture-method:
+                        examples:
+                          - photo
+                        type: string
+                      checks:
+                        type: array
+                      completed-at: {}
+                      completed-at-ts: {}
+                      country-code: {}
+                      created-at:
+                        examples:
+                          - '2022-07-28T21:54:23.000Z'
+                        type: string
+                      created-at-ts:
+                        default: 0
+                        examples:
+                          - 1659045263
+                        type: integer
+                      document-similarity-score: {}
+                      entity-confidence-reasons:
+                        type: array
+                      selfie-similarity-score-left: {}
+                      selfie-similarity-score-right: {}
+                      status:
+                        examples:
+                          - submitted
+                        type: string
+                      submitted-at:
+                        examples:
+                          - '2022-07-28T21:54:29.000Z'
+                        type: string
+                      submitted-at-ts:
+                        default: 0
+                        examples:
+                          - 1659045269
+                        type: integer
+                    type: object
+                  id:
+                    examples:
+                      - ver_dCvHHPUHxvb5j2iYKfjwafBU
+                    type: string
+                  relationships:
+                    properties:
+                      inquiry:
+                        properties:
+                          data: {}
+                        type: object
+                    type: object
+                  type:
+                    examples:
+                      - verification/selfie
+                    type: string
+                type: object
+            type: object
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Submit a Selfie Verification
+  tags:
+    - Selfie Verifications

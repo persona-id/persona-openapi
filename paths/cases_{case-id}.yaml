@@ -1,0 +1,390 @@
+delete:
+  description: >-
+    Permanently redact a <<glossary:case>> and its fields. Case objects must be
+    redacted individually. This action cannot be undone.
+  operationId: redact-a-case
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - name: case-id
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                data:
+                  type: case
+                  id: case_KsFU1Vxv9oK3ztnwQuD7MaJo
+                  attributes:
+                    status: Approved
+                    name: KCAS-1
+                    resolution: null
+                    created-at: '2021-03-24T04:59:21.764Z'
+                    updated-at: '2021-03-24T04:59:21.764Z'
+                    assigned-at: null
+                    resolved-at: '2021-03-25T04:59:21.764Z'
+                    redacted-at: '2021-03-26T04:59:21.764Z'
+                    creator-id: case_creator@withpersona.com
+                    creator-type: user
+                    assignee-id: null
+                    resolver-id: case_resolver@withpersona.com
+                    resolver-type: user
+                    updater-id: case_updater@withpersona.com
+                    updater-type: user
+                    tags: []
+                    fields: {}
+                  relationships:
+                    case-template:
+                      data:
+                        type: case-template
+                        id: ctmpl_336jV1uVaaY84GAqvG91oiy9
+                    case-comments:
+                      data:
+                        - type: case-comment
+                          id: cscm_yd2urRmjaCWcSSxqTSHvUcsn
+                    accounts:
+                      data:
+                        - type: account
+                          id: act_RNwaSKFUDTzxUakAEuE2xmhZ
+                    inquiries:
+                      data:
+                        - type: inquiry
+                          id: inq_b6UPkf7mNC1qBtLXnfaWyUbY
+                    reports:
+                      data: []
+                    verifications:
+                      data: []
+                    txns:
+                      data: []
+                included:
+                  - type: account
+                    id: act_RNwaSKFUDTzxUakAEuE2xmhZ
+                    attributes:
+                      reference-id: null
+                      created-at: '2021-03-24T04:59:06.000Z'
+                      updated-at: '2021-03-24T04:59:06.000Z'
+                      tags: []
+                  - type: inquiry
+                    id: inq_b6UPkf7mNC1qBtLXnfaWyUbY
+                    attributes:
+                      status: created
+                      reference-id: null
+                      note: null
+                      tags: []
+                      reviewer: null
+                      reviewer-type: null
+                      reviewer-comment: null
+                      created-at: '2021-03-24T04:59:06.000Z'
+                      started-at: null
+                      completed-at: null
+                      failed-at: null
+                      decisioned-at: null
+                      expired-at: null
+                    relationships:
+                      account:
+                        data:
+                          type: account
+                          id: act_RNwaSKFUDTzxUakAEuE2xmhZ
+                      template:
+                        data:
+                          type: template
+                          id: blu_biqYXr3aNfHuLeXUdJUNFNET
+                      reports:
+                        data: []
+                      verifications:
+                        data: []
+                      sessions:
+                        data: []
+                      documents:
+                        data: []
+                      selfies:
+                        data: []
+                  - type: case-comment
+                    id: cscm_yd2urRmjaCWcSSxqTSHvUcsn
+                    attributes:
+                      message: This is a case comment
+                      created-at: '2021-03-25T07:04:16.667Z'
+                      updated-at: '2021-03-25T07:04:16.667Z'
+                      commenter-id: admin@acme.com
+                      commenter-type: user
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/Case.yaml
+              included:
+                type: array
+                items:
+                  anyOf:
+                    - $ref: ../components/schemas/Account.yaml
+                    - $ref: ../components/schemas/Inquiry.yaml
+                    - $ref: ../components/schemas/CaseComment.yaml
+            type: object
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Redact a case
+  tags:
+    - Cases
+get:
+  description: >-
+    Retrieves the details of a <<glossary:case>> that has previously been
+    created.
+  operationId: retrieve-case
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - name: case-id
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value:
+                data:
+                  type: case
+                  id: case_KsFU1Vxv9oK3ztnwQuD7MaJo
+                  attributes:
+                    status: Approved
+                    name: KCAS-1
+                    resolution: null
+                    created-at: '2021-03-24T04:59:21.764Z'
+                    updated-at: '2021-03-24T04:59:21.764Z'
+                    assigned-at: null
+                    resolved-at: '2021-03-25T04:59:21.764Z'
+                    redacted-at: null
+                    creator-id: case_creator@withpersona.com
+                    creator-type: user
+                    assignee-id: null
+                    resolver-id: case_resolver@withpersona.com
+                    resolver-type: user
+                    updater-id: case_updater@withpersona.com
+                    updater-type: user
+                    tags: []
+                    fields: {}
+                  relationships:
+                    case-template:
+                      data:
+                        type: case-template
+                        id: ctmpl_336jV1uVaaY84GAqvG91oiy9
+                    case-comments:
+                      data:
+                        - type: case-comment
+                          id: cscm_yd2urRmjaCWcSSxqTSHvUcsn
+                    accounts:
+                      data:
+                        - type: account
+                          id: act_RNwaSKFUDTzxUakAEuE2xmhZ
+                    inquiries:
+                      data:
+                        - type: inquiry
+                          id: inq_b6UPkf7mNC1qBtLXnfaWyUbY
+                    reports:
+                      data: []
+                    verifications:
+                      data: []
+                    txns:
+                      data: []
+                included:
+                  - type: account
+                    id: act_RNwaSKFUDTzxUakAEuE2xmhZ
+                    attributes:
+                      reference-id: null
+                      created-at: '2021-03-24T04:59:06.000Z'
+                      updated-at: '2021-03-24T04:59:06.000Z'
+                      tags: []
+                  - type: inquiry
+                    id: inq_b6UPkf7mNC1qBtLXnfaWyUbY
+                    attributes:
+                      status: created
+                      reference-id: null
+                      note: null
+                      tags: []
+                      reviewer: null
+                      reviewer-type: null
+                      reviewer-comment: null
+                      created-at: '2021-03-24T04:59:06.000Z'
+                      started-at: null
+                      completed-at: null
+                      failed-at: null
+                      decisioned-at: null
+                      expired-at: null
+                    relationships:
+                      account:
+                        data:
+                          type: account
+                          id: act_RNwaSKFUDTzxUakAEuE2xmhZ
+                      template:
+                        data:
+                          type: template
+                          id: blu_biqYXr3aNfHuLeXUdJUNFNET
+                      reports:
+                        data: []
+                      verifications:
+                        data: []
+                      sessions:
+                        data: []
+                      documents:
+                        data: []
+                      selfies:
+                        data: []
+                  - type: case-comment
+                    id: cscm_yd2urRmjaCWcSSxqTSHvUcsn
+                    attributes:
+                      message: This is a case comment
+                      created-at: '2021-03-25T07:04:16.667Z'
+                      updated-at: '2021-03-25T07:04:16.667Z'
+                      commenter-id: admin@acme.com
+                      commenter-type: user
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/Case.yaml
+              included:
+                type: array
+                items:
+                  anyOf:
+                    - $ref: ../components/schemas/Account.yaml
+                    - $ref: ../components/schemas/Inquiry.yaml
+                    - $ref: ../components/schemas/CaseComment.yaml
+            type: object
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Retrieve Case
+  tags:
+    - Cases
+patch:
+  description: >-
+    Updates the fields and add attachments on a <<glossary:case>> that has been
+    previously created.
+  operationId: update-a-case
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - description: ID of the case to update
+      in: path
+      name: case-id
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            data:
+              properties:
+                attributes:
+                  properties:
+                    attachments:
+                      description: List of PDF and image files to add to this case.
+                      items:
+                        properties:
+                          data:
+                            description: base 64 encoded file
+                            type: string
+                          filename:
+                            description: Name of the file
+                            type: string
+                        type: object
+                      type: array
+                    fields:
+                      description: >-
+                        Note: field names and data types used here will depend
+                        on the configurations for your Case Template.
+                      examples:
+                        - preferred-name: Albert
+                      additionalProperties: true
+                      type: object
+                  type: object
+              type: object
+          type: object
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value:
+                data:
+                  type: case
+                  id: case_3maVhdLzdGftRZCvxfqazVL1
+                  attributes:
+                    status: open
+                    name: WATC-16
+                    resolution: null
+                    created-at: '2021-06-30T20:37:18.678Z'
+                    updated-at: '2021-08-26T18:24:19.695Z'
+                    assigned-at: null
+                    resolved-at: null
+                    redacted-at: null
+                    creator-id: wfl_yKynZZiuPz1R5qm9JFyBnnLB
+                    creator-type: workflow
+                    assignee-id: foo@bar.com
+                    resolver-id: null
+                    resolver-type: null
+                    updater-id: null
+                    updater-type: null
+                    tags: []
+                    fields: {}
+                  relationships:
+                    case-template:
+                      data:
+                        type: case-template
+                        id: ctmpl_6HheND7s14a2o7fg33iHqhg7
+                    case-comments:
+                      data: []
+                    accounts:
+                      data: []
+                    inquiries:
+                      data:
+                        - type: inquiry
+                          id: inq_29Yd6kF6xWVFgemm5WTxhxvf
+                    reports:
+                      data:
+                        - type: report/watchlist
+                          id: rep_PN3xspEwWCWWRp1eGpedaSNj
+                    verifications:
+                      data: []
+                    txns:
+                      data: []
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/Case.yaml
+              included:
+                type: array
+                items:
+                  anyOf:
+                    - $ref: ../components/schemas/Account.yaml
+                    - $ref: ../components/schemas/Inquiry.yaml
+                    - $ref: ../components/schemas/CaseComment.yaml
+            type: object
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Update a Case
+  tags:
+    - Cases

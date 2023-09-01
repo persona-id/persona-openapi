@@ -1,0 +1,65 @@
+get:
+  description: Returns a list of your organization's user audit logs.
+  operationId: list-all-user-audit-logs
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - description: User audit log ID for cursor pagination
+      in: query
+      name: page[before]
+      schema:
+        type: string
+    - description: User audit log ID for cursor pagination
+      in: query
+      name: page[after]
+      schema:
+        type: string
+    - description: Limit on the number of User audit logs returned
+      in: query
+      name: page[size]
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value:
+                data:
+                  - type: user-audit-log
+                    id: ual_RskjUrFJFJq4432DUFvV9CeJ
+                    attributes:
+                      method: GET
+                      path: /api/v1/inquiries
+                      ip-address: 127.0.0.1
+                      created-at: '2018-06-01T00:00:00.000+00:00'
+                  - type: user-audit-log
+                    id: ual_79BnM1kYUdEfqaGoDR7HbVQV
+                    attributes:
+                      method: GET
+                      path: /api/v1/inquiries
+                      ip-address: 127.0.0.1
+                      created-at: '2018-06-01T00:00:00.000+00:00'
+                  - type: user-audit-log
+                    id: ual_5BTqhvz3RdYAERuHuWf5oLZY
+                    attributes:
+                      method: GET
+                      path: /api/v1/inquiries
+                      ip-address: 127.0.0.1
+                      created-at: '2018-06-01T00:00:00.000+00:00'
+                  - type: user-audit-log
+                    id: ual_JW4o7dSykgPk69d4xXQWtqdi
+                    attributes:
+                      method: GET
+                      path: /api/v1/inquiries
+                      ip-address: 127.0.0.1
+                      created-at: '2018-06-01T00:00:00.000+00:00'
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+  summary: List all User Audit Logs
+  tags:
+    - User Audit Logs

@@ -1,0 +1,44 @@
+get:
+  description: 'Returns a list of your organization''s <<glossary: list>>s.'
+  operationId: list-all-lists
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - description: List ID for cursor pagination
+      in: query
+      name: page[before]
+      schema:
+        type: string
+    - description: List ID for cursor pagination
+      in: query
+      name: page[after]
+      schema:
+        type: string
+    - description: Limit on the number of lists returned
+      in: query
+      name: page[size]
+      schema:
+        type: string
+    - description: Filter lists by status
+      in: query
+      name: filter[status]
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value: {}
+          schema:
+            properties: {}
+            type: object
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+  summary: List all Lists
+  tags:
+    - Lists

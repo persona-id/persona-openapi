@@ -1,0 +1,94 @@
+post:
+  description: Assign a <<glossary:case>> to a Persona user.
+  operationId: assign-a-case
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - description: ID of the case to update
+      in: path
+      name: case-id
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            meta:
+              properties:
+                user-email-address:
+                  description: >-
+                    Email address of the Persona user to whom to assign this
+                    case
+                  type: string
+              required:
+                - user-email-address
+              type: object
+          required:
+            - meta
+          type: object
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value:
+                data:
+                  type: case
+                  id: case_3maVhdLzdGftRZCvxfqazVL1
+                  attributes:
+                    status: open
+                    name: WATC-16
+                    resolution: null
+                    created-at: '2021-06-30T20:37:18.678Z'
+                    updated-at: '2021-08-26T18:24:19.695Z'
+                    assigned-at: null
+                    resolved-at: null
+                    redacted-at: null
+                    creator-id: wfl_yKynZZiuPz1R5qm9JFyBnnLB
+                    creator-type: workflow
+                    assignee-id: foo@bar.com
+                    resolver-id: null
+                    resolver-type: null
+                    updater-id: null
+                    updater-type: null
+                    tags: []
+                    fields: {}
+                  relationships:
+                    case-template:
+                      data:
+                        type: case-template
+                        id: ctmpl_6HheND7s14a2o7fg33iHqhg7
+                    case-comments:
+                      data: []
+                    accounts:
+                      data: []
+                    inquiries:
+                      data:
+                        - type: inquiry
+                          id: inq_29Yd6kF6xWVFgemm5WTxhxvf
+                    reports:
+                      data:
+                        - type: report/watchlist
+                          id: rep_PN3xspEwWCWWRp1eGpedaSNj
+                    verifications:
+                      data: []
+                    txns:
+                      data: []
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/Case.yaml
+            type: object
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Assign a Case
+  tags:
+    - Cases

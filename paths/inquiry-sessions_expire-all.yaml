@@ -1,0 +1,39 @@
+post:
+  description: Expires all active Inquiry Sessions for a given set of Inquiries.
+  operationId: expire-inquiry-sessions
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            meta:
+              properties:
+                inquiry-ids:
+                  items:
+                    type: string
+                  type: array
+              type: object
+              required:
+                - inquiry-ids
+          type: object
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value: {}
+          schema:
+            properties: {}
+            type: object
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+  summary: Expire Inquiry Sessions
+  tags:
+    - Inquiry Sessions

@@ -1,0 +1,280 @@
+get:
+  description: Returns a list of your organization's <<glossary:account>>(s).
+  operationId: list-all-accounts
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - description: Account ID for cursor pagination
+      in: query
+      name: page[before]
+      schema:
+        type: string
+    - description: Account ID for cursor pagination
+      in: query
+      name: page[after]
+      schema:
+        type: string
+    - description: Limit on the number of accounts returned
+      in: query
+      name: page[size]
+      schema:
+        type: string
+    - description: Filter accounts by reference ID
+      in: query
+      name: filter[reference-id]
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value:
+                data:
+                  - type: account
+                    id: act_ef2mUFHAejxf2XJ5qzU4uMQb
+                    attributes:
+                      reference-id: null
+                      created-at: '2020-01-02T17:42:27.000Z'
+                      updated-at: '2020-01-02T18:06:41.000Z'
+                  - type: account
+                    id: act_YcNZJLxuwEuV8jUPbykYQyXG
+                    attributes:
+                      reference-id: Mike's test
+                      created-at: '2019-12-19T21:42:49.000Z'
+                      updated-at: '2019-12-19T21:42:49.000Z'
+                  - type: account
+                    id: act_2wM8yufwLrbMV6kUtGPBxeGS
+                    attributes:
+                      reference-id: null
+                      created-at: '2019-12-18T22:43:03.000Z'
+                      updated-at: '2019-12-18T22:43:03.000Z'
+                  - type: account
+                    id: act_LatvE1PdVhfiwcJWVLj4Z25j
+                    attributes:
+                      reference-id: null
+                      created-at: '2019-12-13T08:34:10.000Z'
+                      updated-at: '2019-12-13T08:34:10.000Z'
+                  - type: account
+                    id: act_RU3JgzXaAzVV2g2NYLd7ub12
+                    attributes:
+                      reference-id: null
+                      created-at: '2019-12-13T08:32:49.000Z'
+                      updated-at: '2019-12-13T08:33:29.000Z'
+                  - type: account
+                    id: act_Eoe14YQ7efbiH73zkTFAkveB
+                    attributes:
+                      reference-id: null
+                      created-at: '2019-12-12T20:50:55.000Z'
+                      updated-at: '2019-12-12T20:50:55.000Z'
+                  - type: account
+                    id: act_X5LmoEaYASq3ahQmRRTpMG1t
+                    attributes:
+                      reference-id: null
+                      created-at: '2019-12-05T20:56:43.000Z'
+                      updated-at: '2019-12-05T20:56:43.000Z'
+                  - type: account
+                    id: act_6LRELcKmPcx9MxYGk6mdCPJo
+                    attributes:
+                      reference-id: null
+                      created-at: '2019-11-19T00:10:27.000Z'
+                      updated-at: '2019-11-19T00:10:27.000Z'
+                  - type: account
+                    id: act_1bRzHZSH17PpXCCnMGoYhzde
+                    attributes:
+                      reference-id: null
+                      created-at: '2019-11-18T17:38:03.000Z'
+                      updated-at: '2019-11-18T17:38:03.000Z'
+                  - type: account
+                    id: act_u2Dgz8U3CmxTVgqEH9qzezHi
+                    attributes:
+                      reference-id: null
+                      created-at: '2019-11-15T22:14:41.000Z'
+                      updated-at: '2019-11-15T22:14:41.000Z'
+                links:
+                  prev: null
+                  next: >-
+                    /api/v1/accounts?page%5Bafter%5D=act_u2Dgz8U3CmxTVgqEH9qzezHi
+          schema:
+            properties:
+              data:
+                items:
+                  $ref: ../components/schemas/Account.yaml
+                type: array
+                description: An array of Accounts
+              links:
+                properties:
+                  next:
+                    examples:
+                      - >-
+                        /api/v1/accounts?page%5Bafter%5D=act_u2Dgz8U3CmxTVgqEH9qzezHi
+                    type: string
+                  prev: {}
+                type: object
+            type: object
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+  summary: List all Accounts
+  tags:
+    - Accounts
+post:
+  description: >-
+    Creates a new Account for your organization.
+
+
+    After the Account is created, you can create Inquiries with the `account-id`
+    to attach the Inquiry to it.
+  operationId: create-an-account
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            data:
+              properties:
+                attributes:
+                  properties:
+                    address-city:
+                      description: >-
+                        City of residence address. Not all international
+                        addresses use this attribute.
+                      type: string
+                    address-postal-code:
+                      description: >-
+                        ZIP or postal code of residence address. Not all
+                        international addresses use this attribute.
+                      type: string
+                    address-street-1:
+                      description: Street name of residence address.
+                      type: string
+                    address-street-2:
+                      description: >-
+                        Extension of residence address, usually apartment or
+                        suite number.
+                      type: string
+                    address-subdivision:
+                      description: >-
+                        State or subdivision of residence address. In the US,
+                        this should be the unabbreviated name. Not all
+                        international addresses use this attribute.
+                      type: string
+                    birthdate:
+                      description: Birthdate, must be in the format "YYYY-MM-DD".
+                      format: date
+                      type: string
+                    country-code:
+                      description: >-
+                        ISO 3166-1 alpha 2 country code of the government ID to
+                        be verified. This is generally their country of
+                        residence as well.
+                      type: string
+                    email-address:
+                      description: Email address.
+                      type: string
+                    name-first:
+                      description: Given or first name.
+                      type: string
+                    name-last:
+                      description: Family or last name.
+                      type: string
+                    name-middle:
+                      description: Middle name.
+                      type: string
+                    phone-number:
+                      description: Phone number.
+                      type: string
+                    reference-id:
+                      description: >-
+                        Reference ID on Account, refers to an entity in your
+                        user model
+                      type: string
+                    selfie-photo:
+                      description: Selfie photo.
+                      properties:
+                        data:
+                          description: >-
+                            Selfie photo data, must be an image. Can also be
+                            provided as an uploaded file such as with
+                            multipart/form-data requests instead of this object.
+                          properties:
+                            data:
+                              description: Base64 encoded image
+                              type: string
+                            filename:
+                              description: Name of the image
+                              type: string
+                          type: object
+                      type: object
+                    social-security-number:
+                      description: Social security number.
+                      type: string
+                    tags:
+                      default: []
+                      description: A list of tag names that are associated to an Account.
+                      items:
+                        type: string
+                      type: array
+                  type: object
+              type: object
+          type: object
+  responses:
+    '201':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: Created
+              value:
+                data:
+                  type: account
+                  id: act_NN1jBFZu2iLusNFHkU7d58Ui
+                  attributes:
+                    reference-id: user12345
+                    created-at: '2019-12-11T18:51:15.000Z'
+                    updated-at: '2019-12-11T18:51:15.000Z'
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/Account.yaml
+            type: object
+      description: Created
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '409':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: Conflict
+              value:
+                errors:
+                  - title: Record not unique
+                    details: Record not unique.
+          schema:
+            properties:
+              errors:
+                items:
+                  properties:
+                    details:
+                      examples:
+                        - Record not unique.
+                      type: string
+                    title:
+                      examples:
+                        - Record not unique
+                      type: string
+                  type: object
+                type: array
+            type: object
+      description: Conflict
+  summary: Create an Account
+  tags:
+    - Accounts

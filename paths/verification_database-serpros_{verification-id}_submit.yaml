@@ -1,0 +1,112 @@
+post:
+  description: >-
+    Submit a Serpro database verification for processing. Can only submit
+    `initiated` verifications
+  operationId: submit-a-serpro-database-verification
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - description: ID of Verification to submit
+      in: path
+      name: verification-id
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value:
+                data:
+                  type: verification/database-serpro
+                  id: ver_ixBrVPK2jKwg4qGmbWZvwMmw
+                  attributes:
+                    status: submitted
+                    created-at: '2022-08-03T03:42:20.000Z'
+                    created-at-ts: 1659498140
+                    submitted-at: '2022-08-03T03:52:00.000Z'
+                    submitted-at-ts: 1659498720
+                    completed-at: null
+                    completed-at-ts: null
+                    country-code: BR
+                    name-first: ALEXANDER
+                    checks: []
+                  relationships:
+                    inquiry:
+                      data: null
+                    selfie:
+                      data: null
+          schema:
+            properties:
+              data:
+                properties:
+                  attributes:
+                    properties:
+                      checks:
+                        type: array
+                      completed-at: {}
+                      completed-at-ts: {}
+                      country-code:
+                        examples:
+                          - BR
+                        type: string
+                      created-at:
+                        examples:
+                          - '2022-08-03T03:42:20.000Z'
+                        type: string
+                      created-at-ts:
+                        default: 0
+                        examples:
+                          - 1659498140
+                        type: integer
+                      name-first:
+                        examples:
+                          - ALEXANDER
+                        type: string
+                      status:
+                        examples:
+                          - submitted
+                        type: string
+                      submitted-at:
+                        examples:
+                          - '2022-08-03T03:52:00.000Z'
+                        type: string
+                      submitted-at-ts:
+                        default: 0
+                        examples:
+                          - 1659498720
+                        type: integer
+                    type: object
+                  id:
+                    examples:
+                      - ver_ixBrVPK2jKwg4qGmbWZvwMmw
+                    type: string
+                  relationships:
+                    properties:
+                      inquiry:
+                        properties:
+                          data: {}
+                        type: object
+                      selfie:
+                        properties:
+                          data: {}
+                        type: object
+                    type: object
+                  type:
+                    examples:
+                      - verification/database-serpro
+                    type: string
+                type: object
+            type: object
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Submit a Serpro Database Verification
+  tags:
+    - Serpro Database Verifications

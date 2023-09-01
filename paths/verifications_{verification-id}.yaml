@@ -1,0 +1,136 @@
+get:
+  description: Retrieve the details of a specific Verification
+  operationId: retrieve-a-verification
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - name: verification-id
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value:
+                data:
+                  type: verification/government-id
+                  id: ver_7f6w4qu7KK7gjjtgp7nAixHd
+                  attributes:
+                    status: passed
+                    created-at: '2019-11-15T21:24:24.000Z'
+                    completed-at: '2019-11-15T21:24:28.000Z'
+                    country-code: US
+                    entity-confidence-score: 100
+                    entity-confidence-reasons: []
+                    front-photo-url: >-
+                      https://withpersona.com/api/v1/verifications/ver_7f6w4qu7KK7gjjtgp7nAixHd/files/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBbmtMIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--24825f97b630f38fd87d87088a82d979303bf200/ActiveStorage-2935-20191115-7-b18wch.jpg
+                    back-photo-url: null
+                    selfie-photo-url: null
+                    id-class: dl
+                    capture-method: upload
+                    name-first: Rickilus
+                    name-middle: null
+                    name-last: Smith
+                    birthdate: '1990-01-01'
+                    address-street-1: 1234 St
+                    address-street-2: null
+                    address-city: San Francisco
+                    address-subdivision: California
+                    address-postal-code: '94000'
+                    issuing-authority: null
+                    issue-date: '2020-01-01'
+                    expiration-date: '2025-01-01'
+                    sex: M
+                    height: 7'0
+                    endorsements: null
+                    restrictions: null
+                    vehicle-class: null
+                    identification-number: X1111111
+                    checks:
+                      - name: id_barcode_detection
+                        status: passed
+                        reasons: []
+                  relationships:
+                    inquiry:
+                      data:
+                        type: inquiry
+                        id: inq_pAWJxnYSa725XAQswNwpLubP
+      description: OK
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Retrieve a Verification
+  tags:
+    - Verifications
+delete:
+  description: >-
+    Permanently deletes personally identifiable information (PII) for a
+    Verification. This action cannot be undone. This endpoint can be used to
+    comply with privacy regulations such as GDPR / CCPA or to enforce data
+    privacy.
+  operationId: redact-a-verification
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - name: verification-id
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value:
+                data:
+                  type: verification/government-id
+                  id: ver_7f6w4qu7KK7gjjtgp7nAixHd
+                  attributes:
+                    status: passed
+                    created-at: '2019-11-15T21:24:24.000Z'
+                    completed-at: null
+                    country-code: null
+                    entity-confidence-score: null
+                    entity-confidence-reasons: []
+                    front-photo-url: null
+                    back-photo-url: null
+                    selfie-photo-url: null
+                    id-class: null
+                    capture-method: null
+                    name-first: null
+                    name-middle: null
+                    name-last: null
+                    birthdate: null
+                    address-street-1: null
+                    address-street-2: null
+                    address-city: null
+                    address-subdivision: null
+                    address-postal-code: null
+                    issuing-authority: null
+                    issue-date: null
+                    expiration-date: null
+                    sex: null
+                    height: null
+                    endorsements: null
+                    restrictions: null
+                    vehicle-class: null
+                    identification-number: null
+                    checks: []
+                  relationships:
+                    inquiry:
+                      data: null
+      description: OK
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Redact a Verification
+  tags:
+    - Verifications

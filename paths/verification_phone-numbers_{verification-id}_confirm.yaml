@@ -1,0 +1,113 @@
+post:
+  description: >-
+    Confirm the confirmation code sent to the phone number. Can only confirm
+    `initiated` verifications.
+  operationId: confirm-a-phone-number-verification
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - description: ID of Verification to confirm
+      in: path
+      name: verification-id
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            data:
+              properties:
+                attributes:
+                  properties:
+                    confirmation-code:
+                      type: string
+                  required:
+                    - confirmation-code
+                  type: object
+              type: object
+          required:
+            - data
+          type: object
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value:
+                data:
+                  type: verification/phone-number
+                  id: ver_VL8FkF3YkqvPFuMzNtaRtpGU
+                  attributes:
+                    status: confirmed
+                    created-at: '2022-08-03T04:34:09.000Z'
+                    created-at-ts: 1659501249
+                    submitted-at: null
+                    submitted-at-ts: null
+                    completed-at: null
+                    completed-at-ts: null
+                    country-code: US
+                    confirmation-code: '9999'
+                    phone-number: 111-222-3333
+                    metadata: {}
+          schema:
+            properties:
+              data:
+                properties:
+                  attributes:
+                    properties:
+                      completed-at: {}
+                      completed-at-ts: {}
+                      confirmation-code:
+                        examples:
+                          - '9999'
+                        type: string
+                      country-code:
+                        examples:
+                          - US
+                        type: string
+                      created-at:
+                        examples:
+                          - '2022-08-03T04:34:09.000Z'
+                        type: string
+                      created-at-ts:
+                        default: 0
+                        examples:
+                          - 1659501249
+                        type: integer
+                      metadata:
+                        properties: {}
+                        type: object
+                      phone-number:
+                        examples:
+                          - 111-222-3333
+                        type: string
+                      status:
+                        examples:
+                          - confirmed
+                        type: string
+                      submitted-at: {}
+                      submitted-at-ts: {}
+                    type: object
+                  id:
+                    examples:
+                      - ver_VL8FkF3YkqvPFuMzNtaRtpGU
+                    type: string
+                  type:
+                    examples:
+                      - verification/phone-number
+                    type: string
+                type: object
+            type: object
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Confirm a Phone Number Verification
+  tags:
+    - Phone Number Verifications

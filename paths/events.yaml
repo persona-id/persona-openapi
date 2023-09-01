@@ -1,0 +1,54 @@
+get:
+  description: Returns a list of your organization's events.
+  operationId: list-all-events
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - description: Event ID for cursor pagination
+      in: query
+      name: page[before]
+      schema:
+        type: string
+    - description: Event ID for cursor pagination
+      in: query
+      name: page[after]
+      schema:
+        type: string
+    - description: Limit on the number of Events returned.
+      in: query
+      name: page[size]
+      schema:
+        type: string
+    - description: Comma separated list of event names
+      in: query
+      name: filter[name]
+      schema:
+        type: string
+    - description: Comma separated list of object ids
+      in: query
+      name: filter[object_id]
+      schema:
+        type: string
+    - description: Comma separated list of event ids
+      in: query
+      name: filter[id]
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value: {}
+          schema:
+            properties: {}
+            type: object
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+  summary: List all Events
+  tags:
+    - Events

@@ -1,0 +1,56 @@
+post:
+  description: Create a new item in a <<glossary:list>>.
+  operationId: create-a-county-list-item
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            data:
+              properties:
+                attributes:
+                  properties:
+                    country-code:
+                      description: Country code to add to list.
+                      type: string
+                    list-id:
+                      description: >-
+                        ID of the list to add this item to. List must be a
+                        Country List.
+                      type: string
+                  type: object
+              type: object
+          type: object
+  responses:
+    '201':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: Created
+              value:
+                data:
+                  type: list-item/country
+                  id: lic_wt5cgLbSi7twJ8itK7jxCs8q
+                  attributes:
+                    status: pending
+                    archived-at: null
+                    updated-at: '2020-09-18T17:58:06.866Z'
+                    created-at: '2020-09-18T17:58:06.866Z'
+                    match-count: 0
+                    country-code: US
+                  relationships:
+                    creator:
+                      data: null
+      description: Created
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Create a Country List Item
+  tags:
+    - List Items

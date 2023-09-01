@@ -1,0 +1,102 @@
+post:
+  description: Create a new item in a <<glossary:list>>.
+  operationId: create-a-browser-fingerprint-list-item
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            data:
+              properties:
+                attributes:
+                  properties:
+                    list-id:
+                      description: >-
+                        ID of the list to add this item to. List must be a
+                        Browser Fingerprint List.
+                      type: string
+                    value:
+                      description: Browser fingerprint to add to list.
+                      type: string
+                  type: object
+              type: object
+          type: object
+  responses:
+    '201':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: Created
+              value:
+                data:
+                  type: list-item/browser-fingerprint
+                  id: libf_N6PqYkfSqeqiQYWoeHA3GGDo
+                  attributes:
+                    status: pending
+                    archived-at: null
+                    updated-at: '2020-09-18T18:06:40.515Z'
+                    created-at: '2020-09-18T18:06:40.515Z'
+                    match-count: 0
+                    value: 3082c312c9bfc8f0a43bc7173b18afe6
+                  relationships:
+                    creator:
+                      data: null
+          schema:
+            properties:
+              data:
+                properties:
+                  attributes:
+                    properties:
+                      archived-at: {}
+                      created-at:
+                        examples:
+                          - '2020-09-18T18:06:40.515Z'
+                        type: string
+                      match-count:
+                        default: 0
+                        examples:
+                          - 0
+                        type: integer
+                      status:
+                        examples:
+                          - pending
+                        type: string
+                      updated-at:
+                        examples:
+                          - '2020-09-18T18:06:40.515Z'
+                        type: string
+                      value:
+                        examples:
+                          - 3082c312c9bfc8f0a43bc7173b18afe6
+                        type: string
+                    type: object
+                  id:
+                    examples:
+                      - libf_N6PqYkfSqeqiQYWoeHA3GGDo
+                    type: string
+                  relationships:
+                    properties:
+                      creator:
+                        properties:
+                          data: {}
+                        type: object
+                    type: object
+                  type:
+                    examples:
+                      - list-item/browser-fingerprint
+                    type: string
+                type: object
+            type: object
+      description: Created
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Create a Browser Fingerprint List Item
+  tags:
+    - List Items

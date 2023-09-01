@@ -1,0 +1,66 @@
+delete:
+  description: >-
+    Archive an existing <<glossary:list>>. Archived lists are still retrievable,
+    but will no longer match on inquiries.
+  operationId: archive-a-list
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - description: ID of the list to archive
+      in: path
+      name: list-id
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value: {}
+          schema:
+            properties: {}
+            type: object
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Archive a List
+  tags:
+    - Lists
+get:
+  description: Retrieve the details of an existing <<glossary:list>>.
+  operationId: retrieve-a-list
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - description: ID of the list to retrieve
+      in: path
+      name: list-id
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value: {}
+          schema:
+            properties: {}
+            type: object
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Retrieve a List
+  tags:
+    - Lists

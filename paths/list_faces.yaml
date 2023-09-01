@@ -1,0 +1,39 @@
+post:
+  description: Create a new <<glossary:list>> for your organization.
+  operationId: create-a-face-list
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            data:
+              properties:
+                attributes:
+                  properties:
+                    name:
+                      description: Name of the list
+                      type: string
+                  type: object
+              type: object
+          type: object
+  responses:
+    '201':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: Created
+              value: {}
+          schema:
+            properties: {}
+            type: object
+      description: Created
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+  summary: Create a Face List
+  tags:
+    - Lists

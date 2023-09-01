@@ -1,0 +1,25 @@
+get:
+  description: Prints a report in PDF format.
+  operationId: print-report-pdf
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - name: report-id
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: The report as a PDF
+      content:
+        application/pdf:
+          schema:
+            type: string
+            format: binary
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Print Report PDF
+  tags:
+    - Reports

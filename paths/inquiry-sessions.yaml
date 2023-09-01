@@ -1,0 +1,73 @@
+get:
+  description: Retrieves a list of Inquiry Sessions.
+  operationId: list-all-inquiry-sessions
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - description: Filter inquiry sessions by inquiry ID
+      in: query
+      name: filter[inquiry-id]
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value: {}
+          schema:
+            properties: {}
+            type: object
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+  summary: List all Inquiry Sessions
+  tags:
+    - Inquiry Sessions
+post:
+  description: Creates a new Inquiry Session.
+  operationId: create-an-inquiry-session
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            data:
+              properties:
+                attributes:
+                  properties:
+                    inquiry-id:
+                      description: Inquiry ID of the session
+                      type: string
+                  required:
+                    - inquiry-id
+                  type: object
+              required: []
+              type: object
+          type: object
+  responses:
+    '201':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: Created
+              value: {}
+          schema:
+            properties: {}
+            type: object
+      description: Created
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Create an Inquiry Session
+  tags:
+    - Inquiry Sessions

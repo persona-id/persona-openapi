@@ -1,0 +1,80 @@
+post:
+  description: >-
+    Creates a new inquiry session and returns `meta.session-token`. If the
+    inquiry's status is `expired`, changes the status to `pending`. The
+    `session-token` must be included when loading the inquiry flow if the
+    inquiry's status is `pending`. For more information, see [Resuming
+    Inquiries](https://docs.withpersona.com/docs/inquiries-resuming-inquiries).
+  operationId: resume-an-inquiry
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - name: inquiry-id
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value:
+                data:
+                  type: inquiry
+                  id: inq_zEx4jL84ShbUyuwX6AzPSqt6
+                  attributes:
+                    status: completed
+                    subject: null
+                    reference-id: null
+                    created-at: '2019-11-15T05:27:24.000Z'
+                    completed-at: '2019-11-15T05:28:02.000Z'
+                    expired-at: null
+                  relationships:
+                    account:
+                      data:
+                        type: account
+                        id: act_n2uq9eKMboaCQzu9ALWYcVdN
+                    template:
+                      data: null
+                    inquiry-template:
+                      data:
+                        type: inquiry-template
+                        id: itmpl_p8ANAJy9iqadm2buF2xcVgqH
+                    inquiry-template-version:
+                      data:
+                        type: inquiry-template-version
+                        id: itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo
+                    reports:
+                      data: []
+                    verifications:
+                      data:
+                        - type: verification/database
+                          id: ver_uHDiwtcx3htjajvEaeMjPQcE
+                meta:
+                  session-token: >-
+                    eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpcXNlX1Q4UHJxcG9FaHdoVVYxd0hSZXVVOW9mcyIsImF1ZCI6InBlcnNvbmEtdmVyaWZ5IiwiaXNzIjoic3RhZ2luZy53aXRocGVyc29uYS5jb20iLCJpYXQiOjE1NzM4NTI2NjEsIm5iZiI6MTU3Mzg1MjY2MSwiZXhwIjoxNTczOTM5MDYxLCJqdGkiOiI5NWRlNjhkOS1hZjI4LTRiMzItOWIxYi03MjA4MTg3NTI3N2IiLCJzaWQiOiJpcXNlX1Q4UHJxcG9FaHdoVVYxd0hSZXVVOW9mcyJ9.LN6DEnfjP5cZoZ3w41RgyX5QVmutmjHja_bRHOmDjg0
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/Inquiry.yaml
+              meta:
+                properties:
+                  session-token:
+                    examples:
+                      - >-
+                        eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpcXNlX1Q4UHJxcG9FaHdoVVYxd0hSZXVVOW9mcyIsImF1ZCI6InBlcnNvbmEtdmVyaWZ5IiwiaXNzIjoic3RhZ2luZy53aXRocGVyc29uYS5jb20iLCJpYXQiOjE1NzM4NTI2NjEsIm5iZiI6MTU3Mzg1MjY2MSwiZXhwIjoxNTczOTM5MDYxLCJqdGkiOiI5NWRlNjhkOS1hZjI4LTRiMzItOWIxYi03MjA4MTg3NTI3N2IiLCJzaWQiOiJpcXNlX1Q4UHJxcG9FaHdoVVYxd0hSZXVVOW9mcyJ9.LN6DEnfjP5cZoZ3w41RgyX5QVmutmjHja_bRHOmDjg0
+                    type: string
+                type: object
+            type: object
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Resume an Inquiry
+  tags:
+    - Inquiries

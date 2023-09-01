@@ -1,0 +1,64 @@
+post:
+  description: Create an access token using an authorization code.
+  operationId: create-access-token
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - description: Authorization Code
+      in: query
+      name: code
+      required: true
+      schema:
+        type: string
+    - description: Must be set to 'authorization_code'
+      in: query
+      name: grant_type
+      required: true
+      schema:
+        default: authorization_code
+        type: string
+  responses:
+    '201':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: Created
+              value:
+                access_token: persona_access_token_d8b7f084-385f-4ff0-930e-1580ccefa16d
+                token_type: bearer
+                expires_in: 3599
+                scope: >-
+                  inquiry.read:inq_uX7kRTiBxsJ1sZqPLAsjdP9j
+                  inquiry.read:inq_1Uy5ruZb5yZy4zX21KesbtfK
+          schema:
+            properties:
+              access_token:
+                examples:
+                  - persona_access_token_d8b7f084-385f-4ff0-930e-1580ccefa16d
+                type: string
+              expires_in:
+                default: 0
+                examples:
+                  - 3599
+                type: integer
+              scope:
+                examples:
+                  - >-
+                    inquiry.read:inq_uX7kRTiBxsJ1sZqPLAsjdP9j
+                    inquiry.read:inq_1Uy5ruZb5yZy4zX21KesbtfK
+                type: string
+              token_type:
+                examples:
+                  - bearer
+                type: string
+            type: object
+      description: Created
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Create Access Token
+  tags:
+    - OAuth

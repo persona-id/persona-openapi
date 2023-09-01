@@ -1,0 +1,69 @@
+post:
+  description: >-
+    Expires an inquiry and all sessions on the inquiry. Cancels any pending
+    verifications on the inquiry.
+
+
+    The inquiry can still be resumed after expiry.
+  operationId: expire-an-inquiry
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - name: inquiry-id
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value:
+                data:
+                  type: inquiry
+                  id: inq_zEx4jL84ShbUyuwX6AzPSqt6
+                  attributes:
+                    status: expired
+                    subject: null
+                    reference-id: null
+                    created-at: '2019-11-15T05:27:24.000Z'
+                    completed-at: null
+                    expired-at: '2019-11-15T05:28:02.000Z'
+                  relationships:
+                    account:
+                      data:
+                        type: account
+                        id: act_n2uq9eKMboaCQzu9ALWYcVdN
+                    template:
+                      data: null
+                    inquiry-template:
+                      data:
+                        type: inquiry-template
+                        id: itmpl_p8ANAJy9iqadm2buF2xcVgqH
+                    inquiry-template-version:
+                      data:
+                        type: inquiry-template-version
+                        id: itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo
+                    reports:
+                      data: []
+                    verifications:
+                      data:
+                        - type: verification/database
+                          id: ver_uHDiwtcx3htjajvEaeMjPQcE
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/Inquiry.yaml
+            type: object
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Expire an Inquiry
+  tags:
+    - Inquiries

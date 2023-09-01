@@ -1,0 +1,85 @@
+get:
+  description: Retrieve the details of a specific document verification
+  operationId: retrieve-a-document-verification
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - name: verification-id
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value:
+                data:
+                  type: verification/document
+                  id: ver_ppsBhYEdqZnHKVXag9QMDvMu
+                  attributes:
+                    status: passed
+                    created-at: '2020-06-25T01:04:39.000Z'
+                    created-at-ts: 1593047079
+                    submitted-at: '2020-06-25T01:12:10.000Z'
+                    submitted-at-ts: 1593047530
+                    completed-at: '2020-06-25T01:12:11.000Z'
+                    completed-at-ts: 1593047531
+                    country-code: null
+                    checks:
+                      - name: document_type_detection
+                        status: not_applicable
+                        reasons:
+                          - no_configured_match
+                        requirement: not_required
+                        metadata: {}
+                    fields: {}
+                    files:
+                      - filename: passport.png
+                        url: https://files.test.com/passport.png?access_token=asdf
+                        byte-size: 2048
+                    files-normalized:
+                      - filename: passport.png
+                        url: https://files.test.com/passport.png?access_token=asdf
+                        byte-size: 2048
+                    extraction-responses:
+                      - extraction-type: unguided
+                        field-name: addresses
+                        results:
+                          - value: 1234 Anystreet St
+                            page: 1
+                            match-level: full
+                            metadata: {}
+                  relationships:
+                    inquiry:
+                      data:
+                        type: inquiry
+                        id: inq_TnxzsSeQa6qqNY6zLPvQmFmg
+                    document:
+                      data:
+                        type: document/generic
+                        id: doc_BDxMaFYynbVrKPiGdfv4aJyC
+                    template:
+                      data:
+                        type: template
+                        id: tmpl_8L8AxnijwiPkqoTF3ZjfCSdF
+                    inquiry-template-version:
+                      data: null
+                    inquiry-template:
+                      data: null
+                    verification-template-version:
+                      data: null
+                    verification-template:
+                      data: null
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Retrieve a Document Verification
+  tags:
+    - Document Verifications

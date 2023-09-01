@@ -1,0 +1,180 @@
+get:
+  description: List all reports with pagination and filtering.
+  operationId: list-all-reports
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - description: Report ID for cursor pagination
+      in: query
+      name: page[before]
+      schema:
+        type: string
+    - description: Report ID for cursor pagination
+      in: query
+      name: page[after]
+      schema:
+        type: string
+    - description: Limit on the number of reports returned
+      in: query
+      name: page[size]
+      schema:
+        type: string
+    - description: Filter reports by reference ID
+      in: query
+      name: filter[reference-id]
+      schema:
+        type: string
+    - description: Filter reports by account ID
+      in: query
+      name: filter[account-id]
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value:
+                data:
+                  - type: report/address-lookup
+                    id: rep_YcNZJLxuwEuV8jUPbykYQyXG
+                    attributes:
+                      reference-id: null
+                      created-at: '2019-12-19T21:42:49.000Z'
+                      updated-at: '2019-12-19T21:42:49.000Z'
+                      status: ready
+                  - type: report/adverse-media
+                    id: rep_2wM8yufwLrbMV6kUtGPBxeGS
+                    attributes:
+                      reference-id: null
+                      created-at: '2019-12-18T22:43:03.000Z'
+                      updated-at: '2019-12-18T22:43:03.000Z'
+                  - type: report/email-risk
+                    id: rep_LatvE1PdVhfiwcJWVLj4Z25j
+                    attributes:
+                      reference-id: null
+                      created-at: '2019-12-13T08:34:10.000Z'
+                      updated-at: '2019-12-13T08:34:10.000Z'
+                  - type: report/phone-risk
+                    id: rep_RU3JgzXaAzVV2g2NYLd7ub12
+                    attributes:
+                      reference-id: null
+                      created-at: '2019-12-13T08:32:49.000Z'
+                      updated-at: '2019-12-13T08:33:29.000Z'
+                  - type: report/sec-action-lookup
+                    id: rep_Eoe14YQ7efbiH73zkTFAkveB
+                    attributes:
+                      reference-id: null
+                      created-at: '2019-12-12T20:50:55.000Z'
+                      updated-at: '2019-12-12T20:50:55.000Z'
+                  - type: report/watchlist
+                    id: rep_6LRELcKmPcx9MxYGk6mdCPJo
+                    attributes:
+                      reference-id: null
+                      created-at: '2019-11-19T00:10:27.000Z'
+                      updated-at: '2019-11-19T00:10:27.000Z'
+                links:
+                  prev: null
+                  next: /api/v1/reports?page%5Bafter%5D=rep_u2Dgz8U3CmxTVgqEH9qzezHi
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+  summary: List all Reports
+  tags:
+    - Reports
+post:
+  description: Create various types of Reports with appropriate body params.
+  operationId: create-a-report
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            data:
+              properties:
+                attributes:
+                  properties:
+                    address-city:
+                      type: string
+                    address-country-code:
+                      type: string
+                    address-postal-code:
+                      type: string
+                    address-street-1:
+                      type: string
+                    address-street-2:
+                      type: string
+                    address-subdivision:
+                      type: string
+                    addressee:
+                      type: string
+                    birthdate:
+                      type: string
+                    broker-type:
+                      type: string
+                    country-code:
+                      type: string
+                    crd-number:
+                      type: string
+                    email-address:
+                      type: string
+                    firm-name:
+                      type: string
+                    name-first:
+                      type: string
+                    name-full:
+                      type: string
+                    name-last:
+                      type: string
+                    phone-number:
+                      type: string
+                    reference-id:
+                      description: >-
+                        (optional) Reference ID of an Account to link to this
+                        Report
+                      type: string
+                    report-template-id:
+                      description: >-
+                        Report Template ID corresponding to the report you want
+                        to run
+                      type: string
+                    social-security-number:
+                      type: string
+                    term:
+                      type: string
+                  type: object
+              type: object
+          required:
+            - data
+          type: object
+  responses:
+    '201':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: Created
+              value:
+                data:
+                  type: report/watchlist
+                  id: rep_NELm1PRn1oKpRnJEMyY6rDZr
+                  attributes:
+                    status: pending
+                    created-at: '2019-11-15T21:32:36.000Z'
+                    completed-at: '2019-11-15T21:32:36.000Z'
+                    term: Alexander Sample
+      description: Created
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Create a Report
+  tags:
+    - Reports

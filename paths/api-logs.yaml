@@ -1,0 +1,121 @@
+get:
+  description: Returns a list of your organization's API Logs.
+  operationId: list-all-api-logs
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - description: API Log ID for cursor pagination
+      in: query
+      name: page[before]
+      schema:
+        type: string
+    - description: API Log ID for cursor pagination
+      in: query
+      name: page[after]
+      schema:
+        type: string
+    - description: Limit on the number of API Logs returned
+      in: query
+      name: page[size]
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value:
+                data:
+                  - type: api-log
+                    id: req_RskjUrFJFJq4432DUFvV9CeJ
+                    attributes:
+                      request:
+                        method: GET
+                        path: /api/v1/inquiries
+                        headers:
+                          Authorization: >-
+                            Bearer
+                            persona_production_61bd73de-ce28-****-****-************
+                        get-params:
+                          filter:
+                            reference_id: random-id
+                        post-params: {}
+                        ip-address: 127.0.0.1
+                      response:
+                        status: 200
+                        headers:
+                          Request-Id: req-12345
+                        body: []
+                      created-at: '2018-06-01T00:00:00.000+00:00'
+                  - type: api-log
+                    id: req_79BnM1kYUdEfqaGoDR7HbVQV
+                    attributes:
+                      request:
+                        method: GET
+                        path: /api/v1/inquiries
+                        headers:
+                          Authorization: >-
+                            Bearer
+                            persona_production_61bd73de-ce28-****-****-************
+                        get-params:
+                          filter:
+                            reference_id: random-id
+                        post-params: {}
+                        ip-address: 127.0.0.1
+                      response:
+                        status: 200
+                        headers:
+                          Request-Id: req-12345
+                        body: []
+                      created-at: '2018-06-01T00:00:00.000+00:00'
+                  - type: api-log
+                    id: req_5BTqhvz3RdYAERuHuWf5oLZY
+                    attributes:
+                      request:
+                        method: GET
+                        path: /api/v1/inquiries
+                        headers:
+                          Authorization: >-
+                            Bearer
+                            persona_production_61bd73de-ce28-****-****-************
+                        get-params:
+                          filter:
+                            reference_id: random-id
+                        post-params: {}
+                        ip-address: 127.0.0.1
+                      response:
+                        status: 200
+                        headers:
+                          Request-Id: req-12345
+                        body: []
+                      created-at: '2018-06-01T00:00:00.000+00:00'
+                  - type: api-log
+                    id: req_JW4o7dSykgPk69d4xXQWtqdi
+                    attributes:
+                      request:
+                        method: GET
+                        path: /api/v1/inquiries
+                        headers:
+                          Authorization: >-
+                            Bearer
+                            persona_production_61bd73de-ce28-****-****-************
+                        get-params:
+                          filter:
+                            reference_id: random-id
+                        post-params: {}
+                        ip-address: 127.0.0.1
+                      response:
+                        status: 200
+                        headers:
+                          Request-Id: req-12345
+                        body: []
+                      created-at: '2018-06-01T00:00:00.000+00:00'
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+  summary: List all API Logs
+  tags:
+    - API Logs

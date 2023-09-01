@@ -1,0 +1,44 @@
+delete:
+  description: Archived items are not matched against new inquiries.
+  operationId: archive-a-face-list-item
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - description: ID of list item to archive.
+      in: path
+      name: list-item-id
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value:
+                data:
+                  type: list-item/geolocation
+                  id: lifc_FVrbLriSXNwPqMogu8vvuTi8
+                  attributes:
+                    status: archived
+                    archived-at: '2020-09-18T19:03:30.324Z'
+                    updated-at: '2020-09-18T18:03:30.324Z'
+                    created-at: '2020-09-18T18:03:30.324Z'
+                    match-count: 0
+                    face-photo:
+                      filename: photo.png
+                      url: https://withpersona.com/api/v1/files/...
+                  relationships:
+                    creator:
+                      data: null
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Archive a Face List Item
+  tags:
+    - List Items

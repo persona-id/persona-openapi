@@ -1,0 +1,96 @@
+post:
+  description: Create a verification of a generic document.
+  operationId: create-a-document-verification
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            data:
+              properties:
+                attributes:
+                  properties:
+                    document-id:
+                      description: >-
+                        ID of the document to verify. The document is an object
+                        of type document/generic.
+                      type: string
+                    inquiry-id:
+                      description: >-
+                        ID of the associated inquiry the verification is being
+                        created for.
+                      type: string
+                  required:
+                    - document-id
+                  type: object
+              type: object
+          required:
+            - data
+          type: object
+  responses:
+    '201':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: Created
+              value:
+                data:
+                  type: verification/document
+                  id: ver_ppsBhYEdqZnHKVXag9QMDvMu
+                  attributes:
+                    status: initiated
+                    created-at: '2020-06-25T01:04:39.000Z'
+                    created-at-ts: 1593047079
+                    submitted-at: null
+                    submitted-at-ts: null
+                    completed-at: null
+                    completed-at-ts: null
+                    country-code: null
+                    checks: []
+                    fields: {}
+                    files:
+                      - filename: multipage_example.pdf
+                        url: >-
+                          https://withpersona.com/api/v1/files/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBdHc4IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--c4482780e1fa5c7bc0a26fc73b1dd76c44b98ad8/multipage_example.pdf
+                        byte-size: 123456
+                    files-normalized: []
+                    extraction-responses: null
+                  relationships:
+                    inquiry:
+                      data:
+                        type: inquiry
+                        id: inq_TnxzsSeQa6qqNY6zLPvQmFmg
+                    document:
+                      data:
+                        type: document/generic
+                        id: doc_BDxMaFYynbVrKPiGdfv4aJyC
+                    template:
+                      data:
+                        type: template
+                        id: tmpl_8L8AxnijwiPkqoTF3ZjfCSdF
+                    inquiry-template-version:
+                      data: null
+                    inquiry-template:
+                      data: null
+                    verification-template-version:
+                      data: null
+                    verification-template:
+                      data: null
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/VerificationDocument.yaml
+            type: object
+      description: Created
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Create a Document Verification
+  tags:
+    - Document Verifications

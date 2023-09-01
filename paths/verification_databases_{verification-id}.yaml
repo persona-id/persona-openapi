@@ -1,0 +1,309 @@
+get:
+  description: Retrieve a database verification
+  operationId: retrieve-a-database-verification
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - description: ID of Verification to retrieve
+      in: path
+      name: verification-id
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value:
+                data:
+                  type: verification/database
+                  id: ver_1rWMmoV3hoy2qWv3wGPcH43c
+                  attributes:
+                    status: passed
+                    created-at: '2022-08-02T05:02:56.000Z'
+                    created-at-ts: 1659416576
+                    submitted-at: '2022-08-02T05:03:02.000Z'
+                    submitted-at-ts: 1659416582
+                    completed-at: '2022-08-02T05:03:02.000Z'
+                    completed-at-ts: 1659416582
+                    country-code: US
+                    name-first: ALEXANDER
+                    name-middle: null
+                    address-street-1: 555 Beverly Hills
+                    address-street-2: Apartment 123
+                    address-city: Los Angeles
+                    address-subdivision: CA
+                    address-postal-code: '55555'
+                    normalized-address-street-1: 555 Beverly Hills
+                    normalized-address-street-2: Apt 123
+                    normalized-address-city: Los Angeles
+                    normalized-address-subdivision: CA
+                    normalized-address-postal-code: '55555'
+                    checks:
+                      - name: database_inquiry_comparison
+                        status: not_applicable
+                        reasons:
+                          - no_inquiry
+                        metadata: {}
+                      - name: database_address_deliverable_detection
+                        status: not_applicable
+                        reasons:
+                          - disabled
+                        metadata: {}
+                      - name: database_address_residential_detection
+                        status: not_applicable
+                        reasons:
+                          - disabled
+                        metadata: {}
+                      - name: database_po_box_detection
+                        status: passed
+                        reasons: []
+                        metadata: {}
+                      - name: database_deceased_detection
+                        status: passed
+                        reasons: []
+                        metadata: {}
+                      - name: database_identity_comparison
+                        status: passed
+                        reasons: []
+                        metadata:
+                          check-requirements:
+                            - name: name_first
+                              match-result: partial
+                              status: passed
+                              comparisons:
+                                - type: string_similarity
+                                  match-level-minimum: partial
+                                  match-result: partial
+                                - type: nickname
+                                  match-level-minimum: partial
+                                  match-result: none
+                                - type: string_difference
+                                  match-level-minimum: partial
+                                  match-result: none
+                                - type: substring
+                                  match-level-minimum: partial
+                                  match-result: partial
+                                - type: tokenization
+                                  match-level-minimum: partial
+                                  match-result: partial
+                            - name: name_last
+                              match-result: full
+                              status: passed
+                              comparisons:
+                                - type: string_similarity
+                                  match-level-minimum: partial
+                                  match-result: full
+                                - type: string_difference
+                                  match-level-minimum: partial
+                                  match-result: full
+                                - type: substring
+                                  match-level-minimum: partial
+                                  match-result: full
+                                - type: tokenization
+                                  match-level-minimum: partial
+                                  match-result: partial
+                            - name: birthdate
+                              match-result: full
+                              status: passed
+                              comparisons:
+                                - type: date_similarity
+                                  match-level-minimum: partial
+                                  match-result: full
+                            - name: social_security_number
+                              match-result: full
+                              status: passed
+                              comparisons:
+                                - type: string_similarity
+                                  match-level-minimum: full
+                                  match-result: full
+                            - name: address_street_house_number
+                              match-result: full
+                              status: passed
+                              comparisons:
+                                - type: string_difference
+                                  match-level-minimum: partial
+                                  match-result: full
+                            - name: address_street_name
+                              match-result: full
+                              status: passed
+                              comparisons:
+                                - type: string_similarity
+                                  match-level-minimum: partial
+                                  match-result: full
+                            - name: address_street_type
+                              match-result: full
+                              status: passed
+                              comparisons:
+                                - type: string_similarity
+                                  match-level-minimum: partial
+                                  match-result: full
+                            - name: address_city
+                              match-result: full
+                              status: passed
+                              comparisons:
+                                - type: string_similarity
+                                  match-level-minimum: partial
+                                  match-result: full
+                            - name: address_subdivision
+                              match-result: full
+                              status: passed
+                              comparisons:
+                                - type: string_difference
+                                  match-level-minimum: full
+                                  match-result: full
+                            - name: address_postal_code
+                              match-result: full
+                              status: passed
+                              comparisons:
+                                - type: string_difference
+                                  match-level-minimum: partial
+                                  match-result: full
+                            - name: address_country_code
+                              match-result: full
+                              status: passed
+                              comparisons:
+                                - type: string_difference
+                                  match-level-minimum: full
+                                  match-result: full
+                  relationships:
+                    inquiry:
+                      data: null
+          schema:
+            properties:
+              data:
+                properties:
+                  attributes:
+                    properties:
+                      address-city:
+                        examples:
+                          - Los Angeles
+                        type: string
+                      address-postal-code:
+                        examples:
+                          - '55555'
+                        type: string
+                      address-street-1:
+                        examples:
+                          - 555 Beverly Hills
+                        type: string
+                      address-street-2:
+                        examples:
+                          - Apartment 123
+                        type: string
+                      address-subdivision:
+                        examples:
+                          - CA
+                        type: string
+                      checks:
+                        items:
+                          properties:
+                            metadata:
+                              properties: {}
+                              type: object
+                            name:
+                              examples:
+                                - database_inquiry_comparison
+                              type: string
+                            reasons:
+                              items:
+                                examples:
+                                  - no_inquiry
+                                type: string
+                              type: array
+                            status:
+                              examples:
+                                - not_applicable
+                              type: string
+                          type: object
+                        type: array
+                      completed-at:
+                        examples:
+                          - '2022-08-02T05:03:02.000Z'
+                        type: string
+                      completed-at-ts:
+                        default: 0
+                        examples:
+                          - 1659416582
+                        type: integer
+                      country-code:
+                        examples:
+                          - US
+                        type: string
+                      created-at:
+                        examples:
+                          - '2022-08-02T05:02:56.000Z'
+                        type: string
+                      created-at-ts:
+                        default: 0
+                        examples:
+                          - 1659416576
+                        type: integer
+                      name-first:
+                        examples:
+                          - ALEXANDER
+                        type: string
+                      name-middle: {}
+                      normalized-address-city:
+                        examples:
+                          - Los Angeles
+                        type: string
+                      normalized-address-postal-code:
+                        examples:
+                          - '55555'
+                        type: string
+                      normalized-address-street-1:
+                        examples:
+                          - 555 Beverly Hills
+                        type: string
+                      normalized-address-street-2:
+                        examples:
+                          - Apt 123
+                        type: string
+                      normalized-address-subdivision:
+                        examples:
+                          - CA
+                        type: string
+                      status:
+                        examples:
+                          - passed
+                        type: string
+                      submitted-at:
+                        examples:
+                          - '2022-08-02T05:03:02.000Z'
+                        type: string
+                      submitted-at-ts:
+                        default: 0
+                        examples:
+                          - 1659416582
+                        type: integer
+                    type: object
+                  id:
+                    examples:
+                      - ver_1rWMmoV3hoy2qWv3wGPcH43c
+                    type: string
+                  relationships:
+                    properties:
+                      inquiry:
+                        properties:
+                          data: {}
+                        type: object
+                    type: object
+                  type:
+                    examples:
+                      - verification/database
+                    type: string
+                type: object
+            type: object
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Retrieve a Database Verification
+  tags:
+    - Database Verifications

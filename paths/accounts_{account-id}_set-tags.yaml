@@ -1,0 +1,53 @@
+post:
+  description: >-
+    Set all tags on an Account. Note that this removes any tags that are not
+    provided.
+  operationId: accounts-set-all-tags
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - name: account-id
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            meta:
+              properties:
+                tag-name:
+                  default: []
+                  items:
+                    type: string
+                  type: array
+              type: object
+          type: object
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value:
+                data:
+                  type: account
+                  id: act_NN1jBFZu2iLusNFHkU7d58Ui
+                  attributes:
+                    reference-id: user12345
+                    created-at: '2019-12-11T18:51:15.000Z'
+                    updated-at: '2019-12-11T18:51:15.000Z'
+                    tags:
+                      - BAD ACTOR
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Set all tags
+  tags:
+    - Accounts

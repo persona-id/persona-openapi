@@ -1,0 +1,160 @@
+get:
+  description: Retrieve a phone carrier database verification
+  operationId: retrieve-a-phone-carrier-database-verification
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - description: ID of Verification to retrieve
+      in: path
+      name: verification-id
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value:
+                data:
+                  type: verification/database-phone-carrier
+                  id: ver_sg4L6Zax4TfXrVsGbVaBoSdr
+                  attributes:
+                    status: failed
+                    created-at: '2022-08-03T03:15:56.000Z'
+                    created-at-ts: 1659496556
+                    submitted-at: '2022-08-03T03:16:26.000Z'
+                    submitted-at-ts: 1659496586
+                    completed-at: '2022-08-03T03:16:27.000Z'
+                    completed-at-ts: 1659496587
+                    country-code: US
+                    name-first: ALEXANDER
+                    checks:
+                      - name: database_phone_carrier_name_first_comparison
+                        status: passed
+                        reasons: []
+                        metadata:
+                          match-score: 100
+                          match-result: full
+                      - name: database_phone_carrier_name_last_comparison
+                        status: failed
+                        reasons:
+                          - insufficient_match
+                        metadata:
+                          match-score: 63
+                          match-result: partial
+                      - name: database_phone_carrier_birthdate_comparison
+                        status: not_applicable
+                        reasons:
+                          - unavailable_for_country
+                        metadata: {}
+                      - name: database_phone_carrier_address_comparison
+                        status: passed
+                        reasons: []
+                        metadata:
+                          match-score: 48
+                          match-result: none
+                  relationships:
+                    inquiry:
+                      data: null
+          schema:
+            properties:
+              data:
+                properties:
+                  attributes:
+                    properties:
+                      checks:
+                        items:
+                          properties:
+                            metadata:
+                              properties:
+                                match-result:
+                                  examples:
+                                    - full
+                                  type: string
+                                match-score:
+                                  default: 0
+                                  examples:
+                                    - 100
+                                  type: integer
+                              type: object
+                            name:
+                              examples:
+                                - database_phone_carrier_name_first_comparison
+                              type: string
+                            reasons:
+                              type: array
+                            status:
+                              examples:
+                                - passed
+                              type: string
+                          type: object
+                        type: array
+                      completed-at:
+                        examples:
+                          - '2022-08-03T03:16:27.000Z'
+                        type: string
+                      completed-at-ts:
+                        default: 0
+                        examples:
+                          - 1659496587
+                        type: integer
+                      country-code:
+                        examples:
+                          - US
+                        type: string
+                      created-at:
+                        examples:
+                          - '2022-08-03T03:15:56.000Z'
+                        type: string
+                      created-at-ts:
+                        default: 0
+                        examples:
+                          - 1659496556
+                        type: integer
+                      name-first:
+                        examples:
+                          - ALEXANDER
+                        type: string
+                      status:
+                        examples:
+                          - failed
+                        type: string
+                      submitted-at:
+                        examples:
+                          - '2022-08-03T03:16:26.000Z'
+                        type: string
+                      submitted-at-ts:
+                        default: 0
+                        examples:
+                          - 1659496586
+                        type: integer
+                    type: object
+                  id:
+                    examples:
+                      - ver_sg4L6Zax4TfXrVsGbVaBoSdr
+                    type: string
+                  relationships:
+                    properties:
+                      inquiry:
+                        properties:
+                          data: {}
+                        type: object
+                    type: object
+                  type:
+                    examples:
+                      - verification/database-phone-carrier
+                    type: string
+                type: object
+            type: object
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Retrieve a Phone Carrier Database Verification
+  tags:
+    - Phone Carrier Database Verifications

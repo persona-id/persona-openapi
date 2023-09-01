@@ -1,0 +1,48 @@
+post:
+  description: Add a new tag to an Account
+  operationId: accounts-add-tag
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - name: account-id
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            meta:
+              properties:
+                tag-name:
+                  type: string
+              type: object
+          type: object
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value:
+                data:
+                  type: account
+                  id: act_NN1jBFZu2iLusNFHkU7d58Ui
+                  attributes:
+                    reference-id: user12345
+                    created-at: '2019-12-11T18:51:15.000Z'
+                    updated-at: '2019-12-11T18:51:15.000Z'
+                    tags:
+                      - BAD ACTOR
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Add a tag
+  tags:
+    - Accounts

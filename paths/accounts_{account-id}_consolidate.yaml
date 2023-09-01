@@ -1,0 +1,103 @@
+post:
+  description: >-
+    Consolidates several source Accounts' information into one target Account.
+    Any Inquiry, Verification, Report and Document associated with the source
+    Account will be transferred over to the destination Account. However, the
+    Account's attributes will not be transferred. After consolidation, you can
+    update the destination Account's attributes using the Account update
+    endpoint.
+
+
+    This endpoint can be used to clean up duplicate Accounts.
+
+
+    Note: A source account can only be consolidated once. Afterwards, the source
+    account will be archived.
+  operationId: consolidate-into-an-account
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - description: Destination Account ID
+      in: path
+      name: account-id
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            meta:
+              properties:
+                source-account-ids:
+                  default: []
+                  description: >-
+                    A list of Account IDs that need to be consolidated into the
+                    destination Account.
+                  items:
+                    type: string
+                  type: array
+              type: object
+          type: object
+  responses:
+    '202':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: Accepted
+              value:
+                data:
+                  type: account
+                  id: act_BygphFap8KvaBzCYZ14neoUq
+                  attributes:
+                    reference-id: user12345
+                    created-at: '2019-12-11T18:51:15.000Z'
+                    updated-at: '2019-12-11T18:51:15.000Z'
+                    tags: []
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/Account.yaml
+            type: object
+      description: Accepted
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+    '422':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: Unprocessable Entity
+              value:
+                errors:
+                  - title: Parameter missing
+                    details: >-
+                      param is missing or the value is empty: Source account IDs
+                      are required.
+          schema:
+            properties:
+              errors:
+                items:
+                  properties:
+                    details:
+                      examples:
+                        - >-
+                          param is missing or the value is empty: Source account
+                          IDs are required.
+                      type: string
+                    title:
+                      examples:
+                        - Parameter missing
+                      type: string
+                  type: object
+                type: array
+            type: object
+      description: Unprocessable Entity
+  summary: Consolidate Accounts
+  tags:
+    - Accounts

@@ -1,0 +1,154 @@
+post:
+  description: >-
+    Submit a government ID verification for processing. Can only submit
+    `initiated` verifications with photos of the ID attached.
+  operationId: submit-a-government-id-verification
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - description: ID of Verification to submit
+      in: path
+      name: verification-id
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value:
+                data:
+                  type: verification/government-id
+                  id: ver_rYJDSAT7BNJhVW8cz4fqEfHP
+                  attributes:
+                    status: submitted
+                    created-at: '2022-07-28T16:55:44.000Z'
+                    created-at-ts: 1659027344
+                    submitted-at: '2022-07-28T20:47:06.000Z'
+                    submitted-at-ts: 1659041226
+                    completed-at: null
+                    completed-at-ts: null
+                    country-code: US
+                    entity-confidence-score: null
+                    entity-confidence-reasons:
+                      - generic
+                    front-photo-url: null
+                    back-photo-url: null
+                    photo-urls: null
+                    selfie-photo-url: null
+                    id-class: null
+                    capture-method: api
+                    name-first: null
+                    name-middle: null
+                    endorsements: null
+                    restrictions: null
+                    vehicle-class: null
+                    checks: []
+                  relationships:
+                    inquiry:
+                      data: null
+                    document:
+                      data:
+                        type: document/government-id
+                        id: doc_QZ8M2J1fH2o76Rq57vuVWMsE
+          schema:
+            properties:
+              data:
+                properties:
+                  attributes:
+                    properties:
+                      back-photo-url: {}
+                      capture-method:
+                        examples:
+                          - api
+                        type: string
+                      checks:
+                        type: array
+                      completed-at: {}
+                      completed-at-ts: {}
+                      country-code:
+                        examples:
+                          - US
+                        type: string
+                      created-at:
+                        examples:
+                          - '2022-07-28T16:55:44.000Z'
+                        type: string
+                      created-at-ts:
+                        default: 0
+                        examples:
+                          - 1659027344
+                        type: integer
+                      endorsements: {}
+                      entity-confidence-reasons:
+                        items:
+                          examples:
+                            - generic
+                          type: string
+                        type: array
+                      entity-confidence-score: {}
+                      front-photo-url: {}
+                      id-class: {}
+                      name-first: {}
+                      name-middle: {}
+                      photo-urls: {}
+                      restrictions: {}
+                      selfie-photo-url: {}
+                      status:
+                        examples:
+                          - submitted
+                        type: string
+                      submitted-at:
+                        examples:
+                          - '2022-07-28T20:47:06.000Z'
+                        type: string
+                      submitted-at-ts:
+                        default: 0
+                        examples:
+                          - 1659041226
+                        type: integer
+                      vehicle-class: {}
+                    type: object
+                  id:
+                    examples:
+                      - ver_rYJDSAT7BNJhVW8cz4fqEfHP
+                    type: string
+                  relationships:
+                    properties:
+                      document:
+                        properties:
+                          data:
+                            properties:
+                              id:
+                                examples:
+                                  - doc_QZ8M2J1fH2o76Rq57vuVWMsE
+                                type: string
+                              type:
+                                examples:
+                                  - document/government-id
+                                type: string
+                            type: object
+                        type: object
+                      inquiry:
+                        properties:
+                          data: {}
+                        type: object
+                    type: object
+                  type:
+                    examples:
+                      - verification/government-id
+                    type: string
+                type: object
+            type: object
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Submit a Government ID Verification
+  tags:
+    - Government ID Verifications

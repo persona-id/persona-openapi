@@ -1,0 +1,42 @@
+delete:
+  description: Archived items are not matched against new inquiries.
+  operationId: archive-a-phone-number-list-item
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - description: ID of list item to archive.
+      in: path
+      name: list-item-id
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value:
+                data:
+                  type: list-item/phone-number
+                  id: lipn_soqGRWaUXZct3pCRbjRaXFqz
+                  attributes:
+                    status: archived
+                    archived-at: '2020-09-18T19:07:53.000Z'
+                    updated-at: '2020-09-18T18:07:53.000Z'
+                    created-at: '2020-09-18T18:07:53.000Z'
+                    match-count: 0
+                    value: 18006009777
+                  relationships:
+                    creator:
+                      data: null
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Archive a Phone Number List Item
+  tags:
+    - List Items

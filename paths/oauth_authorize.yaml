@@ -1,0 +1,62 @@
+post:
+  description: >-
+    Authorize another Organization to access your Inquiry/Verification/etc
+    Objects
+  operationId: create-authorization
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            client_id:
+              description: Organization (`org_`) to authorize
+              type: string
+            response_type:
+              default: code
+              description: Must be set to 'code'
+              type: string
+            scope:
+              description: >-
+                Space-separated list of 'permission:object' combinations (i.e.
+                `inquiry.read:inq_uX7kRTiBxsJ1sZqPLAsjdP9j
+                verification.read:ver_ynYuWdrjwwjiHJ2rgHfSoHeT`
+              type: string
+          required:
+            - client_id
+            - response_type
+            - scope
+          type: object
+  responses:
+    '201':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: Created
+              value:
+                code: 8qaA6Q9GQnPjqiWB8BPed9MC6twE
+                expires_in: 599
+          schema:
+            properties:
+              code:
+                examples:
+                  - 8qaA6Q9GQnPjqiWB8BPed9MC6twE
+                type: string
+              expires_in:
+                default: 0
+                examples:
+                  - 599
+                type: integer
+            type: object
+      description: Created
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Create Authorization
+  tags:
+    - OAuth

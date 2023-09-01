@@ -1,0 +1,125 @@
+get:
+  description: Retrieve the details of an API Log that has previously been created.
+  operationId: retrieve-an-api-log
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - name: api-log-id
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value:
+                data:
+                  type: api-log
+                  id: req_79BnM1kYUdEfqaGoDR7HbVQV
+                  attributes:
+                    request:
+                      method: GET
+                      path: /api/v1/inquiries
+                      headers:
+                        Authorization: >-
+                          Bearer
+                          persona_production_61bd73de-ce28-****-****-************
+                      get-params:
+                        filter:
+                          reference_id: random-id
+                      post-params: {}
+                      ip-address: 127.0.0.1
+                    response:
+                      status: 200
+                      headers:
+                        Request-Id: req-12345
+                      body: []
+                    created-at: '2018-06-01T00:00:00.000+00:00'
+          schema:
+            properties:
+              data:
+                properties:
+                  attributes:
+                    properties:
+                      created-at:
+                        examples:
+                          - '2018-06-01T00:00:00.000+00:00'
+                        type: string
+                      request:
+                        properties:
+                          get-params:
+                            properties:
+                              filter:
+                                properties:
+                                  reference_id:
+                                    examples:
+                                      - random-id
+                                    type: string
+                                type: object
+                            type: object
+                          headers:
+                            properties:
+                              Authorization:
+                                examples:
+                                  - >-
+                                    Bearer
+                                    persona_production_61bd73de-ce28-****-****-************
+                                type: string
+                            type: object
+                          ip-address:
+                            examples:
+                              - 127.0.0.1
+                            type: string
+                          method:
+                            examples:
+                              - GET
+                            type: string
+                          path:
+                            examples:
+                              - /api/v1/inquiries
+                            type: string
+                          post-params:
+                            properties: {}
+                            type: object
+                        type: object
+                      response:
+                        properties:
+                          body:
+                            type: array
+                          headers:
+                            properties:
+                              Request-Id:
+                                examples:
+                                  - req-12345
+                                type: string
+                            type: object
+                          status:
+                            default: 0
+                            examples:
+                              - 200
+                            type: integer
+                        type: object
+                    type: object
+                  id:
+                    examples:
+                      - req_79BnM1kYUdEfqaGoDR7HbVQV
+                    type: string
+                  type:
+                    examples:
+                      - api-log
+                    type: string
+                type: object
+            type: object
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Retrieve an API Log
+  tags:
+    - API Logs

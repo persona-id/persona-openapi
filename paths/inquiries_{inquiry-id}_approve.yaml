@@ -1,0 +1,112 @@
+post:
+  description: |-
+    Approves an <<glossary:inquiry>>.
+
+    Note that this action will trigger any associated workflows and webhooks.
+  operationId: approve-an-inquiry
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - name: inquiry-id
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            meta:
+              properties:
+                comment:
+                  description: Comments for auditing purposes
+                  type: string
+              type: object
+          type: object
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value:
+                data:
+                  type: inquiry
+                  id: inq_zEx4jL84ShbUyuwX6AzPSqt6
+                  attributes:
+                    status: approved
+                    subject: null
+                    reference-id: null
+                    created-at: '2019-11-15T05:27:24.000Z'
+                    completed-at: '2019-11-15T05:28:02.000Z'
+                    expired-at: null
+                  relationships:
+                    account:
+                      data:
+                        type: account
+                        id: act_n2uq9eKMboaCQzu9ALWYcVdN
+                    template:
+                      data: null
+                    inquiry-template:
+                      data:
+                        type: inquiry-template
+                        id: itmpl_p8ANAJy9iqadm2buF2xcVgqH
+                    inquiry-template-version:
+                      data:
+                        type: inquiry-template-version
+                        id: itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo
+                    reports:
+                      data: []
+                    verifications:
+                      data:
+                        - type: verification/database
+                          id: ver_uHDiwtcx3htjajvEaeMjPQcE
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/Inquiry.yaml
+            type: object
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+    '409':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: Conflict
+              value:
+                errors:
+                  - status: 409
+                    title: Conflict
+                    details: Inquiry already approved
+          schema:
+            properties:
+              errors:
+                items:
+                  properties:
+                    details:
+                      examples:
+                        - Inquiry already approved
+                      type: string
+                    status:
+                      default: 0
+                      examples:
+                        - 409
+                      type: integer
+                    title:
+                      examples:
+                        - Conflict
+                      type: string
+                  type: object
+                type: array
+            type: object
+      description: Conflict
+  summary: Approve an Inquiry
+  tags:
+    - Inquiries

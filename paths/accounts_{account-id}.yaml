@@ -1,0 +1,262 @@
+delete:
+  description: >-
+    Permanently deletes personally identifiable information (PII) for an Account
+    and all associated Inquiries, Verifications and Reports. This action cannot
+    be undone. 
+
+
+    This endpoint can be used to comply with privacy regulations such as GDPR /
+    CCPA or to enforce data privacy.
+
+
+    Note: An account is still updatable after redaction. If you want to delete
+    data continuously, please reach out to us to help you setup a retention
+    policy.
+  operationId: redact-an-account
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - name: account-id
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value:
+                data:
+                  type: account
+                  id: act_Gryv7cVbF2hDyFLKDhAYcqT9
+                  attributes:
+                    reference-id: null
+                    created-at: '2020-04-12T05:08:51.000Z'
+                    updated-at: '2020-04-13T00:23:57.000Z'
+                    name-first: null
+                    name-middle: null
+                    name-last: null
+                    address-street-1: null
+                    address-street-2: null
+                    address-city: null
+                    address-subdivision: null
+                    address-postal-code: null
+                    birthdate: null
+                    social-security-number: null
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/Account.yaml
+            type: object
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Redact an Account
+  tags:
+    - Accounts
+get:
+  description: Retrieve the details of an Account that has previously been created.
+  operationId: retrieve-an-account
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - name: account-id
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value:
+                data:
+                  type: account
+                  id: act_NN1jBFZu2iLusNFHkU7d58Ui
+                  attributes:
+                    reference-id: user12345
+                    created-at: '2019-12-11T18:51:15.000Z'
+                    updated-at: '2019-12-11T18:51:15.000Z'
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/Account.yaml
+            type: object
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Retrieve an Account
+  tags:
+    - Accounts
+patch:
+  description: Updates an existing Account.
+  operationId: update-an-account
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - name: account-id
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            data:
+              properties:
+                attributes:
+                  properties:
+                    address-city:
+                      description: >-
+                        City of residence address. Not all international
+                        addresses use this attribute.
+                      type: string
+                    address-postal-code:
+                      description: >-
+                        ZIP or postal code of residence address. Not all
+                        international addresses use this attribute.
+                      type: string
+                    address-street-1:
+                      description: Street name of residence address.
+                      type: string
+                    address-street-2:
+                      description: >-
+                        Extension of residence address, usually apartment or
+                        suite number.
+                      type: string
+                    address-subdivision:
+                      description: >-
+                        State or subdivision of residence address. In the US,
+                        this should be the unabbreviated name. Not all
+                        international addresses use this attribute.
+                      type: string
+                    birthdate:
+                      description: Birthdate, must be in the format "YYYY-MM-DD".
+                      format: date
+                      type: string
+                    country-code:
+                      description: >-
+                        ISO 3166-1 alpha 2 country code of the government ID to
+                        be verified. This is generally their country of
+                        residence as well.
+                      type: string
+                    email-address:
+                      description: Email address.
+                      type: string
+                    name-first:
+                      description: Given or first name.
+                      type: string
+                    name-last:
+                      description: Family or last name.
+                      type: string
+                    name-middle:
+                      description: Middle name.
+                      type: string
+                    phone-number:
+                      description: Phone number.
+                      type: string
+                    reference-id:
+                      description: >-
+                        Reference ID on Account, refers to an entity in your
+                        user model.
+                      type: string
+                    selfie-photo:
+                      description: Selfie photo.
+                      properties:
+                        data:
+                          description: >-
+                            Selfie photo data, must be an image. Can also be
+                            provided as an uploaded file such as with
+                            multipart/form-data requests instead of this object.
+                          properties:
+                            data:
+                              description: Base64 encoded image
+                              type: string
+                            filename:
+                              description: Name of the image
+                              type: string
+                          type: object
+                      type: object
+                    social-security-number:
+                      description: Social security number.
+                      type: string
+                    tags:
+                      default: []
+                      description: A list of tag names that are associated to an Account.
+                      items:
+                        type: string
+                      type: array
+                  type: object
+              type: object
+          type: object
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value:
+                data:
+                  type: account
+                  id: act_NN1jBFZu2iLusNFHkU7d58Ui
+                  attributes:
+                    reference-id: user12345
+                    created-at: '2019-12-11T18:51:15.000Z'
+                    updated-at: '2019-12-11T18:51:15.000Z'
+                    tags: []
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/Account.yaml
+            type: object
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+    '409':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: Conflict
+              value:
+                errors:
+                  - title: Record not unique
+                    details: Record not unique.
+          schema:
+            properties:
+              errors:
+                items:
+                  properties:
+                    details:
+                      examples:
+                        - Record not unique.
+                      type: string
+                    title:
+                      examples:
+                        - Record not unique
+                      type: string
+                  type: object
+                type: array
+            type: object
+      description: Conflict
+  summary: Update an Account
+  tags:
+    - Accounts

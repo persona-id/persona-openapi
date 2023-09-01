@@ -1,0 +1,105 @@
+post:
+  description: Send an email to the email address.
+  operationId: send-an-email
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - description: ID of Verification to confirm
+      in: path
+      name: verification-id
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            data:
+              properties:
+                attributes:
+                  properties:
+                    email-address:
+                      description: >-
+                        Optional email address parameter to send confirmation
+                        code to an alternate email address
+                      type: string
+                  type: object
+              type: object
+          type: object
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value:
+                data:
+                  type: verification/email-address
+                  id: ver_VL8FkF3YkqvPFuMzNtaRtpGU
+                  attributes:
+                    status: initiated
+                    created-at: '2022-08-03T04:34:09.000Z'
+                    created-at-ts: 1659501249
+                    submitted-at: null
+                    submitted-at-ts: null
+                    completed-at: null
+                    completed-at-ts: null
+                    confirmation-code: '9999'
+                    email-address: test@emailaddress.com
+                    metadata: {}
+          schema:
+            properties:
+              data:
+                properties:
+                  attributes:
+                    properties:
+                      completed-at: {}
+                      completed-at-ts: {}
+                      confirmation-code:
+                        examples:
+                          - '9999'
+                        type: string
+                      created-at:
+                        examples:
+                          - '2022-08-03T04:34:09.000Z'
+                        type: string
+                      created-at-ts:
+                        default: 0
+                        examples:
+                          - 1659501249
+                        type: integer
+                      email-address:
+                        examples:
+                          - test@emailaddress.com
+                        type: string
+                      metadata:
+                        properties: {}
+                        type: object
+                      status:
+                        examples:
+                          - initiated
+                        type: string
+                      submitted-at: {}
+                      submitted-at-ts: {}
+                    type: object
+                  id:
+                    examples:
+                      - ver_VL8FkF3YkqvPFuMzNtaRtpGU
+                    type: string
+                  type:
+                    examples:
+                      - verification/email-address
+                    type: string
+                type: object
+            type: object
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Send an email
+  tags:
+    - Email Address Verifications

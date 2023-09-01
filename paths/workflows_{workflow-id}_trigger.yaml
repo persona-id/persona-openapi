@@ -1,0 +1,143 @@
+post:
+  description: >-
+    Create a new Workflow Run.
+
+
+    Note: The payload is arbitrary and defined by the Workflow version trigger
+    schema.
+  operationId: create-a-workflow-run
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - name: workflow-id
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            data:
+              description: >-
+                Matches the trigger payload schema defined by the Workflow
+                version
+              properties:
+                attributes:
+                  description: >-
+                    Matches the trigger payload schema defined by the workflow
+                    version
+                  properties:
+                    example-field-1:
+                      description: >-
+                        This is just an example field name. The actual name will
+                        depend on the trigger schema defined for the workflow
+                        version.
+                      type: string
+                    example-field-2:
+                      description: >-
+                        This is just an example field name. The actual name will
+                        depend on the trigger schema defined for the workflow
+                        version.
+                      format: int32
+                      type: integer
+                  type: object
+              type: object
+          type: object
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value:
+                data:
+                  type: workflow-run
+                  id: wfr_3JqAR9ddLRVZLK5z4yD8oeHB
+                  attributes:
+                    status: in_progress
+                    created-at: '2022-08-08T18:55:44.910Z'
+                    completed-at: null
+                  relationships:
+                    workflow-version:
+                      data:
+                        type: workflow-version
+                        id: wfv_DkWeGvK9wojQnubF8ABHzJRQ
+                    workflow:
+                      data:
+                        type: workflow
+                        id: wfl_3VghhbvDc7UuUNT8uZrqZjsk
+                    creator:
+                      data: null
+          schema:
+            properties:
+              data:
+                properties:
+                  attributes:
+                    properties:
+                      completed-at: {}
+                      created-at:
+                        examples:
+                          - '2022-08-08T18:55:44.910Z'
+                        type: string
+                      status:
+                        examples:
+                          - in_progress
+                        type: string
+                    type: object
+                  id:
+                    examples:
+                      - wfr_3JqAR9ddLRVZLK5z4yD8oeHB
+                    type: string
+                  relationships:
+                    properties:
+                      creator:
+                        properties:
+                          data: {}
+                        type: object
+                      workflow:
+                        properties:
+                          data:
+                            properties:
+                              id:
+                                examples:
+                                  - wfl_3VghhbvDc7UuUNT8uZrqZjsk
+                                type: string
+                              type:
+                                examples:
+                                  - workflow
+                                type: string
+                            type: object
+                        type: object
+                      workflow-version:
+                        properties:
+                          data:
+                            properties:
+                              id:
+                                examples:
+                                  - wfv_DkWeGvK9wojQnubF8ABHzJRQ
+                                type: string
+                              type:
+                                examples:
+                                  - workflow-version
+                                type: string
+                            type: object
+                        type: object
+                    type: object
+                  type:
+                    examples:
+                      - workflow-run
+                    type: string
+                type: object
+            type: object
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Create a Workflow Run
+  tags:
+    - Workflows

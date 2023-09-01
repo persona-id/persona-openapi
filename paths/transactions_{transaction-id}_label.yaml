@@ -1,0 +1,359 @@
+post:
+  summary: Create a Transaction Label
+  tags:
+    - Transactions
+  description: Create a new label for an existing <<glossary:transaction>>.
+  operationId: create-a-transaction-label
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - name: transaction-id
+      in: path
+      description: ID of the transaction to create a label for.
+      schema:
+        type: string
+      required: true
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            meta:
+              type: object
+              properties:
+                label:
+                  type: string
+                score:
+                  type: number
+                  format: float
+                model-version:
+                  type: string
+  responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value:
+                data:
+                  type: transaction
+                  id: txn_sXqkQsVpWPumUMsuj2UHR635
+                  attributes:
+                    status: declined
+                    reference-id: null
+                    fields:
+                      country:
+                        type: string
+                        value: US
+                      name-first:
+                        type: string
+                        value: LeBron
+                      name-last:
+                        type: string
+                        value: James
+                      selected-id-class:
+                        type: string
+                        value: dl
+                      front-photo:
+                        type: file
+                        value:
+                          filename: image.png
+                          byte-size: 237011
+                          url: >-
+                            https://files.withpersona.com/67db49cdf0f31ba0a76e3c78148ee48c.png?access_token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2N2RiNDljZGYwZjMxYmEwYTc2ZTNjNzgxNDhlZTQ4Yy5wbmciLCJhdWQiOiJmaWxlcy53aXRocGVyc29uYS5jb20iLCJpc3MiOiJ3aXRocGVyc29uYS5jb20iLCJpYXQiOjE2ODUxMjAxMjAsIm5iZiI6MTY4NTEyMDEyMCwiZXhwIjoxNjg1MTQxNzIwLCJqdGkiOiJiODcyOWFlMS03MjIyLTRmNjItYTA0YS0xZTYxZDVlNDhkYTYiLCJnY3NfYnVja2V0IjoicGVyc29uYS13ZWIiLCJmaWxlX2VuY3J5cHRlZCI6dHJ1ZSwiZmlsZV9zYWx0IjoiU2hyaW5lOjpVcGxvYWRlZEZpbGUiLCJmaWxlX2luZm8iOiI2N2RiNDljZGYwZjMxYmEwYTc2ZTNjNzgxNDhlZTQ4Yy5wbmcifQ.h5rjxIsrjPD80OVr3DAICFFAqXI9ZBqsZeVaPf-24zI
+                      back-photo:
+                        type: file
+                        value:
+                          filename: image.png
+                          byte-size: 237011
+                          url: >-
+                            https://files.withpersona.com/5f56cd48141aca72a022060762388e7d.png?access_token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1ZjU2Y2Q0ODE0MWFjYTcyYTAyMjA2MDc2MjM4OGU3ZC5wbmciLCJhdWQiOiJmaWxlcy53aXRocGVyc29uYS5jb20iLCJpc3MiOiJ3aXRocGVyc29uYS5jb20iLCJpYXQiOjE2ODUxMjAxMjAsIm5iZiI6MTY4NTEyMDEyMCwiZXhwIjoxNjg1MTQxNzIwLCJqdGkiOiI0YmIyNDEzNi00MTA0LTQ1OTgtODQ5MS1kMWVmZWY4MjE2ZWQiLCJnY3NfYnVja2V0IjoicGVyc29uYS13ZWIiLCJmaWxlX2VuY3J5cHRlZCI6dHJ1ZSwiZmlsZV9zYWx0IjoiU2hyaW5lOjpVcGxvYWRlZEZpbGUiLCJmaWxlX2luZm8iOiI1ZjU2Y2Q0ODE0MWFjYTcyYTAyMjA2MDc2MjM4OGU3ZC5wbmcifQ.WpJqTRtCeK3_HYGSUfN3K8PPH1TckLSZ7XIycukBu5s
+                    tags: []
+                    created-at: '2023-05-26T16:49:33.860Z'
+                    updated-at: '2023-05-26T16:49:43.965Z'
+                  relationships:
+                    reviewer:
+                      data:
+                        type: workflow-run
+                        id: wfr_o8TqWrpWKkbCApVSRP5YZhYs
+                    transaction-label:
+                      data: null
+                    transaction-type:
+                      data:
+                        type: transaction-type
+                        id: txntp_NDo1VnfZkq4Gq2xkvS9PL5nV
+                    related-objects:
+                      data:
+                        - type: account
+                          id: act_9iiMuxwtMdZhJmccouAz5tHc
+                        - type: verification/government-id
+                          id: ver_zhyH1VcKXb6Xy2mZkcB13yAh
+                included:
+                  - type: transaction-label
+                    id: txnl_zzoKRnHmqMDf9atBGwD9MM17
+                    attributes:
+                      model-label: test
+                      model-version: 1.2.3
+                      created-at: '2023-06-29T23:54:35.293Z'
+                      updated-at: '2023-06-29T23:54:35.293Z'
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    examples:
+                      - transaction
+                  id:
+                    type: string
+                    examples:
+                      - txn_sXqkQsVpWPumUMsuj2UHR635
+                  attributes:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+                        examples:
+                          - declined
+                      reference-id: {}
+                      fields:
+                        type: object
+                        properties:
+                          country:
+                            type: object
+                            properties:
+                              type:
+                                type: string
+                                examples:
+                                  - string
+                              value:
+                                type: string
+                                examples:
+                                  - US
+                          name-first:
+                            type: object
+                            properties:
+                              type:
+                                type: string
+                                examples:
+                                  - string
+                              value:
+                                type: string
+                                examples:
+                                  - LeBron
+                          name-last:
+                            type: object
+                            properties:
+                              type:
+                                type: string
+                                examples:
+                                  - string
+                              value:
+                                type: string
+                                examples:
+                                  - James
+                          selected-id-class:
+                            type: object
+                            properties:
+                              type:
+                                type: string
+                                examples:
+                                  - string
+                              value:
+                                type: string
+                                examples:
+                                  - dl
+                          front-photo:
+                            type: object
+                            properties:
+                              type:
+                                type: string
+                                examples:
+                                  - file
+                              value:
+                                type: object
+                                properties:
+                                  filename:
+                                    type: string
+                                    examples:
+                                      - image.png
+                                  byte-size:
+                                    type: integer
+                                    examples:
+                                      - 237011
+                                    default: 0
+                                  url:
+                                    type: string
+                                    examples:
+                                      - >-
+                                        https://files.withpersona.com/67db49cdf0f31ba0a76e3c78148ee48c.png?access_token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2N2RiNDljZGYwZjMxYmEwYTc2ZTNjNzgxNDhlZTQ4Yy5wbmciLCJhdWQiOiJmaWxlcy53aXRocGVyc29uYS5jb20iLCJpc3MiOiJ3aXRocGVyc29uYS5jb20iLCJpYXQiOjE2ODUxMjAxMjAsIm5iZiI6MTY4NTEyMDEyMCwiZXhwIjoxNjg1MTQxNzIwLCJqdGkiOiJiODcyOWFlMS03MjIyLTRmNjItYTA0YS0xZTYxZDVlNDhkYTYiLCJnY3NfYnVja2V0IjoicGVyc29uYS13ZWIiLCJmaWxlX2VuY3J5cHRlZCI6dHJ1ZSwiZmlsZV9zYWx0IjoiU2hyaW5lOjpVcGxvYWRlZEZpbGUiLCJmaWxlX2luZm8iOiI2N2RiNDljZGYwZjMxYmEwYTc2ZTNjNzgxNDhlZTQ4Yy5wbmcifQ.h5rjxIsrjPD80OVr3DAICFFAqXI9ZBqsZeVaPf-24zI
+                          back-photo:
+                            type: object
+                            properties:
+                              type:
+                                type: string
+                                examples:
+                                  - file
+                              value:
+                                type: object
+                                properties:
+                                  filename:
+                                    type: string
+                                    examples:
+                                      - image.png
+                                  byte-size:
+                                    type: integer
+                                    examples:
+                                      - 237011
+                                    default: 0
+                                  url:
+                                    type: string
+                                    examples:
+                                      - >-
+                                        https://files.withpersona.com/5f56cd48141aca72a022060762388e7d.png?access_token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1ZjU2Y2Q0ODE0MWFjYTcyYTAyMjA2MDc2MjM4OGU3ZC5wbmciLCJhdWQiOiJmaWxlcy53aXRocGVyc29uYS5jb20iLCJpc3MiOiJ3aXRocGVyc29uYS5jb20iLCJpYXQiOjE2ODUxMjAxMjAsIm5iZiI6MTY4NTEyMDEyMCwiZXhwIjoxNjg1MTQxNzIwLCJqdGkiOiI0YmIyNDEzNi00MTA0LTQ1OTgtODQ5MS1kMWVmZWY4MjE2ZWQiLCJnY3NfYnVja2V0IjoicGVyc29uYS13ZWIiLCJmaWxlX2VuY3J5cHRlZCI6dHJ1ZSwiZmlsZV9zYWx0IjoiU2hyaW5lOjpVcGxvYWRlZEZpbGUiLCJmaWxlX2luZm8iOiI1ZjU2Y2Q0ODE0MWFjYTcyYTAyMjA2MDc2MjM4OGU3ZC5wbmcifQ.WpJqTRtCeK3_HYGSUfN3K8PPH1TckLSZ7XIycukBu5s
+                      tags:
+                        type: array
+                      created-at:
+                        type: string
+                        examples:
+                          - '2023-05-26T16:49:33.860Z'
+                      updated-at:
+                        type: string
+                        examples:
+                          - '2023-05-26T16:49:43.965Z'
+                  relationships:
+                    type: object
+                    properties:
+                      reviewer:
+                        type: object
+                        properties:
+                          data:
+                            type: object
+                            properties:
+                              type:
+                                type: string
+                                examples:
+                                  - workflow-run
+                              id:
+                                type: string
+                                examples:
+                                  - wfr_o8TqWrpWKkbCApVSRP5YZhYs
+                      transaction-label:
+                        type: object
+                        properties:
+                          data: {}
+                      transaction-type:
+                        type: object
+                        properties:
+                          data:
+                            type: object
+                            properties:
+                              type:
+                                type: string
+                                examples:
+                                  - transaction-type
+                              id:
+                                type: string
+                                examples:
+                                  - txntp_NDo1VnfZkq4Gq2xkvS9PL5nV
+                      related-objects:
+                        type: object
+                        properties:
+                          data:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                type:
+                                  type: string
+                                  examples:
+                                    - account
+                                id:
+                                  type: string
+                                  examples:
+                                    - act_9iiMuxwtMdZhJmccouAz5tHc
+              included:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      examples:
+                        - transaction-label
+                    id:
+                      type: string
+                      examples:
+                        - txnl_zzoKRnHmqMDf9atBGwD9MM17
+                    attributes:
+                      type: object
+                      properties:
+                        model-label:
+                          type: string
+                          examples:
+                            - test
+                        model-version:
+                          type: string
+                          examples:
+                            - 1.2.3
+                        created-at:
+                          type: string
+                          examples:
+                            - '2023-06-29T23:54:35.293Z'
+                        updated-at:
+                          type: string
+                          examples:
+                            - '2023-06-29T23:54:35.293Z'
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+    '422':
+      description: Unprocessable Entity
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: Unprocessable Entity
+              value:
+                errors:
+                  - title: Bad Request
+                    details: Transaction already has a label
+          schema:
+            oneOf:
+              - type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                          examples:
+                            - Bad Request
+                        details:
+                          type: string
+                          examples:
+                            - meta.label is missing
+              - type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                          examples:
+                            - Bad Request
+                        details:
+                          type: string
+                          examples:
+                            - Transaction already has a label

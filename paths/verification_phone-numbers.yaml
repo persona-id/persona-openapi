@@ -1,0 +1,119 @@
+post:
+  description: Create a new phone number verification
+  operationId: create-a-phone-number-verification
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            data:
+              properties:
+                attributes:
+                  properties:
+                    country-code:
+                      description: ISO 3166-1 alpha-2 code of the phone number
+                      type: string
+                    phone-number:
+                      description: >-
+                        Claimed phone number of the individual to send the
+                        confirmation code to
+                      type: string
+                    verification-template-id:
+                      description: >-
+                        ID of Verification Template. You can find your
+                        Verification Template IDs
+                        [here](https://app.withpersona.com/dashboard/verification-templates?filter=%7B%22type%22%3A%5B%22verification-template%2Fphone-number"%5D%7D)
+                      type: string
+                  required:
+                    - verification-template-id
+                    - phone-number
+                    - country-code
+                  type: object
+              type: object
+          required:
+            - data
+          type: object
+  responses:
+    '201':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: Created
+              value:
+                data:
+                  type: verification/phone-number
+                  id: ver_VL8FkF3YkqvPFuMzNtaRtpGU
+                  attributes:
+                    status: initiated
+                    created-at: '2022-08-03T04:31:18.000Z'
+                    created-at-ts: 1659501078
+                    submitted-at: null
+                    submitted-at-ts: null
+                    completed-at: null
+                    completed-at-ts: null
+                    country-code: US
+                    confirmation-code: '9999'
+                    phone-number: 111-222-3333
+                    metadata: {}
+          schema:
+            properties:
+              data:
+                properties:
+                  attributes:
+                    properties:
+                      completed-at: {}
+                      completed-at-ts: {}
+                      confirmation-code:
+                        examples:
+                          - '9999'
+                        type: string
+                      country-code:
+                        examples:
+                          - US
+                        type: string
+                      created-at:
+                        examples:
+                          - '2022-08-03T04:31:18.000Z'
+                        type: string
+                      created-at-ts:
+                        default: 0
+                        examples:
+                          - 1659501078
+                        type: integer
+                      metadata:
+                        properties: {}
+                        type: object
+                      phone-number:
+                        examples:
+                          - 111-222-3333
+                        type: string
+                      status:
+                        examples:
+                          - initiated
+                        type: string
+                      submitted-at: {}
+                      submitted-at-ts: {}
+                    type: object
+                  id:
+                    examples:
+                      - ver_VL8FkF3YkqvPFuMzNtaRtpGU
+                    type: string
+                  type:
+                    examples:
+                      - verification/phone-number
+                    type: string
+                type: object
+            type: object
+      description: Created
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Create a Phone Number Verification
+  tags:
+    - Phone Number Verifications

@@ -1,0 +1,80 @@
+post:
+  description: >-
+    Set all tags on an Inquiry. Note that this removes any tags that are not
+    provided.
+  operationId: inquiries-set-all-tags
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - name: inquiry-id
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            meta:
+              properties:
+                tag-name:
+                  default: []
+                  items:
+                    type: string
+                  type: array
+              type: object
+          type: object
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value:
+                data:
+                  type: inquiry
+                  id: inq_zEx4jL84ShbUyuwX6AzPSqt6
+                  attributes:
+                    status: completed
+                    subject: null
+                    reference-id: null
+                    created-at: '2019-11-15T05:27:24.000Z'
+                    completed-at: '2019-11-15T05:28:02.000Z'
+                    tags: []
+                  relationships:
+                    account:
+                      data:
+                        type: account
+                        id: act_n2uq9eKMboaCQzu9ALWYcVdN
+                    template:
+                      data: null
+                    inquiry-template:
+                      data:
+                        type: inquiry-template
+                        id: itmpl_p8ANAJy9iqadm2buF2xcVgqH
+                    inquiry-template-version:
+                      data:
+                        type: inquiry-template-version
+                        id: itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo
+                    reports:
+                      data: []
+                    verifications:
+                      data:
+                        - type: verification/database
+                          id: ver_uHDiwtcx3htjajvEaeMjPQcE
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/Inquiry.yaml
+            type: object
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Set all tags
+  tags:
+    - Inquiries

@@ -1,0 +1,96 @@
+delete:
+  description: Archived items are not matched against new inquiries.
+  operationId: archive-an-email-address-list-item
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - description: ID of list item to archive.
+      in: path
+      name: list-item-id
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value:
+                data:
+                  type: list-item/email-address
+                  id: liea_wt5cgLbSi7twJ8itK7jxCs8q
+                  attributes:
+                    status: archived
+                    archived-at: '2020-09-18T18:58:06.866Z'
+                    updated-at: '2020-09-18T17:58:06.866Z'
+                    created-at: '2020-09-18T17:58:06.866Z'
+                    match-count: 0
+                    value: joe-imposter@yahoo.com
+                    match-type: email_address
+                  relationships:
+                    creator:
+                      data: null
+          schema:
+            properties:
+              data:
+                properties:
+                  attributes:
+                    properties:
+                      archived-at:
+                        examples:
+                          - '2020-09-18T18:58:06.866Z'
+                        type: string
+                      created-at:
+                        examples:
+                          - '2020-09-18T17:58:06.866Z'
+                        type: string
+                      match-count:
+                        default: 0
+                        examples:
+                          - 0
+                        type: integer
+                      match-type:
+                        examples:
+                          - email_address
+                        type: string
+                      status:
+                        examples:
+                          - archived
+                        type: string
+                      updated-at:
+                        examples:
+                          - '2020-09-18T17:58:06.866Z'
+                        type: string
+                      value:
+                        examples:
+                          - joe-imposter@yahoo.com
+                        type: string
+                    type: object
+                  id:
+                    examples:
+                      - liea_wt5cgLbSi7twJ8itK7jxCs8q
+                    type: string
+                  relationships:
+                    properties:
+                      creator:
+                        properties:
+                          data: {}
+                        type: object
+                    type: object
+                  type:
+                    examples:
+                      - list-item/email-address
+                    type: string
+                type: object
+            type: object
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Archive an Email Address List Item
+  tags:
+    - List Items

@@ -1,0 +1,96 @@
+delete:
+  description: Archived items are not matched against new inquiries.
+  operationId: archive-a-government-id-number-list-item
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - description: ID of list item to archive.
+      in: path
+      name: list-item-id
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value:
+                data:
+                  type: list-item/government-id-number
+                  id: ligin_soqGRWaUXZct3pCRbjRaXFqz
+                  attributes:
+                    status: archived
+                    archived-at: '2020-09-18T19:07:53.000Z'
+                    updated-at: '2020-09-18T18:07:53.000Z'
+                    created-at: '2020-09-18T18:07:53.000Z'
+                    match-count: 0
+                    id-class: dl
+                    id-number: F4K3NUM
+                  relationships:
+                    creator:
+                      data: null
+          schema:
+            properties:
+              data:
+                properties:
+                  attributes:
+                    properties:
+                      archived-at:
+                        examples:
+                          - '2020-09-18T19:07:53.000Z'
+                        type: string
+                      created-at:
+                        examples:
+                          - '2020-09-18T18:07:53.000Z'
+                        type: string
+                      id-class:
+                        examples:
+                          - dl
+                        type: string
+                      id-number:
+                        examples:
+                          - F4K3NUM
+                        type: string
+                      match-count:
+                        default: 0
+                        examples:
+                          - 0
+                        type: integer
+                      status:
+                        examples:
+                          - archived
+                        type: string
+                      updated-at:
+                        examples:
+                          - '2020-09-18T18:07:53.000Z'
+                        type: string
+                    type: object
+                  id:
+                    examples:
+                      - ligin_soqGRWaUXZct3pCRbjRaXFqz
+                    type: string
+                  relationships:
+                    properties:
+                      creator:
+                        properties:
+                          data: {}
+                        type: object
+                    type: object
+                  type:
+                    examples:
+                      - list-item/government-id-number
+                    type: string
+                type: object
+            type: object
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Archive a Government ID Number List Item
+  tags:
+    - List Items

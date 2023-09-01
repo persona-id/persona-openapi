@@ -1,0 +1,67 @@
+get:
+  description: Retrieve the details of an API Log that has previously been created.
+  operationId: retrieve-an-user-audit-log
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - name: user-audit-log-id
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value:
+                data:
+                  type: user-audit-log
+                  id: ual_79BnM1kYUdEfqaGoDR7HbVQV
+                  attributes:
+                    method: GET
+                    path: /api/v1/inquiries
+                    ip-address: 127.0.0.1
+                    created-at: '2018-06-01T00:00:00.000+00:00'
+          schema:
+            properties:
+              data:
+                properties:
+                  attributes:
+                    properties:
+                      created-at:
+                        examples:
+                          - '2018-06-01T00:00:00.000+00:00'
+                        type: string
+                      ip-address:
+                        examples:
+                          - 127.0.0.1
+                        type: string
+                      method:
+                        examples:
+                          - GET
+                        type: string
+                      path:
+                        examples:
+                          - /api/v1/inquiries
+                        type: string
+                    type: object
+                  id:
+                    examples:
+                      - ual_79BnM1kYUdEfqaGoDR7HbVQV
+                    type: string
+                  type:
+                    examples:
+                      - user-audit-log
+                    type: string
+                type: object
+            type: object
+      description: OK
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Retrieve an User Audit Log
+  tags:
+    - User Audit Logs
