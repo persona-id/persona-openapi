@@ -1,0 +1,203 @@
+get:
+  description: Retrieve a Government ID NFC verification
+  operationId: retrieve-a-government-id-nfc-verification
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - name: verification-id
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value:
+                data:
+                  type: verification/government-id-nfc
+                  id: ver_Ra6LFdoQmPFJH27gonC3cChh
+                  attributes:
+                    status: passed
+                    created-at: '2022-07-28T16:55:44.000Z'
+                    created-at-ts: 1659027344
+                    submitted-at: '2022-07-28T20:47:06.000Z'
+                    submitted-at-ts: 1659041226
+                    completed-at: '2022-07-28T20:47:12.000Z'
+                    completed-at-ts: 1659041232
+                    birthdate: '1994-12-30'
+                    country-code: UT
+                    expiration-date: '2022-12-30'
+                    identification-number: L898902C3
+                    id-class: pp
+                    name-first: ANNA MARIA
+                    name-last: SAMPLE
+                    sex: F
+                    selfie-photo:
+                      url: https://files.withpersona.com/...
+                      byte-size: 1000
+                    checks:
+                      - name: id_nfc_expired_detection
+                        status: failed
+                        reasons:
+                          - expired
+                        metadata: {}
+                  relationships:
+                    inquiry:
+                      data: null
+                    document:
+                      data:
+                        type: document/government-id-nfc
+                        id: doc_QZ8M2J1fH2o76Rq57vuVWMsE
+          schema:
+            properties:
+              data:
+                properties:
+                  attributes:
+                    properties:
+                      birthdate:
+                        examples:
+                          - '2000-01-01'
+                        type: string
+                      checks:
+                        items:
+                          properties:
+                            metadata:
+                              additionalProperties: true
+                              type: object
+                            name:
+                              examples:
+                                - id_nfc_expired_detection
+                              type: string
+                            reasons:
+                              items:
+                                examples:
+                                  - expired
+                                type: string
+                              type: array
+                            status:
+                              examples:
+                                - failed
+                              type: string
+                          type: object
+                        type: array
+                      completed-at:
+                        examples:
+                          - '2022-07-28T20:47:12.000Z'
+                        type: string
+                      completed-at-ts:
+                        default: 0
+                        examples:
+                          - 1659041232
+                        type: integer
+                      country-code:
+                        examples:
+                          - US
+                        type: string
+                      created-at:
+                        examples:
+                          - '2022-07-28T16:55:44.000Z'
+                        type: string
+                      created-at-ts:
+                        default: 0
+                        examples:
+                          - 1659027344
+                        type: integer
+                      expiration-date:
+                        examples:
+                          - '2000-01-01'
+                        type: string
+                      id-class:
+                        examples:
+                          - dl
+                        type: string
+                      identification-number:
+                        examples:
+                          - P123456AA
+                        type: string
+                      name-first:
+                        examples:
+                          - ALEXANDER
+                        type: string
+                      name-last:
+                        examples:
+                          - SAMPLE
+                        type: string
+                      selfie-photo:
+                        properties:
+                          byte-size:
+                            default: 0
+                            examples:
+                              - 316802
+                            type: integer
+                          url:
+                            examples:
+                              - https://files.withpersona.com/...
+                            type: string
+                        type: object
+                      restrictions: {}
+                      sex:
+                        examples:
+                          - M
+                        type: string
+                        enum:
+                          - M
+                          - F
+                          - X
+                      status:
+                        examples:
+                          - passed
+                        type: string
+                      submitted-at:
+                        examples:
+                          - '2022-07-28T20:47:06.000Z'
+                        type: string
+                      submitted-at-ts:
+                        default: 0
+                        examples:
+                          - 1659041226
+                        type: integer
+                    type: object
+                  id:
+                    examples:
+                      - ver_Ra6LFdoQmPFJH27gonC3cChh
+                    type: string
+                  relationships:
+                    properties:
+                      document:
+                        properties:
+                          data:
+                            properties:
+                              id:
+                                examples:
+                                  - doc_QZ8M2J1fH2o76Rq57vuVWMsE
+                                type: string
+                              type:
+                                examples:
+                                  - document/government-id-nfc
+                                type: string
+                            type: object
+                        type: object
+                      inquiry:
+                        properties:
+                          data: {}
+                        type: object
+                    type: object
+                  type:
+                    examples:
+                      - verification/government-id-nfc
+                    type: string
+                type: object
+            type: object
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+  summary: Retrieve a Government Id NFC Verification
+  tags:
+    - Government ID NFC Verifications

@@ -3,11 +3,11 @@ content:
   application/json:
     examples:
       Result:
-        summary: Bad Request
+        summary: Unprocessable Entity
         value:
           errors:
-            - title: Bad Request
-              details: data.attributes.type must be a string
+            - title: Unprocessable entity
+              details: Invalid confirmation code
     schema:
       properties:
         errors:
@@ -15,12 +15,22 @@ content:
           items:
             properties:
               title:
-                description: Bad Request
                 type: string
+                examples:
+                  - Unprocessable entity
+                  - Record invalid
               details:
                 type: string
                 examples:
-                  - data.attributes.name is missing
-                  - data.type must be filled
-                  - meta.object_ids must be an array
+                  - File must be under 2 bytes
+                  - Selected country code invalid selected country code of ZX
+                  - Invalid confirmation code
+              source:
+                type: object
+                properties:
+                  pointer:
+                    type: string
+                    examples:
+                      - /data/attributes/files
+                      - /data/attributes/selected-country-code
       type: object

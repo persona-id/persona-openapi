@@ -1,102 +1,204 @@
 type: object
 description: An Inquiry object
 properties:
+  type:
+    examples:
+      - inquiry
+    type: string
+  id:
+    examples:
+      - inq_5FrMN7NAGgFdGGysCDd7DaBW
+    type: string
   attributes:
     type: object
     properties:
-      address-city: {}
-      address-postal-code: {}
-      address-postal-code-abbr: {}
-      address-street-1: {}
-      address-street-2: {}
-      address-subdivision: {}
-      address-subdivision-abbr: {}
+      status:
+        examples:
+          - pending
+        type: string
+      reference-id: {}
+      note:
+        examples:
+          - A helpful note
+        type:
+          - string
+          - 'null'
       behaviors:
         properties:
           autofill-cancels:
             default: 0
             examples:
               - 29
-            type: integer
+            type:
+              - integer
+              - 'null'
           autofill-starts:
             default: 0
             examples:
               - 0
-            type: integer
+            type:
+              - integer
+              - 'null'
           behavior-threat-level:
             examples:
               - low
-            type: string
+            type:
+              - string
+              - 'null'
           completion-time:
             default: 0
             examples:
               - 28.62633237
-            type: number
+            type:
+              - number
+              - 'null'
           devtools-open:
             default: true
             examples:
               - false
-            type: boolean
+            type:
+              - boolean
+              - 'null'
           distraction-events:
             default: 0
             examples:
               - 0
-            type: integer
+            type:
+              - integer
+              - 'null'
           hesitation-baseline:
             default: 0
             examples:
               - 19860
-            type: integer
+            type:
+              - integer
+              - 'null'
           hesitation-count:
             default: 0
             examples:
               - 1
-            type: integer
+            type:
+              - integer
+              - 'null'
           hesitation-percentage:
             default: 0
             examples:
               - 65.33232628398792
-            type: number
+            type:
+              - number
+              - 'null'
           hesitation-time:
             default: 0
             examples:
               - 12975
-            type: integer
+            type:
+              - integer
+              - 'null'
           request-spoof-attempts:
             default: 0
             examples:
               - 0
-            type: integer
+            type:
+              - integer
+              - 'null'
           shortcut-copies:
             default: 0
             examples:
               - 0
-            type: integer
+            type:
+              - integer
+              - 'null'
           shortcut-pastes:
             default: 0
             examples:
               - 0
-            type: integer
+            type:
+              - integer
+              - 'null'
           user-agent-spoof-attempts:
             default: 0
             examples:
               - 0
-            type: integer
+            type:
+              - integer
+              - 'null'
         type: object
-      birthdate: {}
-      completed-at: {}
-      created-at:
-        examples:
-          - '2023-03-28T18:34:32.000Z'
-        type: string
+      tags:
+        type: array
       creator:
         examples:
           - tim@withpersona.com
         type: string
-      decisioned-at: {}
+      reviewer-comment: {}
+      created-at:
+        examples:
+          - '2023-03-28T18:34:32.000Z'
+        type: string
+      started-at:
+        examples:
+          - '2023-03-28T18:35:10.000Z'
+        type:
+          - string
+          - 'null'
+      completed-at:
+        examples:
+          - '2023-03-28T18:35:10.000Z'
+        type:
+          - string
+          - 'null'
+      failed-at:
+        examples:
+          - '2023-03-28T18:35:10.000Z'
+        type:
+          - string
+          - 'null'
+      marked-for-review-at:
+        examples:
+          - '2023-03-28T18:35:10.000Z'
+        type:
+          - string
+          - 'null'
+      decisioned-at:
+        examples:
+          - '2023-03-28T18:35:10.000Z'
+        type:
+          - string
+          - 'null'
+      expired-at:
+        examples:
+          - '2023-03-28T18:35:10.000Z'
+        type:
+          - string
+          - 'null'
+      redacted-at:
+        examples:
+          - '2023-03-28T18:35:10.000Z'
+        type:
+          - string
+          - 'null'
+      previous-step-name:
+        examples:
+          - verification_government_id
+        type: string
+      next-step-name:
+        examples:
+          - retry_verification_government_id
+        type: string
+      name-first: {}
+      name-middle: {}
+      name-last: {}
+      birthdate: {}
+      address-street-1: {}
+      address-street-2: {}
+      address-city: {}
+      address-subdivision: {}
+      address-subdivision-abbr: {}
+      address-postal-code: {}
+      address-postal-code-abbr: {}
+      social-security-number: {}
+      identification-number: {}
       email-address: {}
-      expired-at: {}
-      failed-at: {}
+      phone-number: {}
       fields:
         properties:
           address-city:
@@ -195,36 +297,8 @@ properties:
                 type: string
               value: {}
             type: object
+        additionalProperties: true
         type: object
-      identification-number: {}
-      marked-for-review-at: {}
-      name-first: {}
-      name-last: {}
-      name-middle: {}
-      next-step-name:
-        examples:
-          - retry_verification_government_id
-        type: string
-      note: {}
-      phone-number: {}
-      previous-step-name:
-        examples:
-          - verification_government_id
-        type: string
-      redacted-at: {}
-      reference-id: {}
-      reviewer-comment: {}
-      social-security-number: {}
-      started-at:
-        examples:
-          - '2023-03-28T18:35:10.000Z'
-        type: string
-      status:
-        examples:
-          - pending
-        type: string
-      tags:
-        type: array
   relationships:
     type: object
     properties:
@@ -257,6 +331,21 @@ properties:
                   type: string
               type: object
             type: array
+        type: object
+      template:
+        description: Only present for Legacy 2.0 inquiries
+        properties:
+          data:
+            properties:
+              id:
+                examples:
+                  - tmpl_FZj3mM8ELoSP7aJW6zzi4rub
+                type: string
+              type:
+                examples:
+                  - template
+                type: string
+            type: object
         type: object
       inquiry-template:
         description: Only present for Dynamic Flow inquiries
@@ -318,21 +407,6 @@ properties:
               type: object
             type: array
         type: object
-      template:
-        description: Only present for Legacy 2.0 inquiries
-        properties:
-          data:
-            properties:
-              id:
-                examples:
-                  - tmpl_FZj3mM8ELoSP7aJW6zzi4rub
-                type: string
-              type:
-                examples:
-                  - template
-                type: string
-            type: object
-        type: object
       verifications:
         properties:
           data:
@@ -349,11 +423,3 @@ properties:
               type: object
             type: array
         type: object
-  id:
-    examples:
-      - inq_5FrMN7NAGgFdGGysCDd7DaBW
-    type: string
-  type:
-    examples:
-      - inquiry
-    type: string

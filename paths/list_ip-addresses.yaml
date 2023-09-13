@@ -1,4 +1,7 @@
 post:
+  summary: Create an IP Address List
+  tags:
+    - Lists
   description: Create a new <<glossary:list>> for your organization.
   operationId: create-an-ip-address-list
   parameters:
@@ -20,20 +23,73 @@ post:
                   type: object
               type: object
           type: object
+        examples:
+          exampleRequest:
+            summary: Example Request
+            value:
+              data:
+                attributes:
+                  name: My New List
   responses:
     '201':
+      description: Created
       content:
         application/json:
+          schema:
+            properties:
+              data:
+                properties:
+                  type:
+                    type: string
+                  id:
+                    type: string
+                  attributes:
+                    properties:
+                      name:
+                        type: string
+                      status:
+                        type: string
+                      archived-at:
+                        type:
+                          - 'null'
+                          - string
+                      created-at:
+                        type: string
+                        format: date-time
+                      updated-at:
+                        type: string
+                        format: date-time
+                  relationships:
+                    properties:
+                      list-items:
+                        properties:
+                          data:
+                            type: array
+                            items: {}
+                            description: >-
+                              List items associated with this list. This should
+                              always be empty when creating a new list.
           examples:
             Result:
               summary: Created
-              value: {}
-          schema:
-            properties: {}
-            type: object
-      description: Created
+              value:
+                data:
+                  type: list/ip-address
+                  id: lst_kRcKDJ4c8wF2AmAghggtYxboX
+                  attributes:
+                    name: My New List
+                    status: active
+                    archived-at: null
+                    created-at: '2023-08-30T20:22:07.000Z'
+                    updated-at: '2023-08-30T20:22:07.000Z'
+                  relationships:
+                    list-items:
+                      data: []
     '400':
       $ref: ../components/responses/BadRequest.yaml
-  summary: Create an IP Address List
-  tags:
-    - Lists
+    '403':
+      $ref: ../components/responses/Forbidden.yaml
+    '409':
+      $ref: ../components/responses/Conflict.yaml
+    '422':
+      $ref: ../components/responses/UnprocessableEntity.yaml

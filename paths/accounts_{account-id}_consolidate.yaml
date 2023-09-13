@@ -68,36 +68,7 @@ post:
     '404':
       $ref: ../components/responses/NotFound.yaml
     '422':
-      content:
-        application/json:
-          examples:
-            Result:
-              summary: Unprocessable Entity
-              value:
-                errors:
-                  - title: Parameter missing
-                    details: >-
-                      param is missing or the value is empty: Source account IDs
-                      are required.
-          schema:
-            properties:
-              errors:
-                items:
-                  properties:
-                    details:
-                      examples:
-                        - >-
-                          param is missing or the value is empty: Source account
-                          IDs are required.
-                      type: string
-                    title:
-                      examples:
-                        - Parameter missing
-                      type: string
-                  type: object
-                type: array
-            type: object
-      description: Unprocessable Entity
+      $ref: ../components/responses/UnprocessableEntity.yaml
   summary: Consolidate Accounts
   tags:
     - Accounts

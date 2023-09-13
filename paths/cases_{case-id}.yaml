@@ -72,21 +72,94 @@ delete:
                       updated-at: '2021-03-24T04:59:06.000Z'
                       tags: []
                   - type: inquiry
-                    id: inq_b6UPkf7mNC1qBtLXnfaWyUbY
+                    id: inq_b6UPkf7mNC1qBtLXnfaWyUbA
                     attributes:
-                      status: created
+                      status: expired
                       reference-id: null
                       note: null
+                      behaviors:
+                        request-spoof-attempts: null
+                        user-agent-spoof-attempts: null
+                        distraction-events: null
+                        hesitation-baseline: null
+                        hesitation-count: null
+                        hesitation-time: null
+                        shortcut-copies: null
+                        shortcut-pastes: null
+                        autofill-cancels: null
+                        autofill-starts: null
+                        devtools-open: null
+                        completion-time: null
+                        hesitation-percentage: null
+                        behavior-threat-level: null
                       tags: []
-                      reviewer: null
-                      reviewer-type: null
+                      creator: case_creator@withpersona.com
                       reviewer-comment: null
-                      created-at: '2021-03-24T04:59:06.000Z'
-                      started-at: null
+                      created-at: '2023-03-29T19:06:45.000Z'
+                      started-at: '2023-03-30T19:07:01.000Z'
                       completed-at: null
                       failed-at: null
+                      marked-for-review-at: null
                       decisioned-at: null
-                      expired-at: null
+                      expired-at: '2023-03-30T19:07:02.000Z'
+                      redacted-at: null
+                      previous-step-name: start
+                      next-step-name: verification_document
+                      name-first: null
+                      name-middle: null
+                      name-last: null
+                      birthdate: null
+                      address-street-1: null
+                      address-street-2: null
+                      address-city: null
+                      address-subdivision: null
+                      address-subdivision-abbr: null
+                      address-postal-code: null
+                      address-postal-code-abbr: null
+                      social-security-number: null
+                      identification-number: null
+                      email-address: null
+                      phone-number: null
+                      fields:
+                        name-first:
+                          type: string
+                          value: null
+                        name-middle:
+                          type: string
+                          value: null
+                        name-last:
+                          type: string
+                          value: null
+                        address-street-1:
+                          type: string
+                          value: null
+                        address-street-2:
+                          type: string
+                          value: null
+                        address-city:
+                          type: string
+                          value: null
+                        address-subdivision:
+                          type: string
+                          value: null
+                        address-postal-code:
+                          type: string
+                          value: null
+                        address-country-code:
+                          type: string
+                          value: null
+                        birthdate:
+                          type: date
+                          value: null
+                        email-address:
+                          type: string
+                          value: null
+                        phone-number:
+                          type: string
+                          value: null
+                        identification-number:
+                          type: string
+                          value: null
                     relationships:
                       account:
                         data:
@@ -96,6 +169,12 @@ delete:
                         data:
                           type: template
                           id: blu_biqYXr3aNfHuLeXUdJUNFNET
+                      inquiry-template:
+                        data: {}
+                      inquiry-template-version:
+                        data: {}
+                      reviewer:
+                        data: {}
                       reports:
                         data: []
                       verifications:
@@ -121,6 +200,12 @@ delete:
               included:
                 type: array
                 items:
+                  discriminator:
+                    propertyName: type
+                    mapping:
+                      inquiry: ../components/schemas/Inquiry.yaml
+                      account: ../components/schemas/Account.yaml
+                      case-comment: ../components/schemas/CaseComment.yaml
                   anyOf:
                     - $ref: ../components/schemas/Account.yaml
                     - $ref: ../components/schemas/Inquiry.yaml
@@ -131,6 +216,8 @@ delete:
       $ref: ../components/responses/BadRequest.yaml
     '404':
       $ref: ../components/responses/NotFound.yaml
+    '422':
+      $ref: ../components/responses/UnprocessableEntity.yaml
   summary: Redact a case
   tags:
     - Cases
@@ -215,8 +302,6 @@ get:
                       reference-id: null
                       note: null
                       tags: []
-                      reviewer: null
-                      reviewer-type: null
                       reviewer-comment: null
                       created-at: '2021-03-24T04:59:06.000Z'
                       started-at: null
@@ -258,6 +343,12 @@ get:
               included:
                 type: array
                 items:
+                  discriminator:
+                    propertyName: type
+                    mapping:
+                      inquiry: ../components/schemas/Inquiry.yaml
+                      account: ../components/schemas/Account.yaml
+                      case-comment: ../components/schemas/CaseComment.yaml
                   anyOf:
                     - $ref: ../components/schemas/Account.yaml
                     - $ref: ../components/schemas/Inquiry.yaml
@@ -375,6 +466,12 @@ patch:
               included:
                 type: array
                 items:
+                  discriminator:
+                    propertyName: type
+                    mapping:
+                      inquiry: ../components/schemas/Inquiry.yaml
+                      account: ../components/schemas/Account.yaml
+                      case-comment: ../components/schemas/CaseComment.yaml
                   anyOf:
                     - $ref: ../components/schemas/Account.yaml
                     - $ref: ../components/schemas/Inquiry.yaml
@@ -385,6 +482,8 @@ patch:
       $ref: ../components/responses/BadRequest.yaml
     '404':
       $ref: ../components/responses/NotFound.yaml
+    '422':
+      $ref: ../components/responses/UnprocessableEntity.yaml
   summary: Update a Case
   tags:
     - Cases
