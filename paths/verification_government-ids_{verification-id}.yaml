@@ -34,7 +34,7 @@ get:
                     entity-confidence-reasons:
                       - generic
                     front-photo-url: https://files.withpersona.com/...
-                    back-photo-url: null
+                    back-photo-url: https://files.withpersona.com/...
                     photo-urls:
                       - page: front
                         url: https://files.withpersona.com/...
@@ -42,16 +42,35 @@ get:
                         original-urls:
                           - https://files.withpersona.com/...
                         byte-size: 316802
+                    selfie-photo:
+                      url: https://files.withpersona.com/...
+                      byte-size: 316802
                     selfie-photo-url: https://files.withpersona.com/...
+                    video-url: null
                     id-class: dl
                     capture-method: api
                     name-first: ALEXANDER
                     name-middle: AL
                     name-last: SAMPLE
-                    endorsements: null
-                    restrictions: null
-                    vehicle-class: null
-                    video_url: null
+                    name-suffix: III
+                    birthdate: '2000-01-01'
+                    address-street-1: 1 Dr Carlton B Goodlett Pl
+                    address-street-2: ''
+                    address-city: San Francisco
+                    address-subdivision: CA
+                    address-postal-code: '94102'
+                    issuing-authority: ''
+                    issuing-subdivision: CA
+                    nationality: US
+                    document-number: '123456'
+                    visa-status: null
+                    issue-date: '2010-01-01'
+                    expiration-date: '2020-01-01'
+                    designations: []
+                    birthplace: ''
+                    height: 5'2"
+                    sex: M
+                    vehicle-class: CM1
                     checks:
                       - name: id_account_comparison
                         status: not_applicable
@@ -85,8 +104,8 @@ get:
                         status: passed
                         reasons: []
                         metadata:
-                          country_code: JP
-                          selected_country_code: JP
+                          country-code: JP
+                          selected-country-code: JP
                       - name: id_expired_detection
                         status: passed
                         reasons: []
@@ -99,12 +118,12 @@ get:
                         status: passed
                         reasons: []
                         metadata:
-                          country_code: JP
-                          detected_id_class: dl
-                          detected_id_designations:
+                          country-code: JP
+                          detected-id-class: dl
+                          detected-id-designations:
                             - work_not_permitted
-                          disallowed_id_designations: []
-                          selected_id_classes:
+                          disallowed-id-designations: []
+                          selected-id-classes:
                             - dl
                       - name: id_electronic_replica_detection
                         status: passed
@@ -223,7 +242,38 @@ get:
                 properties:
                   attributes:
                     properties:
-                      back-photo-url: {}
+                      address-street-1:
+                        examples:
+                          - 1600 Pennsylvania Ave
+                        type: string
+                      address-street-2:
+                        examples:
+                          - Apt 2
+                        type: string
+                      address-city:
+                        examples:
+                          - Redwood City
+                        type: string
+                      address-subdivision:
+                        examples:
+                          - CA
+                        type: string
+                      address-postal-code:
+                        examples:
+                          - '94063'
+                        type: string
+                      back-photo-url:
+                        examples:
+                          - https://files.withpersona.com/...
+                        type: string
+                      birthdate:
+                        examples:
+                          - '2000-01-01'
+                        type: string
+                      birthplace:
+                        examples:
+                          - Singapore
+                        type: string
                       capture-method:
                         examples:
                           - api
@@ -272,7 +322,14 @@ get:
                         examples:
                           - 1659027344
                         type: integer
-                      endorsements: {}
+                      designations:
+                        examples:
+                          - - probationary
+                        type: array
+                      document-number:
+                        examples:
+                          - '123456'
+                        type: string
                       entity-confidence-reasons:
                         items:
                           examples:
@@ -284,13 +341,37 @@ get:
                         examples:
                           - 100
                         type: integer
+                      expiration-date:
+                        examples:
+                          - '2020-01-01'
+                        type: string
                       front-photo-url:
                         examples:
                           - https://files.withpersona.com/...
                         type: string
+                      height:
+                        examples:
+                          - 6'1"
+                        type: string
                       id-class:
                         examples:
                           - dl
+                        type: string
+                      identification-number:
+                        examples:
+                          - '123456'
+                        type: string
+                      issue-date:
+                        examples:
+                          - '2010-01-01'
+                        type: string
+                      issuing-authority:
+                        examples:
+                          - State Department
+                        type: string
+                      issuing-subdivision:
+                        examples:
+                          - CA
                         type: string
                       name-first:
                         examples:
@@ -303,6 +384,14 @@ get:
                       name-last:
                         examples:
                           - SAMPLE
+                        type: string
+                      name-suffix:
+                        examples:
+                          - III
+                        type: string
+                      nationality:
+                        examples:
+                          - US
                         type: string
                       photo-urls:
                         items:
@@ -332,11 +421,30 @@ get:
                               type: string
                           type: object
                         type: array
-                      restrictions: {}
+                      selfie-photo:
+                        properties:
+                          byte-size:
+                            default: 0
+                            examples:
+                              - 316802
+                            type: integer
+                          url:
+                            examples:
+                              - https://files.withpersona.com/...
+                            type: string
+                        type: object
                       selfie-photo-url:
                         examples:
                           - https://files.withpersona.com/...
                         type: string
+                      sex:
+                        examples:
+                          - F
+                        type: string
+                        enum:
+                          - M
+                          - F
+                          - X
                       status:
                         examples:
                           - passed
@@ -350,8 +458,12 @@ get:
                         examples:
                           - 1659041226
                         type: integer
-                      vehicle-class: {}
-                      video_url: {}
+                      vehicle-class:
+                        examples:
+                          - C
+                        type: string
+                      video-url: {}
+                      visa-status: {}
                     type: object
                   id:
                     examples:
@@ -387,8 +499,14 @@ get:
       description: OK
     '400':
       $ref: ../components/responses/BadRequest.yaml
+    '401':
+      $ref: ../components/responses/Unauthorized.yaml
+    '403':
+      $ref: ../components/responses/Forbidden.yaml
     '404':
       $ref: ../components/responses/NotFound.yaml
+    '429':
+      $ref: ../components/responses/TooManyRequests.yaml
   summary: Retrieve a Government Id Verification
   tags:
     - Government ID Verifications
@@ -507,8 +625,6 @@ patch:
                     address-city: null
                     address-subdivision: null
                     address-postal-code: null
-                    endorsements: null
-                    restrictions: null
                     vehicle-class: null
                     checks: []
                   relationships:
@@ -547,7 +663,6 @@ patch:
                         examples:
                           - 1599974425
                         type: integer
-                      endorsements: {}
                       entity-confidence-reasons: {}
                       entity-confidence-score: {}
                       front-photo-url: {}
@@ -555,7 +670,6 @@ patch:
                       name-last: {}
                       name-middle: {}
                       photo-urls: {}
-                      restrictions: {}
                       selfie-photo-url: {}
                       status:
                         examples:
@@ -595,8 +709,14 @@ patch:
       description: OK
     '400':
       $ref: ../components/responses/BadRequest.yaml
+    '401':
+      $ref: ../components/responses/Unauthorized.yaml
+    '403':
+      $ref: ../components/responses/Forbidden.yaml
     '404':
       $ref: ../components/responses/NotFound.yaml
+    '429':
+      $ref: ../components/responses/TooManyRequests.yaml
   summary: Update a Government ID Verification
   tags:
     - Government ID Verifications

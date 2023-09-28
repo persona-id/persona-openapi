@@ -114,8 +114,6 @@ post:
                     name-first: null
                     name-middle: null
                     name-last: null
-                    endorsements: null
-                    restrictions: null
                     vehicle-class: null
                     checks: []
                   relationships:
@@ -153,7 +151,6 @@ post:
                         examples:
                           - 1659027344
                         type: integer
-                      endorsements: {}
                       entity-confidence-reasons:
                         items:
                           examples:
@@ -167,7 +164,6 @@ post:
                       name-middle: {}
                       name-last: {}
                       photo-urls: {}
-                      restrictions: {}
                       selfie-photo-url: {}
                       status:
                         examples:
@@ -211,10 +207,18 @@ post:
       description: Created
     '400':
       $ref: ../components/responses/BadRequest.yaml
+    '401':
+      $ref: ../components/responses/Unauthorized.yaml
+    '403':
+      $ref: ../components/responses/Forbidden.yaml
     '404':
       $ref: ../components/responses/NotFound.yaml
+    '409':
+      $ref: ../components/responses/Conflict.yaml
     '422':
       $ref: ../components/responses/UnprocessableEntity.yaml
+    '429':
+      $ref: ../components/responses/TooManyRequests.yaml
   summary: Create a Government ID Verification
   tags:
     - Government ID Verifications

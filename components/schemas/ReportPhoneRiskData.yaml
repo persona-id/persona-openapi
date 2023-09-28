@@ -1,0 +1,59 @@
+title: Report Phone Risk Data
+allOf:
+  - $ref: ./ReportBaseData.yaml
+  - type: object
+    properties:
+      type:
+        type: string
+        description: report/phone-risk
+        example: report/phone-risk
+      attributes:
+        type: object
+        properties:
+          phone-number:
+            type: string
+            description: The input phone number of the search
+            example: '+14169671111'
+          phone-type:
+            type: string
+            enum:
+              - FIXED_LINE
+              - MOBILE
+              - PREPAID
+              - TOLL_FREE
+              - VOIP
+              - PAGER
+              - PAYPHONE
+              - INVALID
+              - RESTRICTED_PREMIUM
+              - PERSONAL
+              - VOICEMAIL
+              - OTHER
+          phone-carrier:
+            type: string
+            example: Rogers Communications Canada Inc.
+          phone-risk-level:
+            type: string
+            description: Assessment of the phone number's risk (low - high)
+            example: medium-low
+          phone-risk-recommendation:
+            type: string
+            enum:
+              - block
+              - allow
+              - flag
+          phone-risk-score:
+            type: integer
+            description: Risk score out of 1000
+            format: int32
+            example: 250
+          phone-risk-sim-swap:
+            type: string
+            description: The risk of a fraudulent SIM swap
+            format: nullable
+            enum:
+              - very-low
+              - low
+              - medium
+              - high
+              - N/A

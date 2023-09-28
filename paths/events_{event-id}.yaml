@@ -17,15 +17,30 @@ get:
           examples:
             Result:
               summary: OK
-              value: {}
+              value:
+                type: event
+                id: evt_TOKEN
+                attributes:
+                  name: inquiry.expired
+                  payload:
+                    data:
+                      type: inquiry
+                      id: inq_TOKEN
+                      attributes: {}
+                  created-at: '2023-09-23T17:14:01.918Z'
           schema:
-            properties: {}
-            type: object
+            $ref: ../components/schemas/Event.yaml
       description: OK
     '400':
       $ref: ../components/responses/BadRequest.yaml
+    '401':
+      $ref: ../components/responses/Unauthorized.yaml
+    '403':
+      $ref: ../components/responses/Forbidden.yaml
     '404':
       $ref: ../components/responses/NotFound.yaml
+    '429':
+      $ref: ../components/responses/TooManyRequests.yaml
   summary: Retrieve an Event
   tags:
     - Events

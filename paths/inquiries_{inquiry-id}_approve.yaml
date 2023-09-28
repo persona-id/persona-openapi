@@ -41,43 +41,18 @@ post:
       description: OK
     '400':
       $ref: ../components/responses/BadRequest.yaml
+    '401':
+      $ref: ../components/responses/Unauthorized.yaml
+    '403':
+      $ref: ../components/responses/Forbidden.yaml
     '404':
       $ref: ../components/responses/NotFound.yaml
     '409':
-      content:
-        application/json:
-          examples:
-            Result:
-              summary: Conflict
-              value:
-                errors:
-                  - status: 409
-                    title: Conflict
-                    details: Inquiry already approved
-          schema:
-            properties:
-              errors:
-                items:
-                  properties:
-                    details:
-                      examples:
-                        - Inquiry already approved
-                      type: string
-                    status:
-                      default: 0
-                      examples:
-                        - 409
-                      type: integer
-                    title:
-                      examples:
-                        - Conflict
-                      type: string
-                  type: object
-                type: array
-            type: object
-      description: Conflict
+      $ref: ../components/responses/Conflict.yaml
     '422':
       $ref: ../components/responses/UnprocessableEntity.yaml
+    '429':
+      $ref: ../components/responses/TooManyRequests.yaml
   summary: Approve an Inquiry
   tags:
     - Inquiries

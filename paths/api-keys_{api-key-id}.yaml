@@ -15,94 +15,20 @@ get:
     '200':
       content:
         application/json:
-          examples:
-            Result:
-              summary: OK
-              value:
-                data:
-                  type: api-key
-                  id: api_eENJtyj61qWGLWCd2X7vHyAf
-                  attributes:
-                    name: null
-                    note: null
-                    value: persona_sandbox_1234abcd-56ef-ab78-90cd-1234567890ab
-                    api-version: '2021-07-05'
-                    api-key-inflection: kebab
-                    permissions:
-                      - account.read
-                      - account.write
-                      - api_log.read
-                      - ...
-                    api-attributes-allowlist:
-                      - address_*
-                      - allowed_users
-                      - ...
-                    ip-address-allowlist:
-                      - '*'
-                    last-used-at: '2022-08-17T23:44:00.000Z'
-                    expires-at: null
-                    created-at: '2022-08-17T23:18:13.000Z'
           schema:
             properties:
               data:
-                properties:
-                  attributes:
-                    properties:
-                      api-attributes-allowlist:
-                        items:
-                          examples:
-                            - address_*
-                          type: string
-                        type: array
-                      api-key-inflection:
-                        examples:
-                          - kebab
-                        type: string
-                      api-version:
-                        examples:
-                          - '2021-07-05'
-                        type: string
-                      created-at:
-                        examples:
-                          - '2022-08-17T23:18:13.000Z'
-                        type: string
-                      expires-at: {}
-                      ip-address-allowlist:
-                        items:
-                          examples:
-                            - '*'
-                          type: string
-                        type: array
-                      last-used-at:
-                        examples:
-                          - '2022-08-17T23:44:00.000Z'
-                        type: string
-                      name: {}
-                      note: {}
-                      permissions:
-                        items:
-                          examples:
-                            - account.read
-                          type: string
-                        type: array
-                      value:
-                        examples:
-                          - persona_sandbox_1234abcd-56ef-ab78-90cd-1234567890ab
-                        type: string
-                    type: object
-                  id:
-                    examples:
-                      - api_eENJtyj61qWGLWCd2X7vHyAf
-                    type: string
-                  type:
-                    examples:
-                      - api-key
-                    type: string
-                type: object
+                $ref: ../components/schemas/ApiKey.yaml
             type: object
       description: OK
     '400':
       $ref: ../components/responses/BadRequest.yaml
+    '401':
+      $ref: ../components/responses/Unauthorized.yaml
+    '403':
+      $ref: ../components/responses/Forbidden.yaml
+    '429':
+      $ref: ../components/responses/TooManyRequests.yaml
   summary: Retrieve an API key
   tags:
     - API Keys
@@ -120,140 +46,31 @@ patch:
       schema:
         type: string
   requestBody:
-    content:
-      application/json:
-        schema:
-          properties:
-            data:
-              properties:
-                attributes:
-                  properties:
-                    api-attributes-allowlist:
-                      default: []
-                      description: Attributes returned from API responses
-                      items:
-                        type: string
-                      type: array
-                    api-key-inflection:
-                      description: Default API response key inflection
-                      type: string
-                    api-version:
-                      description: Server API version
-                      type: string
-                    ip-address-allowlist:
-                      default: []
-                      description: IP addresses permitted for use by the API key
-                      items:
-                        type: string
-                      type: array
-                    name:
-                      description: Human-readable name of the API key
-                      type: string
-                    note:
-                      description: Human readable context about the use of the API key
-                      type: string
-                    permissions:
-                      default: []
-                      description: Abilities permitted to the API key
-                      items:
-                        type: string
-                      type: array
-                  type: object
-              type: object
-          type: object
+    $ref: ../components/requestBodies/ApiKeyRequest.yaml
   responses:
     '200':
       content:
         application/json:
-          examples:
-            Result:
-              summary: OK
-              value:
-                data:
-                  type: api-key
-                  id: api_eENJtyj61qWGLWCd2X7vHyAf
-                  attributes:
-                    name: null
-                    note: null
-                    value: null
-                    api-version: '2021-07-05'
-                    api-key-inflection: kebab
-                    permissions:
-                      - account.read
-                      - account.write
-                      - api_log.read
-                      - ...
-                    api-attributes-allowlist:
-                      - address_*
-                      - allowed_users
-                      - ...
-                    ip-address-allowlist:
-                      - '*'
-                    last-used-at: '2022-08-17T23:44:00.000Z'
-                    expires-at: null
-                    created-at: '2022-08-17T23:18:13.000Z'
           schema:
             properties:
               data:
-                properties:
-                  attributes:
-                    properties:
-                      api-attributes-allowlist:
-                        items:
-                          examples:
-                            - address_*
-                          type: string
-                        type: array
-                      api-key-inflection:
-                        examples:
-                          - kebab
-                        type: string
-                      api-version:
-                        examples:
-                          - '2021-07-05'
-                        type: string
-                      created-at:
-                        examples:
-                          - '2022-08-17T23:18:13.000Z'
-                        type: string
-                      expires-at: {}
-                      ip-address-allowlist:
-                        items:
-                          examples:
-                            - '*'
-                          type: string
-                        type: array
-                      last-used-at:
-                        examples:
-                          - '2022-08-17T23:44:00.000Z'
-                        type: string
-                      name: {}
-                      note: {}
-                      permissions:
-                        items:
-                          examples:
-                            - account.read
-                          type: string
-                        type: array
-                      value: {}
-                    type: object
-                  id:
-                    examples:
-                      - api_eENJtyj61qWGLWCd2X7vHyAf
-                    type: string
-                  type:
-                    examples:
-                      - api-key
-                    type: string
-                type: object
+                $ref: ../components/schemas/ApiKey.yaml
             type: object
       description: OK
     '400':
       $ref: ../components/responses/BadRequest.yaml
+    '401':
+      $ref: ../components/responses/Unauthorized.yaml
+    '403':
+      $ref: ../components/responses/Forbidden.yaml
     '404':
       $ref: ../components/responses/NotFound.yaml
+    '409':
+      $ref: ../components/responses/Conflict.yaml
     '422':
       $ref: ../components/responses/UnprocessableEntity.yaml
+    '429':
+      $ref: ../components/responses/TooManyRequests.yaml
   summary: Update an API key
   tags:
     - API Keys

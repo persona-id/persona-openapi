@@ -1,6 +1,14 @@
 type: object
 description: An Account object
 properties:
+  type:
+    type: string
+    examples:
+      - account
+  id:
+    type: string
+    examples:
+      - act_hpNqyAbEG4HeVjZoBRNCMKkA
   attributes:
     type: object
     properties:
@@ -8,20 +16,265 @@ properties:
         type:
           - string
           - 'null'
+        examples:
+          - abc-123
       created-at:
+        format: date-time
         examples:
           - '2020-04-12T05:08:51.000Z'
         type: string
       updated-at:
+        format: date-time
         examples:
           - '2020-04-13T00:23:57.000Z'
         type: string
       redacted-at:
+        format: date-time
         examples:
           - '2020-04-14T00:22:43.000Z'
-        type: string
+        type:
+          - string
+          - 'null'
       fields:
         type: object
+        properties:
+          name:
+            type: object
+            properties:
+              type:
+                type: string
+                examples:
+                  - hash
+              value:
+                type: object
+                properties:
+                  first:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        examples:
+                          - Jane
+                      value:
+                        type:
+                          - string
+                          - 'null'
+                  middle:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        examples:
+                          - Marie
+                      value:
+                        type:
+                          - string
+                          - 'null'
+                  last:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        examples:
+                          - Doe
+                      value:
+                        type:
+                          - string
+                          - 'null'
+          address:
+            type: object
+            properties:
+              type:
+                type: string
+                examples:
+                  - hash
+              value:
+                type: object
+                properties:
+                  street_1:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        examples:
+                          - string
+                      value:
+                        type:
+                          - string
+                          - 'null'
+                        examples:
+                          - 123 Main St
+                  street_2:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        examples:
+                          - string
+                      value:
+                        type:
+                          - string
+                          - 'null'
+                        examples:
+                          - Apt 1
+                  subdivision:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        examples:
+                          - string
+                      value:
+                        type:
+                          - string
+                          - 'null'
+                        examples:
+                          - California
+                  city:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        examples:
+                          - string
+                      value:
+                        type:
+                          - string
+                          - 'null'
+                        examples:
+                          - San Francisco
+                  postal_code:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        examples:
+                          - string
+                      value:
+                        type:
+                          - string
+                          - 'null'
+                        examples:
+                          - '94111'
+                  country_code:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        examples:
+                          - string
+                      value:
+                        type:
+                          - string
+                          - 'null'
+                        examples:
+                          - US
+          identification_numbers:
+            type: object
+            properties:
+              type:
+                type: string
+                examples:
+                  - array
+              value:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      examples:
+                        - hash
+                    value:
+                      type: object
+                      properties:
+                        identification_class:
+                          type: object
+                          properties:
+                            type:
+                              type: string
+                              examples:
+                                - string
+                            value:
+                              type: string
+                              examples:
+                                - visa
+                                - cct
+                        identification_number:
+                          type: object
+                          properties:
+                            type:
+                              type: string
+                              examples:
+                                - string
+                            value:
+                              type: string
+                              examples:
+                                - '12345678'
+                                - AB-12345678
+                        issuing_country:
+                          type: object
+                          properties:
+                            type:
+                              type: string
+                              examples:
+                                - string
+                            value:
+                              type: string
+                              examples:
+                                - US
+                                - UK
+          birthdate:
+            type: object
+            properties:
+              type:
+                type: string
+                examples:
+                  - date
+              value:
+                type:
+                  - string
+                  - 'null'
+                examples:
+                  - '1994-04-12'
+          phone_number:
+            type: object
+            properties:
+              type:
+                type: string
+                examples:
+                  - string
+              value:
+                type:
+                  - string
+                  - 'null'
+                examples:
+                  - 415-555-1234
+          email_address:
+            type: object
+            properties:
+              type:
+                type: string
+                examples:
+                  - string
+              value:
+                type:
+                  - string
+                  - 'null'
+                examples:
+                  - jane@doe.com
+          selfie_photo:
+            type: object
+            properties:
+              type:
+                type: string
+                format: byte
+                examples:
+                  - file
+              value:
+                type:
+                  - string
+                  - 'null'
         additionalProperties: true
       name-first:
         examples:
@@ -42,48 +295,98 @@ properties:
           - string
           - 'null'
       phone-number:
-        type: string
+        examples:
+          - 415-555-1234
+        type:
+          - string
+          - 'null'
       email-address:
-        type: string
+        examples:
+          - jane@doe.com
+        type:
+          - string
+          - 'null'
       address-street-1:
+        examples:
+          - 123 Main St
         type:
           - string
           - 'null'
       address-street-2:
+        examples:
+          - Apt 1
         type:
           - string
           - 'null'
       address-city:
+        examples:
+          - San Francisco
         type:
           - string
           - 'null'
       address-subdivision:
+        examples:
+          - California
         type:
           - string
           - 'null'
       address-postal-code:
+        examples:
+          - '94111'
         type:
           - string
           - 'null'
       country-code:
         examples:
           - US
-        type: string
+        type:
+          - string
+          - 'null'
       birthdate:
+        examples:
+          - '1994-04-12'
         type:
           - string
           - 'null'
       social-security-number:
+        examples:
+          - 123-45-6789
         type:
           - string
           - 'null'
       tags:
         type: array
-  id:
-    examples:
-      - act_ef2mUFHAejxf2XJ5qzU4uMQb
-    type: string
-  type:
-    examples:
-      - account
-    type: string
+      identification-numbers:
+        type: object
+        description: Keys will be the identification class
+        additionalProperties:
+          type: array
+          properties:
+            items:
+              type: object
+              properties:
+                issuing-country:
+                  type: string
+                  examples:
+                    - US
+                    - UK
+                identification-class:
+                  type: string
+                  examples:
+                    - visa
+                    - cct
+                identification-number:
+                  type: string
+                  examples:
+                    - '12345678'
+                    - AB-12345678
+                created-at:
+                  type: string
+                  format: date-time
+                  examples:
+                    - '2023-09-23T00:22:09.934Z'
+                updated-at:
+                  type: string
+                  format: date-time
+                  examples:
+                    - '2023-09-23T00:22:19.900Z'

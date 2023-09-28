@@ -18,7 +18,7 @@ post:
           properties:
             meta:
               properties:
-                expires_in_seconds:
+                expires-in-seconds:
                   description: Number of seconds from now to expire the key (minimum 0)
                   format: int32
                   type: integer
@@ -183,10 +183,18 @@ post:
       description: OK
     '400':
       $ref: ../components/responses/BadRequest.yaml
+    '401':
+      $ref: ../components/responses/Unauthorized.yaml
+    '403':
+      $ref: ../components/responses/Forbidden.yaml
     '404':
       $ref: ../components/responses/NotFound.yaml
+    '409':
+      $ref: ../components/responses/Conflict.yaml
     '422':
       $ref: ../components/responses/UnprocessableEntity.yaml
+    '429':
+      $ref: ../components/responses/TooManyRequests.yaml
   summary: Generate a one-time link
   tags:
     - Inquiries

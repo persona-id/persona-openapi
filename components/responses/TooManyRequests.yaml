@@ -1,0 +1,35 @@
+description: Too Many Requests
+content:
+  application/json:
+    examples:
+      Result:
+        summary: Too Many Requests
+        value:
+          errors:
+            - title: Rate limit exceeded
+              details: >-
+                You have hit your rate limit of 300 requests / min. Please reach
+                out to support@withpersona.com if you need this changed.
+    schema:
+      properties:
+        errors:
+          type: array
+          items:
+            properties:
+              title:
+                type: string
+                examples:
+                  - Rate limit exceeded
+                  - Quota exceeded
+              details:
+                type: string
+                examples:
+                  - >-
+                    You have hit your rate limit of 300 requests / min. Please
+                    reach out to support@withpersona.com if you need this
+                    changed.
+                  - >-
+                    You have hit your create_verification quota limit of 300
+                    requests. Please reach out to support@withpersona.com if you
+                    need this changed.
+      type: object

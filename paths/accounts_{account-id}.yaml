@@ -29,24 +29,7 @@ delete:
           examples:
             Result:
               summary: OK
-              value:
-                data:
-                  type: account
-                  id: act_Gryv7cVbF2hDyFLKDhAYcqT9
-                  attributes:
-                    reference-id: null
-                    created-at: '2020-04-12T05:08:51.000Z'
-                    updated-at: '2020-04-13T00:23:57.000Z'
-                    name-first: null
-                    name-middle: null
-                    name-last: null
-                    address-street-1: null
-                    address-street-2: null
-                    address-city: null
-                    address-subdivision: null
-                    address-postal-code: null
-                    birthdate: null
-                    social-security-number: null
+              $ref: ../components/examples/AccountResponse.yaml
           schema:
             properties:
               data:
@@ -55,10 +38,18 @@ delete:
       description: OK
     '400':
       $ref: ../components/responses/BadRequest.yaml
+    '401':
+      $ref: ../components/responses/Unauthorized.yaml
+    '403':
+      $ref: ../components/responses/Forbidden.yaml
     '404':
       $ref: ../components/responses/NotFound.yaml
+    '409':
+      $ref: ../components/responses/Conflict.yaml
     '422':
       $ref: ../components/responses/UnprocessableEntity.yaml
+    '429':
+      $ref: ../components/responses/TooManyRequests.yaml
   summary: Redact an Account
   tags:
     - Accounts
@@ -81,14 +72,7 @@ get:
           examples:
             Result:
               summary: OK
-              value:
-                data:
-                  type: account
-                  id: act_NN1jBFZu2iLusNFHkU7d58Ui
-                  attributes:
-                    reference-id: user12345
-                    created-at: '2019-12-11T18:51:15.000Z'
-                    updated-at: '2019-12-11T18:51:15.000Z'
+              $ref: ../components/examples/AccountResponse.yaml
           schema:
             properties:
               data:
@@ -97,8 +81,14 @@ get:
       description: OK
     '400':
       $ref: ../components/responses/BadRequest.yaml
+    '401':
+      $ref: ../components/responses/Unauthorized.yaml
+    '403':
+      $ref: ../components/responses/Forbidden.yaml
     '404':
       $ref: ../components/responses/NotFound.yaml
+    '429':
+      $ref: ../components/responses/TooManyRequests.yaml
   summary: Retrieve an Account
   tags:
     - Accounts
@@ -123,15 +113,10 @@ patch:
               properties:
                 attributes:
                   properties:
-                    address-city:
+                    reference-id:
                       description: >-
-                        City of residence address. Not all international
-                        addresses use this attribute.
-                      type: string
-                    address-postal-code:
-                      description: >-
-                        ZIP or postal code of residence address. Not all
-                        international addresses use this attribute.
+                        Reference ID on Account, refers to an entity in your
+                        user model
                       type: string
                     address-street-1:
                       description: Street name of residence address.
@@ -141,41 +126,46 @@ patch:
                         Extension of residence address, usually apartment or
                         suite number.
                       type: string
+                    address-city:
+                      description: >-
+                        City of residence address. Not all international
+                        addresses use this attribute.
+                      type: string
                     address-subdivision:
                       description: >-
                         State or subdivision of residence address. In the US,
                         this should be the unabbreviated name. Not all
                         international addresses use this attribute.
                       type: string
+                    address-postal-code:
+                      description: >-
+                        ZIP or postal code of residence address. Not all
+                        international addresses use this attribute.
+                      type: string
+                    country-code:
+                      description: ISO 3166-1 alpha 2 country code.
+                      type: string
                     birthdate:
                       description: Birthdate, must be in the format "YYYY-MM-DD".
                       format: date
                       type: string
-                    country-code:
-                      description: >-
-                        ISO 3166-1 alpha 2 country code of the government ID to
-                        be verified. This is generally their country of
-                        residence as well.
-                      type: string
-                    email-address:
-                      description: Email address.
-                      type: string
                     name-first:
                       description: Given or first name.
-                      type: string
-                    name-last:
-                      description: Family or last name.
                       type: string
                     name-middle:
                       description: Middle name.
                       type: string
+                    name-last:
+                      description: Family or last name.
+                      type: string
                     phone-number:
                       description: Phone number.
                       type: string
-                    reference-id:
-                      description: >-
-                        Reference ID on Account, refers to an entity in your
-                        user model.
+                    email-address:
+                      description: Email address.
+                      type: string
+                    social-security-number:
+                      description: Social security number.
                       type: string
                     selfie-photo:
                       description: Selfie photo.
@@ -194,9 +184,10 @@ patch:
                               type: string
                           type: object
                       type: object
-                    social-security-number:
-                      description: Social security number.
-                      type: string
+                    fields:
+                      description: Custom fields for the Account
+                      type: object
+                      additionalProperties: true
                     tags:
                       default: []
                       description: A list of tag names that are associated to an Account.
@@ -213,15 +204,7 @@ patch:
           examples:
             Result:
               summary: OK
-              value:
-                data:
-                  type: account
-                  id: act_NN1jBFZu2iLusNFHkU7d58Ui
-                  attributes:
-                    reference-id: user12345
-                    created-at: '2019-12-11T18:51:15.000Z'
-                    updated-at: '2019-12-11T18:51:15.000Z'
-                    tags: []
+              $ref: ../components/examples/AccountResponse.yaml
           schema:
             properties:
               data:
@@ -230,37 +213,18 @@ patch:
       description: OK
     '400':
       $ref: ../components/responses/BadRequest.yaml
+    '401':
+      $ref: ../components/responses/Unauthorized.yaml
+    '403':
+      $ref: ../components/responses/Forbidden.yaml
     '404':
       $ref: ../components/responses/NotFound.yaml
     '409':
-      content:
-        application/json:
-          examples:
-            Result:
-              summary: Conflict
-              value:
-                errors:
-                  - title: Record not unique
-                    details: Record not unique.
-          schema:
-            properties:
-              errors:
-                items:
-                  properties:
-                    details:
-                      examples:
-                        - Record not unique.
-                      type: string
-                    title:
-                      examples:
-                        - Record not unique
-                      type: string
-                  type: object
-                type: array
-            type: object
-      description: Conflict
+      $ref: ../components/responses/Conflict.yaml
     '422':
       $ref: ../components/responses/UnprocessableEntity.yaml
+    '429':
+      $ref: ../components/responses/TooManyRequests.yaml
   summary: Update an Account
   tags:
     - Accounts

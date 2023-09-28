@@ -48,15 +48,7 @@ post:
           examples:
             Result:
               summary: Accepted
-              value:
-                data:
-                  type: account
-                  id: act_BygphFap8KvaBzCYZ14neoUq
-                  attributes:
-                    reference-id: user12345
-                    created-at: '2019-12-11T18:51:15.000Z'
-                    updated-at: '2019-12-11T18:51:15.000Z'
-                    tags: []
+              $ref: ../components/examples/AccountResponse.yaml
           schema:
             properties:
               data:
@@ -65,10 +57,18 @@ post:
       description: Accepted
     '400':
       $ref: ../components/responses/BadRequest.yaml
+    '401':
+      $ref: ../components/responses/Unauthorized.yaml
+    '403':
+      $ref: ../components/responses/Forbidden.yaml
     '404':
       $ref: ../components/responses/NotFound.yaml
+    '409':
+      $ref: ../components/responses/Conflict.yaml
     '422':
       $ref: ../components/responses/UnprocessableEntity.yaml
+    '429':
+      $ref: ../components/responses/TooManyRequests.yaml
   summary: Consolidate Accounts
   tags:
     - Accounts

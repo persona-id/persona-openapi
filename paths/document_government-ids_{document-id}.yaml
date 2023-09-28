@@ -104,6 +104,7 @@ patch:
                     address-city: null
                     address-subdivision: null
                     address-postal-code: null
+                    designations: []
                     endorsements: null
                     restrictions: null
                     vehicle-class: null
@@ -129,6 +130,12 @@ patch:
                         examples:
                           - '2020-09-13T02:34:57.000Z'
                         type: string
+                      designations:
+                        type: array
+                        items:
+                          type: string
+                          examples:
+                            - temporary
                       endorsements: {}
                       front-photo: {}
                       id-class: {}
@@ -173,10 +180,18 @@ patch:
       description: OK
     '400':
       $ref: ../components/responses/BadRequest.yaml
+    '401':
+      $ref: ../components/responses/Unauthorized.yaml
+    '403':
+      $ref: ../components/responses/Forbidden.yaml
     '404':
       $ref: ../components/responses/NotFound.yaml
+    '409':
+      $ref: ../components/responses/Conflict.yaml
     '422':
       $ref: ../components/responses/UnprocessableEntity.yaml
+    '429':
+      $ref: ../components/responses/TooManyRequests.yaml
   summary: Update a Government ID Document
   tags:
     - Documents

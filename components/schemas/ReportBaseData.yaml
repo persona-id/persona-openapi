@@ -1,0 +1,104 @@
+type: object
+title: Reports Data
+description: The report's data
+properties:
+  type:
+    type: string
+    description: The type of the report
+  id:
+    type: string
+    description: The token of the report
+    example: rep_7WNzPaNcroBKLarNHBjYDLAp
+  attributes:
+    type: object
+    properties:
+      status:
+        type: string
+        description: The status of the report
+        enum:
+          - pending
+          - ready
+          - errored
+      created-at:
+        type: string
+        description: The time the report was created in ISO 8601 format
+        example: '2020-04-12T05:08:51.000Z'
+      completed-at:
+        type: string
+        description: The time the report completed processing in ISO 8601 format
+        example: '2020-04-13T00:23:57.000Z'
+      redacted-at:
+        type:
+          - string
+          - 'null'
+        description: The time the report was redacted in ISO 8601 format
+        example: null
+      report-template-version-name:
+        type: string
+        description: The name of the report template version used for this report
+        example: v1
+      has-match:
+        type: boolean
+        description: Whether or not the report matched
+      tags:
+        type: array
+        description: Tags on the report
+        items:
+          type: string
+          example: tag1
+  relationships:
+    properties:
+      inquiry:
+        type: object
+        description: The inquiry linked to the report
+        properties:
+          data:
+            type: object
+            properties:
+              id:
+                example: inq_KHK4MJCE4QvfocWB2intQ3YE
+                type: string
+              type:
+                example: inquiry
+                type: string
+      account:
+        type: object
+        description: The account linked to the report
+        properties:
+          data:
+            type: object
+            properties:
+              id:
+                example: act_9e3yoAUApTRMjgNoPAC7TNtz
+                type: string
+              type:
+                example: account
+                type: string
+      report-template:
+        type: object
+        description: The report template used to create this report
+        properties:
+          data:
+            type: object
+            properties:
+              id:
+                example: rptp_tQumELV14h7Vh9Qqm8Ytm5K1
+                type: string
+              type:
+                example: report-template
+                type: string
+      cases:
+        type: object
+        description: The cases that this report is attached to
+        properties:
+          data:
+            items:
+              type: object
+              properties:
+                id:
+                  example: case_gqe7rH38FvxtzhGBQmDBsjkB
+                  type: string
+                type:
+                  example: case
+                  type: string
+            type: array

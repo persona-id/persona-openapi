@@ -23,66 +23,23 @@ delete:
     '200':
       content:
         application/json:
-          examples:
-            Result:
-              summary: OK
-              value:
-                data:
-                  type: report/adverse-media
-                  id: rep_Y3EkuErqnYjc8DCPfYEACwiJ
-                  attributes:
-                    status: ready
-                    created-at: '2022-03-16T18:57:08.000Z'
-                    completed-at: '2022-03-16T18:57:09.000Z'
-                    redacted-at: '2022-03-17T15:26:14.000Z'
-                    report-template-version-name: v5
-                    result: []
           schema:
-            properties:
-              data:
-                properties:
-                  attributes:
-                    properties:
-                      completed-at:
-                        examples:
-                          - '2022-03-16T18:57:09.000Z'
-                        type: string
-                      created-at:
-                        examples:
-                          - '2022-03-16T18:57:08.000Z'
-                        type: string
-                      redacted-at:
-                        examples:
-                          - '2022-03-17T15:26:14.000Z'
-                        type: string
-                      report-template-version-name:
-                        examples:
-                          - v5
-                        type: string
-                      result:
-                        type: array
-                      status:
-                        examples:
-                          - ready
-                        type: string
-                    type: object
-                  id:
-                    examples:
-                      - rep_Y3EkuErqnYjc8DCPfYEACwiJ
-                    type: string
-                  type:
-                    examples:
-                      - report/adverse-media
-                    type: string
-                type: object
-            type: object
+            $ref: ../components/schemas/Report.yaml
       description: OK
     '400':
       $ref: ../components/responses/BadRequest.yaml
+    '401':
+      $ref: ../components/responses/Unauthorized.yaml
+    '403':
+      $ref: ../components/responses/Forbidden.yaml
     '404':
       $ref: ../components/responses/NotFound.yaml
+    '409':
+      $ref: ../components/responses/Conflict.yaml
     '422':
       $ref: ../components/responses/UnprocessableEntity.yaml
+    '429':
+      $ref: ../components/responses/TooManyRequests.yaml
   summary: Redact a Report
   tags:
     - Reports
@@ -102,98 +59,19 @@ get:
     '200':
       content:
         application/json:
-          examples:
-            Result:
-              summary: OK
-              value:
-                data:
-                  type: report/profile
-                  id: rep_NELm1PRn1oKpRnJEMyY6rDZr
-                  attributes:
-                    status: ready
-                    created-at: '2019-11-15T21:32:36.000Z'
-                    completed-at: '2019-11-15T21:32:36.000Z'
-                    name-first: Alexander
-                    name-last: Sample
-                    birthdate: '1977-07-17'
-                    address-street-1: 600 California St
-                    address-street-2: null
-                    address-city: San Francisco
-                    address-subdivision: California
-                    address-subdivision-abbr: CA
-                    address-postal-code: '941090000'
-                    address-postal-code-abbr: '94109'
           schema:
-            properties:
-              data:
-                properties:
-                  attributes:
-                    properties:
-                      address-city:
-                        examples:
-                          - San Francisco
-                        type: string
-                      address-postal-code:
-                        examples:
-                          - '941090000'
-                        type: string
-                      address-postal-code-abbr:
-                        examples:
-                          - '94109'
-                        type: string
-                      address-street-1:
-                        examples:
-                          - 600 California St
-                        type: string
-                      address-street-2: {}
-                      address-subdivision:
-                        examples:
-                          - California
-                        type: string
-                      address-subdivision-abbr:
-                        examples:
-                          - CA
-                        type: string
-                      birthdate:
-                        examples:
-                          - '1977-07-17'
-                        type: string
-                      completed-at:
-                        examples:
-                          - '2019-11-15T21:32:36.000Z'
-                        type: string
-                      created-at:
-                        examples:
-                          - '2019-11-15T21:32:36.000Z'
-                        type: string
-                      name-first:
-                        examples:
-                          - Alexander
-                        type: string
-                      name-last:
-                        examples:
-                          - Sample
-                        type: string
-                      status:
-                        examples:
-                          - ready
-                        type: string
-                    type: object
-                  id:
-                    examples:
-                      - rep_NELm1PRn1oKpRnJEMyY6rDZr
-                    type: string
-                  type:
-                    examples:
-                      - report/profile
-                    type: string
-                type: object
-            type: object
+            $ref: ../components/schemas/Report.yaml
       description: OK
     '400':
       $ref: ../components/responses/BadRequest.yaml
+    '401':
+      $ref: ../components/responses/Unauthorized.yaml
+    '403':
+      $ref: ../components/responses/Forbidden.yaml
     '404':
       $ref: ../components/responses/NotFound.yaml
+    '429':
+      $ref: ../components/responses/TooManyRequests.yaml
   summary: Retrieve a Report
   tags:
     - Reports

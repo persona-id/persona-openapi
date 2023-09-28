@@ -31,98 +31,26 @@ post:
     '200':
       content:
         application/json:
-          examples:
-            Result:
-              summary: OK
-              value:
-                data:
-                  type: api-key
-                  id: api_eENJtyj61qWGLWCd2X7vHyAf
-                  attributes:
-                    name: null
-                    note: null
-                    value: null
-                    api-version: '2021-07-05'
-                    api-key-inflection: kebab
-                    permissions:
-                      - account.read
-                      - account.write
-                      - api_log.read
-                      - ...
-                    api-attributes-allowlist:
-                      - address_*
-                      - allowed_users
-                      - ...
-                    ip-address-allowlist:
-                      - '*'
-                    last-used-at: '2022-08-17T23:44:00.000Z'
-                    expires-at: '2022-08-17T23:45:00.000Z'
-                    created-at: '2022-08-17T23:18:13.000Z'
           schema:
             properties:
               data:
-                properties:
-                  attributes:
-                    properties:
-                      api-attributes-allowlist:
-                        items:
-                          examples:
-                            - address_*
-                          type: string
-                        type: array
-                      api-key-inflection:
-                        examples:
-                          - kebab
-                        type: string
-                      api-version:
-                        examples:
-                          - '2021-07-05'
-                        type: string
-                      created-at:
-                        examples:
-                          - '2022-08-17T23:18:13.000Z'
-                        type: string
-                      expires-at:
-                        examples:
-                          - '2022-08-17T23:45:00.000Z'
-                        type: string
-                      ip-address-allowlist:
-                        items:
-                          examples:
-                            - '*'
-                          type: string
-                        type: array
-                      last-used-at:
-                        examples:
-                          - '2022-08-17T23:44:00.000Z'
-                        type: string
-                      name: {}
-                      note: {}
-                      permissions:
-                        items:
-                          examples:
-                            - account.read
-                          type: string
-                        type: array
-                      value: {}
-                    type: object
-                  id:
-                    examples:
-                      - api_eENJtyj61qWGLWCd2X7vHyAf
-                    type: string
-                  type:
-                    examples:
-                      - api-key
-                    type: string
-                type: object
+                $ref: ../components/schemas/ApiKey.yaml
             type: object
       description: OK
     '400':
       $ref: ../components/responses/BadRequest.yaml
+    '401':
+      $ref: ../components/responses/Unauthorized.yaml
+    '403':
+      $ref: ../components/responses/Forbidden.yaml
     '404':
       $ref: ../components/responses/NotFound.yaml
+    '409':
+      $ref: ../components/responses/Conflict.yaml
     '422':
       $ref: ../components/responses/UnprocessableEntity.yaml
+    '429':
+      $ref: ../components/responses/TooManyRequests.yaml
   summary: Expire an API key
   tags:
     - API Keys

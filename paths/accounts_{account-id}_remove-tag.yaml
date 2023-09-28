@@ -25,26 +25,30 @@ post:
     '200':
       content:
         application/json:
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/Account.yaml
+            type: object
           examples:
             Result:
               summary: OK
-              value:
-                data:
-                  type: account
-                  id: act_NN1jBFZu2iLusNFHkU7d58Ui
-                  attributes:
-                    reference-id: user12345
-                    created-at: '2019-12-11T18:51:15.000Z'
-                    updated-at: '2019-12-11T18:51:15.000Z'
-                    tags:
-                      - BAD ACTOR
+              $ref: ../components/examples/AccountResponse.yaml
       description: OK
     '400':
       $ref: ../components/responses/BadRequest.yaml
+    '401':
+      $ref: ../components/responses/Unauthorized.yaml
+    '403':
+      $ref: ../components/responses/Forbidden.yaml
     '404':
       $ref: ../components/responses/NotFound.yaml
+    '409':
+      $ref: ../components/responses/Conflict.yaml
     '422':
       $ref: ../components/responses/UnprocessableEntity.yaml
+    '429':
+      $ref: ../components/responses/TooManyRequests.yaml
   summary: Remove a tag
   tags:
     - Accounts

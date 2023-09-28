@@ -27,7 +27,7 @@ get:
         type: string
     - description: Comma separated list of object ids
       in: query
-      name: filter[object_id]
+      name: filter[object-id]
       schema:
         type: string
     - description: Comma separated list of event ids
@@ -42,13 +42,62 @@ get:
           examples:
             Result:
               summary: OK
-              value: {}
+              value:
+                data:
+                  - type: event
+                    id: evt_TOKEN
+                    attributes:
+                      name: inquiry.expired
+                      payload:
+                        data:
+                          type: inquiry
+                          id: inq_TOKEN
+                          attributes: {}
+                      created-at: '2023-09-23T17:14:01.918Z'
+                  - type: event
+                    id: evt_TOKEN
+                    attributes:
+                      name: account.tag-added
+                      payload:
+                        data:
+                          type: account
+                          id: act_TOKEN
+                          attributes: {}
+                      created-at: '2023-09-23T00:46:41.877Z'
+                links:
+                  prev: null
+                  next: null
           schema:
-            properties: {}
-            type: object
+            properties:
+              data:
+                type: array
+                description: An array of Events
+                items:
+                  $ref: ../components/schemas/Event.yaml
+              links:
+                type: object
+                properties:
+                  prev:
+                    type:
+                      - string
+                      - 'null'
+                    examples:
+                      - /api/v1/events?page%5Bbefore%5D=evt_TOKEN
+                  next:
+                    type:
+                      - string
+                      - 'null'
+                    examples:
+                      - /api/v1/events?page%5Bafter%5D=evt_TOKEN
       description: OK
     '400':
       $ref: ../components/responses/BadRequest.yaml
+    '401':
+      $ref: ../components/responses/Unauthorized.yaml
+    '403':
+      $ref: ../components/responses/Forbidden.yaml
+    '429':
+      $ref: ../components/responses/TooManyRequests.yaml
   summary: List all Events
   tags:
     - Events

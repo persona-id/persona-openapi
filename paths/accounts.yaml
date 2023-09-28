@@ -118,16 +118,17 @@ get:
       description: OK
     '400':
       $ref: ../components/responses/BadRequest.yaml
+    '401':
+      $ref: ../components/responses/Unauthorized.yaml
+    '403':
+      $ref: ../components/responses/Forbidden.yaml
+    '429':
+      $ref: ../components/responses/TooManyRequests.yaml
   summary: List all Accounts
   tags:
     - Accounts
 post:
-  description: >-
-    Creates a new Account for your organization.
-
-
-    After the Account is created, you can create Inquiries with the `account-id`
-    to attach the Inquiry to it.
+  description: Creates a new Account for your organization.
   operationId: create-an-account
   parameters:
     - $ref: ../components/parameters/keyInflectionHeader.yaml
@@ -142,15 +143,10 @@ post:
               properties:
                 attributes:
                   properties:
-                    address-city:
+                    reference-id:
                       description: >-
-                        City of residence address. Not all international
-                        addresses use this attribute.
-                      type: string
-                    address-postal-code:
-                      description: >-
-                        ZIP or postal code of residence address. Not all
-                        international addresses use this attribute.
+                        Reference ID on Account, refers to an entity in your
+                        user model
                       type: string
                     address-street-1:
                       description: Street name of residence address.
@@ -160,41 +156,46 @@ post:
                         Extension of residence address, usually apartment or
                         suite number.
                       type: string
+                    address-city:
+                      description: >-
+                        City of residence address. Not all international
+                        addresses use this attribute.
+                      type: string
                     address-subdivision:
                       description: >-
                         State or subdivision of residence address. In the US,
                         this should be the unabbreviated name. Not all
                         international addresses use this attribute.
                       type: string
+                    address-postal-code:
+                      description: >-
+                        ZIP or postal code of residence address. Not all
+                        international addresses use this attribute.
+                      type: string
+                    country-code:
+                      description: ISO 3166-1 alpha 2 country code.
+                      type: string
                     birthdate:
                       description: Birthdate, must be in the format "YYYY-MM-DD".
                       format: date
                       type: string
-                    country-code:
-                      description: >-
-                        ISO 3166-1 alpha 2 country code of the government ID to
-                        be verified. This is generally their country of
-                        residence as well.
-                      type: string
-                    email-address:
-                      description: Email address.
-                      type: string
                     name-first:
                       description: Given or first name.
-                      type: string
-                    name-last:
-                      description: Family or last name.
                       type: string
                     name-middle:
                       description: Middle name.
                       type: string
+                    name-last:
+                      description: Family or last name.
+                      type: string
                     phone-number:
                       description: Phone number.
                       type: string
-                    reference-id:
-                      description: >-
-                        Reference ID on Account, refers to an entity in your
-                        user model
+                    email-address:
+                      description: Email address.
+                      type: string
+                    social-security-number:
+                      description: Social security number.
                       type: string
                     selfie-photo:
                       description: Selfie photo.
@@ -213,9 +214,10 @@ post:
                               type: string
                           type: object
                       type: object
-                    social-security-number:
-                      description: Social security number.
-                      type: string
+                    fields:
+                      description: Custom fields for the Account
+                      type: object
+                      additionalProperties: true
                     tags:
                       default: []
                       description: A list of tag names that are associated to an Account.
@@ -232,14 +234,7 @@ post:
           examples:
             Result:
               summary: Created
-              value:
-                data:
-                  type: account
-                  id: act_NN1jBFZu2iLusNFHkU7d58Ui
-                  attributes:
-                    reference-id: user12345
-                    created-at: '2019-12-11T18:51:15.000Z'
-                    updated-at: '2019-12-11T18:51:15.000Z'
+              $ref: ../components/examples/AccountResponse.yaml
           schema:
             properties:
               data:
@@ -248,35 +243,16 @@ post:
       description: Created
     '400':
       $ref: ../components/responses/BadRequest.yaml
+    '401':
+      $ref: ../components/responses/Unauthorized.yaml
+    '403':
+      $ref: ../components/responses/Forbidden.yaml
     '409':
-      content:
-        application/json:
-          examples:
-            Result:
-              summary: Conflict
-              value:
-                errors:
-                  - title: Record not unique
-                    details: Record not unique.
-          schema:
-            properties:
-              errors:
-                items:
-                  properties:
-                    details:
-                      examples:
-                        - Record not unique.
-                      type: string
-                    title:
-                      examples:
-                        - Record not unique
-                      type: string
-                  type: object
-                type: array
-            type: object
-      description: Conflict
+      $ref: ../components/responses/Conflict.yaml
     '422':
       $ref: ../components/responses/UnprocessableEntity.yaml
+    '429':
+      $ref: ../components/responses/TooManyRequests.yaml
   summary: Create an Account
   tags:
     - Accounts

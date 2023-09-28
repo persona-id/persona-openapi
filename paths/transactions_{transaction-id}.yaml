@@ -49,6 +49,7 @@ get:
                         value:
                           filename: image.png
                           byte-size: 237011
+                          mime-type: image/png
                           url: >-
                             https://files.withpersona.com/67db49cdf0f31ba0a76e3c78148ee48c.png?access_token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2N2RiNDljZGYwZjMxYmEwYTc2ZTNjNzgxNDhlZTQ4Yy5wbmciLCJhdWQiOiJmaWxlcy53aXRocGVyc29uYS5jb20iLCJpc3MiOiJ3aXRocGVyc29uYS5jb20iLCJpYXQiOjE2ODUxMjAxMjAsIm5iZiI6MTY4NTEyMDEyMCwiZXhwIjoxNjg1MTQxNzIwLCJqdGkiOiJiODcyOWFlMS03MjIyLTRmNjItYTA0YS0xZTYxZDVlNDhkYTYiLCJnY3NfYnVja2V0IjoicGVyc29uYS13ZWIiLCJmaWxlX2VuY3J5cHRlZCI6dHJ1ZSwiZmlsZV9zYWx0IjoiU2hyaW5lOjpVcGxvYWRlZEZpbGUiLCJmaWxlX2luZm8iOiI2N2RiNDljZGYwZjMxYmEwYTc2ZTNjNzgxNDhlZTQ4Yy5wbmcifQ.h5rjxIsrjPD80OVr3DAICFFAqXI9ZBqsZeVaPf-24zI
                       back-photo:
@@ -56,6 +57,7 @@ get:
                         value:
                           filename: image.png
                           byte-size: 237011
+                          mime-type: image/png
                           url: >-
                             https://files.withpersona.com/5f56cd48141aca72a022060762388e7d.png?access_token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1ZjU2Y2Q0ODE0MWFjYTcyYTAyMjA2MDc2MjM4OGU3ZC5wbmciLCJhdWQiOiJmaWxlcy53aXRocGVyc29uYS5jb20iLCJpc3MiOiJ3aXRocGVyc29uYS5jb20iLCJpYXQiOjE2ODUxMjAxMjAsIm5iZiI6MTY4NTEyMDEyMCwiZXhwIjoxNjg1MTQxNzIwLCJqdGkiOiI0YmIyNDEzNi00MTA0LTQ1OTgtODQ5MS1kMWVmZWY4MjE2ZWQiLCJnY3NfYnVja2V0IjoicGVyc29uYS13ZWIiLCJmaWxlX2VuY3J5cHRlZCI6dHJ1ZSwiZmlsZV9zYWx0IjoiU2hyaW5lOjpVcGxvYWRlZEZpbGUiLCJmaWxlX2luZm8iOiI1ZjU2Y2Q0ODE0MWFjYTcyYTAyMjA2MDc2MjM4OGU3ZC5wbmcifQ.WpJqTRtCeK3_HYGSUfN3K8PPH1TckLSZ7XIycukBu5s
                     tags: []
@@ -102,10 +104,10 @@ get:
                         address:
                           type: hash
                           value:
-                            street_1:
+                            street-1:
                               type: string
                               value: null
-                            street_2:
+                            street-2:
                               type: string
                               value: null
                             subdivision:
@@ -114,30 +116,29 @@ get:
                             city:
                               type: string
                               value: null
-                            postal_code:
+                            postal-code:
                               type: string
                               value: null
-                            country_code:
+                            country-code:
                               type: string
                               value: null
-                        identification_numbers:
+                        identification-numbers:
                           type: array
                           value: []
                         birthdate:
                           type: date
                           value: null
-                        phone_number:
+                        phone-number:
                           type: string
                           value: null
-                        email_address:
+                        email-address:
                           type: string
                           value: null
-                        selfie_photo:
+                        selfie-photo:
                           type: file
                           value: null
                       country-code: null
                       tags: []
-                      account-status: Default
                   - type: verification/government-id
                     id: ver_zhyH1VcKXb6Xy2mZkcB13yAh
                     attributes:
@@ -497,6 +498,11 @@ get:
                                     examples:
                                       - 237011
                                     default: 0
+                                  mime-type:
+                                    type: string
+                                    examples:
+                                      - image/png
+                                    default: ''
                                   url:
                                     type: string
                                     examples:
@@ -521,6 +527,11 @@ get:
                                     examples:
                                       - 237011
                                     default: 0
+                                  mime-type:
+                                    type: string
+                                    examples:
+                                      - image/png
+                                    default: ''
                                   url:
                                     type: string
                                     examples:
@@ -601,8 +612,14 @@ get:
                   additionalProperties: true
                   type: object
                 type: array
+    '401':
+      $ref: ../components/responses/Unauthorized.yaml
+    '403':
+      $ref: ../components/responses/Forbidden.yaml
     '404':
       $ref: ../components/responses/NotFound.yaml
+    '429':
+      $ref: ../components/responses/TooManyRequests.yaml
 patch:
   summary: Update a Transaction
   tags:
@@ -662,7 +679,15 @@ patch:
               value: ''
     '400':
       $ref: ../components/responses/BadRequest.yaml
+    '401':
+      $ref: ../components/responses/Unauthorized.yaml
+    '403':
+      $ref: ../components/responses/Forbidden.yaml
     '404':
       $ref: ../components/responses/NotFound.yaml
+    '409':
+      $ref: ../components/responses/Conflict.yaml
     '422':
       $ref: ../components/responses/UnprocessableEntity.yaml
+    '429':
+      $ref: ../components/responses/TooManyRequests.yaml

@@ -55,18 +55,22 @@ post:
                   id: txn_YUFT4DWRCrbZ2KEV8gZbZcPx
                   attributes:
                     fields:
-                      name_first: Smith
-                      name_last: John
+                      name-first: Smith
+                      name-last: John
                       country: United State of America
-                      id_classification: DL
-                      govid_front_image:
-                        filename: ''
-                        url: ''
-                        byte_size: ''
-                      govid_back_image:
-                        filename: ''
-                        url: ''
-                        byte_size: ''
+                      id-classification: DL
+                      govid-front-image:
+                        filename: front.png
+                        url: >-
+                          https://files.withpersona.com/67db49cdf0f31ba0a76e3c78148ee48c.png?access_token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2N2RiNDljZGYwZjMxYmEwYTc2ZTNjNzgxNDhlZTQ4Yy5wbmciLCJhdWQiOiJmaWxlcy53aXRocGVyc29uYS5jb20iLCJpc3MiOiJ3aXRocGVyc29uYS5jb20iLCJpYXQiOjE2ODUxMjAxMjAsIm5iZiI6MTY4NTEyMDEyMCwiZXhwIjoxNjg1MTQxNzIwLCJqdGkiOiJiODcyOWFlMS03MjIyLTRmNjItYTA0YS0xZTYxZDVlNDhkYTYiLCJnY3NfYnVja2V0IjoicGVyc29uYS13ZWIiLCJmaWxlX2VuY3J5cHRlZCI6dHJ1ZSwiZmlsZV9zYWx0IjoiU2hyaW5lOjpVcGxvYWRlZEZpbGUiLCJmaWxlX2luZm8iOiI2N2RiNDljZGYwZjMxYmEwYTc2ZTNjNzgxNDhlZTQ4Yy5wbmcifQ.h5rjxIsrjPD80OVr3DAICFFAqXI9ZBqsZeVaPf-24zI
+                        byte-size: 237011
+                        mime-type: image/png
+                      govid-back-image:
+                        filename: back.png
+                        url: >-
+                          https://files.withpersona.com/67db49cdf0f31ba0a76e3c78148ee48c.png?access_token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2N2RiNDljZGYwZjMxYmEwYTc2ZTNjNzgxNDhlZTQ4Yy5wbmciLCJhdWQiOiJmaWxlcy53aXRocGVyc29uYS5jb20iLCJpc3MiOiJ3aXRocGVyc29uYS5jb20iLCJpYXQiOjE2ODUxMjAxMjAsIm5iZiI6MTY4NTEyMDEyMCwiZXhwIjoxNjg1MTQxNzIwLCJqdGkiOiJiODcyOWFlMS03MjIyLTRmNjItYTA0YS0xZTYxZDVlNDhkYTYiLCJnY3NfYnVja2V0IjoicGVyc29uYS13ZWIiLCJmaWxlX2VuY3J5cHRlZCI6dHJ1ZSwiZmlsZV9zYWx0IjoiU2hyaW5lOjpVcGxvYWRlZEZpbGUiLCJmaWxlX2luZm8iOiI2N2RiNDljZGYwZjMxYmEwYTc2ZTNjNzgxNDhlZTQ4Yy5wbmcifQ.h5rjxIsrjPD80OVr3DAICFFAqXI9ZBqsZeVaPf-24zI
+                        byte-size: 237011
+                        mime-type: image/png
                     reference-id: '1234567'
                     created-at: '2022-07-26T14:45:05.750Z'
                     updated-at: '2022-07-26T14:45:06.223Z'
@@ -100,11 +104,11 @@ post:
                       fields:
                         type: object
                         properties:
-                          name_first:
+                          name-first:
                             type: string
                             examples:
                               - Smith
-                          name_last:
+                          name-last:
                             type: string
                             examples:
                               - John
@@ -112,11 +116,11 @@ post:
                             type: string
                             examples:
                               - United State of America
-                          id_classification:
+                          id-classification:
                             type: string
                             examples:
                               - DL
-                          govid_front_image:
+                          govid-front-image:
                             type: object
                             properties:
                               filename:
@@ -127,11 +131,15 @@ post:
                                 type: string
                                 examples:
                                   - ''
-                              byte_size:
+                              byte-size:
+                                type: number
+                                examples:
+                                  - 0
+                              mime-type:
                                 type: string
                                 examples:
                                   - ''
-                          govid_back_image:
+                          govid-back-image:
                             type: object
                             properties:
                               filename:
@@ -142,7 +150,11 @@ post:
                                 type: string
                                 examples:
                                   - ''
-                              byte_size:
+                              byte-size:
+                                type: number
+                                examples:
+                                  - 0
+                              mime-type:
                                 type: string
                                 examples:
                                   - ''
@@ -190,56 +202,18 @@ post:
                             type: array
     '400':
       $ref: ../components/responses/BadRequest.yaml
+    '401':
+      $ref: ../components/responses/Unauthorized.yaml
     '403':
-      description: Forbidden
-      content:
-        application/json:
-          examples:
-            Result:
-              summary: Forbidden
-              value:
-                errors:
-                  - title: Transaction cannot be created in an inactive environment
-          schema:
-            type: object
-            properties:
-              errors:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    title:
-                      type: string
-                      examples:
-                        - >-
-                          Transaction cannot be created in an inactive
-                          environment
+      $ref: ../components/responses/Forbidden.yaml
     '404':
       $ref: ../components/responses/NotFound.yaml
     '409':
-      description: Conflict
-      content:
-        application/json:
-          examples:
-            Result:
-              summary: Conflict
-              value:
-                errors:
-                  - title: Transaction already exists with this reference id
-          schema:
-            type: object
-            properties:
-              errors:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    title:
-                      type: string
-                      examples:
-                        - Transaction already exists with this reference id
+      $ref: ../components/responses/Conflict.yaml
     '422':
       $ref: ../components/responses/UnprocessableEntity.yaml
+    '429':
+      $ref: ../components/responses/TooManyRequests.yaml
 get:
   summary: List all Transactions
   tags:
@@ -306,6 +280,7 @@ get:
                           value:
                             filename: image.png
                             byte-size: 237011
+                            mime-type: image/png
                             url: >-
                               https://files.withpersona.com/67db49cdf0f31ba0a76e3c78148ee48c.png?access_token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2N2RiNDljZGYwZjMxYmEwYTc2ZTNjNzgxNDhlZTQ4Yy5wbmciLCJhdWQiOiJmaWxlcy53aXRocGVyc29uYS5jb20iLCJpc3MiOiJ3aXRocGVyc29uYS5jb20iLCJpYXQiOjE2ODUxMjAxMjAsIm5iZiI6MTY4NTEyMDEyMCwiZXhwIjoxNjg1MTQxNzIwLCJqdGkiOiJiODcyOWFlMS03MjIyLTRmNjItYTA0YS0xZTYxZDVlNDhkYTYiLCJnY3NfYnVja2V0IjoicGVyc29uYS13ZWIiLCJmaWxlX2VuY3J5cHRlZCI6dHJ1ZSwiZmlsZV9zYWx0IjoiU2hyaW5lOjpVcGxvYWRlZEZpbGUiLCJmaWxlX2luZm8iOiI2N2RiNDljZGYwZjMxYmEwYTc2ZTNjNzgxNDhlZTQ4Yy5wbmcifQ.h5rjxIsrjPD80OVr3DAICFFAqXI9ZBqsZeVaPf-24zI
                         back-photo:
@@ -313,6 +288,7 @@ get:
                           value:
                             filename: image.png
                             byte-size: 237011
+                            mime-type: image/png
                             url: >-
                               https://files.withpersona.com/5f56cd48141aca72a022060762388e7d.png?access_token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1ZjU2Y2Q0ODE0MWFjYTcyYTAyMjA2MDc2MjM4OGU3ZC5wbmciLCJhdWQiOiJmaWxlcy53aXRocGVyc29uYS5jb20iLCJpc3MiOiJ3aXRocGVyc29uYS5jb20iLCJpYXQiOjE2ODUxMjAxMjAsIm5iZiI6MTY4NTEyMDEyMCwiZXhwIjoxNjg1MTQxNzIwLCJqdGkiOiI0YmIyNDEzNi00MTA0LTQ1OTgtODQ5MS1kMWVmZWY4MjE2ZWQiLCJnY3NfYnVja2V0IjoicGVyc29uYS13ZWIiLCJmaWxlX2VuY3J5cHRlZCI6dHJ1ZSwiZmlsZV9zYWx0IjoiU2hyaW5lOjpVcGxvYWRlZEZpbGUiLCJmaWxlX2luZm8iOiI1ZjU2Y2Q0ODE0MWFjYTcyYTAyMjA2MDc2MjM4OGU3ZC5wbmcifQ.WpJqTRtCeK3_HYGSUfN3K8PPH1TckLSZ7XIycukBu5s
                       tags: []
@@ -358,6 +334,7 @@ get:
                           value:
                             filename: image.png
                             byte-size: 237011
+                            mime-type: image/png
                             url: >-
                               https://files.withpersona.com/67db49cdf0f31ba0a76e3c78148ee48c.png?access_token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2N2RiNDljZGYwZjMxYmEwYTc2ZTNjNzgxNDhlZTQ4Yy5wbmciLCJhdWQiOiJmaWxlcy53aXRocGVyc29uYS5jb20iLCJpc3MiOiJ3aXRocGVyc29uYS5jb20iLCJpYXQiOjE2ODUxMjAxMjAsIm5iZiI6MTY4NTEyMDEyMCwiZXhwIjoxNjg1MTQxNzIwLCJqdGkiOiJiODcyOWFlMS03MjIyLTRmNjItYTA0YS0xZTYxZDVlNDhkYTYiLCJnY3NfYnVja2V0IjoicGVyc29uYS13ZWIiLCJmaWxlX2VuY3J5cHRlZCI6dHJ1ZSwiZmlsZV9zYWx0IjoiU2hyaW5lOjpVcGxvYWRlZEZpbGUiLCJmaWxlX2luZm8iOiI2N2RiNDljZGYwZjMxYmEwYTc2ZTNjNzgxNDhlZTQ4Yy5wbmcifQ.h5rjxIsrjPD80OVr3DAICFFAqXI9ZBqsZeVaPf-24zI
                         back-photo:
@@ -365,6 +342,7 @@ get:
                           value:
                             filename: image.png
                             byte-size: 237011
+                            mime-type: image/png
                             url: >-
                               https://files.withpersona.com/5f56cd48141aca72a022060762388e7d.png?access_token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1ZjU2Y2Q0ODE0MWFjYTcyYTAyMjA2MDc2MjM4OGU3ZC5wbmciLCJhdWQiOiJmaWxlcy53aXRocGVyc29uYS5jb20iLCJpc3MiOiJ3aXRocGVyc29uYS5jb20iLCJpYXQiOjE2ODUxMjAxMjAsIm5iZiI6MTY4NTEyMDEyMCwiZXhwIjoxNjg1MTQxNzIwLCJqdGkiOiI0YmIyNDEzNi00MTA0LTQ1OTgtODQ5MS1kMWVmZWY4MjE2ZWQiLCJnY3NfYnVja2V0IjoicGVyc29uYS13ZWIiLCJmaWxlX2VuY3J5cHRlZCI6dHJ1ZSwiZmlsZV9zYWx0IjoiU2hyaW5lOjpVcGxvYWRlZEZpbGUiLCJmaWxlX2luZm8iOiI1ZjU2Y2Q0ODE0MWFjYTcyYTAyMjA2MDc2MjM4OGU3ZC5wbmcifQ.WpJqTRtCeK3_HYGSUfN3K8PPH1TckLSZ7XIycukBu5s
                       tags: []
@@ -481,6 +459,11 @@ get:
                                       examples:
                                         - 237011
                                       default: 0
+                                    mime-type:
+                                      type: string
+                                      examples:
+                                        - image/png
+                                      default: ''
                                     url:
                                       type: string
                                       examples:
@@ -505,6 +488,11 @@ get:
                                       examples:
                                         - 237011
                                       default: 0
+                                    mime-type:
+                                      type: string
+                                      examples:
+                                        - image/png
+                                      default: ''
                                     url:
                                       type: string
                                       examples:
@@ -582,3 +570,9 @@ get:
                         /api/v1/transactions?page%5Bafter%5D=txn_sXqkQsVpWPumUMsuj2UHR635
     '400':
       $ref: ../components/responses/BadRequest.yaml
+    '401':
+      $ref: ../components/responses/Unauthorized.yaml
+    '403':
+      $ref: ../components/responses/Forbidden.yaml
+    '429':
+      $ref: ../components/responses/TooManyRequests.yaml
