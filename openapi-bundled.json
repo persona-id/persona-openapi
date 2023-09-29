@@ -6152,6 +6152,22 @@
         ],
         "requestBody": {
           "content": {
+            "multipart/form-data": {
+              "schema": {
+                "properties": {
+                  "data": {
+                    "properties": {
+                      "file": {
+                        "type": "string",
+                        "contentMediaType": "application/octet-stream"
+                      }
+                    },
+                    "type": "object"
+                  }
+                },
+                "type": "object"
+              }
+            },
             "application/json": {
               "schema": {
                 "properties": {
@@ -6290,18 +6306,7 @@
         "summary": "Import Accounts",
         "tags": [
           "Importers"
-        ],
-        "x-readme": {
-          "code-samples": [
-            {
-              "code": "API_KEY=YOUR_API_KEY_HERE\nFILE_PATH=CSV_FILE_PATH\ncurl -X POST -H 'Content-Type: application/json' -H \"Authorization: Bearer $API_KEY\" -d'{\n  \"data\": {\n    \"attributes\": {\n      \"file\": { \"data\": \"'\"$(base64 $FILE_PATH)\"'\", \"filename\": \"$FILE_PATH\" }\n    }\n  }\n}' https://withpersona.com/api/v1/importer/accounts",
-              "language": "curl"
-            }
-          ],
-          "samples-languages": [
-            "curl"
-          ]
-        }
+        ]
       }
     },
     "/importer/list-item/email-addresses": {
@@ -6320,42 +6325,7 @@
           }
         ],
         "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "properties": {
-                  "data": {
-                    "properties": {
-                      "attributes": {
-                        "properties": {
-                          "file": {
-                            "properties": {
-                              "data": {
-                                "description": "Base64 encoded file",
-                                "format": "binary",
-                                "type": "string"
-                              },
-                              "filename": {
-                                "description": "Name of file",
-                                "type": "string"
-                              }
-                            },
-                            "type": "object"
-                          },
-                          "list-id": {
-                            "type": "string"
-                          }
-                        },
-                        "type": "object"
-                      }
-                    },
-                    "type": "object"
-                  }
-                },
-                "type": "object"
-              }
-            }
-          }
+          "$ref": "#/components/requestBodies/ListItemImporterCSVRequest"
         },
         "responses": {
           "201": {
@@ -6467,18 +6437,7 @@
         "summary": "Import Email Address Lists",
         "tags": [
           "Importers"
-        ],
-        "x-readme": {
-          "code-samples": [
-            {
-              "code": "API_KEY=YOUR_API_KEY_HERE\nLIST_ID=YOUR_LIST_ID_HERE\nFILE_PATH=CSV_FILE_PATH\n\ncurl -X POST -H 'Content-Type: application/json' -H \"Authorization: Bearer $API_KEY\" -d'{\n  \"data\": {\n    \"attributes\": {\n      \"list-id\": \"$LIST_ID\",\n      \"file\": { \"data\": \"'\"$(base64 $FILE_PATH)\"'\", \"filename\": \"$FILE_PATH\" }\n    }\n  }\n}' https://withpersona.com/api/v1/importer/list-item/email-addresses",
-              "language": "curl"
-            }
-          ],
-          "samples-languages": [
-            "curl"
-          ]
-        }
+        ]
       }
     },
     "/importer/list-item/faces": {
@@ -6498,6 +6457,30 @@
         ],
         "requestBody": {
           "content": {
+            "multipart/form-data": {
+              "schema": {
+                "properties": {
+                  "data": {
+                    "properties": {
+                      "attributes": {
+                        "properties": {
+                          "image-files": {
+                            "items": {},
+                            "type": "array"
+                          },
+                          "list-id": {
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      }
+                    },
+                    "type": "object"
+                  }
+                },
+                "type": "object"
+              }
+            },
             "application/json": {
               "schema": {
                 "properties": {
@@ -6647,24 +6630,7 @@
         "summary": "Import Face Lists",
         "tags": [
           "Importers"
-        ],
-        "x-readme": {
-          "code-samples": [
-            {
-              "code": "API_KEY=YOUR_API_KEY_HERE\nLIST_ID=YOUR_LIST_ID_HERE\nIMAGE1_PATH=IMAGE1_FILE_PATH\nIMAGE2_PATH=IMAGE2_FILE_PATH\n\ncurl -X POST -H 'Content-Type: application/json' -H \"Authorization: Bearer $API_KEY\" -d'{\n  \"data\": {\n    \"attributes\": {\n      \"list-id\": \"$LIST_ID\",\n      \"image-files\": [\n          { \"data\": \"'\"$(base64 $IMAGE1_PATH)\"'\", \"filename\": \"$IMAGE1_PATH\" },\n          { \"data\": \"'\"$(base64 $IMAGE2_PATH)\"'\", \"filename\": \"$IMAGE2_PATH\" }\n      ]\n    }\n  }\n}' https://withpersona.com/api/v1/importer/list-item/faces",
-              "language": "curl",
-              "name": "application/json"
-            },
-            {
-              "code": "API_KEY=YOUR_API_KEY_HERE\nLIST_ID=YOUR_LIST_ID_HERE\nIMAGE1_PATH=IMAGE1_FILE_PATH\nIMAGE2_PATH=IMAGE2_FILE_PATH\n\ncurl -H \"Authorization: Bearer $API_KEY\" \\\n -F \"data[attributes][list-id]=$LIST_ID\" \\\n -F \"data[attributes][image-files][]=@$IMAGE1_PATH\" \\\n -F \"data[attributes][image-files][]=@$IMAGE2_PATH\" \\\n https://withpersona.com/api/v1/importer/list-item/faces\n",
-              "language": "curl",
-              "name": "multipart/form-data"
-            }
-          ],
-          "samples-languages": [
-            "curl"
-          ]
-        }
+        ]
       }
     },
     "/importer/list-item/geolocations": {
@@ -6683,42 +6649,7 @@
           }
         ],
         "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "properties": {
-                  "data": {
-                    "properties": {
-                      "attributes": {
-                        "properties": {
-                          "file": {
-                            "properties": {
-                              "data": {
-                                "description": "Base64 encoded file",
-                                "format": "binary",
-                                "type": "string"
-                              },
-                              "filename": {
-                                "description": "Name of file",
-                                "type": "string"
-                              }
-                            },
-                            "type": "object"
-                          },
-                          "list-id": {
-                            "type": "string"
-                          }
-                        },
-                        "type": "object"
-                      }
-                    },
-                    "type": "object"
-                  }
-                },
-                "type": "object"
-              }
-            }
-          }
+          "$ref": "#/components/requestBodies/ListItemImporterCSVRequest"
         },
         "responses": {
           "201": {
@@ -6830,18 +6761,7 @@
         "summary": "Import Geolocation Lists",
         "tags": [
           "Importers"
-        ],
-        "x-readme": {
-          "code-samples": [
-            {
-              "code": "API_KEY=YOUR_API_KEY_HERE\nLIST_ID=YOUR_LIST_ID_HERE\nFILE_PATH=CSV_FILE_PATH\n\ncurl -X POST -H 'Content-Type: application/json' -H \"Authorization: Bearer $API_KEY\" -d'{\n  \"data\": {\n    \"attributes\": {\n      \"list-id\": \"$LIST_ID\",\n      \"file\": { \"data\": \"'\"$(base64 $FILE_PATH)\"'\", \"filename\": \"$FILE_PATH\" }\n    }\n  }\n}' https://withpersona.com/api/v1/importer/list-item/geolocations",
-              "language": "curl"
-            }
-          ],
-          "samples-languages": [
-            "curl"
-          ]
-        }
+        ]
       }
     },
     "/importer/list-item/government-id-numbers": {
@@ -6860,42 +6780,7 @@
           }
         ],
         "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "properties": {
-                  "data": {
-                    "properties": {
-                      "attributes": {
-                        "properties": {
-                          "file": {
-                            "properties": {
-                              "data": {
-                                "description": "Base64 encoded file",
-                                "format": "binary",
-                                "type": "string"
-                              },
-                              "filename": {
-                                "description": "Name of file",
-                                "type": "string"
-                              }
-                            },
-                            "type": "object"
-                          },
-                          "list-id": {
-                            "type": "string"
-                          }
-                        },
-                        "type": "object"
-                      }
-                    },
-                    "type": "object"
-                  }
-                },
-                "type": "object"
-              }
-            }
-          }
+          "$ref": "#/components/requestBodies/ListItemImporterCSVRequest"
         },
         "responses": {
           "201": {
@@ -7007,18 +6892,7 @@
         "summary": "Import Government ID Number Lists",
         "tags": [
           "Importers"
-        ],
-        "x-readme": {
-          "code-samples": [
-            {
-              "code": "API_KEY=YOUR_API_KEY_HERE\nLIST_ID=YOUR_LIST_ID_HERE\nFILE_PATH=CSV_FILE_PATH\n\ncurl -X POST -H 'Content-Type: application/json' -H \"Authorization: Bearer $API_KEY\" -d'{\n  \"data\": {\n    \"attributes\": {\n      \"list-id\": \"$LIST_ID\",\n      \"file\": { \"data\": \"'\"$(base64 $FILE_PATH)\"'\", \"filename\": \"$FILE_PATH\" }\n    }\n  }\n}' https://withpersona.com/api/v1/importer/list-item/government-id-numbers",
-              "language": "curl"
-            }
-          ],
-          "samples-languages": [
-            "curl"
-          ]
-        }
+        ]
       }
     },
     "/importer/list-item/ip-addresses": {
@@ -7037,42 +6911,7 @@
           }
         ],
         "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "properties": {
-                  "data": {
-                    "properties": {
-                      "attributes": {
-                        "properties": {
-                          "file": {
-                            "properties": {
-                              "data": {
-                                "description": "Base64 encoded file",
-                                "format": "binary",
-                                "type": "string"
-                              },
-                              "filename": {
-                                "description": "Name of file",
-                                "type": "string"
-                              }
-                            },
-                            "type": "object"
-                          },
-                          "list-id": {
-                            "type": "string"
-                          }
-                        },
-                        "type": "object"
-                      }
-                    },
-                    "type": "object"
-                  }
-                },
-                "type": "object"
-              }
-            }
-          }
+          "$ref": "#/components/requestBodies/ListItemImporterCSVRequest"
         },
         "responses": {
           "201": {
@@ -7184,18 +7023,7 @@
         "summary": "Import IP Address Lists",
         "tags": [
           "Importers"
-        ],
-        "x-readme": {
-          "code-samples": [
-            {
-              "code": "API_KEY=YOUR_API_KEY_HERE\nLIST_ID=YOUR_LIST_ID_HERE\nFILE_PATH=CSV_FILE_PATH\n\ncurl -X POST -H 'Content-Type: application/json' -H \"Authorization: Bearer $API_KEY\" -d'{\n  \"data\": {\n    \"attributes\": {\n      \"list-id\": \"$LIST_ID\",\n      \"file\": { \"data\": \"'\"$(base64 $FILE_PATH)\"'\", \"filename\": \"$FILE_PATH\" }\n    }\n  }\n}' https://withpersona.com/api/v1/importer/list-item/ip-addresses",
-              "language": "curl"
-            }
-          ],
-          "samples-languages": [
-            "curl"
-          ]
-        }
+        ]
       }
     },
     "/importer/list-item/names": {
@@ -7214,42 +7042,7 @@
           }
         ],
         "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "properties": {
-                  "data": {
-                    "properties": {
-                      "attributes": {
-                        "properties": {
-                          "file": {
-                            "properties": {
-                              "data": {
-                                "description": "Base64 encoded file",
-                                "format": "binary",
-                                "type": "string"
-                              },
-                              "filename": {
-                                "description": "Name of file",
-                                "type": "string"
-                              }
-                            },
-                            "type": "object"
-                          },
-                          "list-id": {
-                            "type": "string"
-                          }
-                        },
-                        "type": "object"
-                      }
-                    },
-                    "type": "object"
-                  }
-                },
-                "type": "object"
-              }
-            }
-          }
+          "$ref": "#/components/requestBodies/ListItemImporterCSVRequest"
         },
         "responses": {
           "201": {
@@ -7361,18 +7154,7 @@
         "summary": "Import Name Lists",
         "tags": [
           "Importers"
-        ],
-        "x-readme": {
-          "code-samples": [
-            {
-              "code": "API_KEY=YOUR_API_KEY_HERE\nLIST_ID=YOUR_LIST_ID_HERE\nFILE_PATH=CSV_FILE_PATH\n\ncurl -X POST -H 'Content-Type: application/json' -H \"Authorization: Bearer $API_KEY\" -d'{\n  \"data\": {\n    \"attributes\": {\n      \"list-id\": \"$LIST_ID\",\n      \"file\": { \"data\": \"'\"$(base64 $FILE_PATH)\"'\", \"filename\": \"$FILE_PATH\" }\n    }\n  }\n}' https://withpersona.com/api/v1/importer/list-item/names",
-              "language": "curl"
-            }
-          ],
-          "samples-languages": [
-            "curl"
-          ]
-        }
+        ]
       }
     },
     "/importer/list-item/phone-numbers": {
@@ -7391,42 +7173,7 @@
           }
         ],
         "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "properties": {
-                  "data": {
-                    "properties": {
-                      "attributes": {
-                        "properties": {
-                          "file": {
-                            "properties": {
-                              "data": {
-                                "description": "Base64 encoded file",
-                                "format": "binary",
-                                "type": "string"
-                              },
-                              "filename": {
-                                "description": "Name of file",
-                                "type": "string"
-                              }
-                            },
-                            "type": "object"
-                          },
-                          "list-id": {
-                            "type": "string"
-                          }
-                        },
-                        "type": "object"
-                      }
-                    },
-                    "type": "object"
-                  }
-                },
-                "type": "object"
-              }
-            }
-          }
+          "$ref": "#/components/requestBodies/ListItemImporterCSVRequest"
         },
         "responses": {
           "201": {
@@ -7538,18 +7285,7 @@
         "summary": "Import Phone Number Lists",
         "tags": [
           "Importers"
-        ],
-        "x-readme": {
-          "code-samples": [
-            {
-              "code": "API_KEY=YOUR_API_KEY_HERE\nLIST_ID=YOUR_LIST_ID_HERE\nFILE_PATH=CSV_FILE_PATH\n\ncurl -X POST -H 'Content-Type: application/json' -H \"Authorization: Bearer $API_KEY\" -d'{\n  \"data\": {\n    \"attributes\": {\n      \"list-id\": \"$LIST_ID\",\n      \"file\": { \"data\": \"'\"$(base64 $FILE_PATH)\"'\", \"filename\": \"$FILE_PATH\" }\n    }\n  }\n}' https://withpersona.com/api/v1/importer/list-item/phone-numbers",
-              "language": "curl"
-            }
-          ],
-          "samples-languages": [
-            "curl"
-          ]
-        }
+        ]
       }
     },
     "/inquiries": {
@@ -11104,18 +10840,7 @@
         "summary": "Create a Face List Item",
         "tags": [
           "List Items"
-        ],
-        "x-readme": {
-          "code-samples": [
-            {
-              "code": "API_KEY=YOUR_API_KEY_HERE\nLIST_ID=YOUR_LIST_ID_HERE\nFILE_PATH=CSV_FILE_PATH\n\ncurl -X POST -H 'Content-Type: application/json' -H \"Authorization: Bearer $API_KEY\" -d'{\n  \"data\": {\n    \"attributes\": {\n      \"list-id\": \"$LIST_ID\",\n      \"face-photo\": { \"data\": \"'\"$(base64 $FILE_PATH)\"'\", \"filename\": \"$FILE_PATH\" }\n    }\n  }\n}' https://withpersona.com/api/v1/list-item/faces",
-              "language": "curl"
-            }
-          ],
-          "samples-languages": [
-            "curl"
-          ]
-        }
+        ]
       }
     },
     "/list-item/faces/{list-item-id}": {
@@ -33178,35 +32903,11 @@
           }
         ]
       },
-      "ReportBaseRequestData": {
-        "type": "object",
-        "title": "Reports Request Data",
-        "description": "The inputs to create a report",
-        "properties": {
-          "type": {
-            "type": "string"
-          },
-          "attributes": {
-            "type": "object",
-            "properties": {
-              "account-id": {
-                "type": "string"
-              },
-              "reference-id": {
-                "type": "string"
-              },
-              "report-template-id": {
-                "type": "string"
-              }
-            }
-          }
-        }
-      },
-      "ReportPhoneRiskRequestData": {
-        "type": "object",
+      "ReportPhoneRiskData": {
+        "title": "Report Phone Risk Data",
         "allOf": [
           {
-            "$ref": "#/components/schemas/ReportBaseRequestData"
+            "$ref": "#/components/schemas/ReportBaseData"
           },
           {
             "type": "object",
@@ -33219,15 +32920,164 @@
               "attributes": {
                 "type": "object",
                 "properties": {
-                  "query": {
-                    "type": "object",
-                    "properties": {
-                      "phone-number": {
-                        "type": "string",
-                        "description": "The input phone number of the search",
-                        "example": "+14169671111"
-                      }
-                    }
+                  "phone-number": {
+                    "type": "string",
+                    "description": "The input phone number of the search",
+                    "example": "+14169671111"
+                  },
+                  "phone-type": {
+                    "type": "string",
+                    "enum": [
+                      "FIXED_LINE",
+                      "MOBILE",
+                      "PREPAID",
+                      "TOLL_FREE",
+                      "VOIP",
+                      "PAGER",
+                      "PAYPHONE",
+                      "INVALID",
+                      "RESTRICTED_PREMIUM",
+                      "PERSONAL",
+                      "VOICEMAIL",
+                      "OTHER"
+                    ]
+                  },
+                  "phone-carrier": {
+                    "type": "string",
+                    "example": "Rogers Communications Canada Inc."
+                  },
+                  "phone-risk-level": {
+                    "type": "string",
+                    "description": "Assessment of the phone number's risk (low - high)",
+                    "example": "medium-low"
+                  },
+                  "phone-risk-recommendation": {
+                    "type": "string",
+                    "enum": [
+                      "block",
+                      "allow",
+                      "flag"
+                    ]
+                  },
+                  "phone-risk-score": {
+                    "type": "integer",
+                    "description": "Risk score out of 1000",
+                    "format": "int32",
+                    "example": 250
+                  },
+                  "phone-risk-sim-swap": {
+                    "type": "string",
+                    "description": "The risk of a fraudulent SIM swap",
+                    "format": "nullable",
+                    "enum": [
+                      "very-low",
+                      "low",
+                      "medium",
+                      "high",
+                      "N/A"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "ReportSocialMediaData": {
+        "title": "Report Phone Risk Data",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ReportBaseData"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "report/social-media",
+                "example": "report/social-media"
+              },
+              "attributes": {
+                "type": "object",
+                "properties": {
+                  "name-first": {
+                    "type": "string",
+                    "example": "Norman"
+                  },
+                  "name-last": {
+                    "type": "string",
+                    "example": "Mannor"
+                  },
+                  "birthdate": {
+                    "type": "string",
+                    "description": "Date of birth in  YYYY-MM-DD format",
+                    "example": "1991-10-07"
+                  },
+                  "phone-number": {
+                    "type": "string",
+                    "format": "nullable",
+                    "example": "+14169671111"
+                  },
+                  "email-address": {
+                    "type": "string",
+                    "format": "nullable",
+                    "example": "address@domain.com"
+                  },
+                  "address-city": {
+                    "type": "string",
+                    "example": "Funkyville"
+                  },
+                  "address-subdivision": {
+                    "type": "string",
+                    "description": "Sub-national subdivision such as a US state or a Canadian province",
+                    "example": "Wisconsin"
+                  },
+                  "linkedin-url": {
+                    "type": "string",
+                    "format": "nullable",
+                    "example": "linkdin.com/in/thisisausername"
+                  },
+                  "linkedin-username": {
+                    "type": "string",
+                    "format": "nullable",
+                    "example": "thisisausername"
+                  },
+                  "linkedin-id": {
+                    "type": "string",
+                    "format": "nullable",
+                    "example": "123456789"
+                  },
+                  "facebook-url": {
+                    "type": "string",
+                    "example": "facebook.com/user.name.7"
+                  },
+                  "facebook-username": {
+                    "type": "string",
+                    "example": "user.name.7"
+                  },
+                  "facebook-id": {
+                    "type": "string",
+                    "example": "748945123159485"
+                  },
+                  "twitter-url": {
+                    "type": "string",
+                    "format": "nullable",
+                    "example": "twitter.com/elonmusk"
+                  },
+                  "twitter-username": {
+                    "type": "string",
+                    "format": "nullable",
+                    "example": "elonmusk"
+                  },
+                  "github-url": {
+                    "type": "string",
+                    "format": "nullable",
+                    "example": "github.com/username"
+                  },
+                  "github-username": {
+                    "type": "string",
+                    "format": "nullable",
+                    "example": "username"
                   }
                 }
               }
@@ -33257,9 +33107,36 @@
             "$ref": "#/components/schemas/ReportPoliticallyExposedPersonData"
           },
           {
-            "$ref": "#/components/schemas/ReportPhoneRiskRequestData"
+            "$ref": "#/components/schemas/ReportPhoneRiskData"
+          },
+          {
+            "$ref": "#/components/schemas/ReportSocialMediaData"
           }
         ]
+      },
+      "ReportBaseRequestData": {
+        "type": "object",
+        "title": "Reports Request Data",
+        "description": "The inputs to create a report",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "attributes": {
+            "type": "object",
+            "properties": {
+              "account-id": {
+                "type": "string"
+              },
+              "reference-id": {
+                "type": "string"
+              },
+              "report-template-id": {
+                "type": "string"
+              }
+            }
+          }
+        }
       },
       "ReportWatchlistRequestData": {
         "type": "object",
@@ -33550,6 +33427,34 @@
           }
         }
       },
+      "ReportPhoneRiskRequestData": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ReportBaseRequestData"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "report/phone-risk",
+                "example": "report/phone-risk"
+              },
+              "attributes": {
+                "type": "object",
+                "properties": {
+                  "phone-number": {
+                    "type": "string",
+                    "description": "The input phone number of the search",
+                    "example": "+14169671111"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
       "ReportPhoneRiskRequest": {
         "type": "object",
         "title": "Phone Risk Request",
@@ -33557,6 +33462,71 @@
         "properties": {
           "data": {
             "$ref": "#/components/schemas/ReportPhoneRiskRequestData"
+          }
+        }
+      },
+      "ReportSocialMediaRequestData": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ReportBaseRequestData"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "report/social-media",
+                "example": "report/social-media"
+              },
+              "attributes": {
+                "type": "object",
+                "properties": {
+                  "name-first": {
+                    "type": "string",
+                    "example": "Norman"
+                  },
+                  "name-last": {
+                    "type": "string",
+                    "example": "Mannor"
+                  },
+                  "birthdate": {
+                    "type": "string",
+                    "description": "Date of birth in ISO 8601 format",
+                    "example": "19911007T000000-0400"
+                  },
+                  "phone-number": {
+                    "type": "string",
+                    "format": "nullable",
+                    "example": "+14169671111"
+                  },
+                  "email-address": {
+                    "type": "string",
+                    "format": "nullable",
+                    "example": "address@domain.com"
+                  },
+                  "address-city": {
+                    "type": "string",
+                    "example": "Funkyville"
+                  },
+                  "address-subdivision": {
+                    "type": "string",
+                    "description": "Sub-national subdivision such as a US state or a Canadian province",
+                    "example": "Wisconsin"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "ReportSocialMediaRequest": {
+        "type": "object",
+        "title": "Social Media Request",
+        "description": "Fields required to create a Social Media Report",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ReportSocialMediaRequestData"
           }
         }
       },
@@ -33580,6 +33550,9 @@
           },
           {
             "$ref": "#/components/schemas/ReportPhoneRiskRequest"
+          },
+          {
+            "$ref": "#/components/schemas/ReportSocialMediaRequest"
           }
         ]
       },
@@ -33633,86 +33606,6 @@
           }
         }
       },
-      "ReportPhoneRiskData": {
-        "title": "Report Phone Risk Data",
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/ReportBaseData"
-          },
-          {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "description": "report/phone-risk",
-                "example": "report/phone-risk"
-              },
-              "attributes": {
-                "type": "object",
-                "properties": {
-                  "phone-number": {
-                    "type": "string",
-                    "description": "The input phone number of the search",
-                    "example": "+14169671111"
-                  },
-                  "phone-type": {
-                    "type": "string",
-                    "enum": [
-                      "FIXED_LINE",
-                      "MOBILE",
-                      "PREPAID",
-                      "TOLL_FREE",
-                      "VOIP",
-                      "PAGER",
-                      "PAYPHONE",
-                      "INVALID",
-                      "RESTRICTED_PREMIUM",
-                      "PERSONAL",
-                      "VOICEMAIL",
-                      "OTHER"
-                    ]
-                  },
-                  "phone-carrier": {
-                    "type": "string",
-                    "example": "Rogers Communications Canada Inc."
-                  },
-                  "phone-risk-level": {
-                    "type": "string",
-                    "description": "Assessment of the phone number's risk (low - high)",
-                    "example": "medium-low"
-                  },
-                  "phone-risk-recommendation": {
-                    "type": "string",
-                    "enum": [
-                      "block",
-                      "allow",
-                      "flag"
-                    ]
-                  },
-                  "phone-risk-score": {
-                    "type": "integer",
-                    "description": "Risk score out of 1000",
-                    "format": "int32",
-                    "example": 250
-                  },
-                  "phone-risk-sim-swap": {
-                    "type": "string",
-                    "description": "The risk of a fraudulent SIM swap",
-                    "format": "nullable",
-                    "enum": [
-                      "very-low",
-                      "low",
-                      "medium",
-                      "high",
-                      "N/A"
-                    ]
-                  }
-                }
-              }
-            }
-          }
-        ]
-      },
       "ReportPhoneRisk": {
         "type": "object",
         "title": "Phone Risk",
@@ -33720,6 +33613,16 @@
         "properties": {
           "data": {
             "$ref": "#/components/schemas/ReportPhoneRiskData"
+          }
+        }
+      },
+      "ReportSocialMedia": {
+        "type": "object",
+        "title": "Social Media",
+        "description": "A Social Media Report",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ReportSocialMediaData"
           }
         }
       },
@@ -33743,6 +33646,9 @@
           },
           {
             "$ref": "#/components/schemas/ReportPhoneRisk"
+          },
+          {
+            "$ref": "#/components/schemas/ReportSocialMedia"
           }
         ]
       },
@@ -34494,6 +34400,68 @@
                         "file-access-token-expires-in": {
                           "description": "How soon any file access tokens returned in API responses expire",
                           "type": "integer"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            }
+          }
+        }
+      },
+      "ListItemImporterCSVRequest": {
+        "content": {
+          "multipart/form-data": {
+            "schema": {
+              "properties": {
+                "data": {
+                  "properties": {
+                    "attributes": {
+                      "properties": {
+                        "file": {
+                          "type": "string",
+                          "contentMediaType": "application/octet-stream"
+                        },
+                        "list-id": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "application/json": {
+            "schema": {
+              "properties": {
+                "data": {
+                  "properties": {
+                    "attributes": {
+                      "properties": {
+                        "file": {
+                          "properties": {
+                            "data": {
+                              "description": "Base64 encoded file",
+                              "format": "binary",
+                              "type": "string"
+                            },
+                            "filename": {
+                              "description": "Name of file",
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "list-id": {
+                          "type": "string"
                         }
                       },
                       "type": "object"

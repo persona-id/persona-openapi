@@ -17,29 +17,7 @@ post:
     - $ref: ../components/parameters/idempotencyKeyHeader.yaml
     - $ref: ../components/parameters/personaVersionHeader.yaml
   requestBody:
-    content:
-      application/json:
-        schema:
-          properties:
-            data:
-              properties:
-                attributes:
-                  properties:
-                    file:
-                      properties:
-                        data:
-                          description: Base64 encoded file
-                          format: binary
-                          type: string
-                        filename:
-                          description: Name of file
-                          type: string
-                      type: object
-                    list-id:
-                      type: string
-                  type: object
-              type: object
-          type: object
+    $ref: ../components/requestBodies/ListItemImporterCSVRequest.yaml
   responses:
     '201':
       content:
@@ -115,25 +93,3 @@ post:
   summary: Import Geolocation Lists
   tags:
     - Importers
-  x-readme:
-    code-samples:
-      - code: >-
-          API_KEY=YOUR_API_KEY_HERE
-
-          LIST_ID=YOUR_LIST_ID_HERE
-
-          FILE_PATH=CSV_FILE_PATH
-
-
-          curl -X POST -H 'Content-Type: application/json' -H "Authorization:
-          Bearer $API_KEY" -d'{
-            "data": {
-              "attributes": {
-                "list-id": "$LIST_ID",
-                "file": { "data": "'"$(base64 $FILE_PATH)"'", "filename": "$FILE_PATH" }
-              }
-            }
-          }' https://withpersona.com/api/v1/importer/list-item/geolocations
-        language: curl
-    samples-languages:
-      - curl

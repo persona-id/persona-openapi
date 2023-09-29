@@ -10,6 +10,21 @@ post:
     - $ref: ../components/parameters/personaVersionHeader.yaml
   requestBody:
     content:
+      multipart/form-data:
+        schema:
+          properties:
+            data:
+              properties:
+                attributes:
+                  properties:
+                    image-files:
+                      items: {}
+                      type: array
+                    list-id:
+                      type: string
+                  type: object
+              type: object
+          type: object
       application/json:
         schema:
           properties:
@@ -109,44 +124,3 @@ post:
   summary: Import Face Lists
   tags:
     - Importers
-  x-readme:
-    code-samples:
-      - code: >-
-          API_KEY=YOUR_API_KEY_HERE
-
-          LIST_ID=YOUR_LIST_ID_HERE
-
-          IMAGE1_PATH=IMAGE1_FILE_PATH
-
-          IMAGE2_PATH=IMAGE2_FILE_PATH
-
-
-          curl -X POST -H 'Content-Type: application/json' -H "Authorization:
-          Bearer $API_KEY" -d'{
-            "data": {
-              "attributes": {
-                "list-id": "$LIST_ID",
-                "image-files": [
-                    { "data": "'"$(base64 $IMAGE1_PATH)"'", "filename": "$IMAGE1_PATH" },
-                    { "data": "'"$(base64 $IMAGE2_PATH)"'", "filename": "$IMAGE2_PATH" }
-                ]
-              }
-            }
-          }' https://withpersona.com/api/v1/importer/list-item/faces
-        language: curl
-        name: application/json
-      - code: |
-          API_KEY=YOUR_API_KEY_HERE
-          LIST_ID=YOUR_LIST_ID_HERE
-          IMAGE1_PATH=IMAGE1_FILE_PATH
-          IMAGE2_PATH=IMAGE2_FILE_PATH
-
-          curl -H "Authorization: Bearer $API_KEY" \
-           -F "data[attributes][list-id]=$LIST_ID" \
-           -F "data[attributes][image-files][]=@$IMAGE1_PATH" \
-           -F "data[attributes][image-files][]=@$IMAGE2_PATH" \
-           https://withpersona.com/api/v1/importer/list-item/faces
-        language: curl
-        name: multipart/form-data
-    samples-languages:
-      - curl
