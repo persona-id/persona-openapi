@@ -13,45 +13,22 @@ post:
             data:
               properties:
                 attributes:
-                  properties:
-                    address-city:
-                      description: City of residence for the individual
-                      type: string
-                    address-postal-code:
-                      description: Postal code of the individual
-                      type: string
-                    address-street-1:
-                      description: First address street line of the individual
-                      type: string
-                    address-street-2:
-                      description: Second address street line of the individual
-                      type: string
-                    address-subdivision:
-                      description: State or province or locality of the individual
-                      type: string
-                    birthdate:
-                      description: Birthdate of the individual
-                      format: date
-                      type: string
-                    country-code:
-                      description: Country of residence for the individual
-                      type: string
-                    name-first:
-                      description: Given/first name of the individual
-                      type: string
-                    name-last:
-                      description: Family/last name of the individual
-                      type: string
-                    verification-template-id:
-                      description: >-
-                        ID of Verification Template. You can find your
-                        Verification Template IDs
-                        [here](https://app.withpersona.com/dashboard/verification-templates?filter=%7B%22type%22%3A%5B%22verification-template%2Fdatabase"%5D%7D)
-                      type: string
+                  allOf:
+                    - $ref: ../components/schemas/DefaultFields.yaml
+                    - type: object
+                      properties:
+                        country-code:
+                          description: Country of residence for the individual
+                          type: string
+                        verification-template-id:
+                          description: >-
+                            ID of Verification Template. You can find your
+                            Verification Template IDs
+                            [here](https://app.withpersona.com/dashboard/verification-templates?filter=%7B%22type%22%3A%5B%22verification-template%2Fdatabase"%5D%7D)
+                          type: string
                   required:
                     - verification-template-id
                     - country-code
-                  type: object
               type: object
           required:
             - data

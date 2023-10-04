@@ -203,41 +203,41 @@ get:
                     selfies:
                       data: []
                 included:
-                  - type: verification/database
-                    id: ver_uHDiwtcx3htjajvEaeMjPQcE
-                    attributes:
-                      status: passed
-                      created-at: '2019-11-15T05:27:59.000Z'
-                      completed-at: '2019-11-15T05:28:02.000Z'
-                      country-code: US
-                      name-first: Rickilus
-                      name-middle: null
-                      name-last: Smith
-                      address-street-1: 1234 St
-                      address-street-2: null
-                      address-city: San Francisco
-                      address-subdivision: California
-                      address-postal-code: '94000'
-                      birthdate: '1990-01-01'
                   - type: inquiry-session
-                    id: iqse_ueCQP8wmydueLgbsgSVCzt3J
+                    id: iqse_TOKEN
                     attributes:
-                      status: active
-                      created-at: '2019-11-15T05:27:59.000Z'
-                      ip-address: 2603:9000:8507:1f2e:d23:b50d:a31e:ce30
-                      browser-name: Mobile Safari
-                      browser-full-version: 13.0.4
-                      os-name: iOS
-                      os-full-version: '13.3'
-                      device-name: iPhone
-                      device-type: smartphone
+                      status: expired
+                      created-at: '2023-07-25T04:15:20.000Z'
+                      ip-address: 127.0.0.1
+                      user-agent: >-
+                        Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)
+                        AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0
+                        Safari/537.36
+                      os-name: Mac
+                      os-full-version: 10.15.7
+                      device-type: desktop
+                      device-name: null
+                      browser-name: Chrome
+                      browser-full-version: 115.0.0.0
+                      mobile-sdk-name: null
+                      mobile-sdk-full-version: null
+                      is-proxy: false
+                      is-tor: false
+                      is-datacenter: false
+                      threat-level: low
+                      country-code: US
+                      country-name: United States
+                      region-code: CA
+                      region-name: California
+                      latitude: 37.7688
+                      longitude: -122.262
                     relationships:
                       inquiry:
                         data:
                           type: inquiry
-                          id: inq_rfWJxnYSa725XAQswNwpLubP
+                          id: inq_TOKEN
                   - type: inquiry-template
-                    id: itmpl_p8ANAJy9iqadm2buF2xcVgqH
+                    id: itmpl_TOKEN
                     attributes:
                       status: active
                       name: Twilio Desktop
@@ -245,25 +245,24 @@ get:
                       latest-published-version:
                         data:
                           type: inquiry-template-version
-                          id: itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo
+                          id: itmplv_TOKEN
           schema:
             properties:
               data:
                 $ref: ../components/schemas/Inquiry.yaml
               included:
-                items:
-                  properties:
-                    type:
-                      examples:
-                        - inquiry-session
-                      type: string
-                    id:
-                      examples:
-                        - itmpl_p8ANAJy9iqadm2buF2xcVgqH
-                      type: string
-                  additionalProperties: true
-                  type: object
                 type: array
+                items:
+                  discriminator:
+                    propertyName: type
+                    mapping:
+                      report: ../components/schemas/ReportData.yaml
+                      inquiry-template: ../components/schemas/InquiryTemplate.yaml
+                      inquiry-session: ../components/schemas/InquirySession.yaml
+                  anyOf:
+                    - $ref: ../components/schemas/ReportData.yaml
+                    - $ref: ../components/schemas/InquiryTemplate.yaml
+                    - $ref: ../components/schemas/InquirySession.yaml
             type: object
       description: OK
     '400':
@@ -299,41 +298,20 @@ patch:
             data:
               properties:
                 attributes:
-                  properties:
-                    address-city:
-                      type: string
-                    address-postal-code:
-                      type: string
-                    address-street-1:
-                      type: string
-                    address-street-2:
-                      type: string
-                    address-subdivision:
-                      type: string
-                    birthdate:
-                      description: 'Use the following format: YYYY-MM-DD'
-                      type: string
-                    email-address:
-                      type: string
-                    identification-number:
-                      default: '1231231234'
-                      description: Identification numbers, i.e. SSN
-                      type: string
-                    locale:
-                      type: string
-                    name-first:
-                      type: string
-                    name-last:
-                      type: string
-                    name-middle:
-                      type: string
-                    note:
-                      type: string
-                    phone-number:
-                      type: string
-                    selected-country-code:
-                      type: string
-                  type: object
+                  allOf:
+                    - $ref: ../components/schemas/DefaultFields.yaml
+                    - type: object
+                      properties:
+                        identification-number:
+                          default: '1231231234'
+                          description: Identification numbers, i.e. SSN
+                          type: string
+                        locale:
+                          type: string
+                        note:
+                          type: string
+                        selected-country-code:
+                          type: string
               type: object
           required:
             - data

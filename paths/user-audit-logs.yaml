@@ -30,33 +30,99 @@ get:
               value:
                 data:
                   - type: user-audit-log
-                    id: ual_RskjUrFJFJq4432DUFvV9CeJ
+                    id: ual_TOKENABC
                     attributes:
-                      method: GET
                       path: /api/v1/inquiries
+                      method: GET
+                      get-params: {}
+                      post-params: {}
                       ip-address: 127.0.0.1
-                      created-at: '2018-06-01T00:00:00.000+00:00'
+                      created-at: '2023-10-03T21:31:05.163Z'
+                      impersonator-email-address: null
+                    relationships:
+                      user:
+                        data:
+                          type: user
+                          id: user_TOKEN
                   - type: user-audit-log
-                    id: ual_79BnM1kYUdEfqaGoDR7HbVQV
+                    id: ual_TOKENXYZ
                     attributes:
+                      path: >-
+                        /api/internal/dashboard/v1/user-sessions/uses_TOKEN/expire
                       method: GET
-                      path: /api/v1/inquiries
+                      get-params: {}
+                      post-params:
+                        data:
+                          id: uses_TOKEN
+                          type: user-session
                       ip-address: 127.0.0.1
-                      created-at: '2018-06-01T00:00:00.000+00:00'
-                  - type: user-audit-log
-                    id: ual_5BTqhvz3RdYAERuHuWf5oLZY
+                      created-at: '2023-10-03T21:31:05.163Z'
+                      impersonator-email-address: null
+                    relationships:
+                      user:
+                        data:
+                          type: user
+                          id: user_TOKEN
+                links:
+                  next: null
+                  prev: null
+                included:
+                  - type: user
+                    id: user_TOKEN
                     attributes:
-                      method: GET
-                      path: /api/v1/inquiries
-                      ip-address: 127.0.0.1
-                      created-at: '2018-06-01T00:00:00.000+00:00'
-                  - type: user-audit-log
-                    id: ual_JW4o7dSykgPk69d4xXQWtqdi
+                      email-address: jane@doe.com
+                      name-first: Jane
+                      name-last: Doe
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: ../components/schemas/UserAuditLog.yaml
+              links:
+                type: object
+                properties:
+                  prev:
+                    type:
+                      - string
+                      - 'null'
+                    examples:
+                      - /api/v1/user-audit-logs?page%5Bbefore%5D=ual_TOKEN
+                  next:
+                    type:
+                      - string
+                      - 'null'
+                    examples:
+                      - /api/v1/user-audit-logs?page%5Bafter%5D=ual_TOKEN
+              included:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      examples:
+                        - user
+                    id:
+                      type: string
+                      examples:
+                        - user_TOKEN
                     attributes:
-                      method: GET
-                      path: /api/v1/inquiries
-                      ip-address: 127.0.0.1
-                      created-at: '2018-06-01T00:00:00.000+00:00'
+                      type: object
+                      properties:
+                        email-address:
+                          type: string
+                          examples:
+                            - jane@doe.com
+                        name-first:
+                          type: string
+                          examples:
+                            - Jane
+                        name-last:
+                          type: string
+                          examples:
+                            - Doe
       description: OK
     '400':
       $ref: ../components/responses/BadRequest.yaml

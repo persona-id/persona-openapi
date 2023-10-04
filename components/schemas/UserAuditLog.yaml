@@ -1,0 +1,60 @@
+type: object
+properties:
+  type:
+    type: string
+    example: user-audit-log
+  id:
+    type: string
+    example: ual_TOKEN
+  attributes:
+    type: object
+    properties:
+      path:
+        type: string
+        examples:
+          - /api/internal/dashboard/v1/cases/case_TOKEN
+      method:
+        type: string
+        examples:
+          - GET
+          - POST
+      get-params:
+        type: object
+        description: The GET params of the request. Schema depends on the action taken.
+        additionalProperties: true
+      post-params:
+        type: object
+        description: The POST params of the request. Schema depends on the action taken.
+        additionalProperties: true
+      ip-address:
+        type: string
+        examples:
+          - 127.0.0.1
+      created-at:
+        type: string
+        format: date-time
+        examples:
+          - '2023-10-03T19:41:30.155Z'
+      impersonator-email-address:
+        type:
+          - string
+          - 'null'
+        examples:
+          - user@withpersona.com
+  relationships:
+    type: object
+    properties:
+      user:
+        type: object
+        properties:
+          data:
+            type: object
+            properties:
+              type:
+                type: string
+                examples:
+                  - user
+              id:
+                type: string
+                examples:
+                  - user_TOKEN

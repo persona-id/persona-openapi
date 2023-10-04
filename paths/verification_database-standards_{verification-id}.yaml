@@ -100,151 +100,121 @@ get:
               data:
                 properties:
                   attributes:
-                    properties:
-                      address-city:
-                        examples:
-                          - Los Angeles
-                        type: string
-                      address-postal-code:
-                        examples:
-                          - '55555'
-                        type: string
-                      address-street-1:
-                        examples:
-                          - 555 Beverly Hills
-                        type: string
-                      address-street-2:
-                        examples:
-                          - Apartment 123
-                        type: string
-                      address-subdivision:
-                        examples:
-                          - CA
-                        type: string
-                      checks:
-                        items:
-                          properties:
-                            metadata:
+                    allOf:
+                      - $ref: ../components/schemas/DefaultFields.yaml
+                      - type: object
+                        properties:
+                          checks:
+                            items:
                               properties:
-                                check-requirements:
+                                metadata:
+                                  properties:
+                                    check-requirements:
+                                      items:
+                                        properties:
+                                          comparisons:
+                                            items:
+                                              properties:
+                                                match-level-minimum:
+                                                  examples:
+                                                    - partial
+                                                  type: string
+                                                match-result:
+                                                  examples:
+                                                    - partial
+                                                  type: string
+                                                type:
+                                                  examples:
+                                                    - string_similarity
+                                                  type: string
+                                              type: object
+                                            type: array
+                                          match-result:
+                                            examples:
+                                              - partial
+                                            type: string
+                                          name:
+                                            examples:
+                                              - John
+                                            type: string
+                                          status:
+                                            examples:
+                                              - passed
+                                            type: string
+                                        type: object
+                                      type: array
+                                  type: object
+                                name:
+                                  examples:
+                                    - database_standard_identity_comparison
+                                  type: string
+                                reasons:
                                   items:
-                                    properties:
-                                      comparisons:
-                                        items:
-                                          properties:
-                                            match-level-minimum:
-                                              examples:
-                                                - partial
-                                              type: string
-                                            match-result:
-                                              examples:
-                                                - partial
-                                              type: string
-                                            type:
-                                              examples:
-                                                - string_similarity
-                                              type: string
-                                          type: object
-                                        type: array
-                                      match-result:
-                                        examples:
-                                          - partial
-                                        type: string
-                                      name:
-                                        examples:
-                                          - John
-                                        type: string
-                                      status:
-                                        examples:
-                                          - passed
-                                        type: string
-                                    type: object
+                                    examples:
+                                      - no_inquiry
+                                    type: string
                                   type: array
+                                status:
+                                  examples:
+                                    - not_applicable
+                                  type: string
                               type: object
-                            name:
-                              examples:
-                                - database_standard_identity_comparison
-                              type: string
-                            reasons:
-                              items:
-                                examples:
-                                  - no_inquiry
-                                type: string
-                              type: array
-                            status:
-                              examples:
-                                - not_applicable
-                              type: string
-                          type: object
-                        type: array
-                      completed-at:
-                        examples:
-                          - '2022-08-02T05:03:02.000Z'
-                        type: string
-                      completed-at-ts:
-                        default: 0
-                        examples:
-                          - 1659416582
-                        type: integer
-                      country-code:
-                        examples:
-                          - US
-                        type: string
-                      created-at:
-                        examples:
-                          - '2022-08-02T05:02:56.000Z'
-                        type: string
-                      created-at-ts:
-                        default: 0
-                        examples:
-                          - 1659416576
-                        type: integer
-                      name-first:
-                        examples:
-                          - ALEXANDER
-                        type: string
-                      name-middle:
-                        examples:
-                          - JAMES
-                        type: string
-                      name-last:
-                        examples:
-                          - HAMILTON
-                        type: string
-                      normalized-address-city:
-                        examples:
-                          - Los Angeles
-                        type: string
-                      normalized-address-postal-code:
-                        examples:
-                          - '55555'
-                        type: string
-                      normalized-address-street-1:
-                        examples:
-                          - 555 Beverly Hills
-                        type: string
-                      normalized-address-street-2:
-                        examples:
-                          - Apt 123
-                        type: string
-                      normalized-address-subdivision:
-                        examples:
-                          - CA
-                        type: string
-                      status:
-                        examples:
-                          - passed
-                        type: string
-                      submitted-at:
-                        examples:
-                          - '2022-08-02T05:03:02.000Z'
-                        type: string
-                      submitted-at-ts:
-                        default: 0
-                        examples:
-                          - 1659416582
-                        type: integer
-                    type: object
+                            type: array
+                          completed-at:
+                            examples:
+                              - '2022-08-02T05:03:02.000Z'
+                            type: string
+                          completed-at-ts:
+                            default: 0
+                            examples:
+                              - 1659416582
+                            type: integer
+                          country-code:
+                            examples:
+                              - US
+                            type: string
+                          created-at:
+                            examples:
+                              - '2022-08-02T05:02:56.000Z'
+                            type: string
+                          created-at-ts:
+                            default: 0
+                            examples:
+                              - 1659416576
+                            type: integer
+                          normalized-address-city:
+                            examples:
+                              - Los Angeles
+                            type: string
+                          normalized-address-postal-code:
+                            examples:
+                              - '55555'
+                            type: string
+                          normalized-address-street-1:
+                            examples:
+                              - 555 Beverly Hills
+                            type: string
+                          normalized-address-street-2:
+                            examples:
+                              - Apt 123
+                            type: string
+                          normalized-address-subdivision:
+                            examples:
+                              - CA
+                            type: string
+                          status:
+                            examples:
+                              - passed
+                            type: string
+                          submitted-at:
+                            examples:
+                              - '2022-08-02T05:03:02.000Z'
+                            type: string
+                          submitted-at-ts:
+                            default: 0
+                            examples:
+                              - 1659416582
+                            type: integer
                   id:
                     examples:
                       - ver_1rWMmoV3hoy2qWv3wGPcH43c

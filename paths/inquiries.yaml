@@ -258,40 +258,13 @@ post:
                         JSON key-value pairs of field name to field value.
                         <br><br>Common fields include
                         <ul><li>`name-first`</li><li>`name-last`</li><li>`birthdate`</li><li>`address-street-1`</li><li>`address-city`</li><li>`address-subdivision`</li><li>`address-postal-code`</li><li>`address-country-code`</li><li>`phone-number`</li><li>`email-address`</li></ul>
-                      properties:
-                        address-city:
-                          description: optional
-                          type: string
-                        address-country-code:
-                          description: optional
-                          type: string
-                        address-postal-code:
-                          description: optional
-                          type: string
-                        address-street-1:
-                          description: optional
-                          type: string
-                        address-subdivision:
-                          description: optional
-                          type: string
-                        birthdate:
-                          description: optional
-                          type: string
-                        email-address:
-                          description: optional
-                          type: string
-                        name-first:
-                          default: Ash
-                          description: optional
-                          type: string
-                        name-last:
-                          default: Ketchum
-                          description: optional
-                          type: string
-                        phone-number:
-                          description: optional
-                          type: string
-                      type: object
+                      allOf:
+                        - $ref: ../components/schemas/DefaultFields.yaml
+                        - type: object
+                          properties:
+                            address-country-code:
+                              description: optional
+                              type: string
                     inquiry-template-id:
                       description: >-
                         Template ID for flow requirements (use this field if

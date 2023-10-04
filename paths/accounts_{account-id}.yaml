@@ -112,89 +112,59 @@ patch:
             data:
               properties:
                 attributes:
-                  properties:
-                    reference-id:
-                      description: >-
-                        Reference ID on Account, refers to an entity in your
-                        user model
-                      type: string
-                    address-street-1:
-                      description: Street name of residence address.
-                      type: string
-                    address-street-2:
-                      description: >-
-                        Extension of residence address, usually apartment or
-                        suite number.
-                      type: string
-                    address-city:
-                      description: >-
-                        City of residence address. Not all international
-                        addresses use this attribute.
-                      type: string
-                    address-subdivision:
-                      description: >-
-                        State or subdivision of residence address. In the US,
-                        this should be the unabbreviated name. Not all
-                        international addresses use this attribute.
-                      type: string
-                    address-postal-code:
-                      description: >-
-                        ZIP or postal code of residence address. Not all
-                        international addresses use this attribute.
-                      type: string
-                    country-code:
-                      description: ISO 3166-1 alpha 2 country code.
-                      type: string
-                    birthdate:
-                      description: Birthdate, must be in the format "YYYY-MM-DD".
-                      format: date
-                      type: string
-                    name-first:
-                      description: Given or first name.
-                      type: string
-                    name-middle:
-                      description: Middle name.
-                      type: string
-                    name-last:
-                      description: Family or last name.
-                      type: string
-                    phone-number:
-                      description: Phone number.
-                      type: string
-                    email-address:
-                      description: Email address.
-                      type: string
-                    social-security-number:
-                      description: Social security number.
-                      type: string
-                    selfie-photo:
-                      description: Selfie photo.
+                  allOf:
+                    - type: object
                       properties:
-                        data:
+                        reference-id:
                           description: >-
-                            Selfie photo data, must be an image. Can also be
-                            provided as an uploaded file such as with
-                            multipart/form-data requests instead of this object.
+                            Reference ID on Account, refers to an entity in your
+                            user model
+                          type: string
+                        selfie-photo:
+                          description: Selfie photo.
                           properties:
                             data:
-                              description: Base64 encoded image
-                              type: string
-                            filename:
-                              description: Name of the image
-                              type: string
+                              description: >-
+                                Selfie photo data, must be an image. Can also be
+                                provided as an uploaded file such as with
+                                multipart/form-data requests instead of this
+                                object.
+                              properties:
+                                data:
+                                  description: Base64 encoded image
+                                  type: string
+                                filename:
+                                  description: Name of the image
+                                  type: string
+                              type: object
                           type: object
-                      type: object
-                    fields:
-                      description: Custom fields for the Account
-                      type: object
-                      additionalProperties: true
-                    tags:
-                      default: []
-                      description: A list of tag names that are associated to an Account.
-                      items:
-                        type: string
-                      type: array
-                  type: object
+                        fields:
+                          description: Custom fields for the Account
+                          type: object
+                          additionalProperties: true
+                        tags:
+                          default: []
+                          description: >-
+                            A list of tag names that are associated to an
+                            Account.
+                          items:
+                            type: string
+                          type: array
+                        country-code:
+                          description: ISO 3166-1 alpha 2 country code.
+                          examples:
+                            - US
+                          type:
+                            - string
+                            - 'null'
+                        social-security-number:
+                          description: Social security number.
+                          examples:
+                            - 123-45-6789
+                          type:
+                            - string
+                            - 'null'
+                    - $ref: ../components/schemas/DefaultFields.yaml
               type: object
           type: object
   responses:

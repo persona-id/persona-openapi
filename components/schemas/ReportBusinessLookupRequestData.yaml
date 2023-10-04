@@ -1,0 +1,57 @@
+type: object
+allOf:
+  - $ref: ./ReportBaseRequestData.yaml
+  - type: object
+    properties:
+      type:
+        type: string
+        description: report/business-lookup
+        example: report/business-lookup
+      attributes:
+        type: object
+        properties:
+          query:
+            type: object
+            properties:
+              business-name:
+                type: string
+                example: Coffee Shop
+              phone-number:
+                type: string
+                format: nullable
+              website:
+                type: string
+                format: nullable
+              ein:
+                type: string
+                format: nullable
+              address-street-1:
+                type: string
+                example: 123 Funky St
+              address-street-2:
+                type: string
+                format: nullable
+              address-city:
+                type: string
+                example: Funkyville
+              address-subdivision:
+                type: string
+                description: Subnational division of a country such as a US state.
+                example: CA
+              address-postal-code:
+                type: string
+                example: '12345'
+              address-country-code:
+                type: string
+                format: nullable
+                example: US
+              incorporation-state:
+                type: string
+                format: nullable
+                example: CA
+              associated-people:
+                type: array
+                items:
+                  type: string
+                  format: nullable
+                  example: John Doe
