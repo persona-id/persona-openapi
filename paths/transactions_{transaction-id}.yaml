@@ -612,6 +612,8 @@ get:
                   additionalProperties: true
                   type: object
                 type: array
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
     '401':
       $ref: ../components/responses/Unauthorized.yaml
     '403':
@@ -649,16 +651,14 @@ patch:
                   type: object
                   properties:
                     fields:
+                      description: >-
+                        Key value pairs of field name to field value. Exact
+                        field names and data types will depend on the
+                        configurations for your <<glossary:transaction type>>.
+                      examples:
+                        - external-integration-id: ind_123
                       type: object
-                      description: Key value pairs of field name to field value.
-                      properties:
-                        <your_field_name>:
-                          type: string
-                          description: >-
-                            Note: field names and data types used here will
-                            depend on the configurations for your
-                            <<glossary:transaction type>>.
-                          format: json
+                      additionalProperties: true
                     status:
                       type: string
                     reference-id:

@@ -7376,6 +7376,7 @@
                             "tags": [],
                             "creator": "creator@withpersona.com",
                             "reviewer-comment": null,
+                            "updated-at": "2023-04-30T19:07:01.000Z",
                             "created-at": "2023-03-29T19:06:45.000Z",
                             "started-at": "2023-03-30T19:07:01.000Z",
                             "completed-at": "2023-04-30T19:07:01.000Z",
@@ -7635,7 +7636,11 @@
                             "type": "string"
                           },
                           "theme-id": {
-                            "description": "Theme ID for styling",
+                            "description": "Theme ID for styling. Only available for Legacy 2.0 Inquiries.",
+                            "type": "string"
+                          },
+                          "theme-set-id": {
+                            "description": "BETA FEATURE -- Theme Set ID for styling. Only available for Dynamic Flow Inquiries.",
                             "type": "string"
                           }
                         },
@@ -7833,6 +7838,7 @@
                           ],
                           "creator": "creator@withpersona.com",
                           "reviewer-comment": null,
+                          "updated-at": "2019-11-15T05:28:02.000Z",
                           "created-at": "2019-11-15T05:27:24.000Z",
                           "started-at": "2019-11-15T05:27:46.000Z",
                           "completed-at": "2019-11-15T05:28:02.000Z",
@@ -8626,6 +8632,7 @@
                           "tags": [],
                           "creator": "tim@withpersona.com",
                           "reviewer-comment": null,
+                          "updated-at": "2023-03-28T18:35:10.000Z",
                           "created-at": "2023-03-28T18:34:32.000Z",
                           "started-at": "2023-03-28T18:35:10.000Z",
                           "completed-at": null,
@@ -8874,6 +8881,9 @@
               }
             }
           },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
           },
@@ -9044,6 +9054,7 @@
                           "tags": [],
                           "creator": "creator@withpersona.com",
                           "reviewer-comment": null,
+                          "updated-at": "2023-04-30T19:07:01.000Z",
                           "created-at": "2023-03-29T19:06:45.000Z",
                           "started-at": "2023-03-30T19:07:01.000Z",
                           "completed-at": "2023-04-30T19:07:01.000Z",
@@ -9319,6 +9330,111 @@
           }
         },
         "summary": "Set all tags",
+        "tags": [
+          "Inquiries"
+        ]
+      }
+    },
+    "/inquiries/{inquiry-id}/perform-simulate-actions": {
+      "post": {
+        "description": "Perform a series of simulated actions on a Sandbox inquiry.",
+        "operationId": "inquiries-perform-simulate-actions",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/keyInflectionHeader"
+          },
+          {
+            "$ref": "#/components/parameters/idempotencyKeyHeader"
+          },
+          {
+            "$ref": "#/components/parameters/personaVersionHeader"
+          },
+          {
+            "name": "inquiry-id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "meta": {
+                    "properties": {
+                      "simulate-actions": {
+                        "default": [],
+                        "items": {
+                          "properties": {
+                            "type": {
+                              "description": "The type of simulate action. See [valid actions](doc:testing).",
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "type"
+                          ],
+                          "type": "object"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "type": "object"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Result": {
+                    "summary": "OK",
+                    "$ref": "#/components/examples/InquiryResponse"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Inquiry"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        },
+        "summary": "Perform Simulate Actions",
         "tags": [
           "Inquiries"
         ]
@@ -14468,12 +14584,14 @@
                 "schema": {
                   "properties": {
                     "code": {
+                      "description": "Authorization Code that is only usable by the Organization specified by the client-id",
                       "examples": [
                         "8qaA6Q9GQnPjqiWB8BPed9MC6twE"
                       ],
                       "type": "string"
                     },
                     "expires-in": {
+                      "description": "Number of seconds until the authorization code expires.",
                       "default": 0,
                       "examples": [
                         599
@@ -14567,12 +14685,14 @@
                 "schema": {
                   "properties": {
                     "access-token": {
+                      "description": "Access Token that can be used wherever an API Key would be used.",
                       "examples": [
                         "persona_access_token_d8b7f084-385f-4ff0-930e-1580ccefa16d"
                       ],
                       "type": "string"
                     },
                     "expires-in": {
+                      "description": "Number of seconds until the access token expires.",
                       "default": 0,
                       "examples": [
                         3599
@@ -14580,6 +14700,7 @@
                       "type": "integer"
                     },
                     "scope": {
+                      "description": "Space-separated list of 'permission:object' combinations (i.e. `inquiry.read:inq_uX7kRTiBxsJ1sZqPLAsjdP9j verification.read:ver_ynYuWdrjwwjiHJ2rgHfSoHeT`",
                       "examples": [
                         "inquiry.read:inq_uX7kRTiBxsJ1sZqPLAsjdP9j inquiry.read:inq_1Uy5ruZb5yZy4zX21KesbtfK"
                       ],
@@ -15659,6 +15780,9 @@
               }
             }
           },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
           },
@@ -16551,15 +16675,14 @@
                             "description": "Transaction type ID to create the transaction for."
                           },
                           "fields": {
-                            "type": "object",
-                            "description": "Key value pairs of field name to field value.",
-                            "properties": {
-                              "<your_field_name>": {
-                                "type": "string",
-                                "description": "Note: field names and data types used here will depend on the configurations for your <<glossary:transaction type>>.",
-                                "format": "json"
+                            "description": "Key value pairs of field name to field value. Exact field names and data types will depend on the configurations for your <<glossary:transaction type>>.",
+                            "examples": [
+                              {
+                                "external-integration-id": "ind_123"
                               }
-                            }
+                            ],
+                            "type": "object",
+                            "additionalProperties": true
                           },
                           "reference-id": {
                             "type": "string",
@@ -18262,6 +18385,9 @@
               }
             }
           },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
           },
@@ -18316,15 +18442,14 @@
                         "type": "object",
                         "properties": {
                           "fields": {
-                            "type": "object",
-                            "description": "Key value pairs of field name to field value.",
-                            "properties": {
-                              "<your_field_name>": {
-                                "type": "string",
-                                "description": "Note: field names and data types used here will depend on the configurations for your <<glossary:transaction type>>.",
-                                "format": "json"
+                            "description": "Key value pairs of field name to field value. Exact field names and data types will depend on the configurations for your <<glossary:transaction type>>.",
+                            "examples": [
+                              {
+                                "external-integration-id": "ind_123"
                               }
-                            }
+                            ],
+                            "type": "object",
+                            "additionalProperties": true
                           },
                           "status": {
                             "type": "string"
@@ -20561,6 +20686,9 @@
               }
             },
             "description": "OK"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
           },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
@@ -25303,6 +25431,9 @@
           "404": {
             "$ref": "#/components/responses/NotFound"
           },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
           "422": {
             "$ref": "#/components/responses/UnprocessableEntity"
           },
@@ -26643,6 +26774,12 @@
           "404": {
             "$ref": "#/components/responses/NotFound"
           },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          },
           "429": {
             "$ref": "#/components/responses/TooManyRequests"
           }
@@ -27918,6 +28055,9 @@
           "404": {
             "$ref": "#/components/responses/NotFound"
           },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
           "422": {
             "$ref": "#/components/responses/UnprocessableEntity"
           },
@@ -28763,6 +28903,9 @@
             },
             "description": "OK"
           },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
           },
@@ -28859,6 +29002,9 @@
             },
             "description": "OK"
           },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
           },
@@ -28918,6 +29064,9 @@
                 }
               }
             }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
           },
           "401": {
             "$ref": "#/components/responses/Unauthorized"

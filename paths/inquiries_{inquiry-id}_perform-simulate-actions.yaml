@@ -1,0 +1,65 @@
+post:
+  description: Perform a series of simulated actions on a Sandbox inquiry.
+  operationId: inquiries-perform-simulate-actions
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - name: inquiry-id
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            meta:
+              properties:
+                simulate-actions:
+                  default: []
+                  items:
+                    properties:
+                      type:
+                        description: >-
+                          The type of simulate action. See [valid
+                          actions](doc:testing).
+                        type: string
+                    required:
+                      - type
+                    type: object
+                  type: array
+              type: object
+          type: object
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              $ref: ../components/examples/InquiryResponse.yaml
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/Inquiry.yaml
+            type: object
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '401':
+      $ref: ../components/responses/Unauthorized.yaml
+    '403':
+      $ref: ../components/responses/Forbidden.yaml
+    '404':
+      $ref: ../components/responses/NotFound.yaml
+    '409':
+      $ref: ../components/responses/Conflict.yaml
+    '422':
+      $ref: ../components/responses/UnprocessableEntity.yaml
+    '429':
+      $ref: ../components/responses/TooManyRequests.yaml
+  summary: Perform Simulate Actions
+  tags:
+    - Inquiries
