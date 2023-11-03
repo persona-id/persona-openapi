@@ -15,10 +15,22 @@ properties:
       - type: object
         properties:
           status:
-            examples:
+            enum:
+              - created
               - pending
+              - completed
+              - expired
+              - failed
+              - needs_review
+              - approved
+              - declined
             type: string
-          reference-id: {}
+          reference-id:
+            examples:
+              - ABC-123
+            type:
+              - string
+              - 'null'
           note:
             examples:
               - A helpful note
@@ -127,149 +139,117 @@ properties:
             type: object
           tags:
             type: array
+            items:
+              type:
+                - string
+                - 'null'
           creator:
             examples:
-              - tim@withpersona.com
+              - jane@doe.com
             type: string
-          reviewer-comment: {}
+          reviewer-comment:
+            examples:
+              - This is a comment for this inquiry!
+            type:
+              - string
+              - 'null'
           created-at:
             examples:
               - '2023-03-28T18:34:32.000Z'
             type: string
+            format: date-time
           started-at:
             examples:
               - '2023-03-28T18:35:10.000Z'
             type:
               - string
               - 'null'
+            format: date-time
           completed-at:
             examples:
               - '2023-03-28T18:35:10.000Z'
             type:
               - string
               - 'null'
+            format: date-time
           failed-at:
             examples:
               - '2023-03-28T18:35:10.000Z'
             type:
               - string
               - 'null'
+            format: date-time
           marked-for-review-at:
             examples:
               - '2023-03-28T18:35:10.000Z'
             type:
               - string
               - 'null'
+            format: date-time
           decisioned-at:
             examples:
               - '2023-03-28T18:35:10.000Z'
             type:
               - string
               - 'null'
+            format: date-time
           expired-at:
             examples:
               - '2023-03-28T18:35:10.000Z'
             type:
               - string
               - 'null'
+            format: date-time
           redacted-at:
             examples:
               - '2023-03-28T18:35:10.000Z'
             type:
               - string
               - 'null'
+            format: date-time
           previous-step-name:
             examples:
               - verification_government_id
+              - start
             type: string
           next-step-name:
             examples:
               - retry_verification_government_id
             type: string
-          address-subdivision-abbr: {}
-          address-postal-code-abbr: {}
-          identification-number: {}
+          address-subdivision-abbr:
+            examples:
+              - CA
+              - HI
+            type:
+              - string
+              - 'null'
+          address-postal-code-abbr:
+            examples:
+              - '94117'
+              - '77418'
+            type:
+              - string
+              - 'null'
+          identification-number:
+            examples:
+              - YL123456
+            type:
+              - string
+              - 'null'
           fields:
             properties:
-              address-city:
-                properties:
-                  type:
-                    examples:
-                      - string
-                    type: string
-                  value: {}
-                type: object
-              address-postal-code:
-                properties:
-                  type:
-                    examples:
-                      - string
-                    type: string
-                  value: {}
-                type: object
-              address-street-1:
-                properties:
-                  type:
-                    examples:
-                      - string
-                    type: string
-                  value: {}
-                type: object
-              address-street-2:
-                properties:
-                  type:
-                    examples:
-                      - string
-                    type: string
-                  value: {}
-                type: object
-              address-subdivision:
-                properties:
-                  type:
-                    examples:
-                      - string
-                    type: string
-                  value: {}
-                type: object
-              birthdate:
-                properties:
-                  type:
-                    examples:
-                      - date
-                    type: string
-                  value: {}
-                type: object
-              email-address:
-                properties:
-                  type:
-                    examples:
-                      - string
-                    type: string
-                  value: {}
-                type: object
-              identification-number:
-                properties:
-                  type:
-                    examples:
-                      - string
-                    type: string
-                  value: {}
-                type: object
               name-first:
                 properties:
                   type:
                     examples:
                       - string
                     type: string
-                  value: {}
-                type: object
-              name-last:
-                properties:
-                  type:
+                  value:
                     examples:
+                      - Jane
+                    type:
                       - string
-                    type: string
-                  value: {}
+                      - 'null'
                 type: object
               name-middle:
                 properties:
@@ -277,7 +257,141 @@ properties:
                     examples:
                       - string
                     type: string
-                  value: {}
+                  value:
+                    examples:
+                      - Marie
+                    type:
+                      - string
+                      - 'null'
+                type: object
+              name-last:
+                properties:
+                  type:
+                    examples:
+                      - string
+                    type: string
+                  value:
+                    examples:
+                      - Doe
+                    type:
+                      - string
+                      - 'null'
+                type: object
+              address-street-1:
+                properties:
+                  type:
+                    examples:
+                      - string
+                    type: string
+                  value:
+                    examples:
+                      - 123 Main St
+                    type:
+                      - string
+                      - 'null'
+                type: object
+              address-street-2:
+                properties:
+                  type:
+                    examples:
+                      - string
+                    type: string
+                  value:
+                    examples:
+                      - Apt
+                    type:
+                      - string
+                      - 'null'
+                type: object
+              address-city:
+                description: >-
+                  City of residence address. Not all international addresses use
+                  this attribute.
+                properties:
+                  type:
+                    examples:
+                      - string
+                    type: string
+                  value:
+                    examples:
+                      - San Francisco
+                    type:
+                      - string
+                      - 'null'
+                type: object
+              address-subdivision:
+                description: >-
+                  State or subdivision of residence address. In the US, this
+                  should be the unabbreviated name. Not all international
+                  addresses use this attribute.
+                properties:
+                  type:
+                    examples:
+                      - string
+                    type: string
+                  value:
+                    examples:
+                      - California
+                    type:
+                      - string
+                      - 'null'
+                type: object
+              address-postal-code:
+                description: >-
+                  ZIP or postal code of residence address. Not all international
+                  addresses use this attribute.
+                properties:
+                  type:
+                    examples:
+                      - string
+                    type: string
+                  value:
+                    examples:
+                      - '94111'
+                    type:
+                      - string
+                      - 'null'
+                type: object
+              address-country-code:
+                description: ISO 3166-1 alpha 2 country code.
+                properties:
+                  type:
+                    examples:
+                      - string
+                    type: string
+                  value:
+                    examples:
+                      - US
+                    type:
+                      - string
+                      - 'null'
+                type: object
+              birthdate:
+                properties:
+                  type:
+                    examples:
+                      - date
+                    type: string
+                  value:
+                    description: Date of birth in YYYY-MM-DD format
+                    examples:
+                      - '1991-10-07'
+                    type:
+                      - string
+                      - 'null'
+                type: object
+              email-address:
+                properties:
+                  type:
+                    examples:
+                      - string
+                    type: string
+                  value:
+                    examples:
+                      - test@emailaddress.com
+                    type:
+                      - string
+                      - 'null'
                 type: object
               phone-number:
                 properties:
@@ -285,7 +399,25 @@ properties:
                     examples:
                       - string
                     type: string
-                  value: {}
+                  value:
+                    examples:
+                      - 111-222-3333
+                    type:
+                      - string
+                      - 'null'
+                type: object
+              identification-number:
+                properties:
+                  type:
+                    examples:
+                      - string
+                    type: string
+                  value:
+                    examples:
+                      - YL123456
+                    type:
+                      - string
+                      - 'null'
                 type: object
             additionalProperties: true
             type: object
@@ -298,13 +430,15 @@ properties:
             properties:
               id:
                 examples:
-                  - act_upTNZ3D5NRAFJ39fzS2rHhAb
+                  - act_TOKEN
                 type: string
               type:
                 examples:
                   - account
                 type: string
-            type: object
+            type:
+              - object
+              - 'null'
         type: object
       documents:
         properties:
@@ -313,7 +447,7 @@ properties:
               properties:
                 id:
                   examples:
-                    - doc_88AXwf9FSrLrQ17FowVpTM7x
+                    - doc_TOKEN
                   type: string
                 type:
                   examples:
@@ -329,13 +463,15 @@ properties:
             properties:
               id:
                 examples:
-                  - tmpl_FZj3mM8ELoSP7aJW6zzi4rub
+                  - tmpl_TOKEN
                 type: string
               type:
                 examples:
                   - template
                 type: string
-            type: object
+            type:
+              - object
+              - 'null'
         type: object
       inquiry-template:
         description: Only present for Dynamic Flow inquiries
@@ -344,13 +480,15 @@ properties:
             properties:
               id:
                 examples:
-                  - itmpl_mNKRtWCMWB9Lbccc85DjgJnK
+                  - itmpl_TOKEN
                 type: string
               type:
                 examples:
                   - inquiry-template
                 type: string
-            type: object
+            type:
+              - object
+              - 'null'
         type: object
       inquiry-template-version:
         description: Only present for Dynamic Flow inquiries
@@ -359,26 +497,64 @@ properties:
             properties:
               id:
                 examples:
-                  - itmplv_1ivdvZUKPLAtWgsQdEvmi6wj
+                  - itmplv_TOKEN
                 type: string
               type:
                 examples:
                   - inquiry-template-version
                 type: string
-            type: object
+            type:
+              - object
+              - 'null'
         type: object
       reports:
         properties:
           data:
+            items:
+              properties:
+                id:
+                  examples:
+                    - rep_TOKEN
+                  type: string
+                type:
+                  examples:
+                    - report/address-lookup
+                    - report/watchlist
+                  type: string
+              type: object
             type: array
         type: object
       reviewer:
         properties:
-          data: {}
+          data:
+            properties:
+              id:
+                examples:
+                  - user_TOKEN
+                type: string
+              type:
+                examples:
+                  - user
+                type: string
+            type:
+              - object
+              - 'null'
         type: object
       selfies:
         properties:
           data:
+            items:
+              properties:
+                id:
+                  examples:
+                    - self_TOKEN
+                  type: string
+                type:
+                  examples:
+                    - selfie/profile-and-center
+                    - selfie/center-only
+                  type: string
+              type: object
             type: array
         type: object
       sessions:
@@ -388,7 +564,7 @@ properties:
               properties:
                 id:
                   examples:
-                    - iqse_855s3uUxjLyfKPsdbAtAkehL
+                    - iqse_TOKEN
                   type: string
                 type:
                   examples:
@@ -404,7 +580,7 @@ properties:
               properties:
                 id:
                   examples:
-                    - ver_vSLcWNjsUAmxPHZvACeZRGL2
+                    - ver_TOKEN
                   type: string
                 type:
                   examples:

@@ -1,0 +1,63 @@
+type: object
+description: A Webhook object
+properties:
+  type:
+    examples:
+      - webhook
+    type: string
+  id:
+    examples:
+      - webhook_TOKEN
+    type: string
+  attributes:
+    type: object
+    properties:
+      status:
+        type: string
+        examples:
+          - disabled
+      url:
+        type: string
+        examples:
+          - https://withpersona.com
+      api-version:
+        type: string
+        format: date
+        examples:
+          - '2023-01-05'
+      api-key-inflection:
+        type: string
+        examples:
+          - kebab
+      api-attributes-blocklist:
+        type: array
+        items:
+          type:
+            - string
+            - 'null'
+        examples:
+          - - address-*
+            - name-last
+            - /data/attributes/fields/*-number
+      file-access-token-expires-in:
+        type: integer
+        format: int32
+        examples:
+          - 21600
+      enabled-events:
+        type: array
+        items:
+          type: string
+        examples:
+          - - account.created
+            - verification.created
+            - '*'
+      payload-filter:
+        type:
+          - object
+          - 'null'
+      created-at:
+        type: string
+        format: date-time
+        examples:
+          - '2023-09-21T18:29:40.000Z'

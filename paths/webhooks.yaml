@@ -1,0 +1,139 @@
+get:
+  description: Returns a list of your environment's webhooks.
+  operationId: list-all-webhooks
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - description: Webhook ID for pagination cursor
+      in: query
+      name: page[after]
+      schema:
+        type: string
+    - description: Webhook ID for pagination cursor
+      in: query
+      name: page[before]
+      schema:
+        type: string
+    - description: Limit on the number of Webhooks returned (between 1 and 100)
+      in: query
+      name: page[size]
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value:
+                data:
+                  - type: webhook
+                    id: webhook_ATOKEN
+                    attributes:
+                      status: disabled
+                      url: https://withpersona.com
+                      api-version: '2023-01-05'
+                      api-key-inflection: kebab
+                      api-attributes-blocklist:
+                        - address-*
+                        - name-last
+                        - /data/attributes/fields/*-number
+                      file-access-token-expires-in: 21600
+                      enabled-events:
+                        - account.created
+                        - verification.created
+                      payload-filter:
+                        data:
+                          relationships:
+                            inquiry-template:
+                              data:
+                                id: itmpl_abc123def456
+                      created-at: '2023-08-17T23:18:13.000Z'
+                  - type: webhook
+                    id: webhook_BTOKEN
+                    attributes:
+                      status: disabled
+                      url: https://withpersona.com
+                      api-version: '2023-01-05'
+                      api-key-inflection: camel
+                      api-attributes-blocklist:
+                        - /data/attributes/fields/*-number
+                      file-access-token-expires-in: 600
+                      enabled-events:
+                        - '*'
+                      payload-filter: {}
+                      created-at: '2023-09-18T23:18:13.000Z'
+                links:
+                  prev: null
+                  next: null
+          schema:
+            properties:
+              data:
+                items:
+                  $ref: ../components/schemas/Webhook.yaml
+                type: array
+                description: An array of Webhooks
+              links:
+                properties:
+                  next:
+                    type:
+                      - string
+                      - 'null'
+                  prev:
+                    type:
+                      - string
+                      - 'null'
+                type: object
+            type: object
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '401':
+      $ref: ../components/responses/Unauthorized.yaml
+    '403':
+      $ref: ../components/responses/Forbidden.yaml
+    '429':
+      $ref: ../components/responses/TooManyRequests.yaml
+  summary: List all Webhooks
+  tags:
+    - Webhooks
+post:
+  description: Make a new Webhook with response defaults.
+  operationId: create-a-webhook
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+  requestBody:
+    $ref: ../components/requestBodies/WebhookCreateRequest.yaml
+  responses:
+    '201':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: Created
+              $ref: ../components/examples/WebhookResponseDisabled.yaml
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/Webhook.yaml
+            type: object
+      description: Created
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '401':
+      $ref: ../components/responses/Unauthorized.yaml
+    '403':
+      $ref: ../components/responses/Forbidden.yaml
+    '409':
+      $ref: ../components/responses/Conflict.yaml
+    '422':
+      $ref: ../components/responses/UnprocessableEntity.yaml
+    '429':
+      $ref: ../components/responses/TooManyRequests.yaml
+  summary: Create a Webhook
+  tags:
+    - Webhooks

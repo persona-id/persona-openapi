@@ -66,6 +66,8 @@ tags:
     description: Interact with Phone Number Verifications
   - name: Selfie Verifications
     description: Interact with Selfie Verifications
+  - name: Webhooks
+    description: Interact with Webhooks
   - name: Workflows
     description: Interact with Persona Workflow objects
 paths:
@@ -888,7 +890,7 @@ paths:
       tags:
         - API Keys
     patch:
-      description: Make a new API key with response defaults and permissions.
+      description: Update an existing API key.
       operationId: update-an-api-key
       parameters:
         - $ref: '#/components/parameters/keyInflectionHeader'
@@ -1218,7 +1220,7 @@ paths:
     get:
       description: |-
         Returns a list of your organization's cases.
-        Note that this endpoint aggregates cases across all <<glossary:case template>>(s). See [Pagination](ref:pagination) for more details about handling the response.
+        Note that this endpoint aggregates cases across all <<glossary:case template>>(s). See [Pagination](https://docs.withpersona.com/reference/pagination) for more details about handling the response.
       operationId: list-all-cases
       parameters:
         - $ref: '#/components/parameters/keyInflectionHeader'
@@ -4756,7 +4758,7 @@ paths:
       description: |-
         Returns a list of your organization's inquiries.
 
-        Note that this endpoint aggregates inquiries across all <<glossary:template>>(s). See [Pagination](ref:pagination) for more details about handling the response.
+        Note that this endpoint aggregates inquiries across all <<glossary:template>>(s). See [Pagination](https://docs.withpersona.com/reference/pagination) for more details about handling the response.
       operationId: list-all-inquiries
       parameters:
         - $ref: '#/components/parameters/keyInflectionHeader'
@@ -4766,47 +4768,72 @@ paths:
           in: query
           name: page[after]
           schema:
+            examples:
+              - inq_TOKEN
             type: string
         - description: Inquiry ID for pagination cursor
           in: query
           name: page[before]
           schema:
+            examples:
+              - inq_TOKEN
             type: string
         - description: Limit on the number of inquiries returned
           in: query
           name: page[size]
           schema:
-            type: string
+            examples:
+              - 5
+            type: number
         - description: Filter inquiries by account ID
           in: query
           name: filter[account-id]
           schema:
+            examples:
+              - act_TOKEN
+            type: string
+        - description: Filter inquiries by note. Must be the only filter.
+          in: query
+          name: filter[note]
+          schema:
+            examples:
+              - A note saved on an inquiry
             type: string
         - description: Filter inquiries by reference ID
           in: query
           name: filter[reference-id]
           schema:
+            examples:
+              - abc-123
             type: string
         - description: Filter inquiries by template ID (use this field if your template ID starts with `tmpl_`)
           in: query
           name: filter[template-id]
           schema:
+            examples:
+              - tmpl_TOKEN
             type: string
         - description: Filter inquiries by inquiry template ID (use this field if your template ID starts with `itmpl_`)
           in: query
           name: filter[inquiry-template-id]
           schema:
+            examples:
+              - itmpl_TOKEN
             type: string
         - description: Filter inquiries by creation date, equal to or later than
           in: query
           name: filter[created-at-start]
           schema:
+            examples:
+              - '2023-10-11T04:59:21.764Z'
             format: date-time
             type: string
         - description: Filter inquiries by creation date, earlier than or equal to
           in: query
           name: filter[created-at-end]
           schema:
+            examples:
+              - '2023-10-20T04:59:21.764Z'
             format: date-time
             type: string
       responses:
@@ -4816,132 +4843,7 @@ paths:
               examples:
                 Result:
                   summary: OK
-                  value:
-                    data:
-                      - type: inquiry
-                        id: inq_zEx4jL84ShbUyuwX6AzPSqt6
-                        attributes:
-                          status: completed
-                          reference-id: null
-                          note: null
-                          behaviors:
-                            request-spoof-attempts: null
-                            user-agent-spoof-attempts: null
-                            distraction-events: null
-                            hesitation-baseline: null
-                            hesitation-count: null
-                            hesitation-time: null
-                            shortcut-copies: null
-                            shortcut-pastes: null
-                            autofill-cancels: null
-                            autofill-starts: null
-                            devtools-open: null
-                            completion-time: null
-                            hesitation-percentage: null
-                            behavior-threat-level: null
-                          tags: []
-                          creator: creator@withpersona.com
-                          reviewer-comment: null
-                          updated-at: '2023-04-30T19:07:01.000Z'
-                          created-at: '2023-03-29T19:06:45.000Z'
-                          started-at: '2023-03-30T19:07:01.000Z'
-                          completed-at: '2023-04-30T19:07:01.000Z'
-                          failed-at: null
-                          marked-for-review-at: null
-                          decisioned-at: null
-                          expired-at: null
-                          redacted-at: null
-                          previous-step-name: start
-                          next-step-name: verification_document
-                          name-first: null
-                          name-middle: null
-                          name-last: null
-                          birthdate: null
-                          address-street-1: null
-                          address-street-2: null
-                          address-city: null
-                          address-subdivision: null
-                          address-subdivision-abbr: null
-                          address-postal-code: null
-                          address-postal-code-abbr: null
-                          social-security-number: null
-                          identification-number: null
-                          email-address: null
-                          phone-number: null
-                          fields:
-                            name-first:
-                              type: string
-                              value: null
-                            name-middle:
-                              type: string
-                              value: null
-                            name-last:
-                              type: string
-                              value: null
-                            address-street-1:
-                              type: string
-                              value: null
-                            address-street-2:
-                              type: string
-                              value: null
-                            address-city:
-                              type: string
-                              value: null
-                            address-subdivision:
-                              type: string
-                              value: null
-                            address-postal-code:
-                              type: string
-                              value: null
-                            address-country-code:
-                              type: string
-                              value: null
-                            birthdate:
-                              type: date
-                              value: null
-                            email-address:
-                              type: string
-                              value: null
-                            phone-number:
-                              type: string
-                              value: null
-                            identification-number:
-                              type: string
-                              value: null
-                        relationships:
-                          account:
-                            data:
-                              type: account
-                              id: act_n2uq9eKMboaCQzu9ALWYcVdN
-                          template:
-                            data: {}
-                          inquiry-template:
-                            data:
-                              type: inquiry-template
-                              id: itmpl_p8ANAJy9iqadm2buF2xcVgqH
-                          inquiry-template-version:
-                            data:
-                              type: inquiry-template-version
-                              id: itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo
-                          reviewer:
-                            data: {}
-                          reports:
-                            data: []
-                          verifications:
-                            data:
-                              - type: verification/database
-                                id: ver_uHDiwtcx3htjajvEaeMjPQcE
-                          sessions:
-                            data:
-                              - type: session
-                                id: iqse_ov4ftVuCYm8U7rNkZADFpiBg
-                          documents:
-                            data: []
-                          selfies:
-                            data: []
-                    links:
-                      prev: null
-                      next: /api/v1/inquiries?page%5Bafter%5D=inq_ByBdXDqUrguLAHjGZMuDZLCx
+                  $ref: '#/components/examples/InquiryListResponse'
               schema:
                 properties:
                   data:
@@ -4951,11 +4853,20 @@ paths:
                     description: An array of Inquiries
                   links:
                     properties:
+                      prev:
+                        examples:
+                          - /api/v1/inquiries?page%5Bafter%5D=inq_TOKEN
+                        type:
+                          - 'null'
+                          - string
+                        description: URL pointing to the previous page of data, or null if on the first page.
                       next:
                         examples:
-                          - /api/v1/inquiries?page%5Bafter%5D=inq_ByBdXDqUrguLAHjGZMuDZLCx
-                        type: string
-                      prev: {}
+                          - /api/v1/inquiries?page%5Bafter%5D=TOKEN
+                        type:
+                          - 'null'
+                          - string
+                        description: URL pointing to the next page of data, or null if on the last page.
                     type: object
                 type: object
           description: OK
@@ -4974,7 +4885,7 @@ paths:
       description: |-
         Create a new inquiry with optional pre-filled attributes. 
 
-        See [Sessions](doc:inquiry-sessions) for how to continue the inquiry in [Embedded Flow](doc:embedded-flow) or [Hosted Flow](doc:hosted-flow).
+        See [Sessions](https://docs.withpersona.com/docs/inquiry-sessions) for how to continue the inquiry in [Embedded Flow](https://docs.withpersona.com/docs/embedded-flow) or [Hosted Flow](https://docs.withpersona.com/docs/hosted-flow).
       operationId: create-an-inquiry
       parameters:
         - $ref: '#/components/parameters/keyInflectionHeader'
@@ -4989,46 +4900,61 @@ paths:
                   properties:
                     attributes:
                       properties:
-                        account-id:
-                          description: Account ID for re-verifications or secure storage
+                        template-id:
+                          description: Template ID for flow requirements (use this field if your template ID starts with `tmpl_`). *You must pass in either template-id OR inquiry-template-id OR inquiry-template-version-id*
+                          examples:
+                            - tmpl_TOKEN
                           type: string
-                        country-code:
-                          description: Country code of residence for verification, in ISO 3166 Alpha-2 format.
-                          type: string
-                        fields:
-                          description: JSON key-value pairs of field name to field value. <br><br>Common fields include <ul><li>`name-first`</li><li>`name-last`</li><li>`birthdate`</li><li>`address-street-1`</li><li>`address-city`</li><li>`address-subdivision`</li><li>`address-postal-code`</li><li>`address-country-code`</li><li>`phone-number`</li><li>`email-address`</li></ul>
-                          allOf:
-                            - $ref: '#/components/schemas/DefaultFields'
-                            - type: object
-                              properties:
-                                address-country-code:
-                                  description: optional
-                                  type: string
                         inquiry-template-id:
                           description: Template ID for flow requirements (use this field if your template ID starts with `itmpl_`). *You must pass in either template-id OR inquiry-template-id OR inquiry-template-version-id*
+                          examples:
+                            - itmpl_TOKEN
                           type: string
                         inquiry-template-version-id:
                           description: Template Version ID for flow requirements (begins with `itmplv_`). *You must pass in either template-id OR inquiry-template-id OR inquiry-template-version-id*
-                          type: string
-                        note:
-                          description: Unstructured field for your custom use
-                          type: string
-                        redirect-uri:
-                          description: If using the Hosted flow, redirect to this URL after completion
+                          examples:
+                            - itmplv_TOKEN
                           type: string
                         reference-id:
-                          description: Reference ID on Account, refers to an entity in your user model
+                          description: Reference ID to refer to an entity in your user model
+                          examples:
+                            - abc-123
                           type: string
-                        template-id:
-                          description: Template ID for flow requirements (use this field if your template ID starts with `tmpl_`). *You must pass in either template-id OR inquiry-template-id OR inquiry-template-version-id*
+                        account-id:
+                          description: Account ID to associate with this inquiry
+                          examples:
+                            - act_TOKEN
+                          type: string
+                        creator-email-address:
+                          description: Email of the user creating this inquiry in the organization
+                          examples:
+                            - creator@withpersona.com
                           type: string
                         theme-id:
                           description: Theme ID for styling. Only available for Legacy 2.0 Inquiries.
+                          examples:
+                            - the_TOKEN
                           type: string
                         theme-set-id:
                           description: BETA FEATURE -- Theme Set ID for styling. Only available for Dynamic Flow Inquiries.
+                          examples:
+                            - theset_TOKEN
                           type: string
+                        redirect-uri:
+                          description: If using the Hosted flow, redirect to this URL after completion
+                          examples:
+                            - https://yoururl.com/redirect
+                          type: string
+                        note:
+                          description: Unstructured field for your custom use
+                          examples:
+                            - A note about this inquiry
+                          type: string
+                        fields:
+                          $ref: '#/components/schemas/InquiryFields'
                       type: object
+                  required:
+                    - attributes
                   type: object
               required:
                 - data
@@ -5115,9 +5041,9 @@ paths:
       description: |-
         Retrieves the details of an inquiry that has previously been created.
 
-        In the [Embedded Flow](doc:embedded-flow), the `inquiry-id` is the first parameter of the onStart callback. In the [Hosted Flow](doc:hosted-flow), the `inquiry-id` is a query parameter in the onComplete callback.
+        In the [Embedded Flow](https://docs.withpersona.com/docs/embedded-flow), the `inquiry-id` is the first parameter of the onStart callback. In the [Hosted Flow](https://docs.withpersona.com/docs/hosted-flow), the `inquiry-id` is a query parameter in the onComplete callback.
 
-        Template information will be found in `data.relationships.inquiry-template` if the inquiry is a Dynamic Flow inquiry, and in `data.relationships.template` if the inquiry is a Legacy 2.0 inquiry. For more information, see [Dynamic Flow vs. Legacy Templates](doc:inquiry-templates#dynamic-flow-vs-legacy-templates).
+        Template information will be found in `data.relationships.inquiry-template` if the inquiry is a Dynamic Flow inquiry, and in `data.relationships.template` if the inquiry is a Legacy 2.0 inquiry. For more information, see [Dynamic Flow vs. Legacy Templates](https://docs.withpersona.com/docs/inquiry-templates#dynamic-flow-vs-legacy-templates).
       operationId: retrieve-an-inquiry
       parameters:
         - $ref: '#/components/parameters/keyInflectionHeader'
@@ -5135,171 +5061,7 @@ paths:
               examples:
                 Result:
                   summary: OK
-                  value:
-                    data:
-                      type: inquiry
-                      id: inq_zEx4jL84ShbUyuwX6AzPSqt6
-                      attributes:
-                        status: completed
-                        reference-id: null
-                        note: null
-                        behaviors:
-                          request-spoof-attempts: 0
-                          user-agent-spoof-attempts: 0
-                          distraction-events: 0
-                          hesitation-baseline: 19860
-                          hesitation-count: 1
-                          hesitation-time: 12975
-                          shortcut-copies: 0
-                          shortcut-pastes: 0
-                          autofill-cancels: 29
-                          autofill-starts: 0
-                          devtools-open: false
-                          completion-time: 28.62633237
-                          hesitation-percentage: 65.33232628398792
-                          behavior-threat-level: low
-                        tags:
-                          - XYZ_CAMPAIGN
-                        creator: creator@withpersona.com
-                        reviewer-comment: null
-                        updated-at: '2019-11-15T05:28:02.000Z'
-                        created-at: '2019-11-15T05:27:24.000Z'
-                        started-at: '2019-11-15T05:27:46.000Z'
-                        completed-at: '2019-11-15T05:28:02.000Z'
-                        failed-at: null
-                        marked-for-review-at: null
-                        decisioned-at: null
-                        expired-at: null
-                        redacted-at: null
-                        previous-step-name: database_collection_form
-                        next-step-name: success
-                        name-first: null
-                        name-middle: null
-                        name-last: null
-                        birthdate: null
-                        address-street-1: null
-                        address-street-2: null
-                        address-city: null
-                        address-subdivision: null
-                        address-subdivision-abbr: null
-                        address-postal-code: null
-                        address-postal-code-abbr: null
-                        social-security-number: null
-                        identification-number: null
-                        email-address: null
-                        phone-number: null
-                        fields:
-                          name-first:
-                            type: string
-                            value: null
-                          name-middle:
-                            type: string
-                            value: null
-                          name-last:
-                            type: string
-                            value: null
-                          address-street-1:
-                            type: string
-                            value: null
-                          address-street-2:
-                            type: string
-                            value: null
-                          address-city:
-                            type: string
-                            value: null
-                          address-subdivision:
-                            type: string
-                            value: null
-                          address-postal-code:
-                            type: string
-                            value: null
-                          address-country-code:
-                            type: string
-                            value: null
-                          birthdate:
-                            type: date
-                            value: null
-                          email-address:
-                            type: string
-                            value: null
-                          phone-number:
-                            type: string
-                            value: null
-                          identification-number:
-                            type: string
-                            value: null
-                      relationships:
-                        account:
-                          data:
-                            type: account
-                            id: act_n2uq9eKMboaCQzu9ALWYcVdN
-                        template:
-                          data: {}
-                        inquiry-template:
-                          data:
-                            type: inquiry-template
-                            id: itmpl_p8ANAJy9iqadm2buF2xcVgqH
-                        inquiry-template-version:
-                          data:
-                            type: inquiry-template-version
-                            id: itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo
-                        reviewer:
-                          data: {}
-                        reports:
-                          data: []
-                        verifications:
-                          data:
-                            - type: verification/database
-                              id: ver_uHDiwtcx3htjajvEaeMjPQcE
-                        sessions:
-                          data:
-                            - type: session
-                              id: iqse_ov4ftVuCYm8U7rNkZADFpiBg
-                        documents:
-                          data: []
-                        selfies:
-                          data: []
-                    included:
-                      - type: inquiry-session
-                        id: iqse_TOKEN
-                        attributes:
-                          status: expired
-                          created-at: '2023-07-25T04:15:20.000Z'
-                          ip-address: 127.0.0.1
-                          user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36
-                          os-name: Mac
-                          os-full-version: 10.15.7
-                          device-type: desktop
-                          device-name: null
-                          browser-name: Chrome
-                          browser-full-version: 115.0.0.0
-                          mobile-sdk-name: null
-                          mobile-sdk-full-version: null
-                          is-proxy: false
-                          is-tor: false
-                          is-datacenter: false
-                          threat-level: low
-                          country-code: US
-                          country-name: United States
-                          region-code: CA
-                          region-name: California
-                          latitude: 37.7688
-                          longitude: -122.262
-                        relationships:
-                          inquiry:
-                            data:
-                              type: inquiry
-                              id: inq_TOKEN
-                      - type: inquiry-template
-                        id: itmpl_TOKEN
-                        attributes:
-                          status: active
-                          name: Twilio Desktop
-                        relationships:
-                          latest-published-version:
-                            data:
-                              type: inquiry-template-version
-                              id: itmplv_TOKEN
+                  $ref: '#/components/examples/InquiryRetrieveResponse'
               schema:
                 properties:
                   data:
@@ -5352,23 +5114,16 @@ paths:
                 data:
                   properties:
                     attributes:
-                      allOf:
-                        - $ref: '#/components/schemas/DefaultFields'
-                        - type: object
-                          properties:
-                            identification-number:
-                              default: '1231231234'
-                              description: Identification numbers, i.e. SSN
-                              type: string
-                            locale:
-                              type: string
-                            note:
-                              type: string
-                            selected-country-code:
-                              type: string
+                      properties:
+                        note:
+                          description: Unstructured field for your custom use
+                          examples:
+                            - A note about this inquiry
+                          type: string
+                        fields:
+                          $ref: '#/components/schemas/InquiryFields'
+                      type: object
                   type: object
-              required:
-                - data
               type: object
       responses:
         '200':
@@ -5415,16 +5170,7 @@ paths:
           schema:
             type: string
       requestBody:
-        content:
-          application/json:
-            schema:
-              properties:
-                meta:
-                  properties:
-                    tag-name:
-                      type: string
-                  type: object
-              type: object
+        $ref: '#/components/requestBodies/InquiriesTagRequest'
       responses:
         '200':
           content:
@@ -5473,17 +5219,7 @@ paths:
           schema:
             type: string
       requestBody:
-        content:
-          application/json:
-            schema:
-              properties:
-                meta:
-                  properties:
-                    comment:
-                      description: Comments for auditing purposes
-                      type: string
-                  type: object
-              type: object
+        $ref: '#/components/requestBodies/InquiriesReviewRequest'
       responses:
         '200':
           content:
@@ -5532,17 +5268,7 @@ paths:
           schema:
             type: string
       requestBody:
-        content:
-          application/json:
-            schema:
-              properties:
-                meta:
-                  properties:
-                    comment:
-                      description: Comments for auditing purposes
-                      type: string
-                  type: object
-              type: object
+        $ref: '#/components/requestBodies/InquiriesReviewRequest'
       responses:
         '200':
           content:
@@ -5643,7 +5369,9 @@ paths:
                 meta:
                   properties:
                     expires-in-seconds:
-                      description: Number of seconds from now to expire the key (minimum 0)
+                      description: Number of seconds from now to expire the key (must be greater than 0). If not provided, the one-time link expiration setting from the inquiry template version will apply. Default expiry is 24 hours.
+                      examples:
+                        - 3600
                       format: int32
                       type: integer
                   type: object
@@ -5655,140 +5383,7 @@ paths:
               examples:
                 Result:
                   summary: OK
-                  value:
-                    data:
-                      type: inquiry
-                      id: inq_5FrMN7NAGgFdGGysCDd7DaBW
-                      attributes:
-                        status: pending
-                        reference-id: null
-                        note: null
-                        behaviors:
-                          request-spoof-attempts: null
-                          user-agent-spoof-attempts: null
-                          distraction-events: null
-                          hesitation-baseline: null
-                          hesitation-count: null
-                          hesitation-time: null
-                          shortcut-copies: null
-                          shortcut-pastes: null
-                          autofill-cancels: null
-                          autofill-starts: null
-                          devtools-open: null
-                          completion-time: null
-                          hesitation-percentage: null
-                          behavior-threat-level: null
-                        tags: []
-                        creator: tim@withpersona.com
-                        reviewer-comment: null
-                        updated-at: '2023-03-28T18:35:10.000Z'
-                        created-at: '2023-03-28T18:34:32.000Z'
-                        started-at: '2023-03-28T18:35:10.000Z'
-                        completed-at: null
-                        failed-at: null
-                        marked-for-review-at: null
-                        decisioned-at: null
-                        expired-at: null
-                        redacted-at: null
-                        previous-step-name: verification_government_id
-                        next-step-name: retry_verification_government_id
-                        name-first: null
-                        name-middle: null
-                        name-last: null
-                        birthdate: null
-                        address-street-1: null
-                        address-street-2: null
-                        address-city: null
-                        address-subdivision: null
-                        address-subdivision-abbr: null
-                        address-postal-code: null
-                        address-postal-code-abbr: null
-                        social-security-number: null
-                        identification-number: null
-                        email-address: null
-                        phone-number: null
-                        fields:
-                          name-first:
-                            type: string
-                            value: null
-                          name-middle:
-                            type: string
-                            value: null
-                          name-last:
-                            type: string
-                            value: null
-                          address-street-1:
-                            type: string
-                            value: null
-                          address-street-2:
-                            type: string
-                            value: null
-                          address-city:
-                            type: string
-                            value: null
-                          address-subdivision:
-                            type: string
-                            value: null
-                          address-postal-code:
-                            type: string
-                            value: null
-                          address-country-code:
-                            type: string
-                            value: null
-                          birthdate:
-                            type: date
-                            value: null
-                          email-address:
-                            type: string
-                            value: null
-                          phone-number:
-                            type: string
-                            value: null
-                          identification-number:
-                            type: string
-                            value: null
-                      relationships:
-                        account:
-                          data:
-                            type: account
-                            id: act_upTNZ3D5NRAFJ39fzS2rHhAb
-                        template:
-                          data: {}
-                        inquiry-template:
-                          data:
-                            type: inquiry-template
-                            id: itmpl_mNKRtWCMWB9Lbccc85DjgJnK
-                        inquiry-template-version:
-                          data:
-                            type: inquiry-template-version
-                            id: itmplv_1ivdvZUKPLAtWgsQdEvmi6wj
-                        reviewer:
-                          data: {}
-                        reports:
-                          data: []
-                        verifications:
-                          data:
-                            - type: verification/government-id
-                              id: ver_vSLcWNjsUAmxPHZvACeZRGL2
-                        sessions:
-                          data:
-                            - type: inquiry-session
-                              id: iqse_855s3uUxjLyfKPsdbAtAkehL
-                            - type: inquiry-session
-                              id: iqse_7CDqaiuqzDEgBDaXZLevaEuM
-                            - type: inquiry-session
-                              id: iqse_SL9t4jHMAQADHhHqn91XzNfX
-                            - type: inquiry-session
-                              id: iqse_39i9ona6wnm8fM6AGFKSbGkj
-                        documents:
-                          data:
-                            - type: document/government-id
-                              id: doc_88AXwf9FSrLrQ17FowVpTM7x
-                        selfies:
-                          data: []
-                    meta:
-                      one-time-link: https://withpersona.com/verify?code=us1-asdf
-                      one-time-link-short: https://perso.na/verify?code=ABC123
+                  $ref: '#/components/examples/InquiryOneTimeLinkResponse'
               schema:
                 properties:
                   data:
@@ -5873,16 +5468,7 @@ paths:
           schema:
             type: string
       requestBody:
-        content:
-          application/json:
-            schema:
-              properties:
-                meta:
-                  properties:
-                    tag-name:
-                      type: string
-                  type: object
-              type: object
+        $ref: '#/components/requestBodies/InquiriesTagRequest'
       responses:
         '200':
           content:
@@ -5934,128 +5520,7 @@ paths:
               examples:
                 Result:
                   summary: OK
-                  value:
-                    data:
-                      id: inq_zEx4jL84ShbUyuwX6AzPSqt6
-                      attributes:
-                        status: pending
-                        reference-id: null
-                        note: null
-                        behaviors:
-                          request-spoof-attempts: null
-                          user-agent-spoof-attempts: null
-                          distraction-events: null
-                          hesitation-baseline: null
-                          hesitation-count: null
-                          hesitation-time: null
-                          shortcut-copies: null
-                          shortcut-pastes: null
-                          autofill-cancels: null
-                          autofill-starts: null
-                          devtools-open: null
-                          completion-time: null
-                          hesitation-percentage: null
-                          behavior-threat-level: null
-                        tags: []
-                        creator: creator@withpersona.com
-                        reviewer-comment: null
-                        updated-at: '2023-04-30T19:07:01.000Z'
-                        created-at: '2023-03-29T19:06:45.000Z'
-                        started-at: '2023-03-30T19:07:01.000Z'
-                        completed-at: '2023-04-30T19:07:01.000Z'
-                        failed-at: null
-                        marked-for-review-at: null
-                        decisioned-at: null
-                        expired-at: null
-                        redacted-at: null
-                        previous-step-name: start
-                        next-step-name: verification_document
-                        name-first: null
-                        name-middle: null
-                        name-last: null
-                        birthdate: null
-                        address-street-1: null
-                        address-street-2: null
-                        address-city: null
-                        address-subdivision: null
-                        address-subdivision-abbr: null
-                        address-postal-code: null
-                        address-postal-code-abbr: null
-                        social-security-number: null
-                        identification-number: null
-                        email-address: null
-                        phone-number: null
-                        fields:
-                          name-first:
-                            type: string
-                            value: null
-                          name-middle:
-                            type: string
-                            value: null
-                          name-last:
-                            type: string
-                            value: null
-                          address-street-1:
-                            type: string
-                            value: null
-                          address-street-2:
-                            type: string
-                            value: null
-                          address-city:
-                            type: string
-                            value: null
-                          address-subdivision:
-                            type: string
-                            value: null
-                          address-postal-code:
-                            type: string
-                            value: null
-                          address-country-code:
-                            type: string
-                            value: null
-                          birthdate:
-                            type: date
-                            value: null
-                          email-address:
-                            type: string
-                            value: null
-                          phone-number:
-                            type: string
-                            value: null
-                          identification-number:
-                            type: string
-                            value: null
-                      relationships:
-                        account:
-                          data:
-                            type: account
-                            id: act_n2uq9eKMboaCQzu9ALWYcVdN
-                        template:
-                          data: {}
-                        inquiry-template:
-                          data:
-                            type: inquiry-template
-                            id: itmpl_p8ANAJy9iqadm2buF2xcVgqH
-                        inquiry-template-version:
-                          data:
-                            type: inquiry-template-version
-                            id: itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo
-                        reviewer:
-                          data: {}
-                        reports:
-                          data: []
-                        verifications:
-                          data:
-                            - type: verification/database
-                              id: ver_uHDiwtcx3htjajvEaeMjPQcE
-                        sessions:
-                          data: []
-                        documents:
-                          data: []
-                        selfies:
-                          data: []
-                    meta:
-                      session-token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpcXNlX1Q4UHJxcG9FaHdoVVYxd0hSZXVVOW9mcyIsImF1ZCI6InBlcnNvbmEtdmVyaWZ5IiwiaXNzIjoic3RhZ2luZy53aXRocGVyc29uYS5jb20iLCJpYXQiOjE1NzM4NTI2NjEsIm5iZiI6MTU3Mzg1MjY2MSwiZXhwIjoxNTczOTM5MDYxLCJqdGkiOiI5NWRlNjhkOS1hZjI4LTRiMzItOWIxYi03MjA4MTg3NTI3N2IiLCJzaWQiOiJpcXNlX1Q4UHJxcG9FaHdoVVYxd0hSZXVVOW9mcyJ9.LN6DEnfjP5cZoZ3w41RgyX5QVmutmjHja_bRHOmDjg0
+                  $ref: '#/components/examples/InquiryResumeResponse'
               schema:
                 properties:
                   data:
@@ -6110,6 +5575,10 @@ paths:
                       default: []
                       items:
                         type: string
+                      examples:
+                        - - apple
+                          - banana
+                        - - orange
                       type: array
                   type: object
               type: object
@@ -6169,13 +5638,29 @@ paths:
                       items:
                         properties:
                           type:
-                            description: The type of simulate action. See [valid actions](doc:testing).
+                            description: The type of simulate action. See [valid actions](https://docs.withpersona.com/docs/simulate-inquiry-actions).
                             type: string
+                            enum:
+                              - start_inquiry
+                              - complete_inquiry
+                              - fail_inquiry
+                              - expire_inquiry
+                              - mark_for_review_inquiry
+                              - approve_inquiry
+                              - decline_inquiry
                         required:
                           - type
                         type: object
+                      examples:
+                        - - type: start_inquiry
+                          - type: complete_inquiry
+                        - - type: decline_inquiry
                       type: array
+                  required:
+                    - simulate-actions
                   type: object
+              required:
+                - meta
               type: object
       responses:
         '200':
@@ -11011,7 +10496,7 @@ paths:
       summary: List all Transactions
       tags:
         - Transactions
-      description: Returns a list of your organization's transactions. Note that this endpoint aggregates transactions across all <<glossary:transaction type>>(s). See [Pagination](ref:pagination) for more details about handling the response.
+      description: Returns a list of your organization's transactions. Note that this endpoint aggregates transactions across all <<glossary:transaction type>>(s). See [Pagination](https://docs.withpersona.com/reference/pagination) for more details about handling the response.
       operationId: list-all-transactions
       parameters:
         - $ref: '#/components/parameters/keyInflectionHeader'
@@ -15410,6 +14895,26 @@ paths:
                             reasons:
                               - disabled
                             metadata: {}
+                          - name: database_two_plus_two_detection
+                            status: failed
+                            reasons:
+                              - insufficient_match
+                            metadata:
+                              data-sources-match-results:
+                                - name: none
+                                  birthdate: none
+                                  address: none
+                                  identification-number: none
+                                  phone-number: none
+                                  email-address: none
+                                  category: credit
+                                - name: none
+                                  birthdate: none
+                                  address: none
+                                  identification-number: none
+                                  phone-number: none
+                                  email-address: none
+                                  category: credit
                           - name: database_address_residential_detection
                             status: not_applicable
                             reasons:
@@ -15574,6 +15079,39 @@ paths:
                                               status:
                                                 examples:
                                                   - passed
+                                                type: string
+                                            type: object
+                                          type: array
+                                        data-sources-match-results:
+                                          items:
+                                            properties:
+                                              name:
+                                                examples:
+                                                  - partial
+                                                type: string
+                                              birthdate:
+                                                examples:
+                                                  - partial
+                                                type: string
+                                              address:
+                                                examples:
+                                                  - partial
+                                                type: string
+                                              identification-number:
+                                                examples:
+                                                  - partial
+                                                type: string
+                                              phone-number:
+                                                examples:
+                                                  - partial
+                                                type: string
+                                              email-address:
+                                                examples:
+                                                  - partial
+                                                type: string
+                                              category:
+                                                examples:
+                                                  - telephone
                                                 type: string
                                             type: object
                                           type: array
@@ -18979,6 +18517,366 @@ paths:
       summary: Print Verification PDF
       tags:
         - Verifications
+  /webhooks:
+    get:
+      description: Returns a list of your environment's webhooks.
+      operationId: list-all-webhooks
+      parameters:
+        - $ref: '#/components/parameters/keyInflectionHeader'
+        - $ref: '#/components/parameters/idempotencyKeyHeader'
+        - $ref: '#/components/parameters/personaVersionHeader'
+        - description: Webhook ID for pagination cursor
+          in: query
+          name: page[after]
+          schema:
+            type: string
+        - description: Webhook ID for pagination cursor
+          in: query
+          name: page[before]
+          schema:
+            type: string
+        - description: Limit on the number of Webhooks returned (between 1 and 100)
+          in: query
+          name: page[size]
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                Result:
+                  summary: OK
+                  value:
+                    data:
+                      - type: webhook
+                        id: webhook_ATOKEN
+                        attributes:
+                          status: disabled
+                          url: https://withpersona.com
+                          api-version: '2023-01-05'
+                          api-key-inflection: kebab
+                          api-attributes-blocklist:
+                            - address-*
+                            - name-last
+                            - /data/attributes/fields/*-number
+                          file-access-token-expires-in: 21600
+                          enabled-events:
+                            - account.created
+                            - verification.created
+                          payload-filter:
+                            data:
+                              relationships:
+                                inquiry-template:
+                                  data:
+                                    id: itmpl_abc123def456
+                          created-at: '2023-08-17T23:18:13.000Z'
+                      - type: webhook
+                        id: webhook_BTOKEN
+                        attributes:
+                          status: disabled
+                          url: https://withpersona.com
+                          api-version: '2023-01-05'
+                          api-key-inflection: camel
+                          api-attributes-blocklist:
+                            - /data/attributes/fields/*-number
+                          file-access-token-expires-in: 600
+                          enabled-events:
+                            - '*'
+                          payload-filter: {}
+                          created-at: '2023-09-18T23:18:13.000Z'
+                    links:
+                      prev: null
+                      next: null
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Webhook'
+                    type: array
+                    description: An array of Webhooks
+                  links:
+                    properties:
+                      next:
+                        type:
+                          - string
+                          - 'null'
+                      prev:
+                        type:
+                          - string
+                          - 'null'
+                    type: object
+                type: object
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      summary: List all Webhooks
+      tags:
+        - Webhooks
+    post:
+      description: Make a new Webhook with response defaults.
+      operationId: create-a-webhook
+      parameters:
+        - $ref: '#/components/parameters/keyInflectionHeader'
+        - $ref: '#/components/parameters/idempotencyKeyHeader'
+        - $ref: '#/components/parameters/personaVersionHeader'
+      requestBody:
+        $ref: '#/components/requestBodies/WebhookCreateRequest'
+      responses:
+        '201':
+          content:
+            application/json:
+              examples:
+                Result:
+                  summary: Created
+                  $ref: '#/components/examples/WebhookResponseDisabled'
+              schema:
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Webhook'
+                type: object
+          description: Created
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      summary: Create a Webhook
+      tags:
+        - Webhooks
+  /webhooks/{webhook-id}:
+    get:
+      description: Get the information for a specific webhook, including it's secret.
+      operationId: retrieve-a-webhook
+      parameters:
+        - $ref: '#/components/parameters/keyInflectionHeader'
+        - $ref: '#/components/parameters/idempotencyKeyHeader'
+        - $ref: '#/components/parameters/personaVersionHeader'
+        - description: Webhook's ID (starts with "wbh_")
+          in: path
+          name: webhook-id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                Result:
+                  summary: OK
+                  $ref: '#/components/examples/WebhookResponseDisabled'
+              schema:
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Webhook'
+                type: object
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      summary: Retrieve a Webhook
+      tags:
+        - Webhooks
+    patch:
+      description: Updates an existing Webhook.
+      operationId: update-a-webhook
+      parameters:
+        - $ref: '#/components/parameters/keyInflectionHeader'
+        - $ref: '#/components/parameters/idempotencyKeyHeader'
+        - $ref: '#/components/parameters/personaVersionHeader'
+        - description: Webhook's ID (starts with "wbh_")
+          in: path
+          name: webhook-id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: '#/components/requestBodies/WebhookUpdateRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                Result:
+                  summary: OK
+                  $ref: '#/components/examples/WebhookResponseDisabled'
+              schema:
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Webhook'
+                type: object
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      summary: Update a Webhook
+      tags:
+        - Webhooks
+  /webhooks/{webhook-id}/archive:
+    post:
+      description: Archive a webhook
+      operationId: archive-a-webhook
+      parameters:
+        - $ref: '#/components/parameters/keyInflectionHeader'
+        - $ref: '#/components/parameters/idempotencyKeyHeader'
+        - $ref: '#/components/parameters/personaVersionHeader'
+        - description: Webhook's ID (starts with "wbh_")
+          in: path
+          name: webhook-id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                Result:
+                  summary: OK
+                  $ref: '#/components/examples/WebhookResponseArchived'
+              schema:
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Webhook'
+                type: object
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      summary: Archive a Webhook
+      tags:
+        - Webhooks
+  /webhooks/{webhook-id}/enable:
+    post:
+      description: Enable a webhook
+      operationId: enable-a-webhook
+      parameters:
+        - $ref: '#/components/parameters/keyInflectionHeader'
+        - $ref: '#/components/parameters/idempotencyKeyHeader'
+        - $ref: '#/components/parameters/personaVersionHeader'
+        - description: Webhook's ID (starts with "wbh_")
+          in: path
+          name: webhook-id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                Result:
+                  summary: OK
+                  $ref: '#/components/examples/WebhookResponseEnabled'
+              schema:
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Webhook'
+                type: object
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      summary: Enable a Webhook
+      tags:
+        - Webhooks
+  /webhooks/{webhook-id}/disable:
+    post:
+      description: Disable a webhook
+      operationId: disable-a-webhook
+      parameters:
+        - $ref: '#/components/parameters/keyInflectionHeader'
+        - $ref: '#/components/parameters/idempotencyKeyHeader'
+        - $ref: '#/components/parameters/personaVersionHeader'
+        - description: Webhook's ID (starts with "wbh_")
+          in: path
+          name: webhook-id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                Result:
+                  summary: OK
+                  $ref: '#/components/examples/WebhookResponseDisabled'
+              schema:
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Webhook'
+                type: object
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+      summary: Disable a Webhook
+      tags:
+        - Webhooks
   /workflows/{workflow-id}/trigger:
     post:
       description: |-
@@ -19395,7 +19293,6 @@ components:
       type: object
     DefaultFields:
       allOf:
-        - $ref: '#/components/schemas/AddressFields'
         - type: object
           properties:
             birthdate:
@@ -19441,6 +19338,7 @@ components:
               type:
                 - string
                 - 'null'
+        - $ref: '#/components/schemas/AddressFields'
     Account:
       type: object
       description: An Account object
@@ -20218,10 +20116,22 @@ components:
             - type: object
               properties:
                 status:
-                  examples:
+                  enum:
+                    - created
                     - pending
+                    - completed
+                    - expired
+                    - failed
+                    - needs_review
+                    - approved
+                    - declined
                   type: string
-                reference-id: {}
+                reference-id:
+                  examples:
+                    - ABC-123
+                  type:
+                    - string
+                    - 'null'
                 note:
                   examples:
                     - A helpful note
@@ -20330,149 +20240,117 @@ components:
                   type: object
                 tags:
                   type: array
+                  items:
+                    type:
+                      - string
+                      - 'null'
                 creator:
                   examples:
-                    - tim@withpersona.com
+                    - jane@doe.com
                   type: string
-                reviewer-comment: {}
+                reviewer-comment:
+                  examples:
+                    - This is a comment for this inquiry!
+                  type:
+                    - string
+                    - 'null'
                 created-at:
                   examples:
                     - '2023-03-28T18:34:32.000Z'
                   type: string
+                  format: date-time
                 started-at:
                   examples:
                     - '2023-03-28T18:35:10.000Z'
                   type:
                     - string
                     - 'null'
+                  format: date-time
                 completed-at:
                   examples:
                     - '2023-03-28T18:35:10.000Z'
                   type:
                     - string
                     - 'null'
+                  format: date-time
                 failed-at:
                   examples:
                     - '2023-03-28T18:35:10.000Z'
                   type:
                     - string
                     - 'null'
+                  format: date-time
                 marked-for-review-at:
                   examples:
                     - '2023-03-28T18:35:10.000Z'
                   type:
                     - string
                     - 'null'
+                  format: date-time
                 decisioned-at:
                   examples:
                     - '2023-03-28T18:35:10.000Z'
                   type:
                     - string
                     - 'null'
+                  format: date-time
                 expired-at:
                   examples:
                     - '2023-03-28T18:35:10.000Z'
                   type:
                     - string
                     - 'null'
+                  format: date-time
                 redacted-at:
                   examples:
                     - '2023-03-28T18:35:10.000Z'
                   type:
                     - string
                     - 'null'
+                  format: date-time
                 previous-step-name:
                   examples:
                     - verification_government_id
+                    - start
                   type: string
                 next-step-name:
                   examples:
                     - retry_verification_government_id
                   type: string
-                address-subdivision-abbr: {}
-                address-postal-code-abbr: {}
-                identification-number: {}
+                address-subdivision-abbr:
+                  examples:
+                    - CA
+                    - HI
+                  type:
+                    - string
+                    - 'null'
+                address-postal-code-abbr:
+                  examples:
+                    - '94117'
+                    - '77418'
+                  type:
+                    - string
+                    - 'null'
+                identification-number:
+                  examples:
+                    - YL123456
+                  type:
+                    - string
+                    - 'null'
                 fields:
                   properties:
-                    address-city:
-                      properties:
-                        type:
-                          examples:
-                            - string
-                          type: string
-                        value: {}
-                      type: object
-                    address-postal-code:
-                      properties:
-                        type:
-                          examples:
-                            - string
-                          type: string
-                        value: {}
-                      type: object
-                    address-street-1:
-                      properties:
-                        type:
-                          examples:
-                            - string
-                          type: string
-                        value: {}
-                      type: object
-                    address-street-2:
-                      properties:
-                        type:
-                          examples:
-                            - string
-                          type: string
-                        value: {}
-                      type: object
-                    address-subdivision:
-                      properties:
-                        type:
-                          examples:
-                            - string
-                          type: string
-                        value: {}
-                      type: object
-                    birthdate:
-                      properties:
-                        type:
-                          examples:
-                            - date
-                          type: string
-                        value: {}
-                      type: object
-                    email-address:
-                      properties:
-                        type:
-                          examples:
-                            - string
-                          type: string
-                        value: {}
-                      type: object
-                    identification-number:
-                      properties:
-                        type:
-                          examples:
-                            - string
-                          type: string
-                        value: {}
-                      type: object
                     name-first:
                       properties:
                         type:
                           examples:
                             - string
                           type: string
-                        value: {}
-                      type: object
-                    name-last:
-                      properties:
-                        type:
+                        value:
                           examples:
+                            - Jane
+                          type:
                             - string
-                          type: string
-                        value: {}
+                            - 'null'
                       type: object
                     name-middle:
                       properties:
@@ -20480,7 +20358,134 @@ components:
                           examples:
                             - string
                           type: string
-                        value: {}
+                        value:
+                          examples:
+                            - Marie
+                          type:
+                            - string
+                            - 'null'
+                      type: object
+                    name-last:
+                      properties:
+                        type:
+                          examples:
+                            - string
+                          type: string
+                        value:
+                          examples:
+                            - Doe
+                          type:
+                            - string
+                            - 'null'
+                      type: object
+                    address-street-1:
+                      properties:
+                        type:
+                          examples:
+                            - string
+                          type: string
+                        value:
+                          examples:
+                            - 123 Main St
+                          type:
+                            - string
+                            - 'null'
+                      type: object
+                    address-street-2:
+                      properties:
+                        type:
+                          examples:
+                            - string
+                          type: string
+                        value:
+                          examples:
+                            - Apt
+                          type:
+                            - string
+                            - 'null'
+                      type: object
+                    address-city:
+                      description: City of residence address. Not all international addresses use this attribute.
+                      properties:
+                        type:
+                          examples:
+                            - string
+                          type: string
+                        value:
+                          examples:
+                            - San Francisco
+                          type:
+                            - string
+                            - 'null'
+                      type: object
+                    address-subdivision:
+                      description: State or subdivision of residence address. In the US, this should be the unabbreviated name. Not all international addresses use this attribute.
+                      properties:
+                        type:
+                          examples:
+                            - string
+                          type: string
+                        value:
+                          examples:
+                            - California
+                          type:
+                            - string
+                            - 'null'
+                      type: object
+                    address-postal-code:
+                      description: ZIP or postal code of residence address. Not all international addresses use this attribute.
+                      properties:
+                        type:
+                          examples:
+                            - string
+                          type: string
+                        value:
+                          examples:
+                            - '94111'
+                          type:
+                            - string
+                            - 'null'
+                      type: object
+                    address-country-code:
+                      description: ISO 3166-1 alpha 2 country code.
+                      properties:
+                        type:
+                          examples:
+                            - string
+                          type: string
+                        value:
+                          examples:
+                            - US
+                          type:
+                            - string
+                            - 'null'
+                      type: object
+                    birthdate:
+                      properties:
+                        type:
+                          examples:
+                            - date
+                          type: string
+                        value:
+                          description: Date of birth in YYYY-MM-DD format
+                          examples:
+                            - '1991-10-07'
+                          type:
+                            - string
+                            - 'null'
+                      type: object
+                    email-address:
+                      properties:
+                        type:
+                          examples:
+                            - string
+                          type: string
+                        value:
+                          examples:
+                            - test@emailaddress.com
+                          type:
+                            - string
+                            - 'null'
                       type: object
                     phone-number:
                       properties:
@@ -20488,7 +20493,25 @@ components:
                           examples:
                             - string
                           type: string
-                        value: {}
+                        value:
+                          examples:
+                            - 111-222-3333
+                          type:
+                            - string
+                            - 'null'
+                      type: object
+                    identification-number:
+                      properties:
+                        type:
+                          examples:
+                            - string
+                          type: string
+                        value:
+                          examples:
+                            - YL123456
+                          type:
+                            - string
+                            - 'null'
                       type: object
                   additionalProperties: true
                   type: object
@@ -20501,13 +20524,15 @@ components:
                   properties:
                     id:
                       examples:
-                        - act_upTNZ3D5NRAFJ39fzS2rHhAb
+                        - act_TOKEN
                       type: string
                     type:
                       examples:
                         - account
                       type: string
-                  type: object
+                  type:
+                    - object
+                    - 'null'
               type: object
             documents:
               properties:
@@ -20516,7 +20541,7 @@ components:
                     properties:
                       id:
                         examples:
-                          - doc_88AXwf9FSrLrQ17FowVpTM7x
+                          - doc_TOKEN
                         type: string
                       type:
                         examples:
@@ -20532,13 +20557,15 @@ components:
                   properties:
                     id:
                       examples:
-                        - tmpl_FZj3mM8ELoSP7aJW6zzi4rub
+                        - tmpl_TOKEN
                       type: string
                     type:
                       examples:
                         - template
                       type: string
-                  type: object
+                  type:
+                    - object
+                    - 'null'
               type: object
             inquiry-template:
               description: Only present for Dynamic Flow inquiries
@@ -20547,13 +20574,15 @@ components:
                   properties:
                     id:
                       examples:
-                        - itmpl_mNKRtWCMWB9Lbccc85DjgJnK
+                        - itmpl_TOKEN
                       type: string
                     type:
                       examples:
                         - inquiry-template
                       type: string
-                  type: object
+                  type:
+                    - object
+                    - 'null'
               type: object
             inquiry-template-version:
               description: Only present for Dynamic Flow inquiries
@@ -20562,26 +20591,64 @@ components:
                   properties:
                     id:
                       examples:
-                        - itmplv_1ivdvZUKPLAtWgsQdEvmi6wj
+                        - itmplv_TOKEN
                       type: string
                     type:
                       examples:
                         - inquiry-template-version
                       type: string
-                  type: object
+                  type:
+                    - object
+                    - 'null'
               type: object
             reports:
               properties:
                 data:
+                  items:
+                    properties:
+                      id:
+                        examples:
+                          - rep_TOKEN
+                        type: string
+                      type:
+                        examples:
+                          - report/address-lookup
+                          - report/watchlist
+                        type: string
+                    type: object
                   type: array
               type: object
             reviewer:
               properties:
-                data: {}
+                data:
+                  properties:
+                    id:
+                      examples:
+                        - user_TOKEN
+                      type: string
+                    type:
+                      examples:
+                        - user
+                      type: string
+                  type:
+                    - object
+                    - 'null'
               type: object
             selfies:
               properties:
                 data:
+                  items:
+                    properties:
+                      id:
+                        examples:
+                          - self_TOKEN
+                        type: string
+                      type:
+                        examples:
+                          - selfie/profile-and-center
+                          - selfie/center-only
+                        type: string
+                    type: object
                   type: array
               type: object
             sessions:
@@ -20591,7 +20658,7 @@ components:
                     properties:
                       id:
                         examples:
-                          - iqse_855s3uUxjLyfKPsdbAtAkehL
+                          - iqse_TOKEN
                         type: string
                       type:
                         examples:
@@ -20607,7 +20674,7 @@ components:
                     properties:
                       id:
                         examples:
-                          - ver_vSLcWNjsUAmxPHZvACeZRGL2
+                          - ver_TOKEN
                         type: string
                       type:
                         examples:
@@ -20659,6 +20726,9 @@ components:
             has-match:
               type: boolean
               description: Whether or not the report matched
+            is-continuous:
+              type: boolean
+              description: Whether or not the report is recurrable and is currently recurring
             tags:
               type: array
               description: Tags on the report
@@ -21576,7 +21646,7 @@ components:
                   example: Mannor
                 birthdate:
                   type: string
-                  description: Date of birth in  YYYY-MM-DD format
+                  description: Date of birth in YYYY-MM-DD format
                   example: '1991-10-07'
                 phone-number:
                   type: string
@@ -22271,6 +22341,20 @@ components:
               format: date-time
               examples:
                 - '2023-09-23T17:14:01.918Z'
+    InquiryFields:
+      description: JSON key-value pairs of field name to field value. Schema is defined by your Inquiry Template.
+      allOf:
+        - $ref: '#/components/schemas/DefaultFields'
+        - type: object
+          properties:
+            address-country-code:
+              description: optional
+              examples:
+                - US
+                - AU
+                - GB
+              type: string
+          additionalProperties: true
     InquiryTemplate:
       type: object
       description: An Inquiry Template object
@@ -22453,6 +22537,10 @@ components:
               type: string
             report-template-id:
               type: string
+            has-match:
+              type: boolean
+            is-continuous:
+              type: boolean
     ReportWatchlistRequestData:
       type: object
       allOf:
@@ -23195,6 +23283,70 @@ components:
           examples:
             - verification/document
           type: string
+    Webhook:
+      type: object
+      description: A Webhook object
+      properties:
+        type:
+          examples:
+            - webhook
+          type: string
+        id:
+          examples:
+            - webhook_TOKEN
+          type: string
+        attributes:
+          type: object
+          properties:
+            status:
+              type: string
+              examples:
+                - disabled
+            url:
+              type: string
+              examples:
+                - https://withpersona.com
+            api-version:
+              type: string
+              format: date
+              examples:
+                - '2023-01-05'
+            api-key-inflection:
+              type: string
+              examples:
+                - kebab
+            api-attributes-blocklist:
+              type: array
+              items:
+                type:
+                  - string
+                  - 'null'
+              examples:
+                - - address-*
+                  - name-last
+                  - /data/attributes/fields/*-number
+            file-access-token-expires-in:
+              type: integer
+              format: int32
+              examples:
+                - 21600
+            enabled-events:
+              type: array
+              items:
+                type: string
+              examples:
+                - - account.created
+                  - verification.created
+                  - '*'
+            payload-filter:
+              type:
+                - object
+                - 'null'
+            created-at:
+              type: string
+              format: date-time
+              examples:
+                - '2023-09-21T18:29:40.000Z'
   examples:
     AccountResponse:
       value:
@@ -23322,6 +23474,130 @@ components:
                   identification-number: A12345678
                   created-at: '2023-09-23T00:22:19.963Z'
                   updated-at: '2023-09-23T00:22:19.963Z'
+    InquiryListResponse:
+      value:
+        data:
+          - type: inquiry
+            id: inq_zEx4jL84ShbUyuwX6AzPSqt6
+            attributes:
+              status: pending
+              reference-id: abc-123
+              note: null
+              behaviors:
+                request-spoof-attempts: 0
+                user-agent-spoof-attempts: 0
+                distraction-events: 0
+                hesitation-baseline: 29677
+                hesitation-count: 3
+                hesitation-time: 28752
+                shortcut-copies: 0
+                shortcut-pastes: 0
+                autofill-cancels: 0
+                autofill-starts: 0
+                devtools-open: false
+                completion-time: 40.172463903
+                hesitation-percentage: 96.88310813087575
+                behavior-threat-level: low
+              tags: []
+              creator: creator@withpersona.com
+              reviewer-comment: null
+              created-at: '2023-03-29T19:06:45.000Z'
+              started-at: '2023-03-30T19:07:01.000Z'
+              completed-at: null
+              failed-at: null
+              marked-for-review-at: null
+              decisioned-at: null
+              expired-at: null
+              redacted-at: null
+              previous-step-name: start
+              next-step-name: verification_document
+              name-first: Jane
+              name-middle: Marie
+              name-last: Doe
+              birthdate: '1995-09-08'
+              address-street-1: 123 Main St
+              address-street-2: null
+              address-city: San Francisco
+              address-subdivision: California
+              address-subdivision-abbr: CA
+              address-postal-code: '94111'
+              address-postal-code-abbr: '94111'
+              social-security-number: null
+              identification-number: null
+              email-address: jane@doe.com
+              phone-number: null
+              fields:
+                name-first:
+                  type: string
+                  value: Jane
+                name-middle:
+                  type: string
+                  value: Marie
+                name-last:
+                  type: string
+                  value: Doe
+                address-street-1:
+                  type: string
+                  value: 123 Main St
+                address-street-2:
+                  type: string
+                  value: null
+                address-city:
+                  type: string
+                  value: San Francisco
+                address-subdivision:
+                  type: string
+                  value: California
+                address-postal-code:
+                  type: string
+                  value: '94111'
+                address-country-code:
+                  type: string
+                  value: US
+                birthdate:
+                  type: date
+                  value: '1995-09-08'
+                email-address:
+                  type: string
+                  value: jane@doe.com
+                phone-number:
+                  type: string
+                  value: null
+                identification-number:
+                  type: string
+                  value: null
+            relationships:
+              account:
+                data:
+                  type: account
+                  id: act_n2uq9eKMboaCQzu9ALWYcVdN
+              template:
+                data: {}
+              inquiry-template:
+                data:
+                  type: inquiry-template
+                  id: itmpl_p8ANAJy9iqadm2buF2xcVgqH
+              inquiry-template-version:
+                data:
+                  type: inquiry-template-version
+                  id: itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo
+              reviewer:
+                data: {}
+              reports:
+                data: []
+              verifications:
+                data:
+                  - type: verification/database
+                    id: ver_uHDiwtcx3htjajvEaeMjPQcE
+              sessions:
+                data: []
+              documents:
+                data: []
+              selfies:
+                data: []
+        links:
+          prev: null
+          next: /api/v1/inquiries?page%5Bafter%5D=inq_ByBdXDqUrguLAHjGZMuDZLCx
     InquiryResponse:
       value:
         data:
@@ -23329,29 +23605,29 @@ components:
           id: inq_zEx4jL84ShbUyuwX6AzPSqt6
           attributes:
             status: pending
-            reference-id: null
+            reference-id: abc-123
             note: null
             behaviors:
-              request-spoof-attempts: null
-              user-agent-spoof-attempts: null
-              distraction-events: null
-              hesitation-baseline: null
-              hesitation-count: null
-              hesitation-time: null
-              shortcut-copies: null
-              shortcut-pastes: null
-              autofill-cancels: null
-              autofill-starts: null
-              devtools-open: null
-              completion-time: null
-              hesitation-percentage: null
-              behavior-threat-level: null
+              request-spoof-attempts: 0
+              user-agent-spoof-attempts: 0
+              distraction-events: 0
+              hesitation-baseline: 29677
+              hesitation-count: 3
+              hesitation-time: 28752
+              shortcut-copies: 0
+              shortcut-pastes: 0
+              autofill-cancels: 0
+              autofill-starts: 0
+              devtools-open: false
+              completion-time: 40.172463903
+              hesitation-percentage: 96.88310813087575
+              behavior-threat-level: low
             tags: []
             creator: creator@withpersona.com
             reviewer-comment: null
             created-at: '2023-03-29T19:06:45.000Z'
             started-at: '2023-03-30T19:07:01.000Z'
-            completed-at: '2023-04-30T19:07:01.000Z'
+            completed-at: null
             failed-at: null
             marked-for-review-at: null
             decisioned-at: null
@@ -23359,55 +23635,55 @@ components:
             redacted-at: null
             previous-step-name: start
             next-step-name: verification_document
-            name-first: null
-            name-middle: null
-            name-last: null
-            birthdate: null
-            address-street-1: null
+            name-first: Jane
+            name-middle: Marie
+            name-last: Doe
+            birthdate: '1995-09-08'
+            address-street-1: 123 Main St
             address-street-2: null
-            address-city: null
-            address-subdivision: null
-            address-subdivision-abbr: null
-            address-postal-code: null
-            address-postal-code-abbr: null
+            address-city: San Francisco
+            address-subdivision: California
+            address-subdivision-abbr: CA
+            address-postal-code: '94111'
+            address-postal-code-abbr: '94111'
             social-security-number: null
             identification-number: null
-            email-address: null
+            email-address: jane@doe.com
             phone-number: null
             fields:
               name-first:
                 type: string
-                value: null
+                value: Jane
               name-middle:
                 type: string
-                value: null
+                value: Marie
               name-last:
                 type: string
-                value: null
+                value: Doe
               address-street-1:
                 type: string
-                value: null
+                value: 123 Main St
               address-street-2:
                 type: string
                 value: null
               address-city:
                 type: string
-                value: null
+                value: San Francisco
               address-subdivision:
                 type: string
-                value: null
+                value: California
               address-postal-code:
                 type: string
-                value: null
+                value: '94111'
               address-country-code:
                 type: string
-                value: null
+                value: US
               birthdate:
                 type: date
-                value: null
+                value: '1995-09-08'
               email-address:
                 type: string
-                value: null
+                value: jane@doe.com
               phone-number:
                 type: string
                 value: null
@@ -23443,6 +23719,415 @@ components:
               data: []
             selfies:
               data: []
+    InquiryRetrieveResponse:
+      value:
+        data:
+          type: inquiry
+          id: inq_zEx4jL84ShbUyuwX6AzPSqt6
+          attributes:
+            status: pending
+            reference-id: abc-123
+            note: null
+            behaviors:
+              request-spoof-attempts: 0
+              user-agent-spoof-attempts: 0
+              distraction-events: 0
+              hesitation-baseline: 29677
+              hesitation-count: 3
+              hesitation-time: 28752
+              shortcut-copies: 0
+              shortcut-pastes: 0
+              autofill-cancels: 0
+              autofill-starts: 0
+              devtools-open: false
+              completion-time: 40.172463903
+              hesitation-percentage: 96.88310813087575
+              behavior-threat-level: low
+            tags: []
+            creator: creator@withpersona.com
+            reviewer-comment: null
+            created-at: '2023-03-29T19:06:45.000Z'
+            started-at: '2023-03-30T19:07:01.000Z'
+            completed-at: null
+            failed-at: null
+            marked-for-review-at: null
+            decisioned-at: null
+            expired-at: null
+            redacted-at: null
+            previous-step-name: start
+            next-step-name: verification_document
+            name-first: Jane
+            name-middle: Marie
+            name-last: Doe
+            birthdate: '1995-09-08'
+            address-street-1: 123 Main St
+            address-street-2: null
+            address-city: San Francisco
+            address-subdivision: California
+            address-subdivision-abbr: CA
+            address-postal-code: '94111'
+            address-postal-code-abbr: '94111'
+            social-security-number: null
+            identification-number: null
+            email-address: jane@doe.com
+            phone-number: null
+            fields:
+              name-first:
+                type: string
+                value: Jane
+              name-middle:
+                type: string
+                value: Marie
+              name-last:
+                type: string
+                value: Doe
+              address-street-1:
+                type: string
+                value: 123 Main St
+              address-street-2:
+                type: string
+                value: null
+              address-city:
+                type: string
+                value: San Francisco
+              address-subdivision:
+                type: string
+                value: California
+              address-postal-code:
+                type: string
+                value: '94111'
+              address-country-code:
+                type: string
+                value: US
+              birthdate:
+                type: date
+                value: '1995-09-08'
+              email-address:
+                type: string
+                value: jane@doe.com
+              phone-number:
+                type: string
+                value: null
+              identification-number:
+                type: string
+                value: null
+          relationships:
+            account:
+              data:
+                type: account
+                id: act_n2uq9eKMboaCQzu9ALWYcVdN
+            template:
+              data: {}
+            inquiry-template:
+              data:
+                type: inquiry-template
+                id: itmpl_p8ANAJy9iqadm2buF2xcVgqH
+            inquiry-template-version:
+              data:
+                type: inquiry-template-version
+                id: itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo
+            reviewer:
+              data: {}
+            reports:
+              data: []
+            verifications:
+              data:
+                - type: verification/database
+                  id: ver_uHDiwtcx3htjajvEaeMjPQcE
+            sessions:
+              data: []
+            documents:
+              data: []
+            selfies:
+              data: []
+        included:
+          - type: inquiry-session
+            id: iqse_TOKEN
+            attributes:
+              status: expired
+              created-at: '2023-07-25T04:15:20.000Z'
+              ip-address: 127.0.0.1
+              user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36
+              os-name: Mac
+              os-full-version: 10.15.7
+              device-type: desktop
+              device-name: null
+              browser-name: Chrome
+              browser-full-version: 115.0.0.0
+              mobile-sdk-name: null
+              mobile-sdk-full-version: null
+              is-proxy: false
+              is-tor: false
+              is-datacenter: false
+              threat-level: low
+              country-code: US
+              country-name: United States
+              region-code: CA
+              region-name: California
+              latitude: 37.7688
+              longitude: -122.262
+            relationships:
+              inquiry:
+                data:
+                  type: inquiry
+                  id: inq_TOKEN
+          - type: inquiry-template
+            id: itmpl_TOKEN
+            attributes:
+              status: active
+              name: Twilio Desktop
+            relationships:
+              latest-published-version:
+                data:
+                  type: inquiry-template-version
+                  id: itmplv_TOKEN
+    InquiryOneTimeLinkResponse:
+      value:
+        data:
+          type: inquiry
+          id: inq_zEx4jL84ShbUyuwX6AzPSqt6
+          attributes:
+            status: pending
+            reference-id: abc-123
+            note: null
+            behaviors:
+              request-spoof-attempts: 0
+              user-agent-spoof-attempts: 0
+              distraction-events: 0
+              hesitation-baseline: 29677
+              hesitation-count: 3
+              hesitation-time: 28752
+              shortcut-copies: 0
+              shortcut-pastes: 0
+              autofill-cancels: 0
+              autofill-starts: 0
+              devtools-open: false
+              completion-time: 40.172463903
+              hesitation-percentage: 96.88310813087575
+              behavior-threat-level: low
+            tags: []
+            creator: creator@withpersona.com
+            reviewer-comment: null
+            created-at: '2023-03-29T19:06:45.000Z'
+            started-at: '2023-03-30T19:07:01.000Z'
+            completed-at: null
+            failed-at: null
+            marked-for-review-at: null
+            decisioned-at: null
+            expired-at: null
+            redacted-at: null
+            previous-step-name: start
+            next-step-name: verification_document
+            name-first: Jane
+            name-middle: Marie
+            name-last: Doe
+            birthdate: '1995-09-08'
+            address-street-1: 123 Main St
+            address-street-2: null
+            address-city: San Francisco
+            address-subdivision: California
+            address-subdivision-abbr: CA
+            address-postal-code: '94111'
+            address-postal-code-abbr: '94111'
+            social-security-number: null
+            identification-number: null
+            email-address: jane@doe.com
+            phone-number: null
+            fields:
+              name-first:
+                type: string
+                value: Jane
+              name-middle:
+                type: string
+                value: Marie
+              name-last:
+                type: string
+                value: Doe
+              address-street-1:
+                type: string
+                value: 123 Main St
+              address-street-2:
+                type: string
+                value: null
+              address-city:
+                type: string
+                value: San Francisco
+              address-subdivision:
+                type: string
+                value: California
+              address-postal-code:
+                type: string
+                value: '94111'
+              address-country-code:
+                type: string
+                value: US
+              birthdate:
+                type: date
+                value: '1995-09-08'
+              email-address:
+                type: string
+                value: jane@doe.com
+              phone-number:
+                type: string
+                value: null
+              identification-number:
+                type: string
+                value: null
+          relationships:
+            account:
+              data:
+                type: account
+                id: act_n2uq9eKMboaCQzu9ALWYcVdN
+            template:
+              data: {}
+            inquiry-template:
+              data:
+                type: inquiry-template
+                id: itmpl_p8ANAJy9iqadm2buF2xcVgqH
+            inquiry-template-version:
+              data:
+                type: inquiry-template-version
+                id: itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo
+            reviewer:
+              data: {}
+            reports:
+              data: []
+            verifications:
+              data:
+                - type: verification/database
+                  id: ver_uHDiwtcx3htjajvEaeMjPQcE
+            sessions:
+              data: []
+            documents:
+              data: []
+            selfies:
+              data: []
+        meta:
+          one-time-link: https://withpersona.com/verify?code=us1-asdf
+          one-time-link-short: https://perso.na/verify?code=ABC123
+    InquiryResumeResponse:
+      value:
+        data:
+          type: inquiry
+          id: inq_zEx4jL84ShbUyuwX6AzPSqt6
+          attributes:
+            status: pending
+            reference-id: abc-123
+            note: null
+            behaviors:
+              request-spoof-attempts: 0
+              user-agent-spoof-attempts: 0
+              distraction-events: 0
+              hesitation-baseline: 29677
+              hesitation-count: 3
+              hesitation-time: 28752
+              shortcut-copies: 0
+              shortcut-pastes: 0
+              autofill-cancels: 0
+              autofill-starts: 0
+              devtools-open: false
+              completion-time: 40.172463903
+              hesitation-percentage: 96.88310813087575
+              behavior-threat-level: low
+            tags: []
+            creator: creator@withpersona.com
+            reviewer-comment: null
+            created-at: '2023-03-29T19:06:45.000Z'
+            started-at: '2023-03-30T19:07:01.000Z'
+            completed-at: null
+            failed-at: null
+            marked-for-review-at: null
+            decisioned-at: null
+            expired-at: null
+            redacted-at: null
+            previous-step-name: start
+            next-step-name: verification_document
+            name-first: Jane
+            name-middle: Marie
+            name-last: Doe
+            birthdate: '1995-09-08'
+            address-street-1: 123 Main St
+            address-street-2: null
+            address-city: San Francisco
+            address-subdivision: California
+            address-subdivision-abbr: CA
+            address-postal-code: '94111'
+            address-postal-code-abbr: '94111'
+            social-security-number: null
+            identification-number: null
+            email-address: jane@doe.com
+            phone-number: null
+            fields:
+              name-first:
+                type: string
+                value: Jane
+              name-middle:
+                type: string
+                value: Marie
+              name-last:
+                type: string
+                value: Doe
+              address-street-1:
+                type: string
+                value: 123 Main St
+              address-street-2:
+                type: string
+                value: null
+              address-city:
+                type: string
+                value: San Francisco
+              address-subdivision:
+                type: string
+                value: California
+              address-postal-code:
+                type: string
+                value: '94111'
+              address-country-code:
+                type: string
+                value: US
+              birthdate:
+                type: date
+                value: '1995-09-08'
+              email-address:
+                type: string
+                value: jane@doe.com
+              phone-number:
+                type: string
+                value: null
+              identification-number:
+                type: string
+                value: null
+          relationships:
+            account:
+              data:
+                type: account
+                id: act_n2uq9eKMboaCQzu9ALWYcVdN
+            template:
+              data: {}
+            inquiry-template:
+              data:
+                type: inquiry-template
+                id: itmpl_p8ANAJy9iqadm2buF2xcVgqH
+            inquiry-template-version:
+              data:
+                type: inquiry-template-version
+                id: itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo
+            reviewer:
+              data: {}
+            reports:
+              data: []
+            verifications:
+              data:
+                - type: verification/database
+                  id: ver_uHDiwtcx3htjajvEaeMjPQcE
+            sessions:
+              data: []
+            documents:
+              data: []
+            selfies:
+              data: []
+        meta:
+          session-token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpcXNlX1Q4UHJxcG9FaHdoVVYxd0hSZXVVOW9mcyIsImF1ZCI6InBlcnNvbmEtdmVyaWZ5IiwiaXNzIjoic3RhZ2luZy53aXRocGVyc29uYS5jb20iLCJpYXQiOjE1NzM4NTI2NjEsIm5iZiI6MTU3Mzg1MjY2MSwiZXhwIjoxNTczOTM5MDYxLCJqdGkiOiI5NWRlNjhkOS1hZjI4LTRiMzItOWIxYi03MjA4MTg3NTI3N2IiLCJzaWQiOiJpcXNlX1Q4UHJxcG9FaHdoVVYxd0hSZXVVOW9mcyJ9.LN6DEnfjP5cZoZ3w41RgyX5QVmutmjHja_bRHOmDjg0
     InquirySessionResponse:
       value:
         data:
@@ -23476,6 +24161,81 @@ components:
               data:
                 type: inquiry
                 id: inq_TOKEN
+    WebhookResponseDisabled:
+      value:
+        data:
+          type: webhook
+          id: webhook_ATOKEN
+          attributes:
+            status: disabled
+            url: https://withpersona.com
+            api-version: '2023-01-05'
+            api-key-inflection: kebab
+            api-attributes-blocklist:
+              - address-*
+              - name-last
+              - /data/attributes/fields/*-number
+            file-access-token-expires-in: 21600
+            enabled-events:
+              - account.created
+              - verification.created
+            payload-filter:
+              data:
+                relationships:
+                  inquiry-template:
+                    data:
+                      id: itmpl_abc123def456
+            created-at: '2023-08-17T23:18:13.000Z'
+    WebhookResponseArchived:
+      value:
+        data:
+          type: webhook
+          id: webhook_ATOKEN
+          attributes:
+            status: archived
+            url: https://withpersona.com
+            api-version: '2023-01-05'
+            api-key-inflection: kebab
+            api-attributes-blocklist:
+              - address-*
+              - name-last
+              - /data/attributes/fields/*-number
+            file-access-token-expires-in: 21600
+            enabled-events:
+              - account.created
+              - verification.created
+            payload-filter:
+              data:
+                relationships:
+                  inquiry-template:
+                    data:
+                      id: itmpl_abc123def456
+            created-at: '2023-08-17T23:18:13.000Z'
+    WebhookResponseEnabled:
+      value:
+        data:
+          type: webhook
+          id: webhook_ATOKEN
+          attributes:
+            status: enabled
+            url: https://withpersona.com
+            api-version: '2023-01-05'
+            api-key-inflection: kebab
+            api-attributes-blocklist:
+              - address-*
+              - name-last
+              - /data/attributes/fields/*-number
+            file-access-token-expires-in: 21600
+            enabled-events:
+              - account.created
+              - verification.created
+            payload-filter:
+              data:
+                relationships:
+                  inquiry-template:
+                    data:
+                      id: itmpl_abc123def456
+            created-at: '2023-08-17T23:18:13.000Z'
   requestBodies:
     ApiKeyRequest:
       content:
@@ -23561,11 +24321,129 @@ components:
                     type: object
                 type: object
             type: object
-x-readme:
-  explorer-enabled: true
-  headers:
-    - key: Persona-Version
-      value: '2023-01-05'
-  proxy-enabled: true
-  samples-enabled: true
-x-readme-fauxas: true
+    InquiriesTagRequest:
+      content:
+        application/json:
+          schema:
+            properties:
+              meta:
+                properties:
+                  tag-name:
+                    type: string
+                    examples:
+                      - apple
+                      - orange
+                      - banana
+                type: object
+            type: object
+    InquiriesReviewRequest:
+      content:
+        application/json:
+          schema:
+            properties:
+              meta:
+                properties:
+                  comment:
+                    description: Unstructured comment for auditing purposes
+                    examples:
+                      - A comment about this inquiry
+                    type: string
+                type: object
+            type: object
+    WebhookCreateRequest:
+      content:
+        application/json:
+          schema:
+            properties:
+              data:
+                properties:
+                  attributes:
+                    properties:
+                      url:
+                        description: URL to which webhook events are forwarded
+                        type: string
+                      enabled-events:
+                        description: Supported events that you want to receive webhooks for <br> Set `*` to enable all events
+                        items:
+                          type: string
+                        type: array
+                      api-version:
+                        description: Server API version
+                        example: '2023-01-05'
+                        type: string
+                      api-key-inflection:
+                        description: Default API response key inflection <br>Options include <ul><li>`kebab`</li><li>`camel`</li><li>`snake`</li></ul>
+                        example: kebab
+                        type: string
+                      api-attributes-blocklist:
+                        default: []
+                        description: Attributes blocked from API responses
+                        items:
+                          type: string
+                        type: array
+                      file-access-token-expires-in:
+                        description: How soon any file access tokens returned in API responses expire
+                        example: 21600
+                        type: integer
+                      payload-filter:
+                        type: object
+                        description: Filter events based on its payload data <br> <b>Only available for enterprise clients</b>
+                        properties:
+                          data:
+                            type: string
+                            format: json
+                    required:
+                      - url
+                      - enabled-events
+                    type: object
+                required:
+                  - attributes
+                type: object
+            required:
+              - data
+            type: object
+    WebhookUpdateRequest:
+      content:
+        application/json:
+          schema:
+            properties:
+              data:
+                properties:
+                  attributes:
+                    properties:
+                      url:
+                        description: URL to which webhook events are forwarded
+                        type: string
+                      enabled-events:
+                        description: Supported events that you want to receive webhooks for <br> Set `*` to enable all events
+                        items:
+                          type: string
+                        type: array
+                      api-version:
+                        description: Server API version
+                        example: '2023-01-05'
+                        type: string
+                      api-key-inflection:
+                        description: Default API response key inflection <br>Options include <ul><li>`kebab`</li><li>`camel`</li><li>`snake`</li></ul>
+                        example: kebab
+                        type: string
+                      api-attributes-blocklist:
+                        default: []
+                        description: Attributes blocked from API responses
+                        items:
+                          type: string
+                        type: array
+                      file-access-token-expires-in:
+                        description: How soon any file access tokens returned in API responses expire
+                        example: 21600
+                        type: integer
+                      payload-filter:
+                        type: object
+                        description: Filter events based on its payload data <br> <b>Only available for enterprise clients</b>
+                        properties:
+                          data:
+                            type: string
+                            format: json
+                    type: object
+                type: object
+            type: object

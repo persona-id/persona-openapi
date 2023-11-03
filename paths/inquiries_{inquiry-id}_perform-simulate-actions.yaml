@@ -24,13 +24,29 @@ post:
                       type:
                         description: >-
                           The type of simulate action. See [valid
-                          actions](doc:testing).
+                          actions](https://docs.withpersona.com/docs/simulate-inquiry-actions).
                         type: string
+                        enum:
+                          - start_inquiry
+                          - complete_inquiry
+                          - fail_inquiry
+                          - expire_inquiry
+                          - mark_for_review_inquiry
+                          - approve_inquiry
+                          - decline_inquiry
                     required:
                       - type
                     type: object
+                  examples:
+                    - - type: start_inquiry
+                      - type: complete_inquiry
+                    - - type: decline_inquiry
                   type: array
+              required:
+                - simulate-actions
               type: object
+          required:
+            - meta
           type: object
   responses:
     '200':

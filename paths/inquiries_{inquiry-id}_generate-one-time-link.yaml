@@ -19,7 +19,13 @@ post:
             meta:
               properties:
                 expires-in-seconds:
-                  description: Number of seconds from now to expire the key (minimum 0)
+                  description: >-
+                    Number of seconds from now to expire the key (must be
+                    greater than 0). If not provided, the one-time link
+                    expiration setting from the inquiry template version will
+                    apply. Default expiry is 24 hours.
+                  examples:
+                    - 3600
                   format: int32
                   type: integer
               type: object
@@ -31,140 +37,7 @@ post:
           examples:
             Result:
               summary: OK
-              value:
-                data:
-                  type: inquiry
-                  id: inq_5FrMN7NAGgFdGGysCDd7DaBW
-                  attributes:
-                    status: pending
-                    reference-id: null
-                    note: null
-                    behaviors:
-                      request-spoof-attempts: null
-                      user-agent-spoof-attempts: null
-                      distraction-events: null
-                      hesitation-baseline: null
-                      hesitation-count: null
-                      hesitation-time: null
-                      shortcut-copies: null
-                      shortcut-pastes: null
-                      autofill-cancels: null
-                      autofill-starts: null
-                      devtools-open: null
-                      completion-time: null
-                      hesitation-percentage: null
-                      behavior-threat-level: null
-                    tags: []
-                    creator: tim@withpersona.com
-                    reviewer-comment: null
-                    updated-at: '2023-03-28T18:35:10.000Z'
-                    created-at: '2023-03-28T18:34:32.000Z'
-                    started-at: '2023-03-28T18:35:10.000Z'
-                    completed-at: null
-                    failed-at: null
-                    marked-for-review-at: null
-                    decisioned-at: null
-                    expired-at: null
-                    redacted-at: null
-                    previous-step-name: verification_government_id
-                    next-step-name: retry_verification_government_id
-                    name-first: null
-                    name-middle: null
-                    name-last: null
-                    birthdate: null
-                    address-street-1: null
-                    address-street-2: null
-                    address-city: null
-                    address-subdivision: null
-                    address-subdivision-abbr: null
-                    address-postal-code: null
-                    address-postal-code-abbr: null
-                    social-security-number: null
-                    identification-number: null
-                    email-address: null
-                    phone-number: null
-                    fields:
-                      name-first:
-                        type: string
-                        value: null
-                      name-middle:
-                        type: string
-                        value: null
-                      name-last:
-                        type: string
-                        value: null
-                      address-street-1:
-                        type: string
-                        value: null
-                      address-street-2:
-                        type: string
-                        value: null
-                      address-city:
-                        type: string
-                        value: null
-                      address-subdivision:
-                        type: string
-                        value: null
-                      address-postal-code:
-                        type: string
-                        value: null
-                      address-country-code:
-                        type: string
-                        value: null
-                      birthdate:
-                        type: date
-                        value: null
-                      email-address:
-                        type: string
-                        value: null
-                      phone-number:
-                        type: string
-                        value: null
-                      identification-number:
-                        type: string
-                        value: null
-                  relationships:
-                    account:
-                      data:
-                        type: account
-                        id: act_upTNZ3D5NRAFJ39fzS2rHhAb
-                    template:
-                      data: {}
-                    inquiry-template:
-                      data:
-                        type: inquiry-template
-                        id: itmpl_mNKRtWCMWB9Lbccc85DjgJnK
-                    inquiry-template-version:
-                      data:
-                        type: inquiry-template-version
-                        id: itmplv_1ivdvZUKPLAtWgsQdEvmi6wj
-                    reviewer:
-                      data: {}
-                    reports:
-                      data: []
-                    verifications:
-                      data:
-                        - type: verification/government-id
-                          id: ver_vSLcWNjsUAmxPHZvACeZRGL2
-                    sessions:
-                      data:
-                        - type: inquiry-session
-                          id: iqse_855s3uUxjLyfKPsdbAtAkehL
-                        - type: inquiry-session
-                          id: iqse_7CDqaiuqzDEgBDaXZLevaEuM
-                        - type: inquiry-session
-                          id: iqse_SL9t4jHMAQADHhHqn91XzNfX
-                        - type: inquiry-session
-                          id: iqse_39i9ona6wnm8fM6AGFKSbGkj
-                    documents:
-                      data:
-                        - type: document/government-id
-                          id: doc_88AXwf9FSrLrQ17FowVpTM7x
-                    selfies:
-                      data: []
-                meta:
-                  one-time-link: https://withpersona.com/verify?code=us1-asdf
-                  one-time-link-short: https://perso.na/verify?code=ABC123
+              $ref: ../components/examples/InquiryOneTimeLinkResponse.yaml
           schema:
             properties:
               data:

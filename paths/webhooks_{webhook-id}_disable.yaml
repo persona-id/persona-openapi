@@ -1,17 +1,16 @@
 post:
-  description: Add a new tag to the Inquiry
-  operationId: inquiries-add-tag
+  description: Disable a webhook
+  operationId: disable-a-webhook
   parameters:
     - $ref: ../components/parameters/keyInflectionHeader.yaml
     - $ref: ../components/parameters/idempotencyKeyHeader.yaml
     - $ref: ../components/parameters/personaVersionHeader.yaml
-    - name: inquiry-id
+    - description: Webhook's ID (starts with "wbh_")
       in: path
+      name: webhook-id
       required: true
       schema:
         type: string
-  requestBody:
-    $ref: ../components/requestBodies/InquiriesTagRequest.yaml
   responses:
     '200':
       content:
@@ -19,11 +18,11 @@ post:
           examples:
             Result:
               summary: OK
-              $ref: ../components/examples/InquiryResponse.yaml
+              $ref: ../components/examples/WebhookResponseDisabled.yaml
           schema:
             properties:
               data:
-                $ref: ../components/schemas/Inquiry.yaml
+                $ref: ../components/schemas/Webhook.yaml
             type: object
       description: OK
     '400':
@@ -40,6 +39,6 @@ post:
       $ref: ../components/responses/UnprocessableEntity.yaml
     '429':
       $ref: ../components/responses/TooManyRequests.yaml
-  summary: Add a tag
+  summary: Disable a Webhook
   tags:
-    - Inquiries
+    - Webhooks

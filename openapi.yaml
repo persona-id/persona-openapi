@@ -66,6 +66,8 @@ tags:
     description: Interact with Phone Number Verifications
   - name: Selfie Verifications
     description: Interact with Selfie Verifications
+  - name: Webhooks
+    description: Interact with Webhooks
   - name: Workflows
     description: Interact with Persona Workflow objects
 paths:
@@ -347,6 +349,16 @@ paths:
     $ref: paths/verifications_{verification-id}.yaml
   /verifications/{verification-id}/print:
     $ref: paths/verifications_{verification-id}_print.yaml
+  /webhooks:
+    $ref: paths/webhooks.yaml
+  /webhooks/{webhook-id}:
+    $ref: paths/webhooks_{webhook-id}.yaml
+  /webhooks/{webhook-id}/archive:
+    $ref: paths/webhooks_{webhook-id}_archive.yaml
+  /webhooks/{webhook-id}/enable:
+    $ref: paths/webhooks_{webhook-id}_enable.yaml
+  /webhooks/{webhook-id}/disable:
+    $ref: paths/webhooks_{webhook-id}_disable.yaml
   /workflows/{workflow-id}/trigger:
     $ref: paths/workflows_{workflow-id}_trigger.yaml
 components:
@@ -355,11 +367,3 @@ components:
       type: http
       scheme: bearer
       x-bearer-format: bearer
-x-readme:
-  explorer-enabled: true
-  headers:
-    - key: Persona-Version
-      value: '2023-01-05'
-  proxy-enabled: true
-  samples-enabled: true
-x-readme-fauxas: true

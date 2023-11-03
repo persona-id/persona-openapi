@@ -4,8 +4,9 @@ get:
 
 
     Note that this endpoint aggregates inquiries across all
-    <<glossary:template>>(s). See [Pagination](ref:pagination) for more details
-    about handling the response.
+    <<glossary:template>>(s). See
+    [Pagination](https://docs.withpersona.com/reference/pagination) for more
+    details about handling the response.
   operationId: list-all-inquiries
   parameters:
     - $ref: ../components/parameters/keyInflectionHeader.yaml
@@ -15,26 +16,43 @@ get:
       in: query
       name: page[after]
       schema:
+        examples:
+          - inq_TOKEN
         type: string
     - description: Inquiry ID for pagination cursor
       in: query
       name: page[before]
       schema:
+        examples:
+          - inq_TOKEN
         type: string
     - description: Limit on the number of inquiries returned
       in: query
       name: page[size]
       schema:
-        type: string
+        examples:
+          - 5
+        type: number
     - description: Filter inquiries by account ID
       in: query
       name: filter[account-id]
       schema:
+        examples:
+          - act_TOKEN
+        type: string
+    - description: Filter inquiries by note. Must be the only filter.
+      in: query
+      name: filter[note]
+      schema:
+        examples:
+          - A note saved on an inquiry
         type: string
     - description: Filter inquiries by reference ID
       in: query
       name: filter[reference-id]
       schema:
+        examples:
+          - abc-123
         type: string
     - description: >-
         Filter inquiries by template ID (use this field if your template ID
@@ -42,6 +60,8 @@ get:
       in: query
       name: filter[template-id]
       schema:
+        examples:
+          - tmpl_TOKEN
         type: string
     - description: >-
         Filter inquiries by inquiry template ID (use this field if your template
@@ -49,17 +69,23 @@ get:
       in: query
       name: filter[inquiry-template-id]
       schema:
+        examples:
+          - itmpl_TOKEN
         type: string
     - description: Filter inquiries by creation date, equal to or later than
       in: query
       name: filter[created-at-start]
       schema:
+        examples:
+          - '2023-10-11T04:59:21.764Z'
         format: date-time
         type: string
     - description: Filter inquiries by creation date, earlier than or equal to
       in: query
       name: filter[created-at-end]
       schema:
+        examples:
+          - '2023-10-20T04:59:21.764Z'
         format: date-time
         type: string
   responses:
@@ -69,133 +95,7 @@ get:
           examples:
             Result:
               summary: OK
-              value:
-                data:
-                  - type: inquiry
-                    id: inq_zEx4jL84ShbUyuwX6AzPSqt6
-                    attributes:
-                      status: completed
-                      reference-id: null
-                      note: null
-                      behaviors:
-                        request-spoof-attempts: null
-                        user-agent-spoof-attempts: null
-                        distraction-events: null
-                        hesitation-baseline: null
-                        hesitation-count: null
-                        hesitation-time: null
-                        shortcut-copies: null
-                        shortcut-pastes: null
-                        autofill-cancels: null
-                        autofill-starts: null
-                        devtools-open: null
-                        completion-time: null
-                        hesitation-percentage: null
-                        behavior-threat-level: null
-                      tags: []
-                      creator: creator@withpersona.com
-                      reviewer-comment: null
-                      updated-at: '2023-04-30T19:07:01.000Z'
-                      created-at: '2023-03-29T19:06:45.000Z'
-                      started-at: '2023-03-30T19:07:01.000Z'
-                      completed-at: '2023-04-30T19:07:01.000Z'
-                      failed-at: null
-                      marked-for-review-at: null
-                      decisioned-at: null
-                      expired-at: null
-                      redacted-at: null
-                      previous-step-name: start
-                      next-step-name: verification_document
-                      name-first: null
-                      name-middle: null
-                      name-last: null
-                      birthdate: null
-                      address-street-1: null
-                      address-street-2: null
-                      address-city: null
-                      address-subdivision: null
-                      address-subdivision-abbr: null
-                      address-postal-code: null
-                      address-postal-code-abbr: null
-                      social-security-number: null
-                      identification-number: null
-                      email-address: null
-                      phone-number: null
-                      fields:
-                        name-first:
-                          type: string
-                          value: null
-                        name-middle:
-                          type: string
-                          value: null
-                        name-last:
-                          type: string
-                          value: null
-                        address-street-1:
-                          type: string
-                          value: null
-                        address-street-2:
-                          type: string
-                          value: null
-                        address-city:
-                          type: string
-                          value: null
-                        address-subdivision:
-                          type: string
-                          value: null
-                        address-postal-code:
-                          type: string
-                          value: null
-                        address-country-code:
-                          type: string
-                          value: null
-                        birthdate:
-                          type: date
-                          value: null
-                        email-address:
-                          type: string
-                          value: null
-                        phone-number:
-                          type: string
-                          value: null
-                        identification-number:
-                          type: string
-                          value: null
-                    relationships:
-                      account:
-                        data:
-                          type: account
-                          id: act_n2uq9eKMboaCQzu9ALWYcVdN
-                      template:
-                        data: {}
-                      inquiry-template:
-                        data:
-                          type: inquiry-template
-                          id: itmpl_p8ANAJy9iqadm2buF2xcVgqH
-                      inquiry-template-version:
-                        data:
-                          type: inquiry-template-version
-                          id: itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo
-                      reviewer:
-                        data: {}
-                      reports:
-                        data: []
-                      verifications:
-                        data:
-                          - type: verification/database
-                            id: ver_uHDiwtcx3htjajvEaeMjPQcE
-                      sessions:
-                        data:
-                          - type: session
-                            id: iqse_ov4ftVuCYm8U7rNkZADFpiBg
-                      documents:
-                        data: []
-                      selfies:
-                        data: []
-                links:
-                  prev: null
-                  next: >-
-                    /api/v1/inquiries?page%5Bafter%5D=inq_ByBdXDqUrguLAHjGZMuDZLCx
+              $ref: ../components/examples/InquiryListResponse.yaml
           schema:
             properties:
               data:
@@ -205,12 +105,24 @@ get:
                 description: An array of Inquiries
               links:
                 properties:
+                  prev:
+                    examples:
+                      - /api/v1/inquiries?page%5Bafter%5D=inq_TOKEN
+                    type:
+                      - 'null'
+                      - string
+                    description: >-
+                      URL pointing to the previous page of data, or null if on
+                      the first page.
                   next:
                     examples:
-                      - >-
-                        /api/v1/inquiries?page%5Bafter%5D=inq_ByBdXDqUrguLAHjGZMuDZLCx
-                    type: string
-                  prev: {}
+                      - /api/v1/inquiries?page%5Bafter%5D=TOKEN
+                    type:
+                      - 'null'
+                      - string
+                    description: >-
+                      URL pointing to the next page of data, or null if on the
+                      last page.
                 type: object
             type: object
       description: OK
@@ -230,8 +142,10 @@ post:
     Create a new inquiry with optional pre-filled attributes. 
 
 
-    See [Sessions](doc:inquiry-sessions) for how to continue the inquiry in
-    [Embedded Flow](doc:embedded-flow) or [Hosted Flow](doc:hosted-flow).
+    See [Sessions](https://docs.withpersona.com/docs/inquiry-sessions) for how
+    to continue the inquiry in [Embedded
+    Flow](https://docs.withpersona.com/docs/embedded-flow) or [Hosted
+    Flow](https://docs.withpersona.com/docs/hosted-flow).
   operationId: create-an-inquiry
   parameters:
     - $ref: ../components/parameters/keyInflectionHeader.yaml
@@ -246,70 +160,80 @@ post:
               properties:
                 attributes:
                   properties:
-                    account-id:
-                      description: Account ID for re-verifications or secure storage
-                      type: string
-                    country-code:
-                      description: >-
-                        Country code of residence for verification, in ISO 3166
-                        Alpha-2 format.
-                      type: string
-                    fields:
-                      description: >-
-                        JSON key-value pairs of field name to field value.
-                        <br><br>Common fields include
-                        <ul><li>`name-first`</li><li>`name-last`</li><li>`birthdate`</li><li>`address-street-1`</li><li>`address-city`</li><li>`address-subdivision`</li><li>`address-postal-code`</li><li>`address-country-code`</li><li>`phone-number`</li><li>`email-address`</li></ul>
-                      allOf:
-                        - $ref: ../components/schemas/DefaultFields.yaml
-                        - type: object
-                          properties:
-                            address-country-code:
-                              description: optional
-                              type: string
-                    inquiry-template-id:
-                      description: >-
-                        Template ID for flow requirements (use this field if
-                        your template ID starts with `itmpl_`). *You must pass
-                        in either template-id OR inquiry-template-id OR
-                        inquiry-template-version-id*
-                      type: string
-                    inquiry-template-version-id:
-                      description: >-
-                        Template Version ID for flow requirements (begins with
-                        `itmplv_`). *You must pass in either template-id OR
-                        inquiry-template-id OR inquiry-template-version-id*
-                      type: string
-                    note:
-                      description: Unstructured field for your custom use
-                      type: string
-                    redirect-uri:
-                      description: >-
-                        If using the Hosted flow, redirect to this URL after
-                        completion
-                      type: string
-                    reference-id:
-                      description: >-
-                        Reference ID on Account, refers to an entity in your
-                        user model
-                      type: string
                     template-id:
                       description: >-
                         Template ID for flow requirements (use this field if
                         your template ID starts with `tmpl_`). *You must pass in
                         either template-id OR inquiry-template-id OR
                         inquiry-template-version-id*
+                      examples:
+                        - tmpl_TOKEN
+                      type: string
+                    inquiry-template-id:
+                      description: >-
+                        Template ID for flow requirements (use this field if
+                        your template ID starts with `itmpl_`). *You must pass
+                        in either template-id OR inquiry-template-id OR
+                        inquiry-template-version-id*
+                      examples:
+                        - itmpl_TOKEN
+                      type: string
+                    inquiry-template-version-id:
+                      description: >-
+                        Template Version ID for flow requirements (begins with
+                        `itmplv_`). *You must pass in either template-id OR
+                        inquiry-template-id OR inquiry-template-version-id*
+                      examples:
+                        - itmplv_TOKEN
+                      type: string
+                    reference-id:
+                      description: Reference ID to refer to an entity in your user model
+                      examples:
+                        - abc-123
+                      type: string
+                    account-id:
+                      description: Account ID to associate with this inquiry
+                      examples:
+                        - act_TOKEN
+                      type: string
+                    creator-email-address:
+                      description: >-
+                        Email of the user creating this inquiry in the
+                        organization
+                      examples:
+                        - creator@withpersona.com
                       type: string
                     theme-id:
                       description: >-
                         Theme ID for styling. Only available for Legacy 2.0
                         Inquiries.
+                      examples:
+                        - the_TOKEN
                       type: string
                     theme-set-id:
                       description: >-
                         BETA FEATURE -- Theme Set ID for styling. Only available
                         for Dynamic Flow Inquiries.
+                      examples:
+                        - theset_TOKEN
                       type: string
+                    redirect-uri:
+                      description: >-
+                        If using the Hosted flow, redirect to this URL after
+                        completion
+                      examples:
+                        - https://yoururl.com/redirect
+                      type: string
+                    note:
+                      description: Unstructured field for your custom use
+                      examples:
+                        - A note about this inquiry
+                      type: string
+                    fields:
+                      $ref: ../components/schemas/InquiryFields.yaml
                   type: object
+              required:
+                - attributes
               type: object
           required:
             - data

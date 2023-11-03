@@ -1,13 +1,13 @@
 get:
-  description: Get the information for a specific API key, including it's value.
-  operationId: retrieve-an-api-key
+  description: Get the information for a specific webhook, including it's secret.
+  operationId: retrieve-a-webhook
   parameters:
     - $ref: ../components/parameters/keyInflectionHeader.yaml
     - $ref: ../components/parameters/idempotencyKeyHeader.yaml
     - $ref: ../components/parameters/personaVersionHeader.yaml
-    - description: API key's ID (starts with "api_")
+    - description: Webhook's ID (starts with "wbh_")
       in: path
-      name: api-key-id
+      name: webhook-id
       required: true
       schema:
         type: string
@@ -15,10 +15,14 @@ get:
     '200':
       content:
         application/json:
+          examples:
+            Result:
+              summary: OK
+              $ref: ../components/examples/WebhookResponseDisabled.yaml
           schema:
             properties:
               data:
-                $ref: ../components/schemas/ApiKey.yaml
+                $ref: ../components/schemas/Webhook.yaml
             type: object
       description: OK
     '400':
@@ -29,32 +33,36 @@ get:
       $ref: ../components/responses/Forbidden.yaml
     '429':
       $ref: ../components/responses/TooManyRequests.yaml
-  summary: Retrieve an API key
+  summary: Retrieve a Webhook
   tags:
-    - API Keys
+    - Webhooks
 patch:
-  description: Update an existing API key.
-  operationId: update-an-api-key
+  description: Updates an existing Webhook.
+  operationId: update-a-webhook
   parameters:
     - $ref: ../components/parameters/keyInflectionHeader.yaml
     - $ref: ../components/parameters/idempotencyKeyHeader.yaml
     - $ref: ../components/parameters/personaVersionHeader.yaml
-    - description: API key's ID (starts with "api_")
+    - description: Webhook's ID (starts with "wbh_")
       in: path
-      name: api-key-id
+      name: webhook-id
       required: true
       schema:
         type: string
   requestBody:
-    $ref: ../components/requestBodies/ApiKeyRequest.yaml
+    $ref: ../components/requestBodies/WebhookUpdateRequest.yaml
   responses:
     '200':
       content:
         application/json:
+          examples:
+            Result:
+              summary: OK
+              $ref: ../components/examples/WebhookResponseDisabled.yaml
           schema:
             properties:
               data:
-                $ref: ../components/schemas/ApiKey.yaml
+                $ref: ../components/schemas/Webhook.yaml
             type: object
       description: OK
     '400':
@@ -71,6 +79,6 @@ patch:
       $ref: ../components/responses/UnprocessableEntity.yaml
     '429':
       $ref: ../components/responses/TooManyRequests.yaml
-  summary: Update an API key
+  summary: Update a Webhook
   tags:
-    - API Keys
+    - Webhooks
