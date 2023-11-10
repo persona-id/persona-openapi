@@ -4830,7 +4830,7 @@
                             "description": "Back of ID.",
                             "properties": {
                               "data": {
-                                "description": "Government ID photo data, must be images. Can provide more than one image and we will pick the best for processing. Can also be provided as uploaded file(s) such as with multipart/form-data requests instead of this object(s).",
+                                "description": "Government ID photo data, must be images. Can provide more than one image and we will pick the best for processing. Can also be provided as uploaded file(s) such as with multipart/form-data requests instead of this object(s). Images must be between 10KB and 15MB.",
                                 "properties": {
                                   "data": {
                                     "description": "Base64 encoded file.",
@@ -4859,7 +4859,7 @@
                             "description": "Front of ID.",
                             "properties": {
                               "data": {
-                                "description": "Government ID photo data, must be images. Can provide more than one image and we will pick the best for processing. Can also be provided as uploaded file(s) such as with multipart/form-data requests instead of this object(s).",
+                                "description": "Government ID photo data, must be images. Can provide more than one image and we will pick the best for processing. Can also be provided as uploaded file(s) such as with multipart/form-data requests instead of this object(s). Images must be between 10KB and 15MB.",
                                 "properties": {
                                   "data": {
                                     "description": "Base64 encoded file.",
@@ -5112,7 +5112,7 @@
                             "description": "Back of ID.",
                             "properties": {
                               "data": {
-                                "description": "Government ID photo data, must be images. Can provide more than one image and we will pick the best for processing. Can also be provided as uploaded file(s) such as with multipart/form-data requests instead of this object(s).",
+                                "description": "Government ID photo data, must be images. Can provide more than one image and we will pick the best for processing. Can also be provided as uploaded file(s) such as with multipart/form-data requests instead of this object(s). Images must be between 10KB and 15MB.",
                                 "properties": {
                                   "data": {
                                     "description": "Base64 encoded file.",
@@ -5137,7 +5137,7 @@
                             "description": "Front of ID.",
                             "properties": {
                               "data": {
-                                "description": "Government ID photo data, must be images. Can provide more than one image and we will pick the best for processing. Can also be provided as uploaded file(s) such as with multipart/form-data requests instead of this object(s).",
+                                "description": "Government ID photo data, must be images. Can provide more than one image and we will pick the best for processing. Can also be provided as uploaded file(s) such as with multipart/form-data requests instead of this object(s). Images must be between 10KB and 15MB.",
                                 "properties": {
                                   "data": {
                                     "description": "Base64 encoded file.",
@@ -7497,7 +7497,8 @@
                             "type": "string"
                           },
                           "reference-id": {
-                            "description": "Reference ID to refer to an entity in your user model",
+                            "description": "Reference ID to refer to an entity in your user model. This field is deprecated in favor of `meta.auto-create-account-reference-id`.",
+                            "deprecated": true,
                             "examples": [
                               "abc-123"
                             ],
@@ -7555,6 +7556,32 @@
                     "required": [
                       "attributes"
                     ],
+                    "type": "object"
+                  },
+                  "meta": {
+                    "properties": {
+                      "auto-create-account": {
+                        "description": "If true, automatically create an Account for the user if one does not exist. Default is true.",
+                        "examples": [
+                          true
+                        ],
+                        "type": "boolean"
+                      },
+                      "auto-create-account-type-id": {
+                        "description": "If `auto-create-account` is true, the type ID to use for the Account. If not provided, the default type ID for the organization will be used.",
+                        "examples": [
+                          "acttp_TOKEN"
+                        ],
+                        "type": "string"
+                      },
+                      "auto-create-account-reference-id": {
+                        "description": "If `auto-create-account` is true, this Inquiry will be attached to the Account with this reference ID, or a new Account will be created with this reference ID if one does not exist.",
+                        "examples": [
+                          "my_reference_id"
+                        ],
+                        "type": "string"
+                      }
+                    },
                     "type": "object"
                   }
                 },
@@ -24870,7 +24897,7 @@
                             "description": "Back of ID.",
                             "properties": {
                               "data": {
-                                "description": "Government ID photo data, must be images. Can provide more than one image and we will pick the best for processing. Can also be provided as uploaded file(s) such as with multipart/form-data requests instead of this object(s).",
+                                "description": "Government ID photo data, must be images. Can provide more than one image and we will pick the best for processing. Can also be provided as uploaded file(s) such as with multipart/form-data requests instead of this object(s). Images must be between 10KB and 15MB.",
                                 "properties": {
                                   "data": {
                                     "description": "Base64 encoded file.",
@@ -24899,7 +24926,7 @@
                             "description": "Front of ID.",
                             "properties": {
                               "data": {
-                                "description": "Government ID photo data, must be images. Can provide more than one image and we will pick the best for processing. Can also be provided as uploaded file(s) such as with multipart/form-data requests instead of this object(s).",
+                                "description": "Government ID photo data, must be images. Can provide more than one image and we will pick the best for processing. Can also be provided as uploaded file(s) such as with multipart/form-data requests instead of this object(s). Images must be between 10KB and 15MB.",
                                 "properties": {
                                   "data": {
                                     "description": "Base64 encoded file.",
@@ -25929,7 +25956,7 @@
                             "description": "Back of ID.",
                             "properties": {
                               "data": {
-                                "description": "Government ID photo data, must be images. Can provide more than one image and we will pick the best for processing. Can also be provided as uploaded file(s) such as with multipart/form-data requests instead of this object(s).",
+                                "description": "Government ID photo data, must be images. Can provide more than one image and we will pick the best for processing. Can also be provided as uploaded file(s) such as with multipart/form-data requests instead of this object(s). Images must be between 10KB and 15MB.",
                                 "properties": {
                                   "data": {
                                     "description": "Base64 encoded file.",
@@ -25954,7 +25981,7 @@
                             "description": "Front of ID.",
                             "properties": {
                               "data": {
-                                "description": "Government ID photo data, must be images. Can provide more than one image and we will pick the best for processing. Can also be provided as uploaded file(s) such as with multipart/form-data requests instead of this object(s).",
+                                "description": "Government ID photo data, must be images. Can provide more than one image and we will pick the best for processing. Can also be provided as uploaded file(s) such as with multipart/form-data requests instead of this object(s). Images must be between 10KB and 15MB.",
                                 "properties": {
                                   "data": {
                                     "description": "Base64 encoded file.",
