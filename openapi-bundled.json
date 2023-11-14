@@ -28691,13 +28691,13 @@
                 "examples": {
                   "Result": {
                     "summary": "Created",
-                    "$ref": "#/components/examples/WebhookResponseDisabled"
+                    "$ref": "#/components/examples/WebhookResponseCreated"
                   }
                 },
                 "schema": {
                   "properties": {
                     "data": {
-                      "$ref": "#/components/schemas/Webhook"
+                      "$ref": "#/components/schemas/WebhookWithSecret"
                     }
                   },
                   "type": "object"
@@ -28762,13 +28762,13 @@
                 "examples": {
                   "Result": {
                     "summary": "OK",
-                    "$ref": "#/components/examples/WebhookResponseDisabled"
+                    "$ref": "#/components/examples/WebhookResponseCreated"
                   }
                 },
                 "schema": {
                   "properties": {
                     "data": {
-                      "$ref": "#/components/schemas/Webhook"
+                      "$ref": "#/components/schemas/WebhookWithSecret"
                     }
                   },
                   "type": "object"
@@ -29088,6 +29088,101 @@
           }
         },
         "summary": "Disable a Webhook",
+        "tags": [
+          "Webhooks"
+        ]
+      }
+    },
+    "/webhooks/{webhook-id}/rotate_secret": {
+      "post": {
+        "description": "Rotate a webhook's secret",
+        "operationId": "rotate-a-webhook-secret",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/keyInflectionHeader"
+          },
+          {
+            "$ref": "#/components/parameters/idempotencyKeyHeader"
+          },
+          {
+            "$ref": "#/components/parameters/personaVersionHeader"
+          },
+          {
+            "description": "Webhook's ID (starts with \"wbh_\")",
+            "in": "path",
+            "name": "webhook-id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "meta": {
+                    "type": "object",
+                    "properties": {
+                      "expires-in-seconds": {
+                        "description": "Seconds until currently active webhook expires",
+                        "example": 7200,
+                        "type": "integer"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Result": {
+                    "summary": "OK",
+                    "$ref": "#/components/examples/WebhookResponseCreated"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/WebhookWithSecret"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        },
+        "summary": "Rotate a Webhook Secret",
         "tags": [
           "Webhooks"
         ]
@@ -34482,12 +34577,6 @@
               },
               "report-template-id": {
                 "type": "string"
-              },
-              "has-match": {
-                "type": "boolean"
-              },
-              "is-continuous": {
-                "type": "boolean"
               }
             }
           }
@@ -35718,6 +35807,116 @@
             }
           }
         }
+      },
+      "WebhookWithSecret": {
+        "type": "object",
+        "description": "A Webhook object",
+        "properties": {
+          "type": {
+            "examples": [
+              "webhook"
+            ],
+            "type": "string"
+          },
+          "id": {
+            "examples": [
+              "webhook_TOKEN"
+            ],
+            "type": "string"
+          },
+          "attributes": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "string",
+                "examples": [
+                  "disabled"
+                ]
+              },
+              "url": {
+                "type": "string",
+                "examples": [
+                  "https://withpersona.com"
+                ]
+              },
+              "secret": {
+                "description": "secret is deprecated in favor of secrets",
+                "type": "string",
+                "examples": [
+                  "wbhsec_abcdefgh-1234-5678-9ijk-lmnopqrstuvw"
+                ]
+              },
+              "secrets": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "api-version": {
+                "type": "string",
+                "format": "date",
+                "examples": [
+                  "2023-01-05"
+                ]
+              },
+              "api-key-inflection": {
+                "type": "string",
+                "examples": [
+                  "kebab"
+                ]
+              },
+              "api-attributes-blocklist": {
+                "type": "array",
+                "items": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "examples": [
+                  [
+                    "address-*",
+                    "name-last",
+                    "/data/attributes/fields/*-number"
+                  ]
+                ]
+              },
+              "file-access-token-expires-in": {
+                "type": "integer",
+                "format": "int32",
+                "examples": [
+                  21600
+                ]
+              },
+              "enabled-events": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "examples": [
+                  [
+                    "account.created",
+                    "verification.created",
+                    "*"
+                  ]
+                ]
+              },
+              "payload-filter": {
+                "type": [
+                  "object",
+                  "null"
+                ]
+              },
+              "created-at": {
+                "type": "string",
+                "format": "date-time",
+                "examples": [
+                  "2023-09-21T18:29:40.000Z"
+                ]
+              }
+            }
+          }
+        }
       }
     },
     "examples": {
@@ -36787,6 +36986,46 @@
                   "id": "inq_TOKEN"
                 }
               }
+            }
+          }
+        }
+      },
+      "WebhookResponseCreated": {
+        "value": {
+          "data": {
+            "type": "webhook",
+            "id": "webhook_ATOKEN",
+            "attributes": {
+              "status": "disabled",
+              "url": "https://withpersona.com",
+              "secret": "wbhsec_abcdefgh-1234-5678-9ijk-lmnopqrstuvw",
+              "secrets": [
+                "wbhsec_abcdefgh-1234-5678-9ijk-lmnopqrstuvw"
+              ],
+              "api-version": "2023-01-05",
+              "api-key-inflection": "kebab",
+              "api-attributes-blocklist": [
+                "address-*",
+                "name-last",
+                "/data/attributes/fields/*-number"
+              ],
+              "file-access-token-expires-in": 21600,
+              "enabled-events": [
+                "account.created",
+                "verification.created"
+              ],
+              "payload-filter": {
+                "data": {
+                  "relationships": {
+                    "inquiry-template": {
+                      "data": {
+                        "id": "itmpl_abc123def456"
+                      }
+                    }
+                  }
+                }
+              },
+              "created-at": "2023-08-17T23:18:13.000Z"
             }
           }
         }
