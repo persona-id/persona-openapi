@@ -1,0 +1,198 @@
+type: object
+properties:
+  attributes:
+    type: object
+    properties:
+      status:
+        type: string
+        examples:
+          - approved
+          - created
+          - declined
+          - needs review
+      reference-id:
+        type:
+          - string
+          - 'null'
+        examples:
+          - abc-123
+      fields:
+        type: object
+        properties:
+          country:
+            type: object
+            properties:
+              type:
+                type: string
+                examples:
+                  - string
+              value:
+                type: string
+                examples:
+                  - US
+          name-first:
+            type: object
+            properties:
+              type:
+                type: string
+                examples:
+                  - string
+              value:
+                type: string
+                examples:
+                  - LeBron
+          name-last:
+            type: object
+            properties:
+              type:
+                type: string
+                examples:
+                  - string
+              value:
+                type: string
+                examples:
+                  - James
+          selected-id-class:
+            type: object
+            properties:
+              type:
+                type: string
+                examples:
+                  - string
+              value:
+                type: string
+                examples:
+                  - dl
+          front-photo:
+            type: object
+            properties:
+              type:
+                type: string
+                examples:
+                  - file
+              value:
+                type: object
+                properties:
+                  filename:
+                    type: string
+                    examples:
+                      - image.png
+                  byte-size:
+                    type: integer
+                    examples:
+                      - 237011
+                    default: 0
+                  mime-type:
+                    type: string
+                    examples:
+                      - image/png
+                    default: ''
+                  url:
+                    type: string
+                    examples:
+                      - >-
+                        https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN
+          back-photo:
+            type: object
+            properties:
+              type:
+                type: string
+                examples:
+                  - file
+              value:
+                type: object
+                properties:
+                  filename:
+                    type: string
+                    examples:
+                      - image.png
+                  byte-size:
+                    type: integer
+                    examples:
+                      - 237011
+                    default: 0
+                  mime-type:
+                    type: string
+                    examples:
+                      - image/png
+                    default: ''
+                  url:
+                    type: string
+                    examples:
+                      - >-
+                        https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN
+      tags:
+        type: array
+      created-at:
+        format: date-time
+        examples:
+          - '2023-05-26T16:49:33.860Z'
+      updated-at:
+        format: date-time
+        examples:
+          - '2023-05-26T16:49:43.965Z'
+  id:
+    type: string
+    examples:
+      - txn_TOKEN
+  relationships:
+    type: object
+    properties:
+      reviewer:
+        type: object
+        description: The entity that reviewed the transaction
+        properties:
+          data:
+            type: object
+            properties:
+              type:
+                type: string
+                examples:
+                  - workflow-run
+                  - workflow-step
+                  - user
+              id:
+                type: string
+                examples:
+                  - wfr_TOKEN
+                  - wfs_TOKEN
+                  - user_TOKEN
+      transaction-label:
+        type: object
+        properties:
+          data: {}
+      transaction-type:
+        type: object
+        properties:
+          data:
+            type: object
+            properties:
+              type:
+                type: string
+                examples:
+                  - transaction-type
+              id:
+                type: string
+                examples:
+                  - txntp_TOKEN
+      related-objects:
+        type: object
+        description: Any object involved in this transaction's related workflow runs
+        properties:
+          data:
+            type: array
+            items:
+              type: object
+              properties:
+                type:
+                  type: string
+                  examples:
+                    - account
+                id:
+                  type: string
+                  examples:
+                    - act_TOKEN
+  type:
+    type: string
+    examples:
+      - transaction

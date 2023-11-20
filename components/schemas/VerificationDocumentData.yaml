@@ -1,0 +1,75 @@
+title: Document Verification Data
+allOf:
+  - $ref: ./VerificationTopLevelData.yaml
+  - type: object
+    properties:
+      type:
+        type: string
+        description: verification/document
+        example: verification/document
+      attributes:
+        allOf:
+          - $ref: ./VerificationAttributesBaseData.yaml
+          - type: object
+            properties:
+              fields:
+                description: JSON key-value pairs of field name to field value.
+                type: object
+              files:
+                description: The files uploaded to the associated document for processing.
+                items:
+                  properties:
+                    filename:
+                      examples:
+                        - multipage_example.pdf
+                      type: string
+                    url:
+                      examples:
+                        - >-
+                          https://withpersona.com/api/v1/files/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBdHc4IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--c4482780e1fa5c7bc0a26fc73b1dd76c44b98ad8/multipage_example.pdf
+                      type: string
+                    byte-size:
+                      examples:
+                        - 2048
+                      type: integer
+                  type: object
+                type: array
+              files-normalized:
+                items:
+                  properties:
+                    filename:
+                      examples:
+                        - multipage_example.pdf
+                      type: string
+                    url:
+                      examples:
+                        - >-
+                          https://withpersona.com/api/v1/files/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBdHc4IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--c4482780e1fa5c7bc0a26fc73b1dd76c44b98ad8/multipage_example.pdf
+                      type: string
+                    byte-size:
+                      examples:
+                        - 2048
+                      type: integer
+                  type: object
+                type: array
+              extraction-responses:
+                $ref: ./ExtractionResponses.yaml
+      relationships:
+        allOf:
+          - $ref: ./VerificationRelationshipsBaseData.yaml
+          - type: object
+            properties:
+              document:
+                properties:
+                  data:
+                    properties:
+                      id:
+                        examples:
+                          - doc_TOKEN
+                        type: string
+                      type:
+                        examples:
+                          - document/generic
+                        type: string
+                    type: object
+                type: object
