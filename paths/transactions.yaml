@@ -39,6 +39,11 @@ post:
                       description: >-
                         Reference ID on Account, refers to an entity in your
                         user model.
+                    external-id:
+                      type: string
+                      description: >-
+                        External ID should be set to the ID for this transaction
+                        from your system. It can be used for lookup.
   responses:
     '201':
       description: Created
@@ -156,6 +161,11 @@ get:
       description: Filter transactions by reference ID.
       schema:
         type: string
+    - name: filter[external-id]
+      in: query
+      description: Filter transactions by external ID.
+      schema:
+        type: string
   responses:
     '200':
       description: OK
@@ -225,6 +235,7 @@ get:
                     attributes:
                       status: declined
                       reference-id: null
+                      external-id: null
                       fields:
                         country:
                           type: string

@@ -10346,6 +10346,9 @@ paths:
                         reference-id:
                           type: string
                           description: Reference ID on Account, refers to an entity in your user model.
+                        external-id:
+                          type: string
+                          description: External ID should be set to the ID for this transaction from your system. It can be used for lookup.
       responses:
         '201':
           description: Created
@@ -10457,6 +10460,11 @@ paths:
           description: Filter transactions by reference ID.
           schema:
             type: string
+        - name: filter[external-id]
+          in: query
+          description: Filter transactions by external ID.
+          schema:
+            type: string
       responses:
         '200':
           description: OK
@@ -10524,6 +10532,7 @@ paths:
                         attributes:
                           status: declined
                           reference-id: null
+                          external-id: null
                           fields:
                             country:
                               type: string
@@ -10629,6 +10638,7 @@ paths:
                       attributes:
                         status: declined
                         reference-id: null
+                        external-id: null
                         fields:
                           country:
                             type: string
@@ -10681,6 +10691,7 @@ paths:
                         id: act_TOKEN
                         attributes:
                           reference-id: null
+                          external-id: null
                           created-at: '2023-05-26T16:49:35.000Z'
                           updated-at: '2023-05-26T16:49:35.000Z'
                           redacted-at: null
@@ -11066,6 +11077,9 @@ paths:
                         reference-id:
                           type: string
                           description: Reference ID on Account, refers to an entity in your user model.
+                        external-id:
+                          type: string
+                          description: External ID should be set to the ID for this transaction from your system. It can be used for lookup.
                         label:
                           type: string
       responses:
@@ -11139,6 +11153,7 @@ paths:
                       attributes:
                         status: declined
                         reference-id: null
+                        external-id: null
                         fields:
                           country:
                             type: string
@@ -11254,6 +11269,7 @@ paths:
                       attributes:
                         status: declined
                         reference-id: null
+                        external-id: null
                         fields:
                           country:
                             type: string
@@ -11408,6 +11424,7 @@ paths:
                       attributes:
                         status: declined
                         reference-id: null
+                        external-id: null
                         fields:
                           country:
                             type: string
@@ -11527,6 +11544,7 @@ paths:
                       attributes:
                         status: declined
                         reference-id: null
+                        external-id: null
                         fields:
                           country:
                             type: string
@@ -22043,6 +22061,12 @@ components:
                 - 'null'
               examples:
                 - abc-123
+            external-id:
+              type:
+                - string
+                - 'null'
+              examples:
+                - '1513'
             fields:
               type: object
               properties:
