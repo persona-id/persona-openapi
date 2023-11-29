@@ -1,0 +1,22 @@
+title: Email Address Verification Data
+allOf:
+  - $ref: ./VerificationTopLevelData.yaml
+  - type: object
+    properties:
+      type:
+        type: string
+        description: verification/email-address
+        example: verification/email-address
+      attributes:
+        allOf:
+          - $ref: ./VerificationAttributesBaseData.yaml
+          - type: object
+            properties:
+              email-address:
+                example: jane@doe.com
+                type: string
+              confirmation-code:
+                example: '12345'
+                type: string
+      relationships:
+        $ref: ./VerificationRelationshipsBaseData.yaml
