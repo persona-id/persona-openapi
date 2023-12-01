@@ -12,82 +12,67 @@ get:
     - $ref: ../components/parameters/keyInflectionHeader.yaml
     - $ref: ../components/parameters/idempotencyKeyHeader.yaml
     - $ref: ../components/parameters/personaVersionHeader.yaml
-    - description: Inquiry ID for pagination cursor
-      in: query
-      name: page[after]
+    - in: query
+      name: page
+      style: deepObject
+      allowReserved: true
       schema:
-        examples:
-          - inq_TOKEN
-        type: string
-    - description: Inquiry ID for pagination cursor
-      in: query
-      name: page[before]
+        allOf:
+          - $ref: ../components/schemas/NestedPaginationQueryParams.yaml
+          - type: object
+            properties:
+              after:
+                example: inq_ABC123
+              before:
+                example: inq_ABC123
+    - in: query
+      name: filter
+      style: deepObject
+      allowReserved: true
       schema:
-        examples:
-          - inq_TOKEN
-        type: string
-    - description: Limit on the number of inquiries returned
-      in: query
-      name: page[size]
-      schema:
-        examples:
-          - 5
-        type: number
-    - description: Filter inquiries by account ID
-      in: query
-      name: filter[account-id]
-      schema:
-        examples:
-          - act_TOKEN
-        type: string
-    - description: Filter inquiries by note. Must be the only filter.
-      in: query
-      name: filter[note]
-      schema:
-        examples:
-          - A note saved on an inquiry
-        type: string
-    - description: Filter inquiries by reference ID
-      in: query
-      name: filter[reference-id]
-      schema:
-        examples:
-          - abc-123
-        type: string
-    - description: >-
-        Filter inquiries by template ID (use this field if your template ID
-        starts with `tmpl_`)
-      in: query
-      name: filter[template-id]
-      schema:
-        examples:
-          - tmpl_TOKEN
-        type: string
-    - description: >-
-        Filter inquiries by inquiry template ID (use this field if your template
-        ID starts with `itmpl_`)
-      in: query
-      name: filter[inquiry-template-id]
-      schema:
-        examples:
-          - itmpl_TOKEN
-        type: string
-    - description: Filter inquiries by creation date, equal to or later than
-      in: query
-      name: filter[created-at-start]
-      schema:
-        examples:
-          - '2023-10-11T04:59:21.764Z'
-        format: date-time
-        type: string
-    - description: Filter inquiries by creation date, earlier than or equal to
-      in: query
-      name: filter[created-at-end]
-      schema:
-        examples:
-          - '2023-10-20T04:59:21.764Z'
-        format: date-time
-        type: string
+        type: object
+        properties:
+          account-id:
+            description: Filter inquiries by account ID
+            examples:
+              - act_ABC123
+            type: string
+          note:
+            description: Filter inquiries by note. Must be the only filter.
+            examples:
+              - A note saved on an inquiry
+            type: string
+          reference-id:
+            description: Filter inquiries by reference ID
+            examples:
+              - abc-123
+            type: string
+          template-id:
+            description: >-
+              Filter inquiries by template ID (use this field if your template
+              ID starts with `tmpl_`)
+            examples:
+              - tmpl_ABC123
+            type: string
+          inquiry-template-id:
+            description: >-
+              Filter inquiries by inquiry template ID (use this field if your
+              template ID starts with `itmpl_`)
+            examples:
+              - itmpl_ABC123
+            type: string
+          created-at-start:
+            description: Filter inquiries by creation date, equal to or later than
+            examples:
+              - '2023-10-11T04:59:21.764Z'
+            format: date-time
+            type: string
+          created-at-end:
+            description: Filter inquiries by creation date, earlier than or equal to
+            examples:
+              - '2023-10-20T04:59:21.764Z'
+            format: date-time
+            type: string
   responses:
     '200':
       content:
@@ -107,7 +92,7 @@ get:
                 properties:
                   prev:
                     examples:
-                      - /api/v1/inquiries?page%5Bafter%5D=inq_TOKEN
+                      - /api/v1/inquiries?page%5Bafter%5D=inq_ABC123
                     type:
                       - 'null'
                       - string
@@ -116,7 +101,7 @@ get:
                       the first page.
                   next:
                     examples:
-                      - /api/v1/inquiries?page%5Bafter%5D=TOKEN
+                      - /api/v1/inquiries?page%5Bafter%5D=inq_ABC123
                     type:
                       - 'null'
                       - string
@@ -167,7 +152,7 @@ post:
                         either template-id OR inquiry-template-id OR
                         inquiry-template-version-id*
                       examples:
-                        - tmpl_TOKEN
+                        - tmpl_ABC123
                       type: string
                     inquiry-template-id:
                       description: >-
@@ -176,7 +161,7 @@ post:
                         in either template-id OR inquiry-template-id OR
                         inquiry-template-version-id*
                       examples:
-                        - itmpl_TOKEN
+                        - itmpl_ABC123
                       type: string
                     inquiry-template-version-id:
                       description: >-
@@ -184,7 +169,7 @@ post:
                         `itmplv_`). *You must pass in either template-id OR
                         inquiry-template-id OR inquiry-template-version-id*
                       examples:
-                        - itmplv_TOKEN
+                        - itmplv_ABC123
                       type: string
                     reference-id:
                       description: >-
@@ -198,7 +183,7 @@ post:
                     account-id:
                       description: Account ID to associate with this inquiry
                       examples:
-                        - act_TOKEN
+                        - act_ABC123
                       type: string
                     creator-email-address:
                       description: >-
@@ -212,14 +197,14 @@ post:
                         Theme ID for styling. Only available for Legacy 2.0
                         Inquiries.
                       examples:
-                        - the_TOKEN
+                        - the_ABC123
                       type: string
                     theme-set-id:
                       description: >-
                         BETA FEATURE -- Theme Set ID for styling. Only available
                         for Dynamic Flow Inquiries.
                       examples:
-                        - theset_TOKEN
+                        - theset_ABC123
                       type: string
                     redirect-uri:
                       description: >-
@@ -254,7 +239,7 @@ post:
                     Account. If not provided, the default type ID for the
                     organization will be used.
                   examples:
-                    - acttp_TOKEN
+                    - acttp_ABC123
                   type: string
                 auto-create-account-reference-id:
                   description: >-

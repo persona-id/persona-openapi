@@ -79,26 +79,29 @@ paths:
         - $ref: '#/components/parameters/keyInflectionHeader'
         - $ref: '#/components/parameters/idempotencyKeyHeader'
         - $ref: '#/components/parameters/personaVersionHeader'
-        - description: Account ID for cursor pagination
-          in: query
-          name: page[before]
+        - in: query
+          name: page
+          style: deepObject
+          allowReserved: true
           schema:
-            type: string
-        - description: Account ID for cursor pagination
-          in: query
-          name: page[after]
+            allOf:
+              - $ref: '#/components/schemas/NestedPaginationQueryParams'
+              - type: object
+                properties:
+                  after:
+                    example: act_ABC123
+                  before:
+                    example: act_ABC123
+        - in: query
+          name: filter
+          style: deepObject
+          allowReserved: true
           schema:
-            type: string
-        - description: Limit on the number of accounts returned
-          in: query
-          name: page[size]
-          schema:
-            type: string
-        - description: Filter accounts by reference ID
-          in: query
-          name: filter[reference-id]
-          schema:
-            type: string
+            type: object
+            properties:
+              reference-id:
+                description: Filter accounts by reference ID
+                type: string
       responses:
         '200':
           content:
@@ -717,26 +720,29 @@ paths:
         - $ref: '#/components/parameters/keyInflectionHeader'
         - $ref: '#/components/parameters/idempotencyKeyHeader'
         - $ref: '#/components/parameters/personaVersionHeader'
-        - description: API key ID for pagination cursor
-          in: query
-          name: page[after]
+        - in: query
+          name: page
+          style: deepObject
+          allowReserved: true
           schema:
-            type: string
-        - description: API key ID for pagination cursor
-          in: query
-          name: page[before]
+            allOf:
+              - $ref: '#/components/schemas/NestedPaginationQueryParams'
+              - type: object
+                properties:
+                  after:
+                    example: api_ABC123
+                  before:
+                    example: api_ABC123
+        - in: query
+          name: filter
+          style: deepObject
+          allowReserved: true
           schema:
-            type: string
-        - description: Limit on the number of API keys returned (between 1 and 100)
-          in: query
-          name: page[size]
-          schema:
-            type: string
-        - description: Filter API keys by name
-          in: query
-          name: filter[name]
-          schema:
-            type: string
+            type: object
+            properties:
+              name:
+                type: string
+                description: Filter API keys by name
       responses:
         '200':
           content:
@@ -747,7 +753,7 @@ paths:
                   value:
                     data:
                       - type: api-key
-                        id: api_ATOKEN
+                        id: api_ABC123
                         attributes:
                           name: Webhook ABC
                           note: null
@@ -768,7 +774,7 @@ paths:
                           expires-at: null
                           created-at: '2023-08-17T23:18:13.000Z'
                       - type: api-key
-                        id: api_BTOKEN
+                        id: api_ABC123
                         attributes:
                           name: Webhook 123
                           note: null
@@ -994,21 +1000,19 @@ paths:
         - $ref: '#/components/parameters/keyInflectionHeader'
         - $ref: '#/components/parameters/idempotencyKeyHeader'
         - $ref: '#/components/parameters/personaVersionHeader'
-        - description: API Log ID for cursor pagination
-          in: query
-          name: page[before]
+        - in: query
+          name: page
+          style: deepObject
+          allowReserved: true
           schema:
-            type: string
-        - description: API Log ID for cursor pagination
-          in: query
-          name: page[after]
-          schema:
-            type: string
-        - description: Limit on the number of API Logs returned
-          in: query
-          name: page[size]
-          schema:
-            type: string
+            allOf:
+              - $ref: '#/components/schemas/NestedPaginationQueryParams'
+              - type: object
+                properties:
+                  after:
+                    example: req_ABC123
+                  before:
+                    example: req_ABC123
       responses:
         '200':
           content:
@@ -1019,7 +1023,7 @@ paths:
                   value:
                     data:
                       - type: api-log
-                        id: req_TOKEN
+                        id: req_ABC123
                         attributes:
                           request:
                             method: GET
@@ -1042,12 +1046,12 @@ paths:
                               RateLimit-Limit: 300
                               RateLimit-Remaining: 299
                               RateLimit-Reset: 60
-                              Request-Id: req_TOKEN
+                              Request-Id: req_ABC123
                               Content-Type: application/json; charset=utf-8
                               Vary: Accept
                           created-at: '2023-09-20T20:20:03.485+00:00'
                       - type: api-log
-                        id: req_TOKEN
+                        id: req_ABC123
                         attributes:
                           request:
                             method: POST
@@ -1063,7 +1067,7 @@ paths:
                                 attributes:
                                   fields:
                                     name_first: '[FILTERED]'
-                                transaction-type-id: txntp_TOKEN
+                                transaction-type-id: txntp_ABC123
                             ip-address: 127.0.0.1
                           response:
                             status: 201
@@ -1075,7 +1079,7 @@ paths:
                               RateLimit-Limit: 300
                               RateLimit-Remaining: 299
                               RateLimit-Reset: 60
-                              Request-Id: req_TOKEN
+                              Request-Id: req_ABC123
                               Quota-Limit: 1000
                               Quota-Remaining: 999
                               Quota-Reset: 60
@@ -1083,7 +1087,7 @@ paths:
                               Vary: Accept
                           created-at: '2023-09-20T20:20:03.485+00:00'
                       - type: api-log
-                        id: req_TOKEN
+                        id: req_ABC123
                         attributes:
                           request:
                             method: GET
@@ -1108,7 +1112,7 @@ paths:
                               RateLimit-Limit: 300
                               RateLimit-Remaining: 299
                               RateLimit-Reset: 60
-                              Request-Id: req_TOKEN
+                              Request-Id: req_ABC123
                               Content-Type: application/json; charset=utf-8
                               Vary: Accept
                           created-at: '2023-09-20T20:20:03.485+00:00'
@@ -1170,7 +1174,7 @@ paths:
                   value:
                     data:
                       type: api-log
-                      id: req_TOKEN
+                      id: req_ABC123
                       attributes:
                         request:
                           method: GET
@@ -1193,7 +1197,7 @@ paths:
                             RateLimit-Limit: 300
                             RateLimit-Remaining: 299
                             RateLimit-Reset: 60
-                            Request-Id: req_TOKEN
+                            Request-Id: req_ABC123
                             Content-Type: application/json; charset=utf-8
                             Vary: Accept
                         created-at: '2023-09-20T20:20:03.485+00:00'
@@ -1226,67 +1230,54 @@ paths:
         - $ref: '#/components/parameters/keyInflectionHeader'
         - $ref: '#/components/parameters/idempotencyKeyHeader'
         - $ref: '#/components/parameters/personaVersionHeader'
-        - description: Case ID for pagination cursor
-          in: query
-          name: page[after]
+        - in: query
+          name: page
+          style: deepObject
+          allowReserved: true
           schema:
-            examples:
-              - case_8xQDgDj6jsuLNnViw6aMfF8e
-            type: string
-        - description: Case ID for pagination cursor
-          in: query
-          name: page[before]
+            allOf:
+              - $ref: '#/components/schemas/NestedPaginationQueryParams'
+              - type: object
+                properties:
+                  after:
+                    example: case_ABC123
+                  before:
+                    example: case_ABC123
+        - in: query
+          name: filter
+          style: deepObject
+          allowReserved: true
           schema:
-            examples:
-              - case_8xQDgDj6jsuLNnViw6aMfF8e
-            type: string
-        - description: Limit on the number of cases returned
-          in: query
-          name: page[size]
-          schema:
-            examples:
-              - 5
-            type: number
-        - description: Filter cases by status
-          in: query
-          name: filter[status]
-          schema:
-            examples:
-              - Open
-            type: string
-        - description: Filter cases by resolution
-          in: query
-          name: filter[resolution]
-          schema:
-            type: string
-        - description: Filter cases by case template ID
-          in: query
-          name: filter[case-template-id]
-          schema:
-            examples:
-              - ctmpl_w21x2KztVgtVo1s4KLE9qgT0
-            type: string
-        - description: Filter cases by account ID
-          in: query
-          name: filter[account-id]
-          schema:
-            examples:
-              - act_1NHbL5FRJCNSkCk5aafkf7D2
-            type: string
-        - description: Filter cases by inquiry ID
-          in: query
-          name: filter[inquiry-id]
-          schema:
-            examples:
-              - inq_03SGjN6k3ytL8XdeM1pt4Qc1
-            type: string
-        - description: Filter cases by report ID
-          in: query
-          name: filter[report-id]
-          schema:
-            examples:
-              - rep_018wqARjx7eBMNHoZvypgFv1
-            type: string
+            type: object
+            properties:
+              status:
+                description: Filter cases by status
+                examples:
+                  - Open
+                type: string
+              resolution:
+                description: Filter cases by resolution
+                type: string
+              case-template-id:
+                description: Filter cases by case template ID
+                examples:
+                  - ctmpl_ABC123
+                type: string
+              account-id:
+                description: Filter cases by account ID
+                examples:
+                  - act_ABC123
+                type: string
+              inquiry-id:
+                description: Filter cases by inquiry ID
+                examples:
+                  - inq_ABC123
+                type: string
+              report-id:
+                description: Filter cases by report ID
+                examples:
+                  - rep_ABC123
+                type: string
       responses:
         '200':
           content:
@@ -3736,36 +3727,35 @@ paths:
         - $ref: '#/components/parameters/keyInflectionHeader'
         - $ref: '#/components/parameters/idempotencyKeyHeader'
         - $ref: '#/components/parameters/personaVersionHeader'
-        - description: Event ID for cursor pagination
-          in: query
-          name: page[before]
+        - in: query
+          name: page
+          style: deepObject
+          allowReserved: true
           schema:
-            type: string
-        - description: Event ID for cursor pagination
-          in: query
-          name: page[after]
+            allOf:
+              - $ref: '#/components/schemas/NestedPaginationQueryParams'
+              - type: object
+                properties:
+                  after:
+                    example: evt_ABC123
+                  before:
+                    example: evt_ABC123
+        - in: query
+          name: filter
+          style: deepObject
+          allowReserved: true
           schema:
-            type: string
-        - description: Limit on the number of Events returned.
-          in: query
-          name: page[size]
-          schema:
-            type: string
-        - description: Comma separated list of event names
-          in: query
-          name: filter[name]
-          schema:
-            type: string
-        - description: Comma separated list of object ids
-          in: query
-          name: filter[object-id]
-          schema:
-            type: string
-        - description: Comma separated list of event ids
-          in: query
-          name: filter[id]
-          schema:
-            type: string
+            type: object
+            properties:
+              name:
+                description: Comma separated list of event names
+                type: string
+              object-id:
+                description: Comma separated list of object ids
+                type: string
+              id:
+                description: Comma separated list of event ids
+                type: string
       responses:
         '200':
           content:
@@ -3776,23 +3766,23 @@ paths:
                   value:
                     data:
                       - type: event
-                        id: evt_TOKEN
+                        id: evt_ABC123
                         attributes:
                           name: inquiry.expired
                           payload:
                             data:
                               type: inquiry
-                              id: inq_TOKEN
+                              id: inq_ABC123
                               attributes: {}
                           created-at: '2023-09-23T17:14:01.918Z'
                       - type: event
-                        id: evt_TOKEN
+                        id: evt_ABC123
                         attributes:
                           name: account.tag-added
                           payload:
                             data:
                               type: account
-                              id: act_TOKEN
+                              id: act_ABC123
                               attributes: {}
                           created-at: '2023-09-23T00:46:41.877Z'
                     links:
@@ -3813,13 +3803,13 @@ paths:
                           - string
                           - 'null'
                         examples:
-                          - /api/v1/events?page%5Bbefore%5D=evt_TOKEN
+                          - /api/v1/events?page%5Bbefore%5D=evt_ABC123
                       next:
                         type:
                           - string
                           - 'null'
                         examples:
-                          - /api/v1/events?page%5Bafter%5D=evt_TOKEN
+                          - /api/v1/events?page%5Bafter%5D=evt_ABC123
           description: OK
         '400':
           $ref: '#/components/responses/BadRequest'
@@ -3854,13 +3844,13 @@ paths:
                   summary: OK
                   value:
                     type: event
-                    id: evt_TOKEN
+                    id: evt_ABC123
                     attributes:
                       name: inquiry.expired
                       payload:
                         data:
                           type: inquiry
-                          id: inq_TOKEN
+                          id: inq_ABC123
                           attributes: {}
                       created-at: '2023-09-23T17:14:01.918Z'
               schema:
@@ -4768,78 +4758,63 @@ paths:
         - $ref: '#/components/parameters/keyInflectionHeader'
         - $ref: '#/components/parameters/idempotencyKeyHeader'
         - $ref: '#/components/parameters/personaVersionHeader'
-        - description: Inquiry ID for pagination cursor
-          in: query
-          name: page[after]
+        - in: query
+          name: page
+          style: deepObject
+          allowReserved: true
           schema:
-            examples:
-              - inq_TOKEN
-            type: string
-        - description: Inquiry ID for pagination cursor
-          in: query
-          name: page[before]
+            allOf:
+              - $ref: '#/components/schemas/NestedPaginationQueryParams'
+              - type: object
+                properties:
+                  after:
+                    example: inq_ABC123
+                  before:
+                    example: inq_ABC123
+        - in: query
+          name: filter
+          style: deepObject
+          allowReserved: true
           schema:
-            examples:
-              - inq_TOKEN
-            type: string
-        - description: Limit on the number of inquiries returned
-          in: query
-          name: page[size]
-          schema:
-            examples:
-              - 5
-            type: number
-        - description: Filter inquiries by account ID
-          in: query
-          name: filter[account-id]
-          schema:
-            examples:
-              - act_TOKEN
-            type: string
-        - description: Filter inquiries by note. Must be the only filter.
-          in: query
-          name: filter[note]
-          schema:
-            examples:
-              - A note saved on an inquiry
-            type: string
-        - description: Filter inquiries by reference ID
-          in: query
-          name: filter[reference-id]
-          schema:
-            examples:
-              - abc-123
-            type: string
-        - description: Filter inquiries by template ID (use this field if your template ID starts with `tmpl_`)
-          in: query
-          name: filter[template-id]
-          schema:
-            examples:
-              - tmpl_TOKEN
-            type: string
-        - description: Filter inquiries by inquiry template ID (use this field if your template ID starts with `itmpl_`)
-          in: query
-          name: filter[inquiry-template-id]
-          schema:
-            examples:
-              - itmpl_TOKEN
-            type: string
-        - description: Filter inquiries by creation date, equal to or later than
-          in: query
-          name: filter[created-at-start]
-          schema:
-            examples:
-              - '2023-10-11T04:59:21.764Z'
-            format: date-time
-            type: string
-        - description: Filter inquiries by creation date, earlier than or equal to
-          in: query
-          name: filter[created-at-end]
-          schema:
-            examples:
-              - '2023-10-20T04:59:21.764Z'
-            format: date-time
-            type: string
+            type: object
+            properties:
+              account-id:
+                description: Filter inquiries by account ID
+                examples:
+                  - act_ABC123
+                type: string
+              note:
+                description: Filter inquiries by note. Must be the only filter.
+                examples:
+                  - A note saved on an inquiry
+                type: string
+              reference-id:
+                description: Filter inquiries by reference ID
+                examples:
+                  - abc-123
+                type: string
+              template-id:
+                description: Filter inquiries by template ID (use this field if your template ID starts with `tmpl_`)
+                examples:
+                  - tmpl_ABC123
+                type: string
+              inquiry-template-id:
+                description: Filter inquiries by inquiry template ID (use this field if your template ID starts with `itmpl_`)
+                examples:
+                  - itmpl_ABC123
+                type: string
+              created-at-start:
+                description: Filter inquiries by creation date, equal to or later than
+                examples:
+                  - '2023-10-11T04:59:21.764Z'
+                format: date-time
+                type: string
+              created-at-end:
+                description: Filter inquiries by creation date, earlier than or equal to
+                examples:
+                  - '2023-10-20T04:59:21.764Z'
+                format: date-time
+                type: string
       responses:
         '200':
           content:
@@ -4859,14 +4834,14 @@ paths:
                     properties:
                       prev:
                         examples:
-                          - /api/v1/inquiries?page%5Bafter%5D=inq_TOKEN
+                          - /api/v1/inquiries?page%5Bafter%5D=inq_ABC123
                         type:
                           - 'null'
                           - string
                         description: URL pointing to the previous page of data, or null if on the first page.
                       next:
                         examples:
-                          - /api/v1/inquiries?page%5Bafter%5D=TOKEN
+                          - /api/v1/inquiries?page%5Bafter%5D=inq_ABC123
                         type:
                           - 'null'
                           - string
@@ -4907,17 +4882,17 @@ paths:
                         template-id:
                           description: Template ID for flow requirements (use this field if your template ID starts with `tmpl_`). *You must pass in either template-id OR inquiry-template-id OR inquiry-template-version-id*
                           examples:
-                            - tmpl_TOKEN
+                            - tmpl_ABC123
                           type: string
                         inquiry-template-id:
                           description: Template ID for flow requirements (use this field if your template ID starts with `itmpl_`). *You must pass in either template-id OR inquiry-template-id OR inquiry-template-version-id*
                           examples:
-                            - itmpl_TOKEN
+                            - itmpl_ABC123
                           type: string
                         inquiry-template-version-id:
                           description: Template Version ID for flow requirements (begins with `itmplv_`). *You must pass in either template-id OR inquiry-template-id OR inquiry-template-version-id*
                           examples:
-                            - itmplv_TOKEN
+                            - itmplv_ABC123
                           type: string
                         reference-id:
                           description: Reference ID to refer to an entity in your user model. This field is deprecated in favor of `meta.auto-create-account-reference-id`.
@@ -4928,7 +4903,7 @@ paths:
                         account-id:
                           description: Account ID to associate with this inquiry
                           examples:
-                            - act_TOKEN
+                            - act_ABC123
                           type: string
                         creator-email-address:
                           description: Email of the user creating this inquiry in the organization
@@ -4938,12 +4913,12 @@ paths:
                         theme-id:
                           description: Theme ID for styling. Only available for Legacy 2.0 Inquiries.
                           examples:
-                            - the_TOKEN
+                            - the_ABC123
                           type: string
                         theme-set-id:
                           description: BETA FEATURE -- Theme Set ID for styling. Only available for Dynamic Flow Inquiries.
                           examples:
-                            - theset_TOKEN
+                            - theset_ABC123
                           type: string
                         redirect-uri:
                           description: If using the Hosted flow, redirect to this URL after completion
@@ -4971,7 +4946,7 @@ paths:
                     auto-create-account-type-id:
                       description: If `auto-create-account` is true, the type ID to use for the Account. If not provided, the default type ID for the organization will be used.
                       examples:
-                        - acttp_TOKEN
+                        - acttp_ABC123
                       type: string
                     auto-create-account-reference-id:
                       description: If `auto-create-account` is true, this Inquiry will be attached to the Account with this reference ID, or a new Account will be created with this reference ID if one does not exist.
@@ -5726,11 +5701,17 @@ paths:
         - $ref: '#/components/parameters/keyInflectionHeader'
         - $ref: '#/components/parameters/idempotencyKeyHeader'
         - $ref: '#/components/parameters/personaVersionHeader'
-        - description: Filter inquiry sessions by inquiry ID
-          in: query
-          name: filter[inquiry-id]
+        - in: query
+          name: filter
+          style: deepObject
+          allowReserved: true
           schema:
-            type: string
+            type: object
+            properties:
+              inquiry-id:
+                description: Filter inquiry sessions by inquiry ID
+                type: string
+                example: inq_ABC123
       responses:
         '200':
           content:
@@ -5741,7 +5722,7 @@ paths:
                   value:
                     data:
                       - type: inquiry-session
-                        id: iqse_TOKEN
+                        id: iqse_ABC123
                         attributes:
                           status: expired
                           created-at: '2023-07-25T04:15:20.000Z'
@@ -5769,7 +5750,7 @@ paths:
                           inquiry:
                             data:
                               type: inquiry
-                              id: inq_TOKEN
+                              id: inq_ABC123
                     links:
                       prev: null
                       next: null
@@ -5788,13 +5769,13 @@ paths:
                           - string
                           - 'null'
                         examples:
-                          - /api/v1/inquiry-sessions?page%5Bbefore%5D=iqse_TOKEN
+                          - /api/v1/inquiry-sessions?page%5Bbefore%5D=iqse_ABC123
                       next:
                         type:
                           - string
                           - 'null'
                         examples:
-                          - /api/v1/inquiry-sessions?page%5Bafter%5D=iqse_TOKEN
+                          - /api/v1/inquiry-sessions?page%5Bafter%5D=iqse_ABC123
           description: OK
         '400':
           $ref: '#/components/responses/BadRequest'
@@ -5895,7 +5876,7 @@ paths:
                   value:
                     data:
                       - type: inquiry-session
-                        id: iqse_TOKEN
+                        id: iqse_ABC123
                         attributes:
                           status: expired
                           created-at: '2023-07-25T04:15:20.000Z'
@@ -5923,7 +5904,7 @@ paths:
                           inquiry:
                             data:
                               type: inquiry
-                              id: inq_TOKEN
+                              id: inq_ABC123
               schema:
                 type: object
                 properties:
@@ -6055,7 +6036,7 @@ paths:
                   value:
                     data:
                       type: inquiry-session
-                      id: iqse_TOKEN
+                      id: iqse_ABC123
                       attributes:
                         status: expired
                         created-at: '2023-07-25T04:15:20.000Z'
@@ -6083,7 +6064,7 @@ paths:
                         inquiry:
                           data:
                             type: inquiry
-                            id: inq_TOKEN
+                            id: inq_ABC123
                     meta:
                       one-time-link: https://withpersona.com/verify?code=CODE
                       one-time-link-short: https://perso.na/CODE
@@ -8636,29 +8617,32 @@ paths:
         - $ref: '#/components/parameters/keyInflectionHeader'
         - $ref: '#/components/parameters/idempotencyKeyHeader'
         - $ref: '#/components/parameters/personaVersionHeader'
-        - description: List ID for cursor pagination
-          in: query
-          name: page[before]
+        - in: query
+          name: page
+          style: deepObject
+          allowReserved: true
           schema:
-            type: string
-        - description: List ID for cursor pagination
-          in: query
-          name: page[after]
+            allOf:
+              - $ref: '#/components/schemas/NestedPaginationQueryParams'
+              - type: object
+                properties:
+                  after:
+                    example: lst_ABC123
+                  before:
+                    example: lst_ABC123
+        - in: query
+          name: filter
+          style: deepObject
+          allowReserved: true
           schema:
-            type: string
-        - description: Limit on the number of lists returned
-          in: query
-          name: page[size]
-          schema:
-            type: string
-        - description: Filter lists by status
-          in: query
-          name: filter[status]
-          schema:
-            type: string
-            enum:
-              - active
-              - archived
+            type: object
+            properties:
+              status:
+                description: Filter lists by status
+                type: string
+                enum:
+                  - active
+                  - archived
       responses:
         '200':
           content:
@@ -9106,31 +9090,32 @@ paths:
         - $ref: '#/components/parameters/keyInflectionHeader'
         - $ref: '#/components/parameters/idempotencyKeyHeader'
         - $ref: '#/components/parameters/personaVersionHeader'
-        - description: Report ID for cursor pagination
-          in: query
-          name: page[before]
+        - in: query
+          name: page
+          style: deepObject
+          allowReserved: true
           schema:
-            type: string
-        - description: Report ID for cursor pagination
-          in: query
-          name: page[after]
+            allOf:
+              - $ref: '#/components/schemas/NestedPaginationQueryParams'
+              - type: object
+                properties:
+                  after:
+                    example: rep_ABC123
+                  before:
+                    example: rep_ABC123
+        - in: query
+          name: filter
+          style: deepObject
+          allowReserved: true
           schema:
-            type: string
-        - description: Limit on the number of reports returned
-          in: query
-          name: page[size]
-          schema:
-            type: string
-        - description: Filter reports by reference ID
-          in: query
-          name: filter[reference-id]
-          schema:
-            type: string
-        - description: Filter reports by account ID
-          in: query
-          name: filter[account-id]
-          schema:
-            type: string
+            type: object
+            properties:
+              reference-id:
+                description: Filter reports by reference ID
+                type: string
+              account-id:
+                description: Filter reports by account ID
+                type: string
       responses:
         '200':
           content:
@@ -10360,7 +10345,7 @@ paths:
                   value:
                     data:
                       type: transaction
-                      id: txn_TOKEN
+                      id: txn_ABC123
                       attributes:
                         status: declined
                         reference-id: null
@@ -10383,14 +10368,14 @@ paths:
                               filename: image.png
                               byte-size: 237011
                               mime-type: image/png
-                              url: https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN
+                              url: https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
                           back-photo:
                             type: file
                             value:
                               filename: image.png
                               byte-size: 237011
                               mime-type: image/png
-                              url: https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN
+                              url: https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
                         tags: []
                         created-at: '2023-05-26T16:49:33.860Z'
                         updated-at: '2023-05-26T16:49:43.965Z'
@@ -10398,19 +10383,19 @@ paths:
                         reviewer:
                           data:
                             type: workflow-run
-                            id: wfr_TOKEN
+                            id: wfr_ABC123
                         transaction-label:
                           data: null
                         transaction-type:
                           data:
                             type: transaction-type
-                            id: txntp_TOKEN
+                            id: txntp_ABC123
                         related-objects:
                           data:
                             - type: account
-                              id: act_TOKEN
+                              id: act_ABC123
                             - type: verification/government-id
-                              id: ver_TOKEN
+                              id: ver_ABC123
               schema:
                 type: object
                 properties:
@@ -10440,31 +10425,32 @@ paths:
         - $ref: '#/components/parameters/keyInflectionHeader'
         - $ref: '#/components/parameters/idempotencyKeyHeader'
         - $ref: '#/components/parameters/personaVersionHeader'
-        - name: page[after]
-          in: query
-          description: Transaction ID for pagination cursor.
+        - in: query
+          name: page
+          style: deepObject
+          allowReserved: true
           schema:
-            type: string
-        - name: page[before]
-          in: query
-          description: Transaction ID for pagination cursor.
+            allOf:
+              - $ref: '#/components/schemas/NestedPaginationQueryParams'
+              - type: object
+                properties:
+                  after:
+                    example: txn_ABC123
+                  before:
+                    example: txn_ABC123
+        - in: query
+          name: filter
+          style: deepObject
+          allowReserved: true
           schema:
-            type: string
-        - name: page[size]
-          in: query
-          description: Limit on the number of transactions returned.
-          schema:
-            type: string
-        - name: filter[reference-id]
-          in: query
-          description: Filter transactions by reference ID.
-          schema:
-            type: string
-        - name: filter[external-id]
-          in: query
-          description: Filter transactions by external ID.
-          schema:
-            type: string
+            type: object
+            properties:
+              reference-id:
+                description: Filter transactions by reference ID.
+                type: string
+              external-id:
+                description: Filter transactions by external ID.
+                type: string
       responses:
         '200':
           description: OK
@@ -10476,7 +10462,7 @@ paths:
                   value:
                     data:
                       - type: transaction
-                        id: txn_TOKEN
+                        id: txn_ABC123
                         attributes:
                           status: declined
                           reference-id: null
@@ -10499,14 +10485,14 @@ paths:
                                 filename: image.png
                                 byte-size: 237011
                                 mime-type: image/png
-                                url: https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN
+                                url: https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
                             back-photo:
                               type: file
                               value:
                                 filename: image.png
                                 byte-size: 237011
                                 mime-type: image/png
-                                url: https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN
+                                url: https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
                           tags: []
                           created-at: '2023-05-26T16:49:33.860Z'
                           updated-at: '2023-05-26T16:49:43.965Z'
@@ -10514,21 +10500,21 @@ paths:
                           reviewer:
                             data:
                               type: workflow-run
-                              id: wfr_TOKEN
+                              id: wfr_ABC123
                           transaction-label:
                             data: null
                           transaction-type:
                             data:
                               type: transaction-type
-                              id: txntp_TOKEN
+                              id: txntp_ABC123
                           related-objects:
                             data:
                               - type: account
-                                id: act_TOKEN
+                                id: act_ABC123
                               - type: verification/government-id
-                                id: ver_TOKEN
+                                id: ver_ABC123
                       - type: transaction
-                        id: txn_TOKEN
+                        id: txn_ABC123
                         attributes:
                           status: declined
                           reference-id: null
@@ -10552,14 +10538,14 @@ paths:
                                 filename: image.png
                                 byte-size: 237011
                                 mime-type: image/png
-                                url: https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN
+                                url: https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
                             back-photo:
                               type: file
                               value:
                                 filename: image.png
                                 byte-size: 237011
                                 mime-type: image/png
-                                url: https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN
+                                url: https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
                           tags: []
                           created-at: '2023-05-26T16:49:33.860Z'
                           updated-at: '2023-05-26T16:49:43.965Z'
@@ -10567,22 +10553,22 @@ paths:
                           reviewer:
                             data:
                               type: workflow-run
-                              id: wfr_TOKEN
+                              id: wfr_ABC123
                           transaction-label:
                             data: null
                           transaction-type:
                             data:
                               type: transaction-type
-                              id: txntp_TOKEN
+                              id: txntp_ABC123
                           related-objects:
                             data:
                               - type: account
-                                id: act_TOKEN
+                                id: act_ABC123
                               - type: verification/government-id
-                                id: ver_TOKEN
+                                id: ver_ABC123
                     links:
                       prev: null
-                      next: /api/v1/transactions?page%5Bafter%5D=txn_TOKEN
+                      next: /api/v1/transactions?page%5Bafter%5D=txn_ABC123
               schema:
                 type: object
                 properties:
@@ -10597,7 +10583,7 @@ paths:
                       next:
                         type: string
                         examples:
-                          - /api/v1/transactions?page%5Bafter%5D=txn_TOKEN
+                          - /api/v1/transactions?page%5Bafter%5D=txn_ABC123
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -10634,7 +10620,7 @@ paths:
                   value:
                     data:
                       type: transaction
-                      id: txn_TOKEN
+                      id: txn_ABC123
                       attributes:
                         status: declined
                         reference-id: null
@@ -10658,14 +10644,14 @@ paths:
                               filename: image.png
                               byte-size: 237011
                               mime-type: image/png
-                              url: https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN
+                              url: https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
                           back-photo:
                             type: file
                             value:
                               filename: image.png
                               byte-size: 237011
                               mime-type: image/png
-                              url: https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN
+                              url: https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
                         tags: []
                         created-at: '2023-05-26T16:49:33.860Z'
                         updated-at: '2023-05-26T16:49:43.965Z'
@@ -10673,22 +10659,22 @@ paths:
                         reviewer:
                           data:
                             type: workflow-run
-                            id: wfr_TOKEN
+                            id: wfr_ABC123
                         transaction-label:
                           data: null
                         transaction-type:
                           data:
                             type: transaction-type
-                            id: txntp_TOKEN
+                            id: txntp_ABC123
                         related-objects:
                           data:
                             - type: account
-                              id: act_TOKEN
+                              id: act_ABC123
                             - type: verification/government-id
-                              id: ver_TOKEN
+                              id: ver_ABC123
                     included:
                       - type: account
-                        id: act_TOKEN
+                        id: act_ABC123
                         attributes:
                           reference-id: null
                           external-id: null
@@ -10747,7 +10733,7 @@ paths:
                           country-code: null
                           tags: []
                       - type: verification/government-id
-                        id: ver_TOKEN
+                        id: ver_ABC123
                         attributes:
                           status: failed
                           created-at: '2023-05-26T16:49:43.000Z'
@@ -10760,20 +10746,20 @@ paths:
                           entity-confidence-score: 0
                           entity-confidence-reasons:
                             - generic
-                          front-photo-url: https://files.withpersona.com/image.jpg?access_token=ACCESS_TOKEN
-                          back-photo-url: https://files.withpersona.com/image.jpg?access_token=ACCESS_TOKEN
+                          front-photo-url: https://files.withpersona.com/image.jpg?access_token=ACCESS_ABC123
+                          back-photo-url: https://files.withpersona.com/image.jpg?access_token=ACCESS_ABC123
                           photo-urls:
                             - page: front
-                              url: https://files.withpersona.com/image.jpg?access_token=ACCESS_TOKEN
-                              normalized-url: https://files.withpersona.com/image.jpg?access_token=ACCESS_TOKEN
+                              url: https://files.withpersona.com/image.jpg?access_token=ACCESS_ABC123
+                              normalized-url: https://files.withpersona.com/image.jpg?access_token=ACCESS_ABC123
                               original-urls:
-                                - https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN
+                                - https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
                               byte-size: 62347
                             - page: back
-                              url: https://files.withpersona.com/image.jpg?access_token=ACCESS_TOKEN
-                              normalized-url: https://files.withpersona.com/image.jpg?access_token=ACCESS_TOKEN
+                              url: https://files.withpersona.com/image.jpg?access_token=ACCESS_ABC123
+                              normalized-url: https://files.withpersona.com/image.jpg?access_token=ACCESS_ABC123
                               original-urls:
-                                - https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN
+                                - https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
                               byte-size: 62347
                           selfie-photo: null
                           selfie-photo-url: null
@@ -11000,15 +10986,15 @@ paths:
                           verification-template:
                             data:
                               type: verification-template/government-id
-                              id: vtmpl_TOKEN
+                              id: vtmpl_ABC123
                           verification-template-version:
                             data:
                               type: verification-template-version/government-id
-                              id: vtmplv_TOKEN
+                              id: vtmplv_ABC123
                           document:
                             data:
                               type: document/government-id
-                              id: doc_TOKEN
+                              id: doc_ABC123
               schema:
                 type: object
                 properties:
@@ -11023,7 +11009,7 @@ paths:
                           type: string
                         id:
                           examples:
-                            - act_TOKEN
+                            - act_ABC123
                           type: string
                       additionalProperties: true
                       type: object
@@ -11149,7 +11135,7 @@ paths:
                   value:
                     data:
                       type: transaction
-                      id: txn_TOKEN
+                      id: txn_ABC123
                       attributes:
                         status: declined
                         reference-id: null
@@ -11173,14 +11159,14 @@ paths:
                               filename: image.png
                               byte-size: 237011
                               mime-type: image/png
-                              url: https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN
+                              url: https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
                           back-photo:
                             type: file
                             value:
                               filename: image.png
                               byte-size: 237011
                               mime-type: image/png
-                              url: https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN
+                              url: https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
                         tags:
                           - new tag
                         created-at: '2023-05-26T16:49:33.860Z'
@@ -11189,19 +11175,19 @@ paths:
                         reviewer:
                           data:
                             type: workflow-run
-                            id: wfr_TOKEN
+                            id: wfr_ABC123
                         transaction-label:
                           data: null
                         transaction-type:
                           data:
                             type: transaction-type
-                            id: txntp_TOKEN
+                            id: txntp_ABC123
                         related-objects:
                           data:
                             - type: account
-                              id: act_TOKEN
+                              id: act_ABC123
                             - type: verification/government-id
-                              id: ver_TOKEN
+                              id: ver_ABC123
               schema:
                 type: object
                 properties:
@@ -11265,7 +11251,7 @@ paths:
                   value:
                     data:
                       type: transaction
-                      id: txn_TOKEN
+                      id: txn_ABC123
                       attributes:
                         status: declined
                         reference-id: null
@@ -11289,14 +11275,14 @@ paths:
                               filename: image.png
                               byte-size: 237011
                               mime-type: image/png
-                              url: https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN
+                              url: https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
                           back-photo:
                             type: file
                             value:
                               filename: image.png
                               byte-size: 237011
                               mime-type: image/png
-                              url: https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN
+                              url: https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
                         tags: []
                         created-at: '2023-05-26T16:49:33.860Z'
                         updated-at: '2023-05-26T16:49:43.965Z'
@@ -11304,22 +11290,22 @@ paths:
                         reviewer:
                           data:
                             type: workflow-run
-                            id: wfr_TOKEN
+                            id: wfr_ABC123
                         transaction-label:
                           data: null
                         transaction-type:
                           data:
                             type: transaction-type
-                            id: txntp_TOKEN
+                            id: txntp_ABC123
                         related-objects:
                           data:
                             - type: account
-                              id: act_TOKEN
+                              id: act_ABC123
                             - type: verification/government-id
-                              id: ver_TOKEN
+                              id: ver_ABC123
                     included:
                       - type: transaction-label
-                        id: txnl_TOKEN
+                        id: txnl_ABC123
                         attributes:
                           model-label: test
                           model-version: 1.2.3
@@ -11342,7 +11328,7 @@ paths:
                         id:
                           type: string
                           examples:
-                            - txnl_TOKEN
+                            - txnl_ABC123
                         attributes:
                           type: object
                           properties:
@@ -11420,7 +11406,7 @@ paths:
                   value:
                     data:
                       type: transaction
-                      id: txn_TOKEN
+                      id: txn_ABC123
                       attributes:
                         status: declined
                         reference-id: null
@@ -11444,14 +11430,14 @@ paths:
                               filename: image.png
                               byte-size: 237011
                               mime-type: image/png
-                              url: https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN
+                              url: https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
                           back-photo:
                             type: file
                             value:
                               filename: image.png
                               byte-size: 237011
                               mime-type: image/png
-                              url: https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN
+                              url: https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
                         tags: []
                         created-at: '2023-05-26T16:49:33.860Z'
                         updated-at: '2023-05-26T16:49:43.965Z'
@@ -11459,19 +11445,19 @@ paths:
                         reviewer:
                           data:
                             type: workflow-run
-                            id: wfr_TOKEN
+                            id: wfr_ABC123
                         transaction-label:
                           data: null
                         transaction-type:
                           data:
                             type: transaction-type
-                            id: txntp_TOKEN
+                            id: txntp_ABC123
                         related-objects:
                           data:
                             - type: account
-                              id: act_TOKEN
+                              id: act_ABC123
                             - type: verification/government-id
-                              id: ver_TOKEN
+                              id: ver_ABC123
               schema:
                 type: object
                 properties:
@@ -11540,7 +11526,7 @@ paths:
                   value:
                     data:
                       type: transaction
-                      id: txn_TOKEN
+                      id: txn_ABC123
                       attributes:
                         status: declined
                         reference-id: null
@@ -11564,14 +11550,14 @@ paths:
                               filename: image.png
                               byte-size: 237011
                               mime-type: image/png
-                              url: https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN
+                              url: https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
                           back-photo:
                             type: file
                             value:
                               filename: image.png
                               byte-size: 237011
                               mime-type: image/png
-                              url: https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN
+                              url: https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
                         tags:
                           - new tag 1
                           - new tag 2
@@ -11581,19 +11567,19 @@ paths:
                         reviewer:
                           data:
                             type: workflow-run
-                            id: wfr_TOKEN
+                            id: wfr_ABC123
                         transaction-label:
                           data: null
                         transaction-type:
                           data:
                             type: transaction-type
-                            id: txntp_TOKEN
+                            id: txntp_ABC123
                         related-objects:
                           data:
                             - type: account
-                              id: act_TOKEN
+                              id: act_ABC123
                             - type: verification/government-id
-                              id: ver_TOKEN
+                              id: ver_ABC123
               schema:
                 type: object
                 properties:
@@ -11621,21 +11607,19 @@ paths:
         - $ref: '#/components/parameters/keyInflectionHeader'
         - $ref: '#/components/parameters/idempotencyKeyHeader'
         - $ref: '#/components/parameters/personaVersionHeader'
-        - description: User audit log ID for cursor pagination
-          in: query
-          name: page[before]
+        - in: query
+          name: page
+          style: deepObject
+          allowReserved: true
           schema:
-            type: string
-        - description: User audit log ID for cursor pagination
-          in: query
-          name: page[after]
-          schema:
-            type: string
-        - description: Limit on the number of User audit logs returned
-          in: query
-          name: page[size]
-          schema:
-            type: string
+            allOf:
+              - $ref: '#/components/schemas/NestedPaginationQueryParams'
+              - type: object
+                properties:
+                  after:
+                    example: ual_ABC123
+                  before:
+                    example: ual_ABC123
       responses:
         '200':
           content:
@@ -11646,7 +11630,7 @@ paths:
                   value:
                     data:
                       - type: user-audit-log
-                        id: ual_TOKENABC
+                        id: ual_ABC123ABC
                         attributes:
                           path: /api/v1/inquiries
                           method: GET
@@ -11659,16 +11643,16 @@ paths:
                           user:
                             data:
                               type: user
-                              id: user_TOKEN
+                              id: user_ABC123
                       - type: user-audit-log
-                        id: ual_TOKENXYZ
+                        id: ual_ABC123XYZ
                         attributes:
-                          path: /api/internal/dashboard/v1/user-sessions/uses_TOKEN/expire
+                          path: /api/internal/dashboard/v1/user-sessions/uses_ABC123/expire
                           method: GET
                           get-params: {}
                           post-params:
                             data:
-                              id: uses_TOKEN
+                              id: uses_ABC123
                               type: user-session
                           ip-address: 127.0.0.1
                           created-at: '2023-10-03T21:31:05.163Z'
@@ -11677,13 +11661,13 @@ paths:
                           user:
                             data:
                               type: user
-                              id: user_TOKEN
+                              id: user_ABC123
                     links:
                       next: null
                       prev: null
                     included:
                       - type: user
-                        id: user_TOKEN
+                        id: user_ABC123
                         attributes:
                           email-address: jane@doe.com
                           name-first: Jane
@@ -11703,13 +11687,13 @@ paths:
                           - string
                           - 'null'
                         examples:
-                          - /api/v1/user-audit-logs?page%5Bbefore%5D=ual_TOKEN
+                          - /api/v1/user-audit-logs?page%5Bbefore%5D=ual_ABC123
                       next:
                         type:
                           - string
                           - 'null'
                         examples:
-                          - /api/v1/user-audit-logs?page%5Bafter%5D=ual_TOKEN
+                          - /api/v1/user-audit-logs?page%5Bafter%5D=ual_ABC123
                   included:
                     type: array
                     items:
@@ -11722,7 +11706,7 @@ paths:
                         id:
                           type: string
                           examples:
-                            - user_TOKEN
+                            - user_ABC123
                         attributes:
                           type: object
                           properties:
@@ -11773,7 +11757,7 @@ paths:
                   value:
                     data:
                       type: user-audit-log
-                      id: ual_TOKEN
+                      id: ual_ABC123
                       attributes:
                         path: /api/v1/inquiries
                         method: GET
@@ -11786,7 +11770,7 @@ paths:
                         user:
                           data:
                             type: user
-                            id: user_TOKEN
+                            id: user_ABC123
               schema:
                 properties:
                   data:
@@ -16208,21 +16192,19 @@ paths:
         - $ref: '#/components/parameters/keyInflectionHeader'
         - $ref: '#/components/parameters/idempotencyKeyHeader'
         - $ref: '#/components/parameters/personaVersionHeader'
-        - description: Webhook ID for pagination cursor
-          in: query
-          name: page[after]
+        - in: query
+          name: page
+          style: deepObject
+          allowReserved: true
           schema:
-            type: string
-        - description: Webhook ID for pagination cursor
-          in: query
-          name: page[before]
-          schema:
-            type: string
-        - description: Limit on the number of Webhooks returned (between 1 and 100)
-          in: query
-          name: page[size]
-          schema:
-            type: string
+            allOf:
+              - $ref: '#/components/schemas/NestedPaginationQueryParams'
+              - type: object
+                properties:
+                  after:
+                    example: wbh_ABC123
+                  before:
+                    example: wbh_ABC123
       responses:
         '200':
           content:
@@ -16233,7 +16215,7 @@ paths:
                   value:
                     data:
                       - type: webhook
-                        id: webhook_ATOKEN
+                        id: wbh_ABC123
                         attributes:
                           status: disabled
                           url: https://withpersona.com
@@ -16255,7 +16237,7 @@ paths:
                                     id: itmpl_abc123def456
                           created-at: '2023-08-17T23:18:13.000Z'
                       - type: webhook
-                        id: webhook_BTOKEN
+                        id: wbh_ABC123
                         attributes:
                           status: disabled
                           url: https://withpersona.com
@@ -16791,209 +16773,25 @@ components:
         enum:
           - '2023-01-05'
         default: '2023-01-05'
-  responses:
-    BadRequest:
-      description: Bad Request
-      content:
-        application/json:
-          examples:
-            Result:
-              summary: Bad Request
-              value:
-                errors:
-                  - title: Bad Request
-                    details: data.attributes.type must be a string
-          schema:
-            properties:
-              errors:
-                type: array
-                items:
-                  properties:
-                    title:
-                      description: Bad Request
-                      type: string
-                    details:
-                      type: string
-                      examples:
-                        - data.attributes.name is missing
-                        - data.type must be filled
-                        - meta.object_ids must be an array
-            type: object
-    NotFound:
-      description: Not Found
-      content:
-        application/json:
-          examples:
-            Result:
-              summary: Not Found
-              value:
-                errors:
-                  - title: Record not found
-          schema:
-            properties:
-              errors:
-                items:
-                  properties:
-                    title:
-                      examples:
-                        - Record not found
-                      type: string
-                    details:
-                      examples:
-                        - data.attributes.inquiry_id is not found
-                      type: string
-                  type: object
-                type: array
-            type: object
-    UnprocessableEntity:
-      description: Unprocessable Entity
-      content:
-        application/json:
-          examples:
-            Result:
-              summary: Unprocessable Entity
-              value:
-                errors:
-                  - title: Unprocessable entity
-                    details: Invalid confirmation code
-          schema:
-            properties:
-              errors:
-                type: array
-                items:
-                  properties:
-                    title:
-                      type: string
-                      examples:
-                        - Unprocessable entity
-                        - Record invalid
-                    details:
-                      type: string
-                      examples:
-                        - File must be under 2 bytes
-                        - Selected country code invalid selected country code of ZX
-                        - Invalid confirmation code
-                    source:
-                      type: object
-                      properties:
-                        pointer:
-                          type: string
-                          examples:
-                            - /data/attributes/files
-                            - /data/attributes/selected-country-code
-            type: object
-    Conflict:
-      description: Conflict
-      content:
-        application/json:
-          examples:
-            Result:
-              summary: Conflict
-              value:
-                errors:
-                  - title: Conflict
-                    details: Resource already exists as an active resource
-          schema:
-            properties:
-              errors:
-                type: array
-                items:
-                  properties:
-                    title:
-                      description: Conflict
-                      examples:
-                        - Conflict
-                        - Record not unique
-                        - Stale object error
-                      type: string
-                    details:
-                      type: string
-                      examples:
-                        - Name already exists as an active item in list
-                        - Inquiry already redacted
-                        - Record not unique
-                        - Attempted to update a record that was just modified. Please try again.
-                        - data.attributes.inquiry_id does not require verification/email-address
-            type: object
-    Forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          examples:
-            Result:
-              summary: Forbidden
-              value:
-                errors:
-                  - title: Forbidden
-                    details: IP address is not permitted access to current environment
-          schema:
-            properties:
-              errors:
-                type: array
-                items:
-                  properties:
-                    title:
-                      description: Forbidden
-                      type: string
-                    details:
-                      type: string
-                      examples:
-                        - Resource cannot be created in an inactive environment
-                        - Verification creation API is not enabled
-                        - IP address is not permitted access to current environment
-            type: object
-    Unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          examples:
-            Result:
-              summary: Unauthorized
-              value:
-                errors:
-                  - title: Must be authenticated to access this endpoint
-          schema:
-            properties:
-              errors:
-                type: array
-                items:
-                  properties:
-                    title:
-                      description: Unauthorized
-                      examples:
-                        - Must be authenticated to access this endpoint
-                        - Token is invalid
-                      type: string
-            type: object
-    TooManyRequests:
-      description: Too Many Requests
-      content:
-        application/json:
-          examples:
-            Result:
-              summary: Too Many Requests
-              value:
-                errors:
-                  - title: Rate limit exceeded
-                    details: You have hit your rate limit of 300 requests / min. Please reach out to support@withpersona.com if you need this changed.
-          schema:
-            properties:
-              errors:
-                type: array
-                items:
-                  properties:
-                    title:
-                      type: string
-                      examples:
-                        - Rate limit exceeded
-                        - Quota exceeded
-                    details:
-                      type: string
-                      examples:
-                        - You have hit your rate limit of 300 requests / min. Please reach out to support@withpersona.com if you need this changed.
-                        - You have hit your create_verification quota limit of 300 requests. Please reach out to support@withpersona.com if you need this changed.
-            type: object
   schemas:
+    NestedPaginationQueryParams:
+      type: object
+      properties:
+        after:
+          description: Object ID for pagination cursor
+          type: string
+          examples:
+            - obj_ABC123
+        before:
+          description: Object ID for pagination cursor
+          examples:
+            - obj_ABC123
+          type: string
+        size:
+          description: Limit on the number of objects returned
+          examples:
+            - 5
+          type: number
     AddressFields:
       properties:
         address-street-1:
@@ -17421,7 +17219,7 @@ components:
           type: string
         id:
           examples:
-            - api_TOKEN
+            - api_ABC123
           type: string
         attributes:
           type: object
@@ -18265,7 +18063,7 @@ components:
                   properties:
                     id:
                       examples:
-                        - act_TOKEN
+                        - act_ABC123
                       type: string
                     type:
                       examples:
@@ -18282,7 +18080,7 @@ components:
                     properties:
                       id:
                         examples:
-                          - doc_TOKEN
+                          - doc_ABC123
                         type: string
                       type:
                         examples:
@@ -18298,7 +18096,7 @@ components:
                   properties:
                     id:
                       examples:
-                        - tmpl_TOKEN
+                        - tmpl_ABC123
                       type: string
                     type:
                       examples:
@@ -18315,7 +18113,7 @@ components:
                   properties:
                     id:
                       examples:
-                        - itmpl_TOKEN
+                        - itmpl_ABC123
                       type: string
                     type:
                       examples:
@@ -18332,7 +18130,7 @@ components:
                   properties:
                     id:
                       examples:
-                        - itmplv_TOKEN
+                        - itmplv_ABC123
                       type: string
                     type:
                       examples:
@@ -18349,7 +18147,7 @@ components:
                     properties:
                       id:
                         examples:
-                          - rep_TOKEN
+                          - rep_ABC123
                         type: string
                       type:
                         examples:
@@ -18365,7 +18163,7 @@ components:
                   properties:
                     id:
                       examples:
-                        - user_TOKEN
+                        - user_ABC123
                       type: string
                     type:
                       examples:
@@ -18382,7 +18180,7 @@ components:
                     properties:
                       id:
                         examples:
-                          - self_TOKEN
+                          - self_ABC123
                         type: string
                       type:
                         examples:
@@ -18399,7 +18197,7 @@ components:
                     properties:
                       id:
                         examples:
-                          - iqse_TOKEN
+                          - iqse_ABC123
                         type: string
                       type:
                         examples:
@@ -18415,7 +18213,7 @@ components:
                     properties:
                       id:
                         examples:
-                          - ver_TOKEN
+                          - ver_ABC123
                         type: string
                       type:
                         examples:
@@ -19845,7 +19643,7 @@ components:
         id:
           type: string
           description: The token of the verification
-          example: ver_TOKEN
+          example: ver_ABC123
     VerificationAttributesBaseData:
       type: object
       properties:
@@ -19949,7 +19747,7 @@ components:
                 - 'null'
               properties:
                 id:
-                  example: inq_TOKEN
+                  example: inq_ABC123
                   type: string
                 type:
                   example: inquiry
@@ -19967,7 +19765,7 @@ components:
                   example: template
                 id:
                   type: string
-                  example: tmpl_TOKEN
+                  example: tmpl_ABC123
         inquiry-template-version:
           type: object
           properties:
@@ -19981,7 +19779,7 @@ components:
                   example: inquiry-template-version
                 id:
                   type: string
-                  example: itmplv_TOKEN
+                  example: itmplv_ABC123
         inquiry-template:
           type: object
           properties:
@@ -19995,7 +19793,7 @@ components:
                   example: inquiry-template
                 id:
                   type: string
-                  example: itmpl_TOKEN
+                  example: itmpl_ABC123
         verification-template:
           type: object
           properties:
@@ -20009,7 +19807,7 @@ components:
                   example: verification-template/aamva
                 id:
                   type: string
-                  example: vtmpl_TOKEN
+                  example: vtmpl_ABC123
         verification-template-version:
           type: object
           properties:
@@ -20023,7 +19821,7 @@ components:
                   example: verification-template-version/aamva
                 id:
                   type: string
-                  example: vtmplv_TOKEN
+                  example: vtmplv_ABC123
     VerificationAamvaData:
       title: AAMVA Verification Data
       allOf:
@@ -20178,7 +19976,7 @@ components:
                           properties:
                             id:
                               examples:
-                                - doc_TOKEN
+                                - doc_ABC123
                               type: string
                             type:
                               examples:
@@ -20484,7 +20282,7 @@ components:
         id:
           type: string
           examples:
-            - evt_TOKEN
+            - evt_ABC123
         attributes:
           type: object
           properties:
@@ -20510,9 +20308,9 @@ components:
                     id:
                       type: string
                       examples:
-                        - inq_TOKEN
-                        - wfr_TOKEN
-                        - act_TOKEN
+                        - inq_ABC123
+                        - wfr_ABC123
+                        - act_ABC123
                     attributes:
                       type: object
                       additionalProperties: true
@@ -20545,7 +20343,7 @@ components:
           type: string
         id:
           examples:
-            - itmpl_TOKEN
+            - itmpl_ABC123
           type: string
         attributes:
           type: object
@@ -20571,7 +20369,7 @@ components:
                     id:
                       type: string
                       examples:
-                        - itmplv_TOKEN
+                        - itmplv_ABC123
                   type: object
               type: object
           type: object
@@ -20585,7 +20383,7 @@ components:
         id:
           type: string
           examples:
-            - iqse_TOKEN
+            - iqse_ABC123
         attributes:
           type: object
           properties:
@@ -20700,7 +20498,7 @@ components:
                     id:
                       type: string
                       examples:
-                        - inq_TOKEN
+                        - inq_ABC123
     ReportBaseRequestData:
       type: object
       title: Reports Request Data
@@ -21261,7 +21059,7 @@ components:
                         url:
                           type: string
                           examples:
-                            - https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN
+                            - https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
                 back-photo:
                   type: object
                   properties:
@@ -21289,7 +21087,7 @@ components:
                         url:
                           type: string
                           examples:
-                            - https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN
+                            - https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
             tags:
               type: array
             created-at:
@@ -21303,7 +21101,7 @@ components:
         id:
           type: string
           examples:
-            - txn_TOKEN
+            - txn_ABC123
         relationships:
           type: object
           properties:
@@ -21323,9 +21121,9 @@ components:
                     id:
                       type: string
                       examples:
-                        - wfr_TOKEN
-                        - wfs_TOKEN
-                        - user_TOKEN
+                        - wfr_ABC123
+                        - wfs_ABC123
+                        - user_ABC123
             transaction-label:
               type: object
               properties:
@@ -21343,7 +21141,7 @@ components:
                     id:
                       type: string
                       examples:
-                        - txntp_TOKEN
+                        - txntp_ABC123
             related-objects:
               type: object
               description: Any object involved in this transaction's related workflow runs
@@ -21360,7 +21158,7 @@ components:
                       id:
                         type: string
                         examples:
-                          - act_TOKEN
+                          - act_ABC123
         type:
           type: string
           examples:
@@ -21373,14 +21171,14 @@ components:
           example: user-audit-log
         id:
           type: string
-          example: ual_TOKEN
+          example: ual_ABC123
         attributes:
           type: object
           properties:
             path:
               type: string
               examples:
-                - /api/internal/dashboard/v1/cases/case_TOKEN
+                - /api/internal/dashboard/v1/cases/case_ABC123
             method:
               type: string
               examples:
@@ -21425,7 +21223,7 @@ components:
                     id:
                       type: string
                       examples:
-                        - user_TOKEN
+                        - user_ABC123
     VerificationDatabase:
       type: object
       title: Database Verification
@@ -21479,7 +21277,7 @@ components:
           type: string
         id:
           examples:
-            - webhook_TOKEN
+            - wbh_ABC123
           type: string
         attributes:
           type: object
@@ -21543,7 +21341,7 @@ components:
           type: string
         id:
           examples:
-            - webhook_TOKEN
+            - wbh_ABC123
           type: string
         attributes:
           type: object
@@ -21616,6 +21414,208 @@ components:
               format: date-time
               examples:
                 - '2023-09-21T18:29:40.000Z'
+  responses:
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: Bad Request
+              value:
+                errors:
+                  - title: Bad Request
+                    details: data.attributes.type must be a string
+          schema:
+            properties:
+              errors:
+                type: array
+                items:
+                  properties:
+                    title:
+                      description: Bad Request
+                      type: string
+                    details:
+                      type: string
+                      examples:
+                        - data.attributes.name is missing
+                        - data.type must be filled
+                        - meta.object_ids must be an array
+            type: object
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: Unauthorized
+              value:
+                errors:
+                  - title: Must be authenticated to access this endpoint
+          schema:
+            properties:
+              errors:
+                type: array
+                items:
+                  properties:
+                    title:
+                      description: Unauthorized
+                      examples:
+                        - Must be authenticated to access this endpoint
+                        - Token is invalid
+                      type: string
+            type: object
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: Forbidden
+              value:
+                errors:
+                  - title: Forbidden
+                    details: IP address is not permitted access to current environment
+          schema:
+            properties:
+              errors:
+                type: array
+                items:
+                  properties:
+                    title:
+                      description: Forbidden
+                      type: string
+                    details:
+                      type: string
+                      examples:
+                        - Resource cannot be created in an inactive environment
+                        - Verification creation API is not enabled
+                        - IP address is not permitted access to current environment
+            type: object
+    TooManyRequests:
+      description: Too Many Requests
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: Too Many Requests
+              value:
+                errors:
+                  - title: Rate limit exceeded
+                    details: You have hit your rate limit of 300 requests / min. Please reach out to support@withpersona.com if you need this changed.
+          schema:
+            properties:
+              errors:
+                type: array
+                items:
+                  properties:
+                    title:
+                      type: string
+                      examples:
+                        - Rate limit exceeded
+                        - Quota exceeded
+                    details:
+                      type: string
+                      examples:
+                        - You have hit your rate limit of 300 requests / min. Please reach out to support@withpersona.com if you need this changed.
+                        - You have hit your create_verification quota limit of 300 requests. Please reach out to support@withpersona.com if you need this changed.
+            type: object
+    Conflict:
+      description: Conflict
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: Conflict
+              value:
+                errors:
+                  - title: Conflict
+                    details: Resource already exists as an active resource
+          schema:
+            properties:
+              errors:
+                type: array
+                items:
+                  properties:
+                    title:
+                      description: Conflict
+                      examples:
+                        - Conflict
+                        - Record not unique
+                        - Stale object error
+                      type: string
+                    details:
+                      type: string
+                      examples:
+                        - Name already exists as an active item in list
+                        - Inquiry already redacted
+                        - Record not unique
+                        - Attempted to update a record that was just modified. Please try again.
+                        - data.attributes.inquiry_id does not require verification/email-address
+            type: object
+    UnprocessableEntity:
+      description: Unprocessable Entity
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: Unprocessable Entity
+              value:
+                errors:
+                  - title: Unprocessable entity
+                    details: Invalid confirmation code
+          schema:
+            properties:
+              errors:
+                type: array
+                items:
+                  properties:
+                    title:
+                      type: string
+                      examples:
+                        - Unprocessable entity
+                        - Record invalid
+                    details:
+                      type: string
+                      examples:
+                        - File must be under 2 bytes
+                        - Selected country code invalid selected country code of ZX
+                        - Invalid confirmation code
+                    source:
+                      type: object
+                      properties:
+                        pointer:
+                          type: string
+                          examples:
+                            - /data/attributes/files
+                            - /data/attributes/selected-country-code
+            type: object
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: Not Found
+              value:
+                errors:
+                  - title: Record not found
+          schema:
+            properties:
+              errors:
+                items:
+                  properties:
+                    title:
+                      examples:
+                        - Record not found
+                      type: string
+                    details:
+                      examples:
+                        - data.attributes.inquiry_id is not found
+                      type: string
+                  type: object
+                type: array
+            type: object
   examples:
     AccountResponse:
       value:
@@ -22111,7 +22111,7 @@ components:
               data: []
         included:
           - type: inquiry-session
-            id: iqse_TOKEN
+            id: iqse_ABC123
             attributes:
               status: expired
               created-at: '2023-07-25T04:15:20.000Z'
@@ -22139,9 +22139,9 @@ components:
               inquiry:
                 data:
                   type: inquiry
-                  id: inq_TOKEN
+                  id: inq_ABC123
           - type: inquiry-template
-            id: itmpl_TOKEN
+            id: itmpl_ABC123
             attributes:
               status: active
               name: Twilio Desktop
@@ -22149,7 +22149,7 @@ components:
               latest-published-version:
                 data:
                   type: inquiry-template-version
-                  id: itmplv_TOKEN
+                  id: itmplv_ABC123
     InquiryOneTimeLinkResponse:
       value:
         data:
@@ -22401,7 +22401,7 @@ components:
       value:
         data:
           type: inquiry-session
-          id: iqse_TOKEN
+          id: iqse_ABC123
           attributes:
             status: expired
             created-at: '2023-07-25T04:15:20.000Z'
@@ -22429,12 +22429,12 @@ components:
             inquiry:
               data:
                 type: inquiry
-                id: inq_TOKEN
+                id: inq_ABC123
     VerificationDatabaseResponse:
       value:
         data:
           type: verification/database
-          id: ver_TOKEN
+          id: ver_ABC123
           attributes:
             status: initiated
             created-at: '2023-11-03T17:37:06.000Z'
@@ -22467,30 +22467,30 @@ components:
             inquiry:
               data:
                 type: inquiry
-                id: inq_TOKEN
+                id: inq_ABC123
             template:
               data: null
             inquiry-template-version:
               data:
                 type: inquiry-template-version
-                id: itmplv_TOKEN
+                id: itmplv_ABC123
             inquiry-template:
               data:
                 type: inquiry-template
-                id: itmpl_TOKEN
+                id: itmpl_ABC123
             verification-template:
               data:
                 type: verification-template/database
-                id: vtmpl_TOKEN
+                id: vtmpl_ABC123
             verification-template-version:
               data:
                 type: verification-template-version/database
-                id: vtmplv_TOKEN
+                id: vtmplv_ABC123
     VerificationDocumentResponse:
       value:
         data:
           type: verification/document
-          id: ver_TOKEN
+          id: ver_ABC123
           attributes:
             status: initiated
             created-at: '2023-11-15T16:21:09.000Z'
@@ -22509,22 +22509,22 @@ components:
             fields: {}
             files:
               - filename: multipage_example.pdf
-                url: https://files.withpersona.com/multipage_example.pdf?access_token=ACCESS_TOKEN
+                url: https://files.withpersona.com/multipage_example.pdf?access_token=ACCESS_ABC123
                 byte-size: 123456
             files-normalized:
               - filename: multipage_example.pdf
-                url: https://files.withpersona.com/multipage_example.pdf?access_token=ACCESS_TOKEN
+                url: https://files.withpersona.com/multipage_example.pdf?access_token=ACCESS_ABC123
                 byte-size: 123456
             extraction-responses: []
           relationships:
             inquiry:
               data:
                 type: inquiry
-                id: inq_TOKEN
+                id: inq_ABC123
             template:
               data:
                 type: template
-                id: tmpl_TOKEN
+                id: tmpl_ABC123
             inquiry-template-version:
               data: null
             inquiry-template:
@@ -22532,11 +22532,11 @@ components:
             verification-template-version:
               data:
                 type: verification-template-version/document
-                id: vtmplv_TOKEN
+                id: vtmplv_ABC123
             verification-template:
               data:
                 type: verification-template/document
-                id: vtmpl_TOKEN
+                id: vtmpl_ABC123
             document:
               data:
                 type: document/generic
@@ -22545,7 +22545,7 @@ components:
       value:
         data:
           type: verification/document
-          id: ver_TOKEN
+          id: ver_ABC123
           attributes:
             status: submitted
             created-at: '2023-11-15T16:21:09.000Z'
@@ -22564,22 +22564,22 @@ components:
             fields: {}
             files:
               - filename: multipage_example.pdf
-                url: https://files.withpersona.com/multipage_example.pdf?access_token=ACCESS_TOKEN
+                url: https://files.withpersona.com/multipage_example.pdf?access_token=ACCESS_ABC123
                 byte-size: 123456
             files-normalized:
               - filename: multipage_example.pdf
-                url: https://files.withpersona.com/multipage_example.pdf?access_token=ACCESS_TOKEN
+                url: https://files.withpersona.com/multipage_example.pdf?access_token=ACCESS_ABC123
                 byte-size: 123456
             extraction-responses: []
           relationships:
             inquiry:
               data:
                 type: inquiry
-                id: inq_TOKEN
+                id: inq_ABC123
             template:
               data:
                 type: template
-                id: tmpl_TOKEN
+                id: tmpl_ABC123
             inquiry-template-version:
               data: null
             inquiry-template:
@@ -22587,11 +22587,11 @@ components:
             verification-template-version:
               data:
                 type: verification-template-version/document
-                id: vtmplv_TOKEN
+                id: vtmplv_ABC123
             verification-template:
               data:
                 type: verification-template/document
-                id: vtmpl_TOKEN
+                id: vtmpl_ABC123
             document:
               data:
                 type: document/generic
@@ -22600,7 +22600,7 @@ components:
       value:
         data:
           type: verification/email-address
-          id: ver_TOKEN
+          id: ver_ABC123
           attributes:
             status: initiated
             created-at: '2023-11-03T17:37:06.000Z'
@@ -22616,30 +22616,30 @@ components:
             inquiry:
               data:
                 type: inquiry
-                id: inq_TOKEN
+                id: inq_ABC123
             template:
               data: null
             inquiry-template-version:
               data:
                 type: inquiry-template-version
-                id: itmplv_TOKEN
+                id: itmplv_ABC123
             inquiry-template:
               data:
                 type: inquiry-template
-                id: itmpl_TOKEN
+                id: itmpl_ABC123
             verification-template:
               data:
                 type: verification-template/email-address
-                id: vtmpl_TOKEN
+                id: vtmpl_ABC123
             verification-template-version:
               data:
                 type: verification-template-version/email-address
-                id: vtmplv_TOKEN
+                id: vtmplv_ABC123
     VerificationPhoneNumberResponse:
       value:
         data:
           type: verification/phone-number
-          id: ver_TOKEN
+          id: ver_ABC123
           attributes:
             status: initiated
             created-at: '2023-11-03T17:37:06.000Z'
@@ -22656,30 +22656,30 @@ components:
             inquiry:
               data:
                 type: inquiry
-                id: inq_TOKEN
+                id: inq_ABC123
             template:
               data: null
             inquiry-template-version:
               data:
                 type: inquiry-template-version
-                id: itmplv_TOKEN
+                id: itmplv_ABC123
             inquiry-template:
               data:
                 type: inquiry-template
-                id: itmpl_TOKEN
+                id: itmpl_ABC123
             verification-template:
               data:
                 type: verification-template/email-address
-                id: vtmpl_TOKEN
+                id: vtmpl_ABC123
             verification-template-version:
               data:
                 type: verification-template-version/email-address
-                id: vtmplv_TOKEN
+                id: vtmplv_ABC123
     WebhookResponseCreated:
       value:
         data:
           type: webhook
-          id: webhook_ATOKEN
+          id: wbh_ABC123
           attributes:
             status: disabled
             url: https://withpersona.com
@@ -22708,7 +22708,7 @@ components:
       value:
         data:
           type: webhook
-          id: webhook_ATOKEN
+          id: wbh_ABC123
           attributes:
             status: disabled
             url: https://withpersona.com
@@ -22733,7 +22733,7 @@ components:
       value:
         data:
           type: webhook
-          id: webhook_ATOKEN
+          id: wbh_ABC123
           attributes:
             status: archived
             url: https://withpersona.com
@@ -22758,7 +22758,7 @@ components:
       value:
         data:
           type: webhook
-          id: webhook_ATOKEN
+          id: wbh_ABC123
           attributes:
             status: enabled
             url: https://withpersona.com

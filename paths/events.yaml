@@ -5,36 +5,35 @@ get:
     - $ref: ../components/parameters/keyInflectionHeader.yaml
     - $ref: ../components/parameters/idempotencyKeyHeader.yaml
     - $ref: ../components/parameters/personaVersionHeader.yaml
-    - description: Event ID for cursor pagination
-      in: query
-      name: page[before]
+    - in: query
+      name: page
+      style: deepObject
+      allowReserved: true
       schema:
-        type: string
-    - description: Event ID for cursor pagination
-      in: query
-      name: page[after]
+        allOf:
+          - $ref: ../components/schemas/NestedPaginationQueryParams.yaml
+          - type: object
+            properties:
+              after:
+                example: evt_ABC123
+              before:
+                example: evt_ABC123
+    - in: query
+      name: filter
+      style: deepObject
+      allowReserved: true
       schema:
-        type: string
-    - description: Limit on the number of Events returned.
-      in: query
-      name: page[size]
-      schema:
-        type: string
-    - description: Comma separated list of event names
-      in: query
-      name: filter[name]
-      schema:
-        type: string
-    - description: Comma separated list of object ids
-      in: query
-      name: filter[object-id]
-      schema:
-        type: string
-    - description: Comma separated list of event ids
-      in: query
-      name: filter[id]
-      schema:
-        type: string
+        type: object
+        properties:
+          name:
+            description: Comma separated list of event names
+            type: string
+          object-id:
+            description: Comma separated list of object ids
+            type: string
+          id:
+            description: Comma separated list of event ids
+            type: string
   responses:
     '200':
       content:
@@ -45,23 +44,23 @@ get:
               value:
                 data:
                   - type: event
-                    id: evt_TOKEN
+                    id: evt_ABC123
                     attributes:
                       name: inquiry.expired
                       payload:
                         data:
                           type: inquiry
-                          id: inq_TOKEN
+                          id: inq_ABC123
                           attributes: {}
                       created-at: '2023-09-23T17:14:01.918Z'
                   - type: event
-                    id: evt_TOKEN
+                    id: evt_ABC123
                     attributes:
                       name: account.tag-added
                       payload:
                         data:
                           type: account
-                          id: act_TOKEN
+                          id: act_ABC123
                           attributes: {}
                       created-at: '2023-09-23T00:46:41.877Z'
                 links:
@@ -82,13 +81,13 @@ get:
                       - string
                       - 'null'
                     examples:
-                      - /api/v1/events?page%5Bbefore%5D=evt_TOKEN
+                      - /api/v1/events?page%5Bbefore%5D=evt_ABC123
                   next:
                     type:
                       - string
                       - 'null'
                     examples:
-                      - /api/v1/events?page%5Bafter%5D=evt_TOKEN
+                      - /api/v1/events?page%5Bafter%5D=evt_ABC123
       description: OK
     '400':
       $ref: ../components/responses/BadRequest.yaml

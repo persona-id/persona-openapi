@@ -153,35 +153,42 @@
             "$ref": "#/components/parameters/personaVersionHeader"
           },
           {
-            "description": "Account ID for cursor pagination",
             "in": "query",
-            "name": "page[before]",
+            "name": "page",
+            "style": "deepObject",
+            "allowReserved": true,
             "schema": {
-              "type": "string"
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/NestedPaginationQueryParams"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "after": {
+                      "example": "act_ABC123"
+                    },
+                    "before": {
+                      "example": "act_ABC123"
+                    }
+                  }
+                }
+              ]
             }
           },
           {
-            "description": "Account ID for cursor pagination",
             "in": "query",
-            "name": "page[after]",
+            "name": "filter",
+            "style": "deepObject",
+            "allowReserved": true,
             "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Limit on the number of accounts returned",
-            "in": "query",
-            "name": "page[size]",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Filter accounts by reference ID",
-            "in": "query",
-            "name": "filter[reference-id]",
-            "schema": {
-              "type": "string"
+              "type": "object",
+              "properties": {
+                "reference-id": {
+                  "description": "Filter accounts by reference ID",
+                  "type": "string"
+                }
+              }
             }
           }
         ],
@@ -1171,35 +1178,42 @@
             "$ref": "#/components/parameters/personaVersionHeader"
           },
           {
-            "description": "API key ID for pagination cursor",
             "in": "query",
-            "name": "page[after]",
+            "name": "page",
+            "style": "deepObject",
+            "allowReserved": true,
             "schema": {
-              "type": "string"
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/NestedPaginationQueryParams"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "after": {
+                      "example": "api_ABC123"
+                    },
+                    "before": {
+                      "example": "api_ABC123"
+                    }
+                  }
+                }
+              ]
             }
           },
           {
-            "description": "API key ID for pagination cursor",
             "in": "query",
-            "name": "page[before]",
+            "name": "filter",
+            "style": "deepObject",
+            "allowReserved": true,
             "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Limit on the number of API keys returned (between 1 and 100)",
-            "in": "query",
-            "name": "page[size]",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Filter API keys by name",
-            "in": "query",
-            "name": "filter[name]",
-            "schema": {
-              "type": "string"
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Filter API keys by name"
+                }
+              }
             }
           }
         ],
@@ -1214,7 +1228,7 @@
                       "data": [
                         {
                           "type": "api-key",
-                          "id": "api_ATOKEN",
+                          "id": "api_ABC123",
                           "attributes": {
                             "name": "Webhook ABC",
                             "note": null,
@@ -1241,7 +1255,7 @@
                         },
                         {
                           "type": "api-key",
-                          "id": "api_BTOKEN",
+                          "id": "api_ABC123",
                           "attributes": {
                             "name": "Webhook 123",
                             "note": null,
@@ -1614,27 +1628,27 @@
             "$ref": "#/components/parameters/personaVersionHeader"
           },
           {
-            "description": "API Log ID for cursor pagination",
             "in": "query",
-            "name": "page[before]",
+            "name": "page",
+            "style": "deepObject",
+            "allowReserved": true,
             "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "API Log ID for cursor pagination",
-            "in": "query",
-            "name": "page[after]",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Limit on the number of API Logs returned",
-            "in": "query",
-            "name": "page[size]",
-            "schema": {
-              "type": "string"
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/NestedPaginationQueryParams"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "after": {
+                      "example": "req_ABC123"
+                    },
+                    "before": {
+                      "example": "req_ABC123"
+                    }
+                  }
+                }
+              ]
             }
           }
         ],
@@ -1649,7 +1663,7 @@
                       "data": [
                         {
                           "type": "api-log",
-                          "id": "req_TOKEN",
+                          "id": "req_ABC123",
                           "attributes": {
                             "request": {
                               "method": "GET",
@@ -1674,7 +1688,7 @@
                                 "RateLimit-Limit": 300,
                                 "RateLimit-Remaining": 299,
                                 "RateLimit-Reset": 60,
-                                "Request-Id": "req_TOKEN",
+                                "Request-Id": "req_ABC123",
                                 "Content-Type": "application/json; charset=utf-8",
                                 "Vary": "Accept"
                               }
@@ -1684,7 +1698,7 @@
                         },
                         {
                           "type": "api-log",
-                          "id": "req_TOKEN",
+                          "id": "req_ABC123",
                           "attributes": {
                             "request": {
                               "method": "POST",
@@ -1703,7 +1717,7 @@
                                       "name_first": "[FILTERED]"
                                     }
                                   },
-                                  "transaction-type-id": "txntp_TOKEN"
+                                  "transaction-type-id": "txntp_ABC123"
                                 }
                               },
                               "ip-address": "127.0.0.1"
@@ -1718,7 +1732,7 @@
                                 "RateLimit-Limit": 300,
                                 "RateLimit-Remaining": 299,
                                 "RateLimit-Reset": 60,
-                                "Request-Id": "req_TOKEN",
+                                "Request-Id": "req_ABC123",
                                 "Quota-Limit": 1000,
                                 "Quota-Remaining": 999,
                                 "Quota-Reset": 60,
@@ -1731,7 +1745,7 @@
                         },
                         {
                           "type": "api-log",
-                          "id": "req_TOKEN",
+                          "id": "req_ABC123",
                           "attributes": {
                             "request": {
                               "method": "GET",
@@ -1760,7 +1774,7 @@
                                 "RateLimit-Limit": 300,
                                 "RateLimit-Remaining": 299,
                                 "RateLimit-Reset": 60,
-                                "Request-Id": "req_TOKEN",
+                                "Request-Id": "req_ABC123",
                                 "Content-Type": "application/json; charset=utf-8",
                                 "Vary": "Accept"
                               }
@@ -1863,7 +1877,7 @@
                     "value": {
                       "data": {
                         "type": "api-log",
-                        "id": "req_TOKEN",
+                        "id": "req_ABC123",
                         "attributes": {
                           "request": {
                             "method": "GET",
@@ -1888,7 +1902,7 @@
                               "RateLimit-Limit": 300,
                               "RateLimit-Remaining": 299,
                               "RateLimit-Reset": 60,
-                              "Request-Id": "req_TOKEN",
+                              "Request-Id": "req_ABC123",
                               "Content-Type": "application/json; charset=utf-8",
                               "Vary": "Accept"
                             }
@@ -1948,99 +1962,77 @@
             "$ref": "#/components/parameters/personaVersionHeader"
           },
           {
-            "description": "Case ID for pagination cursor",
             "in": "query",
-            "name": "page[after]",
+            "name": "page",
+            "style": "deepObject",
+            "allowReserved": true,
             "schema": {
-              "examples": [
-                "case_8xQDgDj6jsuLNnViw6aMfF8e"
-              ],
-              "type": "string"
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/NestedPaginationQueryParams"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "after": {
+                      "example": "case_ABC123"
+                    },
+                    "before": {
+                      "example": "case_ABC123"
+                    }
+                  }
+                }
+              ]
             }
           },
           {
-            "description": "Case ID for pagination cursor",
             "in": "query",
-            "name": "page[before]",
+            "name": "filter",
+            "style": "deepObject",
+            "allowReserved": true,
             "schema": {
-              "examples": [
-                "case_8xQDgDj6jsuLNnViw6aMfF8e"
-              ],
-              "type": "string"
-            }
-          },
-          {
-            "description": "Limit on the number of cases returned",
-            "in": "query",
-            "name": "page[size]",
-            "schema": {
-              "examples": [
-                5
-              ],
-              "type": "number"
-            }
-          },
-          {
-            "description": "Filter cases by status",
-            "in": "query",
-            "name": "filter[status]",
-            "schema": {
-              "examples": [
-                "Open"
-              ],
-              "type": "string"
-            }
-          },
-          {
-            "description": "Filter cases by resolution",
-            "in": "query",
-            "name": "filter[resolution]",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Filter cases by case template ID",
-            "in": "query",
-            "name": "filter[case-template-id]",
-            "schema": {
-              "examples": [
-                "ctmpl_w21x2KztVgtVo1s4KLE9qgT0"
-              ],
-              "type": "string"
-            }
-          },
-          {
-            "description": "Filter cases by account ID",
-            "in": "query",
-            "name": "filter[account-id]",
-            "schema": {
-              "examples": [
-                "act_1NHbL5FRJCNSkCk5aafkf7D2"
-              ],
-              "type": "string"
-            }
-          },
-          {
-            "description": "Filter cases by inquiry ID",
-            "in": "query",
-            "name": "filter[inquiry-id]",
-            "schema": {
-              "examples": [
-                "inq_03SGjN6k3ytL8XdeM1pt4Qc1"
-              ],
-              "type": "string"
-            }
-          },
-          {
-            "description": "Filter cases by report ID",
-            "in": "query",
-            "name": "filter[report-id]",
-            "schema": {
-              "examples": [
-                "rep_018wqARjx7eBMNHoZvypgFv1"
-              ],
-              "type": "string"
+              "type": "object",
+              "properties": {
+                "status": {
+                  "description": "Filter cases by status",
+                  "examples": [
+                    "Open"
+                  ],
+                  "type": "string"
+                },
+                "resolution": {
+                  "description": "Filter cases by resolution",
+                  "type": "string"
+                },
+                "case-template-id": {
+                  "description": "Filter cases by case template ID",
+                  "examples": [
+                    "ctmpl_ABC123"
+                  ],
+                  "type": "string"
+                },
+                "account-id": {
+                  "description": "Filter cases by account ID",
+                  "examples": [
+                    "act_ABC123"
+                  ],
+                  "type": "string"
+                },
+                "inquiry-id": {
+                  "description": "Filter cases by inquiry ID",
+                  "examples": [
+                    "inq_ABC123"
+                  ],
+                  "type": "string"
+                },
+                "report-id": {
+                  "description": "Filter cases by report ID",
+                  "examples": [
+                    "rep_ABC123"
+                  ],
+                  "type": "string"
+                }
+              }
             }
           }
         ],
@@ -5749,51 +5741,50 @@
             "$ref": "#/components/parameters/personaVersionHeader"
           },
           {
-            "description": "Event ID for cursor pagination",
             "in": "query",
-            "name": "page[before]",
+            "name": "page",
+            "style": "deepObject",
+            "allowReserved": true,
             "schema": {
-              "type": "string"
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/NestedPaginationQueryParams"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "after": {
+                      "example": "evt_ABC123"
+                    },
+                    "before": {
+                      "example": "evt_ABC123"
+                    }
+                  }
+                }
+              ]
             }
           },
           {
-            "description": "Event ID for cursor pagination",
             "in": "query",
-            "name": "page[after]",
+            "name": "filter",
+            "style": "deepObject",
+            "allowReserved": true,
             "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Limit on the number of Events returned.",
-            "in": "query",
-            "name": "page[size]",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Comma separated list of event names",
-            "in": "query",
-            "name": "filter[name]",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Comma separated list of object ids",
-            "in": "query",
-            "name": "filter[object-id]",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Comma separated list of event ids",
-            "in": "query",
-            "name": "filter[id]",
-            "schema": {
-              "type": "string"
+              "type": "object",
+              "properties": {
+                "name": {
+                  "description": "Comma separated list of event names",
+                  "type": "string"
+                },
+                "object-id": {
+                  "description": "Comma separated list of object ids",
+                  "type": "string"
+                },
+                "id": {
+                  "description": "Comma separated list of event ids",
+                  "type": "string"
+                }
+              }
             }
           }
         ],
@@ -5808,13 +5799,13 @@
                       "data": [
                         {
                           "type": "event",
-                          "id": "evt_TOKEN",
+                          "id": "evt_ABC123",
                           "attributes": {
                             "name": "inquiry.expired",
                             "payload": {
                               "data": {
                                 "type": "inquiry",
-                                "id": "inq_TOKEN",
+                                "id": "inq_ABC123",
                                 "attributes": {}
                               }
                             },
@@ -5823,13 +5814,13 @@
                         },
                         {
                           "type": "event",
-                          "id": "evt_TOKEN",
+                          "id": "evt_ABC123",
                           "attributes": {
                             "name": "account.tag-added",
                             "payload": {
                               "data": {
                                 "type": "account",
-                                "id": "act_TOKEN",
+                                "id": "act_ABC123",
                                 "attributes": {}
                               }
                             },
@@ -5862,7 +5853,7 @@
                             "null"
                           ],
                           "examples": [
-                            "/api/v1/events?page%5Bbefore%5D=evt_TOKEN"
+                            "/api/v1/events?page%5Bbefore%5D=evt_ABC123"
                           ]
                         },
                         "next": {
@@ -5871,7 +5862,7 @@
                             "null"
                           ],
                           "examples": [
-                            "/api/v1/events?page%5Bafter%5D=evt_TOKEN"
+                            "/api/v1/events?page%5Bafter%5D=evt_ABC123"
                           ]
                         }
                       }
@@ -5933,13 +5924,13 @@
                     "summary": "OK",
                     "value": {
                       "type": "event",
-                      "id": "evt_TOKEN",
+                      "id": "evt_ABC123",
                       "attributes": {
                         "name": "inquiry.expired",
                         "payload": {
                           "data": {
                             "type": "inquiry",
-                            "id": "inq_TOKEN",
+                            "id": "inq_ABC123",
                             "attributes": {}
                           }
                         },
@@ -7279,115 +7270,89 @@
             "$ref": "#/components/parameters/personaVersionHeader"
           },
           {
-            "description": "Inquiry ID for pagination cursor",
             "in": "query",
-            "name": "page[after]",
+            "name": "page",
+            "style": "deepObject",
+            "allowReserved": true,
             "schema": {
-              "examples": [
-                "inq_TOKEN"
-              ],
-              "type": "string"
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/NestedPaginationQueryParams"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "after": {
+                      "example": "inq_ABC123"
+                    },
+                    "before": {
+                      "example": "inq_ABC123"
+                    }
+                  }
+                }
+              ]
             }
           },
           {
-            "description": "Inquiry ID for pagination cursor",
             "in": "query",
-            "name": "page[before]",
+            "name": "filter",
+            "style": "deepObject",
+            "allowReserved": true,
             "schema": {
-              "examples": [
-                "inq_TOKEN"
-              ],
-              "type": "string"
-            }
-          },
-          {
-            "description": "Limit on the number of inquiries returned",
-            "in": "query",
-            "name": "page[size]",
-            "schema": {
-              "examples": [
-                5
-              ],
-              "type": "number"
-            }
-          },
-          {
-            "description": "Filter inquiries by account ID",
-            "in": "query",
-            "name": "filter[account-id]",
-            "schema": {
-              "examples": [
-                "act_TOKEN"
-              ],
-              "type": "string"
-            }
-          },
-          {
-            "description": "Filter inquiries by note. Must be the only filter.",
-            "in": "query",
-            "name": "filter[note]",
-            "schema": {
-              "examples": [
-                "A note saved on an inquiry"
-              ],
-              "type": "string"
-            }
-          },
-          {
-            "description": "Filter inquiries by reference ID",
-            "in": "query",
-            "name": "filter[reference-id]",
-            "schema": {
-              "examples": [
-                "abc-123"
-              ],
-              "type": "string"
-            }
-          },
-          {
-            "description": "Filter inquiries by template ID (use this field if your template ID starts with `tmpl_`)",
-            "in": "query",
-            "name": "filter[template-id]",
-            "schema": {
-              "examples": [
-                "tmpl_TOKEN"
-              ],
-              "type": "string"
-            }
-          },
-          {
-            "description": "Filter inquiries by inquiry template ID (use this field if your template ID starts with `itmpl_`)",
-            "in": "query",
-            "name": "filter[inquiry-template-id]",
-            "schema": {
-              "examples": [
-                "itmpl_TOKEN"
-              ],
-              "type": "string"
-            }
-          },
-          {
-            "description": "Filter inquiries by creation date, equal to or later than",
-            "in": "query",
-            "name": "filter[created-at-start]",
-            "schema": {
-              "examples": [
-                "2023-10-11T04:59:21.764Z"
-              ],
-              "format": "date-time",
-              "type": "string"
-            }
-          },
-          {
-            "description": "Filter inquiries by creation date, earlier than or equal to",
-            "in": "query",
-            "name": "filter[created-at-end]",
-            "schema": {
-              "examples": [
-                "2023-10-20T04:59:21.764Z"
-              ],
-              "format": "date-time",
-              "type": "string"
+              "type": "object",
+              "properties": {
+                "account-id": {
+                  "description": "Filter inquiries by account ID",
+                  "examples": [
+                    "act_ABC123"
+                  ],
+                  "type": "string"
+                },
+                "note": {
+                  "description": "Filter inquiries by note. Must be the only filter.",
+                  "examples": [
+                    "A note saved on an inquiry"
+                  ],
+                  "type": "string"
+                },
+                "reference-id": {
+                  "description": "Filter inquiries by reference ID",
+                  "examples": [
+                    "abc-123"
+                  ],
+                  "type": "string"
+                },
+                "template-id": {
+                  "description": "Filter inquiries by template ID (use this field if your template ID starts with `tmpl_`)",
+                  "examples": [
+                    "tmpl_ABC123"
+                  ],
+                  "type": "string"
+                },
+                "inquiry-template-id": {
+                  "description": "Filter inquiries by inquiry template ID (use this field if your template ID starts with `itmpl_`)",
+                  "examples": [
+                    "itmpl_ABC123"
+                  ],
+                  "type": "string"
+                },
+                "created-at-start": {
+                  "description": "Filter inquiries by creation date, equal to or later than",
+                  "examples": [
+                    "2023-10-11T04:59:21.764Z"
+                  ],
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "created-at-end": {
+                  "description": "Filter inquiries by creation date, earlier than or equal to",
+                  "examples": [
+                    "2023-10-20T04:59:21.764Z"
+                  ],
+                  "format": "date-time",
+                  "type": "string"
+                }
+              }
             }
           }
         ],
@@ -7414,7 +7379,7 @@
                       "properties": {
                         "prev": {
                           "examples": [
-                            "/api/v1/inquiries?page%5Bafter%5D=inq_TOKEN"
+                            "/api/v1/inquiries?page%5Bafter%5D=inq_ABC123"
                           ],
                           "type": [
                             "null",
@@ -7424,7 +7389,7 @@
                         },
                         "next": {
                           "examples": [
-                            "/api/v1/inquiries?page%5Bafter%5D=TOKEN"
+                            "/api/v1/inquiries?page%5Bafter%5D=inq_ABC123"
                           ],
                           "type": [
                             "null",
@@ -7486,21 +7451,21 @@
                           "template-id": {
                             "description": "Template ID for flow requirements (use this field if your template ID starts with `tmpl_`). *You must pass in either template-id OR inquiry-template-id OR inquiry-template-version-id*",
                             "examples": [
-                              "tmpl_TOKEN"
+                              "tmpl_ABC123"
                             ],
                             "type": "string"
                           },
                           "inquiry-template-id": {
                             "description": "Template ID for flow requirements (use this field if your template ID starts with `itmpl_`). *You must pass in either template-id OR inquiry-template-id OR inquiry-template-version-id*",
                             "examples": [
-                              "itmpl_TOKEN"
+                              "itmpl_ABC123"
                             ],
                             "type": "string"
                           },
                           "inquiry-template-version-id": {
                             "description": "Template Version ID for flow requirements (begins with `itmplv_`). *You must pass in either template-id OR inquiry-template-id OR inquiry-template-version-id*",
                             "examples": [
-                              "itmplv_TOKEN"
+                              "itmplv_ABC123"
                             ],
                             "type": "string"
                           },
@@ -7515,7 +7480,7 @@
                           "account-id": {
                             "description": "Account ID to associate with this inquiry",
                             "examples": [
-                              "act_TOKEN"
+                              "act_ABC123"
                             ],
                             "type": "string"
                           },
@@ -7529,14 +7494,14 @@
                           "theme-id": {
                             "description": "Theme ID for styling. Only available for Legacy 2.0 Inquiries.",
                             "examples": [
-                              "the_TOKEN"
+                              "the_ABC123"
                             ],
                             "type": "string"
                           },
                           "theme-set-id": {
                             "description": "BETA FEATURE -- Theme Set ID for styling. Only available for Dynamic Flow Inquiries.",
                             "examples": [
-                              "theset_TOKEN"
+                              "theset_ABC123"
                             ],
                             "type": "string"
                           },
@@ -7578,7 +7543,7 @@
                       "auto-create-account-type-id": {
                         "description": "If `auto-create-account` is true, the type ID to use for the Account. If not provided, the default type ID for the organization will be used.",
                         "examples": [
-                          "acttp_TOKEN"
+                          "acttp_ABC123"
                         ],
                         "type": "string"
                       },
@@ -8810,11 +8775,19 @@
             "$ref": "#/components/parameters/personaVersionHeader"
           },
           {
-            "description": "Filter inquiry sessions by inquiry ID",
             "in": "query",
-            "name": "filter[inquiry-id]",
+            "name": "filter",
+            "style": "deepObject",
+            "allowReserved": true,
             "schema": {
-              "type": "string"
+              "type": "object",
+              "properties": {
+                "inquiry-id": {
+                  "description": "Filter inquiry sessions by inquiry ID",
+                  "type": "string",
+                  "example": "inq_ABC123"
+                }
+              }
             }
           }
         ],
@@ -8829,7 +8802,7 @@
                       "data": [
                         {
                           "type": "inquiry-session",
-                          "id": "iqse_TOKEN",
+                          "id": "iqse_ABC123",
                           "attributes": {
                             "status": "expired",
                             "created-at": "2023-07-25T04:15:20.000Z",
@@ -8858,7 +8831,7 @@
                             "inquiry": {
                               "data": {
                                 "type": "inquiry",
-                                "id": "inq_TOKEN"
+                                "id": "inq_ABC123"
                               }
                             }
                           }
@@ -8889,7 +8862,7 @@
                             "null"
                           ],
                           "examples": [
-                            "/api/v1/inquiry-sessions?page%5Bbefore%5D=iqse_TOKEN"
+                            "/api/v1/inquiry-sessions?page%5Bbefore%5D=iqse_ABC123"
                           ]
                         },
                         "next": {
@@ -8898,7 +8871,7 @@
                             "null"
                           ],
                           "examples": [
-                            "/api/v1/inquiry-sessions?page%5Bafter%5D=iqse_TOKEN"
+                            "/api/v1/inquiry-sessions?page%5Bafter%5D=iqse_ABC123"
                           ]
                         }
                       }
@@ -9070,7 +9043,7 @@
                       "data": [
                         {
                           "type": "inquiry-session",
-                          "id": "iqse_TOKEN",
+                          "id": "iqse_ABC123",
                           "attributes": {
                             "status": "expired",
                             "created-at": "2023-07-25T04:15:20.000Z",
@@ -9099,7 +9072,7 @@
                             "inquiry": {
                               "data": {
                                 "type": "inquiry",
-                                "id": "inq_TOKEN"
+                                "id": "inq_ABC123"
                               }
                             }
                           }
@@ -9322,7 +9295,7 @@
                     "value": {
                       "data": {
                         "type": "inquiry-session",
-                        "id": "iqse_TOKEN",
+                        "id": "iqse_ABC123",
                         "attributes": {
                           "status": "expired",
                           "created-at": "2023-07-25T04:15:20.000Z",
@@ -9351,7 +9324,7 @@
                           "inquiry": {
                             "data": {
                               "type": "inquiry",
-                              "id": "inq_TOKEN"
+                              "id": "inq_ABC123"
                             }
                           }
                         }
@@ -13401,39 +13374,46 @@
             "$ref": "#/components/parameters/personaVersionHeader"
           },
           {
-            "description": "List ID for cursor pagination",
             "in": "query",
-            "name": "page[before]",
+            "name": "page",
+            "style": "deepObject",
+            "allowReserved": true,
             "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "List ID for cursor pagination",
-            "in": "query",
-            "name": "page[after]",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Limit on the number of lists returned",
-            "in": "query",
-            "name": "page[size]",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Filter lists by status",
-            "in": "query",
-            "name": "filter[status]",
-            "schema": {
-              "type": "string",
-              "enum": [
-                "active",
-                "archived"
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/NestedPaginationQueryParams"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "after": {
+                      "example": "lst_ABC123"
+                    },
+                    "before": {
+                      "example": "lst_ABC123"
+                    }
+                  }
+                }
               ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "filter",
+            "style": "deepObject",
+            "allowReserved": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "description": "Filter lists by status",
+                  "type": "string",
+                  "enum": [
+                    "active",
+                    "archived"
+                  ]
+                }
+              }
             }
           }
         ],
@@ -14117,43 +14097,46 @@
             "$ref": "#/components/parameters/personaVersionHeader"
           },
           {
-            "description": "Report ID for cursor pagination",
             "in": "query",
-            "name": "page[before]",
+            "name": "page",
+            "style": "deepObject",
+            "allowReserved": true,
             "schema": {
-              "type": "string"
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/NestedPaginationQueryParams"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "after": {
+                      "example": "rep_ABC123"
+                    },
+                    "before": {
+                      "example": "rep_ABC123"
+                    }
+                  }
+                }
+              ]
             }
           },
           {
-            "description": "Report ID for cursor pagination",
             "in": "query",
-            "name": "page[after]",
+            "name": "filter",
+            "style": "deepObject",
+            "allowReserved": true,
             "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Limit on the number of reports returned",
-            "in": "query",
-            "name": "page[size]",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Filter reports by reference ID",
-            "in": "query",
-            "name": "filter[reference-id]",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Filter reports by account ID",
-            "in": "query",
-            "name": "filter[account-id]",
-            "schema": {
-              "type": "string"
+              "type": "object",
+              "properties": {
+                "reference-id": {
+                  "description": "Filter reports by reference ID",
+                  "type": "string"
+                },
+                "account-id": {
+                  "description": "Filter reports by account ID",
+                  "type": "string"
+                }
+              }
             }
           }
         ],
@@ -16067,7 +16050,7 @@
                     "value": {
                       "data": {
                         "type": "transaction",
-                        "id": "txn_TOKEN",
+                        "id": "txn_ABC123",
                         "attributes": {
                           "status": "declined",
                           "reference-id": null,
@@ -16094,7 +16077,7 @@
                                 "filename": "image.png",
                                 "byte-size": 237011,
                                 "mime-type": "image/png",
-                                "url": "https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN"
+                                "url": "https://files.withpersona.com/image.png?access_token=ACCESS_ABC123"
                               }
                             },
                             "back-photo": {
@@ -16103,7 +16086,7 @@
                                 "filename": "image.png",
                                 "byte-size": 237011,
                                 "mime-type": "image/png",
-                                "url": "https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN"
+                                "url": "https://files.withpersona.com/image.png?access_token=ACCESS_ABC123"
                               }
                             }
                           },
@@ -16115,7 +16098,7 @@
                           "reviewer": {
                             "data": {
                               "type": "workflow-run",
-                              "id": "wfr_TOKEN"
+                              "id": "wfr_ABC123"
                             }
                           },
                           "transaction-label": {
@@ -16124,18 +16107,18 @@
                           "transaction-type": {
                             "data": {
                               "type": "transaction-type",
-                              "id": "txntp_TOKEN"
+                              "id": "txntp_ABC123"
                             }
                           },
                           "related-objects": {
                             "data": [
                               {
                                 "type": "account",
-                                "id": "act_TOKEN"
+                                "id": "act_ABC123"
                               },
                               {
                                 "type": "verification/government-id",
-                                "id": "ver_TOKEN"
+                                "id": "ver_ABC123"
                               }
                             ]
                           }
@@ -16196,43 +16179,46 @@
             "$ref": "#/components/parameters/personaVersionHeader"
           },
           {
-            "name": "page[after]",
             "in": "query",
-            "description": "Transaction ID for pagination cursor.",
+            "name": "page",
+            "style": "deepObject",
+            "allowReserved": true,
             "schema": {
-              "type": "string"
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/NestedPaginationQueryParams"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "after": {
+                      "example": "txn_ABC123"
+                    },
+                    "before": {
+                      "example": "txn_ABC123"
+                    }
+                  }
+                }
+              ]
             }
           },
           {
-            "name": "page[before]",
             "in": "query",
-            "description": "Transaction ID for pagination cursor.",
+            "name": "filter",
+            "style": "deepObject",
+            "allowReserved": true,
             "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page[size]",
-            "in": "query",
-            "description": "Limit on the number of transactions returned.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "filter[reference-id]",
-            "in": "query",
-            "description": "Filter transactions by reference ID.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "filter[external-id]",
-            "in": "query",
-            "description": "Filter transactions by external ID.",
-            "schema": {
-              "type": "string"
+              "type": "object",
+              "properties": {
+                "reference-id": {
+                  "description": "Filter transactions by reference ID.",
+                  "type": "string"
+                },
+                "external-id": {
+                  "description": "Filter transactions by external ID.",
+                  "type": "string"
+                }
+              }
             }
           }
         ],
@@ -16248,7 +16234,7 @@
                       "data": [
                         {
                           "type": "transaction",
-                          "id": "txn_TOKEN",
+                          "id": "txn_ABC123",
                           "attributes": {
                             "status": "declined",
                             "reference-id": null,
@@ -16275,7 +16261,7 @@
                                   "filename": "image.png",
                                   "byte-size": 237011,
                                   "mime-type": "image/png",
-                                  "url": "https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN"
+                                  "url": "https://files.withpersona.com/image.png?access_token=ACCESS_ABC123"
                                 }
                               },
                               "back-photo": {
@@ -16284,7 +16270,7 @@
                                   "filename": "image.png",
                                   "byte-size": 237011,
                                   "mime-type": "image/png",
-                                  "url": "https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN"
+                                  "url": "https://files.withpersona.com/image.png?access_token=ACCESS_ABC123"
                                 }
                               }
                             },
@@ -16296,7 +16282,7 @@
                             "reviewer": {
                               "data": {
                                 "type": "workflow-run",
-                                "id": "wfr_TOKEN"
+                                "id": "wfr_ABC123"
                               }
                             },
                             "transaction-label": {
@@ -16305,18 +16291,18 @@
                             "transaction-type": {
                               "data": {
                                 "type": "transaction-type",
-                                "id": "txntp_TOKEN"
+                                "id": "txntp_ABC123"
                               }
                             },
                             "related-objects": {
                               "data": [
                                 {
                                   "type": "account",
-                                  "id": "act_TOKEN"
+                                  "id": "act_ABC123"
                                 },
                                 {
                                   "type": "verification/government-id",
-                                  "id": "ver_TOKEN"
+                                  "id": "ver_ABC123"
                                 }
                               ]
                             }
@@ -16324,7 +16310,7 @@
                         },
                         {
                           "type": "transaction",
-                          "id": "txn_TOKEN",
+                          "id": "txn_ABC123",
                           "attributes": {
                             "status": "declined",
                             "reference-id": null,
@@ -16352,7 +16338,7 @@
                                   "filename": "image.png",
                                   "byte-size": 237011,
                                   "mime-type": "image/png",
-                                  "url": "https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN"
+                                  "url": "https://files.withpersona.com/image.png?access_token=ACCESS_ABC123"
                                 }
                               },
                               "back-photo": {
@@ -16361,7 +16347,7 @@
                                   "filename": "image.png",
                                   "byte-size": 237011,
                                   "mime-type": "image/png",
-                                  "url": "https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN"
+                                  "url": "https://files.withpersona.com/image.png?access_token=ACCESS_ABC123"
                                 }
                               }
                             },
@@ -16373,7 +16359,7 @@
                             "reviewer": {
                               "data": {
                                 "type": "workflow-run",
-                                "id": "wfr_TOKEN"
+                                "id": "wfr_ABC123"
                               }
                             },
                             "transaction-label": {
@@ -16382,18 +16368,18 @@
                             "transaction-type": {
                               "data": {
                                 "type": "transaction-type",
-                                "id": "txntp_TOKEN"
+                                "id": "txntp_ABC123"
                               }
                             },
                             "related-objects": {
                               "data": [
                                 {
                                   "type": "account",
-                                  "id": "act_TOKEN"
+                                  "id": "act_ABC123"
                                 },
                                 {
                                   "type": "verification/government-id",
-                                  "id": "ver_TOKEN"
+                                  "id": "ver_ABC123"
                                 }
                               ]
                             }
@@ -16402,7 +16388,7 @@
                       ],
                       "links": {
                         "prev": null,
-                        "next": "/api/v1/transactions?page%5Bafter%5D=txn_TOKEN"
+                        "next": "/api/v1/transactions?page%5Bafter%5D=txn_ABC123"
                       }
                     }
                   }
@@ -16423,7 +16409,7 @@
                         "next": {
                           "type": "string",
                           "examples": [
-                            "/api/v1/transactions?page%5Bafter%5D=txn_TOKEN"
+                            "/api/v1/transactions?page%5Bafter%5D=txn_ABC123"
                           ]
                         }
                       }
@@ -16487,7 +16473,7 @@
                     "value": {
                       "data": {
                         "type": "transaction",
-                        "id": "txn_TOKEN",
+                        "id": "txn_ABC123",
                         "attributes": {
                           "status": "declined",
                           "reference-id": null,
@@ -16515,7 +16501,7 @@
                                 "filename": "image.png",
                                 "byte-size": 237011,
                                 "mime-type": "image/png",
-                                "url": "https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN"
+                                "url": "https://files.withpersona.com/image.png?access_token=ACCESS_ABC123"
                               }
                             },
                             "back-photo": {
@@ -16524,7 +16510,7 @@
                                 "filename": "image.png",
                                 "byte-size": 237011,
                                 "mime-type": "image/png",
-                                "url": "https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN"
+                                "url": "https://files.withpersona.com/image.png?access_token=ACCESS_ABC123"
                               }
                             }
                           },
@@ -16536,7 +16522,7 @@
                           "reviewer": {
                             "data": {
                               "type": "workflow-run",
-                              "id": "wfr_TOKEN"
+                              "id": "wfr_ABC123"
                             }
                           },
                           "transaction-label": {
@@ -16545,18 +16531,18 @@
                           "transaction-type": {
                             "data": {
                               "type": "transaction-type",
-                              "id": "txntp_TOKEN"
+                              "id": "txntp_ABC123"
                             }
                           },
                           "related-objects": {
                             "data": [
                               {
                                 "type": "account",
-                                "id": "act_TOKEN"
+                                "id": "act_ABC123"
                               },
                               {
                                 "type": "verification/government-id",
-                                "id": "ver_TOKEN"
+                                "id": "ver_ABC123"
                               }
                             ]
                           }
@@ -16565,7 +16551,7 @@
                       "included": [
                         {
                           "type": "account",
-                          "id": "act_TOKEN",
+                          "id": "act_ABC123",
                           "attributes": {
                             "reference-id": null,
                             "external-id": null,
@@ -16646,7 +16632,7 @@
                         },
                         {
                           "type": "verification/government-id",
-                          "id": "ver_TOKEN",
+                          "id": "ver_ABC123",
                           "attributes": {
                             "status": "failed",
                             "created-at": "2023-05-26T16:49:43.000Z",
@@ -16660,24 +16646,24 @@
                             "entity-confidence-reasons": [
                               "generic"
                             ],
-                            "front-photo-url": "https://files.withpersona.com/image.jpg?access_token=ACCESS_TOKEN",
-                            "back-photo-url": "https://files.withpersona.com/image.jpg?access_token=ACCESS_TOKEN",
+                            "front-photo-url": "https://files.withpersona.com/image.jpg?access_token=ACCESS_ABC123",
+                            "back-photo-url": "https://files.withpersona.com/image.jpg?access_token=ACCESS_ABC123",
                             "photo-urls": [
                               {
                                 "page": "front",
-                                "url": "https://files.withpersona.com/image.jpg?access_token=ACCESS_TOKEN",
-                                "normalized-url": "https://files.withpersona.com/image.jpg?access_token=ACCESS_TOKEN",
+                                "url": "https://files.withpersona.com/image.jpg?access_token=ACCESS_ABC123",
+                                "normalized-url": "https://files.withpersona.com/image.jpg?access_token=ACCESS_ABC123",
                                 "original-urls": [
-                                  "https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN"
+                                  "https://files.withpersona.com/image.png?access_token=ACCESS_ABC123"
                                 ],
                                 "byte-size": 62347
                               },
                               {
                                 "page": "back",
-                                "url": "https://files.withpersona.com/image.jpg?access_token=ACCESS_TOKEN",
-                                "normalized-url": "https://files.withpersona.com/image.jpg?access_token=ACCESS_TOKEN",
+                                "url": "https://files.withpersona.com/image.jpg?access_token=ACCESS_ABC123",
+                                "normalized-url": "https://files.withpersona.com/image.jpg?access_token=ACCESS_ABC123",
                                 "original-urls": [
-                                  "https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN"
+                                  "https://files.withpersona.com/image.png?access_token=ACCESS_ABC123"
                                 ],
                                 "byte-size": 62347
                               }
@@ -17009,19 +16995,19 @@
                             "verification-template": {
                               "data": {
                                 "type": "verification-template/government-id",
-                                "id": "vtmpl_TOKEN"
+                                "id": "vtmpl_ABC123"
                               }
                             },
                             "verification-template-version": {
                               "data": {
                                 "type": "verification-template-version/government-id",
-                                "id": "vtmplv_TOKEN"
+                                "id": "vtmplv_ABC123"
                               }
                             },
                             "document": {
                               "data": {
                                 "type": "document/government-id",
-                                "id": "doc_TOKEN"
+                                "id": "doc_ABC123"
                               }
                             }
                           }
@@ -17047,7 +17033,7 @@
                           },
                           "id": {
                             "examples": [
-                              "act_TOKEN"
+                              "act_ABC123"
                             ],
                             "type": "string"
                           }
@@ -17256,7 +17242,7 @@
                     "value": {
                       "data": {
                         "type": "transaction",
-                        "id": "txn_TOKEN",
+                        "id": "txn_ABC123",
                         "attributes": {
                           "status": "declined",
                           "reference-id": null,
@@ -17284,7 +17270,7 @@
                                 "filename": "image.png",
                                 "byte-size": 237011,
                                 "mime-type": "image/png",
-                                "url": "https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN"
+                                "url": "https://files.withpersona.com/image.png?access_token=ACCESS_ABC123"
                               }
                             },
                             "back-photo": {
@@ -17293,7 +17279,7 @@
                                 "filename": "image.png",
                                 "byte-size": 237011,
                                 "mime-type": "image/png",
-                                "url": "https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN"
+                                "url": "https://files.withpersona.com/image.png?access_token=ACCESS_ABC123"
                               }
                             }
                           },
@@ -17307,7 +17293,7 @@
                           "reviewer": {
                             "data": {
                               "type": "workflow-run",
-                              "id": "wfr_TOKEN"
+                              "id": "wfr_ABC123"
                             }
                           },
                           "transaction-label": {
@@ -17316,18 +17302,18 @@
                           "transaction-type": {
                             "data": {
                               "type": "transaction-type",
-                              "id": "txntp_TOKEN"
+                              "id": "txntp_ABC123"
                             }
                           },
                           "related-objects": {
                             "data": [
                               {
                                 "type": "account",
-                                "id": "act_TOKEN"
+                                "id": "act_ABC123"
                               },
                               {
                                 "type": "verification/government-id",
-                                "id": "ver_TOKEN"
+                                "id": "ver_ABC123"
                               }
                             ]
                           }
@@ -17436,7 +17422,7 @@
                     "value": {
                       "data": {
                         "type": "transaction",
-                        "id": "txn_TOKEN",
+                        "id": "txn_ABC123",
                         "attributes": {
                           "status": "declined",
                           "reference-id": null,
@@ -17464,7 +17450,7 @@
                                 "filename": "image.png",
                                 "byte-size": 237011,
                                 "mime-type": "image/png",
-                                "url": "https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN"
+                                "url": "https://files.withpersona.com/image.png?access_token=ACCESS_ABC123"
                               }
                             },
                             "back-photo": {
@@ -17473,7 +17459,7 @@
                                 "filename": "image.png",
                                 "byte-size": 237011,
                                 "mime-type": "image/png",
-                                "url": "https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN"
+                                "url": "https://files.withpersona.com/image.png?access_token=ACCESS_ABC123"
                               }
                             }
                           },
@@ -17485,7 +17471,7 @@
                           "reviewer": {
                             "data": {
                               "type": "workflow-run",
-                              "id": "wfr_TOKEN"
+                              "id": "wfr_ABC123"
                             }
                           },
                           "transaction-label": {
@@ -17494,18 +17480,18 @@
                           "transaction-type": {
                             "data": {
                               "type": "transaction-type",
-                              "id": "txntp_TOKEN"
+                              "id": "txntp_ABC123"
                             }
                           },
                           "related-objects": {
                             "data": [
                               {
                                 "type": "account",
-                                "id": "act_TOKEN"
+                                "id": "act_ABC123"
                               },
                               {
                                 "type": "verification/government-id",
-                                "id": "ver_TOKEN"
+                                "id": "ver_ABC123"
                               }
                             ]
                           }
@@ -17514,7 +17500,7 @@
                       "included": [
                         {
                           "type": "transaction-label",
-                          "id": "txnl_TOKEN",
+                          "id": "txnl_ABC123",
                           "attributes": {
                             "model-label": "test",
                             "model-version": "1.2.3",
@@ -17546,7 +17532,7 @@
                           "id": {
                             "type": "string",
                             "examples": [
-                              "txnl_TOKEN"
+                              "txnl_ABC123"
                             ]
                           },
                           "attributes": {
@@ -17677,7 +17663,7 @@
                     "value": {
                       "data": {
                         "type": "transaction",
-                        "id": "txn_TOKEN",
+                        "id": "txn_ABC123",
                         "attributes": {
                           "status": "declined",
                           "reference-id": null,
@@ -17705,7 +17691,7 @@
                                 "filename": "image.png",
                                 "byte-size": 237011,
                                 "mime-type": "image/png",
-                                "url": "https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN"
+                                "url": "https://files.withpersona.com/image.png?access_token=ACCESS_ABC123"
                               }
                             },
                             "back-photo": {
@@ -17714,7 +17700,7 @@
                                 "filename": "image.png",
                                 "byte-size": 237011,
                                 "mime-type": "image/png",
-                                "url": "https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN"
+                                "url": "https://files.withpersona.com/image.png?access_token=ACCESS_ABC123"
                               }
                             }
                           },
@@ -17726,7 +17712,7 @@
                           "reviewer": {
                             "data": {
                               "type": "workflow-run",
-                              "id": "wfr_TOKEN"
+                              "id": "wfr_ABC123"
                             }
                           },
                           "transaction-label": {
@@ -17735,18 +17721,18 @@
                           "transaction-type": {
                             "data": {
                               "type": "transaction-type",
-                              "id": "txntp_TOKEN"
+                              "id": "txntp_ABC123"
                             }
                           },
                           "related-objects": {
                             "data": [
                               {
                                 "type": "account",
-                                "id": "act_TOKEN"
+                                "id": "act_ABC123"
                               },
                               {
                                 "type": "verification/government-id",
-                                "id": "ver_TOKEN"
+                                "id": "ver_ABC123"
                               }
                             ]
                           }
@@ -17864,7 +17850,7 @@
                     "value": {
                       "data": {
                         "type": "transaction",
-                        "id": "txn_TOKEN",
+                        "id": "txn_ABC123",
                         "attributes": {
                           "status": "declined",
                           "reference-id": null,
@@ -17892,7 +17878,7 @@
                                 "filename": "image.png",
                                 "byte-size": 237011,
                                 "mime-type": "image/png",
-                                "url": "https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN"
+                                "url": "https://files.withpersona.com/image.png?access_token=ACCESS_ABC123"
                               }
                             },
                             "back-photo": {
@@ -17901,7 +17887,7 @@
                                 "filename": "image.png",
                                 "byte-size": 237011,
                                 "mime-type": "image/png",
-                                "url": "https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN"
+                                "url": "https://files.withpersona.com/image.png?access_token=ACCESS_ABC123"
                               }
                             }
                           },
@@ -17916,7 +17902,7 @@
                           "reviewer": {
                             "data": {
                               "type": "workflow-run",
-                              "id": "wfr_TOKEN"
+                              "id": "wfr_ABC123"
                             }
                           },
                           "transaction-label": {
@@ -17925,18 +17911,18 @@
                           "transaction-type": {
                             "data": {
                               "type": "transaction-type",
-                              "id": "txntp_TOKEN"
+                              "id": "txntp_ABC123"
                             }
                           },
                           "related-objects": {
                             "data": [
                               {
                                 "type": "account",
-                                "id": "act_TOKEN"
+                                "id": "act_ABC123"
                               },
                               {
                                 "type": "verification/government-id",
-                                "id": "ver_TOKEN"
+                                "id": "ver_ABC123"
                               }
                             ]
                           }
@@ -17995,27 +17981,27 @@
             "$ref": "#/components/parameters/personaVersionHeader"
           },
           {
-            "description": "User audit log ID for cursor pagination",
             "in": "query",
-            "name": "page[before]",
+            "name": "page",
+            "style": "deepObject",
+            "allowReserved": true,
             "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "User audit log ID for cursor pagination",
-            "in": "query",
-            "name": "page[after]",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Limit on the number of User audit logs returned",
-            "in": "query",
-            "name": "page[size]",
-            "schema": {
-              "type": "string"
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/NestedPaginationQueryParams"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "after": {
+                      "example": "ual_ABC123"
+                    },
+                    "before": {
+                      "example": "ual_ABC123"
+                    }
+                  }
+                }
+              ]
             }
           }
         ],
@@ -18030,7 +18016,7 @@
                       "data": [
                         {
                           "type": "user-audit-log",
-                          "id": "ual_TOKENABC",
+                          "id": "ual_ABC123ABC",
                           "attributes": {
                             "path": "/api/v1/inquiries",
                             "method": "GET",
@@ -18044,21 +18030,21 @@
                             "user": {
                               "data": {
                                 "type": "user",
-                                "id": "user_TOKEN"
+                                "id": "user_ABC123"
                               }
                             }
                           }
                         },
                         {
                           "type": "user-audit-log",
-                          "id": "ual_TOKENXYZ",
+                          "id": "ual_ABC123XYZ",
                           "attributes": {
-                            "path": "/api/internal/dashboard/v1/user-sessions/uses_TOKEN/expire",
+                            "path": "/api/internal/dashboard/v1/user-sessions/uses_ABC123/expire",
                             "method": "GET",
                             "get-params": {},
                             "post-params": {
                               "data": {
-                                "id": "uses_TOKEN",
+                                "id": "uses_ABC123",
                                 "type": "user-session"
                               }
                             },
@@ -18070,7 +18056,7 @@
                             "user": {
                               "data": {
                                 "type": "user",
-                                "id": "user_TOKEN"
+                                "id": "user_ABC123"
                               }
                             }
                           }
@@ -18083,7 +18069,7 @@
                       "included": [
                         {
                           "type": "user",
-                          "id": "user_TOKEN",
+                          "id": "user_ABC123",
                           "attributes": {
                             "email-address": "jane@doe.com",
                             "name-first": "Jane",
@@ -18112,7 +18098,7 @@
                             "null"
                           ],
                           "examples": [
-                            "/api/v1/user-audit-logs?page%5Bbefore%5D=ual_TOKEN"
+                            "/api/v1/user-audit-logs?page%5Bbefore%5D=ual_ABC123"
                           ]
                         },
                         "next": {
@@ -18121,7 +18107,7 @@
                             "null"
                           ],
                           "examples": [
-                            "/api/v1/user-audit-logs?page%5Bafter%5D=ual_TOKEN"
+                            "/api/v1/user-audit-logs?page%5Bafter%5D=ual_ABC123"
                           ]
                         }
                       }
@@ -18140,7 +18126,7 @@
                           "id": {
                             "type": "string",
                             "examples": [
-                              "user_TOKEN"
+                              "user_ABC123"
                             ]
                           },
                           "attributes": {
@@ -18227,7 +18213,7 @@
                     "value": {
                       "data": {
                         "type": "user-audit-log",
-                        "id": "ual_TOKEN",
+                        "id": "ual_ABC123",
                         "attributes": {
                           "path": "/api/v1/inquiries",
                           "method": "GET",
@@ -18241,7 +18227,7 @@
                           "user": {
                             "data": {
                               "type": "user",
-                              "id": "user_TOKEN"
+                              "id": "user_ABC123"
                             }
                           }
                         }
@@ -25027,27 +25013,27 @@
             "$ref": "#/components/parameters/personaVersionHeader"
           },
           {
-            "description": "Webhook ID for pagination cursor",
             "in": "query",
-            "name": "page[after]",
+            "name": "page",
+            "style": "deepObject",
+            "allowReserved": true,
             "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Webhook ID for pagination cursor",
-            "in": "query",
-            "name": "page[before]",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Limit on the number of Webhooks returned (between 1 and 100)",
-            "in": "query",
-            "name": "page[size]",
-            "schema": {
-              "type": "string"
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/NestedPaginationQueryParams"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "after": {
+                      "example": "wbh_ABC123"
+                    },
+                    "before": {
+                      "example": "wbh_ABC123"
+                    }
+                  }
+                }
+              ]
             }
           }
         ],
@@ -25062,7 +25048,7 @@
                       "data": [
                         {
                           "type": "webhook",
-                          "id": "webhook_ATOKEN",
+                          "id": "wbh_ABC123",
                           "attributes": {
                             "status": "disabled",
                             "url": "https://withpersona.com",
@@ -25094,7 +25080,7 @@
                         },
                         {
                           "type": "webhook",
-                          "id": "webhook_BTOKEN",
+                          "id": "wbh_ABC123",
                           "attributes": {
                             "status": "disabled",
                             "url": "https://withpersona.com",
@@ -25953,336 +25939,33 @@
         }
       }
     },
-    "responses": {
-      "BadRequest": {
-        "description": "Bad Request",
-        "content": {
-          "application/json": {
-            "examples": {
-              "Result": {
-                "summary": "Bad Request",
-                "value": {
-                  "errors": [
-                    {
-                      "title": "Bad Request",
-                      "details": "data.attributes.type must be a string"
-                    }
-                  ]
-                }
-              }
-            },
-            "schema": {
-              "properties": {
-                "errors": {
-                  "type": "array",
-                  "items": {
-                    "properties": {
-                      "title": {
-                        "description": "Bad Request",
-                        "type": "string"
-                      },
-                      "details": {
-                        "type": "string",
-                        "examples": [
-                          "data.attributes.name is missing",
-                          "data.type must be filled",
-                          "meta.object_ids must be an array"
-                        ]
-                      }
-                    }
-                  }
-                }
-              },
-              "type": "object"
-            }
-          }
-        }
-      },
-      "NotFound": {
-        "description": "Not Found",
-        "content": {
-          "application/json": {
-            "examples": {
-              "Result": {
-                "summary": "Not Found",
-                "value": {
-                  "errors": [
-                    {
-                      "title": "Record not found"
-                    }
-                  ]
-                }
-              }
-            },
-            "schema": {
-              "properties": {
-                "errors": {
-                  "items": {
-                    "properties": {
-                      "title": {
-                        "examples": [
-                          "Record not found"
-                        ],
-                        "type": "string"
-                      },
-                      "details": {
-                        "examples": [
-                          "data.attributes.inquiry_id is not found"
-                        ],
-                        "type": "string"
-                      }
-                    },
-                    "type": "object"
-                  },
-                  "type": "array"
-                }
-              },
-              "type": "object"
-            }
-          }
-        }
-      },
-      "UnprocessableEntity": {
-        "description": "Unprocessable Entity",
-        "content": {
-          "application/json": {
-            "examples": {
-              "Result": {
-                "summary": "Unprocessable Entity",
-                "value": {
-                  "errors": [
-                    {
-                      "title": "Unprocessable entity",
-                      "details": "Invalid confirmation code"
-                    }
-                  ]
-                }
-              }
-            },
-            "schema": {
-              "properties": {
-                "errors": {
-                  "type": "array",
-                  "items": {
-                    "properties": {
-                      "title": {
-                        "type": "string",
-                        "examples": [
-                          "Unprocessable entity",
-                          "Record invalid"
-                        ]
-                      },
-                      "details": {
-                        "type": "string",
-                        "examples": [
-                          "File must be under 2 bytes",
-                          "Selected country code invalid selected country code of ZX",
-                          "Invalid confirmation code"
-                        ]
-                      },
-                      "source": {
-                        "type": "object",
-                        "properties": {
-                          "pointer": {
-                            "type": "string",
-                            "examples": [
-                              "/data/attributes/files",
-                              "/data/attributes/selected-country-code"
-                            ]
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              },
-              "type": "object"
-            }
-          }
-        }
-      },
-      "Conflict": {
-        "description": "Conflict",
-        "content": {
-          "application/json": {
-            "examples": {
-              "Result": {
-                "summary": "Conflict",
-                "value": {
-                  "errors": [
-                    {
-                      "title": "Conflict",
-                      "details": "Resource already exists as an active resource"
-                    }
-                  ]
-                }
-              }
-            },
-            "schema": {
-              "properties": {
-                "errors": {
-                  "type": "array",
-                  "items": {
-                    "properties": {
-                      "title": {
-                        "description": "Conflict",
-                        "examples": [
-                          "Conflict",
-                          "Record not unique",
-                          "Stale object error"
-                        ],
-                        "type": "string"
-                      },
-                      "details": {
-                        "type": "string",
-                        "examples": [
-                          "Name already exists as an active item in list",
-                          "Inquiry already redacted",
-                          "Record not unique",
-                          "Attempted to update a record that was just modified. Please try again.",
-                          "data.attributes.inquiry_id does not require verification/email-address"
-                        ]
-                      }
-                    }
-                  }
-                }
-              },
-              "type": "object"
-            }
-          }
-        }
-      },
-      "Forbidden": {
-        "description": "Forbidden",
-        "content": {
-          "application/json": {
-            "examples": {
-              "Result": {
-                "summary": "Forbidden",
-                "value": {
-                  "errors": [
-                    {
-                      "title": "Forbidden",
-                      "details": "IP address is not permitted access to current environment"
-                    }
-                  ]
-                }
-              }
-            },
-            "schema": {
-              "properties": {
-                "errors": {
-                  "type": "array",
-                  "items": {
-                    "properties": {
-                      "title": {
-                        "description": "Forbidden",
-                        "type": "string"
-                      },
-                      "details": {
-                        "type": "string",
-                        "examples": [
-                          "Resource cannot be created in an inactive environment",
-                          "Verification creation API is not enabled",
-                          "IP address is not permitted access to current environment"
-                        ]
-                      }
-                    }
-                  }
-                }
-              },
-              "type": "object"
-            }
-          }
-        }
-      },
-      "Unauthorized": {
-        "description": "Unauthorized",
-        "content": {
-          "application/json": {
-            "examples": {
-              "Result": {
-                "summary": "Unauthorized",
-                "value": {
-                  "errors": [
-                    {
-                      "title": "Must be authenticated to access this endpoint"
-                    }
-                  ]
-                }
-              }
-            },
-            "schema": {
-              "properties": {
-                "errors": {
-                  "type": "array",
-                  "items": {
-                    "properties": {
-                      "title": {
-                        "description": "Unauthorized",
-                        "examples": [
-                          "Must be authenticated to access this endpoint",
-                          "Token is invalid"
-                        ],
-                        "type": "string"
-                      }
-                    }
-                  }
-                }
-              },
-              "type": "object"
-            }
-          }
-        }
-      },
-      "TooManyRequests": {
-        "description": "Too Many Requests",
-        "content": {
-          "application/json": {
-            "examples": {
-              "Result": {
-                "summary": "Too Many Requests",
-                "value": {
-                  "errors": [
-                    {
-                      "title": "Rate limit exceeded",
-                      "details": "You have hit your rate limit of 300 requests / min. Please reach out to support@withpersona.com if you need this changed."
-                    }
-                  ]
-                }
-              }
-            },
-            "schema": {
-              "properties": {
-                "errors": {
-                  "type": "array",
-                  "items": {
-                    "properties": {
-                      "title": {
-                        "type": "string",
-                        "examples": [
-                          "Rate limit exceeded",
-                          "Quota exceeded"
-                        ]
-                      },
-                      "details": {
-                        "type": "string",
-                        "examples": [
-                          "You have hit your rate limit of 300 requests / min. Please reach out to support@withpersona.com if you need this changed.",
-                          "You have hit your create_verification quota limit of 300 requests. Please reach out to support@withpersona.com if you need this changed."
-                        ]
-                      }
-                    }
-                  }
-                }
-              },
-              "type": "object"
-            }
-          }
-        }
-      }
-    },
     "schemas": {
+      "NestedPaginationQueryParams": {
+        "type": "object",
+        "properties": {
+          "after": {
+            "description": "Object ID for pagination cursor",
+            "type": "string",
+            "examples": [
+              "obj_ABC123"
+            ]
+          },
+          "before": {
+            "description": "Object ID for pagination cursor",
+            "examples": [
+              "obj_ABC123"
+            ],
+            "type": "string"
+          },
+          "size": {
+            "description": "Limit on the number of objects returned",
+            "examples": [
+              5
+            ],
+            "type": "number"
+          }
+        }
+      },
       "AddressFields": {
         "properties": {
           "address-street-1": {
@@ -26929,7 +26612,7 @@
           },
           "id": {
             "examples": [
-              "api_TOKEN"
+              "api_ABC123"
             ],
             "type": "string"
           },
@@ -28195,7 +27878,7 @@
                     "properties": {
                       "id": {
                         "examples": [
-                          "act_TOKEN"
+                          "act_ABC123"
                         ],
                         "type": "string"
                       },
@@ -28221,7 +27904,7 @@
                       "properties": {
                         "id": {
                           "examples": [
-                            "doc_TOKEN"
+                            "doc_ABC123"
                           ],
                           "type": "string"
                         },
@@ -28246,7 +27929,7 @@
                     "properties": {
                       "id": {
                         "examples": [
-                          "tmpl_TOKEN"
+                          "tmpl_ABC123"
                         ],
                         "type": "string"
                       },
@@ -28272,7 +27955,7 @@
                     "properties": {
                       "id": {
                         "examples": [
-                          "itmpl_TOKEN"
+                          "itmpl_ABC123"
                         ],
                         "type": "string"
                       },
@@ -28298,7 +27981,7 @@
                     "properties": {
                       "id": {
                         "examples": [
-                          "itmplv_TOKEN"
+                          "itmplv_ABC123"
                         ],
                         "type": "string"
                       },
@@ -28324,7 +28007,7 @@
                       "properties": {
                         "id": {
                           "examples": [
-                            "rep_TOKEN"
+                            "rep_ABC123"
                           ],
                           "type": "string"
                         },
@@ -28349,7 +28032,7 @@
                     "properties": {
                       "id": {
                         "examples": [
-                          "user_TOKEN"
+                          "user_ABC123"
                         ],
                         "type": "string"
                       },
@@ -28375,7 +28058,7 @@
                       "properties": {
                         "id": {
                           "examples": [
-                            "self_TOKEN"
+                            "self_ABC123"
                           ],
                           "type": "string"
                         },
@@ -28401,7 +28084,7 @@
                       "properties": {
                         "id": {
                           "examples": [
-                            "iqse_TOKEN"
+                            "iqse_ABC123"
                           ],
                           "type": "string"
                         },
@@ -28426,7 +28109,7 @@
                       "properties": {
                         "id": {
                           "examples": [
-                            "ver_TOKEN"
+                            "ver_ABC123"
                           ],
                           "type": "string"
                         },
@@ -30429,7 +30112,7 @@
           "id": {
             "type": "string",
             "description": "The token of the verification",
-            "example": "ver_TOKEN"
+            "example": "ver_ABC123"
           }
         }
       },
@@ -30566,7 +30249,7 @@
                 ],
                 "properties": {
                   "id": {
-                    "example": "inq_TOKEN",
+                    "example": "inq_ABC123",
                     "type": "string"
                   },
                   "type": {
@@ -30592,7 +30275,7 @@
                   },
                   "id": {
                     "type": "string",
-                    "example": "tmpl_TOKEN"
+                    "example": "tmpl_ABC123"
                   }
                 }
               }
@@ -30613,7 +30296,7 @@
                   },
                   "id": {
                     "type": "string",
-                    "example": "itmplv_TOKEN"
+                    "example": "itmplv_ABC123"
                   }
                 }
               }
@@ -30634,7 +30317,7 @@
                   },
                   "id": {
                     "type": "string",
-                    "example": "itmpl_TOKEN"
+                    "example": "itmpl_ABC123"
                   }
                 }
               }
@@ -30655,7 +30338,7 @@
                   },
                   "id": {
                     "type": "string",
-                    "example": "vtmpl_TOKEN"
+                    "example": "vtmpl_ABC123"
                   }
                 }
               }
@@ -30676,7 +30359,7 @@
                   },
                   "id": {
                     "type": "string",
-                    "example": "vtmplv_TOKEN"
+                    "example": "vtmplv_ABC123"
                   }
                 }
               }
@@ -30914,7 +30597,7 @@
                             "properties": {
                               "id": {
                                 "examples": [
-                                  "doc_TOKEN"
+                                  "doc_ABC123"
                                 ],
                                 "type": "string"
                               },
@@ -31412,7 +31095,7 @@
           "id": {
             "type": "string",
             "examples": [
-              "evt_TOKEN"
+              "evt_ABC123"
             ]
           },
           "attributes": {
@@ -31444,9 +31127,9 @@
                       "id": {
                         "type": "string",
                         "examples": [
-                          "inq_TOKEN",
-                          "wfr_TOKEN",
-                          "act_TOKEN"
+                          "inq_ABC123",
+                          "wfr_ABC123",
+                          "act_ABC123"
                         ]
                       },
                       "attributes": {
@@ -31503,7 +31186,7 @@
           },
           "id": {
             "examples": [
-              "itmpl_TOKEN"
+              "itmpl_ABC123"
             ],
             "type": "string"
           },
@@ -31539,7 +31222,7 @@
                       "id": {
                         "type": "string",
                         "examples": [
-                          "itmplv_TOKEN"
+                          "itmplv_ABC123"
                         ]
                       }
                     },
@@ -31565,7 +31248,7 @@
           "id": {
             "type": "string",
             "examples": [
-              "iqse_TOKEN"
+              "iqse_ABC123"
             ]
           },
           "attributes": {
@@ -31732,7 +31415,7 @@
                       "id": {
                         "type": "string",
                         "examples": [
-                          "inq_TOKEN"
+                          "inq_ABC123"
                         ]
                       }
                     }
@@ -32588,7 +32271,7 @@
                           "url": {
                             "type": "string",
                             "examples": [
-                              "https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN"
+                              "https://files.withpersona.com/image.png?access_token=ACCESS_ABC123"
                             ]
                           }
                         }
@@ -32630,7 +32313,7 @@
                           "url": {
                             "type": "string",
                             "examples": [
-                              "https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN"
+                              "https://files.withpersona.com/image.png?access_token=ACCESS_ABC123"
                             ]
                           }
                         }
@@ -32659,7 +32342,7 @@
           "id": {
             "type": "string",
             "examples": [
-              "txn_TOKEN"
+              "txn_ABC123"
             ]
           },
           "relationships": {
@@ -32683,9 +32366,9 @@
                       "id": {
                         "type": "string",
                         "examples": [
-                          "wfr_TOKEN",
-                          "wfs_TOKEN",
-                          "user_TOKEN"
+                          "wfr_ABC123",
+                          "wfs_ABC123",
+                          "user_ABC123"
                         ]
                       }
                     }
@@ -32713,7 +32396,7 @@
                       "id": {
                         "type": "string",
                         "examples": [
-                          "txntp_TOKEN"
+                          "txntp_ABC123"
                         ]
                       }
                     }
@@ -32738,7 +32421,7 @@
                         "id": {
                           "type": "string",
                           "examples": [
-                            "act_TOKEN"
+                            "act_ABC123"
                           ]
                         }
                       }
@@ -32765,7 +32448,7 @@
           },
           "id": {
             "type": "string",
-            "example": "ual_TOKEN"
+            "example": "ual_ABC123"
           },
           "attributes": {
             "type": "object",
@@ -32773,7 +32456,7 @@
               "path": {
                 "type": "string",
                 "examples": [
-                  "/api/internal/dashboard/v1/cases/case_TOKEN"
+                  "/api/internal/dashboard/v1/cases/case_ABC123"
                 ]
               },
               "method": {
@@ -32835,7 +32518,7 @@
                       "id": {
                         "type": "string",
                         "examples": [
-                          "user_TOKEN"
+                          "user_ABC123"
                         ]
                       }
                     }
@@ -32928,7 +32611,7 @@
           },
           "id": {
             "examples": [
-              "webhook_TOKEN"
+              "wbh_ABC123"
             ],
             "type": "string"
           },
@@ -33025,7 +32708,7 @@
           },
           "id": {
             "examples": [
-              "webhook_TOKEN"
+              "wbh_ABC123"
             ],
             "type": "string"
           },
@@ -33134,6 +32817,335 @@
                   "2023-09-21T18:29:40.000Z"
                 ]
               }
+            }
+          }
+        }
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Bad Request",
+        "content": {
+          "application/json": {
+            "examples": {
+              "Result": {
+                "summary": "Bad Request",
+                "value": {
+                  "errors": [
+                    {
+                      "title": "Bad Request",
+                      "details": "data.attributes.type must be a string"
+                    }
+                  ]
+                }
+              }
+            },
+            "schema": {
+              "properties": {
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "title": {
+                        "description": "Bad Request",
+                        "type": "string"
+                      },
+                      "details": {
+                        "type": "string",
+                        "examples": [
+                          "data.attributes.name is missing",
+                          "data.type must be filled",
+                          "meta.object_ids must be an array"
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "type": "object"
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Unauthorized",
+        "content": {
+          "application/json": {
+            "examples": {
+              "Result": {
+                "summary": "Unauthorized",
+                "value": {
+                  "errors": [
+                    {
+                      "title": "Must be authenticated to access this endpoint"
+                    }
+                  ]
+                }
+              }
+            },
+            "schema": {
+              "properties": {
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "title": {
+                        "description": "Unauthorized",
+                        "examples": [
+                          "Must be authenticated to access this endpoint",
+                          "Token is invalid"
+                        ],
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              },
+              "type": "object"
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "Forbidden",
+        "content": {
+          "application/json": {
+            "examples": {
+              "Result": {
+                "summary": "Forbidden",
+                "value": {
+                  "errors": [
+                    {
+                      "title": "Forbidden",
+                      "details": "IP address is not permitted access to current environment"
+                    }
+                  ]
+                }
+              }
+            },
+            "schema": {
+              "properties": {
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "title": {
+                        "description": "Forbidden",
+                        "type": "string"
+                      },
+                      "details": {
+                        "type": "string",
+                        "examples": [
+                          "Resource cannot be created in an inactive environment",
+                          "Verification creation API is not enabled",
+                          "IP address is not permitted access to current environment"
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "type": "object"
+            }
+          }
+        }
+      },
+      "TooManyRequests": {
+        "description": "Too Many Requests",
+        "content": {
+          "application/json": {
+            "examples": {
+              "Result": {
+                "summary": "Too Many Requests",
+                "value": {
+                  "errors": [
+                    {
+                      "title": "Rate limit exceeded",
+                      "details": "You have hit your rate limit of 300 requests / min. Please reach out to support@withpersona.com if you need this changed."
+                    }
+                  ]
+                }
+              }
+            },
+            "schema": {
+              "properties": {
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "title": {
+                        "type": "string",
+                        "examples": [
+                          "Rate limit exceeded",
+                          "Quota exceeded"
+                        ]
+                      },
+                      "details": {
+                        "type": "string",
+                        "examples": [
+                          "You have hit your rate limit of 300 requests / min. Please reach out to support@withpersona.com if you need this changed.",
+                          "You have hit your create_verification quota limit of 300 requests. Please reach out to support@withpersona.com if you need this changed."
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "type": "object"
+            }
+          }
+        }
+      },
+      "Conflict": {
+        "description": "Conflict",
+        "content": {
+          "application/json": {
+            "examples": {
+              "Result": {
+                "summary": "Conflict",
+                "value": {
+                  "errors": [
+                    {
+                      "title": "Conflict",
+                      "details": "Resource already exists as an active resource"
+                    }
+                  ]
+                }
+              }
+            },
+            "schema": {
+              "properties": {
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "title": {
+                        "description": "Conflict",
+                        "examples": [
+                          "Conflict",
+                          "Record not unique",
+                          "Stale object error"
+                        ],
+                        "type": "string"
+                      },
+                      "details": {
+                        "type": "string",
+                        "examples": [
+                          "Name already exists as an active item in list",
+                          "Inquiry already redacted",
+                          "Record not unique",
+                          "Attempted to update a record that was just modified. Please try again.",
+                          "data.attributes.inquiry_id does not require verification/email-address"
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "type": "object"
+            }
+          }
+        }
+      },
+      "UnprocessableEntity": {
+        "description": "Unprocessable Entity",
+        "content": {
+          "application/json": {
+            "examples": {
+              "Result": {
+                "summary": "Unprocessable Entity",
+                "value": {
+                  "errors": [
+                    {
+                      "title": "Unprocessable entity",
+                      "details": "Invalid confirmation code"
+                    }
+                  ]
+                }
+              }
+            },
+            "schema": {
+              "properties": {
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "title": {
+                        "type": "string",
+                        "examples": [
+                          "Unprocessable entity",
+                          "Record invalid"
+                        ]
+                      },
+                      "details": {
+                        "type": "string",
+                        "examples": [
+                          "File must be under 2 bytes",
+                          "Selected country code invalid selected country code of ZX",
+                          "Invalid confirmation code"
+                        ]
+                      },
+                      "source": {
+                        "type": "object",
+                        "properties": {
+                          "pointer": {
+                            "type": "string",
+                            "examples": [
+                              "/data/attributes/files",
+                              "/data/attributes/selected-country-code"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "type": "object"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Not Found",
+        "content": {
+          "application/json": {
+            "examples": {
+              "Result": {
+                "summary": "Not Found",
+                "value": {
+                  "errors": [
+                    {
+                      "title": "Record not found"
+                    }
+                  ]
+                }
+              }
+            },
+            "schema": {
+              "properties": {
+                "errors": {
+                  "items": {
+                    "properties": {
+                      "title": {
+                        "examples": [
+                          "Record not found"
+                        ],
+                        "type": "string"
+                      },
+                      "details": {
+                        "examples": [
+                          "data.attributes.inquiry_id is not found"
+                        ],
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "type": "array"
+                }
+              },
+              "type": "object"
             }
           }
         }
@@ -33796,7 +33808,7 @@
           "included": [
             {
               "type": "inquiry-session",
-              "id": "iqse_TOKEN",
+              "id": "iqse_ABC123",
               "attributes": {
                 "status": "expired",
                 "created-at": "2023-07-25T04:15:20.000Z",
@@ -33825,14 +33837,14 @@
                 "inquiry": {
                   "data": {
                     "type": "inquiry",
-                    "id": "inq_TOKEN"
+                    "id": "inq_ABC123"
                   }
                 }
               }
             },
             {
               "type": "inquiry-template",
-              "id": "itmpl_TOKEN",
+              "id": "itmpl_ABC123",
               "attributes": {
                 "status": "active",
                 "name": "Twilio Desktop"
@@ -33841,7 +33853,7 @@
                 "latest-published-version": {
                   "data": {
                     "type": "inquiry-template-version",
-                    "id": "itmplv_TOKEN"
+                    "id": "itmplv_ABC123"
                   }
                 }
               }
@@ -34174,7 +34186,7 @@
         "value": {
           "data": {
             "type": "inquiry-session",
-            "id": "iqse_TOKEN",
+            "id": "iqse_ABC123",
             "attributes": {
               "status": "expired",
               "created-at": "2023-07-25T04:15:20.000Z",
@@ -34203,7 +34215,7 @@
               "inquiry": {
                 "data": {
                   "type": "inquiry",
-                  "id": "inq_TOKEN"
+                  "id": "inq_ABC123"
                 }
               }
             }
@@ -34214,7 +34226,7 @@
         "value": {
           "data": {
             "type": "verification/database",
-            "id": "ver_TOKEN",
+            "id": "ver_ABC123",
             "attributes": {
               "status": "initiated",
               "created-at": "2023-11-03T17:37:06.000Z",
@@ -34248,7 +34260,7 @@
               "inquiry": {
                 "data": {
                   "type": "inquiry",
-                  "id": "inq_TOKEN"
+                  "id": "inq_ABC123"
                 }
               },
               "template": {
@@ -34257,25 +34269,25 @@
               "inquiry-template-version": {
                 "data": {
                   "type": "inquiry-template-version",
-                  "id": "itmplv_TOKEN"
+                  "id": "itmplv_ABC123"
                 }
               },
               "inquiry-template": {
                 "data": {
                   "type": "inquiry-template",
-                  "id": "itmpl_TOKEN"
+                  "id": "itmpl_ABC123"
                 }
               },
               "verification-template": {
                 "data": {
                   "type": "verification-template/database",
-                  "id": "vtmpl_TOKEN"
+                  "id": "vtmpl_ABC123"
                 }
               },
               "verification-template-version": {
                 "data": {
                   "type": "verification-template-version/database",
-                  "id": "vtmplv_TOKEN"
+                  "id": "vtmplv_ABC123"
                 }
               }
             }
@@ -34286,7 +34298,7 @@
         "value": {
           "data": {
             "type": "verification/document",
-            "id": "ver_TOKEN",
+            "id": "ver_ABC123",
             "attributes": {
               "status": "initiated",
               "created-at": "2023-11-15T16:21:09.000Z",
@@ -34309,14 +34321,14 @@
               "files": [
                 {
                   "filename": "multipage_example.pdf",
-                  "url": "https://files.withpersona.com/multipage_example.pdf?access_token=ACCESS_TOKEN",
+                  "url": "https://files.withpersona.com/multipage_example.pdf?access_token=ACCESS_ABC123",
                   "byte-size": 123456
                 }
               ],
               "files-normalized": [
                 {
                   "filename": "multipage_example.pdf",
-                  "url": "https://files.withpersona.com/multipage_example.pdf?access_token=ACCESS_TOKEN",
+                  "url": "https://files.withpersona.com/multipage_example.pdf?access_token=ACCESS_ABC123",
                   "byte-size": 123456
                 }
               ],
@@ -34326,13 +34338,13 @@
               "inquiry": {
                 "data": {
                   "type": "inquiry",
-                  "id": "inq_TOKEN"
+                  "id": "inq_ABC123"
                 }
               },
               "template": {
                 "data": {
                   "type": "template",
-                  "id": "tmpl_TOKEN"
+                  "id": "tmpl_ABC123"
                 }
               },
               "inquiry-template-version": {
@@ -34344,13 +34356,13 @@
               "verification-template-version": {
                 "data": {
                   "type": "verification-template-version/document",
-                  "id": "vtmplv_TOKEN"
+                  "id": "vtmplv_ABC123"
                 }
               },
               "verification-template": {
                 "data": {
                   "type": "verification-template/document",
-                  "id": "vtmpl_TOKEN"
+                  "id": "vtmpl_ABC123"
                 }
               },
               "document": {
@@ -34367,7 +34379,7 @@
         "value": {
           "data": {
             "type": "verification/document",
-            "id": "ver_TOKEN",
+            "id": "ver_ABC123",
             "attributes": {
               "status": "submitted",
               "created-at": "2023-11-15T16:21:09.000Z",
@@ -34390,14 +34402,14 @@
               "files": [
                 {
                   "filename": "multipage_example.pdf",
-                  "url": "https://files.withpersona.com/multipage_example.pdf?access_token=ACCESS_TOKEN",
+                  "url": "https://files.withpersona.com/multipage_example.pdf?access_token=ACCESS_ABC123",
                   "byte-size": 123456
                 }
               ],
               "files-normalized": [
                 {
                   "filename": "multipage_example.pdf",
-                  "url": "https://files.withpersona.com/multipage_example.pdf?access_token=ACCESS_TOKEN",
+                  "url": "https://files.withpersona.com/multipage_example.pdf?access_token=ACCESS_ABC123",
                   "byte-size": 123456
                 }
               ],
@@ -34407,13 +34419,13 @@
               "inquiry": {
                 "data": {
                   "type": "inquiry",
-                  "id": "inq_TOKEN"
+                  "id": "inq_ABC123"
                 }
               },
               "template": {
                 "data": {
                   "type": "template",
-                  "id": "tmpl_TOKEN"
+                  "id": "tmpl_ABC123"
                 }
               },
               "inquiry-template-version": {
@@ -34425,13 +34437,13 @@
               "verification-template-version": {
                 "data": {
                   "type": "verification-template-version/document",
-                  "id": "vtmplv_TOKEN"
+                  "id": "vtmplv_ABC123"
                 }
               },
               "verification-template": {
                 "data": {
                   "type": "verification-template/document",
-                  "id": "vtmpl_TOKEN"
+                  "id": "vtmpl_ABC123"
                 }
               },
               "document": {
@@ -34448,7 +34460,7 @@
         "value": {
           "data": {
             "type": "verification/email-address",
-            "id": "ver_TOKEN",
+            "id": "ver_ABC123",
             "attributes": {
               "status": "initiated",
               "created-at": "2023-11-03T17:37:06.000Z",
@@ -34465,7 +34477,7 @@
               "inquiry": {
                 "data": {
                   "type": "inquiry",
-                  "id": "inq_TOKEN"
+                  "id": "inq_ABC123"
                 }
               },
               "template": {
@@ -34474,25 +34486,25 @@
               "inquiry-template-version": {
                 "data": {
                   "type": "inquiry-template-version",
-                  "id": "itmplv_TOKEN"
+                  "id": "itmplv_ABC123"
                 }
               },
               "inquiry-template": {
                 "data": {
                   "type": "inquiry-template",
-                  "id": "itmpl_TOKEN"
+                  "id": "itmpl_ABC123"
                 }
               },
               "verification-template": {
                 "data": {
                   "type": "verification-template/email-address",
-                  "id": "vtmpl_TOKEN"
+                  "id": "vtmpl_ABC123"
                 }
               },
               "verification-template-version": {
                 "data": {
                   "type": "verification-template-version/email-address",
-                  "id": "vtmplv_TOKEN"
+                  "id": "vtmplv_ABC123"
                 }
               }
             }
@@ -34503,7 +34515,7 @@
         "value": {
           "data": {
             "type": "verification/phone-number",
-            "id": "ver_TOKEN",
+            "id": "ver_ABC123",
             "attributes": {
               "status": "initiated",
               "created-at": "2023-11-03T17:37:06.000Z",
@@ -34521,7 +34533,7 @@
               "inquiry": {
                 "data": {
                   "type": "inquiry",
-                  "id": "inq_TOKEN"
+                  "id": "inq_ABC123"
                 }
               },
               "template": {
@@ -34530,25 +34542,25 @@
               "inquiry-template-version": {
                 "data": {
                   "type": "inquiry-template-version",
-                  "id": "itmplv_TOKEN"
+                  "id": "itmplv_ABC123"
                 }
               },
               "inquiry-template": {
                 "data": {
                   "type": "inquiry-template",
-                  "id": "itmpl_TOKEN"
+                  "id": "itmpl_ABC123"
                 }
               },
               "verification-template": {
                 "data": {
                   "type": "verification-template/email-address",
-                  "id": "vtmpl_TOKEN"
+                  "id": "vtmpl_ABC123"
                 }
               },
               "verification-template-version": {
                 "data": {
                   "type": "verification-template-version/email-address",
-                  "id": "vtmplv_TOKEN"
+                  "id": "vtmplv_ABC123"
                 }
               }
             }
@@ -34559,7 +34571,7 @@
         "value": {
           "data": {
             "type": "webhook",
-            "id": "webhook_ATOKEN",
+            "id": "wbh_ABC123",
             "attributes": {
               "status": "disabled",
               "url": "https://withpersona.com",
@@ -34602,7 +34614,7 @@
         "value": {
           "data": {
             "type": "webhook",
-            "id": "webhook_ATOKEN",
+            "id": "wbh_ABC123",
             "attributes": {
               "status": "disabled",
               "url": "https://withpersona.com",
@@ -34638,7 +34650,7 @@
         "value": {
           "data": {
             "type": "webhook",
-            "id": "webhook_ATOKEN",
+            "id": "wbh_ABC123",
             "attributes": {
               "status": "archived",
               "url": "https://withpersona.com",
@@ -34674,7 +34686,7 @@
         "value": {
           "data": {
             "type": "webhook",
-            "id": "webhook_ATOKEN",
+            "id": "wbh_ABC123",
             "attributes": {
               "status": "enabled",
               "url": "https://withpersona.com",

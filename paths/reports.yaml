@@ -5,31 +5,32 @@ get:
     - $ref: ../components/parameters/keyInflectionHeader.yaml
     - $ref: ../components/parameters/idempotencyKeyHeader.yaml
     - $ref: ../components/parameters/personaVersionHeader.yaml
-    - description: Report ID for cursor pagination
-      in: query
-      name: page[before]
+    - in: query
+      name: page
+      style: deepObject
+      allowReserved: true
       schema:
-        type: string
-    - description: Report ID for cursor pagination
-      in: query
-      name: page[after]
+        allOf:
+          - $ref: ../components/schemas/NestedPaginationQueryParams.yaml
+          - type: object
+            properties:
+              after:
+                example: rep_ABC123
+              before:
+                example: rep_ABC123
+    - in: query
+      name: filter
+      style: deepObject
+      allowReserved: true
       schema:
-        type: string
-    - description: Limit on the number of reports returned
-      in: query
-      name: page[size]
-      schema:
-        type: string
-    - description: Filter reports by reference ID
-      in: query
-      name: filter[reference-id]
-      schema:
-        type: string
-    - description: Filter reports by account ID
-      in: query
-      name: filter[account-id]
-      schema:
-        type: string
+        type: object
+        properties:
+          reference-id:
+            description: Filter reports by reference ID
+            type: string
+          account-id:
+            description: Filter reports by account ID
+            type: string
   responses:
     '200':
       content:

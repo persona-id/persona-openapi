@@ -5,21 +5,19 @@ get:
     - $ref: ../components/parameters/keyInflectionHeader.yaml
     - $ref: ../components/parameters/idempotencyKeyHeader.yaml
     - $ref: ../components/parameters/personaVersionHeader.yaml
-    - description: API Log ID for cursor pagination
-      in: query
-      name: page[before]
+    - in: query
+      name: page
+      style: deepObject
+      allowReserved: true
       schema:
-        type: string
-    - description: API Log ID for cursor pagination
-      in: query
-      name: page[after]
-      schema:
-        type: string
-    - description: Limit on the number of API Logs returned
-      in: query
-      name: page[size]
-      schema:
-        type: string
+        allOf:
+          - $ref: ../components/schemas/NestedPaginationQueryParams.yaml
+          - type: object
+            properties:
+              after:
+                example: req_ABC123
+              before:
+                example: req_ABC123
   responses:
     '200':
       content:
@@ -30,7 +28,7 @@ get:
               value:
                 data:
                   - type: api-log
-                    id: req_TOKEN
+                    id: req_ABC123
                     attributes:
                       request:
                         method: GET
@@ -57,12 +55,12 @@ get:
                           RateLimit-Limit: 300
                           RateLimit-Remaining: 299
                           RateLimit-Reset: 60
-                          Request-Id: req_TOKEN
+                          Request-Id: req_ABC123
                           Content-Type: application/json; charset=utf-8
                           Vary: Accept
                       created-at: '2023-09-20T20:20:03.485+00:00'
                   - type: api-log
-                    id: req_TOKEN
+                    id: req_ABC123
                     attributes:
                       request:
                         method: POST
@@ -78,7 +76,7 @@ get:
                             attributes:
                               fields:
                                 name_first: '[FILTERED]'
-                            transaction-type-id: txntp_TOKEN
+                            transaction-type-id: txntp_ABC123
                         ip-address: 127.0.0.1
                       response:
                         status: 201
@@ -92,7 +90,7 @@ get:
                           RateLimit-Limit: 300
                           RateLimit-Remaining: 299
                           RateLimit-Reset: 60
-                          Request-Id: req_TOKEN
+                          Request-Id: req_ABC123
                           Quota-Limit: 1000
                           Quota-Remaining: 999
                           Quota-Reset: 60
@@ -100,7 +98,7 @@ get:
                           Vary: Accept
                       created-at: '2023-09-20T20:20:03.485+00:00'
                   - type: api-log
-                    id: req_TOKEN
+                    id: req_ABC123
                     attributes:
                       request:
                         method: GET
@@ -130,7 +128,7 @@ get:
                           RateLimit-Limit: 300
                           RateLimit-Remaining: 299
                           RateLimit-Reset: 60
-                          Request-Id: req_TOKEN
+                          Request-Id: req_ABC123
                           Content-Type: application/json; charset=utf-8
                           Vary: Accept
                       created-at: '2023-09-20T20:20:03.485+00:00'

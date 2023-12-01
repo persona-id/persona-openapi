@@ -5,11 +5,17 @@ get:
     - $ref: ../components/parameters/keyInflectionHeader.yaml
     - $ref: ../components/parameters/idempotencyKeyHeader.yaml
     - $ref: ../components/parameters/personaVersionHeader.yaml
-    - description: Filter inquiry sessions by inquiry ID
-      in: query
-      name: filter[inquiry-id]
+    - in: query
+      name: filter
+      style: deepObject
+      allowReserved: true
       schema:
-        type: string
+        type: object
+        properties:
+          inquiry-id:
+            description: Filter inquiry sessions by inquiry ID
+            type: string
+            example: inq_ABC123
   responses:
     '200':
       content:
@@ -20,7 +26,7 @@ get:
               value:
                 data:
                   - type: inquiry-session
-                    id: iqse_TOKEN
+                    id: iqse_ABC123
                     attributes:
                       status: expired
                       created-at: '2023-07-25T04:15:20.000Z'
@@ -51,7 +57,7 @@ get:
                       inquiry:
                         data:
                           type: inquiry
-                          id: inq_TOKEN
+                          id: inq_ABC123
                 links:
                   prev: null
                   next: null
@@ -70,13 +76,13 @@ get:
                       - string
                       - 'null'
                     examples:
-                      - /api/v1/inquiry-sessions?page%5Bbefore%5D=iqse_TOKEN
+                      - /api/v1/inquiry-sessions?page%5Bbefore%5D=iqse_ABC123
                   next:
                     type:
                       - string
                       - 'null'
                     examples:
-                      - /api/v1/inquiry-sessions?page%5Bafter%5D=iqse_TOKEN
+                      - /api/v1/inquiry-sessions?page%5Bafter%5D=iqse_ABC123
       description: OK
     '400':
       $ref: ../components/responses/BadRequest.yaml

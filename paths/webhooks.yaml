@@ -5,21 +5,19 @@ get:
     - $ref: ../components/parameters/keyInflectionHeader.yaml
     - $ref: ../components/parameters/idempotencyKeyHeader.yaml
     - $ref: ../components/parameters/personaVersionHeader.yaml
-    - description: Webhook ID for pagination cursor
-      in: query
-      name: page[after]
+    - in: query
+      name: page
+      style: deepObject
+      allowReserved: true
       schema:
-        type: string
-    - description: Webhook ID for pagination cursor
-      in: query
-      name: page[before]
-      schema:
-        type: string
-    - description: Limit on the number of Webhooks returned (between 1 and 100)
-      in: query
-      name: page[size]
-      schema:
-        type: string
+        allOf:
+          - $ref: ../components/schemas/NestedPaginationQueryParams.yaml
+          - type: object
+            properties:
+              after:
+                example: wbh_ABC123
+              before:
+                example: wbh_ABC123
   responses:
     '200':
       content:
@@ -30,7 +28,7 @@ get:
               value:
                 data:
                   - type: webhook
-                    id: webhook_ATOKEN
+                    id: wbh_ABC123
                     attributes:
                       status: disabled
                       url: https://withpersona.com
@@ -52,7 +50,7 @@ get:
                                 id: itmpl_abc123def456
                       created-at: '2023-08-17T23:18:13.000Z'
                   - type: webhook
-                    id: webhook_BTOKEN
+                    id: wbh_ABC123
                     attributes:
                       status: disabled
                       url: https://withpersona.com

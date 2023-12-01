@@ -55,7 +55,7 @@ post:
               value:
                 data:
                   type: transaction
-                  id: txn_TOKEN
+                  id: txn_ABC123
                   attributes:
                     status: declined
                     reference-id: null
@@ -79,7 +79,7 @@ post:
                           byte-size: 237011
                           mime-type: image/png
                           url: >-
-                            https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN
+                            https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
                       back-photo:
                         type: file
                         value:
@@ -87,7 +87,7 @@ post:
                           byte-size: 237011
                           mime-type: image/png
                           url: >-
-                            https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN
+                            https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
                     tags: []
                     created-at: '2023-05-26T16:49:33.860Z'
                     updated-at: '2023-05-26T16:49:43.965Z'
@@ -95,19 +95,19 @@ post:
                     reviewer:
                       data:
                         type: workflow-run
-                        id: wfr_TOKEN
+                        id: wfr_ABC123
                     transaction-label:
                       data: null
                     transaction-type:
                       data:
                         type: transaction-type
-                        id: txntp_TOKEN
+                        id: txntp_ABC123
                     related-objects:
                       data:
                         - type: account
-                          id: act_TOKEN
+                          id: act_ABC123
                         - type: verification/government-id
-                          id: ver_TOKEN
+                          id: ver_ABC123
           schema:
             type: object
             properties:
@@ -141,31 +141,32 @@ get:
     - $ref: ../components/parameters/keyInflectionHeader.yaml
     - $ref: ../components/parameters/idempotencyKeyHeader.yaml
     - $ref: ../components/parameters/personaVersionHeader.yaml
-    - name: page[after]
-      in: query
-      description: Transaction ID for pagination cursor.
+    - in: query
+      name: page
+      style: deepObject
+      allowReserved: true
       schema:
-        type: string
-    - name: page[before]
-      in: query
-      description: Transaction ID for pagination cursor.
+        allOf:
+          - $ref: ../components/schemas/NestedPaginationQueryParams.yaml
+          - type: object
+            properties:
+              after:
+                example: txn_ABC123
+              before:
+                example: txn_ABC123
+    - in: query
+      name: filter
+      style: deepObject
+      allowReserved: true
       schema:
-        type: string
-    - name: page[size]
-      in: query
-      description: Limit on the number of transactions returned.
-      schema:
-        type: string
-    - name: filter[reference-id]
-      in: query
-      description: Filter transactions by reference ID.
-      schema:
-        type: string
-    - name: filter[external-id]
-      in: query
-      description: Filter transactions by external ID.
-      schema:
-        type: string
+        type: object
+        properties:
+          reference-id:
+            description: Filter transactions by reference ID.
+            type: string
+          external-id:
+            description: Filter transactions by external ID.
+            type: string
   responses:
     '200':
       description: OK
@@ -177,7 +178,7 @@ get:
               value:
                 data:
                   - type: transaction
-                    id: txn_TOKEN
+                    id: txn_ABC123
                     attributes:
                       status: declined
                       reference-id: null
@@ -201,7 +202,7 @@ get:
                             byte-size: 237011
                             mime-type: image/png
                             url: >-
-                              https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN
+                              https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
                         back-photo:
                           type: file
                           value:
@@ -209,7 +210,7 @@ get:
                             byte-size: 237011
                             mime-type: image/png
                             url: >-
-                              https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN
+                              https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
                       tags: []
                       created-at: '2023-05-26T16:49:33.860Z'
                       updated-at: '2023-05-26T16:49:43.965Z'
@@ -217,21 +218,21 @@ get:
                       reviewer:
                         data:
                           type: workflow-run
-                          id: wfr_TOKEN
+                          id: wfr_ABC123
                       transaction-label:
                         data: null
                       transaction-type:
                         data:
                           type: transaction-type
-                          id: txntp_TOKEN
+                          id: txntp_ABC123
                       related-objects:
                         data:
                           - type: account
-                            id: act_TOKEN
+                            id: act_ABC123
                           - type: verification/government-id
-                            id: ver_TOKEN
+                            id: ver_ABC123
                   - type: transaction
-                    id: txn_TOKEN
+                    id: txn_ABC123
                     attributes:
                       status: declined
                       reference-id: null
@@ -256,7 +257,7 @@ get:
                             byte-size: 237011
                             mime-type: image/png
                             url: >-
-                              https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN
+                              https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
                         back-photo:
                           type: file
                           value:
@@ -264,7 +265,7 @@ get:
                             byte-size: 237011
                             mime-type: image/png
                             url: >-
-                              https://files.withpersona.com/image.png?access_token=ACCESS_TOKEN
+                              https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
                       tags: []
                       created-at: '2023-05-26T16:49:33.860Z'
                       updated-at: '2023-05-26T16:49:43.965Z'
@@ -272,22 +273,22 @@ get:
                       reviewer:
                         data:
                           type: workflow-run
-                          id: wfr_TOKEN
+                          id: wfr_ABC123
                       transaction-label:
                         data: null
                       transaction-type:
                         data:
                           type: transaction-type
-                          id: txntp_TOKEN
+                          id: txntp_ABC123
                       related-objects:
                         data:
                           - type: account
-                            id: act_TOKEN
+                            id: act_ABC123
                           - type: verification/government-id
-                            id: ver_TOKEN
+                            id: ver_ABC123
                 links:
                   prev: null
-                  next: /api/v1/transactions?page%5Bafter%5D=txn_TOKEN
+                  next: /api/v1/transactions?page%5Bafter%5D=txn_ABC123
           schema:
             type: object
             properties:
@@ -302,7 +303,7 @@ get:
                   next:
                     type: string
                     examples:
-                      - /api/v1/transactions?page%5Bafter%5D=txn_TOKEN
+                      - /api/v1/transactions?page%5Bafter%5D=txn_ABC123
     '400':
       $ref: ../components/responses/BadRequest.yaml
     '401':

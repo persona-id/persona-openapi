@@ -8,29 +8,32 @@ get:
     - $ref: ../components/parameters/keyInflectionHeader.yaml
     - $ref: ../components/parameters/idempotencyKeyHeader.yaml
     - $ref: ../components/parameters/personaVersionHeader.yaml
-    - description: List ID for cursor pagination
-      in: query
-      name: page[before]
+    - in: query
+      name: page
+      style: deepObject
+      allowReserved: true
       schema:
-        type: string
-    - description: List ID for cursor pagination
-      in: query
-      name: page[after]
+        allOf:
+          - $ref: ../components/schemas/NestedPaginationQueryParams.yaml
+          - type: object
+            properties:
+              after:
+                example: lst_ABC123
+              before:
+                example: lst_ABC123
+    - in: query
+      name: filter
+      style: deepObject
+      allowReserved: true
       schema:
-        type: string
-    - description: Limit on the number of lists returned
-      in: query
-      name: page[size]
-      schema:
-        type: string
-    - description: Filter lists by status
-      in: query
-      name: filter[status]
-      schema:
-        type: string
-        enum:
-          - active
-          - archived
+        type: object
+        properties:
+          status:
+            description: Filter lists by status
+            type: string
+            enum:
+              - active
+              - archived
   responses:
     '200':
       content:

@@ -5,26 +5,29 @@ get:
     - $ref: ../components/parameters/keyInflectionHeader.yaml
     - $ref: ../components/parameters/idempotencyKeyHeader.yaml
     - $ref: ../components/parameters/personaVersionHeader.yaml
-    - description: API key ID for pagination cursor
-      in: query
-      name: page[after]
+    - in: query
+      name: page
+      style: deepObject
+      allowReserved: true
       schema:
-        type: string
-    - description: API key ID for pagination cursor
-      in: query
-      name: page[before]
+        allOf:
+          - $ref: ../components/schemas/NestedPaginationQueryParams.yaml
+          - type: object
+            properties:
+              after:
+                example: api_ABC123
+              before:
+                example: api_ABC123
+    - in: query
+      name: filter
+      style: deepObject
+      allowReserved: true
       schema:
-        type: string
-    - description: Limit on the number of API keys returned (between 1 and 100)
-      in: query
-      name: page[size]
-      schema:
-        type: string
-    - description: Filter API keys by name
-      in: query
-      name: filter[name]
-      schema:
-        type: string
+        type: object
+        properties:
+          name:
+            type: string
+            description: Filter API keys by name
   responses:
     '200':
       content:
@@ -35,7 +38,7 @@ get:
               value:
                 data:
                   - type: api-key
-                    id: api_ATOKEN
+                    id: api_ABC123
                     attributes:
                       name: Webhook ABC
                       note: null
@@ -56,7 +59,7 @@ get:
                       expires-at: null
                       created-at: '2023-08-17T23:18:13.000Z'
                   - type: api-key
-                    id: api_BTOKEN
+                    id: api_ABC123
                     attributes:
                       name: Webhook 123
                       note: null

@@ -11,67 +11,54 @@ get:
     - $ref: ../components/parameters/keyInflectionHeader.yaml
     - $ref: ../components/parameters/idempotencyKeyHeader.yaml
     - $ref: ../components/parameters/personaVersionHeader.yaml
-    - description: Case ID for pagination cursor
-      in: query
-      name: page[after]
+    - in: query
+      name: page
+      style: deepObject
+      allowReserved: true
       schema:
-        examples:
-          - case_8xQDgDj6jsuLNnViw6aMfF8e
-        type: string
-    - description: Case ID for pagination cursor
-      in: query
-      name: page[before]
+        allOf:
+          - $ref: ../components/schemas/NestedPaginationQueryParams.yaml
+          - type: object
+            properties:
+              after:
+                example: case_ABC123
+              before:
+                example: case_ABC123
+    - in: query
+      name: filter
+      style: deepObject
+      allowReserved: true
       schema:
-        examples:
-          - case_8xQDgDj6jsuLNnViw6aMfF8e
-        type: string
-    - description: Limit on the number of cases returned
-      in: query
-      name: page[size]
-      schema:
-        examples:
-          - 5
-        type: number
-    - description: Filter cases by status
-      in: query
-      name: filter[status]
-      schema:
-        examples:
-          - Open
-        type: string
-    - description: Filter cases by resolution
-      in: query
-      name: filter[resolution]
-      schema:
-        type: string
-    - description: Filter cases by case template ID
-      in: query
-      name: filter[case-template-id]
-      schema:
-        examples:
-          - ctmpl_w21x2KztVgtVo1s4KLE9qgT0
-        type: string
-    - description: Filter cases by account ID
-      in: query
-      name: filter[account-id]
-      schema:
-        examples:
-          - act_1NHbL5FRJCNSkCk5aafkf7D2
-        type: string
-    - description: Filter cases by inquiry ID
-      in: query
-      name: filter[inquiry-id]
-      schema:
-        examples:
-          - inq_03SGjN6k3ytL8XdeM1pt4Qc1
-        type: string
-    - description: Filter cases by report ID
-      in: query
-      name: filter[report-id]
-      schema:
-        examples:
-          - rep_018wqARjx7eBMNHoZvypgFv1
-        type: string
+        type: object
+        properties:
+          status:
+            description: Filter cases by status
+            examples:
+              - Open
+            type: string
+          resolution:
+            description: Filter cases by resolution
+            type: string
+          case-template-id:
+            description: Filter cases by case template ID
+            examples:
+              - ctmpl_ABC123
+            type: string
+          account-id:
+            description: Filter cases by account ID
+            examples:
+              - act_ABC123
+            type: string
+          inquiry-id:
+            description: Filter cases by inquiry ID
+            examples:
+              - inq_ABC123
+            type: string
+          report-id:
+            description: Filter cases by report ID
+            examples:
+              - rep_ABC123
+            type: string
   responses:
     '200':
       content:

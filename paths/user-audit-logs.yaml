@@ -5,21 +5,19 @@ get:
     - $ref: ../components/parameters/keyInflectionHeader.yaml
     - $ref: ../components/parameters/idempotencyKeyHeader.yaml
     - $ref: ../components/parameters/personaVersionHeader.yaml
-    - description: User audit log ID for cursor pagination
-      in: query
-      name: page[before]
+    - in: query
+      name: page
+      style: deepObject
+      allowReserved: true
       schema:
-        type: string
-    - description: User audit log ID for cursor pagination
-      in: query
-      name: page[after]
-      schema:
-        type: string
-    - description: Limit on the number of User audit logs returned
-      in: query
-      name: page[size]
-      schema:
-        type: string
+        allOf:
+          - $ref: ../components/schemas/NestedPaginationQueryParams.yaml
+          - type: object
+            properties:
+              after:
+                example: ual_ABC123
+              before:
+                example: ual_ABC123
   responses:
     '200':
       content:
@@ -30,7 +28,7 @@ get:
               value:
                 data:
                   - type: user-audit-log
-                    id: ual_TOKENABC
+                    id: ual_ABC123ABC
                     attributes:
                       path: /api/v1/inquiries
                       method: GET
@@ -43,17 +41,17 @@ get:
                       user:
                         data:
                           type: user
-                          id: user_TOKEN
+                          id: user_ABC123
                   - type: user-audit-log
-                    id: ual_TOKENXYZ
+                    id: ual_ABC123XYZ
                     attributes:
                       path: >-
-                        /api/internal/dashboard/v1/user-sessions/uses_TOKEN/expire
+                        /api/internal/dashboard/v1/user-sessions/uses_ABC123/expire
                       method: GET
                       get-params: {}
                       post-params:
                         data:
-                          id: uses_TOKEN
+                          id: uses_ABC123
                           type: user-session
                       ip-address: 127.0.0.1
                       created-at: '2023-10-03T21:31:05.163Z'
@@ -62,13 +60,13 @@ get:
                       user:
                         data:
                           type: user
-                          id: user_TOKEN
+                          id: user_ABC123
                 links:
                   next: null
                   prev: null
                 included:
                   - type: user
-                    id: user_TOKEN
+                    id: user_ABC123
                     attributes:
                       email-address: jane@doe.com
                       name-first: Jane
@@ -88,13 +86,13 @@ get:
                       - string
                       - 'null'
                     examples:
-                      - /api/v1/user-audit-logs?page%5Bbefore%5D=ual_TOKEN
+                      - /api/v1/user-audit-logs?page%5Bbefore%5D=ual_ABC123
                   next:
                     type:
                       - string
                       - 'null'
                     examples:
-                      - /api/v1/user-audit-logs?page%5Bafter%5D=ual_TOKEN
+                      - /api/v1/user-audit-logs?page%5Bafter%5D=ual_ABC123
               included:
                 type: array
                 items:
@@ -107,7 +105,7 @@ get:
                     id:
                       type: string
                       examples:
-                        - user_TOKEN
+                        - user_ABC123
                     attributes:
                       type: object
                       properties:
