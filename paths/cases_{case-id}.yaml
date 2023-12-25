@@ -32,6 +32,7 @@ delete:
                     assigned-at: null
                     resolved-at: '2021-03-25T04:59:21.764Z'
                     redacted-at: '2021-03-26T04:59:21.764Z'
+                    sla-expires-at: '2021-03-26T06:59:21.764Z'
                     creator-id: case_creator@withpersona.com
                     creator-type: user
                     assignee-id: null
@@ -269,6 +270,7 @@ get:
                     assigned-at: null
                     resolved-at: '2021-03-25T04:59:21.764Z'
                     redacted-at: null
+                    sla-expires-at: null
                     creator-id: case_creator@withpersona.com
                     creator-type: user
                     assignee-id: null
@@ -433,6 +435,19 @@ patch:
                       type: object
                   type: object
               type: object
+            meta:
+              properties:
+                sla-expires-in-seconds:
+                  description: >-
+                    Number of seconds from now when SLA expires (max of 90
+                    days). Set to null to clear SLA.
+                  examples:
+                    - 7200
+                    - null
+                  type:
+                    - 'null'
+                    - number
+              type: object
           type: object
   responses:
     '200':
@@ -454,6 +469,7 @@ patch:
                     assigned-at: null
                     resolved-at: null
                     redacted-at: null
+                    sla-expires-at: '2021-06-30T22:37:18.678Z'
                     creator-id: wfl_yKynZZiuPz1R5qm9JFyBnnLB
                     creator-type: workflow
                     assignee-id: foo@bar.com

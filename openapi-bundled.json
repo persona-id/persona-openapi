@@ -2104,6 +2104,7 @@
                             "assigned-at": null,
                             "resolved-at": null,
                             "redacted-at": null,
+                            "sla-expires-at": null,
                             "creator-id": "case_creator@withpersona.com",
                             "creator-type": "user",
                             "assignee-id": "case_assignee@withpersona.com",
@@ -2264,6 +2265,16 @@
                           "type": "string"
                         },
                         "type": "array"
+                      },
+                      "sla-expires-in-seconds": {
+                        "description": "Number of seconds from now when SLA expires (max of 90 days).",
+                        "examples": [
+                          7200
+                        ],
+                        "type": [
+                          "null",
+                          "number"
+                        ]
                       }
                     },
                     "type": "object"
@@ -2297,6 +2308,7 @@
                           "assigned-at": null,
                           "resolved-at": null,
                           "redacted-at": null,
+                          "sla-expires-at": "2021-09-28T07:18:36.200Z",
                           "creator-id": "case_creator@withpersona.com",
                           "creator-type": "user",
                           "assignee-id": null,
@@ -2598,6 +2610,7 @@
                           "assigned-at": null,
                           "resolved-at": "2021-03-25T04:59:21.764Z",
                           "redacted-at": "2021-03-26T04:59:21.764Z",
+                          "sla-expires-at": "2021-03-26T06:59:21.764Z",
                           "creator-id": "case_creator@withpersona.com",
                           "creator-type": "user",
                           "assignee-id": null,
@@ -2937,6 +2950,7 @@
                           "assigned-at": null,
                           "resolved-at": "2021-03-25T04:59:21.764Z",
                           "redacted-at": null,
+                          "sla-expires-at": null,
                           "creator-id": "case_creator@withpersona.com",
                           "creator-type": "user",
                           "assignee-id": null,
@@ -3193,6 +3207,22 @@
                       }
                     },
                     "type": "object"
+                  },
+                  "meta": {
+                    "properties": {
+                      "sla-expires-in-seconds": {
+                        "description": "Number of seconds from now when SLA expires (max of 90 days). Set to null to clear SLA.",
+                        "examples": [
+                          7200,
+                          null
+                        ],
+                        "type": [
+                          "null",
+                          "number"
+                        ]
+                      }
+                    },
+                    "type": "object"
                   }
                 },
                 "type": "object"
@@ -3220,6 +3250,7 @@
                           "assigned-at": null,
                           "resolved-at": null,
                           "redacted-at": null,
+                          "sla-expires-at": "2021-06-30T22:37:18.678Z",
                           "creator-id": "wfl_yKynZZiuPz1R5qm9JFyBnnLB",
                           "creator-type": "workflow",
                           "assignee-id": "foo@bar.com",
@@ -3408,6 +3439,7 @@
                           "assigned-at": null,
                           "resolved-at": "2021-08-26T18:24:19.000Z",
                           "redacted-at": null,
+                          "sla-expires-at": null,
                           "creator-id": "wfl_yKynZZiuPz1R5qm9JFyBnnLB",
                           "creator-type": "workflow",
                           "assignee-id": null,
@@ -3571,6 +3603,7 @@
                           "assigned-at": null,
                           "resolved-at": null,
                           "redacted-at": null,
+                          "sla-expires-at": null,
                           "creator-id": "wfl_yKynZZiuPz1R5qm9JFyBnnLB",
                           "creator-type": "workflow",
                           "assignee-id": "foo@bar.com",
@@ -3740,6 +3773,7 @@
                           "assigned-at": null,
                           "resolved-at": null,
                           "redacted-at": null,
+                          "sla-expires-at": null,
                           "creator-id": "wfl_yKynZZiuPz1R5qm9JFyBnnLB",
                           "creator-type": "workflow",
                           "assignee-id": "foo@bar.com",
@@ -3899,6 +3933,7 @@
                           "assigned-at": "2021-08-26T18:24:19.695Z",
                           "resolved-at": null,
                           "redacted-at": null,
+                          "sla-expires-at": null,
                           "creator-id": "wfl_yKynZZiuPz1R5qm9JFyBnnLB",
                           "creator-type": "workflow",
                           "assignee-id": "case_assignee@withpersona.com",
@@ -4060,6 +4095,7 @@
                           "assigned-at": "2021-08-26T18:24:19.695Z",
                           "resolved-at": null,
                           "redacted-at": null,
+                          "sla-expires-at": null,
                           "creator-id": "wfl_yKynZZiuPz1R5qm9JFyBnnLB",
                           "creator-type": "workflow",
                           "assignee-id": "case_assignee@withpersona.com",
@@ -4218,6 +4254,7 @@
                           "assigned-at": "2021-08-26T18:24:19.695Z",
                           "resolved-at": null,
                           "redacted-at": null,
+                          "sla-expires-at": null,
                           "creator-id": "wfl_yKynZZiuPz1R5qm9JFyBnnLB",
                           "creator-type": "workflow",
                           "assignee-id": "case_assignee@withpersona.com",
@@ -27474,6 +27511,15 @@
               "redacted-at": {
                 "examples": [
                   "2021-09-28T05:18:36.200Z"
+                ],
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "sla-expires-at": {
+                "examples": [
+                  "2021-09-28T07:18:36.200Z"
                 ],
                 "type": [
                   "string",
