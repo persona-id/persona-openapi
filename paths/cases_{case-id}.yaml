@@ -1,7 +1,7 @@
 delete:
   description: >-
-    Permanently redact a <<glossary:case>> and its fields. Case objects must be
-    redacted individually. This action cannot be undone.
+    Permanently redacts a <<glossary:Case>> and its fields. Case objects must be
+    redacted individually. **This action cannot be undone**.
   operationId: redact-a-case
   parameters:
     - $ref: ../components/parameters/keyInflectionHeader.yaml
@@ -232,14 +232,15 @@ delete:
       $ref: ../components/responses/UnprocessableEntity.yaml
     '429':
       $ref: ../components/responses/TooManyRequests.yaml
-  summary: Redact a case
+  summary: Redact a Case
   tags:
     - Cases
 get:
-  description: >-
-    Retrieves the details of a <<glossary:case>> that has previously been
-    created.
+  description: Retrieves the details of an existing <<glossary:Case>>.
   operationId: retrieve-case
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/reference/retrieve-case
   parameters:
     - $ref: ../components/parameters/keyInflectionHeader.yaml
     - $ref: ../components/parameters/idempotencyKeyHeader.yaml
@@ -385,12 +386,12 @@ get:
       $ref: ../components/responses/NotFound.yaml
     '429':
       $ref: ../components/responses/TooManyRequests.yaml
-  summary: Retrieve Case
+  summary: Retrieve a Case
   tags:
     - Cases
 patch:
   description: >-
-    Updates the fields and add attachments on a <<glossary:case>> that has been
+    Updates the fields and add attachments on a <<glossary:Case>> that has been
     previously created.
   operationId: update-a-case
   parameters:

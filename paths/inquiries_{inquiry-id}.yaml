@@ -1,12 +1,15 @@
 delete:
   description: >-
     Permanently deletes personally identifiable information (PII) for an Inquiry
-    and all associated Verifications and Reports. This action cannot be undone. 
-
+    and all associated Verifications, Reports, or other Persona resources.
+    **This action cannot be undone**.\n
 
     This endpoint can be used to comply with privacy regulations such as GDPR /
     CCPA or to enforce data privacy.
   operationId: redact-an-inquiry
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/reference/redact-an-inquiry
   parameters:
     - $ref: ../components/parameters/keyInflectionHeader.yaml
     - $ref: ../components/parameters/idempotencyKeyHeader.yaml
@@ -50,14 +53,12 @@ delete:
     - Inquiries
 get:
   description: >-
-    Retrieves the details of an inquiry that has previously been created.
-
+    Retrieves the details of an existing Inquiry.\n
 
     In the [Embedded Flow](https://docs.withpersona.com/docs/embedded-flow), the
     `inquiry-id` is the first parameter of the onStart callback. In the [Hosted
     Flow](https://docs.withpersona.com/docs/hosted-flow), the `inquiry-id` is a
-    query parameter in the onComplete callback.
-
+    query parameter in the onComplete callback.\n
 
     Template information will be found in `data.relationships.inquiry-template`
     if the inquiry is a Dynamic Flow inquiry, and in
@@ -65,6 +66,9 @@ get:
     more information, see [Dynamic Flow vs. Legacy
     Templates](https://docs.withpersona.com/docs/inquiry-templates#dynamic-flow-vs-legacy-templates).
   operationId: retrieve-an-inquiry
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/reference/retrieve-an-inquiry
   parameters:
     - $ref: ../components/parameters/keyInflectionHeader.yaml
     - $ref: ../components/parameters/idempotencyKeyHeader.yaml
@@ -120,6 +124,9 @@ get:
 patch:
   description: Updates an existing inquiry.
   operationId: update-an-inquiry
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/reference/update-an-inquiry
   parameters:
     - $ref: ../components/parameters/keyInflectionHeader.yaml
     - $ref: ../components/parameters/idempotencyKeyHeader.yaml
