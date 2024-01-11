@@ -306,8 +306,10 @@ paths:
   /accounts/{account-id}:
     delete:
       description: |-
-        Permanently deletes personally identifiable information (PII) for an Account and all associated Inquiries, Verifications and Reports. **This action cannot be undone**.\n
-        This endpoint can be used to comply with privacy regulations such as GDPR / CCPA or to enforce data privacy.\n
+        Permanently deletes personally identifiable information (PII) for an Account and all associated Inquiries, Verifications and Reports. **This action cannot be undone**.
+
+        This endpoint can be used to comply with privacy regulations such as GDPR / CCPA or to enforce data privacy.
+
         Note: An account is still updatable after redaction. If you want to delete data continuously, please reach out to us to help you setup a retention policy.
       operationId: redact-an-account
       externalDocs:
@@ -560,8 +562,10 @@ paths:
   /accounts/{account-id}/consolidate:
     post:
       description: |-
-        Consolidates several source Accounts' information into one target Account. Any Persona resource associated with the source Account will be transferred over to the destination Account. However, the Account's attributes will **not** be transferred. After consolidation, you can update the destination Account's attributes using the [Account update endpoint](https://docs.withpersona.com/reference/update-an-account).\n
-        This endpoint can be used to clean up duplicate Accounts.\n
+        Consolidates several source Accounts' information into one target Account. Any Persona resource associated with the source Account will be transferred over to the destination Account. However, the Account's attributes will **not** be transferred. After consolidation, you can update the destination Account's attributes using the [Account update endpoint](https://docs.withpersona.com/reference/update-an-account).
+
+        This endpoint can be used to clean up duplicate Accounts.
+
         Note: A source account can only be consolidated once. Afterwards, the source account will be archived.
       operationId: consolidate-into-an-account
       externalDocs:
@@ -1282,7 +1286,8 @@ paths:
   /cases:
     get:
       description: |-
-        Returns a list of your organization's cases.\n
+        Returns a list of your organization's cases.
+
         Note that this endpoint aggregates cases across all <<glossary:case template>>(s). See [Pagination](https://docs.withpersona.com/reference/pagination)for more details about handling the response.
       operationId: list-all-cases
       externalDocs:
@@ -4122,7 +4127,8 @@ paths:
   /importer/accounts:
     post:
       description: |-
-        Bulk import accounts by uploading a CSV file.\n
+        Bulk import accounts by uploading a CSV file.
+
         Each row should be the details for a new account. The columns we allow are:
           - reference_id
           - name_first
@@ -4247,7 +4253,8 @@ paths:
   /importer/list-item/email-addresses:
     post:
       description: |-
-        Bulk import email address List Items by uploading a CSV file.\n
+        Bulk import email address List Items by uploading a CSV file.
+
         Each row should be the details for a new List Item. The columns we allow are:
           - value
           - match_type (either 'email_address' or 'domain')
@@ -4342,7 +4349,8 @@ paths:
   /importer/list-item/faces:
     post:
       description: |-
-        Bulk import face List Items by uploading image files.\n
+        Bulk import face List Items by uploading image files.
+
         Each file being a new List Item. We recommend uploading max 50 images (with average image size of 500KB) at a time.
       operationId: import-face-lists
       externalDocs:
@@ -4472,7 +4480,8 @@ paths:
   /importer/list-item/geolocations:
     post:
       description: |-
-        Bulk import geolocation List Items by uploading a CSV file.\n
+        Bulk import geolocation List Items by uploading a CSV file.
+
         Each row should be the details for a new List Item. The columns we allow are:
           - latitude
           - longitude
@@ -4566,7 +4575,8 @@ paths:
   /importer/list-item/government-id-numbers:
     post:
       description: |-
-        Bulk import government ID number List Items by uploading a CSV file.\n
+        Bulk import government ID number List Items by uploading a CSV file.
+
         Each row should be the details for a new List Item. The columns we allow are:
           - id_number
           - id_class
@@ -4661,7 +4671,8 @@ paths:
   /importer/list-item/ip-addresses:
     post:
       description: |-
-        Bulk import IP address List Items by uploading a CSV file.\n
+        Bulk import IP address List Items by uploading a CSV file.
+
         Each row should be the details for a new List Item. The columns we allow are:
           - value
 
@@ -4755,7 +4766,8 @@ paths:
   /importer/list-item/names:
     post:
       description: |-
-        Bulk import name List Items by uploading a CSV file.\n
+        Bulk import name List Items by uploading a CSV file.
+
         Each row should be the details for a new list item. The columns we allow are:
           - name_first
           - name_last
@@ -4848,7 +4860,8 @@ paths:
   /importer/list-item/phone-numbers:
     post:
       description: |-
-        Bulk import phone number List Items by uploading a CSV file.\n
+        Bulk import phone number List Items by uploading a CSV file.
+
         Each row should be the details for a new list item. The columns we allow are:
           - value
       operationId: import-phone-number-lists
@@ -4940,7 +4953,8 @@ paths:
   /inquiries:
     get:
       description: |-
-        Returns a list of your organization's inquiries.\n
+        Returns a list of your organization's inquiries.
+
         Note that this endpoint aggregates inquiries across all <<glossary:inquiry template>>(s). See [Pagination](https://docs.withpersona.com/reference/pagination) for more details about handling the response.
       operationId: list-all-inquiries
       externalDocs:
@@ -5055,7 +5069,8 @@ paths:
         - Inquiries
     post:
       description: |-
-        Creates a new inquiry with optional pre-filled attributes.\n
+        Creates a new inquiry with optional pre-filled attributes.
+
         See [Sessions](https://docs.withpersona.com/docs/inquiry-sessions) for how to continue the inquiry in [Embedded Flow](https://docs.withpersona.com/docs/embedded-flow) or [Hosted Flow](https://docs.withpersona.com/docs/hosted-flow).
       operationId: create-an-inquiry
       externalDocs:
@@ -5192,7 +5207,8 @@ paths:
   /inquiries/{inquiry-id}:
     delete:
       description: |-
-        Permanently deletes personally identifiable information (PII) for an Inquiry and all associated Verifications, Reports, or other Persona resources. **This action cannot be undone**.\n
+        Permanently deletes personally identifiable information (PII) for an Inquiry and all associated Verifications, Reports, or other Persona resources. **This action cannot be undone**.
+
         This endpoint can be used to comply with privacy regulations such as GDPR / CCPA or to enforce data privacy.
       operationId: redact-an-inquiry
       externalDocs:
@@ -5241,8 +5257,10 @@ paths:
         - Inquiries
     get:
       description: |-
-        Retrieves the details of an existing Inquiry.\n
-        In the [Embedded Flow](https://docs.withpersona.com/docs/embedded-flow), the `inquiry-id` is the first parameter of the onStart callback. In the [Hosted Flow](https://docs.withpersona.com/docs/hosted-flow), the `inquiry-id` is a query parameter in the onComplete callback.\n
+        Retrieves the details of an existing Inquiry.
+
+        In the [Embedded Flow](https://docs.withpersona.com/docs/embedded-flow), the `inquiry-id` is the first parameter of the onStart callback. In the [Hosted Flow](https://docs.withpersona.com/docs/hosted-flow), the `inquiry-id` is a query parameter in the onComplete callback.
+
         Template information will be found in `data.relationships.inquiry-template` if the inquiry is a Dynamic Flow inquiry, and in `data.relationships.template` if the inquiry is a Legacy 2.0 inquiry. For more information, see [Dynamic Flow vs. Legacy Templates](https://docs.withpersona.com/docs/inquiry-templates#dynamic-flow-vs-legacy-templates).
       operationId: retrieve-an-inquiry
       externalDocs:
@@ -5419,7 +5437,8 @@ paths:
   /inquiries/{inquiry-id}/approve:
     post:
       description: |-
-        Approves an <<glossary:Inquiry>>.\n
+        Approves an <<glossary:Inquiry>>.
+
         Note that this action will trigger any associated workflows and webhooks.
       operationId: approve-an-inquiry
       externalDocs:
@@ -5523,7 +5542,8 @@ paths:
   /inquiries/{inquiry-id}/expire:
     post:
       description: |-
-        Expires an Inquiry and all sessions on the Inquiry. Cancels any pending Verifications on the inquiry.\n
+        Expires an Inquiry and all sessions on the Inquiry. Cancels any pending Verifications on the inquiry.
+
         The Inquiry can still be resumed after expiry.
       operationId: expire-an-inquiry
       externalDocs:
@@ -9631,8 +9651,10 @@ paths:
   /reports/{report-id}:
     delete:
       description: |-
-        Permanently deletes personally identifiable information (PII) for a Report.\n
-        This endpoint can be used to comply with privacy regulations such as GDPR / CCPA or to enforce data privacy.\n
+        Permanently deletes personally identifiable information (PII) for a Report.
+
+        This endpoint can be used to comply with privacy regulations such as GDPR / CCPA or to enforce data privacy.
+
         Note that this will only delete the report -- it does not delete associated accounts, inquiries, verifications, or other Persona resources.
       operationId: redact-a-report
       externalDocs:
@@ -14908,7 +14930,8 @@ paths:
   /workflows/{workflow-id}/trigger:
     post:
       description: |-
-        Creates a new Workflow Run.\n
+        Creates a new Workflow Run.
+
         Note: The payload is arbitrary and defined by the Workflow version trigger schema.
       operationId: create-a-workflow-run
       externalDocs:
@@ -15200,7 +15223,8 @@ components:
     Account:
       type: object
       description: |-
-        An Account object.\n
+        An Account object.
+
         Note that `fields` is **not** key inflected.
       properties:
         type:
