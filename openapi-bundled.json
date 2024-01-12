@@ -385,6 +385,7 @@
                   "data": {
                     "properties": {
                       "attributes": {
+                        "properties": {},
                         "allOf": [
                           {
                             "type": "object",
@@ -696,6 +697,7 @@
                   "data": {
                     "properties": {
                       "attributes": {
+                        "properties": {},
                         "allOf": [
                           {
                             "type": "object",
@@ -1282,9 +1284,6 @@
                 }
               }
             }
-          },
-          {
-            "$ref": "#/components/parameters/includeQueryParameter"
           }
         ],
         "responses": {
@@ -1294,72 +1293,14 @@
                 "examples": {
                   "Result": {
                     "summary": "OK",
-                    "value": {
-                      "data": [
-                        {
-                          "type": "api-key",
-                          "id": "api_ABC123",
-                          "attributes": {
-                            "name": "Webhook ABC",
-                            "note": null,
-                            "api-version": "2023-01-05",
-                            "api-key-inflection": "kebab",
-                            "api-attributes-blocklist": [
-                              "address-*",
-                              "name-last",
-                              "/data/attributes/fields/*-number"
-                            ],
-                            "permissions": [
-                              "account.read",
-                              "account.write",
-                              "api_log.read"
-                            ],
-                            "ip-address-allowlist": [
-                              "*"
-                            ],
-                            "file-access-token-expires-in": 21600,
-                            "last-used-at": "2023-08-17T23:24:00.000Z",
-                            "expires-at": null,
-                            "created-at": "2023-08-17T23:18:13.000Z"
-                          }
-                        },
-                        {
-                          "type": "api-key",
-                          "id": "api_ABC123",
-                          "attributes": {
-                            "name": "Webhook 123",
-                            "note": null,
-                            "api-version": "2023-01-05",
-                            "api-key-inflection": "camel",
-                            "api-attributes-blocklist": [],
-                            "permissions": [
-                              "account.read",
-                              "account.write",
-                              "api_log.read"
-                            ],
-                            "ip-address-allowlist": [
-                              "192.158.1.38",
-                              "123.456.7.89"
-                            ],
-                            "file-access-token-expires-in": 600,
-                            "last-used-at": null,
-                            "expires-at": null,
-                            "created-at": "2023-08-17T23:18:13.000Z"
-                          }
-                        }
-                      ],
-                      "links": {
-                        "prev": null,
-                        "next": null
-                      }
-                    }
+                    "$ref": "#/components/examples/ApiKeyListResponse"
                   }
                 },
                 "schema": {
                   "properties": {
                     "data": {
                       "items": {
-                        "$ref": "#/components/schemas/ApiKey"
+                        "$ref": "#/components/schemas/ApiKeyData"
                       },
                       "type": "array",
                       "description": "An array of API Keys"
@@ -1422,9 +1363,6 @@
           },
           {
             "$ref": "#/components/parameters/personaVersionHeader"
-          },
-          {
-            "$ref": "#/components/parameters/includeQueryParameter"
           }
         ],
         "requestBody": {
@@ -1434,13 +1372,14 @@
           "201": {
             "content": {
               "application/json": {
+                "examples": {
+                  "Result": {
+                    "summary": "OK",
+                    "$ref": "#/components/examples/ApiKeyWithValueResponse"
+                  }
+                },
                 "schema": {
-                  "properties": {
-                    "data": {
-                      "$ref": "#/components/schemas/ApiKey"
-                    }
-                  },
-                  "type": "object"
+                  "$ref": "#/components/schemas/ApiKeyWithValue"
                 }
               }
             },
@@ -1490,9 +1429,6 @@
             "$ref": "#/components/parameters/personaVersionHeader"
           },
           {
-            "$ref": "#/components/parameters/includeQueryParameter"
-          },
-          {
             "description": "API key's ID (starts with \"api_\")",
             "in": "path",
             "name": "api-key-id",
@@ -1506,13 +1442,14 @@
           "200": {
             "content": {
               "application/json": {
+                "examples": {
+                  "Result": {
+                    "summary": "OK",
+                    "$ref": "#/components/examples/ApiKeyWithValueResponse"
+                  }
+                },
                 "schema": {
-                  "properties": {
-                    "data": {
-                      "$ref": "#/components/schemas/ApiKey"
-                    }
-                  },
-                  "type": "object"
+                  "$ref": "#/components/schemas/ApiKeyWithValue"
                 }
               }
             },
@@ -1554,9 +1491,6 @@
             "$ref": "#/components/parameters/personaVersionHeader"
           },
           {
-            "$ref": "#/components/parameters/includeQueryParameter"
-          },
-          {
             "description": "API key's ID (starts with \"api_\")",
             "in": "path",
             "name": "api-key-id",
@@ -1573,13 +1507,14 @@
           "200": {
             "content": {
               "application/json": {
+                "examples": {
+                  "Result": {
+                    "summary": "OK",
+                    "$ref": "#/components/examples/ApiKeyResponse"
+                  }
+                },
                 "schema": {
-                  "properties": {
-                    "data": {
-                      "$ref": "#/components/schemas/ApiKey"
-                    }
-                  },
-                  "type": "object"
+                  "$ref": "#/components/schemas/ApiKey"
                 }
               }
             },
@@ -1632,9 +1567,6 @@
             "$ref": "#/components/parameters/personaVersionHeader"
           },
           {
-            "$ref": "#/components/parameters/includeQueryParameter"
-          },
-          {
             "description": "API key's ID (starts with \"api_\")",
             "in": "path",
             "name": "api-key-id",
@@ -1671,13 +1603,14 @@
           "200": {
             "content": {
               "application/json": {
+                "examples": {
+                  "Result": {
+                    "summary": "OK",
+                    "$ref": "#/components/examples/ApiKeyResponse"
+                  }
+                },
                 "schema": {
-                  "properties": {
-                    "data": {
-                      "$ref": "#/components/schemas/ApiKey"
-                    }
-                  },
-                  "type": "object"
+                  "$ref": "#/components/schemas/ApiKey"
                 }
               }
             },
@@ -1752,9 +1685,6 @@
                 }
               ]
             }
-          },
-          {
-            "$ref": "#/components/parameters/includeQueryParameter"
           }
         ],
         "responses": {
@@ -1764,131 +1694,7 @@
                 "examples": {
                   "Result": {
                     "summary": "OK",
-                    "value": {
-                      "data": [
-                        {
-                          "type": "api-log",
-                          "id": "req_ABC123",
-                          "attributes": {
-                            "request": {
-                              "method": "GET",
-                              "path": "/api/v1/inquiries",
-                              "headers": {
-                                "Accept": "application/json",
-                                "Host": "withpersona.com",
-                                "Persona-Version": "2023-01-05",
-                                "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/"
-                              },
-                              "get-params": {},
-                              "post-params": {},
-                              "ip-address": "127.0.0.1"
-                            },
-                            "response": {
-                              "status": 200,
-                              "headers": {
-                                "Persona-Host": "us-central1 persona-web-web-77b874ff88-rrdk9 53e23b240",
-                                "Cache-Control": "no-cache, no-store, max-age=0, must-revalidate",
-                                "Pragma": "no-cache",
-                                "Expires": "Fri, 01 Jan 1990 00:00:00 GMT",
-                                "RateLimit-Limit": 300,
-                                "RateLimit-Remaining": 299,
-                                "RateLimit-Reset": 60,
-                                "Request-Id": "req_ABC123",
-                                "Content-Type": "application/json; charset=utf-8",
-                                "Vary": "Accept"
-                              }
-                            },
-                            "created-at": "2023-09-20T20:20:03.485+00:00"
-                          }
-                        },
-                        {
-                          "type": "api-log",
-                          "id": "req_ABC123",
-                          "attributes": {
-                            "request": {
-                              "method": "POST",
-                              "path": "/api/v1/transactions",
-                              "headers": {
-                                "Accept": "application/json",
-                                "Host": "withpersona.com",
-                                "Persona-Version": "2023-01-05",
-                                "User-Agent": "Apache-HttpClient/4.5.13 (Java/17.0.5)"
-                              },
-                              "get-params": {},
-                              "post-params": {
-                                "data": {
-                                  "attributes": {
-                                    "fields": {
-                                      "name_first": "[FILTERED]"
-                                    }
-                                  },
-                                  "transaction-type-id": "txntp_ABC123"
-                                }
-                              },
-                              "ip-address": "127.0.0.1"
-                            },
-                            "response": {
-                              "status": 201,
-                              "headers": {
-                                "Persona-Host": "us-central1 persona-web-web-7ffc974b4-rzqm7 f2180de27",
-                                "Cache-Control": "no-cache, no-store, max-age=0, must-revalidate",
-                                "Pragma": "no-cache",
-                                "Expires": "Fri, 01 Jan 1990 00:00:00 GMT",
-                                "RateLimit-Limit": 300,
-                                "RateLimit-Remaining": 299,
-                                "RateLimit-Reset": 60,
-                                "Request-Id": "req_ABC123",
-                                "Quota-Limit": 1000,
-                                "Quota-Remaining": 999,
-                                "Quota-Reset": 60,
-                                "Content-Type": "application/json; charset=utf-8",
-                                "Vary": "Accept"
-                              }
-                            },
-                            "created-at": "2023-09-20T20:20:03.485+00:00"
-                          }
-                        },
-                        {
-                          "type": "api-log",
-                          "id": "req_ABC123",
-                          "attributes": {
-                            "request": {
-                              "method": "GET",
-                              "path": "/api/v1/api-logs",
-                              "headers": {
-                                "Accept": "application/json",
-                                "Host": "withpersona.com",
-                                "Persona-Version": "2023-01-05",
-                                "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36"
-                              },
-                              "get-params": {
-                                "page": {
-                                  "size": 5
-                                }
-                              },
-                              "post-params": {},
-                              "ip-address": "127.0.0.1"
-                            },
-                            "response": {
-                              "status": 200,
-                              "headers": {
-                                "Persona-Host": "us-central1 persona-web-web-7ffc974b4-rzqm7 f2180de27",
-                                "Cache-Control": "no-cache, no-store, max-age=0, must-revalidate",
-                                "Pragma": "no-cache",
-                                "Expires": "Fri, 01 Jan 1990 00:00:00 GMT",
-                                "RateLimit-Limit": 300,
-                                "RateLimit-Remaining": 299,
-                                "RateLimit-Reset": 60,
-                                "Request-Id": "req_ABC123",
-                                "Content-Type": "application/json; charset=utf-8",
-                                "Vary": "Accept"
-                              }
-                            },
-                            "created-at": "2023-09-20T20:20:03.485+00:00"
-                          }
-                        }
-                      ]
-                    }
+                    "$ref": "#/components/examples/ApiLogListResponse"
                   }
                 },
                 "schema": {
@@ -1968,9 +1774,6 @@
             "$ref": "#/components/parameters/personaVersionHeader"
           },
           {
-            "$ref": "#/components/parameters/includeQueryParameter"
-          },
-          {
             "name": "api-log-id",
             "in": "path",
             "required": true,
@@ -1986,43 +1789,7 @@
                 "examples": {
                   "Result": {
                     "summary": "OK",
-                    "value": {
-                      "data": {
-                        "type": "api-log",
-                        "id": "req_ABC123",
-                        "attributes": {
-                          "request": {
-                            "method": "GET",
-                            "path": "/api/v1/inquiries",
-                            "headers": {
-                              "Accept": "application/json",
-                              "Host": "withpersona.com",
-                              "Persona-Version": "2023-01-05",
-                              "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/"
-                            },
-                            "get-params": {},
-                            "post-params": {},
-                            "ip-address": "127.0.0.1"
-                          },
-                          "response": {
-                            "status": 200,
-                            "headers": {
-                              "Persona-Host": "us-central1 persona-web-web-77b874ff88-rrdk9 53e23b240",
-                              "Cache-Control": "no-cache, no-store, max-age=0, must-revalidate",
-                              "Pragma": "no-cache",
-                              "Expires": "Fri, 01 Jan 1990 00:00:00 GMT",
-                              "RateLimit-Limit": 300,
-                              "RateLimit-Remaining": 299,
-                              "RateLimit-Reset": 60,
-                              "Request-Id": "req_ABC123",
-                              "Content-Type": "application/json; charset=utf-8",
-                              "Vary": "Accept"
-                            }
-                          },
-                          "created-at": "2023-09-20T20:20:03.485+00:00"
-                        }
-                      }
-                    }
+                    "$ref": "#/components/examples/ApiLogResponse"
                   }
                 },
                 "schema": {
@@ -19801,6 +19568,7 @@
                     "data": {
                       "properties": {
                         "attributes": {
+                          "properties": {},
                           "allOf": [
                             {
                               "$ref": "#/components/schemas/DefaultFields"
@@ -20858,6 +20626,7 @@
                     "data": {
                       "properties": {
                         "attributes": {
+                          "properties": {},
                           "allOf": [
                             {
                               "$ref": "#/components/schemas/AddressFields"
@@ -21411,6 +21180,7 @@
                     "data": {
                       "properties": {
                         "attributes": {
+                          "properties": {},
                           "allOf": [
                             {
                               "$ref": "#/components/schemas/AddressFields"
@@ -23587,6 +23357,7 @@
         "type": "object"
       },
       "DefaultFields": {
+        "properties": {},
         "allOf": [
           {
             "type": "object",
@@ -23676,9 +23447,10 @@
             ]
           },
           "attributes": {
-            "type": "object",
+            "properties": {},
             "allOf": [
               {
+                "type": "object",
                 "properties": {
                   "reference-id": {
                     "type": [
@@ -24166,9 +23938,114 @@
           }
         }
       },
-      "ApiKey": {
+      "ApiKeyAttributesBaseData": {
         "type": "object",
-        "description": "An API Key object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "examples": [
+              "API Key 123"
+            ]
+          },
+          "note": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "api-version": {
+            "type": "string",
+            "format": "date",
+            "examples": [
+              "2023-01-05"
+            ]
+          },
+          "api-key-inflection": {
+            "type": "string",
+            "examples": [
+              "kebab"
+            ]
+          },
+          "api-attributes-blocklist": {
+            "type": "array",
+            "items": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "examples": [
+              [
+                "address-*",
+                "name-last",
+                "/data/attributes/fields/*-number"
+              ]
+            ]
+          },
+          "permissions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "examples": [
+              [
+                "account.read",
+                "inquiry.write"
+              ]
+            ]
+          },
+          "ip-address-allowlist": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "examples": [
+              [
+                "*"
+              ],
+              [
+                "192.158.1.38",
+                "123.456.7.89"
+              ]
+            ]
+          },
+          "file-access-token-expires-in": {
+            "type": "integer",
+            "format": "int32",
+            "examples": [
+              21600
+            ]
+          },
+          "last-used-at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "examples": [
+              "2023-09-21T18:29:40.000Z"
+            ]
+          },
+          "expires-at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "examples": [
+              "2023-09-21T18:29:40.000Z"
+            ]
+          },
+          "created-at": {
+            "type": "string",
+            "format": "date-time",
+            "examples": [
+              "2023-09-21T18:29:40.000Z"
+            ]
+          }
+        }
+      },
+      "ApiKeyData": {
+        "type": "object",
+        "description": "An API Key resource's data",
         "properties": {
           "type": {
             "examples": [
@@ -24183,109 +24060,65 @@
             "type": "string"
           },
           "attributes": {
-            "type": "object",
-            "properties": {
-              "name": {
-                "type": "string",
-                "examples": [
-                  "API Key 123"
-                ]
+            "$ref": "#/components/schemas/ApiKeyAttributesBaseData"
+          }
+        }
+      },
+      "ApiKeyWithValueData": {
+        "type": "object",
+        "description": "An API Key resource's data",
+        "properties": {
+          "type": {
+            "examples": [
+              "api-key"
+            ],
+            "type": "string"
+          },
+          "id": {
+            "examples": [
+              "api_ABC123"
+            ],
+            "type": "string"
+          },
+          "attributes": {
+            "properties": {},
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ApiKeyAttributesBaseData"
               },
-              "note": {
-                "type": [
-                  "string",
-                  "null"
-                ]
-              },
-              "api-version": {
-                "type": "string",
-                "format": "date",
-                "examples": [
-                  "2023-01-05"
-                ]
-              },
-              "api-key-inflection": {
-                "type": "string",
-                "examples": [
-                  "kebab"
-                ]
-              },
-              "api-attributes-blocklist": {
-                "type": "array",
-                "items": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
-                },
-                "examples": [
-                  [
-                    "address-*",
-                    "name-last",
-                    "/data/attributes/fields/*-number"
-                  ]
-                ]
-              },
-              "permissions": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                },
-                "examples": [
-                  [
-                    "account.read",
-                    "inquiry.write"
-                  ]
-                ]
-              },
-              "ip-address-allowlist": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                },
-                "examples": [
-                  [
-                    "*"
-                  ],
-                  [
-                    "192.158.1.38",
-                    "123.456.7.89"
-                  ]
-                ]
-              },
-              "file-access-token-expires-in": {
-                "type": "integer",
-                "format": "int32",
-                "examples": [
-                  21600
-                ]
-              },
-              "last-used-at": {
-                "type": [
-                  "string",
-                  "null"
-                ],
-                "examples": [
-                  "2023-09-21T18:29:40.000Z"
-                ]
-              },
-              "expires-at": {
-                "type": [
-                  "string",
-                  "null"
-                ],
-                "examples": [
-                  "2023-09-21T18:29:40.000Z"
-                ]
-              },
-              "created-at": {
-                "type": "string",
-                "format": "date-time",
-                "examples": [
-                  "2023-09-21T18:29:40.000Z"
-                ]
+              {
+                "type": "object",
+                "properties": {
+                  "value": {
+                    "type": "string",
+                    "description": "The API Key value. This should be treated with the utmost security.",
+                    "examples": [
+                      "persona_production_abcdefg"
+                    ]
+                  }
+                }
               }
-            }
+            ]
+          }
+        }
+      },
+      "ApiKeyWithValue": {
+        "type": "object",
+        "title": "API Key",
+        "description": "An Api Key resource that includes its value, which should be treated with the utmost security.",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ApiKeyWithValueData"
+          }
+        }
+      },
+      "ApiKey": {
+        "type": "object",
+        "title": "API Key",
+        "description": "An Api Key resource",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ApiKeyData"
           }
         }
       },
@@ -24844,6 +24677,7 @@
             "type": "string"
           },
           "attributes": {
+            "properties": {},
             "allOf": [
               {
                 "$ref": "#/components/schemas/DefaultFields"
@@ -25139,6 +24973,16 @@
                       "retry_verification_government_id"
                     ],
                     "type": "string"
+                  },
+                  "social-security-number": {
+                    "description": "Social security number.",
+                    "examples": [
+                      "123-45-6789"
+                    ],
+                    "type": [
+                      "string",
+                      "null"
+                    ]
                   },
                   "address-subdivision-abbr": {
                     "examples": [
@@ -25931,6 +25775,7 @@
       },
       "ReportWatchlistData": {
         "title": "Watchlist Data",
+        "properties": {},
         "allOf": [
           {
             "$ref": "#/components/schemas/ReportBaseData"
@@ -26134,6 +25979,7 @@
       },
       "ReportCryptoAddressWatchlistData": {
         "title": "Crypto Address Watchlist Data",
+        "properties": {},
         "allOf": [
           {
             "$ref": "#/components/schemas/ReportBaseData"
@@ -26253,6 +26099,7 @@
       },
       "ReportAdverseMediaData": {
         "title": "Adverse Media Data",
+        "properties": {},
         "allOf": [
           {
             "$ref": "#/components/schemas/ReportBaseData"
@@ -26403,6 +26250,7 @@
       },
       "ReportAddressLookupData": {
         "title": "Address Lookup Data",
+        "properties": {},
         "allOf": [
           {
             "$ref": "#/components/schemas/ReportBaseData"
@@ -26597,6 +26445,7 @@
       },
       "ReportPoliticallyExposedPersonData": {
         "title": "Politically Exposed Person Data",
+        "properties": {},
         "allOf": [
           {
             "$ref": "#/components/schemas/ReportBaseData"
@@ -26785,6 +26634,7 @@
       },
       "ReportEmailAddressData": {
         "title": "Report Email Address Data",
+        "properties": {},
         "allOf": [
           {
             "$ref": "#/components/schemas/ReportBaseData"
@@ -26942,6 +26792,7 @@
       },
       "ReportPhoneRiskData": {
         "title": "Report Phone Risk Data",
+        "properties": {},
         "allOf": [
           {
             "$ref": "#/components/schemas/ReportBaseData"
@@ -27022,6 +26873,7 @@
       },
       "ReportSocialMediaData": {
         "title": "Report Social Media Data",
+        "properties": {},
         "allOf": [
           {
             "$ref": "#/components/schemas/ReportBaseData"
@@ -27124,7 +26976,7 @@
       },
       "ReportBusinessLookupData": {
         "title": "Report Business Lookup Data",
-        "type": "object",
+        "properties": {},
         "allOf": [
           {
             "$ref": "#/components/schemas/ReportBaseData"
@@ -27944,6 +27796,7 @@
       },
       "VerificationAamvaData": {
         "title": "AAMVA Verification Data",
+        "properties": {},
         "allOf": [
           {
             "$ref": "#/components/schemas/VerificationTopLevelData"
@@ -27957,6 +27810,7 @@
                 "example": "verification/aamva"
               },
               "attributes": {
+                "properties": {},
                 "allOf": [
                   {
                     "$ref": "#/components/schemas/VerificationAttributesBaseData"
@@ -28074,6 +27928,7 @@
       },
       "VerificationDocumentData": {
         "title": "Document Verification Data",
+        "properties": {},
         "allOf": [
           {
             "$ref": "#/components/schemas/VerificationTopLevelData"
@@ -28087,6 +27942,7 @@
                 "example": "verification/document"
               },
               "attributes": {
+                "properties": {},
                 "allOf": [
                   {
                     "$ref": "#/components/schemas/VerificationAttributesBaseData"
@@ -28159,6 +28015,7 @@
                 ]
               },
               "relationships": {
+                "properties": {},
                 "allOf": [
                   {
                     "$ref": "#/components/schemas/VerificationRelationshipsBaseData"
@@ -28198,6 +28055,7 @@
       },
       "VerificationDatabaseData": {
         "title": "Database Verification Data",
+        "properties": {},
         "allOf": [
           {
             "$ref": "#/components/schemas/VerificationTopLevelData"
@@ -28211,6 +28069,7 @@
                 "example": "verification/database"
               },
               "attributes": {
+                "properties": {},
                 "allOf": [
                   {
                     "$ref": "#/components/schemas/VerificationAttributesBaseData"
@@ -28296,6 +28155,7 @@
       },
       "VerificationEmailAddressData": {
         "title": "Email Address Verification Data",
+        "properties": {},
         "allOf": [
           {
             "$ref": "#/components/schemas/VerificationTopLevelData"
@@ -28309,6 +28169,7 @@
                 "example": "verification/email-address"
               },
               "attributes": {
+                "properties": {},
                 "allOf": [
                   {
                     "$ref": "#/components/schemas/VerificationAttributesBaseData"
@@ -28337,6 +28198,7 @@
       },
       "VerificationPhoneNumberData": {
         "title": "Phone Number Verification Data",
+        "properties": {},
         "allOf": [
           {
             "$ref": "#/components/schemas/VerificationTopLevelData"
@@ -28350,6 +28212,7 @@
                 "example": "verification/phone-number"
               },
               "attributes": {
+                "properties": {},
                 "allOf": [
                   {
                     "$ref": "#/components/schemas/VerificationAttributesBaseData"
@@ -28728,6 +28591,7 @@
       },
       "InquiryFields": {
         "description": "JSON key-value pairs of field name to field value. Schema is defined by your Inquiry Template.",
+        "properties": {},
         "allOf": [
           {
             "$ref": "#/components/schemas/DefaultFields"
@@ -29026,7 +28890,7 @@
         }
       },
       "ReportWatchlistRequestData": {
-        "type": "object",
+        "properties": {},
         "allOf": [
           {
             "$ref": "#/components/schemas/ReportBaseRequestData"
@@ -29089,7 +28953,7 @@
         }
       },
       "ReportCryptoAddressWatchlistRequestData": {
-        "type": "object",
+        "properties": {},
         "allOf": [
           {
             "$ref": "#/components/schemas/ReportBaseRequestData"
@@ -29127,7 +28991,7 @@
         }
       },
       "ReportAdverseMediaRequestData": {
-        "type": "object",
+        "properties": {},
         "allOf": [
           {
             "$ref": "#/components/schemas/ReportBaseRequestData"
@@ -29190,7 +29054,7 @@
         }
       },
       "ReportAddressLookupRequestData": {
-        "type": "object",
+        "properties": {},
         "allOf": [
           {
             "$ref": "#/components/schemas/ReportBaseRequestData"
@@ -29247,7 +29111,7 @@
         }
       },
       "ReportPoliticallyExposedPersonRequestData": {
-        "type": "object",
+        "properties": {},
         "allOf": [
           {
             "$ref": "#/components/schemas/ReportBaseRequestData"
@@ -29315,7 +29179,7 @@
         }
       },
       "ReportEmailAddressRequestData": {
-        "type": "object",
+        "properties": {},
         "allOf": [
           {
             "$ref": "#/components/schemas/ReportBaseRequestData"
@@ -29358,7 +29222,7 @@
         }
       },
       "ReportPhoneRiskRequestData": {
-        "type": "object",
+        "properties": {},
         "allOf": [
           {
             "$ref": "#/components/schemas/ReportBaseRequestData"
@@ -29396,7 +29260,7 @@
         }
       },
       "ReportSocialMediaRequestData": {
-        "type": "object",
+        "properties": {},
         "allOf": [
           {
             "$ref": "#/components/schemas/ReportBaseRequestData"
@@ -29461,7 +29325,7 @@
         }
       },
       "ReportBusinessLookupRequestData": {
-        "type": "object",
+        "properties": {},
         "allOf": [
           {
             "$ref": "#/components/schemas/ReportBaseRequestData"
@@ -30899,6 +30763,190 @@
                   }
                 ]
               }
+            }
+          }
+        }
+      },
+      "ApiKeyListResponse": {
+        "value": {
+          "data": [
+            {
+              "type": "api-key",
+              "id": "api_ABC123",
+              "attributes": {
+                "name": "Default API Key",
+                "note": null,
+                "api-version": "2023-01-05",
+                "api-key-inflection": "kebab",
+                "api-attributes-blocklist": [
+                  "address-*",
+                  "name-last",
+                  "/data/attributes/fields/*-number"
+                ],
+                "permissions": [
+                  "account.read",
+                  "account.write",
+                  "api_log.read"
+                ],
+                "ip-address-allowlist": [
+                  "*"
+                ],
+                "file-access-token-expires-in": 21600,
+                "last-used-at": "2023-08-17T23:24:00.000Z",
+                "expires-at": null,
+                "created-at": "2023-08-17T23:18:13.000Z"
+              }
+            }
+          ],
+          "links": {
+            "prev": null,
+            "next": "/api/v1/api-keys?page%5Bafter%5D=api_ByBdXDqUrguLAHjGZMuDZLCx"
+          }
+        }
+      },
+      "ApiKeyWithValueResponse": {
+        "value": {
+          "data": {
+            "type": "api-key",
+            "id": "api_ABC123",
+            "attributes": {
+              "name": "Default API Key",
+              "note": null,
+              "api-version": "2023-01-05",
+              "api-key-inflection": "kebab",
+              "api-attributes-blocklist": [
+                "address-*",
+                "name-last",
+                "/data/attributes/fields/*-number"
+              ],
+              "permissions": [
+                "account.read",
+                "account.write",
+                "api_log.read"
+              ],
+              "ip-address-allowlist": [
+                "*"
+              ],
+              "file-access-token-expires-in": 21600,
+              "last-used-at": "2023-08-17T23:24:00.000Z",
+              "expires-at": null,
+              "created-at": "2023-08-17T23:18:13.000Z",
+              "value": "persona_production_abcdefg"
+            }
+          }
+        }
+      },
+      "ApiKeyResponse": {
+        "value": {
+          "data": {
+            "type": "api-key",
+            "id": "api_ABC123",
+            "attributes": {
+              "name": "Default API Key",
+              "note": null,
+              "api-version": "2023-01-05",
+              "api-key-inflection": "kebab",
+              "api-attributes-blocklist": [
+                "address-*",
+                "name-last",
+                "/data/attributes/fields/*-number"
+              ],
+              "permissions": [
+                "account.read",
+                "account.write",
+                "api_log.read"
+              ],
+              "ip-address-allowlist": [
+                "*"
+              ],
+              "file-access-token-expires-in": 21600,
+              "last-used-at": "2023-08-17T23:24:00.000Z",
+              "expires-at": null,
+              "created-at": "2023-08-17T23:18:13.000Z"
+            }
+          }
+        }
+      },
+      "ApiLogListResponse": {
+        "value": {
+          "data": [
+            {
+              "type": "api-log",
+              "id": "req_ABC123",
+              "attributes": {
+                "request": {
+                  "method": "GET",
+                  "path": "/api/v1/inquiries",
+                  "headers": {
+                    "Accept": "application/json",
+                    "Host": "withpersona.com",
+                    "Persona-Version": "2023-01-05",
+                    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/"
+                  },
+                  "get-params": {},
+                  "post-params": {},
+                  "ip-address": "127.0.0.1"
+                },
+                "response": {
+                  "status": 200,
+                  "headers": {
+                    "Persona-Host": "us-central1 persona-web-web-77b874ff88-rrdk9 53e23b240",
+                    "Cache-Control": "no-cache, no-store, max-age=0, must-revalidate",
+                    "Pragma": "no-cache",
+                    "Expires": "Fri, 01 Jan 1990 00:00:00 GMT",
+                    "RateLimit-Limit": 300,
+                    "RateLimit-Remaining": 299,
+                    "RateLimit-Reset": 60,
+                    "Request-Id": "req_ABC123",
+                    "Content-Type": "application/json; charset=utf-8",
+                    "Vary": "Accept"
+                  }
+                },
+                "created-at": "2023-09-20T20:20:03.485+00:00"
+              }
+            }
+          ],
+          "links": {
+            "prev": null,
+            "next": "/api/v1/api-logs?page%5Bafter%5D=req_ByBdXDqUrguLAHjGZMuDZLCx"
+          }
+        }
+      },
+      "ApiLogResponse": {
+        "value": {
+          "data": {
+            "type": "api-log",
+            "id": "req_ABC123",
+            "attributes": {
+              "request": {
+                "method": "GET",
+                "path": "/api/v1/inquiries",
+                "headers": {
+                  "Accept": "application/json",
+                  "Host": "withpersona.com",
+                  "Persona-Version": "2023-01-05",
+                  "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/"
+                },
+                "get-params": {},
+                "post-params": {},
+                "ip-address": "127.0.0.1"
+              },
+              "response": {
+                "status": 200,
+                "headers": {
+                  "Persona-Host": "us-central1 persona-web-web-77b874ff88-rrdk9 53e23b240",
+                  "Cache-Control": "no-cache, no-store, max-age=0, must-revalidate",
+                  "Pragma": "no-cache",
+                  "Expires": "Fri, 01 Jan 1990 00:00:00 GMT",
+                  "RateLimit-Limit": 300,
+                  "RateLimit-Remaining": 299,
+                  "RateLimit-Reset": 60,
+                  "Request-Id": "req_ABC123",
+                  "Content-Type": "application/json; charset=utf-8",
+                  "Vary": "Accept"
+                }
+              },
+              "created-at": "2023-09-20T20:20:03.485+00:00"
             }
           }
         }

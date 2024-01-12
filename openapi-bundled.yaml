@@ -228,6 +228,7 @@ paths:
                 data:
                   properties:
                     attributes:
+                      properties: {}
                       allOf:
                         - type: object
                           properties:
@@ -423,6 +424,7 @@ paths:
                 data:
                   properties:
                     attributes:
+                      properties: {}
                       allOf:
                         - type: object
                           properties:
@@ -781,7 +783,6 @@ paths:
               name:
                 type: string
                 description: Filter API keys by name
-        - $ref: '#/components/parameters/includeQueryParameter'
       responses:
         '200':
           content:
@@ -789,56 +790,12 @@ paths:
               examples:
                 Result:
                   summary: OK
-                  value:
-                    data:
-                      - type: api-key
-                        id: api_ABC123
-                        attributes:
-                          name: Webhook ABC
-                          note: null
-                          api-version: '2023-01-05'
-                          api-key-inflection: kebab
-                          api-attributes-blocklist:
-                            - address-*
-                            - name-last
-                            - /data/attributes/fields/*-number
-                          permissions:
-                            - account.read
-                            - account.write
-                            - api_log.read
-                          ip-address-allowlist:
-                            - '*'
-                          file-access-token-expires-in: 21600
-                          last-used-at: '2023-08-17T23:24:00.000Z'
-                          expires-at: null
-                          created-at: '2023-08-17T23:18:13.000Z'
-                      - type: api-key
-                        id: api_ABC123
-                        attributes:
-                          name: Webhook 123
-                          note: null
-                          api-version: '2023-01-05'
-                          api-key-inflection: camel
-                          api-attributes-blocklist: []
-                          permissions:
-                            - account.read
-                            - account.write
-                            - api_log.read
-                          ip-address-allowlist:
-                            - 192.158.1.38
-                            - 123.456.7.89
-                          file-access-token-expires-in: 600
-                          last-used-at: null
-                          expires-at: null
-                          created-at: '2023-08-17T23:18:13.000Z'
-                    links:
-                      prev: null
-                      next: null
+                  $ref: '#/components/examples/ApiKeyListResponse'
               schema:
                 properties:
                   data:
                     items:
-                      $ref: '#/components/schemas/ApiKey'
+                      $ref: '#/components/schemas/ApiKeyData'
                     type: array
                     description: An array of API Keys
                   links:
@@ -875,18 +832,18 @@ paths:
         - $ref: '#/components/parameters/keyInflectionHeader'
         - $ref: '#/components/parameters/idempotencyKeyHeader'
         - $ref: '#/components/parameters/personaVersionHeader'
-        - $ref: '#/components/parameters/includeQueryParameter'
       requestBody:
         $ref: '#/components/requestBodies/ApiKeyRequest'
       responses:
         '201':
           content:
             application/json:
+              examples:
+                Result:
+                  summary: OK
+                  $ref: '#/components/examples/ApiKeyWithValueResponse'
               schema:
-                properties:
-                  data:
-                    $ref: '#/components/schemas/ApiKey'
-                type: object
+                $ref: '#/components/schemas/ApiKeyWithValue'
           description: Created
         '400':
           $ref: '#/components/responses/BadRequest'
@@ -914,7 +871,6 @@ paths:
         - $ref: '#/components/parameters/keyInflectionHeader'
         - $ref: '#/components/parameters/idempotencyKeyHeader'
         - $ref: '#/components/parameters/personaVersionHeader'
-        - $ref: '#/components/parameters/includeQueryParameter'
         - description: API key's ID (starts with "api_")
           in: path
           name: api-key-id
@@ -925,11 +881,12 @@ paths:
         '200':
           content:
             application/json:
+              examples:
+                Result:
+                  summary: OK
+                  $ref: '#/components/examples/ApiKeyWithValueResponse'
               schema:
-                properties:
-                  data:
-                    $ref: '#/components/schemas/ApiKey'
-                type: object
+                $ref: '#/components/schemas/ApiKeyWithValue'
           description: OK
         '400':
           $ref: '#/components/responses/BadRequest'
@@ -952,7 +909,6 @@ paths:
         - $ref: '#/components/parameters/keyInflectionHeader'
         - $ref: '#/components/parameters/idempotencyKeyHeader'
         - $ref: '#/components/parameters/personaVersionHeader'
-        - $ref: '#/components/parameters/includeQueryParameter'
         - description: API key's ID (starts with "api_")
           in: path
           name: api-key-id
@@ -965,11 +921,12 @@ paths:
         '200':
           content:
             application/json:
+              examples:
+                Result:
+                  summary: OK
+                  $ref: '#/components/examples/ApiKeyResponse'
               schema:
-                properties:
-                  data:
-                    $ref: '#/components/schemas/ApiKey'
-                type: object
+                $ref: '#/components/schemas/ApiKey'
           description: OK
         '400':
           $ref: '#/components/responses/BadRequest'
@@ -999,7 +956,6 @@ paths:
         - $ref: '#/components/parameters/keyInflectionHeader'
         - $ref: '#/components/parameters/idempotencyKeyHeader'
         - $ref: '#/components/parameters/personaVersionHeader'
-        - $ref: '#/components/parameters/includeQueryParameter'
         - description: API key's ID (starts with "api_")
           in: path
           name: api-key-id
@@ -1024,11 +980,12 @@ paths:
         '200':
           content:
             application/json:
+              examples:
+                Result:
+                  summary: OK
+                  $ref: '#/components/examples/ApiKeyResponse'
               schema:
-                properties:
-                  data:
-                    $ref: '#/components/schemas/ApiKey'
-                type: object
+                $ref: '#/components/schemas/ApiKey'
           description: OK
         '400':
           $ref: '#/components/responses/BadRequest'
@@ -1071,7 +1028,6 @@ paths:
                     example: req_ABC123
                   before:
                     example: req_ABC123
-        - $ref: '#/components/parameters/includeQueryParameter'
       responses:
         '200':
           content:
@@ -1079,102 +1035,7 @@ paths:
               examples:
                 Result:
                   summary: OK
-                  value:
-                    data:
-                      - type: api-log
-                        id: req_ABC123
-                        attributes:
-                          request:
-                            method: GET
-                            path: /api/v1/inquiries
-                            headers:
-                              Accept: application/json
-                              Host: withpersona.com
-                              Persona-Version: '2023-01-05'
-                              User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/
-                            get-params: {}
-                            post-params: {}
-                            ip-address: 127.0.0.1
-                          response:
-                            status: 200
-                            headers:
-                              Persona-Host: us-central1 persona-web-web-77b874ff88-rrdk9 53e23b240
-                              Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-                              Pragma: no-cache
-                              Expires: Fri, 01 Jan 1990 00:00:00 GMT
-                              RateLimit-Limit: 300
-                              RateLimit-Remaining: 299
-                              RateLimit-Reset: 60
-                              Request-Id: req_ABC123
-                              Content-Type: application/json; charset=utf-8
-                              Vary: Accept
-                          created-at: '2023-09-20T20:20:03.485+00:00'
-                      - type: api-log
-                        id: req_ABC123
-                        attributes:
-                          request:
-                            method: POST
-                            path: /api/v1/transactions
-                            headers:
-                              Accept: application/json
-                              Host: withpersona.com
-                              Persona-Version: '2023-01-05'
-                              User-Agent: Apache-HttpClient/4.5.13 (Java/17.0.5)
-                            get-params: {}
-                            post-params:
-                              data:
-                                attributes:
-                                  fields:
-                                    name_first: '[FILTERED]'
-                                transaction-type-id: txntp_ABC123
-                            ip-address: 127.0.0.1
-                          response:
-                            status: 201
-                            headers:
-                              Persona-Host: us-central1 persona-web-web-7ffc974b4-rzqm7 f2180de27
-                              Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-                              Pragma: no-cache
-                              Expires: Fri, 01 Jan 1990 00:00:00 GMT
-                              RateLimit-Limit: 300
-                              RateLimit-Remaining: 299
-                              RateLimit-Reset: 60
-                              Request-Id: req_ABC123
-                              Quota-Limit: 1000
-                              Quota-Remaining: 999
-                              Quota-Reset: 60
-                              Content-Type: application/json; charset=utf-8
-                              Vary: Accept
-                          created-at: '2023-09-20T20:20:03.485+00:00'
-                      - type: api-log
-                        id: req_ABC123
-                        attributes:
-                          request:
-                            method: GET
-                            path: /api/v1/api-logs
-                            headers:
-                              Accept: application/json
-                              Host: withpersona.com
-                              Persona-Version: '2023-01-05'
-                              User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
-                            get-params:
-                              page:
-                                size: 5
-                            post-params: {}
-                            ip-address: 127.0.0.1
-                          response:
-                            status: 200
-                            headers:
-                              Persona-Host: us-central1 persona-web-web-7ffc974b4-rzqm7 f2180de27
-                              Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-                              Pragma: no-cache
-                              Expires: Fri, 01 Jan 1990 00:00:00 GMT
-                              RateLimit-Limit: 300
-                              RateLimit-Remaining: 299
-                              RateLimit-Reset: 60
-                              Request-Id: req_ABC123
-                              Content-Type: application/json; charset=utf-8
-                              Vary: Accept
-                          created-at: '2023-09-20T20:20:03.485+00:00'
+                  $ref: '#/components/examples/ApiLogListResponse'
               schema:
                 properties:
                   data:
@@ -1221,7 +1082,6 @@ paths:
         - $ref: '#/components/parameters/keyInflectionHeader'
         - $ref: '#/components/parameters/idempotencyKeyHeader'
         - $ref: '#/components/parameters/personaVersionHeader'
-        - $ref: '#/components/parameters/includeQueryParameter'
         - name: api-log-id
           in: path
           required: true
@@ -1234,36 +1094,7 @@ paths:
               examples:
                 Result:
                   summary: OK
-                  value:
-                    data:
-                      type: api-log
-                      id: req_ABC123
-                      attributes:
-                        request:
-                          method: GET
-                          path: /api/v1/inquiries
-                          headers:
-                            Accept: application/json
-                            Host: withpersona.com
-                            Persona-Version: '2023-01-05'
-                            User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/
-                          get-params: {}
-                          post-params: {}
-                          ip-address: 127.0.0.1
-                        response:
-                          status: 200
-                          headers:
-                            Persona-Host: us-central1 persona-web-web-77b874ff88-rrdk9 53e23b240
-                            Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-                            Pragma: no-cache
-                            Expires: Fri, 01 Jan 1990 00:00:00 GMT
-                            RateLimit-Limit: 300
-                            RateLimit-Remaining: 299
-                            RateLimit-Reset: 60
-                            Request-Id: req_ABC123
-                            Content-Type: application/json; charset=utf-8
-                            Vary: Accept
-                        created-at: '2023-09-20T20:20:03.485+00:00'
+                  $ref: '#/components/examples/ApiLogResponse'
               schema:
                 properties:
                   data:
@@ -12727,6 +12558,7 @@ paths:
                   data:
                     properties:
                       attributes:
+                        properties: {}
                         allOf:
                           - $ref: '#/components/schemas/DefaultFields'
                           - type: object
@@ -13410,6 +13242,7 @@ paths:
                   data:
                     properties:
                       attributes:
+                        properties: {}
                         allOf:
                           - $ref: '#/components/schemas/AddressFields'
                           - type: object
@@ -13779,6 +13612,7 @@ paths:
                   data:
                     properties:
                       attributes:
+                        properties: {}
                         allOf:
                           - $ref: '#/components/schemas/AddressFields'
                           - type: object
@@ -15173,6 +15007,7 @@ components:
             - 'null'
       type: object
     DefaultFields:
+      properties: {}
       allOf:
         - type: object
           properties:
@@ -15236,9 +15071,10 @@ components:
           examples:
             - act_hpNqyAbEG4HeVjZoBRNCMKkA
         attributes:
-          type: object
+          properties: {}
           allOf:
-            - properties:
+            - type: object
+              properties:
                 reference-id:
                   type:
                     - string
@@ -15555,9 +15391,76 @@ components:
                     - string
                     - 'null'
             - $ref: '#/components/schemas/DefaultFields'
-    ApiKey:
+    ApiKeyAttributesBaseData:
       type: object
-      description: An API Key object
+      properties:
+        name:
+          type: string
+          examples:
+            - API Key 123
+        note:
+          type:
+            - string
+            - 'null'
+        api-version:
+          type: string
+          format: date
+          examples:
+            - '2023-01-05'
+        api-key-inflection:
+          type: string
+          examples:
+            - kebab
+        api-attributes-blocklist:
+          type: array
+          items:
+            type:
+              - string
+              - 'null'
+          examples:
+            - - address-*
+              - name-last
+              - /data/attributes/fields/*-number
+        permissions:
+          type: array
+          items:
+            type: string
+          examples:
+            - - account.read
+              - inquiry.write
+        ip-address-allowlist:
+          type: array
+          items:
+            type: string
+          examples:
+            - - '*'
+            - - 192.158.1.38
+              - 123.456.7.89
+        file-access-token-expires-in:
+          type: integer
+          format: int32
+          examples:
+            - 21600
+        last-used-at:
+          type:
+            - string
+            - 'null'
+          examples:
+            - '2023-09-21T18:29:40.000Z'
+        expires-at:
+          type:
+            - string
+            - 'null'
+          examples:
+            - '2023-09-21T18:29:40.000Z'
+        created-at:
+          type: string
+          format: date-time
+          examples:
+            - '2023-09-21T18:29:40.000Z'
+    ApiKeyData:
+      type: object
+      description: An API Key resource's data
       properties:
         type:
           examples:
@@ -15568,72 +15471,44 @@ components:
             - api_ABC123
           type: string
         attributes:
-          type: object
-          properties:
-            name:
-              type: string
-              examples:
-                - API Key 123
-            note:
-              type:
-                - string
-                - 'null'
-            api-version:
-              type: string
-              format: date
-              examples:
-                - '2023-01-05'
-            api-key-inflection:
-              type: string
-              examples:
-                - kebab
-            api-attributes-blocklist:
-              type: array
-              items:
-                type:
-                  - string
-                  - 'null'
-              examples:
-                - - address-*
-                  - name-last
-                  - /data/attributes/fields/*-number
-            permissions:
-              type: array
-              items:
-                type: string
-              examples:
-                - - account.read
-                  - inquiry.write
-            ip-address-allowlist:
-              type: array
-              items:
-                type: string
-              examples:
-                - - '*'
-                - - 192.158.1.38
-                  - 123.456.7.89
-            file-access-token-expires-in:
-              type: integer
-              format: int32
-              examples:
-                - 21600
-            last-used-at:
-              type:
-                - string
-                - 'null'
-              examples:
-                - '2023-09-21T18:29:40.000Z'
-            expires-at:
-              type:
-                - string
-                - 'null'
-              examples:
-                - '2023-09-21T18:29:40.000Z'
-            created-at:
-              type: string
-              format: date-time
-              examples:
-                - '2023-09-21T18:29:40.000Z'
+          $ref: '#/components/schemas/ApiKeyAttributesBaseData'
+    ApiKeyWithValueData:
+      type: object
+      description: An API Key resource's data
+      properties:
+        type:
+          examples:
+            - api-key
+          type: string
+        id:
+          examples:
+            - api_ABC123
+          type: string
+        attributes:
+          properties: {}
+          allOf:
+            - $ref: '#/components/schemas/ApiKeyAttributesBaseData'
+            - type: object
+              properties:
+                value:
+                  type: string
+                  description: The API Key value. This should be treated with the utmost security.
+                  examples:
+                    - persona_production_abcdefg
+    ApiKeyWithValue:
+      type: object
+      title: API Key
+      description: An Api Key resource that includes its value, which should be treated with the utmost security.
+      properties:
+        data:
+          $ref: '#/components/schemas/ApiKeyWithValueData'
+    ApiKey:
+      type: object
+      title: API Key
+      description: An Api Key resource
+      properties:
+        data:
+          $ref: '#/components/schemas/ApiKeyData'
     ApiLog:
       type: object
       description: An API Log object
@@ -16002,6 +15877,7 @@ components:
             - inq_5FrMN7NAGgFdGGysCDd7DaBW
           type: string
         attributes:
+          properties: {}
           allOf:
             - $ref: '#/components/schemas/DefaultFields'
             - type: object
@@ -16208,6 +16084,13 @@ components:
                   examples:
                     - retry_verification_government_id
                   type: string
+                social-security-number:
+                  description: Social security number.
+                  examples:
+                    - 123-45-6789
+                  type:
+                    - string
+                    - 'null'
                 address-subdivision-abbr:
                   examples:
                     - CA
@@ -16736,6 +16619,7 @@ components:
             example: scheduled
     ReportWatchlistData:
       title: Watchlist Data
+      properties: {}
       allOf:
         - $ref: '#/components/schemas/ReportBaseData'
         - type: object
@@ -16881,6 +16765,7 @@ components:
                         example: false positive
     ReportCryptoAddressWatchlistData:
       title: Crypto Address Watchlist Data
+      properties: {}
       allOf:
         - $ref: '#/components/schemas/ReportBaseData'
         - type: object
@@ -16962,6 +16847,7 @@ components:
                                     example: 1Fz29BQp82pE3vXXcsZoMNQ3KSHfMzfMe3
     ReportAdverseMediaData:
       title: Adverse Media Data
+      properties: {}
       allOf:
         - $ref: '#/components/schemas/ReportBaseData'
         - type: object
@@ -17069,6 +16955,7 @@ components:
                         example: FV933QHOUDG73V8
     ReportAddressLookupData:
       title: Address Lookup Data
+      properties: {}
       allOf:
         - $ref: '#/components/schemas/ReportBaseData'
         - type: object
@@ -17206,6 +17093,7 @@ components:
                   type: string
     ReportPoliticallyExposedPersonData:
       title: Politically Exposed Person Data
+      properties: {}
       allOf:
         - $ref: '#/components/schemas/ReportBaseData'
         - type: object
@@ -17338,6 +17226,7 @@ components:
                   $ref: '#/components/schemas/ReportRunHistory'
     ReportEmailAddressData:
       title: Report Email Address Data
+      properties: {}
       allOf:
         - $ref: '#/components/schemas/ReportBaseData'
         - type: object
@@ -17458,6 +17347,7 @@ components:
                   example: gmail.com
     ReportPhoneRiskData:
       title: Report Phone Risk Data
+      properties: {}
       allOf:
         - $ref: '#/components/schemas/ReportBaseData'
         - type: object
@@ -17518,6 +17408,7 @@ components:
                     - N/A
     ReportSocialMediaData:
       title: Report Social Media Data
+      properties: {}
       allOf:
         - $ref: '#/components/schemas/ReportBaseData'
         - type: object
@@ -17593,7 +17484,7 @@ components:
                   example: username
     ReportBusinessLookupData:
       title: Report Business Lookup Data
-      type: object
+      properties: {}
       allOf:
         - $ref: '#/components/schemas/ReportBaseData'
         - type: object
@@ -18176,6 +18067,7 @@ components:
                   example: vtmplv_ABC123
     VerificationAamvaData:
       title: AAMVA Verification Data
+      properties: {}
       allOf:
         - $ref: '#/components/schemas/VerificationTopLevelData'
         - type: object
@@ -18185,6 +18077,7 @@ components:
               description: verification/aamva
               example: verification/aamva
             attributes:
+              properties: {}
               allOf:
                 - $ref: '#/components/schemas/VerificationAttributesBaseData'
                 - type: object
@@ -18264,6 +18157,7 @@ components:
               type: object
     VerificationDocumentData:
       title: Document Verification Data
+      properties: {}
       allOf:
         - $ref: '#/components/schemas/VerificationTopLevelData'
         - type: object
@@ -18273,6 +18167,7 @@ components:
               description: verification/document
               example: verification/document
             attributes:
+              properties: {}
               allOf:
                 - $ref: '#/components/schemas/VerificationAttributesBaseData'
                 - type: object
@@ -18318,6 +18213,7 @@ components:
                     extraction-responses:
                       $ref: '#/components/schemas/ExtractionResponses'
             relationships:
+              properties: {}
               allOf:
                 - $ref: '#/components/schemas/VerificationRelationshipsBaseData'
                 - type: object
@@ -18338,6 +18234,7 @@ components:
                       type: object
     VerificationDatabaseData:
       title: Database Verification Data
+      properties: {}
       allOf:
         - $ref: '#/components/schemas/VerificationTopLevelData'
         - type: object
@@ -18347,6 +18244,7 @@ components:
               description: verification/database
               example: verification/database
             attributes:
+              properties: {}
               allOf:
                 - $ref: '#/components/schemas/VerificationAttributesBaseData'
                 - $ref: '#/components/schemas/DefaultFields'
@@ -18399,6 +18297,7 @@ components:
               $ref: '#/components/schemas/VerificationRelationshipsBaseData'
     VerificationEmailAddressData:
       title: Email Address Verification Data
+      properties: {}
       allOf:
         - $ref: '#/components/schemas/VerificationTopLevelData'
         - type: object
@@ -18408,6 +18307,7 @@ components:
               description: verification/email-address
               example: verification/email-address
             attributes:
+              properties: {}
               allOf:
                 - $ref: '#/components/schemas/VerificationAttributesBaseData'
                 - type: object
@@ -18422,6 +18322,7 @@ components:
               $ref: '#/components/schemas/VerificationRelationshipsBaseData'
     VerificationPhoneNumberData:
       title: Phone Number Verification Data
+      properties: {}
       allOf:
         - $ref: '#/components/schemas/VerificationTopLevelData'
         - type: object
@@ -18431,6 +18332,7 @@ components:
               description: verification/phone-number
               example: verification/phone-number
             attributes:
+              properties: {}
               allOf:
                 - $ref: '#/components/schemas/VerificationAttributesBaseData'
                 - type: object
@@ -18673,6 +18575,7 @@ components:
                 - '2023-09-23T17:14:01.918Z'
     InquiryFields:
       description: JSON key-value pairs of field name to field value. Schema is defined by your Inquiry Template.
+      properties: {}
       allOf:
         - $ref: '#/components/schemas/DefaultFields'
         - type: object
@@ -18868,7 +18771,7 @@ components:
             report-template-id:
               type: string
     ReportWatchlistRequestData:
-      type: object
+      properties: {}
       allOf:
         - $ref: '#/components/schemas/ReportBaseRequestData'
         - type: object
@@ -18912,7 +18815,7 @@ components:
         data:
           $ref: '#/components/schemas/ReportWatchlistRequestData'
     ReportCryptoAddressWatchlistRequestData:
-      type: object
+      properties: {}
       allOf:
         - $ref: '#/components/schemas/ReportBaseRequestData'
         - type: object
@@ -18936,7 +18839,7 @@ components:
         data:
           $ref: '#/components/schemas/ReportCryptoAddressWatchlistRequestData'
     ReportAdverseMediaRequestData:
-      type: object
+      properties: {}
       allOf:
         - $ref: '#/components/schemas/ReportBaseRequestData'
         - type: object
@@ -18980,7 +18883,7 @@ components:
         data:
           $ref: '#/components/schemas/ReportAdverseMediaRequestData'
     ReportAddressLookupRequestData:
-      type: object
+      properties: {}
       allOf:
         - $ref: '#/components/schemas/ReportBaseRequestData'
         - type: object
@@ -19018,7 +18921,7 @@ components:
         data:
           $ref: '#/components/schemas/ReportAddressLookupRequestData'
     ReportPoliticallyExposedPersonRequestData:
-      type: object
+      properties: {}
       allOf:
         - $ref: '#/components/schemas/ReportBaseRequestData'
         - type: object
@@ -19065,7 +18968,7 @@ components:
         data:
           $ref: '#/components/schemas/ReportPoliticallyExposedPersonRequestData'
     ReportEmailAddressRequestData:
-      type: object
+      properties: {}
       allOf:
         - $ref: '#/components/schemas/ReportBaseRequestData'
         - type: object
@@ -19092,7 +18995,7 @@ components:
         data:
           $ref: '#/components/schemas/ReportEmailAddressRequestData'
     ReportPhoneRiskRequestData:
-      type: object
+      properties: {}
       allOf:
         - $ref: '#/components/schemas/ReportBaseRequestData'
         - type: object
@@ -19116,7 +19019,7 @@ components:
         data:
           $ref: '#/components/schemas/ReportPhoneRiskRequestData'
     ReportSocialMediaRequestData:
-      type: object
+      properties: {}
       allOf:
         - $ref: '#/components/schemas/ReportBaseRequestData'
         - type: object
@@ -19161,7 +19064,7 @@ components:
         data:
           $ref: '#/components/schemas/ReportSocialMediaRequestData'
     ReportBusinessLookupRequestData:
-      type: object
+      properties: {}
       allOf:
         - $ref: '#/components/schemas/ReportBaseRequestData'
         - type: object
@@ -20093,6 +19996,147 @@ components:
                   identification-number: A12345678
                   created-at: '2023-09-23T00:22:19.963Z'
                   updated-at: '2023-09-23T00:22:19.963Z'
+    ApiKeyListResponse:
+      value:
+        data:
+          - type: api-key
+            id: api_ABC123
+            attributes:
+              name: Default API Key
+              note: null
+              api-version: '2023-01-05'
+              api-key-inflection: kebab
+              api-attributes-blocklist:
+                - address-*
+                - name-last
+                - /data/attributes/fields/*-number
+              permissions:
+                - account.read
+                - account.write
+                - api_log.read
+              ip-address-allowlist:
+                - '*'
+              file-access-token-expires-in: 21600
+              last-used-at: '2023-08-17T23:24:00.000Z'
+              expires-at: null
+              created-at: '2023-08-17T23:18:13.000Z'
+        links:
+          prev: null
+          next: /api/v1/api-keys?page%5Bafter%5D=api_ByBdXDqUrguLAHjGZMuDZLCx
+    ApiKeyWithValueResponse:
+      value:
+        data:
+          type: api-key
+          id: api_ABC123
+          attributes:
+            name: Default API Key
+            note: null
+            api-version: '2023-01-05'
+            api-key-inflection: kebab
+            api-attributes-blocklist:
+              - address-*
+              - name-last
+              - /data/attributes/fields/*-number
+            permissions:
+              - account.read
+              - account.write
+              - api_log.read
+            ip-address-allowlist:
+              - '*'
+            file-access-token-expires-in: 21600
+            last-used-at: '2023-08-17T23:24:00.000Z'
+            expires-at: null
+            created-at: '2023-08-17T23:18:13.000Z'
+            value: persona_production_abcdefg
+    ApiKeyResponse:
+      value:
+        data:
+          type: api-key
+          id: api_ABC123
+          attributes:
+            name: Default API Key
+            note: null
+            api-version: '2023-01-05'
+            api-key-inflection: kebab
+            api-attributes-blocklist:
+              - address-*
+              - name-last
+              - /data/attributes/fields/*-number
+            permissions:
+              - account.read
+              - account.write
+              - api_log.read
+            ip-address-allowlist:
+              - '*'
+            file-access-token-expires-in: 21600
+            last-used-at: '2023-08-17T23:24:00.000Z'
+            expires-at: null
+            created-at: '2023-08-17T23:18:13.000Z'
+    ApiLogListResponse:
+      value:
+        data:
+          - type: api-log
+            id: req_ABC123
+            attributes:
+              request:
+                method: GET
+                path: /api/v1/inquiries
+                headers:
+                  Accept: application/json
+                  Host: withpersona.com
+                  Persona-Version: '2023-01-05'
+                  User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/
+                get-params: {}
+                post-params: {}
+                ip-address: 127.0.0.1
+              response:
+                status: 200
+                headers:
+                  Persona-Host: us-central1 persona-web-web-77b874ff88-rrdk9 53e23b240
+                  Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+                  Pragma: no-cache
+                  Expires: Fri, 01 Jan 1990 00:00:00 GMT
+                  RateLimit-Limit: 300
+                  RateLimit-Remaining: 299
+                  RateLimit-Reset: 60
+                  Request-Id: req_ABC123
+                  Content-Type: application/json; charset=utf-8
+                  Vary: Accept
+              created-at: '2023-09-20T20:20:03.485+00:00'
+        links:
+          prev: null
+          next: /api/v1/api-logs?page%5Bafter%5D=req_ByBdXDqUrguLAHjGZMuDZLCx
+    ApiLogResponse:
+      value:
+        data:
+          type: api-log
+          id: req_ABC123
+          attributes:
+            request:
+              method: GET
+              path: /api/v1/inquiries
+              headers:
+                Accept: application/json
+                Host: withpersona.com
+                Persona-Version: '2023-01-05'
+                User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/
+              get-params: {}
+              post-params: {}
+              ip-address: 127.0.0.1
+            response:
+              status: 200
+              headers:
+                Persona-Host: us-central1 persona-web-web-77b874ff88-rrdk9 53e23b240
+                Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+                Pragma: no-cache
+                Expires: Fri, 01 Jan 1990 00:00:00 GMT
+                RateLimit-Limit: 300
+                RateLimit-Remaining: 299
+                RateLimit-Reset: 60
+                Request-Id: req_ABC123
+                Content-Type: application/json; charset=utf-8
+                Vary: Accept
+            created-at: '2023-09-20T20:20:03.485+00:00'
     InquiryListResponse:
       value:
         data:

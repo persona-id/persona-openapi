@@ -31,7 +31,6 @@ get:
           name:
             type: string
             description: Filter API keys by name
-    - $ref: ../components/parameters/includeQueryParameter.yaml
   responses:
     '200':
       content:
@@ -39,56 +38,12 @@ get:
           examples:
             Result:
               summary: OK
-              value:
-                data:
-                  - type: api-key
-                    id: api_ABC123
-                    attributes:
-                      name: Webhook ABC
-                      note: null
-                      api-version: '2023-01-05'
-                      api-key-inflection: kebab
-                      api-attributes-blocklist:
-                        - address-*
-                        - name-last
-                        - /data/attributes/fields/*-number
-                      permissions:
-                        - account.read
-                        - account.write
-                        - api_log.read
-                      ip-address-allowlist:
-                        - '*'
-                      file-access-token-expires-in: 21600
-                      last-used-at: '2023-08-17T23:24:00.000Z'
-                      expires-at: null
-                      created-at: '2023-08-17T23:18:13.000Z'
-                  - type: api-key
-                    id: api_ABC123
-                    attributes:
-                      name: Webhook 123
-                      note: null
-                      api-version: '2023-01-05'
-                      api-key-inflection: camel
-                      api-attributes-blocklist: []
-                      permissions:
-                        - account.read
-                        - account.write
-                        - api_log.read
-                      ip-address-allowlist:
-                        - 192.158.1.38
-                        - 123.456.7.89
-                      file-access-token-expires-in: 600
-                      last-used-at: null
-                      expires-at: null
-                      created-at: '2023-08-17T23:18:13.000Z'
-                links:
-                  prev: null
-                  next: null
+              $ref: ../components/examples/ApiKeyListResponse.yaml
           schema:
             properties:
               data:
                 items:
-                  $ref: ../components/schemas/ApiKey.yaml
+                  $ref: ../components/schemas/ApiKeyData.yaml
                 type: array
                 description: An array of API Keys
               links:
@@ -125,18 +80,18 @@ post:
     - $ref: ../components/parameters/keyInflectionHeader.yaml
     - $ref: ../components/parameters/idempotencyKeyHeader.yaml
     - $ref: ../components/parameters/personaVersionHeader.yaml
-    - $ref: ../components/parameters/includeQueryParameter.yaml
   requestBody:
     $ref: ../components/requestBodies/ApiKeyRequest.yaml
   responses:
     '201':
       content:
         application/json:
+          examples:
+            Result:
+              summary: OK
+              $ref: ../components/examples/ApiKeyWithValueResponse.yaml
           schema:
-            properties:
-              data:
-                $ref: ../components/schemas/ApiKey.yaml
-            type: object
+            $ref: ../components/schemas/ApiKeyWithValue.yaml
       description: Created
     '400':
       $ref: ../components/responses/BadRequest.yaml

@@ -8,7 +8,6 @@ post:
     - $ref: ../components/parameters/keyInflectionHeader.yaml
     - $ref: ../components/parameters/idempotencyKeyHeader.yaml
     - $ref: ../components/parameters/personaVersionHeader.yaml
-    - $ref: ../components/parameters/includeQueryParameter.yaml
     - description: API key's ID (starts with "api_")
       in: path
       name: api-key-id
@@ -35,11 +34,12 @@ post:
     '200':
       content:
         application/json:
+          examples:
+            Result:
+              summary: OK
+              $ref: ../components/examples/ApiKeyResponse.yaml
           schema:
-            properties:
-              data:
-                $ref: ../components/schemas/ApiKey.yaml
-            type: object
+            $ref: ../components/schemas/ApiKey.yaml
       description: OK
     '400':
       $ref: ../components/responses/BadRequest.yaml
