@@ -1,6 +1,156 @@
-type: object
-title: Watchlist
+title: Watchlist Report
 description: A Watchlist Report
+type: object
 properties:
-  data:
-    $ref: ./ReportWatchlistData.yaml
+  type:
+    type: string
+    const: report/watchlist
+    description: report/watchlist
+  id:
+    type: string
+    description: The ID of the report
+    example: rep_7WNzPaNcroBKLarNHBjYDLAp
+  attributes:
+    properties: {}
+    allOf:
+      - $ref: ./ReportBaseAttributes.yaml
+      - type: object
+        properties:
+          name-first:
+            type: string
+            description: The input first name of the search individual
+            example: Joe
+          name-middle:
+            type: string
+            description: The input middle name of the search individual
+            example: 'N'
+          name-last:
+            type: string
+            description: The input last name of the search individual
+            example: Doe
+          term:
+            type: string
+            description: >-
+              The input combined term used for searching (first + middle + last
+              name)
+            example: Joe N Doe
+          birthdate:
+            type: string
+            description: The input DOB in YYYY-MM-DD format
+            example: '1991-10-07'
+          country-code:
+            type: string
+            description: The input search country in alpha2 format
+            example: US
+          matched-lists:
+            type: array
+            description: Lists that matched from the search input
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: EU - EC - Programme PRK - North Korea
+                url:
+                  type: string
+                  example: >-
+                    http://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32017R1509&from=EN
+                list-type:
+                  type: string
+                  example: sanction
+                list-types:
+                  type: array
+                  items:
+                    type: string
+                    example: sanction
+                slug:
+                  type: string
+                  example: eu-ec-programme-prk
+                flag-code:
+                  type: string
+                  example: EU
+                entities:
+                  type: array
+                  description: A matched person
+                  items:
+                    $ref: ./ReportWatchlistEntity.yaml
+          run-history:
+            $ref: ./ReportRunHistory.yaml
+          ignore-list:
+            type: array
+            items:
+              type: object
+              properties:
+                ignored-at:
+                  type: string
+                  format: date-time
+                  example: '2023-09-13T22:08:56.618Z'
+                run-history-completed-at:
+                  type: string
+                  format: date-time
+                  example: '2023-08-11T20:36:04.291Z'
+                match:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      example: EU - EC - Programme PRK - North Korea
+                    url:
+                      type: string
+                      example: >-
+                        http://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32017R1509&from=EN
+                    list-type:
+                      type: string
+                      example: sanction
+                    list-types:
+                      type: array
+                      items:
+                        type: string
+                        example: sanction
+                    slug:
+                      type: string
+                      example: eu-ec-programme-prk
+                    flag-code:
+                      type: string
+                      example: EU
+                    entities:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                            example: Won Ho Ri
+                          alias-type:
+                            type: string
+                            example: primary_name
+                          birthdates:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                day:
+                                  type: string
+                                  example: '17'
+                                year:
+                                  type: string
+                                  format: date
+                                  example: '1964'
+                                month:
+                                  type: string
+                                  format: date-time
+                                  example: '07'
+                                granularity:
+                                  type: string
+                                  example: day
+                          group-id:
+                            type: string
+                            example: EU:110286
+                user:
+                  type: string
+                  example: John Doe
+                ignore-reason:
+                  type: string
+                  example: false positive
+  relationships:
+    $ref: ./ReportBaseRelationships.yaml

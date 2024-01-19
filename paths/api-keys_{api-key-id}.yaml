@@ -8,6 +8,7 @@ get:
     - $ref: ../components/parameters/keyInflectionHeader.yaml
     - $ref: ../components/parameters/idempotencyKeyHeader.yaml
     - $ref: ../components/parameters/personaVersionHeader.yaml
+    - $ref: ../components/parameters/includeQueryParameter.yaml
     - description: API key's ID (starts with "api_")
       in: path
       name: api-key-id
@@ -23,7 +24,12 @@ get:
               summary: OK
               $ref: ../components/examples/ApiKeyWithValueResponse.yaml
           schema:
-            $ref: ../components/schemas/ApiKeyWithValue.yaml
+            type: object
+            properties:
+              data:
+                $ref: ../components/schemas/ApiKeyWithValue.yaml
+              included:
+                $ref: ../components/schemas/EmptyIncludedResponse.yaml
       description: OK
     '400':
       $ref: ../components/responses/BadRequest.yaml
@@ -46,6 +52,7 @@ patch:
     - $ref: ../components/parameters/keyInflectionHeader.yaml
     - $ref: ../components/parameters/idempotencyKeyHeader.yaml
     - $ref: ../components/parameters/personaVersionHeader.yaml
+    - $ref: ../components/parameters/includeQueryParameter.yaml
     - description: API key's ID (starts with "api_")
       in: path
       name: api-key-id
@@ -63,7 +70,12 @@ patch:
               summary: OK
               $ref: ../components/examples/ApiKeyResponse.yaml
           schema:
-            $ref: ../components/schemas/ApiKey.yaml
+            type: object
+            properties:
+              data:
+                $ref: ../components/schemas/ApiKey.yaml
+              included:
+                $ref: ../components/schemas/EmptyIncludedResponse.yaml
       description: OK
     '400':
       $ref: ../components/responses/BadRequest.yaml

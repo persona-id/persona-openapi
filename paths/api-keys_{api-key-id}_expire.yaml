@@ -8,6 +8,7 @@ post:
     - $ref: ../components/parameters/keyInflectionHeader.yaml
     - $ref: ../components/parameters/idempotencyKeyHeader.yaml
     - $ref: ../components/parameters/personaVersionHeader.yaml
+    - $ref: ../components/parameters/includeQueryParameter.yaml
     - description: API key's ID (starts with "api_")
       in: path
       name: api-key-id
@@ -39,7 +40,12 @@ post:
               summary: OK
               $ref: ../components/examples/ApiKeyResponse.yaml
           schema:
-            $ref: ../components/schemas/ApiKey.yaml
+            type: object
+            properties:
+              data:
+                $ref: ../components/schemas/ApiKey.yaml
+              included:
+                $ref: ../components/schemas/EmptyIncludedResponse.yaml
       description: OK
     '400':
       $ref: ../components/responses/BadRequest.yaml

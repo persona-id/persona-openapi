@@ -1,6 +1,141 @@
-type: object
-title: Email Address
+title: Email Address Report
 description: An Email Address Report
+type: object
 properties:
-  data:
-    $ref: ./ReportEmailAddressData.yaml
+  type:
+    type: string
+    const: report/email-address
+    description: report/email-address
+  id:
+    type: string
+    description: The ID of the report
+    example: rep_7WNzPaNcroBKLarNHBjYDLAp
+  attributes:
+    properties: {}
+    allOf:
+      - $ref: ./ReportBaseAttributes.yaml
+      - type: object
+        properties:
+          email-address:
+            type: string
+            description: The input email address of the search
+            example: example@domain.com
+          email-reputation:
+            type: string
+            description: The reputation of the email provided
+            enum:
+              - high
+              - medium
+              - low
+          email-reference-count:
+            type: integer
+            description: >-
+              The number of sources used to determine the reputation
+              (Deprecated)
+            example: 4
+          email-domain-reputation:
+            type: string
+            description: The reputation of the email domain provided (Deprecated)
+            enum:
+              - high
+              - medium
+              - low
+          email-first-seen-days:
+            type: integer
+            description: >-
+              How many days it has ben since the email was first seen in attack
+              (Deprecated)
+            example: 71
+          email-last-seen-days:
+            type: integer
+            description: >-
+              How many days it has been since the email was last seen
+              (Deprecated)
+            format: integer
+            example: 250
+          email-estimated-age-days:
+            type: integer
+            description: The estimated age of the email in days
+            example: 410
+          email-domain-age-days:
+            type: integer
+            description: The estimated age of the domain in days
+            example: 410
+          email-credentials-leaked:
+            type: boolean
+            description: >-
+              Whether the email has ever been detected to have been leaked
+              (Deprecated)
+            example: true
+          email-credentials-leaked-recent:
+            type: boolean
+            description: Whether the email has been recently detected as leaked
+            example: true
+          email-data-breached:
+            type: boolean
+            description: Whether the email was involved in a data breach (Deprecated)
+            example: true
+          email-malicious-activity-detected:
+            type: boolean
+            description: >-
+              Whether the email has ever been detected for suspected malicious
+              activity (Deprecated)
+            example: true
+          email-malicious-activity-detected-recent:
+            type: boolean
+            description: >-
+              Whether the email has recently been detected for suspected
+              malicious activity
+            example: true
+          email-is-blocklisted:
+            type: boolean
+            description: Whether the email appears on blocklists (Deprecated)
+            example: true
+          email-is-spam:
+            type: boolean
+            description: Whether the email is spam
+            example: true
+          email-is-free-provider:
+            type: boolean
+            description: Whether the email was made with a free provider (Deprecated)
+            example: true
+          email-is-disposable:
+            type: boolean
+            description: Whether the email is one that is disposable or temporary
+            example: true
+          email-is-deliverable:
+            type: boolean
+            description: Whether the email is deliverable
+            example: true
+          email-is-valid-mx:
+            type: boolean
+            description: Whether the domain has a valid MX record
+            example: true
+          email-is-spoofable:
+            type: boolean
+            description: >-
+              Whether the email can be spoofed. (E.G. not a strict SPF policy or
+              DMARC not enforced. Deprecated)
+            example: true
+          email-is-spf-strict:
+            type: boolean
+            description: Whether there is a sufficiently strict SPF record (Deprecated)
+            example: true
+          email-is-dmarc-enforced:
+            type: boolean
+            description: Whether DMARC is configured correctly and enforced (Deprecated)
+            example: true
+          email-is-suspicious:
+            type: boolean
+            description: Whether the email is suspicious or risky
+            example: true
+          email-domain-exists:
+            type: boolean
+            description: Whether the domain of the email exists
+            example: true
+          email-domain:
+            type: string
+            description: The domain of the email
+            example: gmail.com
+  relationships:
+    $ref: ./ReportBaseRelationships.yaml

@@ -45,7 +45,7 @@ get:
               data:
                 type: array
                 items:
-                  $ref: ../components/schemas/ReportData.yaml
+                  $ref: ../components/schemas/Report.yaml
               links:
                 type: object
                 properties:
@@ -73,21 +73,16 @@ get:
                     attributes:
                       created-at: '2019-12-18T22:43:03.000Z'
                       completed-at: '2019-12-18T22:43:03.000Z'
-                  - type: report/email-risk
+                  - type: report/email-address
                     id: rep_LatvE1PdVhfiwcJWVLj4Z25j
                     attributes:
                       created-at: '2019-12-13T08:34:10.000Z'
                       completed-at: '2019-12-13T08:34:10.000Z'
-                  - type: report/phone-risk
+                  - type: report/phone-number
                     id: rep_RU3JgzXaAzVV2g2NYLd7ub12
                     attributes:
                       created-at: '2019-12-13T08:32:49.000Z'
                       completed-at: '2019-12-13T08:33:29.000Z'
-                  - type: report/sec-action-lookup
-                    id: rep_Eoe14YQ7efbiH73zkTFAkveB
-                    attributes:
-                      created-at: '2019-12-12T20:50:55.000Z'
-                      completed-at: '2019-12-12T20:50:55.000Z'
                   - type: report/watchlist
                     id: rep_6LRELcKmPcx9MxYGk6mdCPJo
                     attributes:
@@ -123,13 +118,44 @@ post:
     content:
       application/json:
         schema:
-          $ref: ../components/schemas/ReportRequest.yaml
+          properties:
+            data:
+              discriminator:
+                propertyName: type
+                mapping:
+                  report/watchlist: ../components/schemas/ReportWatchlistRequest.yaml
+                  report/crypto-address-watchlist: >-
+                    ../components/schemas/ReportCryptoAddressWatchlistRequest.yaml
+                  report/adverse-media: ../components/schemas/ReportAdverseMediaRequest.yaml
+                  report/address-lookup: ../components/schemas/ReportAddressLookupRequest.yaml
+                  report/politically-exposed-person: >-
+                    ../components/schemas/ReportPoliticallyExposedPersonRequest.yaml
+                  report/email-address: ../components/schemas/ReportEmailAddressRequest.yaml
+                  report/phone-number: ../components/schemas/ReportPhoneRiskRequest.yaml
+                  report/social-media: ../components/schemas/ReportSocialMediaRequest.yaml
+                  report/business-lookup: ../components/schemas/ReportBusinessLookupRequest.yaml
+              oneOf:
+                - $ref: ../components/schemas/ReportWatchlistRequest.yaml
+                - $ref: >-
+                    ../components/schemas/ReportCryptoAddressWatchlistRequest.yaml
+                - $ref: ../components/schemas/ReportAdverseMediaRequest.yaml
+                - $ref: ../components/schemas/ReportAddressLookupRequest.yaml
+                - $ref: >-
+                    ../components/schemas/ReportPoliticallyExposedPersonRequest.yaml
+                - $ref: ../components/schemas/ReportEmailAddressRequest.yaml
+                - $ref: ../components/schemas/ReportPhoneRiskRequest.yaml
+                - $ref: ../components/schemas/ReportSocialMediaRequest.yaml
+                - $ref: ../components/schemas/ReportBusinessLookupRequest.yaml
+          type: object
   responses:
     '201':
       content:
         application/json:
           schema:
-            $ref: ../components/schemas/Report.yaml
+            type: object
+            properties:
+              data:
+                $ref: ../components/schemas/Report.yaml
       description: Created
     '400':
       $ref: ../components/responses/BadRequest.yaml

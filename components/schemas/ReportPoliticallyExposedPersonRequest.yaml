@@ -1,6 +1,43 @@
-type: object
 title: Politically Exposed Person Request
 description: Fields required to create a Politically Exposed Person Report
+type: object
 properties:
-  data:
-    $ref: ./ReportPoliticallyExposedPersonRequestData.yaml
+  type:
+    type: string
+    const: report/politically-exposed-person
+    description: report/politically-exposed-person
+  attributes:
+    properties: {}
+    allOf:
+      - $ref: ./ReportBaseRequestAttributes.yaml
+      - type: object
+        properties:
+          query:
+            type: object
+            properties:
+              name-first:
+                type: string
+                description: The input first name of the search individual
+                example: Joe
+              name-middle:
+                type: string
+                description: The input middle name of the search individual
+                example: 'N'
+              name-last:
+                type: string
+                description: The input last name of the search individual
+                example: Doe
+              term:
+                type: string
+                description: >-
+                  The input combined term used for searching (first + middle +
+                  last name). Either the name or the term fields are required.
+                example: Joe N Doe
+              birthdate:
+                type: string
+                description: The input DOB in YYYY-MM-DD format
+                example: '1991-10-07'
+              country-code:
+                type: string
+                description: The input search country in alpha2 format
+                example: US

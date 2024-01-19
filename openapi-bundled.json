@@ -1237,6 +1237,9 @@
             "$ref": "#/components/parameters/personaVersionHeader"
           },
           {
+            "$ref": "#/components/parameters/includeQueryParameter"
+          },
+          {
             "in": "query",
             "name": "page",
             "style": "deepObject",
@@ -1287,10 +1290,11 @@
                   }
                 },
                 "schema": {
+                  "type": "object",
                   "properties": {
                     "data": {
                       "items": {
-                        "$ref": "#/components/schemas/ApiKeyData"
+                        "$ref": "#/components/schemas/ApiKey"
                       },
                       "type": "array",
                       "description": "An array of API Keys"
@@ -1311,9 +1315,11 @@
                         }
                       },
                       "type": "object"
+                    },
+                    "included": {
+                      "$ref": "#/components/schemas/EmptyIncludedResponse"
                     }
-                  },
-                  "type": "object"
+                  }
                 }
               }
             },
@@ -1353,6 +1359,9 @@
           },
           {
             "$ref": "#/components/parameters/personaVersionHeader"
+          },
+          {
+            "$ref": "#/components/parameters/includeQueryParameter"
           }
         ],
         "requestBody": {
@@ -1369,7 +1378,15 @@
                   }
                 },
                 "schema": {
-                  "$ref": "#/components/schemas/ApiKeyWithValue"
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/ApiKeyWithValue"
+                    },
+                    "included": {
+                      "$ref": "#/components/schemas/EmptyIncludedResponse"
+                    }
+                  }
                 }
               }
             },
@@ -1419,6 +1436,9 @@
             "$ref": "#/components/parameters/personaVersionHeader"
           },
           {
+            "$ref": "#/components/parameters/includeQueryParameter"
+          },
+          {
             "description": "API key's ID (starts with \"api_\")",
             "in": "path",
             "name": "api-key-id",
@@ -1439,7 +1459,15 @@
                   }
                 },
                 "schema": {
-                  "$ref": "#/components/schemas/ApiKeyWithValue"
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/ApiKeyWithValue"
+                    },
+                    "included": {
+                      "$ref": "#/components/schemas/EmptyIncludedResponse"
+                    }
+                  }
                 }
               }
             },
@@ -1481,6 +1509,9 @@
             "$ref": "#/components/parameters/personaVersionHeader"
           },
           {
+            "$ref": "#/components/parameters/includeQueryParameter"
+          },
+          {
             "description": "API key's ID (starts with \"api_\")",
             "in": "path",
             "name": "api-key-id",
@@ -1504,7 +1535,15 @@
                   }
                 },
                 "schema": {
-                  "$ref": "#/components/schemas/ApiKey"
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/ApiKey"
+                    },
+                    "included": {
+                      "$ref": "#/components/schemas/EmptyIncludedResponse"
+                    }
+                  }
                 }
               }
             },
@@ -1557,6 +1596,9 @@
             "$ref": "#/components/parameters/personaVersionHeader"
           },
           {
+            "$ref": "#/components/parameters/includeQueryParameter"
+          },
+          {
             "description": "API key's ID (starts with \"api_\")",
             "in": "path",
             "name": "api-key-id",
@@ -1600,7 +1642,15 @@
                   }
                 },
                 "schema": {
-                  "$ref": "#/components/schemas/ApiKey"
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/ApiKey"
+                    },
+                    "included": {
+                      "$ref": "#/components/schemas/EmptyIncludedResponse"
+                    }
+                  }
                 }
               }
             },
@@ -2347,7 +2397,7 @@
                           "mapping": {
                             "inquiry": "#/components/schemas/Inquiry",
                             "account": "#/components/schemas/Account",
-                            "report": "#/components/schemas/ReportData"
+                            "report": "#/components/schemas/Report"
                           }
                         },
                         "anyOf": [
@@ -2358,7 +2408,7 @@
                             "$ref": "#/components/schemas/Inquiry"
                           },
                           {
-                            "$ref": "#/components/schemas/ReportData"
+                            "$ref": "#/components/schemas/Report"
                           }
                         ]
                       }
@@ -2681,8 +2731,8 @@
                             "inquiry": "#/components/schemas/Inquiry",
                             "account": "#/components/schemas/Account",
                             "case-comment": "#/components/schemas/CaseComment",
-                            "report": "#/components/schemas/ReportData",
-                            "verification": "#/components/schemas/VerificationData"
+                            "report": "#/components/schemas/Report",
+                            "verification": "#/components/schemas/Verification"
                           }
                         },
                         "anyOf": [
@@ -2696,10 +2746,10 @@
                             "$ref": "#/components/schemas/CaseComment"
                           },
                           {
-                            "$ref": "#/components/schemas/ReportData"
+                            "$ref": "#/components/schemas/Report"
                           },
                           {
-                            "$ref": "#/components/schemas/VerificationData"
+                            "$ref": "#/components/schemas/Verification"
                           }
                         ]
                       }
@@ -2926,8 +2976,8 @@
                             "inquiry": "#/components/schemas/Inquiry",
                             "account": "#/components/schemas/Account",
                             "case-comment": "#/components/schemas/CaseComment",
-                            "report": "#/components/schemas/ReportData",
-                            "verification": "#/components/schemas/VerificationData"
+                            "report": "#/components/schemas/Report",
+                            "verification": "#/components/schemas/Verification"
                           }
                         },
                         "anyOf": [
@@ -2941,10 +2991,10 @@
                             "$ref": "#/components/schemas/CaseComment"
                           },
                           {
-                            "$ref": "#/components/schemas/ReportData"
+                            "$ref": "#/components/schemas/Report"
                           },
                           {
-                            "$ref": "#/components/schemas/VerificationData"
+                            "$ref": "#/components/schemas/Verification"
                           }
                         ]
                       }
@@ -3152,7 +3202,7 @@
                             "inquiry": "#/components/schemas/Inquiry",
                             "account": "#/components/schemas/Account",
                             "case-comment": "#/components/schemas/CaseComment",
-                            "report": "#/components/schemas/ReportData"
+                            "report": "#/components/schemas/Report"
                           }
                         },
                         "anyOf": [
@@ -3166,7 +3216,7 @@
                             "$ref": "#/components/schemas/CaseComment"
                           },
                           {
-                            "$ref": "#/components/schemas/ReportData"
+                            "$ref": "#/components/schemas/Report"
                           }
                         ]
                       }
@@ -7860,15 +7910,15 @@
                         "discriminator": {
                           "propertyName": "type",
                           "mapping": {
-                            "report": "#/components/schemas/ReportData",
+                            "report": "#/components/schemas/Report",
                             "inquiry-template": "#/components/schemas/InquiryTemplate",
                             "inquiry-session": "#/components/schemas/InquirySession",
-                            "verification": "#/components/schemas/VerificationData"
+                            "verification": "#/components/schemas/Verification"
                           }
                         },
                         "anyOf": [
                           {
-                            "$ref": "#/components/schemas/ReportData"
+                            "$ref": "#/components/schemas/Report"
                           },
                           {
                             "$ref": "#/components/schemas/InquiryTemplate"
@@ -7877,7 +7927,7 @@
                             "$ref": "#/components/schemas/InquirySession"
                           },
                           {
-                            "$ref": "#/components/schemas/VerificationData"
+                            "$ref": "#/components/schemas/Verification"
                           }
                         ]
                       }
@@ -9017,6 +9067,8 @@
                           "attributes": {
                             "status": "expired",
                             "created-at": "2023-07-25T04:15:20.000Z",
+                            "started-at": "2023-07-25T05:14:50.000Z",
+                            "expired-at": "2023-07-26T05:14:50.000Z",
                             "ip-address": "127.0.0.1",
                             "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36",
                             "os-name": "Mac",
@@ -9027,6 +9079,7 @@
                             "browser-full-version": "115.0.0.0",
                             "mobile-sdk-name": null,
                             "mobile-sdk-full-version": null,
+                            "device-handoff-method": null,
                             "is-proxy": false,
                             "is-tor": false,
                             "is-datacenter": false,
@@ -9272,6 +9325,8 @@
                           "attributes": {
                             "status": "expired",
                             "created-at": "2023-07-25T04:15:20.000Z",
+                            "started-at": "2023-07-25T05:14:50.000Z",
+                            "expired-at": "2023-07-26T05:14:50.000Z",
                             "ip-address": "127.0.0.1",
                             "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36",
                             "os-name": "Mac",
@@ -9282,6 +9337,7 @@
                             "browser-full-version": "115.0.0.0",
                             "mobile-sdk-name": null,
                             "mobile-sdk-full-version": null,
+                            "device-handoff-method": null,
                             "is-proxy": false,
                             "is-tor": false,
                             "is-datacenter": false,
@@ -9545,6 +9601,8 @@
                         "attributes": {
                           "status": "expired",
                           "created-at": "2023-07-25T04:15:20.000Z",
+                          "started-at": "2023-07-25T05:14:50.000Z",
+                          "expired-at": "2023-07-26T05:14:50.000Z",
                           "ip-address": "127.0.0.1",
                           "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36",
                           "os-name": "Mac",
@@ -9555,6 +9613,7 @@
                           "browser-full-version": "115.0.0.0",
                           "mobile-sdk-name": null,
                           "mobile-sdk-full-version": null,
+                          "device-handoff-method": null,
                           "is-proxy": false,
                           "is-tor": false,
                           "is-datacenter": false,
@@ -14627,7 +14686,7 @@
                     "data": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/ReportData"
+                        "$ref": "#/components/schemas/Report"
                       }
                     },
                     "links": {
@@ -14672,7 +14731,7 @@
                           }
                         },
                         {
-                          "type": "report/email-risk",
+                          "type": "report/email-address",
                           "id": "rep_LatvE1PdVhfiwcJWVLj4Z25j",
                           "attributes": {
                             "created-at": "2019-12-13T08:34:10.000Z",
@@ -14680,19 +14739,11 @@
                           }
                         },
                         {
-                          "type": "report/phone-risk",
+                          "type": "report/phone-number",
                           "id": "rep_RU3JgzXaAzVV2g2NYLd7ub12",
                           "attributes": {
                             "created-at": "2019-12-13T08:32:49.000Z",
                             "completed-at": "2019-12-13T08:33:29.000Z"
-                          }
-                        },
-                        {
-                          "type": "report/sec-action-lookup",
-                          "id": "rep_Eoe14YQ7efbiH73zkTFAkveB",
-                          "attributes": {
-                            "created-at": "2019-12-12T20:50:55.000Z",
-                            "completed-at": "2019-12-12T20:50:55.000Z"
                           }
                         },
                         {
@@ -14758,7 +14809,54 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ReportRequest"
+                "properties": {
+                  "data": {
+                    "discriminator": {
+                      "propertyName": "type",
+                      "mapping": {
+                        "report/watchlist": "#/components/schemas/ReportWatchlistRequest",
+                        "report/crypto-address-watchlist": "#/components/schemas/ReportCryptoAddressWatchlistRequest",
+                        "report/adverse-media": "#/components/schemas/ReportAdverseMediaRequest",
+                        "report/address-lookup": "#/components/schemas/ReportAddressLookupRequest",
+                        "report/politically-exposed-person": "#/components/schemas/ReportPoliticallyExposedPersonRequest",
+                        "report/email-address": "#/components/schemas/ReportEmailAddressRequest",
+                        "report/phone-number": "#/components/schemas/ReportPhoneRiskRequest",
+                        "report/social-media": "#/components/schemas/ReportSocialMediaRequest",
+                        "report/business-lookup": "#/components/schemas/ReportBusinessLookupRequest"
+                      }
+                    },
+                    "oneOf": [
+                      {
+                        "$ref": "#/components/schemas/ReportWatchlistRequest"
+                      },
+                      {
+                        "$ref": "#/components/schemas/ReportCryptoAddressWatchlistRequest"
+                      },
+                      {
+                        "$ref": "#/components/schemas/ReportAdverseMediaRequest"
+                      },
+                      {
+                        "$ref": "#/components/schemas/ReportAddressLookupRequest"
+                      },
+                      {
+                        "$ref": "#/components/schemas/ReportPoliticallyExposedPersonRequest"
+                      },
+                      {
+                        "$ref": "#/components/schemas/ReportEmailAddressRequest"
+                      },
+                      {
+                        "$ref": "#/components/schemas/ReportPhoneRiskRequest"
+                      },
+                      {
+                        "$ref": "#/components/schemas/ReportSocialMediaRequest"
+                      },
+                      {
+                        "$ref": "#/components/schemas/ReportBusinessLookupRequest"
+                      }
+                    ]
+                  }
+                },
+                "type": "object"
               }
             }
           }
@@ -14768,7 +14866,12 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Report"
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Report"
+                    }
+                  }
                 }
               }
             },
@@ -14837,7 +14940,12 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Report"
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Report"
+                    }
+                  }
                 }
               }
             },
@@ -14904,7 +15012,12 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Report"
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Report"
+                    }
+                  }
                 }
               }
             },
@@ -14990,21 +15103,16 @@
                     "summary": "OK",
                     "value": {
                       "data": {
-                        "type": "report/employer-lookup",
-                        "id": "rep_EPehAHkBaZKU6S9LEDL1gv4h",
+                        "type": "report/watchlist",
+                        "id": "rep_EPehAHkBaZKUxxxLEDL1gv4h",
                         "attributes": {
                           "status": "ready",
                           "created-at": "2022-01-14T23:42:01.000Z",
                           "completed-at": "2022-01-14T23:42:01.000Z",
                           "redacted-at": null,
                           "report-template-version-name": "v1",
-                          "email-address": "malav.bhavsar@gmail.com",
-                          "email-domain-exists": null,
-                          "email-domain-reputation": null,
-                          "email-domain-is-new": null,
-                          "email-domain-days-since-creation": null,
-                          "email-domain-suspicious-tld": null,
-                          "employers": []
+                          "term": "Alexander Sample",
+                          "matched-lists": []
                         },
                         "relationships": {
                           "inquiry": {
@@ -15015,8 +15123,8 @@
                           },
                           "report-template": {
                             "data": {
-                              "type": "report-template/employer-lookup",
-                              "id": "rptp_jfp2TAY28vijsjpCcn4WVqdX"
+                              "type": "report-template/watchlist",
+                              "id": "rptp_jfp2TAY28vijxxxCcn4WVqdX"
                             }
                           }
                         }
@@ -15025,109 +15133,12 @@
                   }
                 },
                 "schema": {
+                  "type": "object",
                   "properties": {
                     "data": {
-                      "properties": {
-                        "attributes": {
-                          "properties": {
-                            "completed-at": {
-                              "examples": [
-                                "2022-01-14T23:42:01.000Z"
-                              ],
-                              "type": "string"
-                            },
-                            "created-at": {
-                              "examples": [
-                                "2022-01-14T23:42:01.000Z"
-                              ],
-                              "type": "string"
-                            },
-                            "email-address": {
-                              "examples": [
-                                "malav.bhavsar@gmail.com"
-                              ],
-                              "type": "string"
-                            },
-                            "email-domain-days-since-creation": {},
-                            "email-domain-exists": {},
-                            "email-domain-is-new": {},
-                            "email-domain-reputation": {},
-                            "email-domain-suspicious-tld": {},
-                            "employers": {
-                              "type": "array"
-                            },
-                            "redacted-at": {},
-                            "report-template-version-name": {
-                              "examples": [
-                                "v1"
-                              ],
-                              "type": "string"
-                            },
-                            "status": {
-                              "examples": [
-                                "ready"
-                              ],
-                              "type": "string"
-                            }
-                          },
-                          "type": "object"
-                        },
-                        "id": {
-                          "examples": [
-                            "rep_EPehAHkBaZKU6S9LEDL1gv4h"
-                          ],
-                          "type": "string"
-                        },
-                        "relationships": {
-                          "properties": {
-                            "account": {
-                              "properties": {
-                                "data": {}
-                              },
-                              "type": "object"
-                            },
-                            "inquiry": {
-                              "properties": {
-                                "data": {}
-                              },
-                              "type": "object"
-                            },
-                            "report-template": {
-                              "properties": {
-                                "data": {
-                                  "properties": {
-                                    "id": {
-                                      "examples": [
-                                        "rptp_jfp2TAY28vijsjpCcn4WVqdX"
-                                      ],
-                                      "type": "string"
-                                    },
-                                    "type": {
-                                      "examples": [
-                                        "report-template/employer-lookup"
-                                      ],
-                                      "type": "string"
-                                    }
-                                  },
-                                  "type": "object"
-                                }
-                              },
-                              "type": "object"
-                            }
-                          },
-                          "type": "object"
-                        },
-                        "type": {
-                          "examples": [
-                            "report/employer-lookup"
-                          ],
-                          "type": "string"
-                        }
-                      },
-                      "type": "object"
+                      "$ref": "#/components/schemas/Report"
                     }
-                  },
-                  "type": "object"
+                  }
                 }
               }
             },
@@ -15270,104 +15281,12 @@
                   }
                 },
                 "schema": {
+                  "type": "object",
                   "properties": {
                     "data": {
-                      "properties": {
-                        "attributes": {
-                          "properties": {
-                            "completed-at": {
-                              "examples": [
-                                "2022-01-14T23:42:01.000Z"
-                              ],
-                              "type": "string"
-                            },
-                            "created-at": {
-                              "examples": [
-                                "2022-01-14T23:42:01.000Z"
-                              ],
-                              "type": "string"
-                            },
-                            "matched-lists": {
-                              "type": "array"
-                            },
-                            "redacted-at": {},
-                            "report-template-version-name": {
-                              "examples": [
-                                "v1"
-                              ],
-                              "type": "string"
-                            },
-                            "status": {
-                              "examples": [
-                                "ready"
-                              ],
-                              "type": "string"
-                            },
-                            "term": {
-                              "examples": [
-                                "Alexander Sample"
-                              ],
-                              "type": "string"
-                            }
-                          },
-                          "type": "object"
-                        },
-                        "id": {
-                          "examples": [
-                            "rep_EPehAHkBaZKUxxxLEDL1gv4h"
-                          ],
-                          "type": "string"
-                        },
-                        "relationships": {
-                          "properties": {
-                            "account": {
-                              "properties": {
-                                "data": {}
-                              },
-                              "type": "object"
-                            },
-                            "inquiry": {
-                              "properties": {
-                                "data": {}
-                              },
-                              "type": "object"
-                            },
-                            "report-template": {
-                              "properties": {
-                                "data": {
-                                  "properties": {
-                                    "id": {
-                                      "examples": [
-                                        "rptp_jfp2TAY28vijxxxCcn4WVqdX"
-                                      ],
-                                      "type": "string"
-                                    },
-                                    "type": {
-                                      "examples": [
-                                        "report-template/watchlist"
-                                      ],
-                                      "type": "string"
-                                    }
-                                  },
-                                  "type": "object"
-                                }
-                              },
-                              "type": "object"
-                            }
-                          },
-                          "type": "object"
-                        },
-                        "type": {
-                          "examples": [
-                            "report/watchlist"
-                          ],
-                          "type": "string"
-                        }
-                      },
-                      "type": "object"
+                      "$ref": "#/components/schemas/Report"
                     }
-                  },
-                  "type": "object"
+                  }
                 }
               }
             },
@@ -15470,104 +15389,12 @@
                   }
                 },
                 "schema": {
+                  "type": "object",
                   "properties": {
                     "data": {
-                      "properties": {
-                        "attributes": {
-                          "properties": {
-                            "completed-at": {
-                              "examples": [
-                                "2022-01-14T23:42:01.000Z"
-                              ],
-                              "type": "string"
-                            },
-                            "created-at": {
-                              "examples": [
-                                "2022-01-14T23:42:01.000Z"
-                              ],
-                              "type": "string"
-                            },
-                            "matched-lists": {
-                              "type": "array"
-                            },
-                            "redacted-at": {},
-                            "report-template-version-name": {
-                              "examples": [
-                                "v1"
-                              ],
-                              "type": "string"
-                            },
-                            "status": {
-                              "examples": [
-                                "ready"
-                              ],
-                              "type": "string"
-                            },
-                            "term": {
-                              "examples": [
-                                "Alexander Sample"
-                              ],
-                              "type": "string"
-                            }
-                          },
-                          "type": "object"
-                        },
-                        "id": {
-                          "examples": [
-                            "rep_EPehAHkBaZKUxxxLEDL1gv4h"
-                          ],
-                          "type": "string"
-                        },
-                        "relationships": {
-                          "properties": {
-                            "account": {
-                              "properties": {
-                                "data": {}
-                              },
-                              "type": "object"
-                            },
-                            "inquiry": {
-                              "properties": {
-                                "data": {}
-                              },
-                              "type": "object"
-                            },
-                            "report-template": {
-                              "properties": {
-                                "data": {
-                                  "properties": {
-                                    "id": {
-                                      "examples": [
-                                        "rptp_jfp2TAY28vijxxxCcn4WVqdX"
-                                      ],
-                                      "type": "string"
-                                    },
-                                    "type": {
-                                      "examples": [
-                                        "report-template/watchlist"
-                                      ],
-                                      "type": "string"
-                                    }
-                                  },
-                                  "type": "object"
-                                }
-                              },
-                              "type": "object"
-                            }
-                          },
-                          "type": "object"
-                        },
-                        "type": {
-                          "examples": [
-                            "report/watchlist"
-                          ],
-                          "type": "string"
-                        }
-                      },
-                      "type": "object"
+                      "$ref": "#/components/schemas/Report"
                     }
-                  },
-                  "type": "object"
+                  }
                 }
               }
             },
@@ -15726,21 +15553,16 @@
                     "summary": "OK",
                     "value": {
                       "data": {
-                        "type": "report/employer-lookup",
-                        "id": "rep_EPehAHkBaZKU6S9LEDL1gv4h",
+                        "type": "report/watchlist",
+                        "id": "rep_EPehAHkBaZKUxxxLEDL1gv4h",
                         "attributes": {
                           "status": "ready",
                           "created-at": "2022-01-14T23:42:01.000Z",
                           "completed-at": "2022-01-14T23:42:01.000Z",
                           "redacted-at": null,
                           "report-template-version-name": "v1",
-                          "email-address": "malav.bhavsar@gmail.com",
-                          "email-domain-exists": null,
-                          "email-domain-reputation": null,
-                          "email-domain-is-new": null,
-                          "email-domain-days-since-creation": null,
-                          "email-domain-suspicious-tld": null,
-                          "employers": []
+                          "term": "Alexander Sample",
+                          "matched-lists": []
                         },
                         "relationships": {
                           "inquiry": {
@@ -15751,8 +15573,8 @@
                           },
                           "report-template": {
                             "data": {
-                              "type": "report-template/employer-lookup",
-                              "id": "rptp_jfp2TAY28vijsjpCcn4WVqdX"
+                              "type": "report-template/watchlist",
+                              "id": "rptp_jfp2TAY28vijxxxCcn4WVqdX"
                             }
                           }
                         }
@@ -15761,109 +15583,12 @@
                   }
                 },
                 "schema": {
+                  "type": "object",
                   "properties": {
                     "data": {
-                      "properties": {
-                        "attributes": {
-                          "properties": {
-                            "completed-at": {
-                              "examples": [
-                                "2022-01-14T23:42:01.000Z"
-                              ],
-                              "type": "string"
-                            },
-                            "created-at": {
-                              "examples": [
-                                "2022-01-14T23:42:01.000Z"
-                              ],
-                              "type": "string"
-                            },
-                            "email-address": {
-                              "examples": [
-                                "malav.bhavsar@gmail.com"
-                              ],
-                              "type": "string"
-                            },
-                            "email-domain-days-since-creation": {},
-                            "email-domain-exists": {},
-                            "email-domain-is-new": {},
-                            "email-domain-reputation": {},
-                            "email-domain-suspicious-tld": {},
-                            "employers": {
-                              "type": "array"
-                            },
-                            "redacted-at": {},
-                            "report-template-version-name": {
-                              "examples": [
-                                "v1"
-                              ],
-                              "type": "string"
-                            },
-                            "status": {
-                              "examples": [
-                                "ready"
-                              ],
-                              "type": "string"
-                            }
-                          },
-                          "type": "object"
-                        },
-                        "id": {
-                          "examples": [
-                            "rep_EPehAHkBaZKU6S9LEDL1gv4h"
-                          ],
-                          "type": "string"
-                        },
-                        "relationships": {
-                          "properties": {
-                            "account": {
-                              "properties": {
-                                "data": {}
-                              },
-                              "type": "object"
-                            },
-                            "inquiry": {
-                              "properties": {
-                                "data": {}
-                              },
-                              "type": "object"
-                            },
-                            "report-template": {
-                              "properties": {
-                                "data": {
-                                  "properties": {
-                                    "id": {
-                                      "examples": [
-                                        "rptp_jfp2TAY28vijsjpCcn4WVqdX"
-                                      ],
-                                      "type": "string"
-                                    },
-                                    "type": {
-                                      "examples": [
-                                        "report-template/employer-lookup"
-                                      ],
-                                      "type": "string"
-                                    }
-                                  },
-                                  "type": "object"
-                                }
-                              },
-                              "type": "object"
-                            }
-                          },
-                          "type": "object"
-                        },
-                        "type": {
-                          "examples": [
-                            "report/employer-lookup"
-                          ],
-                          "type": "string"
-                        }
-                      },
-                      "type": "object"
+                      "$ref": "#/components/schemas/Report"
                     }
-                  },
-                  "type": "object"
+                  }
                 }
               }
             },
@@ -15966,104 +15691,12 @@
                   }
                 },
                 "schema": {
+                  "type": "object",
                   "properties": {
                     "data": {
-                      "properties": {
-                        "attributes": {
-                          "properties": {
-                            "completed-at": {
-                              "examples": [
-                                "2022-01-14T23:42:01.000Z"
-                              ],
-                              "type": "string"
-                            },
-                            "created-at": {
-                              "examples": [
-                                "2022-01-14T23:42:01.000Z"
-                              ],
-                              "type": "string"
-                            },
-                            "matched-lists": {
-                              "type": "array"
-                            },
-                            "redacted-at": {},
-                            "report-template-version-name": {
-                              "examples": [
-                                "v1"
-                              ],
-                              "type": "string"
-                            },
-                            "status": {
-                              "examples": [
-                                "ready"
-                              ],
-                              "type": "string"
-                            },
-                            "term": {
-                              "examples": [
-                                "Alexander Sample"
-                              ],
-                              "type": "string"
-                            }
-                          },
-                          "type": "object"
-                        },
-                        "id": {
-                          "examples": [
-                            "rep_EPehAHkBaZKUxxxLEDL1gv4h"
-                          ],
-                          "type": "string"
-                        },
-                        "relationships": {
-                          "properties": {
-                            "account": {
-                              "properties": {
-                                "data": {}
-                              },
-                              "type": "object"
-                            },
-                            "inquiry": {
-                              "properties": {
-                                "data": {}
-                              },
-                              "type": "object"
-                            },
-                            "report-template": {
-                              "properties": {
-                                "data": {
-                                  "properties": {
-                                    "id": {
-                                      "examples": [
-                                        "rptp_jfp2TAY28vijxxxCcn4WVqdX"
-                                      ],
-                                      "type": "string"
-                                    },
-                                    "type": {
-                                      "examples": [
-                                        "report-template/watchlist"
-                                      ],
-                                      "type": "string"
-                                    }
-                                  },
-                                  "type": "object"
-                                }
-                              },
-                              "type": "object"
-                            }
-                          },
-                          "type": "object"
-                        },
-                        "type": {
-                          "examples": [
-                            "report/watchlist"
-                          ],
-                          "type": "string"
-                        }
-                      },
-                      "type": "object"
+                      "$ref": "#/components/schemas/Report"
                     }
-                  },
-                  "type": "object"
+                  }
                 }
               }
             },
@@ -16166,104 +15799,12 @@
                   }
                 },
                 "schema": {
+                  "type": "object",
                   "properties": {
                     "data": {
-                      "properties": {
-                        "attributes": {
-                          "properties": {
-                            "completed-at": {
-                              "examples": [
-                                "2022-01-14T23:42:01.000Z"
-                              ],
-                              "type": "string"
-                            },
-                            "created-at": {
-                              "examples": [
-                                "2022-01-14T23:42:01.000Z"
-                              ],
-                              "type": "string"
-                            },
-                            "matched-lists": {
-                              "type": "array"
-                            },
-                            "redacted-at": {},
-                            "report-template-version-name": {
-                              "examples": [
-                                "v1"
-                              ],
-                              "type": "string"
-                            },
-                            "status": {
-                              "examples": [
-                                "ready"
-                              ],
-                              "type": "string"
-                            },
-                            "term": {
-                              "examples": [
-                                "Alexander Sample"
-                              ],
-                              "type": "string"
-                            }
-                          },
-                          "type": "object"
-                        },
-                        "id": {
-                          "examples": [
-                            "rep_EPehAHkBaZKUxxxLEDL1gv4h"
-                          ],
-                          "type": "string"
-                        },
-                        "relationships": {
-                          "properties": {
-                            "account": {
-                              "properties": {
-                                "data": {}
-                              },
-                              "type": "object"
-                            },
-                            "inquiry": {
-                              "properties": {
-                                "data": {}
-                              },
-                              "type": "object"
-                            },
-                            "report-template": {
-                              "properties": {
-                                "data": {
-                                  "properties": {
-                                    "id": {
-                                      "examples": [
-                                        "rptp_jfp2TAY28vijxxxCcn4WVqdX"
-                                      ],
-                                      "type": "string"
-                                    },
-                                    "type": {
-                                      "examples": [
-                                        "report-template/watchlist"
-                                      ],
-                                      "type": "string"
-                                    }
-                                  },
-                                  "type": "object"
-                                }
-                              },
-                              "type": "object"
-                            }
-                          },
-                          "type": "object"
-                        },
-                        "type": {
-                          "examples": [
-                            "report/watchlist"
-                          ],
-                          "type": "string"
-                        }
-                      },
-                      "type": "object"
+                      "$ref": "#/components/schemas/Report"
                     }
-                  },
-                  "type": "object"
+                  }
                 }
               }
             },
@@ -16358,21 +15899,16 @@
                     "summary": "OK",
                     "value": {
                       "data": {
-                        "type": "report/employer-lookup",
-                        "id": "rep_EPehAHkBaZKU6S9LEDL1gv4h",
+                        "type": "report/watchlist",
+                        "id": "rep_EPehAHkBaZKUxxxLEDL1gv4h",
                         "attributes": {
                           "status": "ready",
                           "created-at": "2022-01-14T23:42:01.000Z",
                           "completed-at": "2022-01-14T23:42:01.000Z",
                           "redacted-at": null,
                           "report-template-version-name": "v1",
-                          "email-address": "malav.bhavsar@gmail.com",
-                          "email-domain-exists": null,
-                          "email-domain-reputation": null,
-                          "email-domain-is-new": null,
-                          "email-domain-days-since-creation": null,
-                          "email-domain-suspicious-tld": null,
-                          "employers": []
+                          "term": "Alexander Sample",
+                          "matched-lists": []
                         },
                         "relationships": {
                           "inquiry": {
@@ -16383,8 +15919,8 @@
                           },
                           "report-template": {
                             "data": {
-                              "type": "report-template/employer-lookup",
-                              "id": "rptp_jfp2TAY28vijsjpCcn4WVqdX"
+                              "type": "report-template/watchlist",
+                              "id": "rptp_jfp2TAY28vijxxxCcn4WVqdX"
                             }
                           }
                         }
@@ -16393,109 +15929,12 @@
                   }
                 },
                 "schema": {
+                  "type": "object",
                   "properties": {
                     "data": {
-                      "properties": {
-                        "attributes": {
-                          "properties": {
-                            "completed-at": {
-                              "examples": [
-                                "2022-01-14T23:42:01.000Z"
-                              ],
-                              "type": "string"
-                            },
-                            "created-at": {
-                              "examples": [
-                                "2022-01-14T23:42:01.000Z"
-                              ],
-                              "type": "string"
-                            },
-                            "email-address": {
-                              "examples": [
-                                "malav.bhavsar@gmail.com"
-                              ],
-                              "type": "string"
-                            },
-                            "email-domain-days-since-creation": {},
-                            "email-domain-exists": {},
-                            "email-domain-is-new": {},
-                            "email-domain-reputation": {},
-                            "email-domain-suspicious-tld": {},
-                            "employers": {
-                              "type": "array"
-                            },
-                            "redacted-at": {},
-                            "report-template-version-name": {
-                              "examples": [
-                                "v1"
-                              ],
-                              "type": "string"
-                            },
-                            "status": {
-                              "examples": [
-                                "ready"
-                              ],
-                              "type": "string"
-                            }
-                          },
-                          "type": "object"
-                        },
-                        "id": {
-                          "examples": [
-                            "rep_EPehAHkBaZKU6S9LEDL1gv4h"
-                          ],
-                          "type": "string"
-                        },
-                        "relationships": {
-                          "properties": {
-                            "account": {
-                              "properties": {
-                                "data": {}
-                              },
-                              "type": "object"
-                            },
-                            "inquiry": {
-                              "properties": {
-                                "data": {}
-                              },
-                              "type": "object"
-                            },
-                            "report-template": {
-                              "properties": {
-                                "data": {
-                                  "properties": {
-                                    "id": {
-                                      "examples": [
-                                        "rptp_jfp2TAY28vijsjpCcn4WVqdX"
-                                      ],
-                                      "type": "string"
-                                    },
-                                    "type": {
-                                      "examples": [
-                                        "report-template/employer-lookup"
-                                      ],
-                                      "type": "string"
-                                    }
-                                  },
-                                  "type": "object"
-                                }
-                              },
-                              "type": "object"
-                            }
-                          },
-                          "type": "object"
-                        },
-                        "type": {
-                          "examples": [
-                            "report/employer-lookup"
-                          ],
-                          "type": "string"
-                        }
-                      },
-                      "type": "object"
+                      "$ref": "#/components/schemas/Report"
                     }
-                  },
-                  "type": "object"
+                  }
                 }
               }
             },
@@ -20086,7 +19525,12 @@
                   }
                 },
                 "schema": {
-                  "$ref": "#/components/schemas/VerificationDatabase"
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/VerificationDatabase"
+                    }
+                  }
                 }
               }
             },
@@ -20155,7 +19599,12 @@
                   }
                 },
                 "schema": {
-                  "$ref": "#/components/schemas/VerificationDocument"
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/VerificationDocument"
+                    }
+                  }
                 }
               }
             },
@@ -20225,7 +19674,12 @@
                   }
                 },
                 "schema": {
-                  "$ref": "#/components/schemas/VerificationEmailAddress"
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/VerificationEmailAddress"
+                    }
+                  }
                 }
               }
             },
@@ -21668,7 +21122,12 @@
                   }
                 },
                 "schema": {
-                  "$ref": "#/components/schemas/VerificationPhoneNumber"
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/VerificationPhoneNumber"
+                    }
+                  }
                 }
               }
             },
@@ -22045,7 +21504,12 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Verification"
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Verification"
+                    }
+                  }
                 }
               }
             },
@@ -24033,9 +23497,9 @@
           }
         }
       },
-      "ApiKeyData": {
+      "ApiKey": {
         "type": "object",
-        "description": "An API Key resource's data",
+        "description": "An API Key resource",
         "properties": {
           "type": {
             "examples": [
@@ -24054,9 +23518,13 @@
           }
         }
       },
-      "ApiKeyWithValueData": {
+      "EmptyIncludedResponse": {
+        "type": "array",
+        "description": "Excluded from the response by default. Will be an empty array when the `include` query parameter in the request was explicitly set to empty."
+      },
+      "ApiKeyWithValue": {
         "type": "object",
-        "description": "An API Key resource's data",
+        "description": "An API Key resource",
         "properties": {
           "type": {
             "examples": [
@@ -24089,26 +23557,6 @@
                 }
               }
             ]
-          }
-        }
-      },
-      "ApiKeyWithValue": {
-        "type": "object",
-        "title": "API Key",
-        "description": "An Api Key resource that includes its value, which should be treated with the utmost security.",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ApiKeyWithValueData"
-          }
-        }
-      },
-      "ApiKey": {
-        "type": "object",
-        "title": "API Key",
-        "description": "An Api Key resource",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ApiKeyData"
           }
         }
       },
@@ -25540,154 +24988,55 @@
           }
         }
       },
-      "ReportBaseData": {
+      "ReportBaseAttributes": {
         "type": "object",
-        "title": "Reports Data",
-        "description": "The report's data",
         "properties": {
-          "type": {
+          "status": {
             "type": "string",
-            "description": "The type of the report"
+            "description": "The status of the report",
+            "enum": [
+              "pending",
+              "ready",
+              "errored"
+            ]
           },
-          "id": {
+          "created-at": {
             "type": "string",
-            "description": "The token of the report",
-            "example": "rep_7WNzPaNcroBKLarNHBjYDLAp"
+            "description": "The time the report was created in ISO 8601 format",
+            "example": "2020-04-12T05:08:51.000Z"
           },
-          "attributes": {
-            "type": "object",
-            "properties": {
-              "status": {
-                "type": "string",
-                "description": "The status of the report",
-                "enum": [
-                  "pending",
-                  "ready",
-                  "errored"
-                ]
-              },
-              "created-at": {
-                "type": "string",
-                "description": "The time the report was created in ISO 8601 format",
-                "example": "2020-04-12T05:08:51.000Z"
-              },
-              "completed-at": {
-                "type": "string",
-                "description": "The time the report completed processing in ISO 8601 format",
-                "example": "2020-04-13T00:23:57.000Z"
-              },
-              "redacted-at": {
-                "type": [
-                  "string",
-                  "null"
-                ],
-                "description": "The time the report was redacted in ISO 8601 format",
-                "example": null
-              },
-              "report-template-version-name": {
-                "type": "string",
-                "description": "The name of the report template version used for this report",
-                "example": "v1"
-              },
-              "has-match": {
-                "type": "boolean",
-                "description": "Whether or not the report matched"
-              },
-              "is-continuous": {
-                "type": "boolean",
-                "description": "Whether or not the report is recurrable and is currently recurring"
-              },
-              "tags": {
-                "type": "array",
-                "description": "Tags on the report",
-                "items": {
-                  "type": "string",
-                  "example": "tag1"
-                }
-              }
-            }
+          "completed-at": {
+            "type": "string",
+            "description": "The time the report completed processing in ISO 8601 format",
+            "example": "2020-04-13T00:23:57.000Z"
           },
-          "relationships": {
-            "properties": {
-              "inquiry": {
-                "type": "object",
-                "description": "The inquiry linked to the report",
-                "properties": {
-                  "data": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "example": "inq_KHK4MJCE4QvfocWB2intQ3YE",
-                        "type": "string"
-                      },
-                      "type": {
-                        "example": "inquiry",
-                        "type": "string"
-                      }
-                    }
-                  }
-                }
-              },
-              "account": {
-                "type": "object",
-                "description": "The account linked to the report",
-                "properties": {
-                  "data": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "example": "act_9e3yoAUApTRMjgNoPAC7TNtz",
-                        "type": "string"
-                      },
-                      "type": {
-                        "example": "account",
-                        "type": "string"
-                      }
-                    }
-                  }
-                }
-              },
-              "report-template": {
-                "type": "object",
-                "description": "The report template used to create this report",
-                "properties": {
-                  "data": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "example": "rptp_tQumELV14h7Vh9Qqm8Ytm5K1",
-                        "type": "string"
-                      },
-                      "type": {
-                        "example": "report-template",
-                        "type": "string"
-                      }
-                    }
-                  }
-                }
-              },
-              "cases": {
-                "type": "object",
-                "description": "The cases that this report is attached to",
-                "properties": {
-                  "data": {
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "example": "case_gqe7rH38FvxtzhGBQmDBsjkB",
-                          "type": "string"
-                        },
-                        "type": {
-                          "example": "case",
-                          "type": "string"
-                        }
-                      }
-                    },
-                    "type": "array"
-                  }
-                }
-              }
+          "redacted-at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The time the report was redacted in ISO 8601 format",
+            "example": null
+          },
+          "report-template-version-name": {
+            "type": "string",
+            "description": "The name of the report template version used for this report",
+            "example": "v1"
+          },
+          "has-match": {
+            "type": "boolean",
+            "description": "Whether or not the report matched"
+          },
+          "is-continuous": {
+            "type": "boolean",
+            "description": "Whether or not the report is recurrable and is currently recurring"
+          },
+          "tags": {
+            "type": "array",
+            "description": "Tags on the report",
+            "items": {
+              "type": "string",
+              "example": "tag1"
             }
           }
         }
@@ -25763,22 +25112,97 @@
           }
         }
       },
-      "ReportWatchlistData": {
-        "title": "Watchlist Data",
-        "properties": {},
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/ReportBaseData"
-          },
-          {
+      "ReportBaseRelationships": {
+        "type": "object",
+        "description": "Other Persona objects related to the report",
+        "properties": {
+          "inquiry": {
             "type": "object",
+            "description": "The inquiry linked to the report",
             "properties": {
-              "type": {
-                "type": "string",
-                "description": "report/watchlist",
-                "example": "report/watchlist"
+              "data": {
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "id": {
+                    "example": "inq_KHK4MJCE4QvfocWB2intQ3YE",
+                    "type": "string"
+                  },
+                  "type": {
+                    "example": "inquiry",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "account": {
+            "type": "object",
+            "description": "The account linked to the report",
+            "properties": {
+              "data": {
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "id": {
+                    "example": "act_9e3yoAUApTRMjgNoPAC7TNtz",
+                    "type": "string"
+                  },
+                  "type": {
+                    "example": "account",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "report-template": {
+            "type": "object",
+            "description": "The report template used to create this report",
+            "properties": {
+              "data": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "example": "rptp_tQumELV14h7Vh9Qqm8Ytm5K1",
+                    "type": "string"
+                  },
+                  "type": {
+                    "example": "report-template",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "ReportWatchlist": {
+        "title": "Watchlist Report",
+        "description": "A Watchlist Report",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report/watchlist",
+            "description": "report/watchlist"
+          },
+          "id": {
+            "type": "string",
+            "description": "The ID of the report",
+            "example": "rep_7WNzPaNcroBKLarNHBjYDLAp"
+          },
+          "attributes": {
+            "properties": {},
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ReportBaseAttributes"
               },
-              "attributes": {
+              {
                 "type": "object",
                 "properties": {
                   "name-first": {
@@ -25963,26 +25387,35 @@
                   }
                 }
               }
-            }
-          }
-        ]
-      },
-      "ReportCryptoAddressWatchlistData": {
-        "title": "Crypto Address Watchlist Data",
-        "properties": {},
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/ReportBaseData"
+            ]
           },
-          {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "description": "report/crypto-address-watchlist",
-                "example": "report/crypto-address-watchlist"
+          "relationships": {
+            "$ref": "#/components/schemas/ReportBaseRelationships"
+          }
+        }
+      },
+      "ReportCryptoAddressWatchlist": {
+        "title": "Crypto Address Watchlist Report",
+        "description": "A Crypto Address Watchlist Report",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report/crypto-address-watchlist",
+            "description": "report/crypto-address-watchlist"
+          },
+          "id": {
+            "type": "string",
+            "description": "The ID of the report",
+            "example": "rep_7WNzPaNcroBKLarNHBjYDLAp"
+          },
+          "attributes": {
+            "properties": {},
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ReportBaseAttributes"
               },
-              "attributes": {
+              {
                 "type": "object",
                 "properties": {
                   "query": {
@@ -26083,26 +25516,35 @@
                   }
                 }
               }
-            }
-          }
-        ]
-      },
-      "ReportAdverseMediaData": {
-        "title": "Adverse Media Data",
-        "properties": {},
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/ReportBaseData"
+            ]
           },
-          {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "description": "report/adverse-media",
-                "example": "report/adverse-media"
+          "relationships": {
+            "$ref": "#/components/schemas/ReportBaseRelationships"
+          }
+        }
+      },
+      "ReportAdverseMedia": {
+        "title": "Adverse Media Report",
+        "description": "An Adverse Media Report",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report/adverse-media",
+            "description": "report/adverse-media"
+          },
+          "id": {
+            "type": "string",
+            "description": "The ID of the report",
+            "example": "rep_7WNzPaNcroBKLarNHBjYDLAp"
+          },
+          "attributes": {
+            "properties": {},
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ReportBaseAttributes"
               },
-              "attributes": {
+              {
                 "type": "object",
                 "properties": {
                   "name-first": {
@@ -26234,26 +25676,35 @@
                   }
                 }
               }
-            }
-          }
-        ]
-      },
-      "ReportAddressLookupData": {
-        "title": "Address Lookup Data",
-        "properties": {},
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/ReportBaseData"
+            ]
           },
-          {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "description": "report/address-lookup",
-                "example": "report/address-lookup"
+          "relationships": {
+            "$ref": "#/components/schemas/ReportBaseRelationships"
+          }
+        }
+      },
+      "ReportAddressLookup": {
+        "title": "Address Lookup Report",
+        "description": "An Address Lookup Report",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report/address-lookup",
+            "description": "report/address-lookup"
+          },
+          "id": {
+            "type": "string",
+            "description": "The ID of the report",
+            "example": "rep_7WNzPaNcroBKLarNHBjYDLAp"
+          },
+          "attributes": {
+            "properties": {},
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ReportBaseAttributes"
               },
-              "attributes": {
+              {
                 "type": "object",
                 "properties": {
                   "addressee": {
@@ -26429,26 +25880,35 @@
                   }
                 }
               }
-            }
-          }
-        ]
-      },
-      "ReportPoliticallyExposedPersonData": {
-        "title": "Politically Exposed Person Data",
-        "properties": {},
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/ReportBaseData"
+            ]
           },
-          {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "description": "report/politically-exposed-person",
-                "example": "report/politically-exposed-person"
+          "relationships": {
+            "$ref": "#/components/schemas/ReportBaseRelationships"
+          }
+        }
+      },
+      "ReportPoliticallyExposedPerson": {
+        "title": "Politically Exposed Person Report",
+        "description": "A Politically Exposed Person Report",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report/politically-exposed-person",
+            "description": "report/politically-exposed-person"
+          },
+          "id": {
+            "type": "string",
+            "description": "The ID of the report",
+            "example": "rep_7WNzPaNcroBKLarNHBjYDLAp"
+          },
+          "attributes": {
+            "properties": {},
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ReportBaseAttributes"
               },
-              "attributes": {
+              {
                 "type": "object",
                 "properties": {
                   "query": {
@@ -26618,26 +26078,35 @@
                   }
                 }
               }
-            }
-          }
-        ]
-      },
-      "ReportEmailAddressData": {
-        "title": "Report Email Address Data",
-        "properties": {},
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/ReportBaseData"
+            ]
           },
-          {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "description": "report/email-address",
-                "example": "report/email-address"
+          "relationships": {
+            "$ref": "#/components/schemas/ReportBaseRelationships"
+          }
+        }
+      },
+      "ReportEmailAddress": {
+        "title": "Email Address Report",
+        "description": "An Email Address Report",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report/email-address",
+            "description": "report/email-address"
+          },
+          "id": {
+            "type": "string",
+            "description": "The ID of the report",
+            "example": "rep_7WNzPaNcroBKLarNHBjYDLAp"
+          },
+          "attributes": {
+            "properties": {},
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ReportBaseAttributes"
               },
-              "attributes": {
+              {
                 "type": "object",
                 "properties": {
                   "email-address": {
@@ -26776,26 +26245,35 @@
                   }
                 }
               }
-            }
-          }
-        ]
-      },
-      "ReportPhoneRiskData": {
-        "title": "Report Phone Risk Data",
-        "properties": {},
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/ReportBaseData"
+            ]
           },
-          {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "description": "report/phone-risk",
-                "example": "report/phone-risk"
+          "relationships": {
+            "$ref": "#/components/schemas/ReportBaseRelationships"
+          }
+        }
+      },
+      "ReportPhoneRisk": {
+        "title": "Phone Risk Report",
+        "description": "A Phone Risk Report",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report/phone-number",
+            "description": "report/phone-number"
+          },
+          "id": {
+            "type": "string",
+            "description": "The ID of the report",
+            "example": "rep_7WNzPaNcroBKLarNHBjYDLAp"
+          },
+          "attributes": {
+            "properties": {},
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ReportBaseAttributes"
               },
-              "attributes": {
+              {
                 "type": "object",
                 "properties": {
                   "phone-number": {
@@ -26857,26 +26335,35 @@
                   }
                 }
               }
-            }
-          }
-        ]
-      },
-      "ReportSocialMediaData": {
-        "title": "Report Social Media Data",
-        "properties": {},
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/ReportBaseData"
+            ]
           },
-          {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "description": "report/social-media",
-                "example": "report/social-media"
+          "relationships": {
+            "$ref": "#/components/schemas/ReportBaseRelationships"
+          }
+        }
+      },
+      "ReportSocialMedia": {
+        "title": "Social Media Report",
+        "description": "A Social Media Report",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report/social-media",
+            "description": "report/social-media"
+          },
+          "id": {
+            "type": "string",
+            "description": "The ID of the report",
+            "example": "rep_7WNzPaNcroBKLarNHBjYDLAp"
+          },
+          "attributes": {
+            "properties": {},
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ReportBaseAttributes"
               },
-              "attributes": {
+              {
                 "type": "object",
                 "properties": {
                   "name-first": {
@@ -26960,26 +26447,35 @@
                   }
                 }
               }
-            }
-          }
-        ]
-      },
-      "ReportBusinessLookupData": {
-        "title": "Report Business Lookup Data",
-        "properties": {},
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/ReportBaseData"
+            ]
           },
-          {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "description": "report/business-lookup",
-                "example": "report/business-lookup"
+          "relationships": {
+            "$ref": "#/components/schemas/ReportBaseRelationships"
+          }
+        }
+      },
+      "ReportBusinessLookup": {
+        "title": "Business Lookup Report",
+        "description": "A Business Lookup Report",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report/business-lookup",
+            "description": "report/business-lookup"
+          },
+          "id": {
+            "type": "string",
+            "description": "The ID of the report",
+            "example": "rep_7WNzPaNcroBKLarNHBjYDLAp"
+          },
+          "attributes": {
+            "properties": {},
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ReportBaseAttributes"
               },
-              "attributes": {
+              {
                 "type": "object",
                 "properties": {
                   "query": {
@@ -27425,42 +26921,56 @@
                   }
                 }
               }
-            }
+            ]
+          },
+          "relationships": {
+            "$ref": "#/components/schemas/ReportBaseRelationships"
           }
-        ]
+        }
       },
-      "ReportData": {
+      "Report": {
         "type": "object",
+        "discriminator": {
+          "propertyName": "type",
+          "mapping": {
+            "report/watchlist": "#/components/schemas/ReportWatchlist",
+            "report/crypto-address-watchlist": "#/components/schemas/ReportCryptoAddressWatchlist",
+            "report/adverse-media": "#/components/schemas/ReportAdverseMedia",
+            "report/address-lookup": "#/components/schemas/ReportAddressLookup",
+            "report/politically-exposed-person": "#/components/schemas/ReportPoliticallyExposedPerson",
+            "report/email-address": "#/components/schemas/ReportEmailAddress",
+            "report/phone-number": "#/components/schemas/ReportPhoneRisk",
+            "report/social-media": "#/components/schemas/ReportSocialMedia",
+            "report/business-lookup": "#/components/schemas/ReportBusinessLookup"
+          }
+        },
         "oneOf": [
           {
-            "$ref": "#/components/schemas/ReportBaseData"
+            "$ref": "#/components/schemas/ReportWatchlist"
           },
           {
-            "$ref": "#/components/schemas/ReportWatchlistData"
+            "$ref": "#/components/schemas/ReportCryptoAddressWatchlist"
           },
           {
-            "$ref": "#/components/schemas/ReportCryptoAddressWatchlistData"
+            "$ref": "#/components/schemas/ReportAdverseMedia"
           },
           {
-            "$ref": "#/components/schemas/ReportAdverseMediaData"
+            "$ref": "#/components/schemas/ReportAddressLookup"
           },
           {
-            "$ref": "#/components/schemas/ReportAddressLookupData"
+            "$ref": "#/components/schemas/ReportPoliticallyExposedPerson"
           },
           {
-            "$ref": "#/components/schemas/ReportPoliticallyExposedPersonData"
+            "$ref": "#/components/schemas/ReportEmailAddress"
           },
           {
-            "$ref": "#/components/schemas/ReportEmailAddressData"
+            "$ref": "#/components/schemas/ReportPhoneRisk"
           },
           {
-            "$ref": "#/components/schemas/ReportPhoneRiskData"
+            "$ref": "#/components/schemas/ReportSocialMedia"
           },
           {
-            "$ref": "#/components/schemas/ReportSocialMediaData"
-          },
-          {
-            "$ref": "#/components/schemas/ReportBusinessLookupData"
+            "$ref": "#/components/schemas/ReportBusinessLookup"
           }
         ]
       },
@@ -27517,23 +27027,7 @@
           }
         }
       },
-      "VerificationTopLevelData": {
-        "type": "object",
-        "title": "Verifications Data",
-        "description": "The verification's data",
-        "properties": {
-          "type": {
-            "type": "string",
-            "description": "The type of the verification"
-          },
-          "id": {
-            "type": "string",
-            "description": "The token of the verification",
-            "example": "ver_ABC123"
-          }
-        }
-      },
-      "VerificationAttributesBaseData": {
+      "VerificationBaseAttributes": {
         "type": "object",
         "properties": {
           "status": {
@@ -27652,7 +27146,7 @@
           }
         }
       },
-      "VerificationRelationshipsBaseData": {
+      "VerificationBaseRelationships": {
         "type": "object",
         "properties": {
           "inquiry": {
@@ -27784,86 +27278,84 @@
           }
         }
       },
-      "VerificationAamvaData": {
-        "title": "AAMVA Verification Data",
-        "properties": {},
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/VerificationTopLevelData"
+      "VerificationAamva": {
+        "title": "AAMVA Verification",
+        "description": "An AAMVA Verification",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "verification/aamva",
+            "const": "verification/aamva"
           },
-          {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "description": "verification/aamva",
-                "example": "verification/aamva"
+          "id": {
+            "type": "string",
+            "description": "The token of the verification",
+            "example": "ver_ABC123"
+          },
+          "attributes": {
+            "properties": {},
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/VerificationBaseAttributes"
               },
-              "attributes": {
-                "properties": {},
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/VerificationAttributesBaseData"
+              {
+                "type": "object",
+                "properties": {
+                  "name-first": {
+                    "description": "Given or first name.",
+                    "example": "Jane",
+                    "type": [
+                      "string",
+                      "null"
+                    ]
                   },
-                  {
-                    "type": "object",
-                    "properties": {
-                      "name-first": {
-                        "description": "Given or first name.",
-                        "example": "Jane",
-                        "type": [
-                          "string",
-                          "null"
-                        ]
-                      },
-                      "name-last": {
-                        "description": "Family or last name.",
-                        "example": "Doe",
-                        "type": [
-                          "string",
-                          "null"
-                        ]
-                      },
-                      "birthdate": {
-                        "description": "Birthdate, must be in the format \"YYYY-MM-DD\".",
-                        "format": "date",
-                        "example": "1994-04-12",
-                        "type": [
-                          "string"
-                        ]
-                      },
-                      "issue-date": {
-                        "type": "string",
-                        "format": "date",
-                        "example": "2021-05-27"
-                      },
-                      "expiration-date": {
-                        "type": "string",
-                        "format": "date",
-                        "example": "2029-05-08"
-                      },
-                      "address-postal-code": {
-                        "type": "string",
-                        "example": "94115-1010"
-                      },
-                      "issuing-authority": {
-                        "type": "string",
-                        "example": "CA"
-                      },
-                      "identification-number": {
-                        "type": "string",
-                        "example": "B12345678"
-                      }
-                    }
+                  "name-last": {
+                    "description": "Family or last name.",
+                    "example": "Doe",
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "birthdate": {
+                    "description": "Birthdate, must be in the format \"YYYY-MM-DD\".",
+                    "format": "date",
+                    "example": "1994-04-12",
+                    "type": [
+                      "string"
+                    ]
+                  },
+                  "issue-date": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "2021-05-27"
+                  },
+                  "expiration-date": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "2029-05-08"
+                  },
+                  "address-postal-code": {
+                    "type": "string",
+                    "example": "94115-1010"
+                  },
+                  "issuing-authority": {
+                    "type": "string",
+                    "example": "CA"
+                  },
+                  "identification-number": {
+                    "type": "string",
+                    "example": "B12345678"
                   }
-                ]
-              },
-              "relationships": {
-                "$ref": "#/components/schemas/VerificationRelationshipsBaseData"
+                }
               }
-            }
+            ]
+          },
+          "relationships": {
+            "$ref": "#/components/schemas/VerificationBaseRelationships"
           }
-        ]
+        }
       },
       "ExtractionResponses": {
         "type": [
@@ -27916,345 +27408,347 @@
           }
         }
       },
-      "VerificationDocumentData": {
-        "title": "Document Verification Data",
-        "properties": {},
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/VerificationTopLevelData"
-          },
-          {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "description": "verification/document",
-                "example": "verification/document"
-              },
-              "attributes": {
-                "properties": {},
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/VerificationAttributesBaseData"
-                  },
-                  {
-                    "type": "object",
-                    "properties": {
-                      "fields": {
-                        "description": "JSON key-value pairs of field name to field value.",
-                        "type": "object"
-                      },
-                      "files": {
-                        "description": "The files uploaded to the associated document for processing.",
-                        "items": {
-                          "properties": {
-                            "filename": {
-                              "examples": [
-                                "multipage_example.pdf"
-                              ],
-                              "type": "string"
-                            },
-                            "url": {
-                              "examples": [
-                                "https://withpersona.com/api/v1/files/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBdHc4IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--c4482780e1fa5c7bc0a26fc73b1dd76c44b98ad8/multipage_example.pdf"
-                              ],
-                              "type": "string"
-                            },
-                            "byte-size": {
-                              "examples": [
-                                2048
-                              ],
-                              "type": "integer"
-                            }
-                          },
-                          "type": "object"
-                        },
-                        "type": "array"
-                      },
-                      "files-normalized": {
-                        "items": {
-                          "properties": {
-                            "filename": {
-                              "examples": [
-                                "multipage_example.pdf"
-                              ],
-                              "type": "string"
-                            },
-                            "url": {
-                              "examples": [
-                                "https://withpersona.com/api/v1/files/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBdHc4IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--c4482780e1fa5c7bc0a26fc73b1dd76c44b98ad8/multipage_example.pdf"
-                              ],
-                              "type": "string"
-                            },
-                            "byte-size": {
-                              "examples": [
-                                2048
-                              ],
-                              "type": "integer"
-                            }
-                          },
-                          "type": "object"
-                        },
-                        "type": "array"
-                      },
-                      "extraction-responses": {
-                        "$ref": "#/components/schemas/ExtractionResponses"
-                      }
-                    }
-                  }
-                ]
-              },
-              "relationships": {
-                "properties": {},
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/VerificationRelationshipsBaseData"
-                  },
-                  {
-                    "type": "object",
-                    "properties": {
-                      "document": {
-                        "properties": {
-                          "data": {
-                            "properties": {
-                              "id": {
-                                "examples": [
-                                  "doc_ABC123"
-                                ],
-                                "type": "string"
-                              },
-                              "type": {
-                                "examples": [
-                                  "document/generic"
-                                ],
-                                "type": "string"
-                              }
-                            },
-                            "type": "object"
-                          }
-                        },
-                        "type": "object"
-                      }
-                    }
-                  }
-                ]
-              }
-            }
-          }
-        ]
-      },
-      "VerificationDatabaseData": {
-        "title": "Database Verification Data",
-        "properties": {},
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/VerificationTopLevelData"
-          },
-          {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "description": "verification/database",
-                "example": "verification/database"
-              },
-              "attributes": {
-                "properties": {},
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/VerificationAttributesBaseData"
-                  },
-                  {
-                    "$ref": "#/components/schemas/DefaultFields"
-                  },
-                  {
-                    "type": "object",
-                    "properties": {
-                      "normalized-address-street-1": {
-                        "description": "Normalized street name of residence address.",
-                        "examples": [
-                          "123 Main St"
-                        ],
-                        "type": [
-                          "string",
-                          "null"
-                        ]
-                      },
-                      "normalized-address-street-2": {
-                        "description": "Normalized extension of residence address, usually apartment or suite number.",
-                        "examples": [
-                          "Apt 1"
-                        ],
-                        "type": [
-                          "string",
-                          "null"
-                        ]
-                      },
-                      "normalized-address-city": {
-                        "description": "Normalized city of residence address. Not all international addresses use this attribute.",
-                        "examples": [
-                          "San Francisco"
-                        ],
-                        "type": [
-                          "string",
-                          "null"
-                        ]
-                      },
-                      "normalized-address-subdivision": {
-                        "description": "Normalized state or subdivision of residence address. In the US, this should be the abbreviated name. Not all international addresses use this attribute.",
-                        "examples": [
-                          "CA"
-                        ],
-                        "type": [
-                          "string",
-                          "null"
-                        ]
-                      },
-                      "normalized-address-postal-code": {
-                        "description": "Normalized ZIP or postal code of residence address. Not all international addresses use this attribute.",
-                        "examples": [
-                          "94111"
-                        ],
-                        "type": [
-                          "string",
-                          "null"
-                        ]
-                      },
-                      "identification-number": {
-                        "type": [
-                          "string",
-                          "null"
-                        ]
-                      },
-                      "document-number": {
-                        "type": [
-                          "string",
-                          "null"
-                        ]
-                      }
-                    }
-                  }
-                ]
-              },
-              "relationships": {
-                "$ref": "#/components/schemas/VerificationRelationshipsBaseData"
-              }
-            }
-          }
-        ]
-      },
-      "VerificationEmailAddressData": {
-        "title": "Email Address Verification Data",
-        "properties": {},
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/VerificationTopLevelData"
-          },
-          {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "description": "verification/email-address",
-                "example": "verification/email-address"
-              },
-              "attributes": {
-                "properties": {},
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/VerificationAttributesBaseData"
-                  },
-                  {
-                    "type": "object",
-                    "properties": {
-                      "email-address": {
-                        "example": "jane@doe.com",
-                        "type": "string"
-                      },
-                      "confirmation-code": {
-                        "example": "12345",
-                        "type": "string"
-                      }
-                    }
-                  }
-                ]
-              },
-              "relationships": {
-                "$ref": "#/components/schemas/VerificationRelationshipsBaseData"
-              }
-            }
-          }
-        ]
-      },
-      "VerificationPhoneNumberData": {
-        "title": "Phone Number Verification Data",
-        "properties": {},
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/VerificationTopLevelData"
-          },
-          {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "description": "verification/phone-number",
-                "example": "verification/phone-number"
-              },
-              "attributes": {
-                "properties": {},
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/VerificationAttributesBaseData"
-                  },
-                  {
-                    "type": "object",
-                    "properties": {
-                      "phone-number": {
-                        "example": "+14169671111",
-                        "type": "string"
-                      },
-                      "confirmation-code": {
-                        "example": "12345",
-                        "type": "string"
-                      },
-                      "metadata": {
-                        "type": "object",
-                        "properties": {
-                          "telesign-risk-score": {
-                            "type": "integer",
-                            "example": 306
-                          }
-                        }
-                      }
-                    }
-                  }
-                ]
-              },
-              "relationships": {
-                "$ref": "#/components/schemas/VerificationRelationshipsBaseData"
-              }
-            }
-          }
-        ]
-      },
-      "VerificationData": {
+      "VerificationDocument": {
+        "title": "Document Verification",
+        "description": "A Document Verification",
         "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "verification/document",
+            "const": "verification/document"
+          },
+          "id": {
+            "type": "string",
+            "description": "The token of the verification",
+            "example": "ver_ABC123"
+          },
+          "attributes": {
+            "properties": {},
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/VerificationBaseAttributes"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "fields": {
+                    "description": "JSON key-value pairs of field name to field value.",
+                    "type": "object"
+                  },
+                  "files": {
+                    "description": "The files uploaded to the associated document for processing.",
+                    "items": {
+                      "properties": {
+                        "filename": {
+                          "examples": [
+                            "multipage_example.pdf"
+                          ],
+                          "type": "string"
+                        },
+                        "url": {
+                          "examples": [
+                            "https://withpersona.com/api/v1/files/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBdHc4IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--c4482780e1fa5c7bc0a26fc73b1dd76c44b98ad8/multipage_example.pdf"
+                          ],
+                          "type": "string"
+                        },
+                        "byte-size": {
+                          "examples": [
+                            2048
+                          ],
+                          "type": "integer"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
+                  "files-normalized": {
+                    "items": {
+                      "properties": {
+                        "filename": {
+                          "examples": [
+                            "multipage_example.pdf"
+                          ],
+                          "type": "string"
+                        },
+                        "url": {
+                          "examples": [
+                            "https://withpersona.com/api/v1/files/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBdHc4IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--c4482780e1fa5c7bc0a26fc73b1dd76c44b98ad8/multipage_example.pdf"
+                          ],
+                          "type": "string"
+                        },
+                        "byte-size": {
+                          "examples": [
+                            2048
+                          ],
+                          "type": "integer"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
+                  "extraction-responses": {
+                    "$ref": "#/components/schemas/ExtractionResponses"
+                  }
+                }
+              }
+            ]
+          },
+          "relationships": {
+            "properties": {},
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/VerificationBaseRelationships"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "document": {
+                    "properties": {
+                      "data": {
+                        "properties": {
+                          "id": {
+                            "examples": [
+                              "doc_ABC123"
+                            ],
+                            "type": "string"
+                          },
+                          "type": {
+                            "examples": [
+                              "document/generic"
+                            ],
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      }
+                    },
+                    "type": "object"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "VerificationDatabase": {
+        "title": "Database Verification",
+        "description": "A Database Verification",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "verification/database",
+            "const": "verification/database"
+          },
+          "id": {
+            "type": "string",
+            "description": "The token of the verification",
+            "example": "ver_ABC123"
+          },
+          "attributes": {
+            "properties": {},
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/VerificationBaseAttributes"
+              },
+              {
+                "$ref": "#/components/schemas/DefaultFields"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "normalized-address-street-1": {
+                    "description": "Normalized street name of residence address.",
+                    "examples": [
+                      "123 Main St"
+                    ],
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "normalized-address-street-2": {
+                    "description": "Normalized extension of residence address, usually apartment or suite number.",
+                    "examples": [
+                      "Apt 1"
+                    ],
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "normalized-address-city": {
+                    "description": "Normalized city of residence address. Not all international addresses use this attribute.",
+                    "examples": [
+                      "San Francisco"
+                    ],
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "normalized-address-subdivision": {
+                    "description": "Normalized state or subdivision of residence address. In the US, this should be the abbreviated name. Not all international addresses use this attribute.",
+                    "examples": [
+                      "CA"
+                    ],
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "normalized-address-postal-code": {
+                    "description": "Normalized ZIP or postal code of residence address. Not all international addresses use this attribute.",
+                    "examples": [
+                      "94111"
+                    ],
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "identification-number": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "document-number": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          "relationships": {
+            "$ref": "#/components/schemas/VerificationBaseRelationships"
+          }
+        }
+      },
+      "VerificationEmailAddress": {
+        "title": "Email Address Verification",
+        "description": "An Email Address Verification",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "verification/email-address",
+            "const": "verification/email-address"
+          },
+          "id": {
+            "type": "string",
+            "description": "The token of the verification",
+            "example": "ver_ABC123"
+          },
+          "attributes": {
+            "properties": {},
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/VerificationBaseAttributes"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "email-address": {
+                    "example": "jane@doe.com",
+                    "type": "string"
+                  },
+                  "confirmation-code": {
+                    "example": "12345",
+                    "type": "string"
+                  }
+                }
+              }
+            ]
+          },
+          "relationships": {
+            "$ref": "#/components/schemas/VerificationBaseRelationships"
+          }
+        }
+      },
+      "VerificationPhoneNumber": {
+        "type": "object",
+        "title": "Phone Number Verification",
+        "description": "A Phone Number Verification",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "verification/phone-number",
+            "const": "verification/phone-number"
+          },
+          "id": {
+            "type": "string",
+            "description": "The token of the verification",
+            "example": "ver_ABC123"
+          },
+          "attributes": {
+            "properties": {},
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/VerificationBaseAttributes"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "phone-number": {
+                    "example": "+14169671111",
+                    "type": "string"
+                  },
+                  "confirmation-code": {
+                    "example": "12345",
+                    "type": "string"
+                  },
+                  "metadata": {
+                    "type": "object",
+                    "properties": {
+                      "telesign-risk-score": {
+                        "type": "integer",
+                        "example": 306
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "relationships": {
+            "$ref": "#/components/schemas/VerificationBaseRelationships"
+          }
+        }
+      },
+      "Verification": {
+        "type": "object",
+        "discriminator": {
+          "propertyName": "type",
+          "mapping": {
+            "verification/aamva": "#/components/schemas/VerificationAamva",
+            "verification/document": "#/components/schemas/VerificationDocument",
+            "verification/database": "#/components/schemas/VerificationDatabase",
+            "verification/email-address": "#/components/schemas/VerificationEmailAddress",
+            "verification/phone-number": "#/components/schemas/VerificationPhoneNumber"
+          }
+        },
         "oneOf": [
           {
-            "$ref": "#/components/schemas/VerificationAamvaData"
+            "$ref": "#/components/schemas/VerificationAamva"
           },
           {
-            "$ref": "#/components/schemas/VerificationDocumentData"
+            "$ref": "#/components/schemas/VerificationDocument"
           },
           {
-            "$ref": "#/components/schemas/VerificationDatabaseData"
+            "$ref": "#/components/schemas/VerificationDatabase"
           },
           {
-            "$ref": "#/components/schemas/VerificationEmailAddressData"
+            "$ref": "#/components/schemas/VerificationEmailAddress"
           },
           {
-            "$ref": "#/components/schemas/VerificationPhoneNumberData"
+            "$ref": "#/components/schemas/VerificationPhoneNumber"
           }
         ]
       },
@@ -28696,6 +28190,20 @@
                   "2023-09-22T17:13:50.000Z"
                 ]
               },
+              "started-at": {
+                "type": "string",
+                "format": "date-time",
+                "examples": [
+                  "2023-09-22T17:14:50.000Z"
+                ]
+              },
+              "expired-at": {
+                "type": "string",
+                "format": "date-time",
+                "examples": [
+                  "2023-09-23T17:13:50.000Z"
+                ]
+              },
               "ip-address": {
                 "type": "string",
                 "examples": [
@@ -28770,6 +28278,17 @@
                 ],
                 "examples": [
                   "0.0.1-SNAPSHOT"
+                ]
+              },
+              "device-handoff-method": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "examples": [
+                  "email",
+                  "sms",
+                  "qr"
                 ]
               },
               "is-proxy": {
@@ -28855,45 +28374,37 @@
           }
         }
       },
-      "ReportBaseRequestData": {
+      "ReportBaseRequestAttributes": {
         "type": "object",
-        "title": "Reports Request Data",
-        "description": "The inputs to create a report",
         "properties": {
-          "type": {
+          "account-id": {
             "type": "string"
           },
-          "attributes": {
-            "type": "object",
-            "properties": {
-              "account-id": {
-                "type": "string"
-              },
-              "reference-id": {
-                "type": "string"
-              },
-              "report-template-id": {
-                "type": "string"
-              }
-            }
+          "reference-id": {
+            "type": "string"
+          },
+          "report-template-id": {
+            "type": "string"
           }
         }
       },
-      "ReportWatchlistRequestData": {
-        "properties": {},
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/ReportBaseRequestData"
+      "ReportWatchlistRequest": {
+        "title": "Watchlist Request",
+        "description": "Fields required to create a Watchlist Report",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report/watchlist",
+            "description": "report/watchlist"
           },
-          {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "description": "report/watchlist",
-                "example": "report/watchlist"
+          "attributes": {
+            "properties": {},
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ReportBaseRequestAttributes"
               },
-              "attributes": {
+              {
                 "type": "object",
                 "properties": {
                   "name-first": {
@@ -28928,35 +28439,27 @@
                   }
                 }
               }
-            }
-          }
-        ]
-      },
-      "ReportWatchlistRequest": {
-        "type": "object",
-        "title": "Watchlist Request",
-        "description": "Fields required to create a Watchlist Report",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ReportWatchlistRequestData"
+            ]
           }
         }
       },
-      "ReportCryptoAddressWatchlistRequestData": {
-        "properties": {},
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/ReportBaseRequestData"
+      "ReportCryptoAddressWatchlistRequest": {
+        "title": "Crypto Address Watchlist Request",
+        "description": "Fields required to create a Crypto Address Watchlist Report",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report/crypto-address-watchlist",
+            "description": "report/crypto-address-watchlist"
           },
-          {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "description": "report/crypto-address-watchlist",
-                "example": "report/crypto-address-watchlist"
+          "attributes": {
+            "properties": {},
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ReportBaseRequestAttributes"
               },
-              "attributes": {
+              {
                 "type": "object",
                 "properties": {
                   "crypto-address": {
@@ -28966,35 +28469,27 @@
                   }
                 }
               }
-            }
-          }
-        ]
-      },
-      "ReportCryptoAddressWatchlistRequest": {
-        "type": "object",
-        "title": "Crypto Address Watchlist Request",
-        "description": "Fields required to create a Crypto Address Watchlist Report",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ReportCryptoAddressWatchlistRequestData"
+            ]
           }
         }
       },
-      "ReportAdverseMediaRequestData": {
-        "properties": {},
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/ReportBaseRequestData"
+      "ReportAdverseMediaRequest": {
+        "title": "Adverse Media Request",
+        "description": "Fields required to create an Adverse Media Report",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report/adverse-media",
+            "description": "report/adverse-media"
           },
-          {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "description": "report/adverse-media",
-                "example": "report/adverse-media"
+          "attributes": {
+            "properties": {},
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ReportBaseRequestAttributes"
               },
-              "attributes": {
+              {
                 "type": "object",
                 "properties": {
                   "name-first": {
@@ -29029,35 +28524,27 @@
                   }
                 }
               }
-            }
-          }
-        ]
-      },
-      "ReportAdverseMediaRequest": {
-        "type": "object",
-        "title": "Adverse Media Request",
-        "description": "Fields required to create an Adverse Media Report",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ReportAdverseMediaRequestData"
+            ]
           }
         }
       },
-      "ReportAddressLookupRequestData": {
-        "properties": {},
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/ReportBaseRequestData"
+      "ReportAddressLookupRequest": {
+        "title": "Address Lookup Request",
+        "description": "Fields required to create an Address Lookup Report",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report/address-lookup",
+            "description": "report/address-lookup"
           },
-          {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "description": "report/address-lookup",
-                "example": "report/address-lookup"
+          "attributes": {
+            "properties": {},
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ReportBaseRequestAttributes"
               },
-              "attributes": {
+              {
                 "type": "object",
                 "properties": {
                   "addressee": {
@@ -29086,35 +28573,27 @@
                   }
                 }
               }
-            }
-          }
-        ]
-      },
-      "ReportAddressLookupRequest": {
-        "type": "object",
-        "title": "Address Lookup Request",
-        "description": "Fields required to create an Address Lookup Report",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ReportAddressLookupRequestData"
+            ]
           }
         }
       },
-      "ReportPoliticallyExposedPersonRequestData": {
-        "properties": {},
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/ReportBaseRequestData"
+      "ReportPoliticallyExposedPersonRequest": {
+        "title": "Politically Exposed Person Request",
+        "description": "Fields required to create a Politically Exposed Person Report",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report/politically-exposed-person",
+            "description": "report/politically-exposed-person"
           },
-          {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "description": "report/politically-exposed-person",
-                "example": "report/politically-exposed-person"
+          "attributes": {
+            "properties": {},
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ReportBaseRequestAttributes"
               },
-              "attributes": {
+              {
                 "type": "object",
                 "properties": {
                   "query": {
@@ -29154,35 +28633,27 @@
                   }
                 }
               }
-            }
-          }
-        ]
-      },
-      "ReportPoliticallyExposedPersonRequest": {
-        "type": "object",
-        "title": "Politically Exposed Person Request",
-        "description": "Fields required to create a Politically Exposed Person Report",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ReportPoliticallyExposedPersonRequestData"
+            ]
           }
         }
       },
-      "ReportEmailAddressRequestData": {
-        "properties": {},
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/ReportBaseRequestData"
+      "ReportEmailAddressRequest": {
+        "title": "Email Address Request",
+        "description": "Fields required to create an Email Address Report",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report/email-address",
+            "description": "report/email-address"
           },
-          {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "description": "report/email-address",
-                "example": "report/email-address"
+          "attributes": {
+            "properties": {},
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ReportBaseRequestAttributes"
               },
-              "attributes": {
+              {
                 "type": "object",
                 "properties": {
                   "query": {
@@ -29197,35 +28668,27 @@
                   }
                 }
               }
-            }
-          }
-        ]
-      },
-      "ReportEmailAddressRequest": {
-        "type": "object",
-        "title": "Email Address Request",
-        "description": "Fields required to create an Email Address Report",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ReportEmailAddressRequestData"
+            ]
           }
         }
       },
-      "ReportPhoneRiskRequestData": {
-        "properties": {},
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/ReportBaseRequestData"
+      "ReportPhoneRiskRequest": {
+        "title": "Phone Risk Request",
+        "description": "Fields required to create a Phone Risk Report",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report/phone-number",
+            "description": "report/phone-number"
           },
-          {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "description": "report/phone-risk",
-                "example": "report/phone-risk"
+          "attributes": {
+            "properties": {},
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ReportBaseRequestAttributes"
               },
-              "attributes": {
+              {
                 "type": "object",
                 "properties": {
                   "phone-number": {
@@ -29235,35 +28698,27 @@
                   }
                 }
               }
-            }
-          }
-        ]
-      },
-      "ReportPhoneRiskRequest": {
-        "type": "object",
-        "title": "Phone Risk Request",
-        "description": "Fields required to create a Phone Risk Report",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ReportPhoneRiskRequestData"
+            ]
           }
         }
       },
-      "ReportSocialMediaRequestData": {
-        "properties": {},
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/ReportBaseRequestData"
+      "ReportSocialMediaRequest": {
+        "title": "Social Media Request",
+        "description": "Fields required to create a Social Media Report",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report/social-media",
+            "description": "report/social-media"
           },
-          {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "description": "report/social-media",
-                "example": "report/social-media"
+          "attributes": {
+            "properties": {},
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ReportBaseRequestAttributes"
               },
-              "attributes": {
+              {
                 "type": "object",
                 "properties": {
                   "name-first": {
@@ -29300,35 +28755,27 @@
                   }
                 }
               }
-            }
-          }
-        ]
-      },
-      "ReportSocialMediaRequest": {
-        "type": "object",
-        "title": "Social Media Request",
-        "description": "Fields required to create a Social Media Report",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ReportSocialMediaRequestData"
+            ]
           }
         }
       },
-      "ReportBusinessLookupRequestData": {
-        "properties": {},
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/ReportBaseRequestData"
+      "ReportBusinessLookupRequest": {
+        "title": "Business Lookup Request",
+        "description": "Fields required to create a Business Lookup Report",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report/business-lookup",
+            "description": "report/business-lookup"
           },
-          {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "description": "report/business-lookup",
-                "example": "report/business-lookup"
+          "attributes": {
+            "properties": {},
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ReportBaseRequestAttributes"
               },
-              "attributes": {
+              {
                 "type": "object",
                 "properties": {
                   "query": {
@@ -29393,173 +28840,9 @@
                   }
                 }
               }
-            }
-          }
-        ]
-      },
-      "ReportBusinessLookupRequest": {
-        "type": "object",
-        "title": "Business Lookup Request",
-        "description": "Fields required to create a Business Lookup Report",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ReportBusinessLookupRequestData"
+            ]
           }
         }
-      },
-      "ReportRequest": {
-        "type": "object",
-        "oneOf": [
-          {
-            "$ref": "#/components/schemas/ReportWatchlistRequest"
-          },
-          {
-            "$ref": "#/components/schemas/ReportCryptoAddressWatchlistRequest"
-          },
-          {
-            "$ref": "#/components/schemas/ReportAdverseMediaRequest"
-          },
-          {
-            "$ref": "#/components/schemas/ReportAddressLookupRequest"
-          },
-          {
-            "$ref": "#/components/schemas/ReportPoliticallyExposedPersonRequest"
-          },
-          {
-            "$ref": "#/components/schemas/ReportEmailAddressRequest"
-          },
-          {
-            "$ref": "#/components/schemas/ReportPhoneRiskRequest"
-          },
-          {
-            "$ref": "#/components/schemas/ReportSocialMediaRequest"
-          },
-          {
-            "$ref": "#/components/schemas/ReportBusinessLookupRequest"
-          }
-        ]
-      },
-      "ReportWatchlist": {
-        "type": "object",
-        "title": "Watchlist",
-        "description": "A Watchlist Report",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ReportWatchlistData"
-          }
-        }
-      },
-      "ReportCryptoAddressWatchlist": {
-        "type": "object",
-        "title": "Crypto Address Watchlist",
-        "description": "A Crypto Address Watchlist Report",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ReportCryptoAddressWatchlistData"
-          }
-        }
-      },
-      "ReportAdverseMedia": {
-        "type": "object",
-        "title": "Adverse Media",
-        "description": "An Adverse Media Report",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ReportAdverseMediaData"
-          }
-        }
-      },
-      "ReportAddressLookup": {
-        "type": "object",
-        "title": "Address Lookup",
-        "description": "An Address Lookup Report",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ReportAddressLookupData"
-          }
-        }
-      },
-      "ReportPoliticallyExposedPerson": {
-        "type": "object",
-        "title": "Politically Exposed Person",
-        "description": "A Politically Exposed Person Report",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ReportPoliticallyExposedPersonData"
-          }
-        }
-      },
-      "ReportEmailAddress": {
-        "type": "object",
-        "title": "Email Address",
-        "description": "An Email Address Report",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ReportEmailAddressData"
-          }
-        }
-      },
-      "ReportPhoneRisk": {
-        "type": "object",
-        "title": "Phone Risk",
-        "description": "A Phone Risk Report",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ReportPhoneRiskData"
-          }
-        }
-      },
-      "ReportSocialMedia": {
-        "type": "object",
-        "title": "Social Media",
-        "description": "A Social Media Report",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ReportSocialMediaData"
-          }
-        }
-      },
-      "ReportBusinessLookup": {
-        "type": "object",
-        "title": "Business Lookup",
-        "description": "A Business Lookup Report",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/ReportBusinessLookupData"
-          }
-        }
-      },
-      "Report": {
-        "type": "object",
-        "oneOf": [
-          {
-            "$ref": "#/components/schemas/ReportWatchlist"
-          },
-          {
-            "$ref": "#/components/schemas/ReportCryptoAddressWatchlist"
-          },
-          {
-            "$ref": "#/components/schemas/ReportAdverseMedia"
-          },
-          {
-            "$ref": "#/components/schemas/ReportAddressLookup"
-          },
-          {
-            "$ref": "#/components/schemas/ReportPoliticallyExposedPerson"
-          },
-          {
-            "$ref": "#/components/schemas/ReportEmailAddress"
-          },
-          {
-            "$ref": "#/components/schemas/ReportPhoneRisk"
-          },
-          {
-            "$ref": "#/components/schemas/ReportSocialMedia"
-          },
-          {
-            "$ref": "#/components/schemas/ReportBusinessLookup"
-          }
-        ]
       },
       "Transaction": {
         "type": "object",
@@ -29955,76 +29238,6 @@
             }
           }
         }
-      },
-      "VerificationDatabase": {
-        "type": "object",
-        "title": "Database Verification",
-        "description": "A Database Verification",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/VerificationDatabaseData"
-          }
-        }
-      },
-      "VerificationDocument": {
-        "type": "object",
-        "title": "Document Verification",
-        "description": "A Document Verification",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/VerificationDocumentData"
-          }
-        }
-      },
-      "VerificationEmailAddress": {
-        "type": "object",
-        "title": "Email Address Verification",
-        "description": "An Email Address Verification",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/VerificationEmailAddressData"
-          }
-        }
-      },
-      "VerificationPhoneNumber": {
-        "type": "object",
-        "title": "Phone Number Verification",
-        "description": "A Phone Number Verification",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/VerificationPhoneNumberData"
-          }
-        }
-      },
-      "VerificationAamva": {
-        "type": "object",
-        "title": "AAMVA Verification",
-        "description": "An AAMVA Verification",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/VerificationAamvaData"
-          }
-        }
-      },
-      "Verification": {
-        "type": "object",
-        "oneOf": [
-          {
-            "$ref": "#/components/schemas/VerificationAamva"
-          },
-          {
-            "$ref": "#/components/schemas/VerificationDocument"
-          },
-          {
-            "$ref": "#/components/schemas/VerificationDatabase"
-          },
-          {
-            "$ref": "#/components/schemas/VerificationEmailAddress"
-          },
-          {
-            "$ref": "#/components/schemas/VerificationPhoneNumber"
-          }
-        ]
       },
       "Webhook": {
         "type": "object",
@@ -31423,6 +30636,8 @@
               "attributes": {
                 "status": "expired",
                 "created-at": "2023-07-25T04:15:20.000Z",
+                "started-at": "2023-07-25T05:14:50.000Z",
+                "expired-at": "2023-07-26T05:14:50.000Z",
                 "ip-address": "127.0.0.1",
                 "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36",
                 "os-name": "Mac",
@@ -31433,6 +30648,7 @@
                 "browser-full-version": "115.0.0.0",
                 "mobile-sdk-name": null,
                 "mobile-sdk-full-version": null,
+                "device-handoff-method": null,
                 "is-proxy": false,
                 "is-tor": false,
                 "is-datacenter": false,
@@ -31801,6 +31017,8 @@
             "attributes": {
               "status": "expired",
               "created-at": "2023-07-25T04:15:20.000Z",
+              "started-at": "2023-07-25T05:14:50.000Z",
+              "expired-at": "2023-07-26T05:14:50.000Z",
               "ip-address": "127.0.0.1",
               "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36",
               "os-name": "Mac",
@@ -31811,6 +31029,7 @@
               "browser-full-version": "115.0.0.0",
               "mobile-sdk-name": null,
               "mobile-sdk-full-version": null,
+              "device-handoff-method": null,
               "is-proxy": false,
               "is-tor": false,
               "is-datacenter": false,

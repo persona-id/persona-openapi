@@ -1,8 +1,24 @@
 type: object
-title: API Key
-description: >-
-  An Api Key resource that includes its value, which should be treated with the
-  utmost security.
+description: An API Key resource
 properties:
-  data:
-    $ref: ./ApiKeyWithValueData.yaml
+  type:
+    examples:
+      - api-key
+    type: string
+  id:
+    examples:
+      - api_ABC123
+    type: string
+  attributes:
+    properties: {}
+    allOf:
+      - $ref: ./ApiKeyAttributesBaseData.yaml
+      - type: object
+        properties:
+          value:
+            type: string
+            description: >-
+              The API Key value. This should be treated with the utmost
+              security.
+            examples:
+              - persona_production_abcdefg

@@ -1,6 +1,73 @@
-type: object
 title: Database Verification
 description: A Database Verification
+type: object
 properties:
-  data:
-    $ref: ./VerificationDatabaseData.yaml
+  type:
+    type: string
+    description: verification/database
+    const: verification/database
+  id:
+    type: string
+    description: The token of the verification
+    example: ver_ABC123
+  attributes:
+    properties: {}
+    allOf:
+      - $ref: ./VerificationBaseAttributes.yaml
+      - $ref: ./DefaultFields.yaml
+      - type: object
+        properties:
+          normalized-address-street-1:
+            description: Normalized street name of residence address.
+            examples:
+              - 123 Main St
+            type:
+              - string
+              - 'null'
+          normalized-address-street-2:
+            description: >-
+              Normalized extension of residence address, usually apartment or
+              suite number.
+            examples:
+              - Apt 1
+            type:
+              - string
+              - 'null'
+          normalized-address-city:
+            description: >-
+              Normalized city of residence address. Not all international
+              addresses use this attribute.
+            examples:
+              - San Francisco
+            type:
+              - string
+              - 'null'
+          normalized-address-subdivision:
+            description: >-
+              Normalized state or subdivision of residence address. In the US,
+              this should be the abbreviated name. Not all international
+              addresses use this attribute.
+            examples:
+              - CA
+            type:
+              - string
+              - 'null'
+          normalized-address-postal-code:
+            description: >-
+              Normalized ZIP or postal code of residence address. Not all
+              international addresses use this attribute.
+            examples:
+              - '94111'
+            type:
+              - string
+              - 'null'
+          identification-number:
+            type:
+              - string
+              - 'null'
+          document-number:
+            type:
+              - string
+              - 'null'
+  relationships:
+    $ref: ./VerificationBaseRelationships.yaml

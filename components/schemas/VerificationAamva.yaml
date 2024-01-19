@@ -1,6 +1,55 @@
-type: object
 title: AAMVA Verification
 description: An AAMVA Verification
+type: object
 properties:
-  data:
-    $ref: ./VerificationAamvaData.yaml
+  type:
+    type: string
+    description: verification/aamva
+    const: verification/aamva
+  id:
+    type: string
+    description: The token of the verification
+    example: ver_ABC123
+  attributes:
+    properties: {}
+    allOf:
+      - $ref: ./VerificationBaseAttributes.yaml
+      - type: object
+        properties:
+          name-first:
+            description: Given or first name.
+            example: Jane
+            type:
+              - string
+              - 'null'
+          name-last:
+            description: Family or last name.
+            example: Doe
+            type:
+              - string
+              - 'null'
+          birthdate:
+            description: Birthdate, must be in the format "YYYY-MM-DD".
+            format: date
+            example: '1994-04-12'
+            type:
+              - string
+          issue-date:
+            type: string
+            format: date
+            example: '2021-05-27'
+          expiration-date:
+            type: string
+            format: date
+            example: '2029-05-08'
+          address-postal-code:
+            type: string
+            example: 94115-1010
+          issuing-authority:
+            type: string
+            example: CA
+          identification-number:
+            type: string
+            example: B12345678
+  relationships:
+    $ref: ./VerificationBaseRelationships.yaml

@@ -1,6 +1,91 @@
-type: object
-title: Crypto Address Watchlist
+title: Crypto Address Watchlist Report
 description: A Crypto Address Watchlist Report
+type: object
 properties:
-  data:
-    $ref: ./ReportCryptoAddressWatchlistData.yaml
+  type:
+    type: string
+    const: report/crypto-address-watchlist
+    description: report/crypto-address-watchlist
+  id:
+    type: string
+    description: The ID of the report
+    example: rep_7WNzPaNcroBKLarNHBjYDLAp
+  attributes:
+    properties: {}
+    allOf:
+      - $ref: ./ReportBaseAttributes.yaml
+      - type: object
+        properties:
+          query:
+            type: object
+            properties:
+              crypto-address:
+                type: string
+                example: 1Fz29BQp82pE3vXXcsZoMNQ3KSHfMzfMe3
+          result:
+            type: array
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: >-
+                    US - OFAC - Specially Designated Nationals and Blocked
+                    Persons (SDN)
+                url:
+                  type: string
+                  example: >-
+                    https://home.treasury.gov/policy-issues/financial-sanctions/specially-designated-nationals-and-blocked-persons-list-sdn-human-readable-lists
+                list-type:
+                  type: string
+                  example: sanction
+                slug:
+                  type: string
+                  example: us-ofac-specially-designated-nationals-and-blocked-persons
+                flag-code:
+                  type: string
+                  example: US
+                entities:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        example: ANDREYEV, Anton Nikolaeyvich
+                      alias-type:
+                        type: string
+                        example: primary_name
+                      birthdates:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            day:
+                              type: string
+                              format: date-time
+                              example: '03'
+                            year:
+                              type: string
+                              format: date
+                              example: '1985'
+                            month:
+                              type: string
+                              format: date-time
+                              example: '03'
+                            granularity:
+                              type: string
+                              example: day
+                      crypto-addresses:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            type:
+                              type: string
+                              example: XBT
+                            address:
+                              type: string
+                              example: 1Fz29BQp82pE3vXXcsZoMNQ3KSHfMzfMe3
+  relationships:
+    $ref: ./ReportBaseRelationships.yaml

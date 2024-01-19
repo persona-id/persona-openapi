@@ -1,6 +1,144 @@
-type: object
-title: Address Lookup
+title: Address Lookup Report
 description: An Address Lookup Report
+type: object
 properties:
-  data:
-    $ref: ./ReportAddressLookupData.yaml
+  type:
+    type: string
+    const: report/address-lookup
+    description: report/address-lookup
+  id:
+    type: string
+    description: The ID of the report
+    example: rep_7WNzPaNcroBKLarNHBjYDLAp
+  attributes:
+    properties: {}
+    allOf:
+      - $ref: ./ReportBaseAttributes.yaml
+      - type: object
+        properties:
+          addressee:
+            type: string
+            example: Joe Doe
+          address-street-1:
+            type: string
+            example: 1 Infinite Loop
+          address-street-2:
+            type: string
+          address-city:
+            type: string
+            example: Cupertino
+          address-subdivision:
+            type: string
+            example: California
+          address-postal-code:
+            type: string
+            example: '95014'
+          resolved-addressee:
+            type: string
+          resolved-address-street-1:
+            type: string
+            example: 1 Infinite Loop
+          resolved-address-street-2:
+            type: string
+          resolved-address-city:
+            type: string
+            example: Cupertino
+          resolved-address-subdivision:
+            type: string
+            example: CA
+          resolved-address-postal-code:
+            type: string
+            example: '95014'
+          metadata-record-type:
+            type: string
+            example: S
+          metadata-zip-type:
+            type: string
+            example: Standard
+          metadata-county-fips:
+            type: string
+            example: '06085'
+          metadata-county-name:
+            type: string
+            example: Santa Clara
+          metadata-carrier-route:
+            type: string
+            example: C067
+          metadata-carrier-route-type:
+            type: string
+            example: CityRoute
+          metadata-congressional-district:
+            type: string
+            example: '17'
+          metadata-building-default-indicator:
+            type: string
+          metadata-residential-delivery-indicator:
+            type: string
+            example: Commercial
+          metadata-latitude:
+            type: number
+            example: 37.3331
+          metadata-longitude:
+            type: number
+            example: -122.02889
+          metadata-precision:
+            type: string
+            example: Zip9
+          metadata-time-zone:
+            type: string
+            example: Pacific
+          metadata-utc-offset:
+            type: integer
+            example: -8
+          metadata-obeys-daylight-savings:
+            type: boolean
+            example: true
+          analysis-dpv-match-code:
+            type: string
+            example: 'Y'
+          analysis-dpv-match-code-decoded:
+            type: string
+            example: Confirmed
+          analysis-dpv-footnotes:
+            type: array
+            items:
+              type: string
+              example: AA
+          analysis-dpv-footnotes-decoded:
+            type: array
+            items:
+              type: string
+              example: Street name, city, state, and ZIP are all valid.
+          analysis-dpv-cmra:
+            type: string
+            example: 'N'
+          analysis-dpv-vacant:
+            type: string
+            example: 'N'
+          analysis-active:
+            type: string
+            example: 'Y'
+          analysis-footnotes:
+            type: array
+            items:
+              type: string
+          analysis-footnotes-decoded:
+            type: array
+            items:
+              type: string
+          analysis-lacs-link-code:
+            type: string
+          analysis-lacs-link-code-decoded:
+            type: string
+          analysis-lacs-link-indicator:
+            type: string
+          analysis-lacs-link-indicator-decoded:
+            type: string
+          analysis-suite-link-match:
+            type: string
+          metadata-ews-match:
+            type: string
+          error-message:
+            type: string
+  relationships:
+    $ref: ./ReportBaseRelationships.yaml

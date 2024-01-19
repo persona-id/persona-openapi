@@ -1,6 +1,118 @@
-type: object
-title: Adverse Media
+title: Adverse Media Report
 description: An Adverse Media Report
+type: object
 properties:
-  data:
-    $ref: ./ReportAdverseMediaData.yaml
+  type:
+    type: string
+    const: report/adverse-media
+    description: report/adverse-media
+  id:
+    type: string
+    description: The ID of the report
+    example: rep_7WNzPaNcroBKLarNHBjYDLAp
+  attributes:
+    properties: {}
+    allOf:
+      - $ref: ./ReportBaseAttributes.yaml
+      - type: object
+        properties:
+          name-first:
+            type: string
+            description: The input first name of the search individual
+            example: Joe
+          name-middle:
+            type: string
+            description: The input middle name of the search individual
+            example: 'N'
+          name-last:
+            type: string
+            description: The input last name of the search individual
+            example: Doe
+          term:
+            type: string
+            description: >-
+              The input combined term used for searching (first + middle + last
+              name)
+            example: Joe N Doe
+          birthdate-year:
+            type: integer
+            format: int32
+            example: 1992
+          birthdate:
+            type: string
+            description: The input DOB in YYYY-MM-DD format
+            example: '1991-10-07'
+          country-code:
+            type: string
+            description: The input search country in alpha2 format
+            example: US
+          related-sources:
+            description: The sources that matched for the search
+            type: array
+            items:
+              type: object
+              properties:
+                akas:
+                  type: array
+                  items:
+                    type: string
+                    example: Joey Doey
+                birthdates:
+                  type: array
+                  items:
+                    type: string
+                    format: nullable
+                match-types:
+                  type: array
+                  items:
+                    type: string
+                    example: name_exact
+                media:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      date:
+                        type: string
+                        format: date
+                        example: '2022-11-12'
+                      snippet:
+                        type: string
+                        description: Snippet from matched article
+                        example: >-
+                          Joe Doe was ordered to jail on Friday after a judge
+                          revoked his bail for alleged witness tampering.
+                      url:
+                        type: string
+                        description: URL of matched article
+                        example: https://www.example.com/
+                      title:
+                        type: string
+                        description: Title of matched article
+                        example: Joe Doe ordered to jail
+                name:
+                  type: string
+                  example: Joe Doe
+                sources:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      country-codes:
+                        type: array
+                        items:
+                          type: string
+                          example: FR
+                      name:
+                        type: string
+                        example: Adverse Media
+                      types:
+                        type: array
+                        items:
+                          type: string
+                          example: adverse-media-v2-other-minor
+                entity-id:
+                  type: string
+                  example: FV933QHOUDG73V8
+  relationships:
+    $ref: ./ReportBaseRelationships.yaml

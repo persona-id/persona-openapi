@@ -1,6 +1,143 @@
-type: object
-title: Politically Exposed Person
+title: Politically Exposed Person Report
 description: A Politically Exposed Person Report
+type: object
 properties:
-  data:
-    $ref: ./ReportPoliticallyExposedPersonData.yaml
+  type:
+    type: string
+    const: report/politically-exposed-person
+    description: report/politically-exposed-person
+  id:
+    type: string
+    description: The ID of the report
+    example: rep_7WNzPaNcroBKLarNHBjYDLAp
+  attributes:
+    properties: {}
+    allOf:
+      - $ref: ./ReportBaseAttributes.yaml
+      - type: object
+        properties:
+          query:
+            type: object
+            properties:
+              name-first:
+                type: string
+                description: The input first name of the search individual
+                example: Joe
+              name-middle:
+                type: string
+                description: The input middle name of the search individual
+                example: 'N'
+              name-last:
+                type: string
+                description: The input last name of the search individual
+                example: Doe
+              term:
+                type: string
+                description: >-
+                  The input combined term used for searching (first + middle +
+                  last name). Either the name or the term fields are required.
+                example: Joe N Doe
+              birthdate:
+                type: string
+                description: The input DOB in YYYY-MM-DD format
+                example: '1991-10-07'
+              country-code:
+                type: string
+                description: The input search country in alpha2 format
+                example: US
+          result:
+            type: array
+            items:
+              type: object
+              properties:
+                entity-id:
+                  type: string
+                  example: MV9IPWV13KYS0A9
+                name:
+                  type: string
+                  example: Joe Doe
+                birthdates:
+                  type: array
+                  items:
+                    type: string
+                    format: date
+                    example: '1942-11-20'
+                death-dates:
+                  type: array
+                  items:
+                    type: string
+                    format: nullable
+                locations:
+                  type: array
+                  items:
+                    type: string
+                    format: nullable
+                country:
+                  type: string
+                  example: United States
+                sex:
+                  type: string
+                  format: nullable
+                positions:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      pep-class:
+                        type: string
+                        example: pep-class-1
+                      source-key:
+                        type: string
+                        example: united-states-head-of-state
+                      name:
+                        type: string
+                        example: President of the United States
+                associates:
+                  type: array
+                  items:
+                    type: string
+                    format: nullable
+                affiliations:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      source-key:
+                        type: string
+                        example: north-atlantic-treaty-organisation
+                      name:
+                        type: string
+                        example: >-
+                          North Atlantic Treaty Organization Member Countries
+                          Representation
+                related-urls:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      source-key:
+                        type: string
+                        example: internal-data-source
+                      name:
+                        type: string
+                        example: https://www.example.org/
+                images:
+                  type: array
+                  items:
+                    type: string
+                    format: nullable
+                sources:
+                  type: object
+                  description: A map of the sources that matched by entity
+                match-types:
+                  type: array
+                  items:
+                    type: string
+                    example: aka_exact
+                pep-type:
+                  type: string
+                  format: nullable
+          run-history:
+            $ref: ./ReportRunHistory.yaml
+  relationships:
+    $ref: ./ReportBaseRelationships.yaml

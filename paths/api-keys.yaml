@@ -8,6 +8,7 @@ get:
     - $ref: ../components/parameters/keyInflectionHeader.yaml
     - $ref: ../components/parameters/idempotencyKeyHeader.yaml
     - $ref: ../components/parameters/personaVersionHeader.yaml
+    - $ref: ../components/parameters/includeQueryParameter.yaml
     - in: query
       name: page
       style: deepObject
@@ -40,10 +41,11 @@ get:
               summary: OK
               $ref: ../components/examples/ApiKeyListResponse.yaml
           schema:
+            type: object
             properties:
               data:
                 items:
-                  $ref: ../components/schemas/ApiKeyData.yaml
+                  $ref: ../components/schemas/ApiKey.yaml
                 type: array
                 description: An array of API Keys
               links:
@@ -57,7 +59,8 @@ get:
                       - string
                       - 'null'
                 type: object
-            type: object
+              included:
+                $ref: ../components/schemas/EmptyIncludedResponse.yaml
       description: OK
     '400':
       $ref: ../components/responses/BadRequest.yaml
@@ -80,6 +83,7 @@ post:
     - $ref: ../components/parameters/keyInflectionHeader.yaml
     - $ref: ../components/parameters/idempotencyKeyHeader.yaml
     - $ref: ../components/parameters/personaVersionHeader.yaml
+    - $ref: ../components/parameters/includeQueryParameter.yaml
   requestBody:
     $ref: ../components/requestBodies/ApiKeyRequest.yaml
   responses:
@@ -91,7 +95,12 @@ post:
               summary: OK
               $ref: ../components/examples/ApiKeyWithValueResponse.yaml
           schema:
-            $ref: ../components/schemas/ApiKeyWithValue.yaml
+            type: object
+            properties:
+              data:
+                $ref: ../components/schemas/ApiKeyWithValue.yaml
+              included:
+                $ref: ../components/schemas/EmptyIncludedResponse.yaml
       description: Created
     '400':
       $ref: ../components/responses/BadRequest.yaml

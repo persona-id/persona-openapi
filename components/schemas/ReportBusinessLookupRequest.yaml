@@ -1,6 +1,59 @@
-type: object
 title: Business Lookup Request
 description: Fields required to create a Business Lookup Report
+type: object
 properties:
-  data:
-    $ref: ./ReportBusinessLookupRequestData.yaml
+  type:
+    type: string
+    const: report/business-lookup
+    description: report/business-lookup
+  attributes:
+    properties: {}
+    allOf:
+      - $ref: ./ReportBaseRequestAttributes.yaml
+      - type: object
+        properties:
+          query:
+            type: object
+            properties:
+              business-name:
+                type: string
+                example: Coffee Shop
+              phone-number:
+                type: string
+                format: nullable
+              website:
+                type: string
+                format: nullable
+              ein:
+                type: string
+                format: nullable
+              address-street-1:
+                type: string
+                example: 123 Funky St
+              address-street-2:
+                type: string
+                format: nullable
+              address-city:
+                type: string
+                example: Funkyville
+              address-subdivision:
+                type: string
+                description: Subnational division of a country such as a US state.
+                example: CA
+              address-postal-code:
+                type: string
+                example: '12345'
+              address-country-code:
+                type: string
+                format: nullable
+                example: US
+              incorporation-state:
+                type: string
+                format: nullable
+                example: CA
+              associated-people:
+                type: array
+                items:
+                  type: string
+                  format: nullable
+                  example: John Doe

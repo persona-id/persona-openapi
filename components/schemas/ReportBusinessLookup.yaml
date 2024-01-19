@@ -1,6 +1,351 @@
-type: object
-title: Business Lookup
+title: Business Lookup Report
 description: A Business Lookup Report
+type: object
 properties:
-  data:
-    $ref: ./ReportBusinessLookupData.yaml
+  type:
+    type: string
+    const: report/business-lookup
+    description: report/business-lookup
+  id:
+    type: string
+    description: The ID of the report
+    example: rep_7WNzPaNcroBKLarNHBjYDLAp
+  attributes:
+    properties: {}
+    allOf:
+      - $ref: ./ReportBaseAttributes.yaml
+      - type: object
+        properties:
+          query:
+            type: object
+            properties:
+              business-name:
+                type: string
+                example: Coffee Shop
+              phone-number:
+                type: string
+                format: nullable
+                example: '+11234567890'
+              website:
+                type: string
+                format: nullable
+                example: https://website.com
+              ein:
+                type: string
+                format: nullable
+              address-street-1:
+                type: string
+                example: 123 Funky St
+              address-street-2:
+                type: string
+                format: nullable
+              address-city:
+                type: string
+                example: Funkyville
+              address-subdivision:
+                type: string
+                description: Subnational division of a country such as a US state.
+                example: CA
+              address-postal-code:
+                type: string
+                example: '12345'
+              address-country-code:
+                type: string
+                format: nullable
+                example: US
+              incorporation-state:
+                type: string
+                format: nullable
+                example: CA
+              associated-people:
+                type: array
+                items:
+                  type: string
+                  format: nullable
+                  example: John Doe
+          result:
+            type: object
+            properties:
+              name:
+                type: string
+                example: Coffee Shop, LLC DBA Coffee Shop
+              aliases:
+                type: array
+                items:
+                  type: string
+                  example: COFFEE SHOP
+              description:
+                type: string
+                format: nullable
+              legal-status:
+                type: string
+                example: unknown
+              legal-entity-type:
+                type: string
+                example: LLC
+              date-of-incorporation:
+                type: object
+                properties:
+                  granularity:
+                    type: string
+                    example: year
+                  day:
+                    type: string
+                    format: nullable
+                  month:
+                    type: string
+                    format: nullable
+                  year:
+                    type: string
+                    format: date
+                    example: '2013'
+              industry-classifications:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                      example: '789456'
+                    title:
+                      type: string
+                      example: Snack and Nonalcoholic Beverage Bars
+                    type:
+                      type: string
+                      example: NAICS_2017
+              identifiers:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    state:
+                      type: string
+                      example: CA
+                    country:
+                      type: string
+                      example: US
+                    issue-date:
+                      type: string
+                      format: date
+                      example: '2013-05-12'
+                    file-number:
+                      type: string
+                      example: '454894615645'
+                    type:
+                      type: string
+                      example: us_state_registration_number
+                    addresses:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          street-1:
+                            type: string
+                            example: 123 FUNKY STREET
+                          street-2:
+                            type: string
+                            format: nullable
+                          city:
+                            type: string
+                            example: SAN FRANCISCO
+                          subdivision:
+                            type: string
+                            example: CA
+                          postal-code:
+                            type: string
+                            example: '94000'
+                          delivery-point-barcode:
+                            type: string
+                            format: nullable
+                          primary-number:
+                            type: string
+                            format: nullable
+                          street-name:
+                            type: string
+                            format: nullable
+                          latitude:
+                            type: string
+                            format: nullable
+                          longitude:
+                            type: string
+                            format: nullable
+                          precision:
+                            type: string
+                            format: nullable
+                          type:
+                            type: string
+                            example: registered_agent_address
+                    status:
+                      type: string
+                      example: active
+              addresses:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    street-1:
+                      type: string
+                      example: 123 Funky St
+                    street-2:
+                      type: string
+                      format: nullable
+                    city:
+                      type: string
+                      example: Funkyville
+                    subdivision:
+                      type: string
+                      example: CA
+                    postal-code:
+                      type: string
+                      example: 12345-1234
+              websites:
+                type: array
+                items:
+                  type: string
+                  example: https://website.com/
+              phone-numbers:
+                type: array
+                items:
+                  type: string
+                  example: '+11234567890'
+              agents:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name-full:
+                      type: string
+                      example: JOHN DOE
+              officers:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name-full:
+                      type: string
+                      example: JOHN DOE
+                    name-first:
+                      type: string
+                      format: nullable
+                      example: JOHN
+                    name-last:
+                      type: string
+                      format: nullable
+                      example: DOE
+                    titles:
+                      type: array
+                      items:
+                        type: string
+                        example: CONTACT NAME
+              headcount:
+                type: string
+                format: nullable
+              sources:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      example: RESTAURANT INSPECTIONS
+          match-status-strength:
+            type: string
+            enum:
+              - not_applicable
+              - match
+              - partial_match
+              - no_match
+              - unavailable
+              - unknown
+          match-status-business-name:
+            type: string
+            enum:
+              - not_applicable
+              - match
+              - partial_match
+              - no_match
+              - unavailable
+              - unknown
+          match-status-address:
+            type: string
+            enum:
+              - not_applicable
+              - match
+              - partial_match
+              - no_match
+              - unavailable
+              - unknown
+          match-status-address-street:
+            type: string
+            enum:
+              - not_applicable
+              - match
+              - partial_match
+              - no_match
+              - unavailable
+              - unknown
+          match-status-address-city:
+            type: string
+            enum:
+              - not_applicable
+              - match
+              - partial_match
+              - no_match
+              - unavailable
+              - unknown
+          match-status-address-postal-code:
+            type: string
+            enum:
+              - not_applicable
+              - match
+              - partial_match
+              - no_match
+              - unavailable
+              - unknown
+          match-status-address-subdivision:
+            type: string
+            enum:
+              - not_applicable
+              - match
+              - partial_match
+              - no_match
+              - unavailable
+              - unknown
+          match-status-phone-number:
+            type: string
+            enum:
+              - not_applicable
+              - match
+              - partial_match
+              - no_match
+              - unavailable
+              - unknown
+          match-status-ein:
+            type: string
+            enum:
+              - not_applicable
+              - match
+              - partial_match
+              - no_match
+              - unavailable
+              - unknown
+          match-status-associated-person:
+            type: string
+            enum:
+              - not_applicable
+              - match
+              - partial_match
+              - no_match
+              - unavailable
+              - unknown
+          match-status-website:
+            type: string
+            enum:
+              - not_applicable
+              - match
+              - partial_match
+              - no_match
+              - unavailable
+              - unknown
+  relationships:
+    $ref: ./ReportBaseRelationships.yaml
