@@ -330,6 +330,9 @@
                         "prev": {}
                       },
                       "type": "object"
+                    },
+                    "included": {
+                      "$ref": "#/components/schemas/EmptyIncludedResponse"
                     }
                   },
                   "type": "object"
@@ -471,6 +474,9 @@
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/Account"
+                    },
+                    "included": {
+                      "$ref": "#/components/schemas/EmptyIncludedResponse"
                     }
                   },
                   "type": "object"
@@ -548,6 +554,9 @@
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/Account"
+                    },
+                    "included": {
+                      "$ref": "#/components/schemas/EmptyIncludedResponse"
                     }
                   },
                   "type": "object"
@@ -626,6 +635,9 @@
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/Account"
+                    },
+                    "included": {
+                      "$ref": "#/components/schemas/EmptyIncludedResponse"
                     }
                   },
                   "type": "object"
@@ -778,6 +790,9 @@
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/Account"
+                    },
+                    "included": {
+                      "$ref": "#/components/schemas/EmptyIncludedResponse"
                     }
                   },
                   "type": "object"
@@ -871,6 +886,9 @@
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/Account"
+                    },
+                    "included": {
+                      "$ref": "#/components/schemas/EmptyIncludedResponse"
                     }
                   },
                   "type": "object"
@@ -981,6 +999,9 @@
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/Account"
+                    },
+                    "included": {
+                      "$ref": "#/components/schemas/EmptyIncludedResponse"
                     }
                   },
                   "type": "object"
@@ -1074,6 +1095,9 @@
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/Account"
+                    },
+                    "included": {
+                      "$ref": "#/components/schemas/EmptyIncludedResponse"
                     }
                   },
                   "type": "object"
@@ -1176,6 +1200,9 @@
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/Account"
+                    },
+                    "included": {
+                      "$ref": "#/components/schemas/EmptyIncludedResponse"
                     }
                   },
                   "type": "object"
@@ -1703,6 +1730,9 @@
             "$ref": "#/components/parameters/personaVersionHeader"
           },
           {
+            "$ref": "#/components/parameters/includeQueryParameter"
+          },
+          {
             "in": "query",
             "name": "page",
             "style": "deepObject",
@@ -1768,6 +1798,9 @@
                         }
                       },
                       "type": "object"
+                    },
+                    "included": {
+                      "$ref": "#/components/schemas/EmptyIncludedResponse"
                     }
                   },
                   "type": "object"
@@ -1814,6 +1847,9 @@
             "$ref": "#/components/parameters/personaVersionHeader"
           },
           {
+            "$ref": "#/components/parameters/includeQueryParameter"
+          },
+          {
             "name": "api-log-id",
             "in": "path",
             "required": true,
@@ -1836,6 +1872,9 @@
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/ApiLog"
+                    },
+                    "included": {
+                      "$ref": "#/components/schemas/EmptyIncludedResponse"
                     }
                   },
                   "type": "object"
@@ -5947,6 +5986,9 @@
                           ]
                         }
                       }
+                    },
+                    "included": {
+                      "$ref": "#/components/schemas/EmptyIncludedResponse"
                     }
                   }
                 }
@@ -6011,24 +6053,34 @@
                   "Result": {
                     "summary": "OK",
                     "value": {
-                      "type": "event",
-                      "id": "evt_ABC123",
-                      "attributes": {
-                        "name": "inquiry.expired",
-                        "payload": {
-                          "data": {
-                            "type": "inquiry",
-                            "id": "inq_ABC123",
-                            "attributes": {}
-                          }
-                        },
-                        "created-at": "2023-09-23T17:14:01.918Z"
+                      "data": {
+                        "type": "event",
+                        "id": "evt_ABC123",
+                        "attributes": {
+                          "name": "inquiry.expired",
+                          "payload": {
+                            "data": {
+                              "type": "inquiry",
+                              "id": "inq_ABC123",
+                              "attributes": {}
+                            }
+                          },
+                          "created-at": "2023-09-23T17:14:01.918Z"
+                        }
                       }
                     }
                   }
                 },
                 "schema": {
-                  "$ref": "#/components/schemas/Event"
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Event"
+                    },
+                    "included": {
+                      "$ref": "#/components/schemas/EmptyIncludedResponse"
+                    }
+                  },
+                  "type": "object"
                 }
               }
             },
@@ -14391,9 +14443,6 @@
           },
           {
             "$ref": "#/components/parameters/personaVersionHeader"
-          },
-          {
-            "$ref": "#/components/parameters/includeQueryParameter"
           }
         ],
         "requestBody": {
@@ -14507,9 +14556,6 @@
           },
           {
             "$ref": "#/components/parameters/personaVersionHeader"
-          },
-          {
-            "$ref": "#/components/parameters/includeQueryParameter"
           },
           {
             "description": "Authorization Code",
@@ -21849,6 +21895,9 @@
                         }
                       },
                       "type": "object"
+                    },
+                    "included": {
+                      "$ref": "#/components/schemas/EmptyIncludedResponse"
                     }
                   },
                   "type": "object"
@@ -21913,6 +21962,9 @@
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/WebhookWithSecret"
+                    },
+                    "included": {
+                      "$ref": "#/components/schemas/EmptyIncludedResponse"
                     }
                   },
                   "type": "object"
@@ -21991,6 +22043,9 @@
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/WebhookWithSecret"
+                    },
+                    "included": {
+                      "$ref": "#/components/schemas/EmptyIncludedResponse"
                     }
                   },
                   "type": "object"
@@ -22064,6 +22119,9 @@
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/Webhook"
+                    },
+                    "included": {
+                      "$ref": "#/components/schemas/EmptyIncludedResponse"
                     }
                   },
                   "type": "object"
@@ -22145,6 +22203,9 @@
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/Webhook"
+                    },
+                    "included": {
+                      "$ref": "#/components/schemas/EmptyIncludedResponse"
                     }
                   },
                   "type": "object"
@@ -22226,6 +22287,9 @@
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/Webhook"
+                    },
+                    "included": {
+                      "$ref": "#/components/schemas/EmptyIncludedResponse"
                     }
                   },
                   "type": "object"
@@ -22307,6 +22371,9 @@
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/Webhook"
+                    },
+                    "included": {
+                      "$ref": "#/components/schemas/EmptyIncludedResponse"
                     }
                   },
                   "type": "object"
@@ -22409,6 +22476,9 @@
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/WebhookWithSecret"
+                    },
+                    "included": {
+                      "$ref": "#/components/schemas/EmptyIncludedResponse"
                     }
                   },
                   "type": "object"
@@ -22890,9 +22960,8 @@
         "properties": {
           "type": {
             "type": "string",
-            "examples": [
-              "account"
-            ]
+            "const": "account",
+            "description": "account"
           },
           "id": {
             "type": "string",
@@ -23392,6 +23461,10 @@
           }
         }
       },
+      "EmptyIncludedResponse": {
+        "type": "array",
+        "description": "Excluded from the response by default. Will be an empty array when the `include` query parameter in the request was explicitly set to empty."
+      },
       "ApiKeyAttributesBaseData": {
         "type": "object",
         "properties": {
@@ -23518,10 +23591,6 @@
           }
         }
       },
-      "EmptyIncludedResponse": {
-        "type": "array",
-        "description": "Excluded from the response by default. Will be an empty array when the `include` query parameter in the request was explicitly set to empty."
-      },
       "ApiKeyWithValue": {
         "type": "object",
         "description": "An API Key resource",
@@ -23566,9 +23635,8 @@
         "properties": {
           "type": {
             "type": "string",
-            "examples": [
-              "api-log"
-            ]
+            "const": "api-log",
+            "description": "api-log"
           },
           "id": {
             "type": "string",
@@ -28010,9 +28078,8 @@
         "properties": {
           "type": {
             "type": "string",
-            "examples": [
-              "event"
-            ]
+            "const": "event",
+            "description": "event"
           },
           "id": {
             "type": "string",
@@ -29244,10 +29311,9 @@
         "description": "A Webhook object",
         "properties": {
           "type": {
-            "examples": [
-              "webhook"
-            ],
-            "type": "string"
+            "type": "string",
+            "const": "webhook",
+            "description": "webhook"
           },
           "id": {
             "examples": [
@@ -29341,10 +29407,9 @@
         "description": "A Webhook object",
         "properties": {
           "type": {
-            "examples": [
-              "webhook"
-            ],
-            "type": "string"
+            "type": "string",
+            "const": "webhook",
+            "description": "webhook"
           },
           "id": {
             "examples": [

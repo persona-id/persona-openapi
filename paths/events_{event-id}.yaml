@@ -22,18 +22,24 @@ get:
             Result:
               summary: OK
               value:
-                type: event
-                id: evt_ABC123
-                attributes:
-                  name: inquiry.expired
-                  payload:
-                    data:
-                      type: inquiry
-                      id: inq_ABC123
-                      attributes: {}
-                  created-at: '2023-09-23T17:14:01.918Z'
+                data:
+                  type: event
+                  id: evt_ABC123
+                  attributes:
+                    name: inquiry.expired
+                    payload:
+                      data:
+                        type: inquiry
+                        id: inq_ABC123
+                        attributes: {}
+                    created-at: '2023-09-23T17:14:01.918Z'
           schema:
-            $ref: ../components/schemas/Event.yaml
+            properties:
+              data:
+                $ref: ../components/schemas/Event.yaml
+              included:
+                $ref: ../components/schemas/EmptyIncludedResponse.yaml
+            type: object
       description: OK
     '400':
       $ref: ../components/responses/BadRequest.yaml

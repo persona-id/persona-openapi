@@ -196,6 +196,8 @@ paths:
                         type: string
                       prev: {}
                     type: object
+                  included:
+                    $ref: '#/components/schemas/EmptyIncludedResponse'
                 type: object
           description: OK
         '400':
@@ -283,6 +285,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/Account'
+                  included:
+                    $ref: '#/components/schemas/EmptyIncludedResponse'
                 type: object
           description: Created
         '400':
@@ -334,6 +338,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/Account'
+                  included:
+                    $ref: '#/components/schemas/EmptyIncludedResponse'
                 type: object
           description: OK
         '400':
@@ -381,6 +387,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/Account'
+                  included:
+                    $ref: '#/components/schemas/EmptyIncludedResponse'
                 type: object
           description: OK
         '400':
@@ -475,6 +483,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/Account'
+                  included:
+                    $ref: '#/components/schemas/EmptyIncludedResponse'
                 type: object
           description: OK
         '400':
@@ -530,6 +540,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/Account'
+                  included:
+                    $ref: '#/components/schemas/EmptyIncludedResponse'
                 type: object
               examples:
                 Result:
@@ -602,6 +614,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/Account'
+                  included:
+                    $ref: '#/components/schemas/EmptyIncludedResponse'
                 type: object
           description: Accepted
         '400':
@@ -657,6 +671,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/Account'
+                  included:
+                    $ref: '#/components/schemas/EmptyIncludedResponse'
                 type: object
               examples:
                 Result:
@@ -718,6 +734,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/Account'
+                  included:
+                    $ref: '#/components/schemas/EmptyIncludedResponse'
                 type: object
               examples:
                 Result:
@@ -1034,6 +1052,7 @@ paths:
         - $ref: '#/components/parameters/keyInflectionHeader'
         - $ref: '#/components/parameters/idempotencyKeyHeader'
         - $ref: '#/components/parameters/personaVersionHeader'
+        - $ref: '#/components/parameters/includeQueryParameter'
         - in: query
           name: page
           style: deepObject
@@ -1077,6 +1096,8 @@ paths:
                           - string
                           - 'null'
                     type: object
+                  included:
+                    $ref: '#/components/schemas/EmptyIncludedResponse'
                 type: object
           description: OK
         '400':
@@ -1101,6 +1122,7 @@ paths:
         - $ref: '#/components/parameters/keyInflectionHeader'
         - $ref: '#/components/parameters/idempotencyKeyHeader'
         - $ref: '#/components/parameters/personaVersionHeader'
+        - $ref: '#/components/parameters/includeQueryParameter'
         - name: api-log-id
           in: path
           required: true
@@ -1118,6 +1140,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/ApiLog'
+                  included:
+                    $ref: '#/components/schemas/EmptyIncludedResponse'
                 type: object
           description: OK
         '400':
@@ -3820,6 +3844,8 @@ paths:
                           - 'null'
                         examples:
                           - /api/v1/events?page%5Bafter%5D=evt_ABC123
+                  included:
+                    $ref: '#/components/schemas/EmptyIncludedResponse'
           description: OK
         '400':
           $ref: '#/components/responses/BadRequest'
@@ -3857,18 +3883,24 @@ paths:
                 Result:
                   summary: OK
                   value:
-                    type: event
-                    id: evt_ABC123
-                    attributes:
-                      name: inquiry.expired
-                      payload:
-                        data:
-                          type: inquiry
-                          id: inq_ABC123
-                          attributes: {}
-                      created-at: '2023-09-23T17:14:01.918Z'
+                    data:
+                      type: event
+                      id: evt_ABC123
+                      attributes:
+                        name: inquiry.expired
+                        payload:
+                          data:
+                            type: inquiry
+                            id: inq_ABC123
+                            attributes: {}
+                        created-at: '2023-09-23T17:14:01.918Z'
               schema:
-                $ref: '#/components/schemas/Event'
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Event'
+                  included:
+                    $ref: '#/components/schemas/EmptyIncludedResponse'
+                type: object
           description: OK
         '400':
           $ref: '#/components/responses/BadRequest'
@@ -9215,7 +9247,6 @@ paths:
         - $ref: '#/components/parameters/keyInflectionHeader'
         - $ref: '#/components/parameters/idempotencyKeyHeader'
         - $ref: '#/components/parameters/personaVersionHeader'
-        - $ref: '#/components/parameters/includeQueryParameter'
       requestBody:
         content:
           application/json:
@@ -9289,7 +9320,6 @@ paths:
         - $ref: '#/components/parameters/keyInflectionHeader'
         - $ref: '#/components/parameters/idempotencyKeyHeader'
         - $ref: '#/components/parameters/personaVersionHeader'
-        - $ref: '#/components/parameters/includeQueryParameter'
         - description: Authorization Code
           in: query
           name: code
@@ -14025,6 +14055,8 @@ paths:
                           - string
                           - 'null'
                     type: object
+                  included:
+                    $ref: '#/components/schemas/EmptyIncludedResponse'
                 type: object
           description: OK
         '400':
@@ -14063,6 +14095,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/WebhookWithSecret'
+                  included:
+                    $ref: '#/components/schemas/EmptyIncludedResponse'
                 type: object
           description: Created
         '400':
@@ -14110,6 +14144,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/WebhookWithSecret'
+                  included:
+                    $ref: '#/components/schemas/EmptyIncludedResponse'
                 type: object
           description: OK
         '400':
@@ -14154,6 +14190,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/Webhook'
+                  included:
+                    $ref: '#/components/schemas/EmptyIncludedResponse'
                 type: object
           description: OK
         '400':
@@ -14203,6 +14241,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/Webhook'
+                  included:
+                    $ref: '#/components/schemas/EmptyIncludedResponse'
                 type: object
           description: OK
         '400':
@@ -14252,6 +14292,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/Webhook'
+                  included:
+                    $ref: '#/components/schemas/EmptyIncludedResponse'
                 type: object
           description: OK
         '400':
@@ -14301,6 +14343,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/Webhook'
+                  included:
+                    $ref: '#/components/schemas/EmptyIncludedResponse'
                 type: object
           description: OK
         '400':
@@ -14363,6 +14407,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/WebhookWithSecret'
+                  included:
+                    $ref: '#/components/schemas/EmptyIncludedResponse'
                 type: object
           description: OK
         '400':
@@ -14685,8 +14731,8 @@ components:
       properties:
         type:
           type: string
-          examples:
-            - account
+          const: account
+          description: account
         id:
           type: string
           examples:
@@ -15012,6 +15058,9 @@ components:
                     - string
                     - 'null'
             - $ref: '#/components/schemas/DefaultFields'
+    EmptyIncludedResponse:
+      type: array
+      description: Excluded from the response by default. Will be an empty array when the `include` query parameter in the request was explicitly set to empty.
     ApiKeyAttributesBaseData:
       type: object
       properties:
@@ -15093,9 +15142,6 @@ components:
           type: string
         attributes:
           $ref: '#/components/schemas/ApiKeyAttributesBaseData'
-    EmptyIncludedResponse:
-      type: array
-      description: Excluded from the response by default. Will be an empty array when the `include` query parameter in the request was explicitly set to empty.
     ApiKeyWithValue:
       type: object
       description: An API Key resource
@@ -15125,8 +15171,8 @@ components:
       properties:
         type:
           type: string
-          examples:
-            - api-log
+          const: api-log
+          description: api-log
         id:
           type: string
           examples:
@@ -18200,8 +18246,8 @@ components:
       properties:
         type:
           type: string
-          examples:
-            - event
+          const: event
+          description: event
         id:
           type: string
           examples:
@@ -19030,9 +19076,9 @@ components:
       description: A Webhook object
       properties:
         type:
-          examples:
-            - webhook
           type: string
+          const: webhook
+          description: webhook
         id:
           examples:
             - wbh_ABC123
@@ -19094,9 +19140,9 @@ components:
       description: A Webhook object
       properties:
         type:
-          examples:
-            - webhook
           type: string
+          const: webhook
+          description: webhook
         id:
           examples:
             - wbh_ABC123
