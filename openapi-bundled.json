@@ -18213,45 +18213,9 @@
                     },
                     "included": {
                       "type": "array",
+                      "description": "Objects that will be returned by default unless otherwise specified using the `include` query parameter in the request.",
                       "items": {
-                        "type": "object",
-                        "properties": {
-                          "type": {
-                            "type": "string",
-                            "examples": [
-                              "user"
-                            ]
-                          },
-                          "id": {
-                            "type": "string",
-                            "examples": [
-                              "user_ABC123"
-                            ]
-                          },
-                          "attributes": {
-                            "type": "object",
-                            "properties": {
-                              "email-address": {
-                                "type": "string",
-                                "examples": [
-                                  "jane@doe.com"
-                                ]
-                              },
-                              "name-first": {
-                                "type": "string",
-                                "examples": [
-                                  "Jane"
-                                ]
-                              },
-                              "name-last": {
-                                "type": "string",
-                                "examples": [
-                                  "Doe"
-                                ]
-                              }
-                            }
-                          }
-                        }
+                        "$ref": "#/components/schemas/User"
                       }
                     }
                   }
@@ -18345,6 +18309,13 @@
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/UserAuditLog"
+                    },
+                    "included": {
+                      "type": "array",
+                      "description": "Objects that _may_ be returned if specified via the `include` query parameter in the request.",
+                      "items": {
+                        "$ref": "#/components/schemas/User"
+                      }
                     }
                   }
                 }
@@ -29221,11 +29192,14 @@
         "properties": {
           "type": {
             "type": "string",
-            "example": "user-audit-log"
+            "const": "user-audit-log",
+            "description": "user-audit-log"
           },
           "id": {
             "type": "string",
-            "example": "ual_ABC123"
+            "examples": [
+              "ual_ABC123"
+            ]
           },
           "attributes": {
             "type": "object",
@@ -29301,6 +29275,46 @@
                     }
                   }
                 }
+              }
+            }
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "description": "A User object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "user",
+            "description": "user"
+          },
+          "id": {
+            "type": "string",
+            "examples": [
+              "user_ABC123"
+            ]
+          },
+          "attributes": {
+            "type": "object",
+            "properties": {
+              "email-address": {
+                "type": "string",
+                "examples": [
+                  "jane@doe.com"
+                ]
+              },
+              "name-first": {
+                "type": "string",
+                "examples": [
+                  "Jane"
+                ]
+              },
+              "name-last": {
+                "type": "string",
+                "examples": [
+                  "Doe"
+                ]
               }
             }
           }

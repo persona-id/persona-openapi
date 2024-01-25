@@ -99,32 +99,11 @@ get:
                       - /api/v1/user-audit-logs?page%5Bafter%5D=ual_ABC123
               included:
                 type: array
+                description: >-
+                  Objects that will be returned by default unless otherwise
+                  specified using the `include` query parameter in the request.
                 items:
-                  type: object
-                  properties:
-                    type:
-                      type: string
-                      examples:
-                        - user
-                    id:
-                      type: string
-                      examples:
-                        - user_ABC123
-                    attributes:
-                      type: object
-                      properties:
-                        email-address:
-                          type: string
-                          examples:
-                            - jane@doe.com
-                        name-first:
-                          type: string
-                          examples:
-                            - Jane
-                        name-last:
-                          type: string
-                          examples:
-                            - Doe
+                  $ref: ../components/schemas/User.yaml
       description: OK
     '400':
       $ref: ../components/responses/BadRequest.yaml
