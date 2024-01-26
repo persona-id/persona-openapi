@@ -1,169 +1,53 @@
 type: object
 description: A Document Generic object
 properties:
-  attributes:
-    properties:
-      status:
-        enum:
-          - initiated
-          - submitted
-          - processed
-          - errored
-        type: string
-      created-at:
-        examples:
-          - '2020-04-18T15:43:25.000Z'
-        type: string
-      processed-at:
-        examples:
-          - '2020-04-18T15:43:25.000Z'
-        type:
-          - 'null'
-          - string
-      processed-at-ts:
-        examples:
-          - 1593047530
-        type:
-          - 'null'
-          - integer
-      kind:
-        examples:
-          - proof_of_employment
-        type: string
-      files:
-        description: The files uploaded to the document for processing.
-        items:
-          properties:
-            filename:
-              examples:
-                - multipage_example.pdf
-              type: string
-            url:
-              examples:
-                - >-
-                  https://withpersona.com/api/v1/files/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBdHc4IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--c4482780e1fa5c7bc0a26fc73b1dd76c44b98ad8/multipage_example.pdf
-              type: string
-            byte-size:
-              type: integer
-          type: object
-        type: array
-      files-normalized:
-        items:
-          properties:
-            filename:
-              examples:
-                - multipage_example.pdf
-              type: string
-            url:
-              examples:
-                - >-
-                  https://withpersona.com/api/v1/files/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBdHc4IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--c4482780e1fa5c7bc0a26fc73b1dd76c44b98ad8/multipage_example.pdf
-              type: string
-          type: object
-        type: array
-      extraction-responses:
-        $ref: ./ExtractionResponses.yaml
-      document-type:
-        description: >-
-          The classification of the document if detected. If unable to be
-          detected, this will be other.
-        examples:
-          - bank_statement
-          - standard_utility_bill
-          - other
-        type:
-          - 'null'
-          - string
-      fields:
-        description: JSON key-value pairs of field name to field value.
-        type: object
-    type: object
   id:
     examples:
       - doc_8HfuATwEZbXT532wv6pzWMTN
     type: string
-  relationships:
-    properties:
-      inquiry:
-        properties:
-          data:
-            properties:
-              id:
-                examples:
-                  - inq_jdRz9RHNRzkjxUqZApHwX1ZU
-                type: string
-              type:
-                examples:
-                  - inquiry
-                type: string
-            type: object
-        type: object
-      template:
-        properties:
-          data:
-            properties:
-              id:
-                examples:
-                  - tmpl_sXu8UYP3L1xQLAB9XCRUQA5g
-                type: string
-              type:
-                examples:
-                  - template
-                type: string
-            type:
-              - 'null'
-              - object
-        type: object
-      inquiry-template-version:
-        properties:
-          data:
-            properties:
-              id:
-                examples:
-                  - itmplv_1ivdvZUKPLAtWgsQdEvmi6wj
-                type: string
-              type:
-                examples:
-                  - inquiry-template-version
-                type: string
-            type:
-              - 'null'
-              - object
-        type: object
-      inquiry-template:
-        properties:
-          data:
-            properties:
-              id:
-                examples:
-                  - itmpl_mNKRtWCMWB9Lbccc85DjgJnK
-                type: string
-              type:
-                examples:
-                  - inquiry-template
-                type: string
-            type:
-              - 'null'
-              - object
-        type: object
-      document-files:
-        properties:
-          data:
-            items:
-              properties:
-                id:
-                  examples:
-                    - docf_aNBCzPCLPC2Ladef86DjbInK
-                  type: string
-                type:
-                  examples:
-                    - document-file
-                  type: string
-              type: object
-            type: array
-        type: object
-    type: object
   type:
-    examples:
-      - document/generic
     type: string
+    const: document/generic
+    description: document/generic
+  attributes:
+    properties: {}
+    allOf:
+      - $ref: ./DocumentBaseAttributes.yaml
+      - type: object
+        properties:
+          kind:
+            examples:
+              - document
+              - proof_of_employment
+            type: string
+          files:
+            description: The files uploaded to the document for processing.
+            items:
+              $ref: ./File.yaml
+            type: array
+          files-normalized:
+            items:
+              $ref: ./File.yaml
+            type: array
+          extraction-responses:
+            $ref: ./ExtractionResponses.yaml
+          document-type:
+            description: >-
+              The classification of the document if detected. If unable to be
+              detected, this will be other.
+            examples:
+              - bank_statement
+              - standard_utility_bill
+              - other
+            type:
+              - 'null'
+              - string
+          fields:
+            description: >-
+              JSON key-value pairs of field name to field value. Exact schema
+              depends on the configuration of your template.
+            type: object
+            additionalProperties: true
+    type: object
+  relationships:
+    $ref: ./DocumentBaseRelationships.yaml

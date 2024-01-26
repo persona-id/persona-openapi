@@ -21,93 +21,14 @@ get:
           examples:
             Result:
               summary: OK
-              value:
-                data:
-                  type: document/generic
-                  id: doc_JT2Bc2g6rEAVsaZjXs3d6oYq
-                  attributes:
-                    kind: generic
-                    status: ready
-                    created-at: '2020-04-07T02:33:41.000Z'
-                    processed-at: '2020-04-07T05:50:53.000Z'
-                    files:
-                      - filename: multipage_example.pdf
-                        url: >-
-                          https://withpersona.com/api/v1/files/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBdUUyIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--7b006f97a2438d58fc9aec7baa121592f823e678/multipage_example.pdf
-                    document-type: invoice
-                  relationships:
-                    inquiry:
-                      data:
-                        type: inquiry
-                        id: inq_GC7xwqnhgNHwomz5yT3geLrT
+              $ref: ../components/examples/DocumentGenericResponse.yaml
           schema:
+            type: object
             properties:
               data:
-                properties:
-                  attributes:
-                    properties:
-                      created-at:
-                        examples:
-                          - '2020-04-07T02:33:41.000Z'
-                        type: string
-                      document-type:
-                        examples:
-                          - invoice
-                        type: string
-                      files:
-                        items:
-                          properties:
-                            filename:
-                              examples:
-                                - multipage_example.pdf
-                              type: string
-                            url:
-                              examples:
-                                - >-
-                                  https://withpersona.com/api/v1/files/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBdUUyIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--7b006f97a2438d58fc9aec7baa121592f823e678/multipage_example.pdf
-                              type: string
-                          type: object
-                        type: array
-                      kind:
-                        examples:
-                          - generic
-                        type: string
-                      processed-at:
-                        examples:
-                          - '2020-04-07T05:50:53.000Z'
-                        type: string
-                      status:
-                        examples:
-                          - ready
-                        type: string
-                    type: object
-                  id:
-                    examples:
-                      - doc_JT2Bc2g6rEAVsaZjXs3d6oYq
-                    type: string
-                  relationships:
-                    properties:
-                      inquiry:
-                        properties:
-                          data:
-                            properties:
-                              id:
-                                examples:
-                                  - inq_GC7xwqnhgNHwomz5yT3geLrT
-                                type: string
-                              type:
-                                examples:
-                                  - inquiry
-                                type: string
-                            type: object
-                        type: object
-                    type: object
-                  type:
-                    examples:
-                      - document/generic
-                    type: string
-                type: object
-            type: object
+                $ref: ../components/schemas/Document.yaml
+              included:
+                $ref: ../components/schemas/DocumentIncludedObjects.yaml
       description: OK
     '400':
       $ref: ../components/responses/BadRequest.yaml
