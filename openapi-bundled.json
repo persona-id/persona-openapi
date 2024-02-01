@@ -20580,8 +20580,6 @@
                           "completed-at": "2022-07-28T21:54:33.000Z",
                           "completed-at-ts": 1659045273,
                           "country-code": null,
-                          "entity-confidence-reasons": [],
-                          "document-similarity-score": null,
                           "selfie-similarity-score-left": 100,
                           "selfie-similarity-score-right": 100,
                           "checks": [
@@ -20666,7 +20664,19 @@
                               "metadata": {}
                             }
                           ],
-                          "capture-method": "photo"
+                          "capture-method": "photo",
+                          "document-similarity-score": null,
+                          "left-photo-url": "https://files.withpersona.com/...",
+                          "center-photo-url": "https://files.withpersona.com/...",
+                          "right-photo-url": "https://files.withpersona.com/...",
+                          "photo-urls": [
+                            {
+                              "page": "left_photo",
+                              "url": "https://files.withpersona.com/...",
+                              "byte-size": 316802
+                            }
+                          ],
+                          "video-url": "https://files.withpersona.com/..."
                         },
                         "relationships": {
                           "inquiry": {
@@ -20678,145 +20688,12 @@
                   }
                 },
                 "schema": {
+                  "type": "object",
                   "properties": {
                     "data": {
-                      "properties": {
-                        "attributes": {
-                          "properties": {
-                            "capture-method": {
-                              "examples": [
-                                "photo"
-                              ],
-                              "type": "string"
-                            },
-                            "checks": {
-                              "items": {
-                                "properties": {
-                                  "metadata": {
-                                    "properties": {},
-                                    "type": "object"
-                                  },
-                                  "name": {
-                                    "examples": [
-                                      "selfie_id_comparison"
-                                    ],
-                                    "type": "string"
-                                  },
-                                  "reasons": {
-                                    "items": {
-                                      "examples": [
-                                        "no_government_id"
-                                      ],
-                                      "type": "string"
-                                    },
-                                    "type": "array"
-                                  },
-                                  "status": {
-                                    "examples": [
-                                      "not_applicable"
-                                    ],
-                                    "type": "string"
-                                  }
-                                },
-                                "type": "object"
-                              },
-                              "type": "array"
-                            },
-                            "completed-at": {
-                              "examples": [
-                                "2022-07-28T21:54:33.000Z"
-                              ],
-                              "type": "string"
-                            },
-                            "completed-at-ts": {
-                              "default": 0,
-                              "examples": [
-                                1659045273
-                              ],
-                              "type": "integer"
-                            },
-                            "country-code": {},
-                            "created-at": {
-                              "examples": [
-                                "2022-07-28T21:54:23.000Z"
-                              ],
-                              "type": "string"
-                            },
-                            "created-at-ts": {
-                              "default": 0,
-                              "examples": [
-                                1659045263
-                              ],
-                              "type": "integer"
-                            },
-                            "document-similarity-score": {},
-                            "entity-confidence-reasons": {
-                              "type": "array"
-                            },
-                            "selfie-similarity-score-left": {
-                              "default": 0,
-                              "examples": [
-                                100
-                              ],
-                              "type": "integer"
-                            },
-                            "selfie-similarity-score-right": {
-                              "default": 0,
-                              "examples": [
-                                100
-                              ],
-                              "type": "integer"
-                            },
-                            "status": {
-                              "examples": [
-                                "passed"
-                              ],
-                              "type": "string"
-                            },
-                            "submitted-at": {
-                              "examples": [
-                                "2022-07-28T21:54:29.000Z"
-                              ],
-                              "type": "string"
-                            },
-                            "submitted-at-ts": {
-                              "default": 0,
-                              "examples": [
-                                1659045269
-                              ],
-                              "type": "integer"
-                            }
-                          },
-                          "type": "object"
-                        },
-                        "id": {
-                          "examples": [
-                            "ver_dCvHHPUHxvb5j2iYKfjwafBU"
-                          ],
-                          "type": "string"
-                        },
-                        "relationships": {
-                          "properties": {
-                            "inquiry": {
-                              "properties": {
-                                "data": {}
-                              },
-                              "type": "object"
-                            }
-                          },
-                          "type": "object"
-                        },
-                        "type": {
-                          "examples": [
-                            "verification/selfie"
-                          ],
-                          "type": "string"
-                        }
-                      },
-                      "type": "object"
+                      "$ref": "#/components/schemas/VerificationSelfie"
                     }
-                  },
-                  "type": "object"
+                  }
                 }
               }
             },
@@ -27122,6 +26999,121 @@
           }
         }
       },
+      "VerificationSelfie": {
+        "type": "object",
+        "title": "Selfie Verification",
+        "description": "A Selfie Verification",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "verification/selfie",
+            "const": "verification/selfie"
+          },
+          "id": {
+            "type": "string",
+            "description": "The token of the verification",
+            "example": "ver_ABC123"
+          },
+          "attributes": {
+            "properties": {},
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/VerificationBaseAttributes"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "capture-method": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "enum": [
+                      "photo",
+                      "video",
+                      null
+                    ]
+                  },
+                  "center-photo-url": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "example": "https://files.withpersona.com/..."
+                  },
+                  "document-similarity-score": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "entity-confidence-reasons": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "left-photo-url": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "example": "https://files.withpersona.com/..."
+                  },
+                  "photo-urls": {
+                    "items": {
+                      "properties": {
+                        "byte-size": {
+                          "default": 0,
+                          "example": 316802,
+                          "type": "integer"
+                        },
+                        "page": {
+                          "type": "string",
+                          "enum": [
+                            "left_photo",
+                            "center_photo",
+                            "right_photo"
+                          ]
+                        },
+                        "url": {
+                          "example": "https://files.withpersona.com/...",
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
+                  "right-photo-url": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "example": "https://files.withpersona.com/..."
+                  },
+                  "selfie-similarity-score-left": {
+                    "type": "number"
+                  },
+                  "selfie-similarity-score-right": {
+                    "type": "number"
+                  },
+                  "video-url": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "example": "https://files.withpersona.com/..."
+                  }
+                }
+              }
+            ]
+          },
+          "relationships": {
+            "$ref": "#/components/schemas/VerificationBaseRelationships"
+          }
+        }
+      },
       "Verification": {
         "type": "object",
         "discriminator": {
@@ -27131,7 +27123,8 @@
             "verification/document": "#/components/schemas/VerificationDocument",
             "verification/database": "#/components/schemas/VerificationDatabase",
             "verification/email-address": "#/components/schemas/VerificationEmailAddress",
-            "verification/phone-number": "#/components/schemas/VerificationPhoneNumber"
+            "verification/phone-number": "#/components/schemas/VerificationPhoneNumber",
+            "verification/selfie": "#/components/schemas/VerificationSelfie"
           }
         },
         "oneOf": [
@@ -27149,6 +27142,9 @@
           },
           {
             "$ref": "#/components/schemas/VerificationPhoneNumber"
+          },
+          {
+            "$ref": "#/components/schemas/VerificationSelfie"
           }
         ]
       },

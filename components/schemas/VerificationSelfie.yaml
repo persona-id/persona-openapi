@@ -1,0 +1,78 @@
+type: object
+title: Selfie Verification
+description: A Selfie Verification
+properties:
+  type:
+    type: string
+    description: verification/selfie
+    const: verification/selfie
+  id:
+    type: string
+    description: The token of the verification
+    example: ver_ABC123
+  attributes:
+    properties: {}
+    allOf:
+      - $ref: ./VerificationBaseAttributes.yaml
+      - type: object
+        properties:
+          capture-method:
+            type:
+              - string
+              - 'null'
+            enum:
+              - photo
+              - video
+              - null
+          center-photo-url:
+            type:
+              - string
+              - 'null'
+            example: https://files.withpersona.com/...
+          document-similarity-score:
+            type:
+              - number
+              - 'null'
+          entity-confidence-reasons:
+            items:
+              type: string
+            type: array
+          left-photo-url:
+            type:
+              - string
+              - 'null'
+            example: https://files.withpersona.com/...
+          photo-urls:
+            items:
+              properties:
+                byte-size:
+                  default: 0
+                  example: 316802
+                  type: integer
+                page:
+                  type: string
+                  enum:
+                    - left_photo
+                    - center_photo
+                    - right_photo
+                url:
+                  example: https://files.withpersona.com/...
+                  type: string
+              type: object
+            type: array
+          right-photo-url:
+            type:
+              - string
+              - 'null'
+            example: https://files.withpersona.com/...
+          selfie-similarity-score-left:
+            type: number
+          selfie-similarity-score-right:
+            type: number
+          video-url:
+            type:
+              - string
+              - 'null'
+            example: https://files.withpersona.com/...
+  relationships:
+    $ref: ./VerificationBaseRelationships.yaml
