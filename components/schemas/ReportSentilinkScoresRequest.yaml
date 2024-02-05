@@ -1,0 +1,98 @@
+title: SentiLink Scores Request
+description: Fields required to create a SentiLink Scores Report
+type: object
+properties:
+  type:
+    type: string
+    const: report/sentilink-scores
+    description: report/sentilink-scores
+  attributes:
+    properties: {}
+    allOf:
+      - $ref: ./ReportBaseRequestAttributes.yaml
+      - type: object
+        properties:
+          birthdate:
+            description: Birthdate, must be in the format "YYYY-MM-DD".
+            format: date
+            examples:
+              - '1994-04-12'
+            type: string
+          name-first:
+            description: Given or first name.
+            examples:
+              - Jane
+            type: string
+          name-last:
+            description: Family or last name.
+            examples:
+              - Doe
+            type: string
+          address-street-1:
+            description: Street name of residence address.
+            examples:
+              - 123 Main St
+            type: string
+          address-city:
+            description: >-
+              City of residence address. Not all international addresses use
+              this attribute.
+            examples:
+              - San Francisco
+            type: string
+          address-subdivision:
+            description: >-
+              State or subdivision of residence address. In the US, this should
+              be the unabbreviated name. Not all international addresses use
+              this attribute.
+            examples:
+              - California
+            type: string
+          address-postal-code:
+            description: >-
+              ZIP or postal code of residence address. Not all international
+              addresses use this attribute.
+            examples:
+              - '94111'
+            type: string
+          address-country-code:
+            description: Country code of residence address.
+            examples:
+              - US
+            type:
+              - string
+              - 'null'
+          social-security-number:
+            description: Social security number.
+            type: string
+            examples:
+              - 123-45-6789
+          user-id:
+            description: A reference ID for the applicant.
+            type: string
+            examples:
+              - USER-123
+          phone-number:
+            description: Phone number.
+            examples:
+              - 415-555-1234
+            type:
+              - string
+              - 'null'
+          email-address:
+            description: Email address.
+            examples:
+              - jane@doe.com
+            type:
+              - string
+              - 'null'
+    required:
+      - name-first
+      - name-last
+      - birthdate
+      - address-street-1
+      - address-city
+      - address-subdivision
+      - address-postal-code
+      - social-security-number
+      - user-id

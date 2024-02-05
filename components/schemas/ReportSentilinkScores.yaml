@@ -1,0 +1,136 @@
+title: SentiLink Scores Report
+description: A SentiLink Scores Report
+type: object
+properties:
+  type:
+    type: string
+    const: report/sentilink-scores
+    description: report/sentilink-scores
+  id:
+    type: string
+    description: The ID of the report
+    examples:
+      - rep_7WNzPaNcroBKLarNHBjYDLAp
+  attributes:
+    properties: {}
+    allOf:
+      - $ref: ./ReportBaseAttributes.yaml
+      - type: object
+        properties:
+          query:
+            properties:
+              birthdate:
+                description: Birthdate, must be in the format "YYYY-MM-DD".
+                format: date
+                examples:
+                  - '1994-04-12'
+                type: string
+              name-first:
+                description: Given or first name.
+                examples:
+                  - Jane
+                type: string
+              name-last:
+                description: Family or last name.
+                examples:
+                  - Doe
+                type: string
+              address-street-1:
+                description: Street name of residence address.
+                examples:
+                  - 123 Main St
+                type: string
+              address-city:
+                description: >-
+                  City of residence address. Not all international addresses use
+                  this attribute.
+                examples:
+                  - San Francisco
+                type: string
+              address-subdivision:
+                description: >-
+                  State or subdivision of residence address. In the US, this
+                  should be the unabbreviated name. Not all international
+                  addresses use this attribute.
+                examples:
+                  - California
+                type: string
+              address-postal-code:
+                description: >-
+                  ZIP or postal code of residence address. Not all international
+                  addresses use this attribute.
+                examples:
+                  - '94111'
+                type: string
+              address-country-code:
+                description: Country code of residence address.
+                examples:
+                  - US
+                type:
+                  - string
+                  - 'null'
+              social-security-number:
+                description: Social security number
+                type: string
+                examples:
+                  - 123-45-6789
+              user-id:
+                description: Reference ID of applicant
+                type: string
+                examples:
+                  - USER-123
+              phone-number:
+                description: Phone number.
+                examples:
+                  - 415-555-1234
+                type:
+                  - string
+                  - 'null'
+              email-address:
+                description: Email address.
+                examples:
+                  - jane@doe.com
+                type:
+                  - string
+                  - 'null'
+          result:
+            type: object
+            properties:
+              application-id:
+                type: string
+              customer-id:
+                type: string
+              environment:
+                type: string
+              notes:
+                type:
+                  - string
+                  - 'null'
+              scores:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      examples:
+                        - sentilink_abuse_score
+                    score:
+                      type: integer
+                      format: int32
+                    version:
+                      type: string
+                      examples:
+                        - 1.5.3
+                    reason-codes:
+                      type: array
+                      items:
+                        type: string
+              status:
+                type: string
+                examples:
+                  - passed
+              transaction-id:
+                type: string
+  relationships:
+    $ref: ./ReportBaseRelationships.yaml
