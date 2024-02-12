@@ -1244,6 +1244,8 @@ paths:
                           creator-id: case_creator@withpersona.com
                           creator-type: user
                           assignee-id: case_assignee@withpersona.com
+                          assigner-id: case_assigner@withpersona.com
+                          assigner-type: user
                           resolver-id: null
                           resolver-type: null
                           updater-id: case_updater@withpersona.com
@@ -1381,6 +1383,8 @@ paths:
                         creator-id: case_creator@withpersona.com
                         creator-type: user
                         assignee-id: null
+                        assigner-id: null
+                        assigner-type: null
                         resolver-id: null
                         resolver-type: null
                         updater-id: null
@@ -1594,6 +1598,8 @@ paths:
                         creator-id: case_creator@withpersona.com
                         creator-type: user
                         assignee-id: null
+                        assigner-id: null
+                        assigner-type: null
                         resolver-id: case_resolver@withpersona.com
                         resolver-type: user
                         updater-id: case_updater@withpersona.com
@@ -1833,6 +1839,8 @@ paths:
                         creator-id: case_creator@withpersona.com
                         creator-type: user
                         assignee-id: null
+                        assigner-id: null
+                        assigner-type: null
                         resolver-id: case_resolver@withpersona.com
                         resolver-type: user
                         updater-id: case_updater@withpersona.com
@@ -2024,8 +2032,10 @@ paths:
                         redacted-at: null
                         sla-expires-at: '2021-06-30T22:37:18.678Z'
                         creator-id: wfl_yKynZZiuPz1R5qm9JFyBnnLB
-                        creator-type: workflow
+                        creator-type: workflow-run
                         assignee-id: foo@bar.com
+                        assigner-id: foo@bar.com
+                        assigner-type: user
                         resolver-id: null
                         resolver-type: null
                         updater-id: null
@@ -2145,8 +2155,10 @@ paths:
                         redacted-at: null
                         sla-expires-at: null
                         creator-id: wfl_yKynZZiuPz1R5qm9JFyBnnLB
-                        creator-type: workflow
+                        creator-type: workflow-run
                         assignee-id: null
+                        assigner-id: null
+                        assigner-type: null
                         resolver-id: null
                         resolver-type: null
                         updater-id: null
@@ -2253,8 +2265,10 @@ paths:
                         redacted-at: null
                         sla-expires-at: null
                         creator-id: wfl_yKynZZiuPz1R5qm9JFyBnnLB
-                        creator-type: workflow
+                        creator-type: workflow-run
                         assignee-id: foo@bar.com
+                        assigner-id: foo@bar.com
+                        assigner-type: user
                         resolver-id: null
                         resolver-type: null
                         updater-id: null
@@ -2364,8 +2378,10 @@ paths:
                         redacted-at: null
                         sla-expires-at: null
                         creator-id: wfl_yKynZZiuPz1R5qm9JFyBnnLB
-                        creator-type: workflow
+                        creator-type: workflow-run
                         assignee-id: foo@bar.com
+                        assigner-id: foo@bar.com
+                        assigner-type: user
                         resolver-id: null
                         resolver-type: null
                         updater-id: null
@@ -2469,8 +2485,10 @@ paths:
                         redacted-at: null
                         sla-expires-at: null
                         creator-id: wfl_yKynZZiuPz1R5qm9JFyBnnLB
-                        creator-type: workflow
+                        creator-type: workflow-run
                         assignee-id: case_assignee@withpersona.com
+                        assigner-id: case_assigner@withpersona.com
+                        assigner-type: user
                         resolver-id: null
                         resolver-type: null
                         updater-id: null
@@ -2575,8 +2593,10 @@ paths:
                         redacted-at: null
                         sla-expires-at: null
                         creator-id: wfl_yKynZZiuPz1R5qm9JFyBnnLB
-                        creator-type: workflow
+                        creator-type: workflow-run
                         assignee-id: case_assignee@withpersona.com
+                        assigner-id: case_assigner@withpersona.com
+                        assigner-type: user
                         resolver-id: null
                         resolver-type: null
                         updater-id: null
@@ -2679,8 +2699,10 @@ paths:
                         redacted-at: null
                         sla-expires-at: null
                         creator-id: wfl_yKynZZiuPz1R5qm9JFyBnnLB
-                        creator-type: workflow
+                        creator-type: workflow-run
                         assignee-id: case_assignee@withpersona.com
+                        assigner-id: case_assigner@withpersona.com
+                        assigner-type: user
                         resolver-id: null
                         resolver-type: null
                         updater-id: null
@@ -14800,12 +14822,30 @@ components:
                 - case_creator@withpersona.com
               type: string
             creator-type:
-              examples:
+              enum:
                 - user
+                - workflow-run
               type: string
             assignee-id:
               examples:
                 - case_assignee@withpersona.com
+              type:
+                - string
+                - 'null'
+            assigner-id:
+              examples:
+                - case_assigner@withpersona.com
+                - cap_jE2jrmjCsPQiAq6r4uBiMiMBJZEo
+                - wfr_vKcf7zTQ4fg1RN3hRUUbTnURcVKp
+              type:
+                - string
+                - 'null'
+            assigner-type:
+              enum:
+                - case-assignment-policy
+                - user
+                - workflow-run
+                - null
               type:
                 - string
                 - 'null'
@@ -14816,8 +14856,10 @@ components:
                 - string
                 - 'null'
             resolver-type:
-              examples:
+              enum:
                 - user
+                - workflow-run
+                - null
               type:
                 - string
                 - 'null'
@@ -14828,8 +14870,10 @@ components:
                 - string
                 - 'null'
             updater-type:
-              examples:
+              enum:
                 - user
+                - workflow-run
+                - null
               type:
                 - string
                 - 'null'
