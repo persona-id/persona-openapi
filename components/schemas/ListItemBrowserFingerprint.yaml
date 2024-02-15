@@ -1,0 +1,30 @@
+title: Browser Fingerprint List Item
+description: A Browser Fingerprint List Item
+type: object
+properties:
+  id:
+    description: Unique identifier for this list item. Starts with `libf_`.
+    examples:
+      - libf_N6PqYkfSqeqiQYWoeHA3GGDo
+    type: string
+  type:
+    const: list-item/browser-fingerprint
+    description: list-item/browser-fingerprint
+    type: string
+  attributes:
+    properties: {}
+    allOf:
+      - $ref: ./ListItemBaseAttributes.yaml
+      - type: object
+        properties:
+          value:
+            examples:
+              - 3082c312c9bfc8f0a43bc7173b18afe6
+            type: string
+  relationships:
+    properties:
+      creator:
+        properties:
+          data: {}
+        type: object
+    type: object

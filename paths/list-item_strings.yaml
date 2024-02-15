@@ -1,10 +1,9 @@
 post:
   description: Create a new item in a <<glossary:list>>.
-  operationId: create-a-browser-fingerprint-list-item
+  operationId: create-a-string-list-item
   externalDocs:
     description: Full documentation for this API on the Persona website.
-    url: >-
-      https://docs.withpersona.com/reference/create-a-browser-fingerprint-list-item
+    url: https://docs.withpersona.com/reference/create-a-string-list-item
   parameters:
     - $ref: ../components/parameters/keyInflectionHeader.yaml
     - $ref: ../components/parameters/idempotencyKeyHeader.yaml
@@ -22,10 +21,10 @@ post:
                     list-id:
                       description: >-
                         ID of the list to add this item to. List must be a
-                        Browser Fingerprint List.
+                        String List.
                       type: string
                     value:
-                      description: Browser fingerprint to add to list.
+                      description: String value to add to the list.
                       type: string
                   type: object
               type: object
@@ -37,11 +36,11 @@ post:
           examples:
             Result:
               summary: Created
-              $ref: ../components/examples/ListItemBrowserFingerprintResponse.yaml
+              $ref: ../components/examples/ListItemStringResponse.yaml
           schema:
             properties:
               data:
-                $ref: ../components/schemas/ListItemBrowserFingerprint.yaml
+                $ref: ../components/schemas/ListItemString.yaml
             type: object
       description: Created
     '400':
@@ -58,6 +57,6 @@ post:
       $ref: ../components/responses/UnprocessableEntity.yaml
     '429':
       $ref: ../components/responses/TooManyRequests.yaml
-  summary: Create a Browser Fingerprint List Item
+  summary: Create a String List Item
   tags:
     - List Items

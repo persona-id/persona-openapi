@@ -1,0 +1,28 @@
+title: Field List Item
+description: A Field List Item
+type: object
+properties:
+  id:
+    description: Unique identifier for this list item. Starts with `liif_`.
+    examples:
+      - liif_soqGRWaUXZct3pCRbjRaXFqz
+    type: string
+  type:
+    type: string
+    const: list-item/field
+    description: list-item/field
+  attributes:
+    properties: {}
+    allOf:
+      - $ref: ./ListItemBaseAttributes.yaml
+      - type: object
+        properties:
+          field-value:
+            type: string
+  relationships:
+    properties:
+      creator:
+        properties:
+          data: {}
+        type: object
+    type: object

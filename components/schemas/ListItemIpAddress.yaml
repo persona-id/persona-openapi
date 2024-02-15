@@ -1,0 +1,30 @@
+title: IP Address List Item
+description: An IP Address List Item
+type: object
+properties:
+  id:
+    description: Unique identifier for this list item. Starts with `liip_`.
+    examples:
+      - liip_soqGRWaUXZct3pCRbjRaXFqz
+    type: string
+  type:
+    const: list-item/ip-address
+    description: list-item/ip-address
+    type: string
+  attributes:
+    properties: {}
+    allOf:
+      - $ref: ./ListItemBaseAttributes.yaml
+      - type: object
+        properties:
+          value:
+            examples:
+              - 127.0.0.0/24
+            type: string
+  relationships:
+    properties:
+      creator:
+        properties:
+          data: {}
+        type: object
+    type: object
