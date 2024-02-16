@@ -9381,60 +9381,7 @@ paths:
               examples:
                 Result:
                   summary: Created
-                  value:
-                    data:
-                      type: transaction
-                      id: txn_ABC123
-                      attributes:
-                        status: declined
-                        reference-id: null
-                        fields:
-                          country:
-                            type: string
-                            value: US
-                          name-first:
-                            type: string
-                            value: LeBron
-                          name-last:
-                            type: string
-                            value: James
-                          selected-id-class:
-                            type: string
-                            value: dl
-                          front-photo:
-                            type: file
-                            value:
-                              filename: image.png
-                              byte-size: 237011
-                              mime-type: image/png
-                              url: https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
-                          back-photo:
-                            type: file
-                            value:
-                              filename: image.png
-                              byte-size: 237011
-                              mime-type: image/png
-                              url: https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
-                        tags: []
-                        created-at: '2023-05-26T16:49:33.860Z'
-                        updated-at: '2023-05-26T16:49:43.965Z'
-                      relationships:
-                        reviewer:
-                          data:
-                            type: workflow-run
-                            id: wfr_ABC123
-                        transaction-label:
-                          data: null
-                        transaction-type:
-                          data:
-                            type: transaction-type
-                            id: txntp_ABC123
-                        related-objects:
-                          data:
-                            - type: account
-                              id: act_ABC123
-                            - type: verification/government-id
-                              id: ver_ABC123
+                  $ref: '#/components/examples/TransactionResponse'
               schema:
                 type: object
                 properties:
@@ -9502,116 +9449,7 @@ paths:
               examples:
                 Result:
                   summary: OK
-                  value:
-                    data:
-                      - type: transaction
-                        id: txn_ABC123
-                        attributes:
-                          status: declined
-                          reference-id: null
-                          fields:
-                            country:
-                              type: string
-                              value: US
-                            name-first:
-                              type: string
-                              value: LeBron
-                            name-last:
-                              type: string
-                              value: James
-                            selected-id-class:
-                              type: string
-                              value: dl
-                            front-photo:
-                              type: file
-                              value:
-                                filename: image.png
-                                byte-size: 237011
-                                mime-type: image/png
-                                url: https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
-                            back-photo:
-                              type: file
-                              value:
-                                filename: image.png
-                                byte-size: 237011
-                                mime-type: image/png
-                                url: https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
-                          tags: []
-                          created-at: '2023-05-26T16:49:33.860Z'
-                          updated-at: '2023-05-26T16:49:43.965Z'
-                        relationships:
-                          reviewer:
-                            data:
-                              type: workflow-run
-                              id: wfr_ABC123
-                          transaction-label:
-                            data: null
-                          transaction-type:
-                            data:
-                              type: transaction-type
-                              id: txntp_ABC123
-                          related-objects:
-                            data:
-                              - type: account
-                                id: act_ABC123
-                              - type: verification/government-id
-                                id: ver_ABC123
-                      - type: transaction
-                        id: txn_ABC123
-                        attributes:
-                          status: declined
-                          reference-id: null
-                          external-id: null
-                          fields:
-                            country:
-                              type: string
-                              value: US
-                            name-first:
-                              type: string
-                              value: LeBron
-                            name-last:
-                              type: string
-                              value: James
-                            selected-id-class:
-                              type: string
-                              value: dl
-                            front-photo:
-                              type: file
-                              value:
-                                filename: image.png
-                                byte-size: 237011
-                                mime-type: image/png
-                                url: https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
-                            back-photo:
-                              type: file
-                              value:
-                                filename: image.png
-                                byte-size: 237011
-                                mime-type: image/png
-                                url: https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
-                          tags: []
-                          created-at: '2023-05-26T16:49:33.860Z'
-                          updated-at: '2023-05-26T16:49:43.965Z'
-                        relationships:
-                          reviewer:
-                            data:
-                              type: workflow-run
-                              id: wfr_ABC123
-                          transaction-label:
-                            data: null
-                          transaction-type:
-                            data:
-                              type: transaction-type
-                              id: txntp_ABC123
-                          related-objects:
-                            data:
-                              - type: account
-                                id: act_ABC123
-                              - type: verification/government-id
-                                id: ver_ABC123
-                    links:
-                      prev: null
-                      next: /api/v1/transactions?page%5Bafter%5D=txn_ABC123
+                  $ref: '#/components/examples/TransactionListResponse'
               schema:
                 type: object
                 properties:
@@ -9622,9 +9460,16 @@ paths:
                   links:
                     type: object
                     properties:
-                      prev: {}
+                      prev:
+                        type:
+                          - string
+                          - 'null'
+                        examples:
+                          - /api/v1/transactions?page%before%5D=txn_ABC123
                       next:
-                        type: string
+                        type:
+                          - string
+                          - 'null'
                         examples:
                           - /api/v1/transactions?page%5Bafter%5D=txn_ABC123
         '400':
@@ -9664,384 +9509,7 @@ paths:
               examples:
                 Result:
                   summary: OK
-                  value:
-                    data:
-                      type: transaction
-                      id: txn_ABC123
-                      attributes:
-                        status: declined
-                        reference-id: null
-                        external-id: null
-                        fields:
-                          country:
-                            type: string
-                            value: US
-                          name-first:
-                            type: string
-                            value: LeBron
-                          name-last:
-                            type: string
-                            value: James
-                          selected-id-class:
-                            type: string
-                            value: dl
-                          front-photo:
-                            type: file
-                            value:
-                              filename: image.png
-                              byte-size: 237011
-                              mime-type: image/png
-                              url: https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
-                          back-photo:
-                            type: file
-                            value:
-                              filename: image.png
-                              byte-size: 237011
-                              mime-type: image/png
-                              url: https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
-                        tags: []
-                        created-at: '2023-05-26T16:49:33.860Z'
-                        updated-at: '2023-05-26T16:49:43.965Z'
-                      relationships:
-                        reviewer:
-                          data:
-                            type: workflow-run
-                            id: wfr_ABC123
-                        transaction-label:
-                          data: null
-                        transaction-type:
-                          data:
-                            type: transaction-type
-                            id: txntp_ABC123
-                        related-objects:
-                          data:
-                            - type: account
-                              id: act_ABC123
-                            - type: verification/government-id
-                              id: ver_ABC123
-                    included:
-                      - type: account
-                        id: act_ABC123
-                        attributes:
-                          reference-id: null
-                          external-id: null
-                          created-at: '2023-05-26T16:49:35.000Z'
-                          updated-at: '2023-05-26T16:49:35.000Z'
-                          redacted-at: null
-                          fields:
-                            name:
-                              type: hash
-                              value:
-                                first:
-                                  type: string
-                                  value: null
-                                middle:
-                                  type: string
-                                  value: null
-                                last:
-                                  type: string
-                                  value: null
-                            address:
-                              type: hash
-                              value:
-                                street-1:
-                                  type: string
-                                  value: null
-                                street-2:
-                                  type: string
-                                  value: null
-                                subdivision:
-                                  type: string
-                                  value: null
-                                city:
-                                  type: string
-                                  value: null
-                                postal-code:
-                                  type: string
-                                  value: null
-                                country-code:
-                                  type: string
-                                  value: null
-                            identification-numbers:
-                              type: array
-                              value: []
-                            birthdate:
-                              type: date
-                              value: null
-                            phone-number:
-                              type: string
-                              value: null
-                            email-address:
-                              type: string
-                              value: null
-                            selfie-photo:
-                              type: file
-                              value: null
-                          country-code: null
-                          tags: []
-                      - type: verification/government-id
-                        id: ver_ABC123
-                        attributes:
-                          status: failed
-                          created-at: '2023-05-26T16:49:43.000Z'
-                          created-at-ts: 1685119783
-                          submitted-at: '2023-05-26T16:49:43.000Z'
-                          submitted-at-ts: 1685119783
-                          completed-at: '2023-05-26T16:49:43.000Z'
-                          completed-at-ts: 1685119783
-                          country-code: null
-                          entity-confidence-score: 0
-                          entity-confidence-reasons:
-                            - generic
-                          front-photo-url: https://files.withpersona.com/image.jpg?access_token=ACCESS_ABC123
-                          back-photo-url: https://files.withpersona.com/image.jpg?access_token=ACCESS_ABC123
-                          photo-urls:
-                            - page: front
-                              url: https://files.withpersona.com/image.jpg?access_token=ACCESS_ABC123
-                              normalized-url: https://files.withpersona.com/image.jpg?access_token=ACCESS_ABC123
-                              original-urls:
-                                - https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
-                              byte-size: 62347
-                            - page: back
-                              url: https://files.withpersona.com/image.jpg?access_token=ACCESS_ABC123
-                              normalized-url: https://files.withpersona.com/image.jpg?access_token=ACCESS_ABC123
-                              original-urls:
-                                - https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
-                              byte-size: 62347
-                          selfie-photo: null
-                          selfie-photo-url: null
-                          video-url: null
-                          id-class: null
-                          capture-method: api
-                          expiration-date: null
-                          endorsements: null
-                          restrictions: null
-                          vehicle-class: null
-                          checks:
-                            - name: id_aamva_database_lookup
-                              status: not_applicable
-                              reasons:
-                                - disabled
-                              requirement: not_required
-                              metadata: {}
-                            - name: id_account_comparison
-                              status: not_applicable
-                              reasons:
-                                - no_account
-                              requirement: not_required
-                              metadata: {}
-                            - name: id_age_comparison
-                              status: not_applicable
-                              reasons:
-                                - missing_birthdate
-                              requirement: not_required
-                              metadata: {}
-                            - name: id_barcode_detection
-                              status: failed
-                              reasons:
-                                - barcode_not_decoded
-                              requirement: not_required
-                              metadata: {}
-                            - name: id_barcode_inconsistency_detection
-                              status: not_applicable
-                              reasons:
-                                - barcode_not_decoded
-                              requirement: not_required
-                              metadata: {}
-                            - name: id_blur_detection
-                              status: passed
-                              reasons: []
-                              requirement: not_required
-                              metadata: {}
-                            - name: id_color_inconsistency_detection
-                              status: passed
-                              reasons: []
-                              requirement: not_required
-                              metadata: {}
-                            - name: id_disallowed_country_detection
-                              status: not_applicable
-                              reasons:
-                                - no_country
-                              requirement: required
-                              metadata: {}
-                            - name: id_disallowed_type_detection
-                              status: failed
-                              reasons:
-                                - type_not_detected
-                              requirement: required
-                              metadata:
-                                country-code: null
-                                detected-id-designations: []
-                                disallowed-id-designations: []
-                            - name: id_double_side_detection
-                              status: failed
-                              reasons:
-                                - side_submitted_twice
-                              requirement: not_required
-                              metadata: {}
-                            - name: id_electronic_replica_detection
-                              status: failed
-                              reasons:
-                                - replica_detected
-                              requirement: not_required
-                              metadata: {}
-                            - name: id_entity_detection
-                              status: failed
-                              reasons:
-                                - cannot_verify_id
-                              requirement: required
-                              metadata: {}
-                            - name: id_expired_detection
-                              status: not_applicable
-                              reasons:
-                                - no_expiration_date
-                              requirement: required
-                              metadata: {}
-                            - name: id_extraction_inconsistency_detection
-                              status: not_applicable
-                              reasons:
-                                - missing_properties
-                              requirement: not_required
-                              metadata:
-                                check-requirements: []
-                            - name: id_extracted_properties_detection
-                              status: not_applicable
-                              reasons:
-                                - no_required_properties
-                              requirement: not_required
-                              metadata: {}
-                            - name: id_fabrication_detection
-                              status: passed
-                              reasons: []
-                              requirement: not_required
-                              metadata: {}
-                            - name: id_glare_detection
-                              status: failed
-                              reasons:
-                                - too_much_glare
-                              requirement: not_required
-                              metadata: {}
-                            - name: id_handwriting_detection
-                              status: passed
-                              reasons: []
-                              requirement: not_required
-                              metadata: {}
-                            - name: id_inquiry_comparison
-                              status: not_applicable
-                              reasons:
-                                - no_inquiry
-                              requirement: not_required
-                              metadata: {}
-                            - name: id_mrz_detection
-                              status: not_applicable
-                              reasons: []
-                              requirement: required
-                              metadata: {}
-                            - name: id_mrz_inconsistency_detection
-                              status: not_applicable
-                              reasons:
-                                - mrz_not_found
-                              requirement: not_required
-                              metadata: {}
-                            - name: id_number_format_inconsistency_detection
-                              status: not_applicable
-                              reasons:
-                                - invalid_country
-                              requirement: not_required
-                              metadata: {}
-                            - name: id_po_box_detection
-                              status: not_applicable
-                              reasons:
-                                - missing_address
-                              requirement: not_required
-                              metadata: {}
-                            - name: id_portrait_clarity_detection
-                              status: not_applicable
-                              reasons: []
-                              requirement: required
-                              metadata: {}
-                            - name: id_portrait_detection
-                              status: failed
-                              reasons:
-                                - portrait_not_found
-                              requirement: required
-                              metadata: {}
-                            - name: id_real_id_detection
-                              status: not_applicable
-                              reasons:
-                                - disabled
-                              requirement: not_required
-                              metadata: {}
-                            - name: id_tamper_detection
-                              status: passed
-                              reasons: []
-                              requirement: not_required
-                              metadata: {}
-                            - name: id_unprocessable_submission_detection
-                              status: passed
-                              reasons: []
-                              requirement: not_required
-                              metadata: {}
-                            - name: id_valid_dates_detection
-                              status: not_applicable
-                              reasons: []
-                              requirement: not_required
-                              metadata: {}
-                            - name: id_age_inconsistency_detection
-                              status: not_applicable
-                              reasons:
-                                - disabled
-                              requirement: not_required
-                              metadata: {}
-                            - name: id_compromised_detection
-                              status: passed
-                              reasons: []
-                              requirement: required
-                              metadata: {}
-                            - name: id_inconsistent_repeat_detection
-                              status: not_applicable
-                              reasons:
-                                - not_enabled
-                              requirement: not_required
-                              metadata: {}
-                            - name: id_public_figure_detection
-                              status: passed
-                              reasons: []
-                              requirement: not_required
-                              metadata: {}
-                            - name: id_repeat_detection
-                              status: not_applicable
-                              reasons:
-                                - not_enabled
-                              requirement: not_required
-                              metadata: {}
-                            - name: id_selfie_comparison
-                              status: not_applicable
-                              reasons:
-                                - no_selfie
-                              requirement: required
-                              metadata: {}
-                        relationships:
-                          inquiry:
-                            data: null
-                          template:
-                            data: null
-                          inquiry-template-version:
-                            data: null
-                          inquiry-template:
-                            data: null
-                          verification-template:
-                            data:
-                              type: verification-template/government-id
-                              id: vtmpl_ABC123
-                          verification-template-version:
-                            data:
-                              type: verification-template-version/government-id
-                              id: vtmplv_ABC123
-                          document:
-                            data:
-                              type: document/government-id
-                              id: doc_ABC123
+                  $ref: '#/components/examples/TransactionRetrieveResponse'
               schema:
                 type: object
                 properties:
@@ -10127,7 +9595,16 @@ paths:
               examples:
                 Result:
                   summary: OK
-                  value: ''
+                  $ref: '#/components/examples/TransactionWithLabelResponse'
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Transaction'
+                  included:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TransactionLabel'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -10187,62 +9664,7 @@ paths:
               examples:
                 Result:
                   summary: OK
-                  value:
-                    data:
-                      type: transaction
-                      id: txn_ABC123
-                      attributes:
-                        status: declined
-                        reference-id: null
-                        external-id: null
-                        fields:
-                          country:
-                            type: string
-                            value: US
-                          name-first:
-                            type: string
-                            value: LeBron
-                          name-last:
-                            type: string
-                            value: James
-                          selected-id-class:
-                            type: string
-                            value: dl
-                          front-photo:
-                            type: file
-                            value:
-                              filename: image.png
-                              byte-size: 237011
-                              mime-type: image/png
-                              url: https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
-                          back-photo:
-                            type: file
-                            value:
-                              filename: image.png
-                              byte-size: 237011
-                              mime-type: image/png
-                              url: https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
-                        tags:
-                          - new tag
-                        created-at: '2023-05-26T16:49:33.860Z'
-                        updated-at: '2023-05-26T16:49:43.965Z'
-                      relationships:
-                        reviewer:
-                          data:
-                            type: workflow-run
-                            id: wfr_ABC123
-                        transaction-label:
-                          data: null
-                        transaction-type:
-                          data:
-                            type: transaction-type
-                            id: txntp_ABC123
-                        related-objects:
-                          data:
-                            - type: account
-                              id: act_ABC123
-                            - type: verification/government-id
-                              id: ver_ABC123
+                  $ref: '#/components/examples/TransactionResponse'
               schema:
                 type: object
                 properties:
@@ -10307,69 +9729,7 @@ paths:
               examples:
                 Result:
                   summary: OK
-                  value:
-                    data:
-                      type: transaction
-                      id: txn_ABC123
-                      attributes:
-                        status: declined
-                        reference-id: null
-                        external-id: null
-                        fields:
-                          country:
-                            type: string
-                            value: US
-                          name-first:
-                            type: string
-                            value: LeBron
-                          name-last:
-                            type: string
-                            value: James
-                          selected-id-class:
-                            type: string
-                            value: dl
-                          front-photo:
-                            type: file
-                            value:
-                              filename: image.png
-                              byte-size: 237011
-                              mime-type: image/png
-                              url: https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
-                          back-photo:
-                            type: file
-                            value:
-                              filename: image.png
-                              byte-size: 237011
-                              mime-type: image/png
-                              url: https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
-                        tags: []
-                        created-at: '2023-05-26T16:49:33.860Z'
-                        updated-at: '2023-05-26T16:49:43.965Z'
-                      relationships:
-                        reviewer:
-                          data:
-                            type: workflow-run
-                            id: wfr_ABC123
-                        transaction-label:
-                          data: null
-                        transaction-type:
-                          data:
-                            type: transaction-type
-                            id: txntp_ABC123
-                        related-objects:
-                          data:
-                            - type: account
-                              id: act_ABC123
-                            - type: verification/government-id
-                              id: ver_ABC123
-                    included:
-                      - type: transaction-label
-                        id: txnl_ABC123
-                        attributes:
-                          model-label: test
-                          model-version: 1.2.3
-                          created-at: '2023-06-29T23:54:35.293Z'
-                          updated-at: '2023-06-29T23:54:35.293Z'
+                  $ref: '#/components/examples/TransactionWithLabelResponse'
               schema:
                 type: object
                 properties:
@@ -10378,35 +9738,7 @@ paths:
                   included:
                     type: array
                     items:
-                      type: object
-                      properties:
-                        type:
-                          type: string
-                          examples:
-                            - transaction-label
-                        id:
-                          type: string
-                          examples:
-                            - txnl_ABC123
-                        attributes:
-                          type: object
-                          properties:
-                            model-label:
-                              type: string
-                              examples:
-                                - test
-                            model-version:
-                              type: string
-                              examples:
-                                - 1.2.3
-                            created-at:
-                              type: string
-                              examples:
-                                - '2023-06-29T23:54:35.293Z'
-                            updated-at:
-                              type: string
-                              examples:
-                                - '2023-06-29T23:54:35.293Z'
+                      $ref: '#/components/schemas/TransactionLabel'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -10466,61 +9798,7 @@ paths:
               examples:
                 Result:
                   summary: OK
-                  value:
-                    data:
-                      type: transaction
-                      id: txn_ABC123
-                      attributes:
-                        status: declined
-                        reference-id: null
-                        external-id: null
-                        fields:
-                          country:
-                            type: string
-                            value: US
-                          name-first:
-                            type: string
-                            value: LeBron
-                          name-last:
-                            type: string
-                            value: James
-                          selected-id-class:
-                            type: string
-                            value: dl
-                          front-photo:
-                            type: file
-                            value:
-                              filename: image.png
-                              byte-size: 237011
-                              mime-type: image/png
-                              url: https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
-                          back-photo:
-                            type: file
-                            value:
-                              filename: image.png
-                              byte-size: 237011
-                              mime-type: image/png
-                              url: https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
-                        tags: []
-                        created-at: '2023-05-26T16:49:33.860Z'
-                        updated-at: '2023-05-26T16:49:43.965Z'
-                      relationships:
-                        reviewer:
-                          data:
-                            type: workflow-run
-                            id: wfr_ABC123
-                        transaction-label:
-                          data: null
-                        transaction-type:
-                          data:
-                            type: transaction-type
-                            id: txntp_ABC123
-                        related-objects:
-                          data:
-                            - type: account
-                              id: act_ABC123
-                            - type: verification/government-id
-                              id: ver_ABC123
+                  $ref: '#/components/examples/TransactionResponse'
               schema:
                 type: object
                 properties:
@@ -10589,63 +9867,7 @@ paths:
               examples:
                 Result:
                   summary: OK
-                  value:
-                    data:
-                      type: transaction
-                      id: txn_ABC123
-                      attributes:
-                        status: declined
-                        reference-id: null
-                        external-id: null
-                        fields:
-                          country:
-                            type: string
-                            value: US
-                          name-first:
-                            type: string
-                            value: LeBron
-                          name-last:
-                            type: string
-                            value: James
-                          selected-id-class:
-                            type: string
-                            value: dl
-                          front-photo:
-                            type: file
-                            value:
-                              filename: image.png
-                              byte-size: 237011
-                              mime-type: image/png
-                              url: https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
-                          back-photo:
-                            type: file
-                            value:
-                              filename: image.png
-                              byte-size: 237011
-                              mime-type: image/png
-                              url: https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
-                        tags:
-                          - new tag 1
-                          - new tag 2
-                        created-at: '2023-05-26T16:49:33.860Z'
-                        updated-at: '2023-05-26T16:49:43.965Z'
-                      relationships:
-                        reviewer:
-                          data:
-                            type: workflow-run
-                            id: wfr_ABC123
-                        transaction-label:
-                          data: null
-                        transaction-type:
-                          data:
-                            type: transaction-type
-                            id: txntp_ABC123
-                        related-objects:
-                          data:
-                            - type: account
-                              id: act_ABC123
-                            - type: verification/government-id
-                              id: ver_ABC123
+                  $ref: '#/components/examples/TransactionResponse'
               schema:
                 type: object
                 properties:
@@ -19227,6 +18449,15 @@ components:
     Transaction:
       type: object
       properties:
+        id:
+          type: string
+          description: Unique identifier for this Transaction. Starts with `txn_`.
+          examples:
+            - txn_ABC123
+        type:
+          type: string
+          const: transaction
+          description: transaction
         attributes:
           type: object
           properties:
@@ -19250,106 +18481,9 @@ components:
               examples:
                 - '1513'
             fields:
+              description: JSON key-value pairs of field name to field value. Exact schema depends on the configuration of the Transaction Type for this Transaction.
               type: object
-              properties:
-                country:
-                  type: object
-                  properties:
-                    type:
-                      type: string
-                      examples:
-                        - string
-                    value:
-                      type: string
-                      examples:
-                        - US
-                name-first:
-                  type: object
-                  properties:
-                    type:
-                      type: string
-                      examples:
-                        - string
-                    value:
-                      type: string
-                      examples:
-                        - LeBron
-                name-last:
-                  type: object
-                  properties:
-                    type:
-                      type: string
-                      examples:
-                        - string
-                    value:
-                      type: string
-                      examples:
-                        - James
-                selected-id-class:
-                  type: object
-                  properties:
-                    type:
-                      type: string
-                      examples:
-                        - string
-                    value:
-                      type: string
-                      examples:
-                        - dl
-                front-photo:
-                  type: object
-                  properties:
-                    type:
-                      type: string
-                      examples:
-                        - file
-                    value:
-                      type: object
-                      properties:
-                        filename:
-                          type: string
-                          examples:
-                            - image.png
-                        byte-size:
-                          type: integer
-                          examples:
-                            - 237011
-                          default: 0
-                        mime-type:
-                          type: string
-                          examples:
-                            - image/png
-                        url:
-                          type: string
-                          examples:
-                            - https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
-                back-photo:
-                  type: object
-                  properties:
-                    type:
-                      type: string
-                      examples:
-                        - file
-                    value:
-                      type: object
-                      properties:
-                        filename:
-                          type: string
-                          examples:
-                            - image.png
-                        byte-size:
-                          type: integer
-                          examples:
-                            - 237011
-                          default: 0
-                        mime-type:
-                          type: string
-                          examples:
-                            - image/png
-                        url:
-                          type: string
-                          examples:
-                            - https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
+              additionalProperties: true
             tags:
               type: array
             created-at:
@@ -19360,10 +18494,6 @@ components:
               format: date-time
               examples:
                 - '2023-05-26T16:49:43.965Z'
-        id:
-          type: string
-          examples:
-            - txn_ABC123
         relationships:
           type: object
           properties:
@@ -19389,7 +18519,20 @@ components:
             transaction-label:
               type: object
               properties:
-                data: {}
+                data:
+                  type:
+                    - object
+                    - 'null'
+                  properties:
+                    type:
+                      type: string
+                      const: transaction-label
+                      description: transaction-label
+                    id:
+                      description: Unique identifier for this Transaction Label. Starts with `txnl_`.
+                      type: string
+                      examples:
+                        - txnl_ABC123
             transaction-type:
               type: object
               properties:
@@ -19398,9 +18541,10 @@ components:
                   properties:
                     type:
                       type: string
-                      examples:
-                        - transaction-type
+                      const: transaction-type
+                      description: transaction-type
                     id:
+                      description: Unique identifier for this Transaction Type. Starts with `txntp_`.
                       type: string
                       examples:
                         - txntp_ABC123
@@ -19417,14 +18561,50 @@ components:
                         type: string
                         examples:
                           - account
+                          - inquiry
+                          - verification/government-id
                       id:
                         type: string
+                        description: Unique identifier for this object.
                         examples:
                           - act_ABC123
+                          - inq_ABC123
+                          - ver_ABC123
+    TransactionLabel:
+      type: object
+      properties:
         type:
           type: string
+          const: transaction-label
+          description: transaction-label
+        id:
+          description: Unique identifier for this Transaction Label. Starts with `txnl_`.
+          type: string
           examples:
-            - transaction
+            - txnl_ABC123
+        attributes:
+          type: object
+          properties:
+            model-label:
+              type: string
+              examples:
+                - test
+            model-version:
+              type: string
+              examples:
+                - 1.2.3
+            created-at:
+              type: string
+              format: date-time
+              examples:
+                - '2023-06-29T23:54:35.293Z'
+            updated-at:
+              type:
+                - string
+                - 'null'
+              format: date-time
+              examples:
+                - '2023-06-29T23:54:35.293Z'
     UserAuditLog:
       type: object
       properties:
@@ -21299,6 +20479,564 @@ components:
           relationships:
             creator:
               data: null
+    TransactionListResponse:
+      value:
+        data:
+          - type: transaction
+            id: txn_ABC123
+            attributes:
+              status: declined
+              reference-id: null
+              external-id: null
+              fields:
+                country:
+                  type: string
+                  value: US
+                name-first:
+                  type: string
+                  value: LeBron
+                name-last:
+                  type: string
+                  value: James
+                selected-id-class:
+                  type: string
+                  value: dl
+                front-photo:
+                  type: file
+                  value:
+                    filename: image.png
+                    byte-size: 237011
+                    mime-type: image/png
+                    url: https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
+                back-photo:
+                  type: file
+                  value:
+                    filename: image.png
+                    byte-size: 237011
+                    mime-type: image/png
+                    url: https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
+              tags: []
+              created-at: '2023-05-26T16:49:33.860Z'
+              updated-at: '2023-05-26T16:49:43.965Z'
+            relationships:
+              reviewer:
+                data:
+                  type: workflow-run
+                  id: wfr_ABC123
+              transaction-label:
+                data: null
+              transaction-type:
+                data:
+                  type: transaction-type
+                  id: txntp_ABC123
+              related-objects:
+                data:
+                  - type: account
+                    id: act_ABC123
+                  - type: verification/government-id
+                    id: ver_ABC123
+        links:
+          prev: null
+          next: /api/v1/transactions?page%5Bafter%5D=txn_ABC123
+    TransactionResponse:
+      value:
+        data:
+          type: transaction
+          id: txn_ABC123
+          attributes:
+            status: declined
+            reference-id: null
+            external-id: null
+            fields:
+              country:
+                type: string
+                value: US
+              name-first:
+                type: string
+                value: LeBron
+              name-last:
+                type: string
+                value: James
+              selected-id-class:
+                type: string
+                value: dl
+              front-photo:
+                type: file
+                value:
+                  filename: image.png
+                  byte-size: 237011
+                  mime-type: image/png
+                  url: https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
+              back-photo:
+                type: file
+                value:
+                  filename: image.png
+                  byte-size: 237011
+                  mime-type: image/png
+                  url: https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
+            tags: []
+            created-at: '2023-05-26T16:49:33.860Z'
+            updated-at: '2023-05-26T16:49:43.965Z'
+          relationships:
+            reviewer:
+              data:
+                type: workflow-run
+                id: wfr_ABC123
+            transaction-label:
+              data: null
+            transaction-type:
+              data:
+                type: transaction-type
+                id: txntp_ABC123
+            related-objects:
+              data:
+                - type: account
+                  id: act_ABC123
+                - type: verification/government-id
+                  id: ver_ABC123
+    TransactionRetrieveResponse:
+      value:
+        data:
+          type: transaction
+          id: txn_ABC123
+          attributes:
+            status: declined
+            reference-id: null
+            external-id: null
+            fields:
+              country:
+                type: string
+                value: US
+              name-first:
+                type: string
+                value: LeBron
+              name-last:
+                type: string
+                value: James
+              selected-id-class:
+                type: string
+                value: dl
+              front-photo:
+                type: file
+                value:
+                  filename: image.png
+                  byte-size: 237011
+                  mime-type: image/png
+                  url: https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
+              back-photo:
+                type: file
+                value:
+                  filename: image.png
+                  byte-size: 237011
+                  mime-type: image/png
+                  url: https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
+            tags: []
+            created-at: '2023-05-26T16:49:33.860Z'
+            updated-at: '2023-05-26T16:49:43.965Z'
+          relationships:
+            reviewer:
+              data:
+                type: workflow-run
+                id: wfr_ABC123
+            transaction-label:
+              data: null
+            transaction-type:
+              data:
+                type: transaction-type
+                id: txntp_ABC123
+            related-objects:
+              data:
+                - type: account
+                  id: act_ABC123
+                - type: verification/government-id
+                  id: ver_ABC123
+        included:
+          - type: account
+            id: act_ABC123
+            attributes:
+              reference-id: null
+              external-id: null
+              created-at: '2023-05-26T16:49:35.000Z'
+              updated-at: '2023-05-26T16:49:35.000Z'
+              redacted-at: null
+              fields:
+                name:
+                  type: hash
+                  value:
+                    first:
+                      type: string
+                      value: null
+                    middle:
+                      type: string
+                      value: null
+                    last:
+                      type: string
+                      value: null
+                address:
+                  type: hash
+                  value:
+                    street-1:
+                      type: string
+                      value: null
+                    street-2:
+                      type: string
+                      value: null
+                    subdivision:
+                      type: string
+                      value: null
+                    city:
+                      type: string
+                      value: null
+                    postal-code:
+                      type: string
+                      value: null
+                    country-code:
+                      type: string
+                      value: null
+                identification-numbers:
+                  type: array
+                  value: []
+                birthdate:
+                  type: date
+                  value: null
+                phone-number:
+                  type: string
+                  value: null
+                email-address:
+                  type: string
+                  value: null
+                selfie-photo:
+                  type: file
+                  value: null
+              country-code: null
+              tags: []
+          - type: verification/government-id
+            id: ver_ABC123
+            attributes:
+              status: failed
+              created-at: '2023-05-26T16:49:43.000Z'
+              created-at-ts: 1685119783
+              submitted-at: '2023-05-26T16:49:43.000Z'
+              submitted-at-ts: 1685119783
+              completed-at: '2023-05-26T16:49:43.000Z'
+              completed-at-ts: 1685119783
+              country-code: null
+              entity-confidence-score: 0
+              entity-confidence-reasons:
+                - generic
+              front-photo-url: https://files.withpersona.com/image.jpg?access_token=ACCESS_ABC123
+              back-photo-url: https://files.withpersona.com/image.jpg?access_token=ACCESS_ABC123
+              photo-urls:
+                - page: front
+                  url: https://files.withpersona.com/image.jpg?access_token=ACCESS_ABC123
+                  normalized-url: https://files.withpersona.com/image.jpg?access_token=ACCESS_ABC123
+                  original-urls:
+                    - https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
+                  byte-size: 62347
+                - page: back
+                  url: https://files.withpersona.com/image.jpg?access_token=ACCESS_ABC123
+                  normalized-url: https://files.withpersona.com/image.jpg?access_token=ACCESS_ABC123
+                  original-urls:
+                    - https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
+                  byte-size: 62347
+              selfie-photo: null
+              selfie-photo-url: null
+              video-url: null
+              id-class: null
+              capture-method: api
+              expiration-date: null
+              endorsements: null
+              restrictions: null
+              vehicle-class: null
+              checks:
+                - name: id_aamva_database_lookup
+                  status: not_applicable
+                  reasons:
+                    - disabled
+                  requirement: not_required
+                  metadata: {}
+                - name: id_account_comparison
+                  status: not_applicable
+                  reasons:
+                    - no_account
+                  requirement: not_required
+                  metadata: {}
+                - name: id_age_comparison
+                  status: not_applicable
+                  reasons:
+                    - missing_birthdate
+                  requirement: not_required
+                  metadata: {}
+                - name: id_barcode_detection
+                  status: failed
+                  reasons:
+                    - barcode_not_decoded
+                  requirement: not_required
+                  metadata: {}
+                - name: id_barcode_inconsistency_detection
+                  status: not_applicable
+                  reasons:
+                    - barcode_not_decoded
+                  requirement: not_required
+                  metadata: {}
+                - name: id_blur_detection
+                  status: passed
+                  reasons: []
+                  requirement: not_required
+                  metadata: {}
+                - name: id_color_inconsistency_detection
+                  status: passed
+                  reasons: []
+                  requirement: not_required
+                  metadata: {}
+                - name: id_disallowed_country_detection
+                  status: not_applicable
+                  reasons:
+                    - no_country
+                  requirement: required
+                  metadata: {}
+                - name: id_disallowed_type_detection
+                  status: failed
+                  reasons:
+                    - type_not_detected
+                  requirement: required
+                  metadata:
+                    country-code: null
+                    detected-id-designations: []
+                    disallowed-id-designations: []
+                - name: id_double_side_detection
+                  status: failed
+                  reasons:
+                    - side_submitted_twice
+                  requirement: not_required
+                  metadata: {}
+                - name: id_electronic_replica_detection
+                  status: failed
+                  reasons:
+                    - replica_detected
+                  requirement: not_required
+                  metadata: {}
+                - name: id_entity_detection
+                  status: failed
+                  reasons:
+                    - cannot_verify_id
+                  requirement: required
+                  metadata: {}
+                - name: id_expired_detection
+                  status: not_applicable
+                  reasons:
+                    - no_expiration_date
+                  requirement: required
+                  metadata: {}
+                - name: id_extraction_inconsistency_detection
+                  status: not_applicable
+                  reasons:
+                    - missing_properties
+                  requirement: not_required
+                  metadata:
+                    check-requirements: []
+                - name: id_extracted_properties_detection
+                  status: not_applicable
+                  reasons:
+                    - no_required_properties
+                  requirement: not_required
+                  metadata: {}
+                - name: id_fabrication_detection
+                  status: passed
+                  reasons: []
+                  requirement: not_required
+                  metadata: {}
+                - name: id_glare_detection
+                  status: failed
+                  reasons:
+                    - too_much_glare
+                  requirement: not_required
+                  metadata: {}
+                - name: id_handwriting_detection
+                  status: passed
+                  reasons: []
+                  requirement: not_required
+                  metadata: {}
+                - name: id_inquiry_comparison
+                  status: not_applicable
+                  reasons:
+                    - no_inquiry
+                  requirement: not_required
+                  metadata: {}
+                - name: id_mrz_detection
+                  status: not_applicable
+                  reasons: []
+                  requirement: required
+                  metadata: {}
+                - name: id_mrz_inconsistency_detection
+                  status: not_applicable
+                  reasons:
+                    - mrz_not_found
+                  requirement: not_required
+                  metadata: {}
+                - name: id_number_format_inconsistency_detection
+                  status: not_applicable
+                  reasons:
+                    - invalid_country
+                  requirement: not_required
+                  metadata: {}
+                - name: id_po_box_detection
+                  status: not_applicable
+                  reasons:
+                    - missing_address
+                  requirement: not_required
+                  metadata: {}
+                - name: id_portrait_clarity_detection
+                  status: not_applicable
+                  reasons: []
+                  requirement: required
+                  metadata: {}
+                - name: id_portrait_detection
+                  status: failed
+                  reasons:
+                    - portrait_not_found
+                  requirement: required
+                  metadata: {}
+                - name: id_real_id_detection
+                  status: not_applicable
+                  reasons:
+                    - disabled
+                  requirement: not_required
+                  metadata: {}
+                - name: id_tamper_detection
+                  status: passed
+                  reasons: []
+                  requirement: not_required
+                  metadata: {}
+                - name: id_unprocessable_submission_detection
+                  status: passed
+                  reasons: []
+                  requirement: not_required
+                  metadata: {}
+                - name: id_valid_dates_detection
+                  status: not_applicable
+                  reasons: []
+                  requirement: not_required
+                  metadata: {}
+                - name: id_age_inconsistency_detection
+                  status: not_applicable
+                  reasons:
+                    - disabled
+                  requirement: not_required
+                  metadata: {}
+                - name: id_compromised_detection
+                  status: passed
+                  reasons: []
+                  requirement: required
+                  metadata: {}
+                - name: id_inconsistent_repeat_detection
+                  status: not_applicable
+                  reasons:
+                    - not_enabled
+                  requirement: not_required
+                  metadata: {}
+                - name: id_public_figure_detection
+                  status: passed
+                  reasons: []
+                  requirement: not_required
+                  metadata: {}
+                - name: id_repeat_detection
+                  status: not_applicable
+                  reasons:
+                    - not_enabled
+                  requirement: not_required
+                  metadata: {}
+                - name: id_selfie_comparison
+                  status: not_applicable
+                  reasons:
+                    - no_selfie
+                  requirement: required
+                  metadata: {}
+            relationships:
+              inquiry:
+                data: null
+              template:
+                data: null
+              inquiry-template-version:
+                data: null
+              inquiry-template:
+                data: null
+              verification-template:
+                data:
+                  type: verification-template/government-id
+                  id: vtmpl_ABC123
+              verification-template-version:
+                data:
+                  type: verification-template-version/government-id
+                  id: vtmplv_ABC123
+              document:
+                data:
+                  type: document/government-id
+                  id: doc_ABC123
+    TransactionWithLabelResponse:
+      value:
+        data:
+          type: transaction
+          id: txn_ABC123
+          attributes:
+            status: declined
+            reference-id: null
+            external-id: null
+            fields:
+              country:
+                type: string
+                value: US
+              name-first:
+                type: string
+                value: LeBron
+              name-last:
+                type: string
+                value: James
+              selected-id-class:
+                type: string
+                value: dl
+              front-photo:
+                type: file
+                value:
+                  filename: image.png
+                  byte-size: 237011
+                  mime-type: image/png
+                  url: https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
+              back-photo:
+                type: file
+                value:
+                  filename: image.png
+                  byte-size: 237011
+                  mime-type: image/png
+                  url: https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
+            tags: []
+            created-at: '2023-05-26T16:49:33.860Z'
+            updated-at: '2023-05-26T16:49:43.965Z'
+          relationships:
+            reviewer:
+              data:
+                type: workflow-run
+                id: wfr_ABC123
+            transaction-label:
+              data: null
+            transaction-type:
+              data:
+                type: transaction-type
+                id: txntp_ABC123
+            related-objects:
+              data:
+                - type: account
+                  id: act_ABC123
+                - type: verification/government-id
+                  id: ver_ABC123
+        included:
+          - type: transaction-label
+            id: txnl_ABC123
+            attributes:
+              model-label: test
+              model-version: 1.2.3
+              created-at: '2023-06-29T23:54:35.293Z'
+              updated-at: '2023-06-29T23:54:35.293Z'
     VerificationDatabaseResponse:
       value:
         data:

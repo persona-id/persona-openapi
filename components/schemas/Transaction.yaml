@@ -1,5 +1,14 @@
 type: object
 properties:
+  id:
+    type: string
+    description: Unique identifier for this Transaction. Starts with `txn_`.
+    examples:
+      - txn_ABC123
+  type:
+    type: string
+    const: transaction
+    description: transaction
   attributes:
     type: object
     properties:
@@ -23,108 +32,12 @@ properties:
         examples:
           - '1513'
       fields:
+        description: >-
+          JSON key-value pairs of field name to field value. Exact schema
+          depends on the configuration of the Transaction Type for this
+          Transaction.
         type: object
-        properties:
-          country:
-            type: object
-            properties:
-              type:
-                type: string
-                examples:
-                  - string
-              value:
-                type: string
-                examples:
-                  - US
-          name-first:
-            type: object
-            properties:
-              type:
-                type: string
-                examples:
-                  - string
-              value:
-                type: string
-                examples:
-                  - LeBron
-          name-last:
-            type: object
-            properties:
-              type:
-                type: string
-                examples:
-                  - string
-              value:
-                type: string
-                examples:
-                  - James
-          selected-id-class:
-            type: object
-            properties:
-              type:
-                type: string
-                examples:
-                  - string
-              value:
-                type: string
-                examples:
-                  - dl
-          front-photo:
-            type: object
-            properties:
-              type:
-                type: string
-                examples:
-                  - file
-              value:
-                type: object
-                properties:
-                  filename:
-                    type: string
-                    examples:
-                      - image.png
-                  byte-size:
-                    type: integer
-                    examples:
-                      - 237011
-                    default: 0
-                  mime-type:
-                    type: string
-                    examples:
-                      - image/png
-                  url:
-                    type: string
-                    examples:
-                      - >-
-                        https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
-          back-photo:
-            type: object
-            properties:
-              type:
-                type: string
-                examples:
-                  - file
-              value:
-                type: object
-                properties:
-                  filename:
-                    type: string
-                    examples:
-                      - image.png
-                  byte-size:
-                    type: integer
-                    examples:
-                      - 237011
-                    default: 0
-                  mime-type:
-                    type: string
-                    examples:
-                      - image/png
-                  url:
-                    type: string
-                    examples:
-                      - >-
-                        https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
+        additionalProperties: true
       tags:
         type: array
       created-at:
@@ -135,10 +48,6 @@ properties:
         format: date-time
         examples:
           - '2023-05-26T16:49:43.965Z'
-  id:
-    type: string
-    examples:
-      - txn_ABC123
   relationships:
     type: object
     properties:
@@ -164,7 +73,22 @@ properties:
       transaction-label:
         type: object
         properties:
-          data: {}
+          data:
+            type:
+              - object
+              - 'null'
+            properties:
+              type:
+                type: string
+                const: transaction-label
+                description: transaction-label
+              id:
+                description: >-
+                  Unique identifier for this Transaction Label. Starts with
+                  `txnl_`.
+                type: string
+                examples:
+                  - txnl_ABC123
       transaction-type:
         type: object
         properties:
@@ -173,9 +97,12 @@ properties:
             properties:
               type:
                 type: string
-                examples:
-                  - transaction-type
+                const: transaction-type
+                description: transaction-type
               id:
+                description: >-
+                  Unique identifier for this Transaction Type. Starts with
+                  `txntp_`.
                 type: string
                 examples:
                   - txntp_ABC123
@@ -192,11 +119,12 @@ properties:
                   type: string
                   examples:
                     - account
+                    - inquiry
+                    - verification/government-id
                 id:
                   type: string
+                  description: Unique identifier for this object.
                   examples:
                     - act_ABC123
-  type:
-    type: string
-    examples:
-      - transaction
+                    - inq_ABC123
+                    - ver_ABC123
