@@ -12881,6 +12881,25 @@ components:
           examples:
             - 5
           type: number
+    File:
+      type:
+        - 'null'
+        - object
+      properties:
+        filename:
+          examples:
+            - filename.pdf
+            - id.png
+            - abc123.JPEG
+          type: string
+        url:
+          examples:
+            - https://files.withpersona.com/abc123.JPEG?access_token=ACCESS_TOKEN
+          type: string
+        byte-size:
+          examples:
+            - 124917
+          type: integer
     AddressFields:
       properties:
         address-street-1:
@@ -13244,14 +13263,11 @@ components:
                       type: object
                       properties:
                         type:
+                          const: file
+                          description: file
                           type: string
-                          format: byte
-                          examples:
-                            - file
                         value:
-                          type:
-                            - string
-                            - 'null'
+                          $ref: '#/components/schemas/File'
                   additionalProperties: true
                 tags:
                   type: array
@@ -16281,37 +16297,11 @@ components:
                 files:
                   description: The files uploaded to the associated document for processing.
                   items:
-                    properties:
-                      filename:
-                        examples:
-                          - multipage_example.pdf
-                        type: string
-                      url:
-                        examples:
-                          - https://withpersona.com/api/v1/files/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBdHc4IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--c4482780e1fa5c7bc0a26fc73b1dd76c44b98ad8/multipage_example.pdf
-                        type: string
-                      byte-size:
-                        examples:
-                          - 2048
-                        type: integer
-                    type: object
+                    $ref: '#/components/schemas/File'
                   type: array
                 files-normalized:
                   items:
-                    properties:
-                      filename:
-                        examples:
-                          - multipage_example.pdf
-                        type: string
-                      url:
-                        examples:
-                          - https://withpersona.com/api/v1/files/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBdHc4IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--c4482780e1fa5c7bc0a26fc73b1dd76c44b98ad8/multipage_example.pdf
-                        type: string
-                      byte-size:
-                        examples:
-                          - 2048
-                        type: integer
-                    type: object
+                    $ref: '#/components/schemas/File'
                   type: array
                 extraction-responses:
                   $ref: '#/components/schemas/ExtractionResponses'
@@ -16626,25 +16616,6 @@ components:
           type:
             - 'null'
             - integer
-    File:
-      type:
-        - 'null'
-        - object
-      properties:
-        filename:
-          examples:
-            - filename.pdf
-            - id.png
-            - abc123.JPEG
-          type: string
-        url:
-          examples:
-            - https://files.withpersona.com/abc123.JPEG?access_token=ACCESS_TOKEN
-          type: string
-        byte-size:
-          examples:
-            - 124917
-          type: integer
     DocumentBaseRelationships:
       properties:
         inquiry:
@@ -20297,7 +20268,7 @@ components:
             match-count: 0
             face-photo:
               filename: photo.png
-              url: https://withpersona.com/api/v1/files/...
+              url: https://files.withpersona.com/photo.png?access_token=ACCESS_TOKEN
               byte-size: 124917
           relationships:
             creator:
@@ -20315,7 +20286,7 @@ components:
             match-count: 0
             face-photo:
               filename: photo.png
-              url: https://withpersona.com/api/v1/files/...
+              url: https://files.withpersona.com/photo.png?access_token=ACCESS_TOKEN
               byte-size: 124917
           relationships:
             creator:

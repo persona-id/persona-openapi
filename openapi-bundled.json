@@ -20325,6 +20325,34 @@
           }
         }
       },
+      "File": {
+        "type": [
+          "null",
+          "object"
+        ],
+        "properties": {
+          "filename": {
+            "examples": [
+              "filename.pdf",
+              "id.png",
+              "abc123.JPEG"
+            ],
+            "type": "string"
+          },
+          "url": {
+            "examples": [
+              "https://files.withpersona.com/abc123.JPEG?access_token=ACCESS_TOKEN"
+            ],
+            "type": "string"
+          },
+          "byte-size": {
+            "examples": [
+              124917
+            ],
+            "type": "integer"
+          }
+        }
+      },
       "AddressFields": {
         "properties": {
           "address-street-1": {
@@ -20863,17 +20891,12 @@
                         "type": "object",
                         "properties": {
                           "type": {
-                            "type": "string",
-                            "format": "byte",
-                            "examples": [
-                              "file"
-                            ]
+                            "const": "file",
+                            "description": "file",
+                            "type": "string"
                           },
                           "value": {
-                            "type": [
-                              "string",
-                              "null"
-                            ]
+                            "$ref": "#/components/schemas/File"
                           }
                         }
                       }
@@ -25234,53 +25257,13 @@
                   "files": {
                     "description": "The files uploaded to the associated document for processing.",
                     "items": {
-                      "properties": {
-                        "filename": {
-                          "examples": [
-                            "multipage_example.pdf"
-                          ],
-                          "type": "string"
-                        },
-                        "url": {
-                          "examples": [
-                            "https://withpersona.com/api/v1/files/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBdHc4IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--c4482780e1fa5c7bc0a26fc73b1dd76c44b98ad8/multipage_example.pdf"
-                          ],
-                          "type": "string"
-                        },
-                        "byte-size": {
-                          "examples": [
-                            2048
-                          ],
-                          "type": "integer"
-                        }
-                      },
-                      "type": "object"
+                      "$ref": "#/components/schemas/File"
                     },
                     "type": "array"
                   },
                   "files-normalized": {
                     "items": {
-                      "properties": {
-                        "filename": {
-                          "examples": [
-                            "multipage_example.pdf"
-                          ],
-                          "type": "string"
-                        },
-                        "url": {
-                          "examples": [
-                            "https://withpersona.com/api/v1/files/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBdHc4IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--c4482780e1fa5c7bc0a26fc73b1dd76c44b98ad8/multipage_example.pdf"
-                          ],
-                          "type": "string"
-                        },
-                        "byte-size": {
-                          "examples": [
-                            2048
-                          ],
-                          "type": "integer"
-                        }
-                      },
-                      "type": "object"
+                      "$ref": "#/components/schemas/File"
                     },
                     "type": "array"
                   },
@@ -25759,34 +25742,6 @@
               "null",
               "integer"
             ]
-          }
-        }
-      },
-      "File": {
-        "type": [
-          "null",
-          "object"
-        ],
-        "properties": {
-          "filename": {
-            "examples": [
-              "filename.pdf",
-              "id.png",
-              "abc123.JPEG"
-            ],
-            "type": "string"
-          },
-          "url": {
-            "examples": [
-              "https://files.withpersona.com/abc123.JPEG?access_token=ACCESS_TOKEN"
-            ],
-            "type": "string"
-          },
-          "byte-size": {
-            "examples": [
-              124917
-            ],
-            "type": "integer"
           }
         }
       },
@@ -31080,7 +31035,7 @@
               "match-count": 0,
               "face-photo": {
                 "filename": "photo.png",
-                "url": "https://withpersona.com/api/v1/files/...",
+                "url": "https://files.withpersona.com/photo.png?access_token=ACCESS_TOKEN",
                 "byte-size": 124917
               }
             },
@@ -31105,7 +31060,7 @@
               "match-count": 0,
               "face-photo": {
                 "filename": "photo.png",
-                "url": "https://withpersona.com/api/v1/files/...",
+                "url": "https://files.withpersona.com/photo.png?access_token=ACCESS_TOKEN",
                 "byte-size": 124917
               }
             },
