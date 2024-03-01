@@ -11,7 +11,6 @@ get:
     - in: query
       name: page
       style: deepObject
-      allowReserved: true
       schema:
         allOf:
           - $ref: ../components/schemas/NestedPaginationQueryParams.yaml
@@ -24,7 +23,6 @@ get:
     - in: query
       name: filter
       style: deepObject
-      allowReserved: true
       schema:
         type: object
         properties:
@@ -148,6 +146,33 @@ post:
                 - $ref: ../components/schemas/ReportSocialMediaRequest.yaml
                 - $ref: ../components/schemas/ReportBusinessLookupRequest.yaml
                 - $ref: ../components/schemas/ReportSentilinkScoresRequest.yaml
+            meta:
+              properties:
+                auto-create-account:
+                  description: >-
+                    If true, automatically create an Account for the user if one
+                    does not exist. Default is true.
+                  examples:
+                    - true
+                  type: boolean
+                auto-create-account-type-id:
+                  description: >-
+                    If `auto-create-account` is true, the type ID to use for the
+                    Account. If not provided, the default type ID for the
+                    organization will be used.
+                  examples:
+                    - acttp_TOKEN
+                  type: string
+                auto-create-account-reference-id:
+                  description: >-
+                    If `auto-create-account` is true, this Report will be
+                    attached to the Account with this reference ID, or a new
+                    Account will be created with this reference ID if one does
+                    not exist.
+                  examples:
+                    - my_reference_id
+                  type: string
+              type: object
           type: object
   responses:
     '201':
