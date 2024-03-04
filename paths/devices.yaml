@@ -1,0 +1,68 @@
+get:
+  description: Retrieves a list of Devices.
+  operationId: list-all-devices
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/reference/list-all-devices
+  parameters:
+    - $ref: ../components/parameters/keyInflectionHeader.yaml
+    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
+    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - $ref: ../components/parameters/includeQueryParameter.yaml
+    - in: query
+      name: filter
+      required: true
+      style: deepObject
+      schema:
+        type: object
+        properties:
+          inquiry-session-id:
+            description: Filter devices by inquiry session ID
+            type: string
+            example: iqse_ABC123
+        required:
+          - inquiry-session-id
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              $ref: ../components/examples/DeviceListResponse.yaml
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: ../components/schemas/Device.yaml
+              links:
+                type: object
+                properties:
+                  prev:
+                    type:
+                      - string
+                      - 'null'
+                    examples:
+                      - /api/v1/devices?page%5Bbefore%5D=dev_ABC123
+                  next:
+                    type:
+                      - string
+                      - 'null'
+                    examples:
+                      - /api/v1/devices?page%5Bafter%5D=dev_ABC123
+              included:
+                $ref: ../components/schemas/EmptyIncludedResponse.yaml
+      description: OK
+    '400':
+      $ref: ../components/responses/BadRequest.yaml
+    '401':
+      $ref: ../components/responses/Unauthorized.yaml
+    '403':
+      $ref: ../components/responses/Forbidden.yaml
+    '429':
+      $ref: ../components/responses/TooManyRequests.yaml
+  summary: List all Devices
+  tags:
+    - Devices

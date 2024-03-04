@@ -41,6 +41,10 @@
       "description": "Interact with Persona Case objects"
     },
     {
+      "name": "Devices",
+      "description": "Interact with Persona Device objects"
+    },
+    {
       "name": "Documents",
       "description": "Interact with Persona Document objects"
     },
@@ -4313,6 +4317,195 @@
         ]
       }
     },
+    "/devices": {
+      "get": {
+        "description": "Retrieves a list of Devices.",
+        "operationId": "list-all-devices",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/reference/list-all-devices"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/keyInflectionHeader"
+          },
+          {
+            "$ref": "#/components/parameters/idempotencyKeyHeader"
+          },
+          {
+            "$ref": "#/components/parameters/personaVersionHeader"
+          },
+          {
+            "$ref": "#/components/parameters/includeQueryParameter"
+          },
+          {
+            "in": "query",
+            "name": "filter",
+            "required": true,
+            "style": "deepObject",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "inquiry-session-id": {
+                  "description": "Filter devices by inquiry session ID",
+                  "type": "string",
+                  "example": "iqse_ABC123"
+                }
+              },
+              "required": [
+                "inquiry-session-id"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Result": {
+                    "summary": "OK",
+                    "$ref": "#/components/examples/DeviceListResponse"
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Device"
+                      }
+                    },
+                    "links": {
+                      "type": "object",
+                      "properties": {
+                        "prev": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "examples": [
+                            "/api/v1/devices?page%5Bbefore%5D=dev_ABC123"
+                          ]
+                        },
+                        "next": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "examples": [
+                            "/api/v1/devices?page%5Bafter%5D=dev_ABC123"
+                          ]
+                        }
+                      }
+                    },
+                    "included": {
+                      "$ref": "#/components/schemas/EmptyIncludedResponse"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        },
+        "summary": "List all Devices",
+        "tags": [
+          "Devices"
+        ]
+      }
+    },
+    "/devices/{device-id}": {
+      "get": {
+        "description": "Retrieves details of a specific Device.",
+        "operationId": "retrieve-a-device",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/reference/retrieve-a-device"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/keyInflectionHeader"
+          },
+          {
+            "$ref": "#/components/parameters/idempotencyKeyHeader"
+          },
+          {
+            "$ref": "#/components/parameters/personaVersionHeader"
+          },
+          {
+            "$ref": "#/components/parameters/includeQueryParameter"
+          },
+          {
+            "description": "Device ID",
+            "in": "path",
+            "name": "device-id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Result": {
+                    "summary": "OK",
+                    "$ref": "#/components/examples/DeviceResponse"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Device"
+                    },
+                    "included": {
+                      "$ref": "#/components/schemas/EmptyIncludedResponse"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        },
+        "summary": "Retrieve a Device",
+        "tags": [
+          "Devices"
+        ]
+      }
+    },
     "/document/generics": {
       "post": {
         "description": "Creates a new generic document.",
@@ -7107,6 +7300,13 @@
                           },
                           "fields": {
                             "$ref": "#/components/schemas/InquiryFields"
+                          },
+                          "tags": {
+                            "description": "A list of tag names that are associated to an Inquiry.",
+                            "items": {
+                              "type": "string"
+                            },
+                            "type": "array"
                           }
                         },
                         "type": "object"
@@ -7428,6 +7628,13 @@
                           },
                           "fields": {
                             "$ref": "#/components/schemas/InquiryFields"
+                          },
+                          "tags": {
+                            "description": "A list of tag names that are associated to an Inquiry.",
+                            "items": {
+                              "type": "string"
+                            },
+                            "type": "array"
                           }
                         },
                         "type": "object"
@@ -25711,6 +25918,55 @@
           }
         ]
       },
+      "Device": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "const": "device",
+            "description": "device",
+            "type": "string"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for this Device. Starts with `dev_`.",
+            "examples": [
+              "dev_ABC123"
+            ]
+          },
+          "attributes": {
+            "type": "object",
+            "properties": {
+              "device-vendor-id": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "examples": [
+                  "1a2b3c4d-5e6f-7g8h-9ijk-1A2B3C4D5E6F"
+                ]
+              },
+              "device-fingerprint": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "examples": [
+                  "1a2b3c4d5e6f7g8h9ijklmnopqrstuvw"
+                ]
+              },
+              "browser-fingerprint": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "examples": [
+                  "1a2b3c4d5e6f7g8h9ijk"
+                ]
+              }
+            }
+          }
+        }
+      },
       "DocumentBaseAttributes": {
         "type": "object",
         "properties": {
@@ -29817,6 +30073,38 @@
                 }
               },
               "created-at": "2023-09-20T20:20:03.485+00:00"
+            }
+          }
+        }
+      },
+      "DeviceListResponse": {
+        "value": {
+          "data": [
+            {
+              "type": "device",
+              "id": "dev_ABC123",
+              "attributes": {
+                "device-vendor-id": "1a2b3c4d-5e6f-7g8h-9ijk-1A2B3C4D5E6F",
+                "device-fingerprint": "1a2b3c4d5e6f7g8h9ijk",
+                "browser-fingerprint": "1a2b3c4d5e6f7g8h9ijklmnopqrstuvw"
+              }
+            }
+          ],
+          "links": {
+            "prev": null,
+            "next": null
+          }
+        }
+      },
+      "DeviceResponse": {
+        "value": {
+          "data": {
+            "type": "device",
+            "id": "dev_ABC123",
+            "attributes": {
+              "device-vendor-id": "1a2b3c4d-5e6f-7g8h-9ijk-1A2B3C4D5E6F",
+              "device-fingerprint": "1a2b3c4d5e6f7g8h9ijk",
+              "browser-fingerprint": "1a2b3c4d5e6f7g8h9ijklmnopqrstuvw"
             }
           }
         }
