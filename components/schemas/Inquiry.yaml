@@ -2,8 +2,8 @@ type: object
 description: An Inquiry object
 properties:
   type:
-    examples:
-      - inquiry
+    const: inquiry
+    description: inquiry
     type: string
   id:
     examples:
@@ -16,15 +16,31 @@ properties:
       - type: object
         properties:
           status:
-            enum:
+            description: >-
+              The status of the Inquiry
+
+
+              Possible values:
+
               - created
+
               - pending
+
               - completed
+
               - expired
+
               - failed
+
               - needs_review
+
               - approved
+
               - declined
+
+
+              Do not assume this is a static enumeration; Persona may add new
+              values in the future without a versioned update.
             type: string
           reference-id:
             examples:
@@ -441,8 +457,8 @@ properties:
                   - act_ABC123
                 type: string
               type:
-                examples:
-                  - account
+                const: account
+                description: account
                 type: string
             type:
               - object
@@ -458,6 +474,7 @@ properties:
                     - doc_ABC123
                   type: string
                 type:
+                  x-polymorphic: true
                   examples:
                     - document/government-id
                   type: string
@@ -474,8 +491,8 @@ properties:
                   - tmpl_ABC123
                 type: string
               type:
-                examples:
-                  - template
+                const: template
+                description: template
                 type: string
             type:
               - object
@@ -491,8 +508,8 @@ properties:
                   - itmpl_ABC123
                 type: string
               type:
-                examples:
-                  - inquiry-template
+                const: inquiry-template
+                description: inquiry-template
                 type: string
             type:
               - object
@@ -508,8 +525,8 @@ properties:
                   - itmplv_ABC123
                 type: string
               type:
-                examples:
-                  - inquiry-template-version
+                const: inquiry-template-version
+                description: inquiry-template-version
                 type: string
             type:
               - object
@@ -525,6 +542,7 @@ properties:
                     - rep_ABC123
                   type: string
                 type:
+                  x-polymorphic: true
                   examples:
                     - report/address-lookup
                     - report/watchlist
@@ -541,6 +559,7 @@ properties:
                   - user_ABC123
                 type: string
               type:
+                x-polymorphic: true
                 examples:
                   - user
                 type: string
@@ -558,6 +577,7 @@ properties:
                     - self_ABC123
                   type: string
                 type:
+                  x-polymorphic: true
                   examples:
                     - selfie/profile-and-center
                     - selfie/center-only
@@ -575,8 +595,8 @@ properties:
                     - iqse_ABC123
                   type: string
                 type:
-                  examples:
-                    - inquiry-session
+                  const: inquiry-session
+                  description: inquiry-session
                   type: string
               type: object
             type: array
@@ -591,6 +611,7 @@ properties:
                     - ver_ABC123
                   type: string
                 type:
+                  x-polymorphic: true
                   examples:
                     - verification/government-id
                   type: string

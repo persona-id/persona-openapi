@@ -2,15 +2,29 @@ type: object
 properties:
   status:
     type: string
-    description: The status of the verification
-    enum:
+    description: >-
+      The status of the verification
+
+
+      Possible values:
+
       - initiated
+
       - submitted
+
       - passed
+
       - failed
+
       - requires_retry
+
       - canceled
+
       - confirmed
+
+
+      Do not assume this is a static enumeration; Persona may add new values in
+      the future without a versioned update.
   created-at:
     type: string
     format: date-time
@@ -64,10 +78,18 @@ properties:
             - document_type_detection
           type: string
         status:
-          enum:
+          description: >-
+            Possible values:
+
             - passed
+
             - failed
+
             - not_applicable
+
+
+            Do not assume this is a static enumeration; Persona may add new
+            values in the future without a versioned update.
           type: string
         reasons:
           type: array
@@ -80,10 +102,18 @@ properties:
               - 'null'
         requirement:
           type: string
-          enum:
+          description: >-
+            Possible values:
+
             - required
+
             - not_required
+
             - requires_retry
+
+
+            Do not assume this is a static enumeration; Persona may add new
+            values in the future without a versioned update.
         metadata:
           description: >-
             This is a free-form object containing relevant metadata to the

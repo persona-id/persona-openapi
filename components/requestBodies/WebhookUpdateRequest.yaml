@@ -5,47 +5,6 @@ content:
         data:
           properties:
             attributes:
-              properties:
-                url:
-                  description: URL to which webhook events are forwarded
-                  type: string
-                enabled-events:
-                  description: >-
-                    Supported events that you want to receive webhooks for <br>
-                    Set `*` to enable all events
-                  items:
-                    type: string
-                  type: array
-                api-version:
-                  description: Server API version
-                  example: '2023-01-05'
-                  type: string
-                api-key-inflection:
-                  description: >-
-                    Default API response key inflection <br>Options include
-                    <ul><li>`kebab`</li><li>`camel`</li><li>`snake`</li></ul>
-                  example: kebab
-                  type: string
-                api-attributes-blocklist:
-                  description: Attributes blocked from API responses
-                  items:
-                    type: string
-                  type: array
-                file-access-token-expires-in:
-                  description: >-
-                    How soon any file access tokens returned in API responses
-                    expire
-                  example: 21600
-                  type: integer
-                payload-filter:
-                  type: object
-                  description: >-
-                    Filter events based on its payload data <br> <b>Only
-                    available for enterprise clients</b>
-                  properties:
-                    data:
-                      type: string
-                      format: json
-              type: object
+              $ref: ../schemas/WebhookRequestAttributes.yaml
           type: object
       type: object

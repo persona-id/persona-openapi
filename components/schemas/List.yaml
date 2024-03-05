@@ -1,0 +1,61 @@
+type: object
+description: A List object
+properties:
+  type:
+    x-polymorphic: true
+    type: string
+    description: >-
+      Possible values:
+
+      - list/browser-fingerprint
+
+      - list/country
+
+      - list/email-address
+
+      - list/face
+
+      - list/geolocation
+
+      - list/government-id-number
+
+      - list/ip-address
+
+      - list/name
+
+      - list/phone-number
+
+
+      Do not assume this is a static enumeration; Persona may add new values in
+      the future without a versioned update.
+  id:
+    type: string
+  attributes:
+    type: object
+    properties:
+      name:
+        type: string
+      status:
+        type: string
+      archived-at:
+        type:
+          - 'null'
+          - string
+        format: date-time
+      created-at:
+        type: string
+        format: date-time
+      updated-at:
+        type: string
+        format: date-time
+  relationships:
+    type: object
+    properties:
+      list-items:
+        type: object
+        properties:
+          data:
+            type: array
+            items:
+              type: object
+              description: List items associated with this list.

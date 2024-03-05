@@ -62,6 +62,14 @@ get:
             properties:
               data:
                 properties:
+                  type:
+                    const: verification/government-id-nfc
+                    description: verification/government-id-nfc
+                    type: string
+                  id:
+                    examples:
+                      - ver_Ra6LFdoQmPFJH27gonC3cChh
+                    type: string
                   attributes:
                     properties:
                       birthdate:
@@ -148,11 +156,9 @@ get:
                       sex:
                         examples:
                           - M
-                        type: string
-                        enum:
-                          - M
                           - F
                           - X
+                        type: string
                       status:
                         examples:
                           - passed
@@ -167,10 +173,6 @@ get:
                           - 1659041226
                         type: integer
                     type: object
-                  id:
-                    examples:
-                      - ver_Ra6LFdoQmPFJH27gonC3cChh
-                    type: string
                   relationships:
                     properties:
                       document:
@@ -182,6 +184,7 @@ get:
                                   - doc_QZ8M2J1fH2o76Rq57vuVWMsE
                                 type: string
                               type:
+                                x-polymorphic: true
                                 examples:
                                   - document/government-id-nfc
                                 type: string
@@ -192,10 +195,6 @@ get:
                           data: {}
                         type: object
                     type: object
-                  type:
-                    examples:
-                      - verification/government-id-nfc
-                    type: string
                 type: object
             type: object
       description: OK

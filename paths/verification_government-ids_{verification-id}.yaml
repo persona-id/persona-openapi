@@ -245,6 +245,14 @@ get:
             properties:
               data:
                 properties:
+                  type:
+                    const: verification/government-id
+                    description: verification/government-id
+                    type: string
+                  id:
+                    examples:
+                      - ver_Ra6LFdoQmPFJH27gonC3cChh
+                    type: string
                   attributes:
                     properties: {}
                     allOf:
@@ -428,12 +436,10 @@ get:
                             type: string
                           sex:
                             examples:
-                              - F
-                            type: string
-                            enum:
                               - M
                               - F
                               - X
+                            type: string
                           status:
                             examples:
                               - passed
@@ -453,10 +459,6 @@ get:
                             type: string
                           video-url: {}
                           visa-status: {}
-                  id:
-                    examples:
-                      - ver_Ra6LFdoQmPFJH27gonC3cChh
-                    type: string
                   relationships:
                     properties:
                       document:
@@ -468,6 +470,7 @@ get:
                                   - doc_QZ8M2J1fH2o76Rq57vuVWMsE
                                 type: string
                               type:
+                                x-polymorphic: true
                                 examples:
                                   - document/government-id
                                 type: string
@@ -478,10 +481,6 @@ get:
                           data: {}
                         type: object
                     type: object
-                  type:
-                    examples:
-                      - verification/government-id
-                    type: string
                 type: object
             type: object
       description: OK
@@ -629,6 +628,14 @@ patch:
             properties:
               data:
                 properties:
+                  type:
+                    const: verification/government-id
+                    description: verification/government-id
+                    type: string
+                  id:
+                    examples:
+                      - ver_X5mC6bFdeyzofECAbw2kM00b
+                    type: string
                   attributes:
                     properties: {}
                     allOf:
@@ -670,10 +677,6 @@ patch:
                           submitted-at: {}
                           submitted-at-ts: {}
                           vehicle-class: {}
-                  id:
-                    examples:
-                      - ver_X5mC6bFdeyzofECAbw2kM00b
-                    type: string
                   relationships:
                     properties:
                       inquiry:
@@ -685,16 +688,12 @@ patch:
                                   - inq_Hn1JxEG9K153GbvFYGScCRxX
                                 type: string
                               type:
-                                examples:
-                                  - inquiry
+                                const: inquiry
+                                description: inquiry
                                 type: string
                             type: object
                         type: object
                     type: object
-                  type:
-                    examples:
-                      - verification/government-id
-                    type: string
                 type: object
             type: object
       description: OK

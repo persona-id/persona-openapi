@@ -1,6 +1,14 @@
 type: object
 description: A Case object
 properties:
+  type:
+    const: case
+    description: case
+    type: string
+  id:
+    examples:
+      - case_gqe7rH38FvxtzhGBQmDBsjkB
+    type: string
   attributes:
     type: object
     properties:
@@ -58,9 +66,16 @@ properties:
           - case_creator@withpersona.com
         type: string
       creator-type:
-        enum:
+        description: >-
+          Possible values:
+
           - user
+
           - workflow-run
+
+
+          Do not assume this is a static enumeration; Persona may add new values
+          in the future without a versioned update.
         type: string
       assignee-id:
         examples:
@@ -77,11 +92,18 @@ properties:
           - string
           - 'null'
       assigner-type:
-        enum:
+        description: >-
+          Possible values:
+
           - case-assignment-policy
+
           - user
+
           - workflow-run
-          - null
+
+
+          Do not assume this is a static enumeration; Persona may add new values
+          in the future without a versioned update.
         type:
           - string
           - 'null'
@@ -92,10 +114,16 @@ properties:
           - string
           - 'null'
       resolver-type:
-        enum:
+        description: >-
+          Possible values:
+
           - user
+
           - workflow-run
-          - null
+
+
+          Do not assume this is a static enumeration; Persona may add new values
+          in the future without a versioned update.
         type:
           - string
           - 'null'
@@ -106,10 +134,16 @@ properties:
           - string
           - 'null'
       updater-type:
-        enum:
+        description: >-
+          Possible values:
+
           - user
+
           - workflow-run
-          - null
+
+
+          Do not assume this is a static enumeration; Persona may add new values
+          in the future without a versioned update.
         type:
           - string
           - 'null'
@@ -124,10 +158,6 @@ properties:
           - external-integration-id: ind_123
         type: object
         additionalProperties: true
-  id:
-    examples:
-      - case_gqe7rH38FvxtzhGBQmDBsjkB
-    type: string
   relationships:
     properties:
       accounts:
@@ -142,8 +172,8 @@ properties:
                     - act_9e3yoAUApTRMjgNoPAC7TNtz
                   type: string
                 type:
-                  examples:
-                    - account
+                  const: account
+                  description: account
                   type: string
             type: array
       case-comments:
@@ -156,8 +186,8 @@ properties:
                 id:
                   type: string
                 type:
-                  examples:
-                    - case-comment
+                  const: case-comment
+                  description: case-comment
                   type: string
             type: array
       case-template:
@@ -171,8 +201,8 @@ properties:
                   - ctmpl_Jumm3K4zHwaLBBdyLUCnHbBC
                 type: string
               type:
-                examples:
-                  - case-template
+                const: case-template
+                description: case-template
                 type: string
       inquiries:
         type: object
@@ -186,8 +216,8 @@ properties:
                     - inq_KHK4MJCE4QvfocWB2intQ3YE
                   type: string
                 type:
-                  examples:
-                    - inquiry
+                  const: inquiry
+                  description: inquiry
                   type: string
             type: array
       reports:
@@ -201,6 +231,7 @@ properties:
                     - rep_7anCsX1R1We3BqRKfsJXsMaw
                   type: string
                 type:
+                  x-polymorphic: true
                   examples:
                     - report/watchlist
                   type: string
@@ -217,6 +248,7 @@ properties:
                     - ver_tVJF12ggSgzquQUkxtSVwssA
                   type: string
                 type:
+                  x-polymorphic: true
                   examples:
                     - verification/document
                   type: string
@@ -233,13 +265,9 @@ properties:
                     - txn_0GKUnDBJi6RJpZhmKdYsM5me
                   type: string
                 type:
-                  examples:
-                    - transaction
+                  const: transaction
+                  description: transaction
                   type: string
             type: array
         type: object
     type: object
-  type:
-    examples:
-      - case
-    type: string
