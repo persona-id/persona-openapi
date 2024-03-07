@@ -95,20 +95,23 @@ get:
               data:
                 $ref: ../components/schemas/Inquiry.yaml
               included:
-                type: array
-                items:
-                  discriminator:
-                    propertyName: type
-                    mapping:
-                      report: ../components/schemas/Report.yaml
-                      inquiry-template: ../components/schemas/InquiryTemplate.yaml
-                      inquiry-session: ../components/schemas/InquirySession.yaml
-                      verification: ../components/schemas/Verification.yaml
-                  anyOf:
-                    - $ref: ../components/schemas/Report.yaml
-                    - $ref: ../components/schemas/InquiryTemplate.yaml
-                    - $ref: ../components/schemas/InquirySession.yaml
-                    - $ref: ../components/schemas/Verification.yaml
+                description: >-
+                  Included by default:
+
+                  - Reports
+
+                  - Verifications
+
+                  - Inquiry Sessions
+
+                  - Documents
+
+                  - Inquiry Template
+
+
+                  Anything else must be explicitly requested with the `include`
+                  query parameter.
+                $ref: ../components/schemas/InquiryIncluded.yaml
             type: object
       description: OK
     '400':

@@ -1,0 +1,50 @@
+post:
+  operationId: webhook-inquiry-transitioned
+  summary: Inquiry transitioned
+  description: >-
+    Webhook for the `inquiry.transitioned` event. For more info see [Webhooks
+    Overview](https://docs.withpersona.com/docs/webhooks).
+  tags:
+    - 'Webhooks: Inquiry events'
+  parameters:
+    - $ref: ../components/parameters/PersonaSignatureHeader.yaml
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties: {}
+              allOf:
+                - $ref: ../components/schemas/WebhookBodyBaseData.yaml
+                - type: object
+                  properties:
+                    attributes:
+                      properties: {}
+                      allOf:
+                        - type: object
+                          properties:
+                            name:
+                              type: string
+                              const: inquiry.transitioned
+                              description: inquiry.transitioned
+                            payload:
+                              type: object
+                              properties:
+                                data:
+                                  $ref: ../components/schemas/Inquiry.yaml
+                                included:
+                                  description: >-
+                                    All objects that are present in
+                                    `data.attributes.relationships` will be
+                                    provided in `included`.
+                                  $ref: ../components/schemas/InquiryIncluded.yaml
+                        - $ref: ../components/schemas/WebhookBodyBaseAttributes.yaml
+        examples:
+          Example Body:
+            $ref: ../components/examples/InquiryTransitionedWebhookBody.yaml
+  responses:
+    '200':
+      $ref: ../components/responses/Success.yaml

@@ -4843,20 +4843,16 @@ paths:
                   data:
                     $ref: '#/components/schemas/Inquiry'
                   included:
-                    type: array
-                    items:
-                      discriminator:
-                        propertyName: type
-                        mapping:
-                          report: '#/components/schemas/Report'
-                          inquiry-template: '#/components/schemas/InquiryTemplate'
-                          inquiry-session: '#/components/schemas/InquirySession'
-                          verification: '#/components/schemas/Verification'
-                      anyOf:
-                        - $ref: '#/components/schemas/Report'
-                        - $ref: '#/components/schemas/InquiryTemplate'
-                        - $ref: '#/components/schemas/InquirySession'
-                        - $ref: '#/components/schemas/Verification'
+                    description: |-
+                      Included by default:
+                      - Reports
+                      - Verifications
+                      - Inquiry Sessions
+                      - Documents
+                      - Inquiry Template
+
+                      Anything else must be explicitly requested with the `include` query parameter.
+                    $ref: '#/components/schemas/InquiryIncluded'
                 type: object
           description: OK
         '400':
@@ -13123,6 +13119,374 @@ webhooks:
       responses:
         '200':
           $ref: '#/components/responses/Success'
+  inquiry.created:
+    post:
+      operationId: webhook-inquiry-created
+      summary: Inquiry created
+      description: Webhook for the `inquiry.created` event. For more info see [Webhooks Overview](https://docs.withpersona.com/docs/webhooks).
+      tags:
+        - 'Webhooks: Inquiry events'
+      parameters:
+        - $ref: '#/components/parameters/PersonaSignatureHeader'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties: {}
+                  allOf:
+                    - $ref: '#/components/schemas/WebhookBodyBaseData'
+                    - type: object
+                      properties:
+                        attributes:
+                          properties: {}
+                          allOf:
+                            - type: object
+                              properties:
+                                name:
+                                  type: string
+                                  const: inquiry.created
+                                  description: inquiry.created
+                                payload:
+                                  type: object
+                                  properties:
+                                    data:
+                                      $ref: '#/components/schemas/Inquiry'
+                                    included:
+                                      description: All objects that are present in `data.attributes.relationships` will be provided in `included`.
+                                      $ref: '#/components/schemas/InquiryIncluded'
+                            - $ref: '#/components/schemas/WebhookBodyBaseAttributes'
+            examples:
+              Example Body:
+                $ref: '#/components/examples/InquiryCreatedWebhookBody'
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+  inquiry.expired:
+    post:
+      operationId: webhook-inquiry-expired
+      summary: Inquiry expired
+      description: Webhook for the `inquiry.expired` event. For more info see [Webhooks Overview](https://docs.withpersona.com/docs/webhooks).
+      tags:
+        - 'Webhooks: Inquiry events'
+      parameters:
+        - $ref: '#/components/parameters/PersonaSignatureHeader'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties: {}
+                  allOf:
+                    - $ref: '#/components/schemas/WebhookBodyBaseData'
+                    - type: object
+                      properties:
+                        attributes:
+                          properties: {}
+                          allOf:
+                            - type: object
+                              properties:
+                                name:
+                                  type: string
+                                  const: inquiry.expired
+                                  description: inquiry.expired
+                                payload:
+                                  type: object
+                                  properties:
+                                    data:
+                                      $ref: '#/components/schemas/Inquiry'
+                                    included:
+                                      description: All objects that are present in `data.attributes.relationships` will be provided in `included`.
+                                      $ref: '#/components/schemas/InquiryIncluded'
+                            - $ref: '#/components/schemas/WebhookBodyBaseAttributes'
+            examples:
+              Example Body:
+                $ref: '#/components/examples/InquiryExpiredWebhookBody'
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+  inquiry.completed:
+    post:
+      operationId: webhook-inquiry-completed
+      summary: Inquiry completed
+      description: Webhook for the `inquiry.completed` event. For more info see [Webhooks Overview](https://docs.withpersona.com/docs/webhooks).
+      tags:
+        - 'Webhooks: Inquiry events'
+      parameters:
+        - $ref: '#/components/parameters/PersonaSignatureHeader'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties: {}
+                  allOf:
+                    - $ref: '#/components/schemas/WebhookBodyBaseData'
+                    - type: object
+                      properties:
+                        attributes:
+                          properties: {}
+                          allOf:
+                            - type: object
+                              properties:
+                                name:
+                                  type: string
+                                  const: inquiry.completed
+                                  description: inquiry.completed
+                                payload:
+                                  type: object
+                                  properties:
+                                    data:
+                                      $ref: '#/components/schemas/Inquiry'
+                                    included:
+                                      description: All objects that are present in `data.attributes.relationships` will be provided in `included`.
+                                      $ref: '#/components/schemas/InquiryIncluded'
+                            - $ref: '#/components/schemas/WebhookBodyBaseAttributes'
+            examples:
+              Example Body:
+                $ref: '#/components/examples/InquiryCompletedWebhookBody'
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+  inquiry.failed:
+    post:
+      operationId: webhook-inquiry-failed
+      summary: Inquiry failed
+      description: Webhook for the `inquiry.failed` event. For more info see [Webhooks Overview](https://docs.withpersona.com/docs/webhooks).
+      tags:
+        - 'Webhooks: Inquiry events'
+      parameters:
+        - $ref: '#/components/parameters/PersonaSignatureHeader'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties: {}
+                  allOf:
+                    - $ref: '#/components/schemas/WebhookBodyBaseData'
+                    - type: object
+                      properties:
+                        attributes:
+                          properties: {}
+                          allOf:
+                            - type: object
+                              properties:
+                                name:
+                                  type: string
+                                  const: inquiry.failed
+                                  description: inquiry.failed
+                                payload:
+                                  type: object
+                                  properties:
+                                    data:
+                                      $ref: '#/components/schemas/Inquiry'
+                                    included:
+                                      description: All objects that are present in `data.attributes.relationships` will be provided in `included`.
+                                      $ref: '#/components/schemas/InquiryIncluded'
+                            - $ref: '#/components/schemas/WebhookBodyBaseAttributes'
+            examples:
+              Example Body:
+                $ref: '#/components/examples/InquiryFailedWebhookBody'
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+  inquiry.marked-for-review:
+    post:
+      operationId: webhook-inquiry-marked-for-review
+      summary: Inquiry marked for review
+      description: Webhook for the `inquiry.marked-for-review` event. For more info see [Webhooks Overview](https://docs.withpersona.com/docs/webhooks).
+      tags:
+        - 'Webhooks: Inquiry events'
+      parameters:
+        - $ref: '#/components/parameters/PersonaSignatureHeader'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties: {}
+                  allOf:
+                    - $ref: '#/components/schemas/WebhookBodyBaseData'
+                    - type: object
+                      properties:
+                        attributes:
+                          properties: {}
+                          allOf:
+                            - type: object
+                              properties:
+                                name:
+                                  type: string
+                                  const: inquiry.marked-for-review
+                                  description: inquiry.marked-for-review
+                                payload:
+                                  type: object
+                                  properties:
+                                    data:
+                                      $ref: '#/components/schemas/Inquiry'
+                                    included:
+                                      description: All objects that are present in `data.attributes.relationships` will be provided in `included`.
+                                      $ref: '#/components/schemas/InquiryIncluded'
+                            - $ref: '#/components/schemas/WebhookBodyBaseAttributes'
+            examples:
+              Example Body:
+                $ref: '#/components/examples/InquiryMarkedForReviewWebhookBody'
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+  inquiry.approved:
+    post:
+      operationId: webhook-inquiry-approved
+      summary: Inquiry approved
+      description: Webhook for the `inquiry.approved` event. For more info see [Webhooks Overview](https://docs.withpersona.com/docs/webhooks).
+      tags:
+        - 'Webhooks: Inquiry events'
+      parameters:
+        - $ref: '#/components/parameters/PersonaSignatureHeader'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties: {}
+                  allOf:
+                    - $ref: '#/components/schemas/WebhookBodyBaseData'
+                    - type: object
+                      properties:
+                        attributes:
+                          properties: {}
+                          allOf:
+                            - type: object
+                              properties:
+                                name:
+                                  type: string
+                                  const: inquiry.approved
+                                  description: inquiry.approved
+                                payload:
+                                  type: object
+                                  properties:
+                                    data:
+                                      $ref: '#/components/schemas/Inquiry'
+                                    included:
+                                      description: All objects that are present in `data.attributes.relationships` will be provided in `included`.
+                                      $ref: '#/components/schemas/InquiryIncluded'
+                            - $ref: '#/components/schemas/WebhookBodyBaseAttributes'
+            examples:
+              Example Body:
+                $ref: '#/components/examples/InquiryApprovedWebhookBody'
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+  inquiry.declined:
+    post:
+      operationId: webhook-inquiry-declined
+      summary: Inquiry declined
+      description: Webhook for the `inquiry.declined` event. For more info see [Webhooks Overview](https://docs.withpersona.com/docs/webhooks).
+      tags:
+        - 'Webhooks: Inquiry events'
+      parameters:
+        - $ref: '#/components/parameters/PersonaSignatureHeader'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties: {}
+                  allOf:
+                    - $ref: '#/components/schemas/WebhookBodyBaseData'
+                    - type: object
+                      properties:
+                        attributes:
+                          properties: {}
+                          allOf:
+                            - type: object
+                              properties:
+                                name:
+                                  type: string
+                                  const: inquiry.declined
+                                  description: inquiry.declined
+                                payload:
+                                  type: object
+                                  properties:
+                                    data:
+                                      $ref: '#/components/schemas/Inquiry'
+                                    included:
+                                      description: All objects that are present in `data.attributes.relationships` will be provided in `included`.
+                                      $ref: '#/components/schemas/InquiryIncluded'
+                            - $ref: '#/components/schemas/WebhookBodyBaseAttributes'
+            examples:
+              Example Body:
+                $ref: '#/components/examples/InquiryDeclinedWebhookBody'
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+  inquiry.transitioned:
+    post:
+      operationId: webhook-inquiry-transitioned
+      summary: Inquiry transitioned
+      description: Webhook for the `inquiry.transitioned` event. For more info see [Webhooks Overview](https://docs.withpersona.com/docs/webhooks).
+      tags:
+        - 'Webhooks: Inquiry events'
+      parameters:
+        - $ref: '#/components/parameters/PersonaSignatureHeader'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties: {}
+                  allOf:
+                    - $ref: '#/components/schemas/WebhookBodyBaseData'
+                    - type: object
+                      properties:
+                        attributes:
+                          properties: {}
+                          allOf:
+                            - type: object
+                              properties:
+                                name:
+                                  type: string
+                                  const: inquiry.transitioned
+                                  description: inquiry.transitioned
+                                payload:
+                                  type: object
+                                  properties:
+                                    data:
+                                      $ref: '#/components/schemas/Inquiry'
+                                    included:
+                                      description: All objects that are present in `data.attributes.relationships` will be provided in `included`.
+                                      $ref: '#/components/schemas/InquiryIncluded'
+                            - $ref: '#/components/schemas/WebhookBodyBaseAttributes'
+            examples:
+              Example Body:
+                $ref: '#/components/examples/InquiryTransitionedWebhookBody'
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
 components:
   securitySchemes:
     bearerAuth:
@@ -14679,6 +15043,8 @@ components:
                       x-polymorphic: true
                       examples:
                         - user
+                        - workflow
+                        - workflow-run
                       type: string
                   type:
                     - object
@@ -14698,6 +15064,7 @@ components:
                         examples:
                           - selfie/profile-and-center
                           - selfie/center-only
+                          - selfie/configurable-poses
                         type: string
                     type: object
                   type: array
@@ -18035,6 +18402,71 @@ components:
                 - GB
               type: string
           additionalProperties: true
+    Selfie:
+      type: object
+      description: A Selfie object
+      properties:
+        type:
+          x-polymorphic: true
+          examples:
+            - selfie/profile-and-center
+            - selfie/center-only
+            - selfie/configurable-poses
+          type: string
+          description: |-
+            Possible values:
+            - selfie/profile-and-center
+            - selfie/center-only
+            - selfie/configurable-poses
+
+            Do not assume this is a static enumeration; Persona may add new values in the future without a versioned update.
+        id:
+          description: Unique identifier for this Selfie object. Starts with `self_`.
+          examples:
+            - self_5FrMN7NAGgFdGGysCDd7DaBW
+          type: string
+        attributes:
+          type: object
+          properties:
+            status:
+              type: string
+              description: |-
+                Possible values:
+                - initiated
+                - submitted
+                - processed
+                - errored
+
+                Do not assume this is a static enumeration; Persona may add new values in the future without a versioned update.
+              examples:
+                - processed
+            created-at:
+              type: string
+              format: date-time
+              examples:
+                - '2020-07-12T17:16:54.656Z'
+            processed-at:
+              type: string
+              format: date-time
+              examples:
+                - '2020-07-12T17:16:54.656Z'
+        relationships:
+          type: object
+          properties:
+            inquiry:
+              properties:
+                data:
+                  properties:
+                    id:
+                      examples:
+                        - inq_jdRz9RHNRzkjxUqZApHwX1ZU
+                      type: string
+                    type:
+                      const: inquiry
+                      description: inquiry
+                      type: string
+                  type: object
+              type: object
     InquirySession:
       type: object
       properties:
@@ -18179,6 +18611,31 @@ components:
                       type: string
                       examples:
                         - inq_ABC123
+    InquiryIncluded:
+      type: array
+      items:
+        discriminator:
+          propertyName: type
+          mapping:
+            account: '#/components/schemas/Account'
+            document: '#/components/schemas/Document'
+            template: '#/components/schemas/Template'
+            inquiry-template: '#/components/schemas/InquiryTemplate'
+            inquiry-template-version: '#/components/schemas/InquiryTemplateVersion'
+            report: '#/components/schemas/Report'
+            selfie: '#/components/schemas/Selfie'
+            inquiry-session: '#/components/schemas/InquirySession'
+            verification: '#/components/schemas/Verification'
+        anyOf:
+          - $ref: '#/components/schemas/Account'
+          - $ref: '#/components/schemas/Document'
+          - $ref: '#/components/schemas/Template'
+          - $ref: '#/components/schemas/InquiryTemplate'
+          - $ref: '#/components/schemas/InquiryTemplateVersion'
+          - $ref: '#/components/schemas/Report'
+          - $ref: '#/components/schemas/Selfie'
+          - $ref: '#/components/schemas/InquirySession'
+          - $ref: '#/components/schemas/Verification'
     ListItemBaseAttributes:
       type: object
       properties:
@@ -23002,6 +23459,1382 @@ components:
                         identification-number: A12345678
                         created-at: '2023-09-23T00:22:19.963Z'
                         updated-at: '2023-09-23T00:22:19.963Z'
+            created-at: '2024-02-15T23:48:17.732Z'
+    InquiryCreatedWebhookBody:
+      value:
+        data:
+          type: event
+          id: evt_o9byQRbjygu76Jbtea9wuJ1boP7a
+          attributes:
+            name: inquiry.created
+            payload:
+              data:
+                type: inquiry
+                id: inq_zEx4jL84ShbUyuwX6AzPSqt6
+                attributes:
+                  status: pending
+                  reference-id: abc-123
+                  note: null
+                  behaviors:
+                    request-spoof-attempts: 0
+                    user-agent-spoof-attempts: 0
+                    distraction-events: 0
+                    hesitation-baseline: 29677
+                    hesitation-count: 3
+                    hesitation-time: 28752
+                    shortcut-copies: 0
+                    shortcut-pastes: 0
+                    autofill-cancels: 0
+                    autofill-starts: 0
+                    devtools-open: false
+                    completion-time: 40.172463903
+                    hesitation-percentage: 96.88310813087575
+                    behavior-threat-level: low
+                  tags: []
+                  creator: creator@withpersona.com
+                  reviewer-comment: null
+                  created-at: '2023-03-29T19:06:45.000Z'
+                  started-at: '2023-03-30T19:07:01.000Z'
+                  completed-at: null
+                  failed-at: null
+                  marked-for-review-at: null
+                  decisioned-at: null
+                  expired-at: null
+                  redacted-at: null
+                  previous-step-name: start
+                  next-step-name: verification_document
+                  name-first: Jane
+                  name-middle: Marie
+                  name-last: Doe
+                  birthdate: '1995-09-08'
+                  address-street-1: 123 Main St
+                  address-street-2: null
+                  address-city: San Francisco
+                  address-subdivision: California
+                  address-subdivision-abbr: CA
+                  address-postal-code: '94111'
+                  address-postal-code-abbr: '94111'
+                  social-security-number: null
+                  identification-number: null
+                  email-address: jane@doe.com
+                  phone-number: null
+                  fields:
+                    name-first:
+                      type: string
+                      value: Jane
+                    name-middle:
+                      type: string
+                      value: Marie
+                    name-last:
+                      type: string
+                      value: Doe
+                    address-street-1:
+                      type: string
+                      value: 123 Main St
+                    address-street-2:
+                      type: string
+                      value: null
+                    address-city:
+                      type: string
+                      value: San Francisco
+                    address-subdivision:
+                      type: string
+                      value: California
+                    address-postal-code:
+                      type: string
+                      value: '94111'
+                    address-country-code:
+                      type: string
+                      value: US
+                    birthdate:
+                      type: date
+                      value: '1995-09-08'
+                    email-address:
+                      type: string
+                      value: jane@doe.com
+                    phone-number:
+                      type: string
+                      value: null
+                    identification-number:
+                      type: string
+                      value: null
+                relationships:
+                  account:
+                    data:
+                      type: account
+                      id: act_n2uq9eKMboaCQzu9ALWYcVdN
+                  template:
+                    data: {}
+                  inquiry-template:
+                    data:
+                      type: inquiry-template
+                      id: itmpl_p8ANAJy9iqadm2buF2xcVgqH
+                  inquiry-template-version:
+                    data:
+                      type: inquiry-template-version
+                      id: itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo
+                  reviewer:
+                    data: {}
+                  reports:
+                    data: []
+                  verifications:
+                    data:
+                      - type: verification/database
+                        id: ver_uHDiwtcx3htjajvEaeMjPQcE
+                  sessions:
+                    data: []
+                  documents:
+                    data: []
+                  selfies:
+                    data: []
+              included:
+                - type: inquiry-session
+                  id: iqse_ABC123
+                  attributes:
+                    status: expired
+                    created-at: '2023-07-25T04:15:20.000Z'
+                    started-at: '2023-07-25T05:14:50.000Z'
+                    expired-at: '2023-07-26T05:14:50.000Z'
+                    ip-address: 127.0.0.1
+                    user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36
+                    os-name: Mac
+                    os-full-version: 10.15.7
+                    device-type: desktop
+                    device-name: null
+                    browser-name: Chrome
+                    browser-full-version: 115.0.0.0
+                    mobile-sdk-name: null
+                    mobile-sdk-full-version: null
+                    device-handoff-method: null
+                    is-proxy: false
+                    is-tor: false
+                    is-datacenter: false
+                    threat-level: low
+                    country-code: US
+                    country-name: United States
+                    region-code: CA
+                    region-name: California
+                    latitude: 37.7688
+                    longitude: -122.262
+                  relationships:
+                    inquiry:
+                      data:
+                        type: inquiry
+                        id: inq_ABC123
+                - type: inquiry-template
+                  id: itmpl_ABC123
+                  attributes:
+                    status: active
+                    name: Twilio Desktop
+                  relationships:
+                    latest-published-version:
+                      data:
+                        type: inquiry-template-version
+                        id: itmplv_ABC123
+            created-at: '2024-02-15T23:48:17.732Z'
+    InquiryExpiredWebhookBody:
+      value:
+        data:
+          type: event
+          id: evt_o9byQRbjygu76Jbtea9wuJ1boP7a
+          attributes:
+            name: inquiry.expired
+            payload:
+              data:
+                type: inquiry
+                id: inq_zEx4jL84ShbUyuwX6AzPSqt6
+                attributes:
+                  status: pending
+                  reference-id: abc-123
+                  note: null
+                  behaviors:
+                    request-spoof-attempts: 0
+                    user-agent-spoof-attempts: 0
+                    distraction-events: 0
+                    hesitation-baseline: 29677
+                    hesitation-count: 3
+                    hesitation-time: 28752
+                    shortcut-copies: 0
+                    shortcut-pastes: 0
+                    autofill-cancels: 0
+                    autofill-starts: 0
+                    devtools-open: false
+                    completion-time: 40.172463903
+                    hesitation-percentage: 96.88310813087575
+                    behavior-threat-level: low
+                  tags: []
+                  creator: creator@withpersona.com
+                  reviewer-comment: null
+                  created-at: '2023-03-29T19:06:45.000Z'
+                  started-at: '2023-03-30T19:07:01.000Z'
+                  completed-at: null
+                  failed-at: null
+                  marked-for-review-at: null
+                  decisioned-at: null
+                  expired-at: null
+                  redacted-at: null
+                  previous-step-name: start
+                  next-step-name: verification_document
+                  name-first: Jane
+                  name-middle: Marie
+                  name-last: Doe
+                  birthdate: '1995-09-08'
+                  address-street-1: 123 Main St
+                  address-street-2: null
+                  address-city: San Francisco
+                  address-subdivision: California
+                  address-subdivision-abbr: CA
+                  address-postal-code: '94111'
+                  address-postal-code-abbr: '94111'
+                  social-security-number: null
+                  identification-number: null
+                  email-address: jane@doe.com
+                  phone-number: null
+                  fields:
+                    name-first:
+                      type: string
+                      value: Jane
+                    name-middle:
+                      type: string
+                      value: Marie
+                    name-last:
+                      type: string
+                      value: Doe
+                    address-street-1:
+                      type: string
+                      value: 123 Main St
+                    address-street-2:
+                      type: string
+                      value: null
+                    address-city:
+                      type: string
+                      value: San Francisco
+                    address-subdivision:
+                      type: string
+                      value: California
+                    address-postal-code:
+                      type: string
+                      value: '94111'
+                    address-country-code:
+                      type: string
+                      value: US
+                    birthdate:
+                      type: date
+                      value: '1995-09-08'
+                    email-address:
+                      type: string
+                      value: jane@doe.com
+                    phone-number:
+                      type: string
+                      value: null
+                    identification-number:
+                      type: string
+                      value: null
+                relationships:
+                  account:
+                    data:
+                      type: account
+                      id: act_n2uq9eKMboaCQzu9ALWYcVdN
+                  template:
+                    data: {}
+                  inquiry-template:
+                    data:
+                      type: inquiry-template
+                      id: itmpl_p8ANAJy9iqadm2buF2xcVgqH
+                  inquiry-template-version:
+                    data:
+                      type: inquiry-template-version
+                      id: itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo
+                  reviewer:
+                    data: {}
+                  reports:
+                    data: []
+                  verifications:
+                    data:
+                      - type: verification/database
+                        id: ver_uHDiwtcx3htjajvEaeMjPQcE
+                  sessions:
+                    data: []
+                  documents:
+                    data: []
+                  selfies:
+                    data: []
+              included:
+                - type: inquiry-session
+                  id: iqse_ABC123
+                  attributes:
+                    status: expired
+                    created-at: '2023-07-25T04:15:20.000Z'
+                    started-at: '2023-07-25T05:14:50.000Z'
+                    expired-at: '2023-07-26T05:14:50.000Z'
+                    ip-address: 127.0.0.1
+                    user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36
+                    os-name: Mac
+                    os-full-version: 10.15.7
+                    device-type: desktop
+                    device-name: null
+                    browser-name: Chrome
+                    browser-full-version: 115.0.0.0
+                    mobile-sdk-name: null
+                    mobile-sdk-full-version: null
+                    device-handoff-method: null
+                    is-proxy: false
+                    is-tor: false
+                    is-datacenter: false
+                    threat-level: low
+                    country-code: US
+                    country-name: United States
+                    region-code: CA
+                    region-name: California
+                    latitude: 37.7688
+                    longitude: -122.262
+                  relationships:
+                    inquiry:
+                      data:
+                        type: inquiry
+                        id: inq_ABC123
+                - type: inquiry-template
+                  id: itmpl_ABC123
+                  attributes:
+                    status: active
+                    name: Twilio Desktop
+                  relationships:
+                    latest-published-version:
+                      data:
+                        type: inquiry-template-version
+                        id: itmplv_ABC123
+            created-at: '2024-02-15T23:48:17.732Z'
+    InquiryCompletedWebhookBody:
+      value:
+        data:
+          type: event
+          id: evt_o9byQRbjygu76Jbtea9wuJ1boP7a
+          attributes:
+            name: inquiry.completed
+            payload:
+              data:
+                type: inquiry
+                id: inq_zEx4jL84ShbUyuwX6AzPSqt6
+                attributes:
+                  status: pending
+                  reference-id: abc-123
+                  note: null
+                  behaviors:
+                    request-spoof-attempts: 0
+                    user-agent-spoof-attempts: 0
+                    distraction-events: 0
+                    hesitation-baseline: 29677
+                    hesitation-count: 3
+                    hesitation-time: 28752
+                    shortcut-copies: 0
+                    shortcut-pastes: 0
+                    autofill-cancels: 0
+                    autofill-starts: 0
+                    devtools-open: false
+                    completion-time: 40.172463903
+                    hesitation-percentage: 96.88310813087575
+                    behavior-threat-level: low
+                  tags: []
+                  creator: creator@withpersona.com
+                  reviewer-comment: null
+                  created-at: '2023-03-29T19:06:45.000Z'
+                  started-at: '2023-03-30T19:07:01.000Z'
+                  completed-at: null
+                  failed-at: null
+                  marked-for-review-at: null
+                  decisioned-at: null
+                  expired-at: null
+                  redacted-at: null
+                  previous-step-name: start
+                  next-step-name: verification_document
+                  name-first: Jane
+                  name-middle: Marie
+                  name-last: Doe
+                  birthdate: '1995-09-08'
+                  address-street-1: 123 Main St
+                  address-street-2: null
+                  address-city: San Francisco
+                  address-subdivision: California
+                  address-subdivision-abbr: CA
+                  address-postal-code: '94111'
+                  address-postal-code-abbr: '94111'
+                  social-security-number: null
+                  identification-number: null
+                  email-address: jane@doe.com
+                  phone-number: null
+                  fields:
+                    name-first:
+                      type: string
+                      value: Jane
+                    name-middle:
+                      type: string
+                      value: Marie
+                    name-last:
+                      type: string
+                      value: Doe
+                    address-street-1:
+                      type: string
+                      value: 123 Main St
+                    address-street-2:
+                      type: string
+                      value: null
+                    address-city:
+                      type: string
+                      value: San Francisco
+                    address-subdivision:
+                      type: string
+                      value: California
+                    address-postal-code:
+                      type: string
+                      value: '94111'
+                    address-country-code:
+                      type: string
+                      value: US
+                    birthdate:
+                      type: date
+                      value: '1995-09-08'
+                    email-address:
+                      type: string
+                      value: jane@doe.com
+                    phone-number:
+                      type: string
+                      value: null
+                    identification-number:
+                      type: string
+                      value: null
+                relationships:
+                  account:
+                    data:
+                      type: account
+                      id: act_n2uq9eKMboaCQzu9ALWYcVdN
+                  template:
+                    data: {}
+                  inquiry-template:
+                    data:
+                      type: inquiry-template
+                      id: itmpl_p8ANAJy9iqadm2buF2xcVgqH
+                  inquiry-template-version:
+                    data:
+                      type: inquiry-template-version
+                      id: itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo
+                  reviewer:
+                    data: {}
+                  reports:
+                    data: []
+                  verifications:
+                    data:
+                      - type: verification/database
+                        id: ver_uHDiwtcx3htjajvEaeMjPQcE
+                  sessions:
+                    data: []
+                  documents:
+                    data: []
+                  selfies:
+                    data: []
+              included:
+                - type: inquiry-session
+                  id: iqse_ABC123
+                  attributes:
+                    status: expired
+                    created-at: '2023-07-25T04:15:20.000Z'
+                    started-at: '2023-07-25T05:14:50.000Z'
+                    expired-at: '2023-07-26T05:14:50.000Z'
+                    ip-address: 127.0.0.1
+                    user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36
+                    os-name: Mac
+                    os-full-version: 10.15.7
+                    device-type: desktop
+                    device-name: null
+                    browser-name: Chrome
+                    browser-full-version: 115.0.0.0
+                    mobile-sdk-name: null
+                    mobile-sdk-full-version: null
+                    device-handoff-method: null
+                    is-proxy: false
+                    is-tor: false
+                    is-datacenter: false
+                    threat-level: low
+                    country-code: US
+                    country-name: United States
+                    region-code: CA
+                    region-name: California
+                    latitude: 37.7688
+                    longitude: -122.262
+                  relationships:
+                    inquiry:
+                      data:
+                        type: inquiry
+                        id: inq_ABC123
+                - type: inquiry-template
+                  id: itmpl_ABC123
+                  attributes:
+                    status: active
+                    name: Twilio Desktop
+                  relationships:
+                    latest-published-version:
+                      data:
+                        type: inquiry-template-version
+                        id: itmplv_ABC123
+            created-at: '2024-02-15T23:48:17.732Z'
+    InquiryFailedWebhookBody:
+      value:
+        data:
+          type: event
+          id: evt_o9byQRbjygu76Jbtea9wuJ1boP7a
+          attributes:
+            name: inquiry.failed
+            payload:
+              data:
+                type: inquiry
+                id: inq_zEx4jL84ShbUyuwX6AzPSqt6
+                attributes:
+                  status: pending
+                  reference-id: abc-123
+                  note: null
+                  behaviors:
+                    request-spoof-attempts: 0
+                    user-agent-spoof-attempts: 0
+                    distraction-events: 0
+                    hesitation-baseline: 29677
+                    hesitation-count: 3
+                    hesitation-time: 28752
+                    shortcut-copies: 0
+                    shortcut-pastes: 0
+                    autofill-cancels: 0
+                    autofill-starts: 0
+                    devtools-open: false
+                    completion-time: 40.172463903
+                    hesitation-percentage: 96.88310813087575
+                    behavior-threat-level: low
+                  tags: []
+                  creator: creator@withpersona.com
+                  reviewer-comment: null
+                  created-at: '2023-03-29T19:06:45.000Z'
+                  started-at: '2023-03-30T19:07:01.000Z'
+                  completed-at: null
+                  failed-at: null
+                  marked-for-review-at: null
+                  decisioned-at: null
+                  expired-at: null
+                  redacted-at: null
+                  previous-step-name: start
+                  next-step-name: verification_document
+                  name-first: Jane
+                  name-middle: Marie
+                  name-last: Doe
+                  birthdate: '1995-09-08'
+                  address-street-1: 123 Main St
+                  address-street-2: null
+                  address-city: San Francisco
+                  address-subdivision: California
+                  address-subdivision-abbr: CA
+                  address-postal-code: '94111'
+                  address-postal-code-abbr: '94111'
+                  social-security-number: null
+                  identification-number: null
+                  email-address: jane@doe.com
+                  phone-number: null
+                  fields:
+                    name-first:
+                      type: string
+                      value: Jane
+                    name-middle:
+                      type: string
+                      value: Marie
+                    name-last:
+                      type: string
+                      value: Doe
+                    address-street-1:
+                      type: string
+                      value: 123 Main St
+                    address-street-2:
+                      type: string
+                      value: null
+                    address-city:
+                      type: string
+                      value: San Francisco
+                    address-subdivision:
+                      type: string
+                      value: California
+                    address-postal-code:
+                      type: string
+                      value: '94111'
+                    address-country-code:
+                      type: string
+                      value: US
+                    birthdate:
+                      type: date
+                      value: '1995-09-08'
+                    email-address:
+                      type: string
+                      value: jane@doe.com
+                    phone-number:
+                      type: string
+                      value: null
+                    identification-number:
+                      type: string
+                      value: null
+                relationships:
+                  account:
+                    data:
+                      type: account
+                      id: act_n2uq9eKMboaCQzu9ALWYcVdN
+                  template:
+                    data: {}
+                  inquiry-template:
+                    data:
+                      type: inquiry-template
+                      id: itmpl_p8ANAJy9iqadm2buF2xcVgqH
+                  inquiry-template-version:
+                    data:
+                      type: inquiry-template-version
+                      id: itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo
+                  reviewer:
+                    data: {}
+                  reports:
+                    data: []
+                  verifications:
+                    data:
+                      - type: verification/database
+                        id: ver_uHDiwtcx3htjajvEaeMjPQcE
+                  sessions:
+                    data: []
+                  documents:
+                    data: []
+                  selfies:
+                    data: []
+              included:
+                - type: inquiry-session
+                  id: iqse_ABC123
+                  attributes:
+                    status: expired
+                    created-at: '2023-07-25T04:15:20.000Z'
+                    started-at: '2023-07-25T05:14:50.000Z'
+                    expired-at: '2023-07-26T05:14:50.000Z'
+                    ip-address: 127.0.0.1
+                    user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36
+                    os-name: Mac
+                    os-full-version: 10.15.7
+                    device-type: desktop
+                    device-name: null
+                    browser-name: Chrome
+                    browser-full-version: 115.0.0.0
+                    mobile-sdk-name: null
+                    mobile-sdk-full-version: null
+                    device-handoff-method: null
+                    is-proxy: false
+                    is-tor: false
+                    is-datacenter: false
+                    threat-level: low
+                    country-code: US
+                    country-name: United States
+                    region-code: CA
+                    region-name: California
+                    latitude: 37.7688
+                    longitude: -122.262
+                  relationships:
+                    inquiry:
+                      data:
+                        type: inquiry
+                        id: inq_ABC123
+                - type: inquiry-template
+                  id: itmpl_ABC123
+                  attributes:
+                    status: active
+                    name: Twilio Desktop
+                  relationships:
+                    latest-published-version:
+                      data:
+                        type: inquiry-template-version
+                        id: itmplv_ABC123
+            created-at: '2024-02-15T23:48:17.732Z'
+    InquiryMarkedForReviewWebhookBody:
+      value:
+        data:
+          type: event
+          id: evt_o9byQRbjygu76Jbtea9wuJ1boP7a
+          attributes:
+            name: inquiry.marked-for-review
+            payload:
+              data:
+                type: inquiry
+                id: inq_zEx4jL84ShbUyuwX6AzPSqt6
+                attributes:
+                  status: pending
+                  reference-id: abc-123
+                  note: null
+                  behaviors:
+                    request-spoof-attempts: 0
+                    user-agent-spoof-attempts: 0
+                    distraction-events: 0
+                    hesitation-baseline: 29677
+                    hesitation-count: 3
+                    hesitation-time: 28752
+                    shortcut-copies: 0
+                    shortcut-pastes: 0
+                    autofill-cancels: 0
+                    autofill-starts: 0
+                    devtools-open: false
+                    completion-time: 40.172463903
+                    hesitation-percentage: 96.88310813087575
+                    behavior-threat-level: low
+                  tags: []
+                  creator: creator@withpersona.com
+                  reviewer-comment: null
+                  created-at: '2023-03-29T19:06:45.000Z'
+                  started-at: '2023-03-30T19:07:01.000Z'
+                  completed-at: null
+                  failed-at: null
+                  marked-for-review-at: null
+                  decisioned-at: null
+                  expired-at: null
+                  redacted-at: null
+                  previous-step-name: start
+                  next-step-name: verification_document
+                  name-first: Jane
+                  name-middle: Marie
+                  name-last: Doe
+                  birthdate: '1995-09-08'
+                  address-street-1: 123 Main St
+                  address-street-2: null
+                  address-city: San Francisco
+                  address-subdivision: California
+                  address-subdivision-abbr: CA
+                  address-postal-code: '94111'
+                  address-postal-code-abbr: '94111'
+                  social-security-number: null
+                  identification-number: null
+                  email-address: jane@doe.com
+                  phone-number: null
+                  fields:
+                    name-first:
+                      type: string
+                      value: Jane
+                    name-middle:
+                      type: string
+                      value: Marie
+                    name-last:
+                      type: string
+                      value: Doe
+                    address-street-1:
+                      type: string
+                      value: 123 Main St
+                    address-street-2:
+                      type: string
+                      value: null
+                    address-city:
+                      type: string
+                      value: San Francisco
+                    address-subdivision:
+                      type: string
+                      value: California
+                    address-postal-code:
+                      type: string
+                      value: '94111'
+                    address-country-code:
+                      type: string
+                      value: US
+                    birthdate:
+                      type: date
+                      value: '1995-09-08'
+                    email-address:
+                      type: string
+                      value: jane@doe.com
+                    phone-number:
+                      type: string
+                      value: null
+                    identification-number:
+                      type: string
+                      value: null
+                relationships:
+                  account:
+                    data:
+                      type: account
+                      id: act_n2uq9eKMboaCQzu9ALWYcVdN
+                  template:
+                    data: {}
+                  inquiry-template:
+                    data:
+                      type: inquiry-template
+                      id: itmpl_p8ANAJy9iqadm2buF2xcVgqH
+                  inquiry-template-version:
+                    data:
+                      type: inquiry-template-version
+                      id: itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo
+                  reviewer:
+                    data: {}
+                  reports:
+                    data: []
+                  verifications:
+                    data:
+                      - type: verification/database
+                        id: ver_uHDiwtcx3htjajvEaeMjPQcE
+                  sessions:
+                    data: []
+                  documents:
+                    data: []
+                  selfies:
+                    data: []
+              included:
+                - type: inquiry-session
+                  id: iqse_ABC123
+                  attributes:
+                    status: expired
+                    created-at: '2023-07-25T04:15:20.000Z'
+                    started-at: '2023-07-25T05:14:50.000Z'
+                    expired-at: '2023-07-26T05:14:50.000Z'
+                    ip-address: 127.0.0.1
+                    user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36
+                    os-name: Mac
+                    os-full-version: 10.15.7
+                    device-type: desktop
+                    device-name: null
+                    browser-name: Chrome
+                    browser-full-version: 115.0.0.0
+                    mobile-sdk-name: null
+                    mobile-sdk-full-version: null
+                    device-handoff-method: null
+                    is-proxy: false
+                    is-tor: false
+                    is-datacenter: false
+                    threat-level: low
+                    country-code: US
+                    country-name: United States
+                    region-code: CA
+                    region-name: California
+                    latitude: 37.7688
+                    longitude: -122.262
+                  relationships:
+                    inquiry:
+                      data:
+                        type: inquiry
+                        id: inq_ABC123
+                - type: inquiry-template
+                  id: itmpl_ABC123
+                  attributes:
+                    status: active
+                    name: Twilio Desktop
+                  relationships:
+                    latest-published-version:
+                      data:
+                        type: inquiry-template-version
+                        id: itmplv_ABC123
+            created-at: '2024-02-15T23:48:17.732Z'
+    InquiryApprovedWebhookBody:
+      value:
+        data:
+          type: event
+          id: evt_o9byQRbjygu76Jbtea9wuJ1boP7a
+          attributes:
+            name: inquiry.approved
+            payload:
+              data:
+                type: inquiry
+                id: inq_zEx4jL84ShbUyuwX6AzPSqt6
+                attributes:
+                  status: pending
+                  reference-id: abc-123
+                  note: null
+                  behaviors:
+                    request-spoof-attempts: 0
+                    user-agent-spoof-attempts: 0
+                    distraction-events: 0
+                    hesitation-baseline: 29677
+                    hesitation-count: 3
+                    hesitation-time: 28752
+                    shortcut-copies: 0
+                    shortcut-pastes: 0
+                    autofill-cancels: 0
+                    autofill-starts: 0
+                    devtools-open: false
+                    completion-time: 40.172463903
+                    hesitation-percentage: 96.88310813087575
+                    behavior-threat-level: low
+                  tags: []
+                  creator: creator@withpersona.com
+                  reviewer-comment: null
+                  created-at: '2023-03-29T19:06:45.000Z'
+                  started-at: '2023-03-30T19:07:01.000Z'
+                  completed-at: null
+                  failed-at: null
+                  marked-for-review-at: null
+                  decisioned-at: null
+                  expired-at: null
+                  redacted-at: null
+                  previous-step-name: start
+                  next-step-name: verification_document
+                  name-first: Jane
+                  name-middle: Marie
+                  name-last: Doe
+                  birthdate: '1995-09-08'
+                  address-street-1: 123 Main St
+                  address-street-2: null
+                  address-city: San Francisco
+                  address-subdivision: California
+                  address-subdivision-abbr: CA
+                  address-postal-code: '94111'
+                  address-postal-code-abbr: '94111'
+                  social-security-number: null
+                  identification-number: null
+                  email-address: jane@doe.com
+                  phone-number: null
+                  fields:
+                    name-first:
+                      type: string
+                      value: Jane
+                    name-middle:
+                      type: string
+                      value: Marie
+                    name-last:
+                      type: string
+                      value: Doe
+                    address-street-1:
+                      type: string
+                      value: 123 Main St
+                    address-street-2:
+                      type: string
+                      value: null
+                    address-city:
+                      type: string
+                      value: San Francisco
+                    address-subdivision:
+                      type: string
+                      value: California
+                    address-postal-code:
+                      type: string
+                      value: '94111'
+                    address-country-code:
+                      type: string
+                      value: US
+                    birthdate:
+                      type: date
+                      value: '1995-09-08'
+                    email-address:
+                      type: string
+                      value: jane@doe.com
+                    phone-number:
+                      type: string
+                      value: null
+                    identification-number:
+                      type: string
+                      value: null
+                relationships:
+                  account:
+                    data:
+                      type: account
+                      id: act_n2uq9eKMboaCQzu9ALWYcVdN
+                  template:
+                    data: {}
+                  inquiry-template:
+                    data:
+                      type: inquiry-template
+                      id: itmpl_p8ANAJy9iqadm2buF2xcVgqH
+                  inquiry-template-version:
+                    data:
+                      type: inquiry-template-version
+                      id: itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo
+                  reviewer:
+                    data: {}
+                  reports:
+                    data: []
+                  verifications:
+                    data:
+                      - type: verification/database
+                        id: ver_uHDiwtcx3htjajvEaeMjPQcE
+                  sessions:
+                    data: []
+                  documents:
+                    data: []
+                  selfies:
+                    data: []
+              included:
+                - type: inquiry-session
+                  id: iqse_ABC123
+                  attributes:
+                    status: expired
+                    created-at: '2023-07-25T04:15:20.000Z'
+                    started-at: '2023-07-25T05:14:50.000Z'
+                    expired-at: '2023-07-26T05:14:50.000Z'
+                    ip-address: 127.0.0.1
+                    user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36
+                    os-name: Mac
+                    os-full-version: 10.15.7
+                    device-type: desktop
+                    device-name: null
+                    browser-name: Chrome
+                    browser-full-version: 115.0.0.0
+                    mobile-sdk-name: null
+                    mobile-sdk-full-version: null
+                    device-handoff-method: null
+                    is-proxy: false
+                    is-tor: false
+                    is-datacenter: false
+                    threat-level: low
+                    country-code: US
+                    country-name: United States
+                    region-code: CA
+                    region-name: California
+                    latitude: 37.7688
+                    longitude: -122.262
+                  relationships:
+                    inquiry:
+                      data:
+                        type: inquiry
+                        id: inq_ABC123
+                - type: inquiry-template
+                  id: itmpl_ABC123
+                  attributes:
+                    status: active
+                    name: Twilio Desktop
+                  relationships:
+                    latest-published-version:
+                      data:
+                        type: inquiry-template-version
+                        id: itmplv_ABC123
+            created-at: '2024-02-15T23:48:17.732Z'
+    InquiryDeclinedWebhookBody:
+      value:
+        data:
+          type: event
+          id: evt_o9byQRbjygu76Jbtea9wuJ1boP7a
+          attributes:
+            name: inquiry.declined
+            payload:
+              data:
+                type: inquiry
+                id: inq_zEx4jL84ShbUyuwX6AzPSqt6
+                attributes:
+                  status: pending
+                  reference-id: abc-123
+                  note: null
+                  behaviors:
+                    request-spoof-attempts: 0
+                    user-agent-spoof-attempts: 0
+                    distraction-events: 0
+                    hesitation-baseline: 29677
+                    hesitation-count: 3
+                    hesitation-time: 28752
+                    shortcut-copies: 0
+                    shortcut-pastes: 0
+                    autofill-cancels: 0
+                    autofill-starts: 0
+                    devtools-open: false
+                    completion-time: 40.172463903
+                    hesitation-percentage: 96.88310813087575
+                    behavior-threat-level: low
+                  tags: []
+                  creator: creator@withpersona.com
+                  reviewer-comment: null
+                  created-at: '2023-03-29T19:06:45.000Z'
+                  started-at: '2023-03-30T19:07:01.000Z'
+                  completed-at: null
+                  failed-at: null
+                  marked-for-review-at: null
+                  decisioned-at: null
+                  expired-at: null
+                  redacted-at: null
+                  previous-step-name: start
+                  next-step-name: verification_document
+                  name-first: Jane
+                  name-middle: Marie
+                  name-last: Doe
+                  birthdate: '1995-09-08'
+                  address-street-1: 123 Main St
+                  address-street-2: null
+                  address-city: San Francisco
+                  address-subdivision: California
+                  address-subdivision-abbr: CA
+                  address-postal-code: '94111'
+                  address-postal-code-abbr: '94111'
+                  social-security-number: null
+                  identification-number: null
+                  email-address: jane@doe.com
+                  phone-number: null
+                  fields:
+                    name-first:
+                      type: string
+                      value: Jane
+                    name-middle:
+                      type: string
+                      value: Marie
+                    name-last:
+                      type: string
+                      value: Doe
+                    address-street-1:
+                      type: string
+                      value: 123 Main St
+                    address-street-2:
+                      type: string
+                      value: null
+                    address-city:
+                      type: string
+                      value: San Francisco
+                    address-subdivision:
+                      type: string
+                      value: California
+                    address-postal-code:
+                      type: string
+                      value: '94111'
+                    address-country-code:
+                      type: string
+                      value: US
+                    birthdate:
+                      type: date
+                      value: '1995-09-08'
+                    email-address:
+                      type: string
+                      value: jane@doe.com
+                    phone-number:
+                      type: string
+                      value: null
+                    identification-number:
+                      type: string
+                      value: null
+                relationships:
+                  account:
+                    data:
+                      type: account
+                      id: act_n2uq9eKMboaCQzu9ALWYcVdN
+                  template:
+                    data: {}
+                  inquiry-template:
+                    data:
+                      type: inquiry-template
+                      id: itmpl_p8ANAJy9iqadm2buF2xcVgqH
+                  inquiry-template-version:
+                    data:
+                      type: inquiry-template-version
+                      id: itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo
+                  reviewer:
+                    data: {}
+                  reports:
+                    data: []
+                  verifications:
+                    data:
+                      - type: verification/database
+                        id: ver_uHDiwtcx3htjajvEaeMjPQcE
+                  sessions:
+                    data: []
+                  documents:
+                    data: []
+                  selfies:
+                    data: []
+              included:
+                - type: inquiry-session
+                  id: iqse_ABC123
+                  attributes:
+                    status: expired
+                    created-at: '2023-07-25T04:15:20.000Z'
+                    started-at: '2023-07-25T05:14:50.000Z'
+                    expired-at: '2023-07-26T05:14:50.000Z'
+                    ip-address: 127.0.0.1
+                    user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36
+                    os-name: Mac
+                    os-full-version: 10.15.7
+                    device-type: desktop
+                    device-name: null
+                    browser-name: Chrome
+                    browser-full-version: 115.0.0.0
+                    mobile-sdk-name: null
+                    mobile-sdk-full-version: null
+                    device-handoff-method: null
+                    is-proxy: false
+                    is-tor: false
+                    is-datacenter: false
+                    threat-level: low
+                    country-code: US
+                    country-name: United States
+                    region-code: CA
+                    region-name: California
+                    latitude: 37.7688
+                    longitude: -122.262
+                  relationships:
+                    inquiry:
+                      data:
+                        type: inquiry
+                        id: inq_ABC123
+                - type: inquiry-template
+                  id: itmpl_ABC123
+                  attributes:
+                    status: active
+                    name: Twilio Desktop
+                  relationships:
+                    latest-published-version:
+                      data:
+                        type: inquiry-template-version
+                        id: itmplv_ABC123
+            created-at: '2024-02-15T23:48:17.732Z'
+    InquiryTransitionedWebhookBody:
+      value:
+        data:
+          type: event
+          id: evt_o9byQRbjygu76Jbtea9wuJ1boP7a
+          attributes:
+            name: inquiry.transitioned
+            payload:
+              data:
+                type: inquiry
+                id: inq_zEx4jL84ShbUyuwX6AzPSqt6
+                attributes:
+                  status: pending
+                  reference-id: abc-123
+                  note: null
+                  behaviors:
+                    request-spoof-attempts: 0
+                    user-agent-spoof-attempts: 0
+                    distraction-events: 0
+                    hesitation-baseline: 29677
+                    hesitation-count: 3
+                    hesitation-time: 28752
+                    shortcut-copies: 0
+                    shortcut-pastes: 0
+                    autofill-cancels: 0
+                    autofill-starts: 0
+                    devtools-open: false
+                    completion-time: 40.172463903
+                    hesitation-percentage: 96.88310813087575
+                    behavior-threat-level: low
+                  tags: []
+                  creator: creator@withpersona.com
+                  reviewer-comment: null
+                  created-at: '2023-03-29T19:06:45.000Z'
+                  started-at: '2023-03-30T19:07:01.000Z'
+                  completed-at: null
+                  failed-at: null
+                  marked-for-review-at: null
+                  decisioned-at: null
+                  expired-at: null
+                  redacted-at: null
+                  previous-step-name: start
+                  next-step-name: verification_document
+                  name-first: Jane
+                  name-middle: Marie
+                  name-last: Doe
+                  birthdate: '1995-09-08'
+                  address-street-1: 123 Main St
+                  address-street-2: null
+                  address-city: San Francisco
+                  address-subdivision: California
+                  address-subdivision-abbr: CA
+                  address-postal-code: '94111'
+                  address-postal-code-abbr: '94111'
+                  social-security-number: null
+                  identification-number: null
+                  email-address: jane@doe.com
+                  phone-number: null
+                  fields:
+                    name-first:
+                      type: string
+                      value: Jane
+                    name-middle:
+                      type: string
+                      value: Marie
+                    name-last:
+                      type: string
+                      value: Doe
+                    address-street-1:
+                      type: string
+                      value: 123 Main St
+                    address-street-2:
+                      type: string
+                      value: null
+                    address-city:
+                      type: string
+                      value: San Francisco
+                    address-subdivision:
+                      type: string
+                      value: California
+                    address-postal-code:
+                      type: string
+                      value: '94111'
+                    address-country-code:
+                      type: string
+                      value: US
+                    birthdate:
+                      type: date
+                      value: '1995-09-08'
+                    email-address:
+                      type: string
+                      value: jane@doe.com
+                    phone-number:
+                      type: string
+                      value: null
+                    identification-number:
+                      type: string
+                      value: null
+                relationships:
+                  account:
+                    data:
+                      type: account
+                      id: act_n2uq9eKMboaCQzu9ALWYcVdN
+                  template:
+                    data: {}
+                  inquiry-template:
+                    data:
+                      type: inquiry-template
+                      id: itmpl_p8ANAJy9iqadm2buF2xcVgqH
+                  inquiry-template-version:
+                    data:
+                      type: inquiry-template-version
+                      id: itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo
+                  reviewer:
+                    data: {}
+                  reports:
+                    data: []
+                  verifications:
+                    data:
+                      - type: verification/database
+                        id: ver_uHDiwtcx3htjajvEaeMjPQcE
+                  sessions:
+                    data: []
+                  documents:
+                    data: []
+                  selfies:
+                    data: []
+              included:
+                - type: inquiry-session
+                  id: iqse_ABC123
+                  attributes:
+                    status: expired
+                    created-at: '2023-07-25T04:15:20.000Z'
+                    started-at: '2023-07-25T05:14:50.000Z'
+                    expired-at: '2023-07-26T05:14:50.000Z'
+                    ip-address: 127.0.0.1
+                    user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36
+                    os-name: Mac
+                    os-full-version: 10.15.7
+                    device-type: desktop
+                    device-name: null
+                    browser-name: Chrome
+                    browser-full-version: 115.0.0.0
+                    mobile-sdk-name: null
+                    mobile-sdk-full-version: null
+                    device-handoff-method: null
+                    is-proxy: false
+                    is-tor: false
+                    is-datacenter: false
+                    threat-level: low
+                    country-code: US
+                    country-name: United States
+                    region-code: CA
+                    region-name: California
+                    latitude: 37.7688
+                    longitude: -122.262
+                  relationships:
+                    inquiry:
+                      data:
+                        type: inquiry
+                        id: inq_ABC123
+                - type: inquiry-template
+                  id: itmpl_ABC123
+                  attributes:
+                    status: active
+                    name: Twilio Desktop
+                  relationships:
+                    latest-published-version:
+                      data:
+                        type: inquiry-template-version
+                        id: itmplv_ABC123
             created-at: '2024-02-15T23:48:17.732Z'
   requestBodies:
     ApiKeyRequest:
