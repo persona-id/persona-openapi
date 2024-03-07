@@ -1,0 +1,44 @@
+post:
+  operationId: webhook-account-created
+  summary: Account created
+  description: >-
+    Webhook for the `account.created` event. For more info see [Webhooks
+    Overview](https://docs.withpersona.com/docs/webhooks).
+  tags:
+    - 'Webhooks: Account events'
+  parameters:
+    - $ref: ../components/parameters/PersonaSignatureHeader.yaml
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            data:
+              type: object
+              properties: {}
+              allOf:
+                - $ref: ../components/schemas/WebhookBodyBaseData.yaml
+                - type: object
+                  properties:
+                    attributes:
+                      properties: {}
+                      allOf:
+                        - type: object
+                          properties:
+                            name:
+                              type: string
+                              const: account.created
+                              description: account.created
+                            payload:
+                              type: object
+                              properties:
+                                data:
+                                  $ref: ../components/schemas/Account.yaml
+                        - $ref: ../components/schemas/WebhookBodyBaseAttributes.yaml
+        examples:
+          Example Body:
+            $ref: ../components/examples/AccountCreatedWebhookBody.yaml
+  responses:
+    '200':
+      $ref: ../components/responses/Success.yaml

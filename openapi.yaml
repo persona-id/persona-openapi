@@ -69,7 +69,7 @@ tags:
   - name: Selfie Verifications
     description: Interact with Selfie Verifications
   - name: Webhooks
-    description: Interact with Webhooks
+    description: Interact with Webhooks via API
   - name: Workflows
     description: Interact with Persona Workflow objects
 externalDocs:
@@ -334,6 +334,21 @@ paths:
     $ref: paths/webhooks_{webhook-id}_rotate_secret.yaml
   /workflows/{workflow-id}/trigger:
     $ref: paths/workflows_{workflow-id}_trigger.yaml
+webhooks:
+  account.created:
+    $ref: webhooks/account.created.yaml
+  account.redacted:
+    $ref: webhooks/account.redacted.yaml
+  account.archived:
+    $ref: webhooks/account.archived.yaml
+  account.restored:
+    $ref: webhooks/account.restored.yaml
+  account.consolidated:
+    $ref: webhooks/account.consolidated.yaml
+  account.tag-added:
+    $ref: webhooks/account.tag-added.yaml
+  account.tag-removed:
+    $ref: webhooks/account.tag-removed.yaml
 components:
   securitySchemes:
     bearerAuth:

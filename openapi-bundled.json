@@ -134,7 +134,7 @@
     },
     {
       "name": "Webhooks",
-      "description": "Interact with Webhooks"
+      "description": "Interact with Webhooks via API"
     },
     {
       "name": "Workflows",
@@ -7293,13 +7293,6 @@
                           },
                           "fields": {
                             "$ref": "#/components/schemas/InquiryFields"
-                          },
-                          "tags": {
-                            "description": "A list of tag names that are associated to an Inquiry.",
-                            "items": {
-                              "type": "string"
-                            },
-                            "type": "array"
                           }
                         },
                         "type": "object"
@@ -7621,13 +7614,6 @@
                           },
                           "fields": {
                             "$ref": "#/components/schemas/InquiryFields"
-                          },
-                          "tags": {
-                            "description": "A list of tag names that are associated to an Inquiry.",
-                            "items": {
-                              "type": "string"
-                            },
-                            "type": "array"
                           }
                         },
                         "type": "object"
@@ -20265,6 +20251,540 @@
       }
     }
   },
+  "webhooks": {
+    "account.created": {
+      "post": {
+        "operationId": "webhook-account-created",
+        "summary": "Account created",
+        "description": "Webhook for the `account.created` event. For more info see [Webhooks Overview](https://docs.withpersona.com/docs/webhooks).",
+        "tags": [
+          "Webhooks: Account events"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/PersonaSignatureHeader"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {},
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/WebhookBodyBaseData"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "attributes": {
+                            "properties": {},
+                            "allOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "const": "account.created",
+                                    "description": "account.created"
+                                  },
+                                  "payload": {
+                                    "type": "object",
+                                    "properties": {
+                                      "data": {
+                                        "$ref": "#/components/schemas/Account"
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "$ref": "#/components/schemas/WebhookBodyBaseAttributes"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Example Body": {
+                  "$ref": "#/components/examples/AccountCreatedWebhookBody"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Success"
+          }
+        }
+      }
+    },
+    "account.redacted": {
+      "post": {
+        "operationId": "webhook-account-redacted",
+        "summary": "Account redacted",
+        "description": "Webhook for the `account.redacted` event. For more info see [Webhooks Overview](https://docs.withpersona.com/docs/webhooks).",
+        "tags": [
+          "Webhooks: Account events"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/PersonaSignatureHeader"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {},
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/WebhookBodyBaseData"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "attributes": {
+                            "properties": {},
+                            "allOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "const": "account.redacted",
+                                    "description": "account.redacted"
+                                  },
+                                  "payload": {
+                                    "type": "object",
+                                    "properties": {
+                                      "data": {
+                                        "$ref": "#/components/schemas/Account"
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "$ref": "#/components/schemas/WebhookBodyBaseAttributes"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Example Body": {
+                  "$ref": "#/components/examples/AccountRedactedWebhookBody"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Success"
+          }
+        }
+      }
+    },
+    "account.archived": {
+      "post": {
+        "operationId": "webhook-account-archived",
+        "summary": "Account archived",
+        "description": "Webhook for the `account.archived` event. For more info see [Webhooks Overview](https://docs.withpersona.com/docs/webhooks).",
+        "tags": [
+          "Webhooks: Account events"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/PersonaSignatureHeader"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {},
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/WebhookBodyBaseData"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "attributes": {
+                            "properties": {},
+                            "allOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "const": "account.archived",
+                                    "description": "account.archived"
+                                  },
+                                  "payload": {
+                                    "type": "object",
+                                    "properties": {
+                                      "data": {
+                                        "$ref": "#/components/schemas/Account"
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "$ref": "#/components/schemas/WebhookBodyBaseAttributes"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Example Body": {
+                  "$ref": "#/components/examples/AccountArchivedWebhookBody"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Success"
+          }
+        }
+      }
+    },
+    "account.restored": {
+      "post": {
+        "operationId": "webhook-account-restored",
+        "summary": "Account restored",
+        "description": "Webhook for the `account.restored` event. For more info see [Webhooks Overview](https://docs.withpersona.com/docs/webhooks).",
+        "tags": [
+          "Webhooks: Account events"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/PersonaSignatureHeader"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {},
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/WebhookBodyBaseData"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "attributes": {
+                            "properties": {},
+                            "allOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "const": "account.restored",
+                                    "description": "account.restored"
+                                  },
+                                  "payload": {
+                                    "type": "object",
+                                    "properties": {
+                                      "data": {
+                                        "$ref": "#/components/schemas/Account"
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "$ref": "#/components/schemas/WebhookBodyBaseAttributes"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Example Body": {
+                  "$ref": "#/components/examples/AccountRestoredWebhookBody"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Success"
+          }
+        }
+      }
+    },
+    "account.consolidated": {
+      "post": {
+        "operationId": "webhook-account-consolidated",
+        "summary": "Account consolidated",
+        "description": "Webhook for the `account.consolidated` event. For more info see [Webhooks Overview](https://docs.withpersona.com/docs/webhooks).",
+        "tags": [
+          "Webhooks: Account events"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/PersonaSignatureHeader"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {},
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/WebhookBodyBaseData"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "attributes": {
+                            "properties": {},
+                            "allOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "const": "account.consolidated",
+                                    "description": "account.consolidated"
+                                  },
+                                  "payload": {
+                                    "type": "object",
+                                    "properties": {
+                                      "data": {
+                                        "$ref": "#/components/schemas/Account"
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "$ref": "#/components/schemas/WebhookBodyBaseAttributes"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Example Body": {
+                  "$ref": "#/components/examples/AccountConsolidatedWebhookBody"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Success"
+          }
+        }
+      }
+    },
+    "account.tag-added": {
+      "post": {
+        "operationId": "webhook-account-tag-added",
+        "summary": "Account tag added",
+        "description": "Webhook for the `account.tag-added` event. For more info see [Webhooks Overview](https://docs.withpersona.com/docs/webhooks).",
+        "tags": [
+          "Webhooks: Account events"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/PersonaSignatureHeader"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {},
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/WebhookBodyBaseData"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "attributes": {
+                            "properties": {},
+                            "allOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "const": "account.tag-added",
+                                    "description": "account.tag-added"
+                                  },
+                                  "payload": {
+                                    "type": "object",
+                                    "properties": {
+                                      "data": {
+                                        "$ref": "#/components/schemas/Account"
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "$ref": "#/components/schemas/WebhookBodyBaseAttributes"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Example Body": {
+                  "$ref": "#/components/examples/AccountTagAddedWebhookBody"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Success"
+          }
+        }
+      }
+    },
+    "account.tag-removed": {
+      "post": {
+        "operationId": "webhook-account-tag-removed",
+        "summary": "Account tag removed",
+        "description": "Webhook for the `account.tag-removed` event. For more info see [Webhooks Overview](https://docs.withpersona.com/docs/webhooks).",
+        "tags": [
+          "Webhooks: Account events"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/PersonaSignatureHeader"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {},
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/WebhookBodyBaseData"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "attributes": {
+                            "properties": {},
+                            "allOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "const": "account.tag-removed",
+                                    "description": "account.tag-removed"
+                                  },
+                                  "payload": {
+                                    "type": "object",
+                                    "properties": {
+                                      "data": {
+                                        "$ref": "#/components/schemas/Account"
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "$ref": "#/components/schemas/WebhookBodyBaseAttributes"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Example Body": {
+                  "$ref": "#/components/examples/AccountTagRemovedWebhookBody"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Success"
+          }
+        }
+      }
+    }
+  },
   "components": {
     "securitySchemes": {
       "bearerAuth": {
@@ -20317,6 +20837,17 @@
             "selfie.inquiry",
             "verifications",
             "verifications,selfie.inquiry,template"
+          ]
+        }
+      },
+      "PersonaSignatureHeader": {
+        "name": "Persona-Signature",
+        "in": "header",
+        "description": "Header. An HMAC that you should use to check that requests are authentic. Compare this value with your own digest, computed from the request body and your webhook secret. For more info see [Webhook Best Practices](https://docs.withpersona.com/docs/webhooks-best-practices).",
+        "schema": {
+          "type": "string",
+          "examples": [
+            "t=1709686052,v1=n3ulUDfqGSkzarlvyeg2oZe3qx3sQjbSno5s7Icx4dy8CbTPqu8xvQ5ZyEJy"
           ]
         }
       }
@@ -20581,13 +21112,16 @@
                                   "type": {
                                     "type": "string",
                                     "examples": [
-                                      "Jane"
+                                      "string"
                                     ]
                                   },
                                   "value": {
                                     "type": [
                                       "string",
                                       "null"
+                                    ],
+                                    "examples": [
+                                      "Jane"
                                     ]
                                   }
                                 }
@@ -20598,13 +21132,16 @@
                                   "type": {
                                     "type": "string",
                                     "examples": [
-                                      "Marie"
+                                      "string"
                                     ]
                                   },
                                   "value": {
                                     "type": [
                                       "string",
                                       "null"
+                                    ],
+                                    "examples": [
+                                      "Marie"
                                     ]
                                   }
                                 }
@@ -20615,13 +21152,16 @@
                                   "type": {
                                     "type": "string",
                                     "examples": [
-                                      "Doe"
+                                      "string"
                                     ]
                                   },
                                   "value": {
                                     "type": [
                                       "string",
                                       "null"
+                                    ],
+                                    "examples": [
+                                      "Doe"
                                     ]
                                   }
                                 }
@@ -29009,7 +29549,6 @@
                 "account.consolidated",
                 "account.tag-added",
                 "account.tag-removed",
-                "account-property.redacted",
                 "case.created",
                 "case.assigned",
                 "case.resolved",
@@ -29241,6 +29780,36 @@
                 ]
               }
             }
+          }
+        }
+      },
+      "WebhookBodyBaseData": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "event",
+            "description": "event"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for this Event. Starts with `evt_`.",
+            "examples": [
+              "evt_ABC123"
+            ]
+          }
+        }
+      },
+      "WebhookBodyBaseAttributes": {
+        "type": "object",
+        "properties": {
+          "created-at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Datetime when the event was created.",
+            "examples": [
+              "2023-09-21T18:29:40.000Z"
+            ]
           }
         }
       }
@@ -29572,6 +30141,9 @@
             }
           }
         }
+      },
+      "Success": {
+        "description": "Return a 2xx status code to indicate that the data was received successfully. Any other status will trigger retries. For more info see [Retry Logic](https://docs.withpersona.com/docs/webhooks#retry-logic)."
       }
     },
     "examples": {
@@ -32746,6 +33318,1322 @@
                 }
               },
               "created-at": "2023-08-17T23:18:13.000Z"
+            }
+          }
+        }
+      },
+      "AccountCreatedWebhookBody": {
+        "value": {
+          "data": {
+            "type": "event",
+            "id": "evt_o9byQRbjygu76Jbtea9wuJ1boP7a",
+            "attributes": {
+              "name": "account.created",
+              "payload": {
+                "data": {
+                  "type": "account",
+                  "id": "act_hpNqyAbEG4HeVjZoBRNCMKkA",
+                  "attributes": {
+                    "reference-id": "abc-123",
+                    "created-at": "2023-09-22T17:13:49.000Z",
+                    "updated-at": "2023-09-23T00:22:19.000Z",
+                    "redacted-at": null,
+                    "fields": {
+                      "name": {
+                        "type": "hash",
+                        "value": {
+                          "first": {
+                            "type": "string",
+                            "value": "Jane"
+                          },
+                          "middle": {
+                            "type": "string",
+                            "value": "Marie"
+                          },
+                          "last": {
+                            "type": "string",
+                            "value": "Doe"
+                          }
+                        }
+                      },
+                      "address": {
+                        "type": "hash",
+                        "value": {
+                          "street_1": {
+                            "type": "string",
+                            "value": "123 Main St"
+                          },
+                          "street_2": {
+                            "type": "string",
+                            "value": null
+                          },
+                          "subdivision": {
+                            "type": "string",
+                            "value": "California"
+                          },
+                          "city": {
+                            "type": "string",
+                            "value": "San Francisco"
+                          },
+                          "postal_code": {
+                            "type": "string",
+                            "value": "94111"
+                          },
+                          "country_code": {
+                            "type": "string",
+                            "value": "US"
+                          }
+                        }
+                      },
+                      "identification_numbers": {
+                        "type": "array",
+                        "value": [
+                          {
+                            "type": "hash",
+                            "value": {
+                              "identification_class": {
+                                "type": "string",
+                                "value": "visa"
+                              },
+                              "identification_number": {
+                                "type": "string",
+                                "value": "12345678"
+                              },
+                              "issuing_country": {
+                                "type": "string",
+                                "value": "US"
+                              }
+                            }
+                          },
+                          {
+                            "type": "hash",
+                            "value": {
+                              "identification_class": {
+                                "type": "string",
+                                "value": "visa"
+                              },
+                              "identification_number": {
+                                "type": "string",
+                                "value": "87654321"
+                              },
+                              "issuing_country": {
+                                "type": "string",
+                                "value": "UK"
+                              }
+                            }
+                          },
+                          {
+                            "type": "hash",
+                            "value": {
+                              "identification_class": {
+                                "type": "string",
+                                "value": "cct"
+                              },
+                              "identification_number": {
+                                "type": "string",
+                                "value": "A12345678"
+                              },
+                              "issuing_country": {
+                                "type": "string",
+                                "value": "AF"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      "birthdate": {
+                        "type": "date",
+                        "value": "1994-12-30"
+                      },
+                      "phone_number": {
+                        "type": "string",
+                        "value": "111-222-3333"
+                      },
+                      "email_address": {
+                        "type": "string",
+                        "value": "jane@doe.com"
+                      },
+                      "selfie_photo": {
+                        "type": "file",
+                        "value": null
+                      }
+                    },
+                    "name-first": "Jane",
+                    "name-middle": "Marie",
+                    "name-last": "Doe",
+                    "phone-number": "111-222-3333",
+                    "email-address": "jane@doe.com",
+                    "address-street-1": "123 Main St",
+                    "address-street-2": null,
+                    "address-city": "San Francisco",
+                    "address-subdivision": "California",
+                    "address-postal-code": "94111",
+                    "country-code": "US",
+                    "birthdate": "1994-12-30",
+                    "social-security-number": "123-45-6789",
+                    "tags": [
+                      "tag1",
+                      "tag2"
+                    ],
+                    "identification-numbers": {
+                      "visa": [
+                        {
+                          "issuing-country": "US",
+                          "identification-class": "visa",
+                          "identification-number": "12345678",
+                          "created-at": "2023-09-23T00:22:09.934Z",
+                          "updated-at": "2023-09-23T00:22:19.900Z"
+                        },
+                        {
+                          "issuing-country": "UK",
+                          "identification-class": "visa",
+                          "identification-number": "87654321",
+                          "created-at": "2023-09-23T00:22:09.934Z",
+                          "updated-at": "2023-09-23T00:22:19.900Z"
+                        }
+                      ],
+                      "cct": [
+                        {
+                          "issuing-country": "AF",
+                          "identification-class": "cct",
+                          "identification-number": "A12345678",
+                          "created-at": "2023-09-23T00:22:19.963Z",
+                          "updated-at": "2023-09-23T00:22:19.963Z"
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              "created-at": "2024-02-15T23:48:17.732Z"
+            }
+          }
+        }
+      },
+      "AccountRedactedWebhookBody": {
+        "value": {
+          "data": {
+            "type": "event",
+            "id": "evt_o9byQRbjygu76Jbtea9wuJ1boP7a",
+            "attributes": {
+              "name": "account.redacted",
+              "payload": {
+                "data": {
+                  "type": "account",
+                  "id": "act_hpNqyAbEG4HeVjZoBRNCMKkA",
+                  "attributes": {
+                    "reference-id": "abc-123",
+                    "created-at": "2023-09-22T17:13:49.000Z",
+                    "updated-at": "2023-09-23T00:22:19.000Z",
+                    "redacted-at": null,
+                    "fields": {
+                      "name": {
+                        "type": "hash",
+                        "value": {
+                          "first": {
+                            "type": "string",
+                            "value": "Jane"
+                          },
+                          "middle": {
+                            "type": "string",
+                            "value": "Marie"
+                          },
+                          "last": {
+                            "type": "string",
+                            "value": "Doe"
+                          }
+                        }
+                      },
+                      "address": {
+                        "type": "hash",
+                        "value": {
+                          "street_1": {
+                            "type": "string",
+                            "value": "123 Main St"
+                          },
+                          "street_2": {
+                            "type": "string",
+                            "value": null
+                          },
+                          "subdivision": {
+                            "type": "string",
+                            "value": "California"
+                          },
+                          "city": {
+                            "type": "string",
+                            "value": "San Francisco"
+                          },
+                          "postal_code": {
+                            "type": "string",
+                            "value": "94111"
+                          },
+                          "country_code": {
+                            "type": "string",
+                            "value": "US"
+                          }
+                        }
+                      },
+                      "identification_numbers": {
+                        "type": "array",
+                        "value": [
+                          {
+                            "type": "hash",
+                            "value": {
+                              "identification_class": {
+                                "type": "string",
+                                "value": "visa"
+                              },
+                              "identification_number": {
+                                "type": "string",
+                                "value": "12345678"
+                              },
+                              "issuing_country": {
+                                "type": "string",
+                                "value": "US"
+                              }
+                            }
+                          },
+                          {
+                            "type": "hash",
+                            "value": {
+                              "identification_class": {
+                                "type": "string",
+                                "value": "visa"
+                              },
+                              "identification_number": {
+                                "type": "string",
+                                "value": "87654321"
+                              },
+                              "issuing_country": {
+                                "type": "string",
+                                "value": "UK"
+                              }
+                            }
+                          },
+                          {
+                            "type": "hash",
+                            "value": {
+                              "identification_class": {
+                                "type": "string",
+                                "value": "cct"
+                              },
+                              "identification_number": {
+                                "type": "string",
+                                "value": "A12345678"
+                              },
+                              "issuing_country": {
+                                "type": "string",
+                                "value": "AF"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      "birthdate": {
+                        "type": "date",
+                        "value": "1994-12-30"
+                      },
+                      "phone_number": {
+                        "type": "string",
+                        "value": "111-222-3333"
+                      },
+                      "email_address": {
+                        "type": "string",
+                        "value": "jane@doe.com"
+                      },
+                      "selfie_photo": {
+                        "type": "file",
+                        "value": null
+                      }
+                    },
+                    "name-first": "Jane",
+                    "name-middle": "Marie",
+                    "name-last": "Doe",
+                    "phone-number": "111-222-3333",
+                    "email-address": "jane@doe.com",
+                    "address-street-1": "123 Main St",
+                    "address-street-2": null,
+                    "address-city": "San Francisco",
+                    "address-subdivision": "California",
+                    "address-postal-code": "94111",
+                    "country-code": "US",
+                    "birthdate": "1994-12-30",
+                    "social-security-number": "123-45-6789",
+                    "tags": [
+                      "tag1",
+                      "tag2"
+                    ],
+                    "identification-numbers": {
+                      "visa": [
+                        {
+                          "issuing-country": "US",
+                          "identification-class": "visa",
+                          "identification-number": "12345678",
+                          "created-at": "2023-09-23T00:22:09.934Z",
+                          "updated-at": "2023-09-23T00:22:19.900Z"
+                        },
+                        {
+                          "issuing-country": "UK",
+                          "identification-class": "visa",
+                          "identification-number": "87654321",
+                          "created-at": "2023-09-23T00:22:09.934Z",
+                          "updated-at": "2023-09-23T00:22:19.900Z"
+                        }
+                      ],
+                      "cct": [
+                        {
+                          "issuing-country": "AF",
+                          "identification-class": "cct",
+                          "identification-number": "A12345678",
+                          "created-at": "2023-09-23T00:22:19.963Z",
+                          "updated-at": "2023-09-23T00:22:19.963Z"
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              "created-at": "2024-02-15T23:48:17.732Z"
+            }
+          }
+        }
+      },
+      "AccountArchivedWebhookBody": {
+        "value": {
+          "data": {
+            "type": "event",
+            "id": "evt_o9byQRbjygu76Jbtea9wuJ1boP7a",
+            "attributes": {
+              "name": "account.archived",
+              "payload": {
+                "data": {
+                  "type": "account",
+                  "id": "act_hpNqyAbEG4HeVjZoBRNCMKkA",
+                  "attributes": {
+                    "reference-id": "abc-123",
+                    "created-at": "2023-09-22T17:13:49.000Z",
+                    "updated-at": "2023-09-23T00:22:19.000Z",
+                    "redacted-at": null,
+                    "fields": {
+                      "name": {
+                        "type": "hash",
+                        "value": {
+                          "first": {
+                            "type": "string",
+                            "value": "Jane"
+                          },
+                          "middle": {
+                            "type": "string",
+                            "value": "Marie"
+                          },
+                          "last": {
+                            "type": "string",
+                            "value": "Doe"
+                          }
+                        }
+                      },
+                      "address": {
+                        "type": "hash",
+                        "value": {
+                          "street_1": {
+                            "type": "string",
+                            "value": "123 Main St"
+                          },
+                          "street_2": {
+                            "type": "string",
+                            "value": null
+                          },
+                          "subdivision": {
+                            "type": "string",
+                            "value": "California"
+                          },
+                          "city": {
+                            "type": "string",
+                            "value": "San Francisco"
+                          },
+                          "postal_code": {
+                            "type": "string",
+                            "value": "94111"
+                          },
+                          "country_code": {
+                            "type": "string",
+                            "value": "US"
+                          }
+                        }
+                      },
+                      "identification_numbers": {
+                        "type": "array",
+                        "value": [
+                          {
+                            "type": "hash",
+                            "value": {
+                              "identification_class": {
+                                "type": "string",
+                                "value": "visa"
+                              },
+                              "identification_number": {
+                                "type": "string",
+                                "value": "12345678"
+                              },
+                              "issuing_country": {
+                                "type": "string",
+                                "value": "US"
+                              }
+                            }
+                          },
+                          {
+                            "type": "hash",
+                            "value": {
+                              "identification_class": {
+                                "type": "string",
+                                "value": "visa"
+                              },
+                              "identification_number": {
+                                "type": "string",
+                                "value": "87654321"
+                              },
+                              "issuing_country": {
+                                "type": "string",
+                                "value": "UK"
+                              }
+                            }
+                          },
+                          {
+                            "type": "hash",
+                            "value": {
+                              "identification_class": {
+                                "type": "string",
+                                "value": "cct"
+                              },
+                              "identification_number": {
+                                "type": "string",
+                                "value": "A12345678"
+                              },
+                              "issuing_country": {
+                                "type": "string",
+                                "value": "AF"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      "birthdate": {
+                        "type": "date",
+                        "value": "1994-12-30"
+                      },
+                      "phone_number": {
+                        "type": "string",
+                        "value": "111-222-3333"
+                      },
+                      "email_address": {
+                        "type": "string",
+                        "value": "jane@doe.com"
+                      },
+                      "selfie_photo": {
+                        "type": "file",
+                        "value": null
+                      }
+                    },
+                    "name-first": "Jane",
+                    "name-middle": "Marie",
+                    "name-last": "Doe",
+                    "phone-number": "111-222-3333",
+                    "email-address": "jane@doe.com",
+                    "address-street-1": "123 Main St",
+                    "address-street-2": null,
+                    "address-city": "San Francisco",
+                    "address-subdivision": "California",
+                    "address-postal-code": "94111",
+                    "country-code": "US",
+                    "birthdate": "1994-12-30",
+                    "social-security-number": "123-45-6789",
+                    "tags": [
+                      "tag1",
+                      "tag2"
+                    ],
+                    "identification-numbers": {
+                      "visa": [
+                        {
+                          "issuing-country": "US",
+                          "identification-class": "visa",
+                          "identification-number": "12345678",
+                          "created-at": "2023-09-23T00:22:09.934Z",
+                          "updated-at": "2023-09-23T00:22:19.900Z"
+                        },
+                        {
+                          "issuing-country": "UK",
+                          "identification-class": "visa",
+                          "identification-number": "87654321",
+                          "created-at": "2023-09-23T00:22:09.934Z",
+                          "updated-at": "2023-09-23T00:22:19.900Z"
+                        }
+                      ],
+                      "cct": [
+                        {
+                          "issuing-country": "AF",
+                          "identification-class": "cct",
+                          "identification-number": "A12345678",
+                          "created-at": "2023-09-23T00:22:19.963Z",
+                          "updated-at": "2023-09-23T00:22:19.963Z"
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              "created-at": "2024-02-15T23:48:17.732Z"
+            }
+          }
+        }
+      },
+      "AccountRestoredWebhookBody": {
+        "value": {
+          "data": {
+            "type": "event",
+            "id": "evt_o9byQRbjygu76Jbtea9wuJ1boP7a",
+            "attributes": {
+              "name": "account.restored",
+              "payload": {
+                "data": {
+                  "type": "account",
+                  "id": "act_hpNqyAbEG4HeVjZoBRNCMKkA",
+                  "attributes": {
+                    "reference-id": "abc-123",
+                    "created-at": "2023-09-22T17:13:49.000Z",
+                    "updated-at": "2023-09-23T00:22:19.000Z",
+                    "redacted-at": null,
+                    "fields": {
+                      "name": {
+                        "type": "hash",
+                        "value": {
+                          "first": {
+                            "type": "string",
+                            "value": "Jane"
+                          },
+                          "middle": {
+                            "type": "string",
+                            "value": "Marie"
+                          },
+                          "last": {
+                            "type": "string",
+                            "value": "Doe"
+                          }
+                        }
+                      },
+                      "address": {
+                        "type": "hash",
+                        "value": {
+                          "street_1": {
+                            "type": "string",
+                            "value": "123 Main St"
+                          },
+                          "street_2": {
+                            "type": "string",
+                            "value": null
+                          },
+                          "subdivision": {
+                            "type": "string",
+                            "value": "California"
+                          },
+                          "city": {
+                            "type": "string",
+                            "value": "San Francisco"
+                          },
+                          "postal_code": {
+                            "type": "string",
+                            "value": "94111"
+                          },
+                          "country_code": {
+                            "type": "string",
+                            "value": "US"
+                          }
+                        }
+                      },
+                      "identification_numbers": {
+                        "type": "array",
+                        "value": [
+                          {
+                            "type": "hash",
+                            "value": {
+                              "identification_class": {
+                                "type": "string",
+                                "value": "visa"
+                              },
+                              "identification_number": {
+                                "type": "string",
+                                "value": "12345678"
+                              },
+                              "issuing_country": {
+                                "type": "string",
+                                "value": "US"
+                              }
+                            }
+                          },
+                          {
+                            "type": "hash",
+                            "value": {
+                              "identification_class": {
+                                "type": "string",
+                                "value": "visa"
+                              },
+                              "identification_number": {
+                                "type": "string",
+                                "value": "87654321"
+                              },
+                              "issuing_country": {
+                                "type": "string",
+                                "value": "UK"
+                              }
+                            }
+                          },
+                          {
+                            "type": "hash",
+                            "value": {
+                              "identification_class": {
+                                "type": "string",
+                                "value": "cct"
+                              },
+                              "identification_number": {
+                                "type": "string",
+                                "value": "A12345678"
+                              },
+                              "issuing_country": {
+                                "type": "string",
+                                "value": "AF"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      "birthdate": {
+                        "type": "date",
+                        "value": "1994-12-30"
+                      },
+                      "phone_number": {
+                        "type": "string",
+                        "value": "111-222-3333"
+                      },
+                      "email_address": {
+                        "type": "string",
+                        "value": "jane@doe.com"
+                      },
+                      "selfie_photo": {
+                        "type": "file",
+                        "value": null
+                      }
+                    },
+                    "name-first": "Jane",
+                    "name-middle": "Marie",
+                    "name-last": "Doe",
+                    "phone-number": "111-222-3333",
+                    "email-address": "jane@doe.com",
+                    "address-street-1": "123 Main St",
+                    "address-street-2": null,
+                    "address-city": "San Francisco",
+                    "address-subdivision": "California",
+                    "address-postal-code": "94111",
+                    "country-code": "US",
+                    "birthdate": "1994-12-30",
+                    "social-security-number": "123-45-6789",
+                    "tags": [
+                      "tag1",
+                      "tag2"
+                    ],
+                    "identification-numbers": {
+                      "visa": [
+                        {
+                          "issuing-country": "US",
+                          "identification-class": "visa",
+                          "identification-number": "12345678",
+                          "created-at": "2023-09-23T00:22:09.934Z",
+                          "updated-at": "2023-09-23T00:22:19.900Z"
+                        },
+                        {
+                          "issuing-country": "UK",
+                          "identification-class": "visa",
+                          "identification-number": "87654321",
+                          "created-at": "2023-09-23T00:22:09.934Z",
+                          "updated-at": "2023-09-23T00:22:19.900Z"
+                        }
+                      ],
+                      "cct": [
+                        {
+                          "issuing-country": "AF",
+                          "identification-class": "cct",
+                          "identification-number": "A12345678",
+                          "created-at": "2023-09-23T00:22:19.963Z",
+                          "updated-at": "2023-09-23T00:22:19.963Z"
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              "created-at": "2024-02-15T23:48:17.732Z"
+            }
+          }
+        }
+      },
+      "AccountConsolidatedWebhookBody": {
+        "value": {
+          "data": {
+            "type": "event",
+            "id": "evt_o9byQRbjygu76Jbtea9wuJ1boP7a",
+            "attributes": {
+              "name": "account.consolidated",
+              "payload": {
+                "data": {
+                  "type": "account",
+                  "id": "act_hpNqyAbEG4HeVjZoBRNCMKkA",
+                  "attributes": {
+                    "reference-id": "abc-123",
+                    "created-at": "2023-09-22T17:13:49.000Z",
+                    "updated-at": "2023-09-23T00:22:19.000Z",
+                    "redacted-at": null,
+                    "fields": {
+                      "name": {
+                        "type": "hash",
+                        "value": {
+                          "first": {
+                            "type": "string",
+                            "value": "Jane"
+                          },
+                          "middle": {
+                            "type": "string",
+                            "value": "Marie"
+                          },
+                          "last": {
+                            "type": "string",
+                            "value": "Doe"
+                          }
+                        }
+                      },
+                      "address": {
+                        "type": "hash",
+                        "value": {
+                          "street_1": {
+                            "type": "string",
+                            "value": "123 Main St"
+                          },
+                          "street_2": {
+                            "type": "string",
+                            "value": null
+                          },
+                          "subdivision": {
+                            "type": "string",
+                            "value": "California"
+                          },
+                          "city": {
+                            "type": "string",
+                            "value": "San Francisco"
+                          },
+                          "postal_code": {
+                            "type": "string",
+                            "value": "94111"
+                          },
+                          "country_code": {
+                            "type": "string",
+                            "value": "US"
+                          }
+                        }
+                      },
+                      "identification_numbers": {
+                        "type": "array",
+                        "value": [
+                          {
+                            "type": "hash",
+                            "value": {
+                              "identification_class": {
+                                "type": "string",
+                                "value": "visa"
+                              },
+                              "identification_number": {
+                                "type": "string",
+                                "value": "12345678"
+                              },
+                              "issuing_country": {
+                                "type": "string",
+                                "value": "US"
+                              }
+                            }
+                          },
+                          {
+                            "type": "hash",
+                            "value": {
+                              "identification_class": {
+                                "type": "string",
+                                "value": "visa"
+                              },
+                              "identification_number": {
+                                "type": "string",
+                                "value": "87654321"
+                              },
+                              "issuing_country": {
+                                "type": "string",
+                                "value": "UK"
+                              }
+                            }
+                          },
+                          {
+                            "type": "hash",
+                            "value": {
+                              "identification_class": {
+                                "type": "string",
+                                "value": "cct"
+                              },
+                              "identification_number": {
+                                "type": "string",
+                                "value": "A12345678"
+                              },
+                              "issuing_country": {
+                                "type": "string",
+                                "value": "AF"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      "birthdate": {
+                        "type": "date",
+                        "value": "1994-12-30"
+                      },
+                      "phone_number": {
+                        "type": "string",
+                        "value": "111-222-3333"
+                      },
+                      "email_address": {
+                        "type": "string",
+                        "value": "jane@doe.com"
+                      },
+                      "selfie_photo": {
+                        "type": "file",
+                        "value": null
+                      }
+                    },
+                    "name-first": "Jane",
+                    "name-middle": "Marie",
+                    "name-last": "Doe",
+                    "phone-number": "111-222-3333",
+                    "email-address": "jane@doe.com",
+                    "address-street-1": "123 Main St",
+                    "address-street-2": null,
+                    "address-city": "San Francisco",
+                    "address-subdivision": "California",
+                    "address-postal-code": "94111",
+                    "country-code": "US",
+                    "birthdate": "1994-12-30",
+                    "social-security-number": "123-45-6789",
+                    "tags": [
+                      "tag1",
+                      "tag2"
+                    ],
+                    "identification-numbers": {
+                      "visa": [
+                        {
+                          "issuing-country": "US",
+                          "identification-class": "visa",
+                          "identification-number": "12345678",
+                          "created-at": "2023-09-23T00:22:09.934Z",
+                          "updated-at": "2023-09-23T00:22:19.900Z"
+                        },
+                        {
+                          "issuing-country": "UK",
+                          "identification-class": "visa",
+                          "identification-number": "87654321",
+                          "created-at": "2023-09-23T00:22:09.934Z",
+                          "updated-at": "2023-09-23T00:22:19.900Z"
+                        }
+                      ],
+                      "cct": [
+                        {
+                          "issuing-country": "AF",
+                          "identification-class": "cct",
+                          "identification-number": "A12345678",
+                          "created-at": "2023-09-23T00:22:19.963Z",
+                          "updated-at": "2023-09-23T00:22:19.963Z"
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              "created-at": "2024-02-15T23:48:17.732Z"
+            }
+          }
+        }
+      },
+      "AccountTagAddedWebhookBody": {
+        "value": {
+          "data": {
+            "type": "event",
+            "id": "evt_o9byQRbjygu76Jbtea9wuJ1boP7a",
+            "attributes": {
+              "name": "account.tag-added",
+              "payload": {
+                "data": {
+                  "type": "account",
+                  "id": "act_hpNqyAbEG4HeVjZoBRNCMKkA",
+                  "attributes": {
+                    "reference-id": "abc-123",
+                    "created-at": "2023-09-22T17:13:49.000Z",
+                    "updated-at": "2023-09-23T00:22:19.000Z",
+                    "redacted-at": null,
+                    "fields": {
+                      "name": {
+                        "type": "hash",
+                        "value": {
+                          "first": {
+                            "type": "string",
+                            "value": "Jane"
+                          },
+                          "middle": {
+                            "type": "string",
+                            "value": "Marie"
+                          },
+                          "last": {
+                            "type": "string",
+                            "value": "Doe"
+                          }
+                        }
+                      },
+                      "address": {
+                        "type": "hash",
+                        "value": {
+                          "street_1": {
+                            "type": "string",
+                            "value": "123 Main St"
+                          },
+                          "street_2": {
+                            "type": "string",
+                            "value": null
+                          },
+                          "subdivision": {
+                            "type": "string",
+                            "value": "California"
+                          },
+                          "city": {
+                            "type": "string",
+                            "value": "San Francisco"
+                          },
+                          "postal_code": {
+                            "type": "string",
+                            "value": "94111"
+                          },
+                          "country_code": {
+                            "type": "string",
+                            "value": "US"
+                          }
+                        }
+                      },
+                      "identification_numbers": {
+                        "type": "array",
+                        "value": [
+                          {
+                            "type": "hash",
+                            "value": {
+                              "identification_class": {
+                                "type": "string",
+                                "value": "visa"
+                              },
+                              "identification_number": {
+                                "type": "string",
+                                "value": "12345678"
+                              },
+                              "issuing_country": {
+                                "type": "string",
+                                "value": "US"
+                              }
+                            }
+                          },
+                          {
+                            "type": "hash",
+                            "value": {
+                              "identification_class": {
+                                "type": "string",
+                                "value": "visa"
+                              },
+                              "identification_number": {
+                                "type": "string",
+                                "value": "87654321"
+                              },
+                              "issuing_country": {
+                                "type": "string",
+                                "value": "UK"
+                              }
+                            }
+                          },
+                          {
+                            "type": "hash",
+                            "value": {
+                              "identification_class": {
+                                "type": "string",
+                                "value": "cct"
+                              },
+                              "identification_number": {
+                                "type": "string",
+                                "value": "A12345678"
+                              },
+                              "issuing_country": {
+                                "type": "string",
+                                "value": "AF"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      "birthdate": {
+                        "type": "date",
+                        "value": "1994-12-30"
+                      },
+                      "phone_number": {
+                        "type": "string",
+                        "value": "111-222-3333"
+                      },
+                      "email_address": {
+                        "type": "string",
+                        "value": "jane@doe.com"
+                      },
+                      "selfie_photo": {
+                        "type": "file",
+                        "value": null
+                      }
+                    },
+                    "name-first": "Jane",
+                    "name-middle": "Marie",
+                    "name-last": "Doe",
+                    "phone-number": "111-222-3333",
+                    "email-address": "jane@doe.com",
+                    "address-street-1": "123 Main St",
+                    "address-street-2": null,
+                    "address-city": "San Francisco",
+                    "address-subdivision": "California",
+                    "address-postal-code": "94111",
+                    "country-code": "US",
+                    "birthdate": "1994-12-30",
+                    "social-security-number": "123-45-6789",
+                    "tags": [
+                      "tag1",
+                      "tag2"
+                    ],
+                    "identification-numbers": {
+                      "visa": [
+                        {
+                          "issuing-country": "US",
+                          "identification-class": "visa",
+                          "identification-number": "12345678",
+                          "created-at": "2023-09-23T00:22:09.934Z",
+                          "updated-at": "2023-09-23T00:22:19.900Z"
+                        },
+                        {
+                          "issuing-country": "UK",
+                          "identification-class": "visa",
+                          "identification-number": "87654321",
+                          "created-at": "2023-09-23T00:22:09.934Z",
+                          "updated-at": "2023-09-23T00:22:19.900Z"
+                        }
+                      ],
+                      "cct": [
+                        {
+                          "issuing-country": "AF",
+                          "identification-class": "cct",
+                          "identification-number": "A12345678",
+                          "created-at": "2023-09-23T00:22:19.963Z",
+                          "updated-at": "2023-09-23T00:22:19.963Z"
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              "created-at": "2024-02-15T23:48:17.732Z"
+            }
+          }
+        }
+      },
+      "AccountTagRemovedWebhookBody": {
+        "value": {
+          "data": {
+            "type": "event",
+            "id": "evt_o9byQRbjygu76Jbtea9wuJ1boP7a",
+            "attributes": {
+              "name": "account.tag-removed",
+              "payload": {
+                "data": {
+                  "type": "account",
+                  "id": "act_hpNqyAbEG4HeVjZoBRNCMKkA",
+                  "attributes": {
+                    "reference-id": "abc-123",
+                    "created-at": "2023-09-22T17:13:49.000Z",
+                    "updated-at": "2023-09-23T00:22:19.000Z",
+                    "redacted-at": null,
+                    "fields": {
+                      "name": {
+                        "type": "hash",
+                        "value": {
+                          "first": {
+                            "type": "string",
+                            "value": "Jane"
+                          },
+                          "middle": {
+                            "type": "string",
+                            "value": "Marie"
+                          },
+                          "last": {
+                            "type": "string",
+                            "value": "Doe"
+                          }
+                        }
+                      },
+                      "address": {
+                        "type": "hash",
+                        "value": {
+                          "street_1": {
+                            "type": "string",
+                            "value": "123 Main St"
+                          },
+                          "street_2": {
+                            "type": "string",
+                            "value": null
+                          },
+                          "subdivision": {
+                            "type": "string",
+                            "value": "California"
+                          },
+                          "city": {
+                            "type": "string",
+                            "value": "San Francisco"
+                          },
+                          "postal_code": {
+                            "type": "string",
+                            "value": "94111"
+                          },
+                          "country_code": {
+                            "type": "string",
+                            "value": "US"
+                          }
+                        }
+                      },
+                      "identification_numbers": {
+                        "type": "array",
+                        "value": [
+                          {
+                            "type": "hash",
+                            "value": {
+                              "identification_class": {
+                                "type": "string",
+                                "value": "visa"
+                              },
+                              "identification_number": {
+                                "type": "string",
+                                "value": "12345678"
+                              },
+                              "issuing_country": {
+                                "type": "string",
+                                "value": "US"
+                              }
+                            }
+                          },
+                          {
+                            "type": "hash",
+                            "value": {
+                              "identification_class": {
+                                "type": "string",
+                                "value": "visa"
+                              },
+                              "identification_number": {
+                                "type": "string",
+                                "value": "87654321"
+                              },
+                              "issuing_country": {
+                                "type": "string",
+                                "value": "UK"
+                              }
+                            }
+                          },
+                          {
+                            "type": "hash",
+                            "value": {
+                              "identification_class": {
+                                "type": "string",
+                                "value": "cct"
+                              },
+                              "identification_number": {
+                                "type": "string",
+                                "value": "A12345678"
+                              },
+                              "issuing_country": {
+                                "type": "string",
+                                "value": "AF"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      "birthdate": {
+                        "type": "date",
+                        "value": "1994-12-30"
+                      },
+                      "phone_number": {
+                        "type": "string",
+                        "value": "111-222-3333"
+                      },
+                      "email_address": {
+                        "type": "string",
+                        "value": "jane@doe.com"
+                      },
+                      "selfie_photo": {
+                        "type": "file",
+                        "value": null
+                      }
+                    },
+                    "name-first": "Jane",
+                    "name-middle": "Marie",
+                    "name-last": "Doe",
+                    "phone-number": "111-222-3333",
+                    "email-address": "jane@doe.com",
+                    "address-street-1": "123 Main St",
+                    "address-street-2": null,
+                    "address-city": "San Francisco",
+                    "address-subdivision": "California",
+                    "address-postal-code": "94111",
+                    "country-code": "US",
+                    "birthdate": "1994-12-30",
+                    "social-security-number": "123-45-6789",
+                    "tags": [
+                      "tag1",
+                      "tag2"
+                    ],
+                    "identification-numbers": {
+                      "visa": [
+                        {
+                          "issuing-country": "US",
+                          "identification-class": "visa",
+                          "identification-number": "12345678",
+                          "created-at": "2023-09-23T00:22:09.934Z",
+                          "updated-at": "2023-09-23T00:22:19.900Z"
+                        },
+                        {
+                          "issuing-country": "UK",
+                          "identification-class": "visa",
+                          "identification-number": "87654321",
+                          "created-at": "2023-09-23T00:22:09.934Z",
+                          "updated-at": "2023-09-23T00:22:19.900Z"
+                        }
+                      ],
+                      "cct": [
+                        {
+                          "issuing-country": "AF",
+                          "identification-class": "cct",
+                          "identification-number": "A12345678",
+                          "created-at": "2023-09-23T00:22:19.963Z",
+                          "updated-at": "2023-09-23T00:22:19.963Z"
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              "created-at": "2024-02-15T23:48:17.732Z"
             }
           }
         }
