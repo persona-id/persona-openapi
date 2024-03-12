@@ -27092,6 +27092,7 @@
             "type": "object",
             "properties": {
               "status": {
+                "description": "Possible values:\n- active\n- inactive\n\nDo not assume this is a static enumeration; Persona may add new values in the future without a versioned update.",
                 "examples": [
                   "active"
                 ],
@@ -27108,6 +27109,7 @@
           "relationships": {
             "properties": {
               "latest-published-version": {
+                "description": "The latest published template configuration. If no version ID is explicitly specified, the latest published version will be used.",
                 "properties": {
                   "data": {
                     "properties": {
@@ -28315,6 +28317,7 @@
             "type": "object",
             "properties": {
               "status": {
+                "description": "Possible values:\n- new\n- active\n- expired\n\nDo not assume this is a static enumeration; Persona may add new values in the future without a versioned update.",
                 "type": "string",
                 "examples": [
                   "expired"
@@ -29224,12 +29227,25 @@
         "type": "object",
         "properties": {
           "account-id": {
+            "description": "Account ID to associate with this Report.",
+            "examples": [
+              "act_ABC123"
+            ],
             "type": "string"
           },
           "reference-id": {
+            "description": "Reference ID to refer to an entity in your user model. This field is deprecated in favor of `meta.auto-create-account-reference-id`.",
+            "deprecated": true,
+            "examples": [
+              "abc-123"
+            ],
             "type": "string"
           },
           "report-template-id": {
+            "description": "ID of Verification Template. Starts with `rptp_`. You can find your Report Template IDs [here](https://app.withpersona.com/dashboard/report-templates).",
+            "examples": [
+              "rptp_abc123"
+            ],
             "type": "string"
           }
         }
@@ -29255,32 +29271,32 @@
                 "properties": {
                   "name-first": {
                     "type": "string",
-                    "description": "The input first name of the search individual",
+                    "description": "The input first name of the search individual.",
                     "example": "Joe"
                   },
                   "name-middle": {
                     "type": "string",
-                    "description": "The input middle name of the search individual",
+                    "description": "The input middle name of the search individual.",
                     "example": "N"
                   },
                   "name-last": {
                     "type": "string",
-                    "description": "The input last name of the search individual",
+                    "description": "The input last name of the search individual.",
                     "example": "Doe"
                   },
                   "term": {
                     "type": "string",
-                    "description": "The input combined term used for searching (first + middle + last name). Either the name or the term fields are required.",
+                    "description": "The input combined term used for searching (first + middle + last name). At least one of name-first, name-middle, name-last, or term is required.",
                     "example": "Joe N Doe"
                   },
                   "birthdate": {
                     "type": "string",
-                    "description": "The input DOB in YYYY-MM-DD format",
+                    "description": "The input DOB in YYYY-MM-DD format.",
                     "example": "1991-10-07"
                   },
-                  "country-code": {
+                  "address-country-code": {
                     "type": "string",
-                    "description": "The input search country in alpha2 format",
+                    "description": "The input search country in alpha2 format.",
                     "example": "US"
                   }
                 }
@@ -29310,11 +29326,14 @@
                 "properties": {
                   "crypto-address": {
                     "type": "string",
-                    "description": "The crypto address to search",
+                    "description": "The crypto address to search.",
                     "example": "1Fz29BQp82pE3vXXcsZoMNQ3KSHfMzfMe3"
                   }
                 }
               }
+            ],
+            "required": [
+              "crypto-address"
             ]
           }
         }
@@ -29340,32 +29359,32 @@
                 "properties": {
                   "name-first": {
                     "type": "string",
-                    "description": "The input first name of the search individual",
+                    "description": "The input first name of the search individual.",
                     "example": "Joe"
                   },
                   "name-middle": {
                     "type": "string",
-                    "description": "The input middle name of the search individual",
+                    "description": "The input middle name of the search individual.",
                     "example": "N"
                   },
                   "name-last": {
                     "type": "string",
-                    "description": "The input last name of the search individual",
+                    "description": "The input last name of the search individual.",
                     "example": "Doe"
                   },
                   "term": {
                     "type": "string",
-                    "description": "The input combined term used for searching (first + middle + last name). Either the name or the term fields are required.",
+                    "description": "The input combined term used for searching (first + middle + last name). At least one of name-first, name-middle, name-last, or term is required.",
                     "example": "Joe N Doe"
                   },
                   "birthdate": {
                     "type": "string",
-                    "description": "The input DOB in YYYY-MM-DD format",
+                    "description": "The input DOB in YYYY-MM-DD format.",
                     "example": "1991-10-07"
                   },
                   "country-code": {
                     "type": "string",
-                    "description": "The input search country in alpha2 format",
+                    "description": "The input search country in alpha2 format.",
                     "example": "US"
                   }
                 }
@@ -29416,9 +29435,19 @@
                   "address-postal-code": {
                     "type": "string",
                     "example": "95014"
+                  },
+                  "address-country-code": {
+                    "type": "string",
+                    "example": "US"
                   }
                 }
               }
+            ],
+            "required": [
+              "address-street-1",
+              "address-city",
+              "address-subdivision",
+              "address-postal-code"
             ]
           }
         }
@@ -29447,32 +29476,32 @@
                     "properties": {
                       "name-first": {
                         "type": "string",
-                        "description": "The input first name of the search individual",
+                        "description": "The input first name of the search individual.",
                         "example": "Joe"
                       },
                       "name-middle": {
                         "type": "string",
-                        "description": "The input middle name of the search individual",
+                        "description": "The input middle name of the search individual.",
                         "example": "N"
                       },
                       "name-last": {
                         "type": "string",
-                        "description": "The input last name of the search individual",
+                        "description": "The input last name of the search individual.",
                         "example": "Doe"
                       },
                       "term": {
                         "type": "string",
-                        "description": "The input combined term used for searching (first + middle + last name). Either the name or the term fields are required.",
+                        "description": "The input combined term used for searching (first + middle + last name). At least one of name-first, name-middle, name-last, or term is required.",
                         "example": "Joe N Doe"
                       },
                       "birthdate": {
                         "type": "string",
-                        "description": "The input DOB in YYYY-MM-DD format",
+                        "description": "The input DOB in YYYY-MM-DD format.",
                         "example": "1991-10-07"
                       },
                       "country-code": {
                         "type": "string",
-                        "description": "The input search country in alpha2 format",
+                        "description": "The input search country in alpha2 format.",
                         "example": "US"
                       }
                     }
@@ -29507,10 +29536,13 @@
                     "properties": {
                       "email-address": {
                         "type": "string",
-                        "description": "The input email address of the search",
+                        "description": "The input email address of the search.",
                         "example": "example@domain.com"
                       }
-                    }
+                    },
+                    "required": [
+                      "email-address"
+                    ]
                   }
                 }
               }
@@ -29539,11 +29571,14 @@
                 "properties": {
                   "phone-number": {
                     "type": "string",
-                    "description": "The input phone number of the search",
+                    "description": "The input phone number of the search.",
                     "example": "+14169671111"
                   }
                 }
               }
+            ],
+            "required": [
+              "phone-number"
             ]
           }
         }
@@ -29673,7 +29708,10 @@
                           "example": "John Doe"
                         }
                       }
-                    }
+                    },
+                    "required": [
+                      "business-name"
+                    ]
                   }
                 }
               }

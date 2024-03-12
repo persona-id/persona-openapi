@@ -17630,6 +17630,12 @@ components:
           type: object
           properties:
             status:
+              description: |-
+                Possible values:
+                - active
+                - inactive
+
+                Do not assume this is a static enumeration; Persona may add new values in the future without a versioned update.
               examples:
                 - active
               type: string
@@ -17640,6 +17646,7 @@ components:
         relationships:
           properties:
             latest-published-version:
+              description: The latest published template configuration. If no version ID is explicitly specified, the latest published version will be used.
               properties:
                 data:
                   properties:
@@ -18482,6 +18489,13 @@ components:
           type: object
           properties:
             status:
+              description: |-
+                Possible values:
+                - new
+                - active
+                - expired
+
+                Do not assume this is a static enumeration; Persona may add new values in the future without a versioned update.
               type: string
               examples:
                 - expired
@@ -19084,10 +19098,20 @@ components:
       type: object
       properties:
         account-id:
+          description: Account ID to associate with this Report.
+          examples:
+            - act_ABC123
           type: string
         reference-id:
+          description: Reference ID to refer to an entity in your user model. This field is deprecated in favor of `meta.auto-create-account-reference-id`.
+          deprecated: true
+          examples:
+            - abc-123
           type: string
         report-template-id:
+          description: ID of Verification Template. Starts with `rptp_`. You can find your Report Template IDs [here](https://app.withpersona.com/dashboard/report-templates).
+          examples:
+            - rptp_abc123
           type: string
     ReportWatchlistRequest:
       title: Watchlist Request
@@ -19106,27 +19130,27 @@ components:
               properties:
                 name-first:
                   type: string
-                  description: The input first name of the search individual
+                  description: The input first name of the search individual.
                   example: Joe
                 name-middle:
                   type: string
-                  description: The input middle name of the search individual
+                  description: The input middle name of the search individual.
                   example: 'N'
                 name-last:
                   type: string
-                  description: The input last name of the search individual
+                  description: The input last name of the search individual.
                   example: Doe
                 term:
                   type: string
-                  description: The input combined term used for searching (first + middle + last name). Either the name or the term fields are required.
+                  description: The input combined term used for searching (first + middle + last name). At least one of name-first, name-middle, name-last, or term is required.
                   example: Joe N Doe
                 birthdate:
                   type: string
-                  description: The input DOB in YYYY-MM-DD format
+                  description: The input DOB in YYYY-MM-DD format.
                   example: '1991-10-07'
-                country-code:
+                address-country-code:
                   type: string
-                  description: The input search country in alpha2 format
+                  description: The input search country in alpha2 format.
                   example: US
     ReportCryptoAddressWatchlistRequest:
       title: Crypto Address Watchlist Request
@@ -19145,8 +19169,10 @@ components:
               properties:
                 crypto-address:
                   type: string
-                  description: The crypto address to search
+                  description: The crypto address to search.
                   example: 1Fz29BQp82pE3vXXcsZoMNQ3KSHfMzfMe3
+          required:
+            - crypto-address
     ReportAdverseMediaRequest:
       title: Adverse Media Request
       description: Fields required to create an Adverse Media Report
@@ -19164,27 +19190,27 @@ components:
               properties:
                 name-first:
                   type: string
-                  description: The input first name of the search individual
+                  description: The input first name of the search individual.
                   example: Joe
                 name-middle:
                   type: string
-                  description: The input middle name of the search individual
+                  description: The input middle name of the search individual.
                   example: 'N'
                 name-last:
                   type: string
-                  description: The input last name of the search individual
+                  description: The input last name of the search individual.
                   example: Doe
                 term:
                   type: string
-                  description: The input combined term used for searching (first + middle + last name). Either the name or the term fields are required.
+                  description: The input combined term used for searching (first + middle + last name). At least one of name-first, name-middle, name-last, or term is required.
                   example: Joe N Doe
                 birthdate:
                   type: string
-                  description: The input DOB in YYYY-MM-DD format
+                  description: The input DOB in YYYY-MM-DD format.
                   example: '1991-10-07'
                 country-code:
                   type: string
-                  description: The input search country in alpha2 format
+                  description: The input search country in alpha2 format.
                   example: US
     ReportAddressLookupRequest:
       title: Address Lookup Request
@@ -19219,6 +19245,14 @@ components:
                 address-postal-code:
                   type: string
                   example: '95014'
+                address-country-code:
+                  type: string
+                  example: US
+          required:
+            - address-street-1
+            - address-city
+            - address-subdivision
+            - address-postal-code
     ReportPoliticallyExposedPersonRequest:
       title: Politically Exposed Person Request
       description: Fields required to create a Politically Exposed Person Report
@@ -19239,27 +19273,27 @@ components:
                   properties:
                     name-first:
                       type: string
-                      description: The input first name of the search individual
+                      description: The input first name of the search individual.
                       example: Joe
                     name-middle:
                       type: string
-                      description: The input middle name of the search individual
+                      description: The input middle name of the search individual.
                       example: 'N'
                     name-last:
                       type: string
-                      description: The input last name of the search individual
+                      description: The input last name of the search individual.
                       example: Doe
                     term:
                       type: string
-                      description: The input combined term used for searching (first + middle + last name). Either the name or the term fields are required.
+                      description: The input combined term used for searching (first + middle + last name). At least one of name-first, name-middle, name-last, or term is required.
                       example: Joe N Doe
                     birthdate:
                       type: string
-                      description: The input DOB in YYYY-MM-DD format
+                      description: The input DOB in YYYY-MM-DD format.
                       example: '1991-10-07'
                     country-code:
                       type: string
-                      description: The input search country in alpha2 format
+                      description: The input search country in alpha2 format.
                       example: US
     ReportEmailAddressRequest:
       title: Email Address Request
@@ -19281,8 +19315,10 @@ components:
                   properties:
                     email-address:
                       type: string
-                      description: The input email address of the search
+                      description: The input email address of the search.
                       example: example@domain.com
+                  required:
+                    - email-address
     ReportPhoneRiskRequest:
       title: Phone Risk Request
       description: Fields required to create a Phone Risk Report
@@ -19300,8 +19336,10 @@ components:
               properties:
                 phone-number:
                   type: string
-                  description: The input phone number of the search
+                  description: The input phone number of the search.
                   example: '+14169671111'
+          required:
+            - phone-number
     ReportSocialMediaRequest:
       title: Social Media Request
       description: Fields required to create a Social Media Report
@@ -19393,6 +19431,8 @@ components:
                       items:
                         type: string
                         example: John Doe
+                  required:
+                    - business-name
     ReportSentilinkScoresRequest:
       title: SentiLink Scores Request
       description: Fields required to create a SentiLink Scores Report
