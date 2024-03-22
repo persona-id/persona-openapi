@@ -4,10 +4,10 @@ delete:
     redacted individually. **This action cannot be undone**.
   operationId: redact-a-case
   parameters:
-    - $ref: ../components/parameters/keyInflectionHeader.yaml
-    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
-    - $ref: ../components/parameters/personaVersionHeader.yaml
-    - $ref: ../components/parameters/includeQueryParameter.yaml
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
     - name: case-id
       in: path
       required: true
@@ -200,40 +200,40 @@ delete:
           schema:
             properties:
               data:
-                $ref: ../components/schemas/Case.yaml
+                $ref: ../components/schemas/case.yaml
               included:
                 type: array
                 items:
                   discriminator:
                     propertyName: type
                     mapping:
-                      inquiry: ../components/schemas/Inquiry.yaml
-                      account: ../components/schemas/Account.yaml
-                      case-comment: ../components/schemas/CaseComment.yaml
-                      report: ../components/schemas/Report.yaml
-                      verification: ../components/schemas/Verification.yaml
+                      inquiry: ../components/schemas/inquiry.yaml
+                      account: ../components/schemas/account.yaml
+                      case-comment: ../components/schemas/case-comment.yaml
+                      report: ../components/schemas/report.yaml
+                      verification: ../components/schemas/verification.yaml
                   anyOf:
-                    - $ref: ../components/schemas/Account.yaml
-                    - $ref: ../components/schemas/Inquiry.yaml
-                    - $ref: ../components/schemas/CaseComment.yaml
-                    - $ref: ../components/schemas/Report.yaml
-                    - $ref: ../components/schemas/Verification.yaml
+                    - $ref: ../components/schemas/account.yaml
+                    - $ref: ../components/schemas/inquiry.yaml
+                    - $ref: ../components/schemas/case-comment.yaml
+                    - $ref: ../components/schemas/report.yaml
+                    - $ref: ../components/schemas/verification.yaml
             type: object
       description: OK
     '400':
-      $ref: ../components/responses/BadRequest.yaml
+      $ref: ../components/responses/bad-request.yaml
     '401':
-      $ref: ../components/responses/Unauthorized.yaml
+      $ref: ../components/responses/unauthorized.yaml
     '403':
-      $ref: ../components/responses/Forbidden.yaml
+      $ref: ../components/responses/forbidden.yaml
     '404':
-      $ref: ../components/responses/NotFound.yaml
+      $ref: ../components/responses/not-found.yaml
     '409':
-      $ref: ../components/responses/Conflict.yaml
+      $ref: ../components/responses/conflict.yaml
     '422':
-      $ref: ../components/responses/UnprocessableEntity.yaml
+      $ref: ../components/responses/unprocessable-entity.yaml
     '429':
-      $ref: ../components/responses/TooManyRequests.yaml
+      $ref: ../components/responses/too-many-requests.yaml
   summary: Redact a Case
   tags:
     - Cases
@@ -244,10 +244,10 @@ get:
     description: Full documentation for this API on the Persona website.
     url: https://docs.withpersona.com/reference/retrieve-case
   parameters:
-    - $ref: ../components/parameters/keyInflectionHeader.yaml
-    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
-    - $ref: ../components/parameters/personaVersionHeader.yaml
-    - $ref: ../components/parameters/includeQueryParameter.yaml
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
     - name: case-id
       in: path
       required: true
@@ -360,36 +360,36 @@ get:
           schema:
             properties:
               data:
-                $ref: ../components/schemas/Case.yaml
+                $ref: ../components/schemas/case.yaml
               included:
                 type: array
                 items:
                   discriminator:
                     propertyName: type
                     mapping:
-                      inquiry: ../components/schemas/Inquiry.yaml
-                      account: ../components/schemas/Account.yaml
-                      case-comment: ../components/schemas/CaseComment.yaml
-                      report: ../components/schemas/Report.yaml
-                      verification: ../components/schemas/Verification.yaml
+                      inquiry: ../components/schemas/inquiry.yaml
+                      account: ../components/schemas/account.yaml
+                      case-comment: ../components/schemas/case-comment.yaml
+                      report: ../components/schemas/report.yaml
+                      verification: ../components/schemas/verification.yaml
                   anyOf:
-                    - $ref: ../components/schemas/Account.yaml
-                    - $ref: ../components/schemas/Inquiry.yaml
-                    - $ref: ../components/schemas/CaseComment.yaml
-                    - $ref: ../components/schemas/Report.yaml
-                    - $ref: ../components/schemas/Verification.yaml
+                    - $ref: ../components/schemas/account.yaml
+                    - $ref: ../components/schemas/inquiry.yaml
+                    - $ref: ../components/schemas/case-comment.yaml
+                    - $ref: ../components/schemas/report.yaml
+                    - $ref: ../components/schemas/verification.yaml
             type: object
       description: OK
     '400':
-      $ref: ../components/responses/BadRequest.yaml
+      $ref: ../components/responses/bad-request.yaml
     '401':
-      $ref: ../components/responses/Unauthorized.yaml
+      $ref: ../components/responses/unauthorized.yaml
     '403':
-      $ref: ../components/responses/Forbidden.yaml
+      $ref: ../components/responses/forbidden.yaml
     '404':
-      $ref: ../components/responses/NotFound.yaml
+      $ref: ../components/responses/not-found.yaml
     '429':
-      $ref: ../components/responses/TooManyRequests.yaml
+      $ref: ../components/responses/too-many-requests.yaml
   summary: Retrieve a Case
   tags:
     - Cases
@@ -399,10 +399,10 @@ patch:
     previously created.
   operationId: update-a-case
   parameters:
-    - $ref: ../components/parameters/keyInflectionHeader.yaml
-    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
-    - $ref: ../components/parameters/personaVersionHeader.yaml
-    - $ref: ../components/parameters/includeQueryParameter.yaml
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
     - description: ID of the case to update
       in: path
       name: case-id
@@ -510,38 +510,38 @@ patch:
           schema:
             properties:
               data:
-                $ref: ../components/schemas/Case.yaml
+                $ref: ../components/schemas/case.yaml
               included:
                 type: array
                 items:
                   discriminator:
                     propertyName: type
                     mapping:
-                      inquiry: ../components/schemas/Inquiry.yaml
-                      account: ../components/schemas/Account.yaml
-                      case-comment: ../components/schemas/CaseComment.yaml
-                      report: ../components/schemas/Report.yaml
+                      inquiry: ../components/schemas/inquiry.yaml
+                      account: ../components/schemas/account.yaml
+                      case-comment: ../components/schemas/case-comment.yaml
+                      report: ../components/schemas/report.yaml
                   anyOf:
-                    - $ref: ../components/schemas/Account.yaml
-                    - $ref: ../components/schemas/Inquiry.yaml
-                    - $ref: ../components/schemas/CaseComment.yaml
-                    - $ref: ../components/schemas/Report.yaml
+                    - $ref: ../components/schemas/account.yaml
+                    - $ref: ../components/schemas/inquiry.yaml
+                    - $ref: ../components/schemas/case-comment.yaml
+                    - $ref: ../components/schemas/report.yaml
             type: object
       description: OK
     '400':
-      $ref: ../components/responses/BadRequest.yaml
+      $ref: ../components/responses/bad-request.yaml
     '401':
-      $ref: ../components/responses/Unauthorized.yaml
+      $ref: ../components/responses/unauthorized.yaml
     '403':
-      $ref: ../components/responses/Forbidden.yaml
+      $ref: ../components/responses/forbidden.yaml
     '404':
-      $ref: ../components/responses/NotFound.yaml
+      $ref: ../components/responses/not-found.yaml
     '409':
-      $ref: ../components/responses/Conflict.yaml
+      $ref: ../components/responses/conflict.yaml
     '422':
-      $ref: ../components/responses/UnprocessableEntity.yaml
+      $ref: ../components/responses/unprocessable-entity.yaml
     '429':
-      $ref: ../components/responses/TooManyRequests.yaml
+      $ref: ../components/responses/too-many-requests.yaml
   summary: Update a Case
   tags:
     - Cases

@@ -1,0 +1,19 @@
+description: >-
+  Objects that _may_ be returned if specified via the `include` query parameter
+  in the request.
+type: array
+items:
+  discriminator:
+    propertyName: type
+    mapping:
+      inquiry: ./inquiry.yaml
+      inquiry-template: ./inquiry-template.yaml
+      inquiry-template-version: ./inquiry-template-version.yaml
+      template: ./template.yaml
+      document-file: ./document-file.yaml
+  anyOf:
+    - $ref: ./inquiry.yaml
+    - $ref: ./inquiry-template.yaml
+    - $ref: ./inquiry-template-version.yaml
+    - $ref: ./template.yaml
+    - $ref: ./document-file.yaml

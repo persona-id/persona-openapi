@@ -1,0 +1,24 @@
+title: Create Verification Action
+type: object
+properties:
+  type:
+    description: >-
+      The type of simulate action. See [valid
+      actions](https://docs.withpersona.com/docs/integration-testing#creating-verification-with-status).
+    type: string
+    enum:
+      - create_passed_verification
+      - create_failed_verification
+  data:
+    type: object
+    properties:
+      verification-template-id:
+        description: >-
+          The token of the Verification Template. See [supported Verification
+          types](https://docs.withpersona.com/docs/integration-testing#supported-verification-types).
+        type: string
+    required:
+      - verification-template-id
+required:
+  - type
+  - data

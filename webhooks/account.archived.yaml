@@ -7,7 +7,7 @@ post:
   tags:
     - 'Webhooks: Account events'
   parameters:
-    - $ref: ../components/parameters/PersonaSignatureHeader.yaml
+    - $ref: ../components/parameters/persona-signature-header.yaml
   requestBody:
     content:
       application/json:
@@ -18,7 +18,7 @@ post:
               type: object
               properties: {}
               allOf:
-                - $ref: ../components/schemas/WebhookBodyBaseData.yaml
+                - $ref: ../components/schemas/webhook-body-shared-data.yaml
                 - type: object
                   properties:
                     attributes:
@@ -34,11 +34,12 @@ post:
                               type: object
                               properties:
                                 data:
-                                  $ref: ../components/schemas/Account.yaml
-                        - $ref: ../components/schemas/WebhookBodyBaseAttributes.yaml
+                                  $ref: ../components/schemas/account.yaml
+                        - $ref: >-
+                            ../components/schemas/webhook-body-shared-attributes.yaml
         examples:
           Example Body:
             $ref: ../components/examples/AccountArchivedWebhookBody.yaml
   responses:
     '200':
-      $ref: ../components/responses/Success.yaml
+      $ref: ../components/responses/success.yaml

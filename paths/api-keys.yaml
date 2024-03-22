@@ -5,16 +5,16 @@ get:
     description: Full documentation for this API on the Persona website.
     url: https://docs.withpersona.com/reference/list-all-api-keys
   parameters:
-    - $ref: ../components/parameters/keyInflectionHeader.yaml
-    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
-    - $ref: ../components/parameters/personaVersionHeader.yaml
-    - $ref: ../components/parameters/includeQueryParameter.yaml
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
     - in: query
       name: page
       style: deepObject
       schema:
         allOf:
-          - $ref: ../components/schemas/NestedPaginationQueryParams.yaml
+          - $ref: ../components/schemas/nested-pagination-query-params.yaml
           - type: object
             properties:
               after:
@@ -43,7 +43,7 @@ get:
             properties:
               data:
                 items:
-                  $ref: ../components/schemas/ApiKey.yaml
+                  $ref: ../components/schemas/api-key.yaml
                 type: array
                 description: An array of API Keys
               links:
@@ -58,16 +58,16 @@ get:
                       - 'null'
                 type: object
               included:
-                $ref: ../components/schemas/EmptyIncludedResponse.yaml
+                $ref: ../components/schemas/empty-included-objects.yaml
       description: OK
     '400':
-      $ref: ../components/responses/BadRequest.yaml
+      $ref: ../components/responses/bad-request.yaml
     '401':
-      $ref: ../components/responses/Unauthorized.yaml
+      $ref: ../components/responses/unauthorized.yaml
     '403':
-      $ref: ../components/responses/Forbidden.yaml
+      $ref: ../components/responses/forbidden.yaml
     '429':
-      $ref: ../components/responses/TooManyRequests.yaml
+      $ref: ../components/responses/too-many-requests.yaml
   summary: List all API keys
   tags:
     - API Keys
@@ -78,12 +78,12 @@ post:
     description: Full documentation for this API on the Persona website.
     url: https://docs.withpersona.com/reference/create-an-api-key
   parameters:
-    - $ref: ../components/parameters/keyInflectionHeader.yaml
-    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
-    - $ref: ../components/parameters/personaVersionHeader.yaml
-    - $ref: ../components/parameters/includeQueryParameter.yaml
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
   requestBody:
-    $ref: ../components/requestBodies/ApiKeyRequest.yaml
+    $ref: ../components/requestBodies/api-key-request.yaml
   responses:
     '201':
       content:
@@ -96,22 +96,22 @@ post:
             type: object
             properties:
               data:
-                $ref: ../components/schemas/ApiKeyWithValue.yaml
+                $ref: ../components/schemas/api-key-with-value.yaml
               included:
-                $ref: ../components/schemas/EmptyIncludedResponse.yaml
+                $ref: ../components/schemas/empty-included-objects.yaml
       description: Created
     '400':
-      $ref: ../components/responses/BadRequest.yaml
+      $ref: ../components/responses/bad-request.yaml
     '401':
-      $ref: ../components/responses/Unauthorized.yaml
+      $ref: ../components/responses/unauthorized.yaml
     '403':
-      $ref: ../components/responses/Forbidden.yaml
+      $ref: ../components/responses/forbidden.yaml
     '409':
-      $ref: ../components/responses/Conflict.yaml
+      $ref: ../components/responses/conflict.yaml
     '422':
-      $ref: ../components/responses/UnprocessableEntity.yaml
+      $ref: ../components/responses/unprocessable-entity.yaml
     '429':
-      $ref: ../components/responses/TooManyRequests.yaml
+      $ref: ../components/responses/too-many-requests.yaml
   summary: Create an API key
   tags:
     - API Keys

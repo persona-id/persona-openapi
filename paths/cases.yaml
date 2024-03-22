@@ -12,15 +12,15 @@ get:
     description: Full documentation for this API on the Persona website.
     url: https://docs.withpersona.com/reference/list-all-cases
   parameters:
-    - $ref: ../components/parameters/keyInflectionHeader.yaml
-    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
-    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
     - in: query
       name: page
       style: deepObject
       schema:
         allOf:
-          - $ref: ../components/schemas/NestedPaginationQueryParams.yaml
+          - $ref: ../components/schemas/nested-pagination-query-params.yaml
           - type: object
             properties:
               after:
@@ -61,7 +61,7 @@ get:
             examples:
               - rep_ABC123
             type: string
-    - $ref: ../components/parameters/includeQueryParameter.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
   responses:
     '200':
       content:
@@ -120,7 +120,7 @@ get:
             properties:
               data:
                 items:
-                  $ref: ../components/schemas/Case.yaml
+                  $ref: ../components/schemas/case.yaml
                 type: array
                 description: An array of Cases
               links:
@@ -143,13 +143,13 @@ get:
             type: object
       description: OK
     '400':
-      $ref: ../components/responses/BadRequest.yaml
+      $ref: ../components/responses/bad-request.yaml
     '401':
-      $ref: ../components/responses/Unauthorized.yaml
+      $ref: ../components/responses/unauthorized.yaml
     '403':
-      $ref: ../components/responses/Forbidden.yaml
+      $ref: ../components/responses/forbidden.yaml
     '429':
-      $ref: ../components/responses/TooManyRequests.yaml
+      $ref: ../components/responses/too-many-requests.yaml
   summary: List all Cases
   tags:
     - Cases
@@ -160,10 +160,10 @@ post:
     description: Full documentation for this API on the Persona website.
     url: https://docs.withpersona.com/reference/create-a-case
   parameters:
-    - $ref: ../components/parameters/keyInflectionHeader.yaml
-    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
-    - $ref: ../components/parameters/personaVersionHeader.yaml
-    - $ref: ../components/parameters/includeQueryParameter.yaml
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
   requestBody:
     content:
       application/json:
@@ -378,36 +378,36 @@ post:
           schema:
             properties:
               data:
-                $ref: ../components/schemas/Case.yaml
+                $ref: ../components/schemas/case.yaml
               included:
                 type: array
                 items:
                   discriminator:
                     propertyName: type
                     mapping:
-                      inquiry: ../components/schemas/Inquiry.yaml
-                      account: ../components/schemas/Account.yaml
-                      report: ../components/schemas/Report.yaml
+                      inquiry: ../components/schemas/inquiry.yaml
+                      account: ../components/schemas/account.yaml
+                      report: ../components/schemas/report.yaml
                   anyOf:
-                    - $ref: ../components/schemas/Account.yaml
-                    - $ref: ../components/schemas/Inquiry.yaml
-                    - $ref: ../components/schemas/Report.yaml
+                    - $ref: ../components/schemas/account.yaml
+                    - $ref: ../components/schemas/inquiry.yaml
+                    - $ref: ../components/schemas/report.yaml
             type: object
       description: Created
     '400':
-      $ref: ../components/responses/BadRequest.yaml
+      $ref: ../components/responses/bad-request.yaml
     '401':
-      $ref: ../components/responses/Unauthorized.yaml
+      $ref: ../components/responses/unauthorized.yaml
     '403':
-      $ref: ../components/responses/Forbidden.yaml
+      $ref: ../components/responses/forbidden.yaml
     '404':
-      $ref: ../components/responses/NotFound.yaml
+      $ref: ../components/responses/not-found.yaml
     '409':
-      $ref: ../components/responses/Conflict.yaml
+      $ref: ../components/responses/conflict.yaml
     '422':
-      $ref: ../components/responses/UnprocessableEntity.yaml
+      $ref: ../components/responses/unprocessable-entity.yaml
     '429':
-      $ref: ../components/responses/TooManyRequests.yaml
+      $ref: ../components/responses/too-many-requests.yaml
   summary: Create a Case
   tags:
     - Cases

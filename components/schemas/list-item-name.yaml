@@ -1,0 +1,34 @@
+title: Name List Item
+description: A Name List Item
+type: object
+properties:
+  id:
+    description: Unique identifier for this list item. Starts with `lin_`.
+    examples:
+      - lin_soqGRWaUXZct3pCRbjRaXFqz
+    type: string
+  type:
+    const: list-item/name
+    description: list-item/name
+    type: string
+  attributes:
+    properties: {}
+    allOf:
+      - $ref: ./list-item-shared-attributes.yaml
+      - type: object
+        properties:
+          name-first:
+            examples:
+              - Joe
+            type: string
+          name-last:
+            examples:
+              - Imposter
+            type: string
+  relationships:
+    properties:
+      creator:
+        properties:
+          data: {}
+        type: object
+    type: object

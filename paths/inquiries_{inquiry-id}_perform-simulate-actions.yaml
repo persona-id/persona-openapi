@@ -5,10 +5,10 @@ post:
     description: Full documentation for this API on the Persona website.
     url: https://docs.withpersona.com/reference/inquiries-perform-simulate-actions
   parameters:
-    - $ref: ../components/parameters/keyInflectionHeader.yaml
-    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
-    - $ref: ../components/parameters/personaVersionHeader.yaml
-    - $ref: ../components/parameters/includeQueryParameter.yaml
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
     - name: inquiry-id
       in: path
       required: true
@@ -23,27 +23,20 @@ post:
               properties:
                 simulate-actions:
                   items:
-                    properties:
-                      type:
-                        description: >-
-                          The type of simulate action. See [valid
-                          actions](https://docs.withpersona.com/docs/simulate-inquiry-actions).
-                        type: string
-                        enum:
-                          - start_inquiry
-                          - complete_inquiry
-                          - fail_inquiry
-                          - expire_inquiry
-                          - mark_for_review_inquiry
-                          - approve_inquiry
-                          - decline_inquiry
-                    required:
-                      - type
+                    oneOf:
+                      - $ref: ../components/schemas/inquiry-status-action.yaml
+                      - $ref: ../components/schemas/create-verification-action.yaml
                     type: object
-                  examples:
-                    - - type: start_inquiry
-                      - type: complete_inquiry
-                    - - type: decline_inquiry
+                  example:
+                    - type: start_inquiry
+                    - type: create_failed_verification
+                      data:
+                        verification-template-id: vtmpl_CCLT7pvBZM8z5fumdb3QvW5cSrdr
+                    - type: create_passed_verification
+                      data:
+                        verification-template-id: vtmpl_CCLT7pvBZM8z5fumdb3QvW5cSrdr
+                    - type: complete_inquiry
+                    - type: approve_inquiry
                   type: array
               required:
                 - simulate-actions
@@ -62,23 +55,23 @@ post:
           schema:
             properties:
               data:
-                $ref: ../components/schemas/Inquiry.yaml
+                $ref: ../components/schemas/inquiry.yaml
             type: object
       description: OK
     '400':
-      $ref: ../components/responses/BadRequest.yaml
+      $ref: ../components/responses/bad-request.yaml
     '401':
-      $ref: ../components/responses/Unauthorized.yaml
+      $ref: ../components/responses/unauthorized.yaml
     '403':
-      $ref: ../components/responses/Forbidden.yaml
+      $ref: ../components/responses/forbidden.yaml
     '404':
-      $ref: ../components/responses/NotFound.yaml
+      $ref: ../components/responses/not-found.yaml
     '409':
-      $ref: ../components/responses/Conflict.yaml
+      $ref: ../components/responses/conflict.yaml
     '422':
-      $ref: ../components/responses/UnprocessableEntity.yaml
+      $ref: ../components/responses/unprocessable-entity.yaml
     '429':
-      $ref: ../components/responses/TooManyRequests.yaml
+      $ref: ../components/responses/too-many-requests.yaml
   summary: Perform Simulate Actions
   tags:
     - Inquiries

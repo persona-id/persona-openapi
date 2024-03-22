@@ -5,16 +5,16 @@ get:
     description: Full documentation for this API on the Persona website.
     url: https://docs.withpersona.com/reference/list-all-api-logs
   parameters:
-    - $ref: ../components/parameters/keyInflectionHeader.yaml
-    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
-    - $ref: ../components/parameters/personaVersionHeader.yaml
-    - $ref: ../components/parameters/includeQueryParameter.yaml
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
     - in: query
       name: page
       style: deepObject
       schema:
         allOf:
-          - $ref: ../components/schemas/NestedPaginationQueryParams.yaml
+          - $ref: ../components/schemas/nested-pagination-query-params.yaml
           - type: object
             properties:
               after:
@@ -33,7 +33,7 @@ get:
             properties:
               data:
                 items:
-                  $ref: ../components/schemas/ApiLog.yaml
+                  $ref: ../components/schemas/api-log.yaml
                 type: array
                 description: An array of API Logs
               links:
@@ -54,17 +54,17 @@ get:
                       - 'null'
                 type: object
               included:
-                $ref: ../components/schemas/EmptyIncludedResponse.yaml
+                $ref: ../components/schemas/empty-included-objects.yaml
             type: object
       description: OK
     '400':
-      $ref: ../components/responses/BadRequest.yaml
+      $ref: ../components/responses/bad-request.yaml
     '401':
-      $ref: ../components/responses/Unauthorized.yaml
+      $ref: ../components/responses/unauthorized.yaml
     '403':
-      $ref: ../components/responses/Forbidden.yaml
+      $ref: ../components/responses/forbidden.yaml
     '429':
-      $ref: ../components/responses/TooManyRequests.yaml
+      $ref: ../components/responses/too-many-requests.yaml
   summary: List all API Logs
   tags:
     - API Logs

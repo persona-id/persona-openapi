@@ -5,22 +5,22 @@ get:
     description: Full documentation for this API on the Persona website.
     url: https://docs.withpersona.com/reference/list-all-webhooks
   parameters:
-    - $ref: ../components/parameters/keyInflectionHeader.yaml
-    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
-    - $ref: ../components/parameters/personaVersionHeader.yaml
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
     - in: query
       name: page
       style: deepObject
       schema:
         allOf:
-          - $ref: ../components/schemas/NestedPaginationQueryParams.yaml
+          - $ref: ../components/schemas/nested-pagination-query-params.yaml
           - type: object
             properties:
               after:
                 example: wbh_ABC123
               before:
                 example: wbh_ABC123
-    - $ref: ../components/parameters/includeQueryParameter.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
   responses:
     '200':
       content:
@@ -73,7 +73,7 @@ get:
             properties:
               data:
                 items:
-                  $ref: ../components/schemas/Webhook.yaml
+                  $ref: ../components/schemas/webhook.yaml
                 type: array
                 description: An array of Webhooks
               links:
@@ -88,17 +88,17 @@ get:
                       - 'null'
                 type: object
               included:
-                $ref: ../components/schemas/EmptyIncludedResponse.yaml
+                $ref: ../components/schemas/empty-included-objects.yaml
             type: object
       description: OK
     '400':
-      $ref: ../components/responses/BadRequest.yaml
+      $ref: ../components/responses/bad-request.yaml
     '401':
-      $ref: ../components/responses/Unauthorized.yaml
+      $ref: ../components/responses/unauthorized.yaml
     '403':
-      $ref: ../components/responses/Forbidden.yaml
+      $ref: ../components/responses/forbidden.yaml
     '429':
-      $ref: ../components/responses/TooManyRequests.yaml
+      $ref: ../components/responses/too-many-requests.yaml
   summary: List all Webhooks
   tags:
     - Webhooks
@@ -109,12 +109,28 @@ post:
     description: Full documentation for this API on the Persona website.
     url: https://docs.withpersona.com/reference/create-a-webhook
   parameters:
-    - $ref: ../components/parameters/keyInflectionHeader.yaml
-    - $ref: ../components/parameters/idempotencyKeyHeader.yaml
-    - $ref: ../components/parameters/personaVersionHeader.yaml
-    - $ref: ../components/parameters/includeQueryParameter.yaml
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
   requestBody:
-    $ref: ../components/requestBodies/WebhookCreateRequest.yaml
+    content:
+      application/json:
+        schema:
+          properties:
+            data:
+              properties:
+                attributes:
+                  $ref: ../components/schemas/webhook-request-attributes.yaml
+                  required:
+                    - url
+                    - enabled-events
+              required:
+                - attributes
+              type: object
+          required:
+            - data
+          type: object
   responses:
     '201':
       content:
@@ -126,23 +142,23 @@ post:
           schema:
             properties:
               data:
-                $ref: ../components/schemas/WebhookWithSecret.yaml
+                $ref: ../components/schemas/webhook-with-secret.yaml
               included:
-                $ref: ../components/schemas/EmptyIncludedResponse.yaml
+                $ref: ../components/schemas/empty-included-objects.yaml
             type: object
       description: Created
     '400':
-      $ref: ../components/responses/BadRequest.yaml
+      $ref: ../components/responses/bad-request.yaml
     '401':
-      $ref: ../components/responses/Unauthorized.yaml
+      $ref: ../components/responses/unauthorized.yaml
     '403':
-      $ref: ../components/responses/Forbidden.yaml
+      $ref: ../components/responses/forbidden.yaml
     '409':
-      $ref: ../components/responses/Conflict.yaml
+      $ref: ../components/responses/conflict.yaml
     '422':
-      $ref: ../components/responses/UnprocessableEntity.yaml
+      $ref: ../components/responses/unprocessable-entity.yaml
     '429':
-      $ref: ../components/responses/TooManyRequests.yaml
+      $ref: ../components/responses/too-many-requests.yaml
   summary: Create a Webhook
   tags:
     - Webhooks

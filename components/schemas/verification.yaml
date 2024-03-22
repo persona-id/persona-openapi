@@ -1,0 +1,17 @@
+type: object
+discriminator:
+  propertyName: type
+  mapping:
+    verification/aamva: ./verification-aamva.yaml
+    verification/document: ./verification-document.yaml
+    verification/database: ./verification-database.yaml
+    verification/email-address: ./verification-email-address.yaml
+    verification/phone-number: ./verification-phone-number.yaml
+    verification/selfie: ./verification-selfie.yaml
+oneOf:
+  - $ref: ./verification-aamva.yaml
+  - $ref: ./verification-document.yaml
+  - $ref: ./verification-database.yaml
+  - $ref: ./verification-email-address.yaml
+  - $ref: ./verification-phone-number.yaml
+  - $ref: ./verification-selfie.yaml

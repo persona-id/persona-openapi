@@ -1,0 +1,39 @@
+type: object
+properties:
+  type:
+    const: document-file
+    description: document-file
+    type: string
+  id:
+    examples:
+      - docf_5FrMN7NAGgFdGGysCDd7DaBW
+    type: string
+  attributes:
+    type: object
+    properties:
+      name:
+        type:
+          - string
+          - 'null'
+      capture-method:
+        type: string
+        description: >-
+          Possible values:
+
+          - auto
+
+          - manual
+
+          - upload
+
+          - api
+
+          - live
+
+
+          Do not assume this is a static enumeration; Persona may add new values
+          in the future without a versioned update.
+      originals:
+        type: array
+        items:
+          $ref: ./file.yaml
