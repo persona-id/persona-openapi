@@ -7225,21 +7225,30 @@
                             "examples": [
                               "tmpl_ABC123"
                             ],
-                            "type": "string"
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "inquiry-template-id": {
                             "description": "Template ID for flow requirements (use this field if your template ID starts with `itmpl_`). *You must pass in either template-id OR inquiry-template-id OR inquiry-template-version-id*",
                             "examples": [
                               "itmpl_ABC123"
                             ],
-                            "type": "string"
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "inquiry-template-version-id": {
                             "description": "Template Version ID for flow requirements (begins with `itmplv_`). *You must pass in either template-id OR inquiry-template-id OR inquiry-template-version-id*",
                             "examples": [
                               "itmplv_ABC123"
                             ],
-                            "type": "string"
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "reference-id": {
                             "description": "Reference ID to refer to an entity in your user model. This field is deprecated in favor of `meta.auto-create-account-reference-id`.",
@@ -7247,49 +7256,70 @@
                             "examples": [
                               "abc-123"
                             ],
-                            "type": "string"
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "account-id": {
                             "description": "Account ID to associate with this inquiry",
                             "examples": [
                               "act_ABC123"
                             ],
-                            "type": "string"
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "creator-email-address": {
                             "description": "Email of the user creating this inquiry in the organization",
                             "examples": [
                               "creator@withpersona.com"
                             ],
-                            "type": "string"
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "theme-id": {
                             "description": "Theme ID for styling. Only available for Legacy 2.0 Inquiries.",
                             "examples": [
                               "the_ABC123"
                             ],
-                            "type": "string"
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "theme-set-id": {
                             "description": "BETA FEATURE -- Theme Set ID for styling. Only available for Dynamic Flow Inquiries.",
                             "examples": [
                               "theset_ABC123"
                             ],
-                            "type": "string"
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "redirect-uri": {
                             "description": "If using the Hosted flow, redirect to this URL after completion",
                             "examples": [
                               "https://yoururl.com/redirect"
                             ],
-                            "type": "string"
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "note": {
                             "description": "Unstructured field for your custom use",
                             "examples": [
                               "A note about this inquiry"
                             ],
-                            "type": "string"
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "fields": {
                             "$ref": "#/components/schemas/inquiry-fields"
@@ -7586,7 +7616,10 @@
                             "examples": [
                               "A note about this inquiry"
                             ],
-                            "type": "string"
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "fields": {
                             "$ref": "#/components/schemas/inquiry-fields"
@@ -8495,7 +8528,7 @@
                     "properties": {
                       "simulate-actions": {
                         "items": {
-                          "oneOf": [
+                          "anyOf": [
                             {
                               "$ref": "#/components/schemas/inquiry-status-action"
                             },
@@ -19466,6 +19499,15 @@
         "parameters": [
           {
             "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
           }
         ],
         "requestBody": {
@@ -19542,6 +19584,15 @@
         "parameters": [
           {
             "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
           }
         ],
         "requestBody": {
@@ -19618,6 +19669,15 @@
         "parameters": [
           {
             "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
           }
         ],
         "requestBody": {
@@ -19694,6 +19754,15 @@
         "parameters": [
           {
             "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
           }
         ],
         "requestBody": {
@@ -19770,6 +19839,15 @@
         "parameters": [
           {
             "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
           }
         ],
         "requestBody": {
@@ -19846,6 +19924,15 @@
         "parameters": [
           {
             "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
           }
         ],
         "requestBody": {
@@ -19922,6 +20009,15 @@
         "parameters": [
           {
             "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
           }
         ],
         "requestBody": {
@@ -19998,6 +20094,15 @@
         "parameters": [
           {
             "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
           }
         ],
         "requestBody": {
@@ -20078,6 +20183,15 @@
         "parameters": [
           {
             "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
           }
         ],
         "requestBody": {
@@ -20158,6 +20272,15 @@
         "parameters": [
           {
             "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
           }
         ],
         "requestBody": {
@@ -20238,6 +20361,15 @@
         "parameters": [
           {
             "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
           }
         ],
         "requestBody": {
@@ -20318,6 +20450,15 @@
         "parameters": [
           {
             "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
           }
         ],
         "requestBody": {
@@ -20398,6 +20539,15 @@
         "parameters": [
           {
             "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
           }
         ],
         "requestBody": {
@@ -20478,6 +20628,15 @@
         "parameters": [
           {
             "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
           }
         ],
         "requestBody": {
@@ -20558,6 +20717,15 @@
         "parameters": [
           {
             "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
           }
         ],
         "requestBody": {
@@ -20691,6 +20859,39 @@
           "type": "string",
           "examples": [
             "t=1709686052,v1=n3ulUDfqGSkzarlvyeg2oZe3qx3sQjbSno5s7Icx4dy8CbTPqu8xvQ5ZyEJy"
+          ]
+        }
+      },
+      "persona-webhook-attempts-made": {
+        "name": "Persona-Webhook-Attempts-Made",
+        "in": "header",
+        "description": "The number of times that Persona has attempted to deliver this webhook. This value is incremented each time Persona attempts to deliver the webhook, regardless of whether the delivery was successful.",
+        "schema": {
+          "type": "integer",
+          "examples": [
+            2
+          ]
+        }
+      },
+      "persona-webhook-attempts-left": {
+        "name": "Persona-Webhook-Attempts-Left",
+        "in": "header",
+        "description": "The number of times that Persona will attempt to deliver this webhook. This value is decremented each time Persona attempts to deliver the webhook.",
+        "schema": {
+          "type": "integer",
+          "examples": [
+            6
+          ]
+        }
+      },
+      "persona-webhook-first-attempted-at": {
+        "name": "Persona-Webhook-First-Attempted-At",
+        "in": "header",
+        "description": "The time at which Persona first attempted to deliver this webhook. This value is a Unix timestamp in seconds.",
+        "schema": {
+          "type": "integer",
+          "examples": [
+            1527811200
           ]
         }
       }
@@ -22397,13 +22598,19 @@
                       "verification_government_id",
                       "start"
                     ],
-                    "type": "string"
+                    "type": [
+                      "string",
+                      "null"
+                    ]
                   },
                   "next-step-name": {
                     "examples": [
                       "retry_verification_government_id"
                     ],
-                    "type": "string"
+                    "type": [
+                      "string",
+                      "null"
+                    ]
                   },
                   "social-security-number": {
                     "description": "Social security number.",
@@ -25208,7 +25415,6 @@
               "integer",
               "null"
             ],
-            "format": "int32",
             "description": "The time the verification was submitted in Unix timestamp format",
             "example": 1700098276
           },
@@ -25226,7 +25432,6 @@
               "integer",
               "null"
             ],
-            "format": "int32",
             "description": "The time the verification was completed in Unix timestamp format",
             "example": 1700098276
           },
@@ -27618,7 +27823,10 @@
                     ]
                   },
                   "designations": {
-                    "type": "array",
+                    "type": [
+                      "array",
+                      "null"
+                    ],
                     "items": {
                       "type": "string",
                       "description": "Possible values:\n- commercial\n- global_entry\n- learners\n- limited_term\n- nexus\n- permanent_resident\n- provisional\n- real_id\n- restricted\n- temporary\n- veteran\n- work_not_permitted\n\nDo not assume this is a static enumeration; Persona may add new\nvalues in the future without a versioned update."
@@ -27822,25 +28030,32 @@
       },
       "inquiry-fields": {
         "description": "JSON key-value pairs of field name to field value. Schema is defined by your Inquiry Template.",
-        "properties": {},
-        "allOf": [
+        "oneOf": [
           {
-            "$ref": "#/components/schemas/default-fields"
+            "properties": {},
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/default-fields"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "address-country-code": {
+                    "description": "optional",
+                    "examples": [
+                      "US",
+                      "AU",
+                      "GB"
+                    ],
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": true
+              }
+            ]
           },
           {
-            "type": "object",
-            "properties": {
-              "address-country-code": {
-                "description": "optional",
-                "examples": [
-                  "US",
-                  "AU",
-                  "GB"
-                ],
-                "type": "string"
-              }
-            },
-            "additionalProperties": true
+            "type": "null"
           }
         ]
       },
@@ -28140,14 +28355,32 @@
             "propertyName": "type",
             "mapping": {
               "account": "#/components/schemas/account",
-              "document": "#/components/schemas/document",
+              "document/generic": "#/components/schemas/document-generic",
+              "document/government-id": "#/components/schemas/document-government-id",
+              "document/government-id-nfc": "#/components/schemas/document-government-id-nfc",
+              "document/mobile-drivers-license": "#/components/schemas/document-mobile-drivers-license",
               "template": "#/components/schemas/template",
               "inquiry-template": "#/components/schemas/inquiry-template",
               "inquiry-template-version": "#/components/schemas/inquiry-template-version",
-              "report": "#/components/schemas/report",
+              "report/watchlist": "#/components/schemas/report-watchlist",
+              "report/crypto-address-watchlist": "#/components/schemas/report-crypto-address-watchlist",
+              "report/adverse-media": "#/components/schemas/report-adverse-media",
+              "report/address-lookup": "#/components/schemas/report-address-lookup",
+              "report/politically-exposed-person": "#/components/schemas/report-politically-exposed-person",
+              "report/email-address": "#/components/schemas/report-email-address",
+              "report/phone-number": "#/components/schemas/report-phone-risk",
+              "report/social-media": "#/components/schemas/report-social-media",
+              "report/business-lookup": "#/components/schemas/report-business-lookup",
+              "report/sentilink-scores": "#/components/schemas/report-sentilink-scores",
               "selfie": "#/components/schemas/selfie",
               "inquiry-session": "#/components/schemas/inquiry-session",
-              "verification": "#/components/schemas/verification"
+              "verification/aamva": "#/components/schemas/verification-aamva",
+              "verification/document": "#/components/schemas/verification-document",
+              "verification/database": "#/components/schemas/verification-database",
+              "verification/email-address": "#/components/schemas/verification-email-address",
+              "verification/government-id": "#/components/schemas/verification-government-id",
+              "verification/phone-number": "#/components/schemas/verification-phone-number",
+              "verification/selfie": "#/components/schemas/verification-selfie"
             }
           },
           "anyOf": [
@@ -28155,7 +28388,16 @@
               "$ref": "#/components/schemas/account"
             },
             {
-              "$ref": "#/components/schemas/document"
+              "$ref": "#/components/schemas/document-generic"
+            },
+            {
+              "$ref": "#/components/schemas/document-government-id"
+            },
+            {
+              "$ref": "#/components/schemas/document-government-id-nfc"
+            },
+            {
+              "$ref": "#/components/schemas/document-mobile-drivers-license"
             },
             {
               "$ref": "#/components/schemas/template"
@@ -28167,7 +28409,34 @@
               "$ref": "#/components/schemas/inquiry-template-version"
             },
             {
-              "$ref": "#/components/schemas/report"
+              "$ref": "#/components/schemas/report-watchlist"
+            },
+            {
+              "$ref": "#/components/schemas/report-crypto-address-watchlist"
+            },
+            {
+              "$ref": "#/components/schemas/report-adverse-media"
+            },
+            {
+              "$ref": "#/components/schemas/report-address-lookup"
+            },
+            {
+              "$ref": "#/components/schemas/report-politically-exposed-person"
+            },
+            {
+              "$ref": "#/components/schemas/report-email-address"
+            },
+            {
+              "$ref": "#/components/schemas/report-phone-risk"
+            },
+            {
+              "$ref": "#/components/schemas/report-social-media"
+            },
+            {
+              "$ref": "#/components/schemas/report-business-lookup"
+            },
+            {
+              "$ref": "#/components/schemas/report-sentilink-scores"
             },
             {
               "$ref": "#/components/schemas/selfie"
@@ -28176,7 +28445,25 @@
               "$ref": "#/components/schemas/inquiry-session"
             },
             {
-              "$ref": "#/components/schemas/verification"
+              "$ref": "#/components/schemas/verification-aamva"
+            },
+            {
+              "$ref": "#/components/schemas/verification-document"
+            },
+            {
+              "$ref": "#/components/schemas/verification-database"
+            },
+            {
+              "$ref": "#/components/schemas/verification-email-address"
+            },
+            {
+              "$ref": "#/components/schemas/verification-government-id"
+            },
+            {
+              "$ref": "#/components/schemas/verification-phone-number"
+            },
+            {
+              "$ref": "#/components/schemas/verification-selfie"
             }
           ]
         }

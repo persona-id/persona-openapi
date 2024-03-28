@@ -1,16 +1,18 @@
 description: >-
   JSON key-value pairs of field name to field value. Schema is defined by your
   Inquiry Template.
-properties: {}
-allOf:
-  - $ref: ./default-fields.yaml
-  - type: object
-    properties:
-      address-country-code:
-        description: optional
-        examples:
-          - US
-          - AU
-          - GB
-        type: string
-    additionalProperties: true
+oneOf:
+  - properties: {}
+    allOf:
+      - $ref: ./default-fields.yaml
+      - type: object
+        properties:
+          address-country-code:
+            description: optional
+            examples:
+              - US
+              - AU
+              - GB
+            type: string
+        additionalProperties: true
+  - type: 'null'
