@@ -420,7 +420,7 @@
                                 "type": "object"
                               },
                               "tags": {
-                                "description": "A list of tag names that are associated to an Account.",
+                                "description": "A list of tag names to be associated with the Account.",
                                 "items": {
                                   "type": "string"
                                 },
@@ -736,7 +736,7 @@
                                 "type": "object"
                               },
                               "tags": {
-                                "description": "A list of tag names that are associated to an Account.",
+                                "description": "A list of tag names to be associated with the Account.",
                                 "items": {
                                   "type": "string"
                                 },
@@ -1644,7 +1644,7 @@
                     "properties": {
                       "expires-in-seconds": {
                         "description": "Number of seconds from now to expire the key (max of 30 days)",
-                        "type": "string"
+                        "type": "integer"
                       }
                     },
                     "required": [
@@ -1816,6 +1816,9 @@
           },
           "403": {
             "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
           },
           "429": {
             "$ref": "#/components/responses/too-many-requests"
@@ -7323,6 +7326,16 @@
                           },
                           "fields": {
                             "$ref": "#/components/schemas/inquiry-fields"
+                          },
+                          "tags": {
+                            "description": "A list of tag names to be associated with the Inquiry.",
+                            "items": {
+                              "type": "string"
+                            },
+                            "type": [
+                              "array",
+                              "null"
+                            ]
                           }
                         },
                         "type": "object"
@@ -7350,7 +7363,7 @@
                         "type": "string"
                       },
                       "auto-create-account-reference-id": {
-                        "description": "If `auto-create-account` is true, this Inquiry will be attached to the Account with this reference ID, or a new Account will be created with this reference ID if one does not exist.\nWill error if passed when `auto-create-account` is false. To associate new Inquiries with existing Accounts while avoiding creation of new Accounts, pass `account-id` instead.",
+                        "description": "If `auto-create-account` is true, this Inquiry will be attached to the Account with this reference ID, or a new Account will be created with this reference ID if one does not exist.\nWill error if passed when `auto-create-account` is false.",
                         "examples": [
                           "my_reference_id"
                         ],
@@ -7623,6 +7636,13 @@
                           },
                           "fields": {
                             "$ref": "#/components/schemas/inquiry-fields"
+                          },
+                          "tags": {
+                            "description": "A list of tag names to be associated with the Inquiry.",
+                            "items": {
+                              "type": "string"
+                            },
+                            "type": "array"
                           }
                         },
                         "type": "object"
@@ -14868,6 +14888,13 @@
                           "external-id": {
                             "type": "string",
                             "description": "External ID should be set to the ID for this transaction from your system. It can be used for lookup."
+                          },
+                          "tags": {
+                            "description": "A list of tag names to be associated with the Transaction.",
+                            "items": {
+                              "type": "string"
+                            },
+                            "type": "array"
                           }
                         }
                       }
@@ -15217,6 +15244,13 @@
                           },
                           "label": {
                             "type": "string"
+                          },
+                          "tags": {
+                            "description": "A list of tag names to be associated with the Transaction.",
+                            "items": {
+                              "type": "string"
+                            },
+                            "type": "array"
                           }
                         }
                       }
@@ -29955,7 +29989,8 @@
               },
               "related-objects": {
                 "type": "object",
-                "description": "Any object involved in this transaction's related workflow runs",
+                "description": "Any object involved in this transaction's related workflow runs (Deprecated)",
+                "deprecated": true,
                 "properties": {
                   "data": {
                     "type": "array",
