@@ -1,0 +1,25 @@
+title: Phone Carrier Database Verification
+description: A Phone Carrier Database Verification
+type: object
+properties:
+  type:
+    type: string
+    description: verification/database-phone-carrier
+    const: verification/database-phone-carrier
+  id:
+    type: string
+    description: The token of the verification
+    example: ver_ABC123
+  attributes:
+    properties: {}
+    allOf:
+      - $ref: ./verification-shared-attributes.yaml
+      - $ref: ./default-fields.yaml
+      - type: object
+        properties:
+          name-first:
+            type: string
+          name-last:
+            type: string
+  relationships:
+    $ref: ./verification-shared-relationships.yaml

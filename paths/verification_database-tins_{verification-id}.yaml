@@ -62,86 +62,10 @@ get:
                     inquiry:
                       data: null
           schema:
+            type: object
             properties:
               data:
-                properties:
-                  type:
-                    const: verification/database-tin
-                    description: verification/database-tin
-                    type: string
-                  id:
-                    examples:
-                      - ver_2wpqiEtejRcTA1hMJEXmbrJ6
-                    type: string
-                  attributes:
-                    properties:
-                      checks:
-                        items:
-                          properties:
-                            metadata:
-                              properties: {}
-                              type: object
-                            name:
-                              examples:
-                                - database_tin_name_comparison
-                              type: string
-                            reasons:
-                              type: array
-                            status:
-                              examples:
-                                - passed
-                              type: string
-                          type: object
-                        type: array
-                      completed-at:
-                        examples:
-                          - '2022-08-03T04:13:06.000Z'
-                        type: string
-                      completed-at-ts:
-                        default: 0
-                        examples:
-                          - 1659499986
-                        type: integer
-                      country-code:
-                        examples:
-                          - US
-                        type: string
-                      created-at:
-                        examples:
-                          - '2022-08-03T04:11:32.000Z'
-                        type: string
-                      created-at-ts:
-                        default: 0
-                        examples:
-                          - 1659499892
-                        type: integer
-                      name-first:
-                        examples:
-                          - ALEXANDER
-                        type: string
-                      status:
-                        examples:
-                          - passed
-                        type: string
-                      submitted-at:
-                        examples:
-                          - '2022-08-03T04:13:00.000Z'
-                        type: string
-                      submitted-at-ts:
-                        default: 0
-                        examples:
-                          - 1659499980
-                        type: integer
-                    type: object
-                  relationships:
-                    properties:
-                      inquiry:
-                        properties:
-                          data: {}
-                        type: object
-                    type: object
-                type: object
-            type: object
+                $ref: ../components/schemas/verification-database-tin.yaml
       description: OK
     '400':
       $ref: ../components/responses/bad-request.yaml

@@ -1,0 +1,52 @@
+title: Serpro Database Verification
+description: A Serpro Database Verification
+type: object
+properties:
+  type:
+    type: string
+    description: verification/database-serpro
+    const: verification/database-serpro
+  id:
+    type: string
+    description: The token of the verification
+    example: ver_ABC123
+  attributes:
+    properties: {}
+    allOf:
+      - $ref: ./verification-shared-attributes.yaml
+      - $ref: ./default-fields.yaml
+      - type: object
+        properties:
+          birthdate:
+            description: Birthdate of the individual
+            format: date
+            type: string
+          cpf:
+            description: The Cadastro de Pessoas Físicas for the individual
+            type: string
+          name-first:
+            description: >-
+              First name of the individual. This will be overwritten by
+              name-full.
+            type: string
+          name-full:
+            description: >-
+              Full name of the individual. This will overwrite values for
+              name-first and name-last if provided.
+            type: string
+          name-last:
+            description: >-
+              Last name of the individual. This will be overwritten by
+              name-full.
+            type: string
+          selfie-id:
+            description: ID of a selfie of the individual. This id should begin with self_.
+            type: string
+          verification-template-id:
+            description: >-
+              ID of Verification Template. You can find your Verification
+              Template IDs
+              [here](https://app.withpersona.com/dashboard/verification-templates?filter=%7B%22type%22%3A%5B%22verification-template%2Fdatabase-serpro"%5D%7D).
+            type: string
+  relationships:
+    $ref: ./verification-shared-relationships.yaml
