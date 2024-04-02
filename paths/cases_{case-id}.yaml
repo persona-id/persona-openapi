@@ -209,13 +209,13 @@ delete:
                     mapping:
                       inquiry: ../components/schemas/inquiry.yaml
                       account: ../components/schemas/account.yaml
-                      case-comment: ../components/schemas/case-comment.yaml
+                      case-comment: ../components/schemas/case-comment-2.yaml
                       report: ../components/schemas/report.yaml
                       verification: ../components/schemas/verification.yaml
                   anyOf:
                     - $ref: ../components/schemas/account.yaml
                     - $ref: ../components/schemas/inquiry.yaml
-                    - $ref: ../components/schemas/case-comment.yaml
+                    - $ref: ../components/schemas/case-comment-2.yaml
                     - $ref: ../components/schemas/report.yaml
                     - $ref: ../components/schemas/verification.yaml
             type: object
@@ -362,22 +362,7 @@ get:
               data:
                 $ref: ../components/schemas/case.yaml
               included:
-                type: array
-                items:
-                  discriminator:
-                    propertyName: type
-                    mapping:
-                      inquiry: ../components/schemas/inquiry.yaml
-                      account: ../components/schemas/account.yaml
-                      case-comment: ../components/schemas/case-comment.yaml
-                      report: ../components/schemas/report.yaml
-                      verification: ../components/schemas/verification.yaml
-                  anyOf:
-                    - $ref: ../components/schemas/account.yaml
-                    - $ref: ../components/schemas/inquiry.yaml
-                    - $ref: ../components/schemas/case-comment.yaml
-                    - $ref: ../components/schemas/report.yaml
-                    - $ref: ../components/schemas/verification.yaml
+                $ref: ../components/schemas/cases-included-objects.yaml
             type: object
       description: OK
     '400':
@@ -519,12 +504,12 @@ patch:
                     mapping:
                       inquiry: ../components/schemas/inquiry.yaml
                       account: ../components/schemas/account.yaml
-                      case-comment: ../components/schemas/case-comment.yaml
+                      case-comment: ../components/schemas/case-comment-2.yaml
                       report: ../components/schemas/report.yaml
                   anyOf:
                     - $ref: ../components/schemas/account.yaml
                     - $ref: ../components/schemas/inquiry.yaml
-                    - $ref: ../components/schemas/case-comment.yaml
+                    - $ref: ../components/schemas/case-comment-2.yaml
                     - $ref: ../components/schemas/report.yaml
             type: object
       description: OK

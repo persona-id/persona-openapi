@@ -2123,6 +2123,9 @@
           "403": {
             "$ref": "#/components/responses/forbidden"
           },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
           "429": {
             "$ref": "#/components/responses/too-many-requests"
           }
@@ -2775,7 +2778,7 @@
                           "mapping": {
                             "inquiry": "#/components/schemas/inquiry",
                             "account": "#/components/schemas/account",
-                            "case-comment": "#/components/schemas/case-comment",
+                            "case-comment": "#/components/schemas/case-comment-2",
                             "report": "#/components/schemas/report",
                             "verification": "#/components/schemas/verification"
                           }
@@ -2788,7 +2791,7 @@
                             "$ref": "#/components/schemas/inquiry"
                           },
                           {
-                            "$ref": "#/components/schemas/case-comment"
+                            "$ref": "#/components/schemas/case-comment-2"
                           },
                           {
                             "$ref": "#/components/schemas/report"
@@ -3015,36 +3018,7 @@
                       "$ref": "#/components/schemas/case"
                     },
                     "included": {
-                      "type": "array",
-                      "items": {
-                        "discriminator": {
-                          "propertyName": "type",
-                          "mapping": {
-                            "inquiry": "#/components/schemas/inquiry",
-                            "account": "#/components/schemas/account",
-                            "case-comment": "#/components/schemas/case-comment",
-                            "report": "#/components/schemas/report",
-                            "verification": "#/components/schemas/verification"
-                          }
-                        },
-                        "anyOf": [
-                          {
-                            "$ref": "#/components/schemas/account"
-                          },
-                          {
-                            "$ref": "#/components/schemas/inquiry"
-                          },
-                          {
-                            "$ref": "#/components/schemas/case-comment"
-                          },
-                          {
-                            "$ref": "#/components/schemas/report"
-                          },
-                          {
-                            "$ref": "#/components/schemas/verification"
-                          }
-                        ]
-                      }
+                      "$ref": "#/components/schemas/cases-included-objects"
                     }
                   },
                   "type": "object"
@@ -3250,7 +3224,7 @@
                           "mapping": {
                             "inquiry": "#/components/schemas/inquiry",
                             "account": "#/components/schemas/account",
-                            "case-comment": "#/components/schemas/case-comment",
+                            "case-comment": "#/components/schemas/case-comment-2",
                             "report": "#/components/schemas/report"
                           }
                         },
@@ -3262,7 +3236,7 @@
                             "$ref": "#/components/schemas/inquiry"
                           },
                           {
-                            "$ref": "#/components/schemas/case-comment"
+                            "$ref": "#/components/schemas/case-comment-2"
                           },
                           {
                             "$ref": "#/components/schemas/report"
@@ -3348,7 +3322,10 @@
                         "items": {
                           "type": "string"
                         },
-                        "type": "array"
+                        "type": [
+                          "array",
+                          "null"
+                        ]
                       }
                     },
                     "type": "object"
@@ -3859,11 +3836,12 @@
                       "tag-name": {
                         "type": "string",
                         "description": "Name of the tag to add to the Case."
+                      },
+                      "tag-id": {
+                        "type": "string",
+                        "description": "ID of the tag to add to the Case."
                       }
                     },
-                    "required": [
-                      "tag-name"
-                    ],
                     "type": "object"
                   }
                 },
@@ -4027,11 +4005,12 @@
                       "tag-name": {
                         "type": "string",
                         "description": "Name of the tag to remove from the Case."
+                      },
+                      "tag-id": {
+                        "type": "string",
+                        "description": "ID of the tag to add to the Case."
                       }
                     },
-                    "required": [
-                      "tag-name"
-                    ],
                     "type": "object"
                   }
                 },
@@ -21459,11 +21438,17 @@
                 "examples": [
                   "case_creator@withpersona.com"
                 ],
-                "type": "string"
+                "type": [
+                  "string",
+                  "null"
+                ]
               },
               "creator-type": {
                 "description": "Possible values:\n- user\n- workflow-run\n\nDo not assume this is a static enumeration; Persona may add new values\nin the future without a versioned update.",
-                "type": "string"
+                "type": [
+                  "string",
+                  "null"
+                ]
               },
               "assignee-id": {
                 "examples": [
@@ -24748,53 +24733,61 @@
       },
       "case-comment": {
         "type": "object",
-        "description": "A Case Comment object",
+        "description": "Comment on a Case object",
         "properties": {
+          "type": {
+            "type": "string",
+            "const": "case-comment",
+            "description": "Case Comment"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the Case Comment",
+            "examples": [
+              "cscm_yd2urRmjaCWcSSxqTSHvUcsn"
+            ]
+          },
           "attributes": {
             "type": "object",
             "properties": {
               "message": {
+                "type": "string",
+                "description": "The comment message",
                 "examples": [
-                  "<p>Case has passed compliance review.</p>"
-                ],
-                "type": "string"
+                  "This is a case comment"
+                ]
               },
               "created-at": {
+                "type": "string",
+                "format": "date-time",
+                "description": "The time the comment was created",
                 "examples": [
-                  "2021-09-28T05:18:36.200Z"
-                ],
-                "type": "string"
+                  "2021-03-25T07:04:16.667Z"
+                ]
               },
               "updated-at": {
+                "type": "string",
+                "format": "date-time",
+                "description": "The time the comment was last updated",
                 "examples": [
-                  "2021-09-28T05:18:36.200Z"
-                ],
-                "type": "string"
+                  "2021-03-25T07:04:16.667Z"
+                ]
               },
               "commenter-id": {
+                "type": "string",
+                "description": "The ID of the user who made the comment",
                 "examples": [
-                  "case_commenter@withpersona.com"
-                ],
-                "type": "string"
+                  "admin@acme.com"
+                ]
               },
               "commenter-type": {
+                "type": "string",
+                "description": "The type of the commenter",
                 "examples": [
                   "user"
-                ],
-                "type": "string"
+                ]
               }
             }
-          },
-          "id": {
-            "examples": [
-              "cscm_yd2urRmjaCWcSSxqTSHvUcsn"
-            ],
-            "type": "string"
-          },
-          "type": {
-            "const": "case-comment",
-            "description": "case-comment",
-            "type": "string"
           }
         }
       },
@@ -25115,6 +25108,377 @@
           }
         }
       },
+      "verification-database": {
+        "title": "Database Verification",
+        "description": "A Database Verification",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "verification/database",
+            "const": "verification/database"
+          },
+          "id": {
+            "type": "string",
+            "description": "The token of the verification",
+            "example": "ver_ABC123"
+          },
+          "attributes": {
+            "properties": {},
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/verification-shared-attributes"
+              },
+              {
+                "$ref": "#/components/schemas/default-fields"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "normalized-address-street-1": {
+                    "description": "Normalized street name of residence address.",
+                    "examples": [
+                      "123 Main St"
+                    ],
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "normalized-address-street-2": {
+                    "description": "Normalized extension of residence address, usually apartment or suite number.",
+                    "examples": [
+                      "Apt 1"
+                    ],
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "normalized-address-city": {
+                    "description": "Normalized city of residence address. Not all international addresses use this attribute.",
+                    "examples": [
+                      "San Francisco"
+                    ],
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "normalized-address-subdivision": {
+                    "description": "Normalized state or subdivision of residence address. In the US, this should be the abbreviated name. Not all international addresses use this attribute.",
+                    "examples": [
+                      "CA"
+                    ],
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "normalized-address-postal-code": {
+                    "description": "Normalized ZIP or postal code of residence address. Not all international addresses use this attribute.",
+                    "examples": [
+                      "94111"
+                    ],
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "identification-number": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "document-number": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          "relationships": {
+            "$ref": "#/components/schemas/verification-shared-relationships"
+          }
+        }
+      },
+      "verification-database-ecbsv": {
+        "title": "eCBSV Database Verification",
+        "description": "An eCBSV Database Verification",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "verification/database-ecbsv",
+            "const": "verification/database-ecbsv"
+          },
+          "id": {
+            "type": "string",
+            "description": "The token of the verification",
+            "example": "ver_ABC123"
+          },
+          "attributes": {
+            "properties": {},
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/verification-shared-attributes"
+              },
+              {
+                "$ref": "#/components/schemas/default-fields"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "birthdate": {
+                    "description": "Birthdate of the individual",
+                    "format": "date",
+                    "type": "string"
+                  },
+                  "name-first": {
+                    "description": "First name of the individual.",
+                    "type": "string"
+                  },
+                  "name-last": {
+                    "description": "Last name of the individual.",
+                    "type": "string"
+                  },
+                  "email-address": {
+                    "description": "Email address of the individual.",
+                    "type": "string"
+                  },
+                  "identification-number": {
+                    "description": "Social Security Number of the individual.",
+                    "type": "string"
+                  },
+                  "signature-timestamp": {
+                    "description": "Timestamp of the signature",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "format": "date-time"
+                  },
+                  "signature-ip": {
+                    "description": "IP address of the individual",
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "verification-template-id": {
+                    "description": "ID of Verification Template. You can find your Verification Template IDs [here](https://app.withpersona.com/dashboard/verification-templates?filter=%7B%22type%22%3A%5B%22verification-template%2Fdatabase-ecbsv\"%5D%7D)",
+                    "type": "string"
+                  }
+                }
+              }
+            ]
+          },
+          "relationships": {
+            "$ref": "#/components/schemas/verification-shared-relationships"
+          }
+        }
+      },
+      "verification-database-phone-carrier": {
+        "title": "Phone Carrier Database Verification",
+        "description": "A Phone Carrier Database Verification",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "verification/database-phone-carrier",
+            "const": "verification/database-phone-carrier"
+          },
+          "id": {
+            "type": "string",
+            "description": "The token of the verification",
+            "example": "ver_ABC123"
+          },
+          "attributes": {
+            "properties": {},
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/verification-shared-attributes"
+              },
+              {
+                "$ref": "#/components/schemas/default-fields"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "name-first": {
+                    "type": "string"
+                  },
+                  "name-last": {
+                    "type": "string"
+                  }
+                }
+              }
+            ]
+          },
+          "relationships": {
+            "$ref": "#/components/schemas/verification-shared-relationships"
+          }
+        }
+      },
+      "verification-database-serpro": {
+        "title": "Serpro Database Verification",
+        "description": "A Serpro Database Verification",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "verification/database-serpro",
+            "const": "verification/database-serpro"
+          },
+          "id": {
+            "type": "string",
+            "description": "The token of the verification",
+            "example": "ver_ABC123"
+          },
+          "attributes": {
+            "properties": {},
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/verification-shared-attributes"
+              },
+              {
+                "$ref": "#/components/schemas/default-fields"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "birthdate": {
+                    "description": "Birthdate of the individual",
+                    "format": "date",
+                    "type": "string"
+                  },
+                  "cpf": {
+                    "description": "The Cadastro de Pessoas Físicas for the individual",
+                    "type": "string"
+                  },
+                  "name-first": {
+                    "description": "First name of the individual. This will be overwritten by name-full.",
+                    "type": "string"
+                  },
+                  "name-full": {
+                    "description": "Full name of the individual. This will overwrite values for name-first and name-last if provided.",
+                    "type": "string"
+                  },
+                  "name-last": {
+                    "description": "Last name of the individual. This will be overwritten by name-full.",
+                    "type": "string"
+                  },
+                  "selfie-id": {
+                    "description": "ID of a selfie of the individual. This id should begin with self_.",
+                    "type": "string"
+                  },
+                  "verification-template-id": {
+                    "description": "ID of Verification Template. You can find your Verification Template IDs [here](https://app.withpersona.com/dashboard/verification-templates?filter=%7B%22type%22%3A%5B%22verification-template%2Fdatabase-serpro\"%5D%7D).",
+                    "type": "string"
+                  }
+                }
+              }
+            ]
+          },
+          "relationships": {
+            "$ref": "#/components/schemas/verification-shared-relationships"
+          }
+        }
+      },
+      "verification-database-tin": {
+        "title": "TIN Database Verification",
+        "description": "A TIN Database Verification",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "verification/database-tin",
+            "const": "verification/database-tin"
+          },
+          "id": {
+            "type": "string",
+            "description": "The token of the verification",
+            "example": "ver_ABC123"
+          },
+          "attributes": {
+            "properties": {},
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/verification-shared-attributes"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "tin": {
+                    "type": "string",
+                    "examples": [
+                      "287654321",
+                      "123456789"
+                    ]
+                  },
+                  "tin-type": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "examples": [
+                      "ssn",
+                      "ein",
+                      "itin"
+                    ]
+                  },
+                  "name-first": {
+                    "type": "string"
+                  },
+                  "name-last": {
+                    "type": "string"
+                  },
+                  "name-business": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "checks": {
+                    "items": {
+                      "properties": {
+                        "metadata": {
+                          "properties": {},
+                          "type": "object"
+                        },
+                        "name": {
+                          "examples": [
+                            "database_tin_name_comparison"
+                          ],
+                          "type": "string"
+                        },
+                        "reasons": {
+                          "type": "array"
+                        },
+                        "status": {
+                          "examples": [
+                            "passed"
+                          ],
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "type": "array"
+                  }
+                }
+              }
+            ]
+          },
+          "relationships": {
+            "$ref": "#/components/schemas/verification-shared-relationships"
+          }
+        }
+      },
       "extraction-responses": {
         "type": [
           "null",
@@ -25252,104 +25616,6 @@
                 }
               }
             ]
-          }
-        }
-      },
-      "verification-database": {
-        "title": "Database Verification",
-        "description": "A Database Verification",
-        "type": "object",
-        "properties": {
-          "type": {
-            "type": "string",
-            "description": "verification/database",
-            "const": "verification/database"
-          },
-          "id": {
-            "type": "string",
-            "description": "The token of the verification",
-            "example": "ver_ABC123"
-          },
-          "attributes": {
-            "properties": {},
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/verification-shared-attributes"
-              },
-              {
-                "$ref": "#/components/schemas/default-fields"
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "normalized-address-street-1": {
-                    "description": "Normalized street name of residence address.",
-                    "examples": [
-                      "123 Main St"
-                    ],
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "normalized-address-street-2": {
-                    "description": "Normalized extension of residence address, usually apartment or suite number.",
-                    "examples": [
-                      "Apt 1"
-                    ],
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "normalized-address-city": {
-                    "description": "Normalized city of residence address. Not all international addresses use this attribute.",
-                    "examples": [
-                      "San Francisco"
-                    ],
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "normalized-address-subdivision": {
-                    "description": "Normalized state or subdivision of residence address. In the US, this should be the abbreviated name. Not all international addresses use this attribute.",
-                    "examples": [
-                      "CA"
-                    ],
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "normalized-address-postal-code": {
-                    "description": "Normalized ZIP or postal code of residence address. Not all international addresses use this attribute.",
-                    "examples": [
-                      "94111"
-                    ],
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "identification-number": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "document-number": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  }
-                }
-              }
-            ]
-          },
-          "relationships": {
-            "$ref": "#/components/schemas/verification-shared-relationships"
           }
         }
       },
@@ -25782,6 +26048,189 @@
           }
         }
       },
+      "verification-government-id-nfc": {
+        "type": "object",
+        "title": "Government ID NFC Verification",
+        "description": "A Government ID NFC Verification",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "verification/government-id-nfc",
+            "const": "verification/government-id-nfc"
+          },
+          "id": {
+            "type": "string",
+            "description": "The token of the verification",
+            "example": "ver_ABC123"
+          },
+          "attributes": {
+            "properties": {},
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/verification-shared-attributes"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "birthdate": {
+                    "examples": [
+                      "2000-01-01"
+                    ],
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "checks": {
+                    "items": {
+                      "properties": {
+                        "metadata": {
+                          "additionalProperties": true,
+                          "type": "object"
+                        },
+                        "name": {
+                          "examples": [
+                            "id_nfc_expired_detection"
+                          ],
+                          "type": "string"
+                        },
+                        "reasons": {
+                          "items": {
+                            "examples": [
+                              "expired"
+                            ],
+                            "type": "string"
+                          },
+                          "type": "array"
+                        },
+                        "status": {
+                          "examples": [
+                            "failed"
+                          ],
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
+                  "expiration-date": {
+                    "examples": [
+                      "2000-01-01"
+                    ],
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "id-class": {
+                    "examples": [
+                      "dl"
+                    ],
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "identification-number": {
+                    "examples": [
+                      "P123456AA"
+                    ],
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "name-first": {
+                    "examples": [
+                      "ALEXANDER"
+                    ],
+                    "type": "string"
+                  },
+                  "name-last": {
+                    "examples": [
+                      "SAMPLE"
+                    ],
+                    "type": "string"
+                  },
+                  "selfie-photo": {
+                    "properties": {
+                      "byte-size": {
+                        "default": 0,
+                        "examples": [
+                          316802
+                        ],
+                        "type": "integer"
+                      },
+                      "url": {
+                        "examples": [
+                          "https://files.withpersona.com/..."
+                        ],
+                        "type": "string"
+                      }
+                    },
+                    "type": [
+                      "object",
+                      "null"
+                    ]
+                  },
+                  "restrictions": {},
+                  "sex": {
+                    "examples": [
+                      "M",
+                      "F",
+                      "X"
+                    ],
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                }
+              },
+              {
+                "$ref": "#/components/schemas/address-fields"
+              }
+            ]
+          },
+          "relationships": {
+            "properties": {},
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/verification-shared-relationships"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "document": {
+                    "properties": {
+                      "data": {
+                        "properties": {
+                          "id": {
+                            "examples": [
+                              "doc_ABC123"
+                            ],
+                            "type": "string"
+                          },
+                          "type": {
+                            "x-polymorphic": true,
+                            "examples": [
+                              "document/generic"
+                            ],
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      }
+                    },
+                    "type": "object"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
       "verification-phone-number": {
         "type": "object",
         "title": "Phone Number Verification",
@@ -25998,6 +26447,170 @@
           },
           "relationships": {
             "$ref": "#/components/schemas/verification-shared-relationships"
+          }
+        }
+      },
+      "cases-included-objects": {
+        "type": "array",
+        "items": {
+          "discriminator": {
+            "propertyName": "type",
+            "mapping": {
+              "account": "#/components/schemas/account",
+              "case-comment": "#/components/schemas/case-comment",
+              "inquiry": "#/components/schemas/inquiry",
+              "report/address-lookup": "#/components/schemas/report-address-lookup",
+              "report/adverse-media": "#/components/schemas/report-adverse-media",
+              "report/business-lookup": "#/components/schemas/report-business-lookup",
+              "report/crypto-address-watchlist": "#/components/schemas/report-crypto-address-watchlist",
+              "report/email-address": "#/components/schemas/report-email-address",
+              "report/phone-number": "#/components/schemas/report-phone-risk",
+              "report/politically-exposed-person": "#/components/schemas/report-politically-exposed-person",
+              "report/sentilink-scores": "#/components/schemas/report-sentilink-scores",
+              "report/social-media": "#/components/schemas/report-social-media",
+              "report/watchlist": "#/components/schemas/report-watchlist",
+              "verification/aamva": "#/components/schemas/verification-aamva",
+              "verification/database": "#/components/schemas/verification-database",
+              "verification/database-ecbsv": "#/components/schemas/verification-database-ecbsv",
+              "verification/database-phone-carrier": "#/components/schemas/verification-database-phone-carrier",
+              "verification/database-serpro": "#/components/schemas/verification-database-serpro",
+              "verification/database-tin": "#/components/schemas/verification-database-tin",
+              "verification/document": "#/components/schemas/verification-document",
+              "verification/email-address": "#/components/schemas/verification-email-address",
+              "verification/government-id": "#/components/schemas/verification-government-id",
+              "verification/government-id-nfc": "#/components/schemas/verification-government-id-nfc",
+              "verification/phone-number": "#/components/schemas/verification-phone-number",
+              "verification/selfie": "#/components/schemas/verification-selfie"
+            }
+          },
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/account"
+            },
+            {
+              "$ref": "#/components/schemas/inquiry"
+            },
+            {
+              "$ref": "#/components/schemas/report-address-lookup"
+            },
+            {
+              "$ref": "#/components/schemas/report-adverse-media"
+            },
+            {
+              "$ref": "#/components/schemas/report-business-lookup"
+            },
+            {
+              "$ref": "#/components/schemas/report-crypto-address-watchlist"
+            },
+            {
+              "$ref": "#/components/schemas/report-email-address"
+            },
+            {
+              "$ref": "#/components/schemas/report-phone-risk"
+            },
+            {
+              "$ref": "#/components/schemas/report-politically-exposed-person"
+            },
+            {
+              "$ref": "#/components/schemas/report-sentilink-scores"
+            },
+            {
+              "$ref": "#/components/schemas/report-social-media"
+            },
+            {
+              "$ref": "#/components/schemas/report-watchlist"
+            },
+            {
+              "$ref": "#/components/schemas/verification-aamva"
+            },
+            {
+              "$ref": "#/components/schemas/verification-database"
+            },
+            {
+              "$ref": "#/components/schemas/verification-database-ecbsv"
+            },
+            {
+              "$ref": "#/components/schemas/verification-database-phone-carrier"
+            },
+            {
+              "$ref": "#/components/schemas/verification-database-serpro"
+            },
+            {
+              "$ref": "#/components/schemas/verification-database-tin"
+            },
+            {
+              "$ref": "#/components/schemas/verification-document"
+            },
+            {
+              "$ref": "#/components/schemas/verification-email-address"
+            },
+            {
+              "$ref": "#/components/schemas/verification-government-id"
+            },
+            {
+              "$ref": "#/components/schemas/verification-government-id-nfc"
+            },
+            {
+              "$ref": "#/components/schemas/verification-phone-number"
+            },
+            {
+              "$ref": "#/components/schemas/verification-selfie"
+            },
+            {
+              "$ref": "#/components/schemas/case-comment"
+            }
+          ]
+        }
+      },
+      "case-comment-2": {
+        "type": "object",
+        "description": "A Case Comment object",
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "examples": [
+                  "<p>Case has passed compliance review.</p>"
+                ],
+                "type": "string"
+              },
+              "created-at": {
+                "examples": [
+                  "2021-09-28T05:18:36.200Z"
+                ],
+                "type": "string"
+              },
+              "updated-at": {
+                "examples": [
+                  "2021-09-28T05:18:36.200Z"
+                ],
+                "type": "string"
+              },
+              "commenter-id": {
+                "examples": [
+                  "case_commenter@withpersona.com"
+                ],
+                "type": "string"
+              },
+              "commenter-type": {
+                "examples": [
+                  "user"
+                ],
+                "type": "string"
+              }
+            }
+          },
+          "id": {
+            "examples": [
+              "cscm_yd2urRmjaCWcSSxqTSHvUcsn"
+            ],
+            "type": "string"
+          },
+          "type": {
+            "const": "case-comment",
+            "description": "case-comment",
+            "type": "string"
           }
         }
       },
@@ -29592,386 +30205,6 @@
                 ]
               }
             }
-          }
-        }
-      },
-      "verification-database-phone-carrier": {
-        "title": "Phone Carrier Database Verification",
-        "description": "A Phone Carrier Database Verification",
-        "type": "object",
-        "properties": {
-          "type": {
-            "type": "string",
-            "description": "verification/database-phone-carrier",
-            "const": "verification/database-phone-carrier"
-          },
-          "id": {
-            "type": "string",
-            "description": "The token of the verification",
-            "example": "ver_ABC123"
-          },
-          "attributes": {
-            "properties": {},
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/verification-shared-attributes"
-              },
-              {
-                "$ref": "#/components/schemas/default-fields"
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "name-first": {
-                    "type": "string"
-                  },
-                  "name-last": {
-                    "type": "string"
-                  }
-                }
-              }
-            ]
-          },
-          "relationships": {
-            "$ref": "#/components/schemas/verification-shared-relationships"
-          }
-        }
-      },
-      "verification-database-serpro": {
-        "title": "Serpro Database Verification",
-        "description": "A Serpro Database Verification",
-        "type": "object",
-        "properties": {
-          "type": {
-            "type": "string",
-            "description": "verification/database-serpro",
-            "const": "verification/database-serpro"
-          },
-          "id": {
-            "type": "string",
-            "description": "The token of the verification",
-            "example": "ver_ABC123"
-          },
-          "attributes": {
-            "properties": {},
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/verification-shared-attributes"
-              },
-              {
-                "$ref": "#/components/schemas/default-fields"
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "birthdate": {
-                    "description": "Birthdate of the individual",
-                    "format": "date",
-                    "type": "string"
-                  },
-                  "cpf": {
-                    "description": "The Cadastro de Pessoas Físicas for the individual",
-                    "type": "string"
-                  },
-                  "name-first": {
-                    "description": "First name of the individual. This will be overwritten by name-full.",
-                    "type": "string"
-                  },
-                  "name-full": {
-                    "description": "Full name of the individual. This will overwrite values for name-first and name-last if provided.",
-                    "type": "string"
-                  },
-                  "name-last": {
-                    "description": "Last name of the individual. This will be overwritten by name-full.",
-                    "type": "string"
-                  },
-                  "selfie-id": {
-                    "description": "ID of a selfie of the individual. This id should begin with self_.",
-                    "type": "string"
-                  },
-                  "verification-template-id": {
-                    "description": "ID of Verification Template. You can find your Verification Template IDs [here](https://app.withpersona.com/dashboard/verification-templates?filter=%7B%22type%22%3A%5B%22verification-template%2Fdatabase-serpro\"%5D%7D).",
-                    "type": "string"
-                  }
-                }
-              }
-            ]
-          },
-          "relationships": {
-            "$ref": "#/components/schemas/verification-shared-relationships"
-          }
-        }
-      },
-      "verification-database-tin": {
-        "title": "TIN Database Verification",
-        "description": "A TIN Database Verification",
-        "type": "object",
-        "properties": {
-          "type": {
-            "type": "string",
-            "description": "verification/database-tin",
-            "const": "verification/database-tin"
-          },
-          "id": {
-            "type": "string",
-            "description": "The token of the verification",
-            "example": "ver_ABC123"
-          },
-          "attributes": {
-            "properties": {},
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/verification-shared-attributes"
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "tin": {
-                    "type": "string",
-                    "examples": [
-                      "287654321",
-                      "123456789"
-                    ]
-                  },
-                  "tin-type": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "examples": [
-                      "ssn",
-                      "ein",
-                      "itin"
-                    ]
-                  },
-                  "name-first": {
-                    "type": "string"
-                  },
-                  "name-last": {
-                    "type": "string"
-                  },
-                  "name-business": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "checks": {
-                    "items": {
-                      "properties": {
-                        "metadata": {
-                          "properties": {},
-                          "type": "object"
-                        },
-                        "name": {
-                          "examples": [
-                            "database_tin_name_comparison"
-                          ],
-                          "type": "string"
-                        },
-                        "reasons": {
-                          "type": "array"
-                        },
-                        "status": {
-                          "examples": [
-                            "passed"
-                          ],
-                          "type": "string"
-                        }
-                      },
-                      "type": "object"
-                    },
-                    "type": "array"
-                  }
-                }
-              }
-            ]
-          },
-          "relationships": {
-            "$ref": "#/components/schemas/verification-shared-relationships"
-          }
-        }
-      },
-      "verification-government-id-nfc": {
-        "type": "object",
-        "title": "Government ID NFC Verification",
-        "description": "A Government ID NFC Verification",
-        "properties": {
-          "type": {
-            "type": "string",
-            "description": "verification/government-id-nfc",
-            "const": "verification/government-id-nfc"
-          },
-          "id": {
-            "type": "string",
-            "description": "The token of the verification",
-            "example": "ver_ABC123"
-          },
-          "attributes": {
-            "properties": {},
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/verification-shared-attributes"
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "birthdate": {
-                    "examples": [
-                      "2000-01-01"
-                    ],
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "checks": {
-                    "items": {
-                      "properties": {
-                        "metadata": {
-                          "additionalProperties": true,
-                          "type": "object"
-                        },
-                        "name": {
-                          "examples": [
-                            "id_nfc_expired_detection"
-                          ],
-                          "type": "string"
-                        },
-                        "reasons": {
-                          "items": {
-                            "examples": [
-                              "expired"
-                            ],
-                            "type": "string"
-                          },
-                          "type": "array"
-                        },
-                        "status": {
-                          "examples": [
-                            "failed"
-                          ],
-                          "type": "string"
-                        }
-                      },
-                      "type": "object"
-                    },
-                    "type": "array"
-                  },
-                  "expiration-date": {
-                    "examples": [
-                      "2000-01-01"
-                    ],
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "id-class": {
-                    "examples": [
-                      "dl"
-                    ],
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "identification-number": {
-                    "examples": [
-                      "P123456AA"
-                    ],
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "name-first": {
-                    "examples": [
-                      "ALEXANDER"
-                    ],
-                    "type": "string"
-                  },
-                  "name-last": {
-                    "examples": [
-                      "SAMPLE"
-                    ],
-                    "type": "string"
-                  },
-                  "selfie-photo": {
-                    "properties": {
-                      "byte-size": {
-                        "default": 0,
-                        "examples": [
-                          316802
-                        ],
-                        "type": "integer"
-                      },
-                      "url": {
-                        "examples": [
-                          "https://files.withpersona.com/..."
-                        ],
-                        "type": "string"
-                      }
-                    },
-                    "type": [
-                      "object",
-                      "null"
-                    ]
-                  },
-                  "restrictions": {},
-                  "sex": {
-                    "examples": [
-                      "M",
-                      "F",
-                      "X"
-                    ],
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  }
-                }
-              },
-              {
-                "$ref": "#/components/schemas/address-fields"
-              }
-            ]
-          },
-          "relationships": {
-            "properties": {},
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/verification-shared-relationships"
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "document": {
-                    "properties": {
-                      "data": {
-                        "properties": {
-                          "id": {
-                            "examples": [
-                              "doc_ABC123"
-                            ],
-                            "type": "string"
-                          },
-                          "type": {
-                            "x-polymorphic": true,
-                            "examples": [
-                              "document/generic"
-                            ],
-                            "type": "string"
-                          }
-                        },
-                        "type": "object"
-                      }
-                    },
-                    "type": "object"
-                  }
-                }
-              }
-            ]
           }
         }
       },

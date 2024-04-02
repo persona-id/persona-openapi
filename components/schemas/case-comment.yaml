@@ -1,34 +1,42 @@
 type: object
-description: A Case Comment object
+description: Comment on a Case object
 properties:
+  type:
+    type: string
+    const: case-comment
+    description: Case Comment
+  id:
+    type: string
+    description: Unique identifier for the Case Comment
+    examples:
+      - cscm_yd2urRmjaCWcSSxqTSHvUcsn
   attributes:
     type: object
     properties:
       message:
-        examples:
-          - <p>Case has passed compliance review.</p>
         type: string
+        description: The comment message
+        examples:
+          - This is a case comment
       created-at:
-        examples:
-          - '2021-09-28T05:18:36.200Z'
         type: string
+        format: date-time
+        description: The time the comment was created
+        examples:
+          - '2021-03-25T07:04:16.667Z'
       updated-at:
-        examples:
-          - '2021-09-28T05:18:36.200Z'
         type: string
+        format: date-time
+        description: The time the comment was last updated
+        examples:
+          - '2021-03-25T07:04:16.667Z'
       commenter-id:
-        examples:
-          - case_commenter@withpersona.com
         type: string
+        description: The ID of the user who made the comment
+        examples:
+          - admin@acme.com
       commenter-type:
+        type: string
+        description: The type of the commenter
         examples:
           - user
-        type: string
-  id:
-    examples:
-      - cscm_yd2urRmjaCWcSSxqTSHvUcsn
-    type: string
-  type:
-    const: case-comment
-    description: case-comment
-    type: string
