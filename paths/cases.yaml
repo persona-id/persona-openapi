@@ -15,18 +15,7 @@ get:
     - $ref: ../components/parameters/key-inflection-header.yaml
     - $ref: ../components/parameters/idempotency-key-header.yaml
     - $ref: ../components/parameters/persona-version-header.yaml
-    - in: query
-      name: page
-      style: deepObject
-      schema:
-        allOf:
-          - $ref: ../components/schemas/nested-pagination-query-params.yaml
-          - type: object
-            properties:
-              after:
-                example: case_ABC123
-              before:
-                example: case_ABC123
+    - $ref: ../components/parameters/pagination-query-params.yaml
     - in: query
       name: filter
       style: deepObject
@@ -123,6 +112,11 @@ get:
                   $ref: ../components/schemas/case.yaml
                 type: array
                 description: An array of Cases
+              included:
+                description: >-
+                  Objects that _may_ be returned if specified via the `include`
+                  query parameter in the request.
+                $ref: ../components/schemas/cases-included-objects.yaml
               links:
                 properties:
                   next:
@@ -382,18 +376,20 @@ post:
               data:
                 $ref: ../components/schemas/case.yaml
               included:
-                type: array
-                items:
-                  discriminator:
-                    propertyName: type
-                    mapping:
-                      inquiry: ../components/schemas/inquiry.yaml
-                      account: ../components/schemas/account.yaml
-                      report: ../components/schemas/report.yaml
-                  anyOf:
-                    - $ref: ../components/schemas/account.yaml
-                    - $ref: ../components/schemas/inquiry.yaml
-                    - $ref: ../components/schemas/report.yaml
+                description: >-
+                  Included by default:
+
+
+                  - Accounts
+
+                  - Inquiries
+
+                  - Reports
+
+
+                  Anything else must be explicitly requested with the `include`
+                  query parameter.
+                $ref: ../components/schemas/cases-included-objects.yaml
             type: object
       description: Created
     '400':

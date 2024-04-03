@@ -202,22 +202,10 @@ delete:
               data:
                 $ref: ../components/schemas/case.yaml
               included:
-                type: array
-                items:
-                  discriminator:
-                    propertyName: type
-                    mapping:
-                      inquiry: ../components/schemas/inquiry.yaml
-                      account: ../components/schemas/account.yaml
-                      case-comment: ../components/schemas/case-comment-2.yaml
-                      report: ../components/schemas/report.yaml
-                      verification: ../components/schemas/verification.yaml
-                  anyOf:
-                    - $ref: ../components/schemas/account.yaml
-                    - $ref: ../components/schemas/inquiry.yaml
-                    - $ref: ../components/schemas/case-comment-2.yaml
-                    - $ref: ../components/schemas/report.yaml
-                    - $ref: ../components/schemas/verification.yaml
+                description: >-
+                  Objects that _may_ be returned if specified via the `include`
+                  query parameter in the request.
+                $ref: ../components/schemas/cases-included-objects.yaml
             type: object
       description: OK
     '400':
@@ -362,6 +350,23 @@ get:
               data:
                 $ref: ../components/schemas/case.yaml
               included:
+                description: >-
+                  Included by default:
+
+
+                  - Accounts
+
+                  - Inquiries
+
+                  - Reports
+
+                  - Verifications
+
+                  - Case Comments
+
+
+                  Anything else must be explicitly requested with the `include`
+                  query parameter.
                 $ref: ../components/schemas/cases-included-objects.yaml
             type: object
       description: OK
@@ -497,20 +502,22 @@ patch:
               data:
                 $ref: ../components/schemas/case.yaml
               included:
-                type: array
-                items:
-                  discriminator:
-                    propertyName: type
-                    mapping:
-                      inquiry: ../components/schemas/inquiry.yaml
-                      account: ../components/schemas/account.yaml
-                      case-comment: ../components/schemas/case-comment-2.yaml
-                      report: ../components/schemas/report.yaml
-                  anyOf:
-                    - $ref: ../components/schemas/account.yaml
-                    - $ref: ../components/schemas/inquiry.yaml
-                    - $ref: ../components/schemas/case-comment-2.yaml
-                    - $ref: ../components/schemas/report.yaml
+                description: >-
+                  Included by default:
+
+
+                  - Accounts
+
+                  - Inquiries
+
+                  - Reports
+
+                  - Case Comments
+
+
+                  Anything else must be explicitly requested with the `include`
+                  query parameter.
+                $ref: ../components/schemas/cases-included-objects.yaml
             type: object
       description: OK
     '400':
