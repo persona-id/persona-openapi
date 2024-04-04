@@ -3400,6 +3400,7 @@ paths:
           style: deepObject
           schema:
             type: object
+            additionalProperties: false
             properties:
               name:
                 description: Comma separated list of event names
@@ -3452,6 +3453,7 @@ paths:
                       $ref: '#/components/schemas/event'
                   links:
                     type: object
+                    additionalProperties: false
                     properties:
                       prev:
                         type:
@@ -3522,6 +3524,7 @@ paths:
                   included:
                     $ref: '#/components/schemas/empty-included-objects'
                 type: object
+                additionalProperties: false
           description: OK
         '400':
           $ref: '#/components/responses/bad-request'
@@ -8299,26 +8302,25 @@ paths:
         - $ref: '#/components/parameters/key-inflection-header'
         - $ref: '#/components/parameters/idempotency-key-header'
         - $ref: '#/components/parameters/persona-version-header'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              properties:
-                client-id:
-                  description: Organization (`org_`) to authorize
-                  type: string
-                response-type:
-                  default: code
-                  description: Must be set to 'code'
-                  type: string
-                scope:
-                  description: Space-separated list of 'permission:object' combinations (i.e. `inquiry.read:inq_uX7kRTiBxsJ1sZqPLAsjdP9j verification.read:ver_ynYuWdrjwwjiHJ2rgHfSoHeT`
-                  type: string
-              required:
-                - client-id
-                - response-type
-                - scope
-              type: object
+        - description: Organization (`org_`) to authorize
+          in: query
+          name: client_id
+          required: true
+          schema:
+            type: string
+        - description: Must be set to 'code'
+          in: query
+          name: response_type
+          required: true
+          schema:
+            default: code
+            type: string
+        - description: Space-separated list of 'permission:object' combinations (i.e. `inquiry.read:inq_uX7kRTiBxsJ1sZqPLAsjdP9j verification.read:ver_ynYuWdrjwwjiHJ2rgHfSoHeT`
+          in: query
+          name: scope
+          required: true
+          schema:
+            type: string
       responses:
         '201':
           content:
@@ -8343,6 +8345,7 @@ paths:
                       - 599
                     type: integer
                 type: object
+                additionalProperties: false
           description: Created
         '400':
           $ref: '#/components/responses/bad-request'
@@ -8380,7 +8383,7 @@ paths:
             type: string
         - description: Must be set to 'authorization_code'
           in: query
-          name: grant-type
+          name: grant_type
           required: true
           schema:
             default: authorization_code
@@ -8420,6 +8423,7 @@ paths:
                       - bearer
                     type: string
                 type: object
+                additionalProperties: false
           description: Created
         '400':
           $ref: '#/components/responses/bad-request'
@@ -18221,6 +18225,7 @@ components:
         - $ref: '#/components/schemas/document-mobile-drivers-license'
     event:
       type: object
+      additionalProperties: false
       description: An Event object
       properties:
         type:
@@ -18233,6 +18238,7 @@ components:
             - evt_ABC123
         attributes:
           type: object
+          additionalProperties: false
           properties:
             name:
               type: string
@@ -18243,9 +18249,11 @@ components:
             payload:
               description: The entire serialized entity that triggered the event
               type: object
+              additionalProperties: false
               properties:
                 data:
                   type: object
+                  additionalProperties: false
                   properties:
                     type:
                       x-polymorphic: true
@@ -18261,6 +18269,9 @@ components:
                         - wfr_ABC123
                         - act_ABC123
                     attributes:
+                      type: object
+                      additionalProperties: true
+                    relationships:
                       type: object
                       additionalProperties: true
             created-at:

@@ -5291,6 +5291,7 @@
             "style": "deepObject",
             "schema": {
               "type": "object",
+              "additionalProperties": false,
               "properties": {
                 "name": {
                   "description": "Comma separated list of event names",
@@ -5369,6 +5370,7 @@
                     },
                     "links": {
                       "type": "object",
+                      "additionalProperties": false,
                       "properties": {
                         "prev": {
                           "type": [
@@ -5483,7 +5485,8 @@
                       "$ref": "#/components/schemas/empty-included-objects"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -13026,37 +13029,36 @@
           },
           {
             "$ref": "#/components/parameters/persona-version-header"
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "properties": {
-                  "client-id": {
-                    "description": "Organization (`org_`) to authorize",
-                    "type": "string"
-                  },
-                  "response-type": {
-                    "default": "code",
-                    "description": "Must be set to 'code'",
-                    "type": "string"
-                  },
-                  "scope": {
-                    "description": "Space-separated list of 'permission:object' combinations (i.e. `inquiry.read:inq_uX7kRTiBxsJ1sZqPLAsjdP9j verification.read:ver_ynYuWdrjwwjiHJ2rgHfSoHeT`",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "client-id",
-                  "response-type",
-                  "scope"
-                ],
-                "type": "object"
-              }
+          },
+          {
+            "description": "Organization (`org_`) to authorize",
+            "in": "query",
+            "name": "client_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Must be set to 'code'",
+            "in": "query",
+            "name": "response_type",
+            "required": true,
+            "schema": {
+              "default": "code",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Space-separated list of 'permission:object' combinations (i.e. `inquiry.read:inq_uX7kRTiBxsJ1sZqPLAsjdP9j verification.read:ver_ynYuWdrjwwjiHJ2rgHfSoHeT`",
+            "in": "query",
+            "name": "scope",
+            "required": true,
+            "schema": {
+              "type": "string"
             }
           }
-        },
+        ],
         "responses": {
           "201": {
             "content": {
@@ -13088,7 +13090,8 @@
                       "type": "integer"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -13152,7 +13155,7 @@
           {
             "description": "Must be set to 'authorization_code'",
             "in": "query",
-            "name": "grant-type",
+            "name": "grant_type",
             "required": true,
             "schema": {
               "default": "authorization_code",
@@ -13206,7 +13209,8 @@
                       "type": "string"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -27878,6 +27882,7 @@
       },
       "event": {
         "type": "object",
+        "additionalProperties": false,
         "description": "An Event object",
         "properties": {
           "type": {
@@ -27893,6 +27898,7 @@
           },
           "attributes": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "name": {
                 "type": "string",
@@ -27905,9 +27911,11 @@
               "payload": {
                 "description": "The entire serialized entity that triggered the event",
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "data": {
                     "type": "object",
+                    "additionalProperties": false,
                     "properties": {
                       "type": {
                         "x-polymorphic": true,
@@ -27927,6 +27935,10 @@
                         ]
                       },
                       "attributes": {
+                        "type": "object",
+                        "additionalProperties": true
+                      },
+                      "relationships": {
                         "type": "object",
                         "additionalProperties": true
                       }

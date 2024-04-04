@@ -1,4 +1,5 @@
 type: object
+additionalProperties: false
 description: An Event object
 properties:
   type:
@@ -11,6 +12,7 @@ properties:
       - evt_ABC123
   attributes:
     type: object
+    additionalProperties: false
     properties:
       name:
         type: string
@@ -21,9 +23,11 @@ properties:
       payload:
         description: The entire serialized entity that triggered the event
         type: object
+        additionalProperties: false
         properties:
           data:
             type: object
+            additionalProperties: false
             properties:
               type:
                 x-polymorphic: true
@@ -39,6 +43,9 @@ properties:
                   - wfr_ABC123
                   - act_ABC123
               attributes:
+                type: object
+                additionalProperties: true
+              relationships:
                 type: object
                 additionalProperties: true
       created-at:
