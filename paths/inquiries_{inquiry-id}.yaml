@@ -33,6 +33,7 @@ delete:
             properties:
               data:
                 $ref: ../components/schemas/inquiry.yaml
+            additionalProperties: false
             type: object
       description: OK
     '400':
@@ -113,6 +114,7 @@ get:
                   Anything else must be explicitly requested with the `include`
                   query parameter.
                 $ref: ../components/schemas/inquiry-included-objects.yaml
+            additionalProperties: false
             type: object
       description: OK
     '400':
@@ -178,8 +180,11 @@ patch:
                       items:
                         type: string
                       type: array
+                  additionalProperties: true
                   type: object
+              additionalProperties: false
               type: object
+          additionalProperties: false
           type: object
   responses:
     '200':
@@ -193,6 +198,7 @@ patch:
             properties:
               data:
                 $ref: ../components/schemas/inquiry.yaml
+            additionalProperties: false
             type: object
       description: OK
     '400':

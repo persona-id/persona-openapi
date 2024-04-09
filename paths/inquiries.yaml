@@ -20,6 +20,7 @@ get:
       name: filter
       style: deepObject
       schema:
+        additionalProperties: false
         type: object
         properties:
           account-id:
@@ -99,7 +100,9 @@ get:
                     description: >-
                       URL pointing to the next page of data, or null if on the
                       last page.
+                additionalProperties: false
                 type: object
+            additionalProperties: false
             type: object
       description: OK
     '400':
@@ -249,9 +252,11 @@ post:
                       type:
                         - string
                         - 'null'
+                  additionalProperties: true
                   type: object
               required:
                 - attributes
+              additionalProperties: false
               type: object
             meta:
               properties:
@@ -287,9 +292,11 @@ post:
                   examples:
                     - my_reference_id
                   type: string
+              additionalProperties: false
               type: object
           required:
             - data
+          additionalProperties: false
           type: object
   responses:
     '201':
@@ -303,6 +310,7 @@ post:
             properties:
               data:
                 $ref: ../components/schemas/inquiry.yaml
+            additionalProperties: false
             type: object
       description: Created
     '400':

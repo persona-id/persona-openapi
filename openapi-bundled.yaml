@@ -4476,6 +4476,7 @@ paths:
           name: filter
           style: deepObject
           schema:
+            additionalProperties: false
             type: object
             properties:
               account-id:
@@ -4547,7 +4548,9 @@ paths:
                           - 'null'
                           - string
                         description: URL pointing to the next page of data, or null if on the last page.
+                    additionalProperties: false
                     type: object
+                additionalProperties: false
                 type: object
           description: OK
         '400':
@@ -4669,9 +4672,11 @@ paths:
                           type:
                             - string
                             - 'null'
+                      additionalProperties: true
                       type: object
                   required:
                     - attributes
+                  additionalProperties: false
                   type: object
                 meta:
                   properties:
@@ -4695,9 +4700,11 @@ paths:
                       examples:
                         - my_reference_id
                       type: string
+                  additionalProperties: false
                   type: object
               required:
                 - data
+              additionalProperties: false
               type: object
       responses:
         '201':
@@ -4711,6 +4718,7 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/inquiry'
+                additionalProperties: false
                 type: object
           description: Created
         '400':
@@ -4762,6 +4770,7 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/inquiry'
+                additionalProperties: false
                 type: object
           description: OK
         '400':
@@ -4826,6 +4835,7 @@ paths:
 
                       Anything else must be explicitly requested with the `include` query parameter.
                     $ref: '#/components/schemas/inquiry-included-objects'
+                additionalProperties: false
                 type: object
           description: OK
         '400':
@@ -4885,8 +4895,11 @@ paths:
                           items:
                             type: string
                           type: array
+                      additionalProperties: true
                       type: object
+                  additionalProperties: false
                   type: object
+              additionalProperties: false
               type: object
       responses:
         '200':
@@ -4900,6 +4913,7 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/inquiry'
+                additionalProperties: false
                 type: object
           description: OK
         '400':
@@ -5156,7 +5170,9 @@ paths:
                         - 3600
                       format: int32
                       type: integer
+                  additionalProperties: false
                   type: object
+              additionalProperties: false
               type: object
       responses:
         '200':
@@ -5180,7 +5196,9 @@ paths:
                         examples:
                           - https://perso.na/verify?code=ABC123
                         type: string
+                    additionalProperties: false
                     type: object
+                additionalProperties: false
                 type: object
           description: OK
         '400':
@@ -5325,7 +5343,9 @@ paths:
                         examples:
                           - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpcXNlX1Q4UHJxcG9FaHdoVVYxd0hSZXVVOW9mcyIsImF1ZCI6InBlcnNvbmEtdmVyaWZ5IiwiaXNzIjoic3RhZ2luZy53aXRocGVyc29uYS5jb20iLCJpYXQiOjE1NzM4NTI2NjEsIm5iZiI6MTU3Mzg1MjY2MSwiZXhwIjoxNTczOTM5MDYxLCJqdGkiOiI5NWRlNjhkOS1hZjI4LTRiMzItOWIxYi03MjA4MTg3NTI3N2IiLCJzaWQiOiJpcXNlX1Q4UHJxcG9FaHdoVVYxd0hSZXVVOW9mcyJ9.LN6DEnfjP5cZoZ3w41RgyX5QVmutmjHja_bRHOmDjg0
                         type: string
+                    additionalProperties: false
                     type: object
+                additionalProperties: false
                 type: object
           description: OK
         '400':
@@ -5377,7 +5397,13 @@ paths:
                           - banana
                         - - orange
                       type: array
+                    tag-id:
+                      items:
+                        type: string
+                      type: array
+                  additionalProperties: false
                   type: object
+              additionalProperties: false
               type: object
       responses:
         '200':
@@ -5391,6 +5417,7 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/inquiry'
+                additionalProperties: false
                 type: object
           description: OK
         '400':
@@ -5454,9 +5481,11 @@ paths:
                       type: array
                   required:
                     - simulate-actions
+                  additionalProperties: false
                   type: object
               required:
                 - meta
+              additionalProperties: false
               type: object
       responses:
         '200':
@@ -5470,6 +5499,7 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/inquiry'
+                additionalProperties: false
                 type: object
           description: OK
         '400':
@@ -5595,7 +5625,7 @@ paths:
       tags:
         - Inquiry Sessions
     post:
-      description: Creates a new Inquiry Session.
+      description: Creates a new Inquiry Session. By default, we only allow up to 25 sessions per Inquiry.
       operationId: create-an-inquiry-session
       externalDocs:
         description: Full documentation for this API on the Persona website.
@@ -13675,6 +13705,7 @@ components:
                 - '2021-03-25T07:04:16.667Z'
     inquiry:
       type: object
+      additionalProperties: false
       description: An Inquiry object
       properties:
         type:
@@ -13819,6 +13850,7 @@ components:
                       type:
                         - integer
                         - 'null'
+                  additionalProperties: false
                   type: object
                 tags:
                   type: array
@@ -13949,6 +13981,7 @@ components:
                           type:
                             - string
                             - 'null'
+                      additionalProperties: false
                       type: object
                     name-middle:
                       properties:
@@ -13962,6 +13995,7 @@ components:
                           type:
                             - string
                             - 'null'
+                      additionalProperties: false
                       type: object
                     name-last:
                       properties:
@@ -13975,6 +14009,7 @@ components:
                           type:
                             - string
                             - 'null'
+                      additionalProperties: false
                       type: object
                     address-street-1:
                       properties:
@@ -13988,6 +14023,7 @@ components:
                           type:
                             - string
                             - 'null'
+                      additionalProperties: false
                       type: object
                     address-street-2:
                       properties:
@@ -14001,6 +14037,7 @@ components:
                           type:
                             - string
                             - 'null'
+                      additionalProperties: false
                       type: object
                     address-city:
                       description: City of residence address. Not all international addresses use this attribute.
@@ -14015,6 +14052,7 @@ components:
                           type:
                             - string
                             - 'null'
+                      additionalProperties: false
                       type: object
                     address-subdivision:
                       description: State or subdivision of residence address. In the US, this should be the unabbreviated name. Not all international addresses use this attribute.
@@ -14029,6 +14067,7 @@ components:
                           type:
                             - string
                             - 'null'
+                      additionalProperties: false
                       type: object
                     address-postal-code:
                       description: ZIP or postal code of residence address. Not all international addresses use this attribute.
@@ -14043,6 +14082,7 @@ components:
                           type:
                             - string
                             - 'null'
+                      additionalProperties: false
                       type: object
                     address-country-code:
                       description: ISO 3166-1 alpha 2 country code.
@@ -14057,6 +14097,7 @@ components:
                           type:
                             - string
                             - 'null'
+                      additionalProperties: false
                       type: object
                     birthdate:
                       properties:
@@ -14071,6 +14112,7 @@ components:
                           type:
                             - string
                             - 'null'
+                      additionalProperties: false
                       type: object
                     email-address:
                       properties:
@@ -14084,6 +14126,7 @@ components:
                           type:
                             - string
                             - 'null'
+                      additionalProperties: false
                       type: object
                     phone-number:
                       properties:
@@ -14097,6 +14140,7 @@ components:
                           type:
                             - string
                             - 'null'
+                      additionalProperties: false
                       type: object
                     identification-number:
                       properties:
@@ -14110,10 +14154,12 @@ components:
                           type:
                             - string
                             - 'null'
+                      additionalProperties: false
                       type: object
                   additionalProperties: true
                   type: object
         relationships:
+          additionalProperties: false
           type: object
           properties:
             account:
@@ -14131,6 +14177,7 @@ components:
                   type:
                     - object
                     - 'null'
+              additionalProperties: false
               type: object
             documents:
               properties:
@@ -14146,8 +14193,10 @@ components:
                         examples:
                           - document/government-id
                         type: string
+                    additionalProperties: false
                     type: object
                   type: array
+              additionalProperties: false
               type: object
             template:
               description: Only present for Legacy 2.0 inquiries
@@ -14165,6 +14214,7 @@ components:
                   type:
                     - object
                     - 'null'
+              additionalProperties: false
               type: object
             inquiry-template:
               description: Only present for Dynamic Flow inquiries
@@ -14182,6 +14232,7 @@ components:
                   type:
                     - object
                     - 'null'
+              additionalProperties: false
               type: object
             inquiry-template-version:
               description: Only present for Dynamic Flow inquiries
@@ -14199,6 +14250,7 @@ components:
                   type:
                     - object
                     - 'null'
+              additionalProperties: false
               type: object
             reports:
               properties:
@@ -14215,8 +14267,10 @@ components:
                           - report/address-lookup
                           - report/watchlist
                         type: string
+                    additionalProperties: false
                     type: object
                   type: array
+              additionalProperties: false
               type: object
             reviewer:
               properties:
@@ -14236,6 +14290,7 @@ components:
                   type:
                     - object
                     - 'null'
+              additionalProperties: false
               type: object
             selfies:
               properties:
@@ -14253,8 +14308,10 @@ components:
                           - selfie/center-only
                           - selfie/configurable-poses
                         type: string
+                    additionalProperties: false
                     type: object
                   type: array
+              additionalProperties: false
               type: object
             sessions:
               properties:
@@ -14269,8 +14326,10 @@ components:
                         const: inquiry-session
                         description: inquiry-session
                         type: string
+                    additionalProperties: false
                     type: object
                   type: array
+              additionalProperties: false
               type: object
             verifications:
               properties:
@@ -14286,8 +14345,10 @@ components:
                         examples:
                           - verification/government-id
                         type: string
+                    additionalProperties: false
                     type: object
                   type: array
+              additionalProperties: false
               type: object
     report-shared-attributes:
       type: object
@@ -17501,6 +17562,7 @@ components:
           $ref: '#/components/schemas/document-shared-relationships'
     inquiry-template:
       type: object
+      additionalProperties: false
       description: An Inquiry Template object
       properties:
         type:
@@ -17512,6 +17574,7 @@ components:
             - itmpl_ABC123
           type: string
         attributes:
+          additionalProperties: false
           type: object
           properties:
             status:
@@ -17546,11 +17609,15 @@ components:
                       type: string
                       examples:
                         - itmplv_ABC123
+                  additionalProperties: false
                   type: object
+              additionalProperties: false
               type: object
+          additionalProperties: false
           type: object
     inquiry-template-version:
       type: object
+      additionalProperties: false
       description: An Inquiry Template Version object
       properties:
         type:
@@ -17562,6 +17629,7 @@ components:
           examples:
             - itmplv_HAVumeSgCxWxhVb8tTRjaiUB
         attributes:
+          additionalProperties: false
           type: object
           properties:
             name-display:
@@ -17609,6 +17677,7 @@ components:
               examples:
                 - '2022-11-09T00:29:41.000Z'
             theme:
+              additionalProperties: false
               type: object
               properties:
                 border-radius:
@@ -17956,12 +18025,15 @@ components:
                     - string
                     - 'null'
         relationships:
+          additionalProperties: false
           type: object
           properties:
             inquiry-template:
+              additionalProperties: false
               type: object
               properties:
                 data:
+                  additionalProperties: false
                   type: object
                   properties:
                     type:
@@ -17974,6 +18046,7 @@ components:
                         - itmpl_srQQ2Ui2gvNY353u65vD61gr
     template:
       type: object
+      additionalProperties: false
       description: An Template object for legacy inquiries
       properties:
         type:
@@ -17986,6 +18059,7 @@ components:
           type: string
         attributes:
           type: object
+          additionalProperties: false
           properties:
             name:
               examples:
@@ -18667,6 +18741,7 @@ components:
     create-verification-action:
       title: Create Verification Action
       type: object
+      additionalProperties: false
       properties:
         type:
           description: The type of simulate action. See [valid actions](https://docs.withpersona.com/docs/integration-testing#creating-verification-with-status).
@@ -18676,6 +18751,7 @@ components:
             - create_failed_verification
         data:
           type: object
+          additionalProperties: false
           properties:
             verification-template-id:
               description: The token of the Verification Template. See [supported Verification types](https://docs.withpersona.com/docs/integration-testing#supported-verification-types).
@@ -25136,7 +25212,11 @@ components:
                       - apple
                       - orange
                       - banana
+                  tag-id:
+                    type: string
+                additionalProperties: false
                 type: object
+            additionalProperties: false
             type: object
     inquiries-review-request:
       content:
@@ -25150,5 +25230,7 @@ components:
                     examples:
                       - A comment about this inquiry
                     type: string
+                additionalProperties: false
                 type: object
+            additionalProperties: false
             type: object
