@@ -1,6 +1,7 @@
 title: Adverse Media Report
 description: An Adverse Media Report
 type: object
+additionalProperties: false
 properties:
   type:
     type: string
@@ -17,15 +18,21 @@ properties:
       - type: object
         properties:
           name-first:
-            type: string
+            type:
+              - string
+              - 'null'
             description: The input first name of the search individual
             example: Joe
           name-middle:
-            type: string
+            type:
+              - string
+              - 'null'
             description: The input middle name of the search individual
             example: 'N'
           name-last:
-            type: string
+            type:
+              - string
+              - 'null'
             description: The input last name of the search individual
             example: Doe
           term:
@@ -35,15 +42,21 @@ properties:
               name)
             example: Joe N Doe
           birthdate-year:
-            type: integer
-            format: int32
+            type:
+              - integer
+              - 'null'
             example: 1992
           birthdate:
-            type: string
+            type:
+              - string
+              - 'null'
+            pattern: ^\d{4}-\d{2}-\d{2}$
             description: The input DOB in YYYY-MM-DD format
             example: '1991-10-07'
           country-code:
-            type: string
+            type:
+              - string
+              - 'null'
             description: The input search country in alpha2 format
             example: US
           related-sources:
@@ -51,11 +64,14 @@ properties:
             type: array
             items:
               type: object
+              additionalProperties: false
               properties:
                 akas:
                   type: array
                   items:
-                    type: string
+                    type:
+                      - string
+                      - 'null'
                     example: Joey Doey
                 birthdates:
                   type: array
@@ -72,9 +88,12 @@ properties:
                   type: array
                   items:
                     type: object
+                    additionalProperties: false
                     properties:
                       date:
-                        type: string
+                        type:
+                          - string
+                          - 'null'
                         format: date
                         example: '2022-11-12'
                       snippet:
@@ -98,6 +117,7 @@ properties:
                   type: array
                   items:
                     type: object
+                    additionalProperties: false
                     properties:
                       country-codes:
                         type: array
@@ -115,5 +135,13 @@ properties:
                 entity-id:
                   type: string
                   example: FV933QHOUDG73V8
+          ignore-list-media:
+            type: object
+            additionalProperties: true
+          ignore-list-entity:
+            type: array
+            items:
+              type: object
+              additionalProperties: true
   relationships:
     $ref: ./report-shared-relationships.yaml

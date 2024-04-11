@@ -1,0 +1,188 @@
+title: Profile Report
+description: A Profile Report
+type: object
+properties:
+  type:
+    type: string
+    const: report/profile
+    description: report/profile
+  id:
+    type: string
+    description: The ID of the report
+    examples:
+      - rep_XYZ1234567890ABCDEF
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./report-shared-attributes.yaml
+      - type: object
+        properties:
+          name-first:
+            type:
+              - string
+              - 'null'
+            description: Given or first name.
+            examples:
+              - John
+          name-last:
+            type:
+              - string
+              - 'null'
+            description: Family or last name.
+            examples:
+              - Doe
+          birthdate:
+            type:
+              - string
+              - 'null'
+            description: Birthdate, must be in the format "YYYY-MM-DD".
+            format: date
+            examples:
+              - '1980-04-12'
+          social-security-number:
+            type:
+              - string
+              - 'null'
+            description: Full social security number.
+            examples:
+              - 123-45-6789
+          social-security-number-last-4:
+            type:
+              - string
+              - 'null'
+            description: Last 4 digits of social security number.
+            examples:
+              - '6789'
+          address-street-1:
+            type:
+              - string
+              - 'null'
+            description: Primary street address.
+            examples:
+              - 123 Main St
+          address-street-2:
+            type:
+              - string
+              - 'null'
+            description: Secondary street address (if any).
+            examples:
+              - Apt 4
+          address-city:
+            type:
+              - string
+              - 'null'
+            description: City of residence.
+            examples:
+              - Metropolis
+          address-subdivision:
+            type:
+              - string
+              - 'null'
+            description: State or subdivision of residence.
+            examples:
+              - New York
+          address-subdivision-abbr:
+            type:
+              - string
+              - 'null'
+            description: State or subdivision abbreviation.
+            examples:
+              - NY
+          address-postal-code:
+            type:
+              - string
+              - 'null'
+            description: ZIP or postal code.
+            examples:
+              - '12345'
+          address-postal-code-abbr:
+            type:
+              - string
+              - 'null'
+            description: ZIP or postal code abbreviation (if applicable).
+          phone-number:
+            type:
+              - string
+              - 'null'
+            description: Phone number.
+            examples:
+              - 555-1234
+          identity-records:
+            type: array
+            description: Detailed identity records if available.
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                names:
+                  type: array
+                  items:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      name-full:
+                        type: string
+                      name-first:
+                        type: string
+                      name-middle:
+                        type: string
+                      name-last:
+                        type: string
+                birthdates:
+                  type: array
+                  items:
+                    type: string
+                addresses:
+                  type: array
+                  items:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      country-code:
+                        type: string
+                      street-1:
+                        type: string
+                      street-2:
+                        type: string
+                      city:
+                        type: string
+                      postal-code:
+                        type: string
+                      longitude:
+                        type: number
+                      latitude:
+                        type: number
+                      subdivision:
+                        type: string
+                      date-first-seen:
+                        type: string
+                      date-last-seen:
+                        type: string
+                social-security-numbers:
+                  type: array
+                  items:
+                    type: string
+                phone-numbers:
+                  type: array
+                  items:
+                    type: string
+                email-addresses:
+                  type: array
+                  items:
+                    type: string
+                deceased:
+                  type: boolean
+                deceased-date:
+                  type: string
+                drivers-licenses:
+                  type: array
+                  items:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      number:
+                        type: string
+                      state:
+                        type: string
+  relationships:
+    $ref: ./report-shared-relationships.yaml

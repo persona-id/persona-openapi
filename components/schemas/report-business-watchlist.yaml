@@ -1,0 +1,72 @@
+title: Business Watchlist Report
+description: A Business Watchlist Report
+type: object
+properties:
+  type:
+    type: string
+    const: report/business-watchlist
+    description: report/business-watchlist
+  id:
+    type: string
+    description: The ID of the report
+    examples:
+      - rep_8YZjQaNjXpZLKrJNHBkYDLAp
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./report-shared-attributes.yaml
+      - type: object
+        properties:
+          matched-lists:
+            type: array
+            description: A list of slugs identifying the lists on which matches were found.
+            items:
+              type: string
+          sanction-list:
+            type: array
+            description: Detailed information about matches found on sanction lists.
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                name:
+                  type: string
+                  description: The name of the sanction list.
+                url:
+                  type: string
+                  format: uri
+                  description: A URL with more information about the list.
+          fitness-probity-list:
+            type: array
+            description: >-
+              Detailed information about matches found on fitness and probity
+              lists.
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                name:
+                  type: string
+                  description: The name of the fitness and probity list.
+                url:
+                  type: string
+                  format: uri
+                  description: A URL with more information about the list.
+          warning-list:
+            type: array
+            description: Detailed information about matches found on warning lists.
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                name:
+                  type: string
+                  description: The name of the warning list.
+                url:
+                  type: string
+                  format: uri
+                  description: A URL with more information about the list.
+          run-history:
+            $ref: ./report-run-history.yaml
+  relationships:
+    $ref: ./report-shared-relationships.yaml

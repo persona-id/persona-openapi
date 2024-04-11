@@ -1,6 +1,7 @@
 title: Crypto Address Watchlist Report
 description: A Crypto Address Watchlist Report
 type: object
+additionalProperties: false
 properties:
   type:
     type: string
@@ -18,14 +19,18 @@ properties:
         properties:
           query:
             type: object
+            additionalProperties: false
             properties:
               crypto-address:
                 type: string
                 example: 1Fz29BQp82pE3vXXcsZoMNQ3KSHfMzfMe3
           result:
-            type: array
+            type:
+              - array
+              - 'null'
             items:
               type: object
+              additionalProperties: false
               properties:
                 name:
                   type: string
@@ -49,6 +54,7 @@ properties:
                   type: array
                   items:
                     type: object
+                    additionalProperties: false
                     properties:
                       name:
                         type: string
@@ -60,18 +66,19 @@ properties:
                         type: array
                         items:
                           type: object
+                          additionalProperties: false
                           properties:
                             day:
                               type: string
-                              format: date-time
+                              pattern: ^\d{2}$
                               example: '03'
                             year:
                               type: string
-                              format: date
+                              pattern: ^\d{4}$
                               example: '1985'
                             month:
                               type: string
-                              format: date-time
+                              pattern: ^\d{2}$
                               example: '03'
                             granularity:
                               type: string
@@ -80,6 +87,7 @@ properties:
                         type: array
                         items:
                           type: object
+                          additionalProperties: false
                           properties:
                             type:
                               type: string

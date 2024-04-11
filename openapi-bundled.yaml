@@ -4659,7 +4659,10 @@ paths:
                             - string
                             - 'null'
                         fields:
-                          $ref: '#/components/schemas/inquiry-fields'
+                          unevaluatedProperties: false
+                          oneOf:
+                            - $ref: '#/components/schemas/null'
+                            - $ref: '#/components/schemas/inquiry-fields'
                         tags:
                           description: A list of tag names to be associated with the Inquiry.
                           items:
@@ -4889,7 +4892,10 @@ paths:
                             - string
                             - 'null'
                         fields:
-                          $ref: '#/components/schemas/inquiry-fields'
+                          unevaluatedProperties: false
+                          oneOf:
+                            - $ref: '#/components/schemas/null'
+                            - $ref: '#/components/schemas/inquiry-fields'
                         tags:
                           description: A list of tag names to be associated with the Inquiry.
                           items:
@@ -8600,30 +8606,22 @@ paths:
             schema:
               properties:
                 data:
-                  discriminator:
-                    propertyName: type
-                    mapping:
-                      report/watchlist: '#/components/schemas/report-watchlist-request'
-                      report/crypto-address-watchlist: '#/components/schemas/report-crypto-address-watchlist-request'
-                      report/adverse-media: '#/components/schemas/report-adverse-media-request'
-                      report/address-lookup: '#/components/schemas/report-address-lookup-request'
-                      report/politically-exposed-person: '#/components/schemas/report-politically-exposed-person-request'
-                      report/email-address: '#/components/schemas/report-email-address-request'
-                      report/phone-number: '#/components/schemas/report-phone-risk-request'
-                      report/social-media: '#/components/schemas/report-social-media-request'
-                      report/business-lookup: '#/components/schemas/report-business-lookup-request'
-                      report/sentilink-scores: '#/components/schemas/report-sentilink-scores-request'
-                  oneOf:
-                    - $ref: '#/components/schemas/report-watchlist-request'
-                    - $ref: '#/components/schemas/report-crypto-address-watchlist-request'
-                    - $ref: '#/components/schemas/report-adverse-media-request'
+                  unevaluatedProperties: false
+                  anyOf:
                     - $ref: '#/components/schemas/report-address-lookup-request'
-                    - $ref: '#/components/schemas/report-politically-exposed-person-request'
-                    - $ref: '#/components/schemas/report-email-address-request'
-                    - $ref: '#/components/schemas/report-phone-risk-request'
-                    - $ref: '#/components/schemas/report-social-media-request'
+                    - $ref: '#/components/schemas/report-adverse-media-request'
+                    - $ref: '#/components/schemas/report-business-adverse-media-request'
                     - $ref: '#/components/schemas/report-business-lookup-request'
+                    - $ref: '#/components/schemas/report-crypto-address-watchlist-request'
+                    - $ref: '#/components/schemas/report-email-address-request'
+                    - $ref: '#/components/schemas/report-finra-broker-check-request'
+                    - $ref: '#/components/schemas/report-phone-risk-request'
+                    - $ref: '#/components/schemas/report-politically-exposed-person-request'
+                    - $ref: '#/components/schemas/report-profile-request'
                     - $ref: '#/components/schemas/report-sentilink-scores-request'
+                    - $ref: '#/components/schemas/report-social-media-request'
+                    - $ref: '#/components/schemas/report-synthetic-request'
+                    - $ref: '#/components/schemas/report-watchlist-request'
                 meta:
                   properties:
                     auto-create-account:
@@ -8641,12 +8639,27 @@ paths:
                       examples:
                         - my_reference_id
                       type: string
+                    processing-mode:
+                      type: string
+                      examples:
+                        - sync
+                      description: The processing mode for the report.
+                    request-flags:
+                      type: array
+                      items:
+                        type: string
+                        examples:
+                          - sync
                   type: object
-              type: object
+                  additionalProperties: false
       responses:
         '201':
           content:
             application/json:
+              examples:
+                Result:
+                  summary: Created
+                  $ref: '#/components/examples/report-watchlist'
               schema:
                 type: object
                 properties:
@@ -8661,6 +8674,8 @@ paths:
           $ref: '#/components/responses/forbidden'
         '404':
           $ref: '#/components/responses/not-found'
+        '408':
+          $ref: '#/components/responses/request-timeout'
         '409':
           $ref: '#/components/responses/conflict'
         '422':
@@ -8696,6 +8711,10 @@ paths:
         '200':
           content:
             application/json:
+              examples:
+                Result:
+                  summary: Created
+                  $ref: '#/components/examples/report-watchlist'
               schema:
                 type: object
                 properties:
@@ -8739,6 +8758,10 @@ paths:
         '200':
           content:
             application/json:
+              examples:
+                Result:
+                  summary: Created
+                  $ref: '#/components/examples/report-watchlist'
               schema:
                 type: object
                 properties:
@@ -8865,7 +8888,7 @@ paths:
                       properties:
                         dismiss-type:
                           description: required in case of Adverse Media and Business Adverse Media. "entity" - refers to one of several individuals or businesses found by the report. "media" - refers to specific article about that "entity"
-                          enum:
+                          examples:
                             - entity
                             - media
                           type: string
@@ -9374,9 +9397,6 @@ paths:
                         reference-id:
                           type: string
                           description: Reference ID on Account, refers to an entity in your user model.
-                        external-id:
-                          type: string
-                          description: External ID should be set to the ID for this transaction from your system. It can be used for lookup.
                         tags:
                           description: A list of tag names to be associated with the Transaction.
                           items:
@@ -9434,9 +9454,6 @@ paths:
               reference-id:
                 description: Filter transactions by reference ID.
                 type: string
-              external-id:
-                description: Filter transactions by external ID.
-                type: string
       responses:
         '200':
           description: OK
@@ -9477,6 +9494,84 @@ paths:
         '429':
           $ref: '#/components/responses/too-many-requests'
   /transactions/{transaction-id}:
+    delete:
+      summary: Redact a Transaction
+      tags:
+        - Transactions
+      description: Permanently deletes personally identifiable information (PII) for a <<glossary:Transaction>>. **This action cannot be undone**.
+      operationId: redact-a-transaction
+      externalDocs:
+        description: Full documentation for this API on the Persona website.
+        url: https://docs.withpersona.com/reference/redact-a-transaction
+      parameters:
+        - $ref: '#/components/parameters/key-inflection-header'
+        - $ref: '#/components/parameters/idempotency-key-header'
+        - $ref: '#/components/parameters/persona-version-header'
+        - $ref: '#/components/parameters/include-query-parameter'
+        - name: transaction-id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              examples:
+                Result:
+                  summary: OK
+                  value:
+                    data:
+                      type: transaction
+                      id: txn_26wUfNNK6Ze7qkwyK6kuj7RkZgdP
+                      attributes:
+                        status: created
+                        reference-id: null
+                        fields:
+                          front-photo:
+                            type: file
+                            value: null
+                          back-photo:
+                            type: file
+                            value: null
+                          country-code:
+                            type: string
+                            value: null
+                          selected-id-class:
+                            type: string
+                            value: null
+                          center-photo:
+                            type: file
+                            value: null
+                          selfie-compare-photo:
+                            type: file
+                            value: null
+                        tags: []
+                        created-at: '2021-09-29T18:00:00Z'
+                        updated-at: '2021-09-29T18:00:00Z'
+                      relationships:
+                        transaction-type:
+                          data:
+                            type: transaction-type
+                            id: txntp_N1687FCwgERcW3M88M5U4mAt
+                        related-objects:
+                          data: []
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/transaction'
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not-found'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
     get:
       summary: Retrieve a Transaction
       tags:
@@ -9579,9 +9674,6 @@ paths:
                         reference-id:
                           type: string
                           description: Reference ID on Account, refers to an entity in your user model.
-                        external-id:
-                          type: string
-                          description: External ID should be set to the ID for this transaction from your system. It can be used for lookup.
                         label:
                           type: string
                         tags:
@@ -11083,6 +11175,10 @@ paths:
         '200':
           content:
             application/json:
+              examples:
+                Result:
+                  summary: Created
+                  $ref: '#/components/examples/verification-database'
               schema:
                 type: object
                 properties:
@@ -11162,6 +11258,11 @@ paths:
                       relationships:
                         inquiry:
                           data: null
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/verification'
           description: OK
         '400':
           $ref: '#/components/responses/bad-request'
@@ -11633,7 +11734,7 @@ paths:
       summary: Disable a Webhook
       tags:
         - Webhooks
-  /webhooks/{webhook-id}/rotate_secret:
+  /webhooks/{webhook-id}/rotate-secret:
     post:
       description: Rotates a webhook's secret.
       operationId: rotate-a-webhook-secret
@@ -11656,9 +11757,11 @@ paths:
           application/json:
             schema:
               type: object
+              additionalProperties: false
               properties:
                 meta:
                   type: object
+                  additionalProperties: false
                   properties:
                     expires-in-seconds:
                       description: Seconds until currently active webhook expires
@@ -14399,16 +14502,19 @@ components:
             example: tag1
     report-shared-relationships:
       type: object
+      additionalProperties: false
       description: Other Persona objects related to the report
       properties:
         inquiry:
           type: object
+          additionalProperties: false
           description: The inquiry linked to the report
           properties:
             data:
               type:
                 - object
                 - 'null'
+              additionalProperties: false
               properties:
                 id:
                   example: inq_KHK4MJCE4QvfocWB2intQ3YE
@@ -14419,12 +14525,14 @@ components:
                   type: string
         account:
           type: object
+          additionalProperties: false
           description: The account linked to the report
           properties:
             data:
               type:
                 - object
                 - 'null'
+              additionalProperties: false
               properties:
                 id:
                   example: act_9e3yoAUApTRMjgNoPAC7TNtz
@@ -14435,10 +14543,12 @@ components:
                   type: string
         report-template:
           type: object
+          additionalProperties: false
           description: The report template used to create this report
           properties:
             data:
               type: object
+              additionalProperties: false
               properties:
                 id:
                   example: rptp_tQumELV14h7Vh9Qqm8Ytm5K1
@@ -14467,135 +14577,222 @@ components:
             - type: object
               properties:
                 addressee:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   example: Joe Doe
                 address-street-1:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   example: 1 Infinite Loop
                 address-street-2:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                 address-city:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   example: Cupertino
                 address-subdivision:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   example: California
                 address-postal-code:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   example: '95014'
                 resolved-addressee:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                 resolved-address-street-1:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   example: 1 Infinite Loop
                 resolved-address-street-2:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                 resolved-address-city:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   example: Cupertino
                 resolved-address-subdivision:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   example: CA
                 resolved-address-postal-code:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   example: '95014'
                 metadata-record-type:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   example: S
                 metadata-zip-type:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   example: Standard
                 metadata-county-fips:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   example: '06085'
                 metadata-county-name:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   example: Santa Clara
                 metadata-carrier-route:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   example: C067
                 metadata-carrier-route-type:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   example: CityRoute
                 metadata-congressional-district:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   example: '17'
                 metadata-building-default-indicator:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                 metadata-residential-delivery-indicator:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   example: Commercial
                 metadata-latitude:
-                  type: number
+                  type:
+                    - number
+                    - 'null'
                   example: 37.3331
                 metadata-longitude:
-                  type: number
+                  type:
+                    - number
+                    - 'null'
                   example: -122.02889
                 metadata-precision:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   example: Zip9
                 metadata-time-zone:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   example: Pacific
                 metadata-utc-offset:
-                  type: integer
+                  type:
+                    - integer
+                    - 'null'
                   example: -8
                 metadata-obeys-daylight-savings:
-                  type: boolean
+                  type:
+                    - boolean
+                    - 'null'
                   example: true
                 analysis-dpv-match-code:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   example: 'Y'
                 analysis-dpv-match-code-decoded:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   example: Confirmed
                 analysis-dpv-footnotes:
-                  type: array
+                  type:
+                    - array
+                    - 'null'
                   items:
                     type: string
                     example: AA
                 analysis-dpv-footnotes-decoded:
-                  type: array
+                  type:
+                    - array
+                    - 'null'
                   items:
                     type: string
                     example: Street name, city, state, and ZIP are all valid.
                 analysis-dpv-cmra:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   example: 'N'
                 analysis-dpv-vacant:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   example: 'N'
                 analysis-active:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   example: 'Y'
                 analysis-footnotes:
-                  type: array
+                  type:
+                    - array
+                    - 'null'
                   items:
                     type: string
                 analysis-footnotes-decoded:
-                  type: array
+                  type:
+                    - array
+                    - 'null'
                   items:
                     type: string
                 analysis-lacs-link-code:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                 analysis-lacs-link-code-decoded:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                 analysis-lacs-link-indicator:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                 analysis-lacs-link-indicator-decoded:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                 analysis-suite-link-match:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                 metadata-ews-match:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                 error-message:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
         relationships:
           $ref: '#/components/schemas/report-shared-relationships'
     report-adverse-media:
       title: Adverse Media Report
       description: An Adverse Media Report
       type: object
+      additionalProperties: false
       properties:
         type:
           type: string
@@ -14612,15 +14809,21 @@ components:
             - type: object
               properties:
                 name-first:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   description: The input first name of the search individual
                   example: Joe
                 name-middle:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   description: The input middle name of the search individual
                   example: 'N'
                 name-last:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   description: The input last name of the search individual
                   example: Doe
                 term:
@@ -14628,15 +14831,21 @@ components:
                   description: The input combined term used for searching (first + middle + last name)
                   example: Joe N Doe
                 birthdate-year:
-                  type: integer
-                  format: int32
+                  type:
+                    - integer
+                    - 'null'
                   example: 1992
                 birthdate:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
+                  pattern: ^\d{4}-\d{2}-\d{2}$
                   description: The input DOB in YYYY-MM-DD format
                   example: '1991-10-07'
                 country-code:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   description: The input search country in alpha2 format
                   example: US
                 related-sources:
@@ -14644,11 +14853,14 @@ components:
                   type: array
                   items:
                     type: object
+                    additionalProperties: false
                     properties:
                       akas:
                         type: array
                         items:
-                          type: string
+                          type:
+                            - string
+                            - 'null'
                           example: Joey Doey
                       birthdates:
                         type: array
@@ -14665,9 +14877,12 @@ components:
                         type: array
                         items:
                           type: object
+                          additionalProperties: false
                           properties:
                             date:
-                              type: string
+                              type:
+                                - string
+                                - 'null'
                               format: date
                               example: '2022-11-12'
                             snippet:
@@ -14689,6 +14904,7 @@ components:
                         type: array
                         items:
                           type: object
+                          additionalProperties: false
                           properties:
                             country-codes:
                               type: array
@@ -14706,12 +14922,21 @@ components:
                       entity-id:
                         type: string
                         example: FV933QHOUDG73V8
+                ignore-list-media:
+                  type: object
+                  additionalProperties: true
+                ignore-list-entity:
+                  type: array
+                  items:
+                    type: object
+                    additionalProperties: true
         relationships:
           $ref: '#/components/schemas/report-shared-relationships'
     report-business-lookup:
       title: Business Lookup Report
       description: A Business Lookup Report
       type: object
+      additionalProperties: false
       properties:
         type:
           type: string
@@ -14729,6 +14954,7 @@ components:
               properties:
                 query:
                   type: object
+                  additionalProperties: false
                   properties:
                     business-name:
                       type: string
@@ -14777,12 +15003,35 @@ components:
                     associated-people:
                       type: array
                       items:
-                        type:
-                          - string
-                          - 'null'
-                        example: John Doe
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          name-first:
+                            type:
+                              - string
+                              - 'null'
+                            example: John
+                          name-last:
+                            type:
+                              - string
+                              - 'null'
+                            example: Doe
+                          name-full:
+                            type:
+                              - string
+                              - 'null'
+                            example: John Doe
+                          titles:
+                            type: array
+                            items:
+                              type:
+                                - string
+                                - 'null'
+                              example: CEO
                 result:
-                  type: object
+                  type:
+                    - object
+                    - 'null'
                   properties:
                     name:
                       type: string
@@ -14797,13 +15046,17 @@ components:
                         - string
                         - 'null'
                     legal-status:
-                      type: string
+                      type:
+                        - string
+                        - 'null'
                       example: unknown
                     legal-entity-type:
                       type: string
                       example: LLC
                     date-of-incorporation:
-                      type: object
+                      type:
+                        - object
+                        - 'null'
                       properties:
                         granularity:
                           type: string
@@ -14817,13 +15070,15 @@ components:
                             - string
                             - 'null'
                         year:
-                          type: string
-                          format: date
+                          type:
+                            - string
+                            - 'null'
                           example: '2013'
                     industry-classifications:
                       type: array
                       items:
                         type: object
+                        additionalProperties: false
                         properties:
                           code:
                             type: string
@@ -14838,6 +15093,7 @@ components:
                       type: array
                       items:
                         type: object
+                        additionalProperties: false
                         properties:
                           state:
                             type: string
@@ -14859,6 +15115,7 @@ components:
                             type: array
                             items:
                               type: object
+                              additionalProperties: false
                               properties:
                                 street-1:
                                   type: string
@@ -14910,6 +15167,7 @@ components:
                       type: array
                       items:
                         type: object
+                        additionalProperties: false
                         properties:
                           street-1:
                             type: string
@@ -14941,6 +15199,7 @@ components:
                       type: array
                       items:
                         type: object
+                        additionalProperties: false
                         properties:
                           name-full:
                             type: string
@@ -14949,6 +15208,7 @@ components:
                       type: array
                       items:
                         type: object
+                        additionalProperties: false
                         properties:
                           name-full:
                             type: string
@@ -14976,12 +15236,15 @@ components:
                       type: array
                       items:
                         type: object
+                        additionalProperties: false
                         properties:
                           name:
                             type: string
                             example: RESTAURANT INSPECTIONS
                 match-status-strength:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   description: |-
                     Possible values:
                     - not_applicable
@@ -14994,7 +15257,9 @@ components:
                     Do not assume this is a static enumeration; Persona may add new
                     values in the future without a versioned update.
                 match-status-business-name:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   description: |-
                     Possible values:
                     - not_applicable
@@ -15007,7 +15272,9 @@ components:
                     Do not assume this is a static enumeration; Persona may add new
                     values in the future without a versioned update.
                 match-status-address:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   description: |-
                     Possible values:
                     - not_applicable
@@ -15020,7 +15287,9 @@ components:
                     Do not assume this is a static enumeration; Persona may add new
                     values in the future without a versioned update.
                 match-status-address-street:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   description: |-
                     Possible values:
                     - not_applicable
@@ -15033,7 +15302,9 @@ components:
                     Do not assume this is a static enumeration; Persona may add new
                     values in the future without a versioned update.
                 match-status-address-city:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   description: |-
                     Possible values:
                     - not_applicable
@@ -15046,7 +15317,9 @@ components:
                     Do not assume this is a static enumeration; Persona may add new
                     values in the future without a versioned update.
                 match-status-address-postal-code:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   description: |-
                     Possible values:
                     - not_applicable
@@ -15059,7 +15332,9 @@ components:
                     Do not assume this is a static enumeration; Persona may add new
                     values in the future without a versioned update.
                 match-status-address-subdivision:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   description: |-
                     Possible values:
                     - not_applicable
@@ -15072,7 +15347,9 @@ components:
                     Do not assume this is a static enumeration; Persona may add new
                     values in the future without a versioned update.
                 match-status-phone-number:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   description: |-
                     Possible values:
                     - not_applicable
@@ -15085,7 +15362,9 @@ components:
                     Do not assume this is a static enumeration; Persona may add new
                     values in the future without a versioned update.
                 match-status-ein:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   description: |-
                     Possible values:
                     - not_applicable
@@ -15098,7 +15377,9 @@ components:
                     Do not assume this is a static enumeration; Persona may add new
                     values in the future without a versioned update.
                 match-status-associated-person:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   description: |-
                     Possible values:
                     - not_applicable
@@ -15111,7 +15392,9 @@ components:
                     Do not assume this is a static enumeration; Persona may add new
                     values in the future without a versioned update.
                 match-status-website:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   description: |-
                     Possible values:
                     - not_applicable
@@ -15129,6 +15412,7 @@ components:
       title: Crypto Address Watchlist Report
       description: A Crypto Address Watchlist Report
       type: object
+      additionalProperties: false
       properties:
         type:
           type: string
@@ -15146,14 +15430,18 @@ components:
               properties:
                 query:
                   type: object
+                  additionalProperties: false
                   properties:
                     crypto-address:
                       type: string
                       example: 1Fz29BQp82pE3vXXcsZoMNQ3KSHfMzfMe3
                 result:
-                  type: array
+                  type:
+                    - array
+                    - 'null'
                   items:
                     type: object
+                    additionalProperties: false
                     properties:
                       name:
                         type: string
@@ -15174,6 +15462,7 @@ components:
                         type: array
                         items:
                           type: object
+                          additionalProperties: false
                           properties:
                             name:
                               type: string
@@ -15185,18 +15474,19 @@ components:
                               type: array
                               items:
                                 type: object
+                                additionalProperties: false
                                 properties:
                                   day:
                                     type: string
-                                    format: date-time
+                                    pattern: ^\d{2}$
                                     example: '03'
                                   year:
                                     type: string
-                                    format: date
+                                    pattern: ^\d{4}$
                                     example: '1985'
                                   month:
                                     type: string
-                                    format: date-time
+                                    pattern: ^\d{2}$
                                     example: '03'
                                   granularity:
                                     type: string
@@ -15205,6 +15495,7 @@ components:
                               type: array
                               items:
                                 type: object
+                                additionalProperties: false
                                 properties:
                                   type:
                                     type: string
@@ -15238,7 +15529,9 @@ components:
                   description: The input email address of the search
                   example: example@domain.com
                 email-reputation:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   description: |-
                     The reputation of the email provided
 
@@ -15250,11 +15543,15 @@ components:
                     Do not assume this is a static enumeration; Persona may add new
                     values in the future without a versioned update.
                 email-reference-count:
-                  type: integer
+                  type:
+                    - integer
+                    - 'null'
                   description: The number of sources used to determine the reputation (Deprecated)
                   example: 4
                 email-domain-reputation:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   deprecated: true
                   description: |-
                     The reputation of the email domain provided (Deprecated)
@@ -15267,84 +15564,124 @@ components:
                     Do not assume this is a static enumeration; Persona may add new
                     values in the future without a versioned update.
                 email-first-seen-days:
-                  type: integer
+                  type:
+                    - integer
+                    - 'null'
                   description: How many days it has ben since the email was first seen in attack (Deprecated)
                   example: 71
                 email-last-seen-days:
-                  type: integer
+                  type:
+                    - integer
+                    - 'null'
                   description: How many days it has been since the email was last seen (Deprecated)
                   format: integer
                   example: 250
                 email-estimated-age-days:
-                  type: integer
+                  type:
+                    - integer
+                    - 'null'
                   description: The estimated age of the email in days
                   example: 410
                 email-domain-age-days:
-                  type: integer
+                  type:
+                    - integer
+                    - 'null'
                   description: The estimated age of the domain in days
                   example: 410
                 email-credentials-leaked:
-                  type: boolean
+                  type:
+                    - boolean
+                    - 'null'
                   description: Whether the email has ever been detected to have been leaked (Deprecated)
                   example: true
                 email-credentials-leaked-recent:
-                  type: boolean
+                  type:
+                    - boolean
+                    - 'null'
                   description: Whether the email has been recently detected as leaked
                   example: true
                 email-data-breached:
-                  type: boolean
+                  type:
+                    - boolean
+                    - 'null'
                   description: Whether the email was involved in a data breach (Deprecated)
                   example: true
                 email-malicious-activity-detected:
-                  type: boolean
+                  type:
+                    - boolean
+                    - 'null'
                   description: Whether the email has ever been detected for suspected malicious activity (Deprecated)
                   example: true
                 email-malicious-activity-detected-recent:
-                  type: boolean
+                  type:
+                    - boolean
+                    - 'null'
                   description: Whether the email has recently been detected for suspected malicious activity
                   example: true
                 email-is-blocklisted:
-                  type: boolean
+                  type:
+                    - boolean
+                    - 'null'
                   description: Whether the email appears on blocklists (Deprecated)
                   example: true
                 email-is-spam:
-                  type: boolean
+                  type:
+                    - boolean
+                    - 'null'
                   description: Whether the email is spam
                   example: true
                 email-is-free-provider:
-                  type: boolean
+                  type:
+                    - boolean
+                    - 'null'
                   description: Whether the email was made with a free provider (Deprecated)
                   example: true
                 email-is-disposable:
-                  type: boolean
+                  type:
+                    - boolean
+                    - 'null'
                   description: Whether the email is one that is disposable or temporary
                   example: true
                 email-is-deliverable:
-                  type: boolean
+                  type:
+                    - boolean
+                    - 'null'
                   description: Whether the email is deliverable
                   example: true
                 email-is-valid-mx:
-                  type: boolean
+                  type:
+                    - boolean
+                    - 'null'
                   description: Whether the domain has a valid MX record
                   example: true
                 email-is-spoofable:
-                  type: boolean
+                  type:
+                    - boolean
+                    - 'null'
                   description: Whether the email can be spoofed. (E.G. not a strict SPF policy or DMARC not enforced. Deprecated)
                   example: true
                 email-is-spf-strict:
-                  type: boolean
+                  type:
+                    - boolean
+                    - 'null'
                   description: Whether there is a sufficiently strict SPF record (Deprecated)
                   example: true
                 email-is-dmarc-enforced:
-                  type: boolean
+                  type:
+                    - boolean
+                    - 'null'
                   description: Whether DMARC is configured correctly and enforced (Deprecated)
                   example: true
                 email-is-suspicious:
-                  type: boolean
+                  type:
+                    - boolean
+                    - 'null'
                   description: Whether the email is suspicious or risky
                   example: true
                 email-domain-exists:
-                  type: boolean
+                  type:
+                    - boolean
+                    - 'null'
                   description: Whether the domain of the email exists
                   example: true
                 email-domain:
@@ -15377,7 +15714,9 @@ components:
                   description: The input phone number of the search
                   example: '+14169671111'
                 phone-type:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   description: |-
                     Possible values:
                     - FIXED_LINE
@@ -15396,14 +15735,20 @@ components:
                     Do not assume this is a static enumeration; Persona may add new
                     values in the future without a versioned update.
                 phone-carrier:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   example: Rogers Communications Canada Inc.
                 phone-risk-level:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   description: Assessment of the phone number's risk (low - high)
                   example: medium-low
                 phone-risk-recommendation:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   description: |-
                     Possible values:
                     - block
@@ -15413,9 +15758,11 @@ components:
                     Do not assume this is a static enumeration; Persona may add new
                     values in the future without a versioned update.
                 phone-risk-score:
-                  type: integer
+                  type:
+                    - integer
+                    - 'null'
                   description: Risk score out of 1000
-                  format: int32
+                  format: integer
                   example: 250
                 phone-risk-sim-swap:
                   type:
@@ -15441,6 +15788,7 @@ components:
       description: A history of the report runs
       items:
         type: object
+        additionalProperties: false
         properties:
           scheduled-at:
             type: string
@@ -15461,10 +15809,14 @@ components:
 
                 Do not assume this is a static enumeration; Persona may add new values in the future without a versioned update.
             example: scheduled
+          report-template-version-id:
+            type: integer
+            deprecated: true
     report-politically-exposed-person:
       title: Politically Exposed Person Report
       description: A Politically Exposed Person Report
       type: object
+      additionalProperties: false
       properties:
         type:
           type: string
@@ -15482,17 +15834,24 @@ components:
               properties:
                 query:
                   type: object
+                  additionalProperties: false
                   properties:
                     name-first:
-                      type: string
+                      type:
+                        - string
+                        - 'null'
                       description: The input first name of the search individual
                       example: Joe
                     name-middle:
-                      type: string
+                      type:
+                        - string
+                        - 'null'
                       description: The input middle name of the search individual
                       example: 'N'
                     name-last:
-                      type: string
+                      type:
+                        - string
+                        - 'null'
                       description: The input last name of the search individual
                       example: Doe
                     term:
@@ -15504,13 +15863,18 @@ components:
                       description: The input DOB in YYYY-MM-DD format
                       example: '1991-10-07'
                     country-code:
-                      type: string
+                      type:
+                        - string
+                        - 'null'
                       description: The input search country in alpha2 format
                       example: US
                 result:
-                  type: array
+                  type:
+                    - array
+                    - 'null'
                   items:
                     type: object
+                    additionalProperties: false
                     properties:
                       entity-id:
                         type: string
@@ -15547,6 +15911,7 @@ components:
                         type: array
                         items:
                           type: object
+                          additionalProperties: false
                           properties:
                             pep-class:
                               type: string
@@ -15567,6 +15932,7 @@ components:
                         type: array
                         items:
                           type: object
+                          additionalProperties: false
                           properties:
                             source-key:
                               type: string
@@ -15578,6 +15944,7 @@ components:
                         type: array
                         items:
                           type: object
+                          additionalProperties: false
                           properties:
                             source-key:
                               type: string
@@ -15593,24 +15960,162 @@ components:
                             - 'null'
                       sources:
                         type: object
+                        additionalProperties: false
                         description: A map of the sources that matched by entity
                       match-types:
                         type: array
                         items:
                           type: string
-                          example: aka_exact
+                          example: aka-exact
                       pep-type:
                         type:
                           - string
                           - 'null'
                 run-history:
                   $ref: '#/components/schemas/report-run-history'
+                ignore-list:
+                  type: array
+                  items:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      ignored-at:
+                        type: string
+                        format: date-time
+                        description: The datetime when the entry was ignored.
+                      run-history-completed-at:
+                        type: string
+                        format: date-time
+                        description: The datetime when the run history was completed.
+                      match:
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          entity-id:
+                            type: string
+                            description: The entity ID of the match.
+                          name:
+                            type: string
+                            description: The name of the match.
+                          birthdates:
+                            type: array
+                            items:
+                              type: string
+                              format: date
+                            description: The birthdates associated with the match.
+                          death-dates:
+                            type: array
+                            items:
+                              type: string
+                              format: date
+                            description: The death dates associated with the match, if applicable.
+                          locations:
+                            type: array
+                            items:
+                              type: string
+                            description: The locations associated with the match.
+                          country:
+                            type: string
+                            description: The country associated with the match.
+                          sex:
+                            type: string
+                            description: The sex of the individual in the match.
+                          positions:
+                            type: array
+                            items:
+                              type: object
+                              additionalProperties: false
+                              properties:
+                                pep-class:
+                                  type: string
+                                  description: The PEP class of the position.
+                                source-key:
+                                  type: string
+                                  description: The source key of the position.
+                                name:
+                                  type: string
+                                  description: The name of the position.
+                          associates:
+                            type: array
+                            items:
+                              type: object
+                              additionalProperties: false
+                              properties:
+                                name:
+                                  type: string
+                                  description: The name of the associate.
+                                relationship:
+                                  type: string
+                                  description: The relationship of the associate to the individual.
+                          affiliations:
+                            type: array
+                            items:
+                              type: object
+                              additionalProperties: false
+                              properties:
+                                source-key:
+                                  type: string
+                                  description: The source key of the affiliation.
+                                name:
+                                  type: string
+                                  description: The name of the affiliation.
+                          related-urls:
+                            type: array
+                            items:
+                              type: object
+                              additionalProperties: false
+                              properties:
+                                source-key:
+                                  type: string
+                                  description: The source key for the URL.
+                                name:
+                                  type: string
+                                  format: uri
+                                  description: The URL related to the match.
+                          images:
+                            type: array
+                            items:
+                              type: string
+                              format: uri
+                            description: The URLs of images associated with the match.
+                          sources:
+                            type: object
+                            additionalProperties: false
+                            properties:
+                              url:
+                                type: string
+                                format: uri
+                                description: The URL of the source.
+                              name:
+                                type: string
+                                description: The name of the source.
+                              flag-code:
+                                type: string
+                                description: The flag code of the source country.
+                          match-types:
+                            type: array
+                            items:
+                              type: string
+                            description: The types of matches found.
+                          pep-type:
+                            type: string
+                            description: The type of politically exposed person.
+                      user:
+                        type: string
+                        description: The user who added the entry to the ignore list.
+                      ignore-reason:
+                        type: string
+                        description: The reason why the entry was added to the ignore list.
+                      is-internal:
+                        type: boolean
+                        description: Indicates if the ignore list entry is internal.
         relationships:
           $ref: '#/components/schemas/report-shared-relationships'
     report-sentilink-scores:
       title: SentiLink Scores Report
       description: A SentiLink Scores Report
       type: object
+      additionalProperties: false
       properties:
         type:
           type: string
@@ -15628,6 +16133,8 @@ components:
             - type: object
               properties:
                 query:
+                  type: object
+                  additionalProperties: false
                   properties:
                     birthdate:
                       description: Birthdate, must be in the format "YYYY-MM-DD".
@@ -15675,6 +16182,7 @@ components:
                     social-security-number:
                       description: Social security number
                       type: string
+                      pattern: ^\d{3}-\d{2}-\d{4}$
                       examples:
                         - 123-45-6789
                     user-id:
@@ -15698,6 +16206,7 @@ components:
                         - 'null'
                 result:
                   type: object
+                  additionalProperties: false
                   properties:
                     application-id:
                       type: string
@@ -15713,6 +16222,7 @@ components:
                       type: array
                       items:
                         type: object
+                        additionalProperties: false
                         properties:
                           name:
                             type: string
@@ -15757,10 +16267,14 @@ components:
             - type: object
               properties:
                 name-first:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   example: Norman
                 name-last:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   example: Mannor
                 birthdate:
                   type: string
@@ -15777,10 +16291,14 @@ components:
                     - 'null'
                   example: address@domain.com
                 address-city:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   example: Funkyville
                 address-subdivision:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   description: Sub-national subdivision such as a US state or a Canadian province
                   example: Wisconsin
                 linkedin-url:
@@ -15799,13 +16317,19 @@ components:
                     - 'null'
                   example: '123456789'
                 facebook-url:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   example: facebook.com/user.name.7
                 facebook-username:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   example: user.name.7
                 facebook-id:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   example: '748945123159485'
                 twitter-url:
                   type:
@@ -15831,6 +16355,8 @@ components:
           $ref: '#/components/schemas/report-shared-relationships'
     report-watchlist-entity:
       description: A entity that matched from a Watchlist
+      type: object
+      additionalProperties: false
       properties:
         name:
           type: string
@@ -15849,6 +16375,7 @@ components:
           description: The birthdate of the entity
           items:
             type: object
+            additionalProperties: false
             properties:
               day:
                 type: string
@@ -15867,6 +16394,7 @@ components:
       title: Watchlist Report
       description: A Watchlist Report
       type: object
+      additionalProperties: false
       properties:
         type:
           type: string
@@ -15901,15 +16429,22 @@ components:
                   description: The input last name of the search individual
                   example: Doe
                 term:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   description: The input combined term used for searching (first + middle + last name)
                   example: Joe N Doe
                 birthdate:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   description: The input DOB in YYYY-MM-DD format
+                  pattern: ^\d{4}-\d{2}-\d{2}$
                   example: '1991-10-07'
                 country-code:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   description: The input search country in alpha2 format
                   example: US
                 matched-lists:
@@ -15919,13 +16454,14 @@ components:
                   description: Lists that matched from the search input
                   items:
                     type: object
+                    additionalProperties: false
                     properties:
                       name:
                         type: string
                         example: EU - EC - Programme PRK - North Korea
                       url:
                         type: string
-                        example: http://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32017R1509&from=EN
+                        example: https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32017R1509&from=EN
                       list-type:
                         type: string
                         example: sanction
@@ -15951,6 +16487,7 @@ components:
                   type: array
                   items:
                     type: object
+                    additionalProperties: false
                     properties:
                       ignored-at:
                         type: string
@@ -15962,13 +16499,14 @@ components:
                         example: '2023-08-11T20:36:04.291Z'
                       match:
                         type: object
+                        additionalProperties: false
                         properties:
                           name:
                             type: string
                             example: EU - EC - Programme PRK - North Korea
                           url:
                             type: string
-                            example: http://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32017R1509&from=EN
+                            example: https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32017R1509&from=EN
                           list-type:
                             type: string
                             example: sanction
@@ -15987,6 +16525,7 @@ components:
                             type: array
                             items:
                               type: object
+                              additionalProperties: false
                               properties:
                                 name:
                                   type: string
@@ -15998,6 +16537,7 @@ components:
                                   type: array
                                   items:
                                     type: object
+                                    additionalProperties: false
                                     properties:
                                       day:
                                         type: string
@@ -16052,12 +16592,6 @@ components:
                 - 'null'
               examples:
                 - abc-123
-            external-id:
-              type:
-                - string
-                - 'null'
-              examples:
-                - '1513'
             fields:
               description: JSON key-value pairs of field name to field value. Exact schema depends on the configuration of the Transaction Type for this Transaction.
               type: object
@@ -18374,22 +18908,25 @@ components:
               format: date-time
               examples:
                 - '2023-09-23T17:14:01.918Z'
+    'null':
+      title: 'null'
+      description: 'null'
+      const: null
+      additionalProperties: false
     inquiry-fields:
       description: JSON key-value pairs of field name to field value. Schema is defined by your Inquiry Template.
-      oneOf:
-        - allOf:
-            - $ref: '#/components/schemas/default-fields'
-            - type: object
-              properties:
-                address-country-code:
-                  description: optional
-                  examples:
-                    - US
-                    - AU
-                    - GB
-                  type: string
-              additionalProperties: true
-        - type: 'null'
+      allOf:
+        - $ref: '#/components/schemas/default-fields'
+        - type: object
+          properties:
+            address-country-code:
+              description: optional
+              examples:
+                - US
+                - AU
+                - GB
+              type: string
+          additionalProperties: true
     selfie:
       type: object
       description: A Selfie object
@@ -19207,32 +19744,533 @@ components:
                   items:
                     type: object
                     description: List items associated with this list.
+    report-business-adverse-media:
+      title: Business Adverse Media Report
+      description: A report detailing adverse media findings for a business entity.
+      type: object
+      properties:
+        type:
+          type: string
+          const: report/business-adverse-media
+          description: The type identifier for a Business Adverse Media Report.
+        id:
+          type: string
+          description: A unique identifier for the report.
+          examples:
+            - rep_9XxZsPaNcroBKmJNHBlYDLOp
+        attributes:
+          unevaluatedProperties: false
+          allOf:
+            - $ref: '#/components/schemas/report-shared-attributes'
+            - type: object
+              properties:
+                term:
+                  type: string
+                  description: The search term for the adverse media report, typically the name of the business.
+                  example: Acme Corporation
+                related-sources:
+                  description: The sources that matched for the search
+                  type: array
+                  items:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      akas:
+                        type: array
+                        items:
+                          type: string
+                          example: Joey Doey
+                      birthdates:
+                        type: array
+                        items:
+                          type:
+                            - string
+                            - 'null'
+                      match_types:
+                        type: array
+                        items:
+                          type: string
+                          example: name_exact
+                      media:
+                        type: array
+                        items:
+                          type: object
+                          additionalProperties: false
+                          properties:
+                            date:
+                              type: string
+                              format: date
+                              example: '2022-11-12'
+                            snippet:
+                              type: string
+                              description: Snippet from matched article
+                              example: Joe Doe was ordered to jail on Friday after a judge revoked his bail for alleged witness tampering.
+                            url:
+                              type: string
+                              description: URL of matched article
+                              example: https://www.example.com/
+                            title:
+                              type: string
+                              description: Title of matched article
+                              example: Joe Doe ordered to jail
+                      name:
+                        type: string
+                        example: Joe Doe
+                      sources:
+                        type: array
+                        items:
+                          type: object
+                          additionalProperties: false
+                          properties:
+                            country_codes:
+                              type: array
+                              items:
+                                type: string
+                                example: FR
+                            name:
+                              type: string
+                              example: Adverse Media
+                            token:
+                              type: string
+                            types:
+                              type: array
+                              items:
+                                type: string
+                                example: adverse-media-v2-other-minor
+                      id:
+                        type: string
+                        example: FV933QHOUDG73V8
+                query:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    business-name:
+                      type: string
+                      description: The name of the business being queried.
+                      examples:
+                        - Acme Corporation
+                    address-street:
+                      type: string
+                      description: The street address of the business being queried.
+                      examples:
+                        - 123 Elm Street
+                    address-city:
+                      type: string
+                      description: The city in which the business is located.
+                      examples:
+                        - Anytown
+                    address-state:
+                      type: string
+                      description: The state or province in which the business is located.
+                      examples:
+                        - CA
+                    address-country:
+                      type: string
+                      description: The country in which the business is located.
+                      examples:
+                        - US
+                    incorporation-date:
+                      type: string
+                      format: date
+                      description: The date the business was incorporated.
+                      examples:
+                        - '2001-04-15'
+                result:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    adverse-media:
+                      type: array
+                      description: A list of adverse media articles related to the business.
+                      items:
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          title:
+                            type: string
+                            description: The title of the media article.
+                            examples:
+                              - Acme Corporation Accused of Environmental Violations
+                          url:
+                            type: string
+                            format: uri
+                            description: The URL to the full media article.
+                            examples:
+                              - https://news.example.com/business/acme-environmental-violations
+                          date:
+                            type: string
+                            format: date
+                            description: The publication date of the media article.
+                            examples:
+                              - '2023-03-01'
+        relationships:
+          $ref: '#/components/schemas/report-shared-relationships'
+      required:
+        - type
+        - id
+        - attributes
+    report-business-watchlist:
+      title: Business Watchlist Report
+      description: A Business Watchlist Report
+      type: object
+      properties:
+        type:
+          type: string
+          const: report/business-watchlist
+          description: report/business-watchlist
+        id:
+          type: string
+          description: The ID of the report
+          examples:
+            - rep_8YZjQaNjXpZLKrJNHBkYDLAp
+        attributes:
+          unevaluatedProperties: false
+          allOf:
+            - $ref: '#/components/schemas/report-shared-attributes'
+            - type: object
+              properties:
+                matched-lists:
+                  type: array
+                  description: A list of slugs identifying the lists on which matches were found.
+                  items:
+                    type: string
+                sanction-list:
+                  type: array
+                  description: Detailed information about matches found on sanction lists.
+                  items:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      name:
+                        type: string
+                        description: The name of the sanction list.
+                      url:
+                        type: string
+                        format: uri
+                        description: A URL with more information about the list.
+                fitness-probity-list:
+                  type: array
+                  description: Detailed information about matches found on fitness and probity lists.
+                  items:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      name:
+                        type: string
+                        description: The name of the fitness and probity list.
+                      url:
+                        type: string
+                        format: uri
+                        description: A URL with more information about the list.
+                warning-list:
+                  type: array
+                  description: Detailed information about matches found on warning lists.
+                  items:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      name:
+                        type: string
+                        description: The name of the warning list.
+                      url:
+                        type: string
+                        format: uri
+                        description: A URL with more information about the list.
+                run-history:
+                  $ref: '#/components/schemas/report-run-history'
+        relationships:
+          $ref: '#/components/schemas/report-shared-relationships'
+    report-profile:
+      title: Profile Report
+      description: A Profile Report
+      type: object
+      properties:
+        type:
+          type: string
+          const: report/profile
+          description: report/profile
+        id:
+          type: string
+          description: The ID of the report
+          examples:
+            - rep_XYZ1234567890ABCDEF
+        attributes:
+          unevaluatedProperties: false
+          allOf:
+            - $ref: '#/components/schemas/report-shared-attributes'
+            - type: object
+              properties:
+                name-first:
+                  type:
+                    - string
+                    - 'null'
+                  description: Given or first name.
+                  examples:
+                    - John
+                name-last:
+                  type:
+                    - string
+                    - 'null'
+                  description: Family or last name.
+                  examples:
+                    - Doe
+                birthdate:
+                  type:
+                    - string
+                    - 'null'
+                  description: Birthdate, must be in the format "YYYY-MM-DD".
+                  format: date
+                  examples:
+                    - '1980-04-12'
+                social-security-number:
+                  type:
+                    - string
+                    - 'null'
+                  description: Full social security number.
+                  examples:
+                    - 123-45-6789
+                social-security-number-last-4:
+                  type:
+                    - string
+                    - 'null'
+                  description: Last 4 digits of social security number.
+                  examples:
+                    - '6789'
+                address-street-1:
+                  type:
+                    - string
+                    - 'null'
+                  description: Primary street address.
+                  examples:
+                    - 123 Main St
+                address-street-2:
+                  type:
+                    - string
+                    - 'null'
+                  description: Secondary street address (if any).
+                  examples:
+                    - Apt 4
+                address-city:
+                  type:
+                    - string
+                    - 'null'
+                  description: City of residence.
+                  examples:
+                    - Metropolis
+                address-subdivision:
+                  type:
+                    - string
+                    - 'null'
+                  description: State or subdivision of residence.
+                  examples:
+                    - New York
+                address-subdivision-abbr:
+                  type:
+                    - string
+                    - 'null'
+                  description: State or subdivision abbreviation.
+                  examples:
+                    - NY
+                address-postal-code:
+                  type:
+                    - string
+                    - 'null'
+                  description: ZIP or postal code.
+                  examples:
+                    - '12345'
+                address-postal-code-abbr:
+                  type:
+                    - string
+                    - 'null'
+                  description: ZIP or postal code abbreviation (if applicable).
+                phone-number:
+                  type:
+                    - string
+                    - 'null'
+                  description: Phone number.
+                  examples:
+                    - 555-1234
+                identity-records:
+                  type: array
+                  description: Detailed identity records if available.
+                  items:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      names:
+                        type: array
+                        items:
+                          type: object
+                          additionalProperties: false
+                          properties:
+                            name-full:
+                              type: string
+                            name-first:
+                              type: string
+                            name-middle:
+                              type: string
+                            name-last:
+                              type: string
+                      birthdates:
+                        type: array
+                        items:
+                          type: string
+                      addresses:
+                        type: array
+                        items:
+                          type: object
+                          additionalProperties: false
+                          properties:
+                            country-code:
+                              type: string
+                            street-1:
+                              type: string
+                            street-2:
+                              type: string
+                            city:
+                              type: string
+                            postal-code:
+                              type: string
+                            longitude:
+                              type: number
+                            latitude:
+                              type: number
+                            subdivision:
+                              type: string
+                            date-first-seen:
+                              type: string
+                            date-last-seen:
+                              type: string
+                      social-security-numbers:
+                        type: array
+                        items:
+                          type: string
+                      phone-numbers:
+                        type: array
+                        items:
+                          type: string
+                      email-addresses:
+                        type: array
+                        items:
+                          type: string
+                      deceased:
+                        type: boolean
+                      deceased-date:
+                        type: string
+                      drivers-licenses:
+                        type: array
+                        items:
+                          type: object
+                          additionalProperties: false
+                          properties:
+                            number:
+                              type: string
+                            state:
+                              type: string
+        relationships:
+          $ref: '#/components/schemas/report-shared-relationships'
+    report-synthetic:
+      title: Synthetic Report
+      description: A Synthetic Report
+      type: object
+      properties:
+        type:
+          type: string
+          const: report/synthetic
+          description: report/synthetic
+        id:
+          type: string
+          description: The ID of the report
+          examples:
+            - rep_9Ht4ZsNjXpZLKrJNHBYDLAp
+        attributes:
+          unevaluatedProperties: false
+          allOf:
+            - $ref: '#/components/schemas/report-shared-attributes'
+            - type: object
+              properties:
+                sentilink-abuse-score:
+                  type:
+                    - integer
+                    - 'null'
+                  description: Sentilink abuse score.
+                  examples:
+                    - 72
+                sentilink-first-party-synthetic-score:
+                  type:
+                    - integer
+                    - 'null'
+                  description: Sentilink first party synthetic score.
+                  examples:
+                    - 58
+                sentilink-third-party-synthetic-score:
+                  type:
+                    - integer
+                    - 'null'
+                  description: Sentilink third party synthetic score.
+                  examples:
+                    - 85
+                report-template-version-name:
+                  type: string
+                  description: The name of the report template version used for this report.
+                  examples:
+                    - v2
+                has-match:
+                  type: boolean
+                  description: Indicates if the report matched.
+                  examples:
+                    - true
+                is-continuous:
+                  type: boolean
+                  description: Indicates if the report is recurring.
+                  examples:
+                    - false
+                tags:
+                  type: array
+                  description: Tags associated with the report.
+                  items:
+                    type: string
+                  examples:
+                    - - suspicious
+                      - reviewed
+        relationships:
+          $ref: '#/components/schemas/report-shared-relationships'
     report:
       type: object
       discriminator:
         propertyName: type
         mapping:
-          report/watchlist: '#/components/schemas/report-watchlist'
-          report/crypto-address-watchlist: '#/components/schemas/report-crypto-address-watchlist'
-          report/adverse-media: '#/components/schemas/report-adverse-media'
           report/address-lookup: '#/components/schemas/report-address-lookup'
-          report/politically-exposed-person: '#/components/schemas/report-politically-exposed-person'
-          report/email-address: '#/components/schemas/report-email-address'
-          report/phone-number: '#/components/schemas/report-phone-risk'
-          report/social-media: '#/components/schemas/report-social-media'
+          report/adverse-media: '#/components/schemas/report-adverse-media'
+          report/business-adverse-media: '#/components/schemas/report-business-adverse-media'
           report/business-lookup: '#/components/schemas/report-business-lookup'
+          report/business-watchlist: '#/components/schemas/report-business-watchlist'
+          report/crypto-address-watchlist: '#/components/schemas/report-crypto-address-watchlist'
+          report/email-address: '#/components/schemas/report-email-address'
+          report/finra-broker-check: '#/components/schemas/report-finra-broker-check'
+          report/phone-number: '#/components/schemas/report-phone-risk'
+          report/politically-exposed-person: '#/components/schemas/report-politically-exposed-person'
+          report/profile: '#/components/schemas/report-profile'
+          report/sec-action-lookup: '#/components/schemas/report-sec-action-lookup'
           report/sentilink-scores: '#/components/schemas/report-sentilink-scores'
+          report/social-media: '#/components/schemas/report-social-media'
+          report/synthetic: '#/components/schemas/report-synthetic'
+          report/watchlist: '#/components/schemas/report-watchlist'
       oneOf:
-        - $ref: '#/components/schemas/report-watchlist'
-        - $ref: '#/components/schemas/report-crypto-address-watchlist'
-        - $ref: '#/components/schemas/report-adverse-media'
         - $ref: '#/components/schemas/report-address-lookup'
-        - $ref: '#/components/schemas/report-politically-exposed-person'
+        - $ref: '#/components/schemas/report-adverse-media'
+        - $ref: '#/components/schemas/report-business-adverse-media'
+        - $ref: '#/components/schemas/report-business-lookup'
+        - $ref: '#/components/schemas/report-business-watchlist'
+        - $ref: '#/components/schemas/report-crypto-address-watchlist'
         - $ref: '#/components/schemas/report-email-address'
         - $ref: '#/components/schemas/report-phone-risk'
-        - $ref: '#/components/schemas/report-social-media'
-        - $ref: '#/components/schemas/report-business-lookup'
+        - $ref: '#/components/schemas/report-politically-exposed-person'
+        - $ref: '#/components/schemas/report-profile'
         - $ref: '#/components/schemas/report-sentilink-scores'
+        - $ref: '#/components/schemas/report-social-media'
+        - $ref: '#/components/schemas/report-synthetic'
+        - $ref: '#/components/schemas/report-watchlist'
     report-shared-request-attributes:
       type: object
       properties:
@@ -19252,66 +20290,49 @@ components:
           examples:
             - rptp_abc123
           type: string
-    report-watchlist-request:
-      title: Watchlist Request
-      description: Fields required to create a Watchlist Report
+    report-address-lookup-request:
+      title: Address Lookup Request
+      description: Fields required to create an Address Lookup Report
       type: object
       properties:
         type:
           type: string
-          const: report/watchlist
-          description: report/watchlist
+          const: report/address-lookup
+          description: report/address-lookup
         attributes:
           unevaluatedProperties: false
           allOf:
             - $ref: '#/components/schemas/report-shared-request-attributes'
             - type: object
               properties:
-                name-first:
+                addressee:
                   type: string
-                  description: The input first name of the search individual.
-                  example: Joe
-                name-middle:
+                  example: Joe Doe
+                address-street-1:
                   type: string
-                  description: The input middle name of the search individual.
-                  example: 'N'
-                name-last:
+                  example: 1 Example Way
+                address-street-2:
+                  type:
+                    - string
+                    - 'null'
+                  example: Ste 300
+                address-city:
                   type: string
-                  description: The input last name of the search individual.
-                  example: Doe
-                term:
+                  example: Cupertino
+                address-subdivision:
                   type: string
-                  description: The input combined term used for searching (first + middle + last name). At least one of name-first, name-middle, name-last, or term is required.
-                  example: Joe N Doe
-                birthdate:
+                  example: California
+                address-postal-code:
                   type: string
-                  description: The input DOB in YYYY-MM-DD format.
-                  example: '1991-10-07'
+                  example: '95014'
                 address-country-code:
                   type: string
-                  description: The input search country in alpha2 format.
                   example: US
-    report-crypto-address-watchlist-request:
-      title: Crypto Address Watchlist Request
-      description: Fields required to create a Crypto Address Watchlist Report
-      type: object
-      properties:
-        type:
-          type: string
-          const: report/crypto-address-watchlist
-          description: report/crypto-address-watchlist
-        attributes:
-          unevaluatedProperties: false
-          allOf:
-            - $ref: '#/components/schemas/report-shared-request-attributes'
-            - type: object
-              properties:
-                crypto-address:
-                  type: string
-                  description: The crypto address to search.
-                  example: 1Fz29BQp82pE3vXXcsZoMNQ3KSHfMzfMe3
           required:
-            - crypto-address
+            - address-street-1
+            - address-city
+            - address-subdivision
+            - address-postal-code
     report-adverse-media-request:
       title: Adverse Media Request
       description: Fields required to create an Adverse Media Report
@@ -19351,172 +20372,31 @@ components:
                   type: string
                   description: The input search country in alpha2 format.
                   example: US
-    report-address-lookup-request:
-      title: Address Lookup Request
-      description: Fields required to create an Address Lookup Report
+    report-business-adverse-media-request:
+      title: Business Adverse Media Report Request
+      description: Fields required to create a Business Adverse Media Report
       type: object
       properties:
         type:
           type: string
-          const: report/address-lookup
-          description: report/address-lookup
+          const: report/business-adverse-media
+          description: report/business-adverse-media
         attributes:
           unevaluatedProperties: false
           allOf:
             - $ref: '#/components/schemas/report-shared-request-attributes'
             - type: object
               properties:
-                addressee:
+                term:
                   type: string
-                  example: Joe Doe
-                address-street-1:
+                  description: The search term for the adverse media report, typically the name of the business.
+                  example: Acme Corporation
+                country-code:
                   type: string
-                  example: 1 Example Way
-                address-street-2:
-                  type: string
-                  example: Ste 300
-                address-city:
-                  type: string
-                  example: Cupertino
-                address-subdivision:
-                  type: string
-                  example: California
-                address-postal-code:
-                  type: string
-                  example: '95014'
-                address-country-code:
-                  type: string
+                  description: ISO 3166-1 alpha-2 country code for the business location.
                   example: US
           required:
-            - address-street-1
-            - address-city
-            - address-subdivision
-            - address-postal-code
-    report-politically-exposed-person-request:
-      title: Politically Exposed Person Request
-      description: Fields required to create a Politically Exposed Person Report
-      type: object
-      properties:
-        type:
-          type: string
-          const: report/politically-exposed-person
-          description: report/politically-exposed-person
-        attributes:
-          unevaluatedProperties: false
-          allOf:
-            - $ref: '#/components/schemas/report-shared-request-attributes'
-            - type: object
-              properties:
-                query:
-                  type: object
-                  properties:
-                    name-first:
-                      type: string
-                      description: The input first name of the search individual.
-                      example: Joe
-                    name-middle:
-                      type: string
-                      description: The input middle name of the search individual.
-                      example: 'N'
-                    name-last:
-                      type: string
-                      description: The input last name of the search individual.
-                      example: Doe
-                    term:
-                      type: string
-                      description: The input combined term used for searching (first + middle + last name). At least one of name-first, name-middle, name-last, or term is required.
-                      example: Joe N Doe
-                    birthdate:
-                      type: string
-                      description: The input DOB in YYYY-MM-DD format.
-                      example: '1991-10-07'
-                    country-code:
-                      type: string
-                      description: The input search country in alpha2 format.
-                      example: US
-    report-email-address-request:
-      title: Email Address Request
-      description: Fields required to create an Email Address Report
-      type: object
-      properties:
-        type:
-          type: string
-          const: report/email-address
-          description: report/email-address
-        attributes:
-          unevaluatedProperties: false
-          allOf:
-            - $ref: '#/components/schemas/report-shared-request-attributes'
-            - type: object
-              properties:
-                query:
-                  type: object
-                  properties:
-                    email-address:
-                      type: string
-                      description: The input email address of the search.
-                      example: example@domain.com
-                  required:
-                    - email-address
-    report-phone-risk-request:
-      title: Phone Risk Request
-      description: Fields required to create a Phone Risk Report
-      type: object
-      properties:
-        type:
-          type: string
-          const: report/phone-number
-          description: report/phone-number
-        attributes:
-          unevaluatedProperties: false
-          allOf:
-            - $ref: '#/components/schemas/report-shared-request-attributes'
-            - type: object
-              properties:
-                phone-number:
-                  type: string
-                  description: The input phone number of the search.
-                  example: '+14169671111'
-          required:
-            - phone-number
-    report-social-media-request:
-      title: Social Media Request
-      description: Fields required to create a Social Media Report
-      type: object
-      properties:
-        type:
-          type: string
-          const: report/social-media
-          description: report/social-media
-        attributes:
-          unevaluatedProperties: false
-          allOf:
-            - $ref: '#/components/schemas/report-shared-request-attributes'
-            - type: object
-              properties:
-                name-first:
-                  type: string
-                  example: Norman
-                name-last:
-                  type: string
-                  example: Mannor
-                birthdate:
-                  type: string
-                  description: Date of birth in ISO 8601 format
-                  example: 19911007T000000-0400
-                phone-number:
-                  type: string
-                  example: '+14169671111'
-                email-address:
-                  type: string
-                  example: address@domain.com
-                address-city:
-                  type: string
-                  example: Funkyville
-                address-subdivision:
-                  type: string
-                  description: Sub-national subdivision such as a US state or a Canadian province
-                  example: Wisconsin
+            - term
     report-business-lookup-request:
       title: Business Lookup Request
       description: Fields required to create a Business Lookup Report
@@ -19572,6 +20452,219 @@ components:
                         example: John Doe
                   required:
                     - business-name
+    report-crypto-address-watchlist-request:
+      title: Crypto Address Watchlist Request
+      description: Fields required to create a Crypto Address Watchlist Report
+      type: object
+      properties:
+        type:
+          type: string
+          const: report/crypto-address-watchlist
+          description: report/crypto-address-watchlist
+        attributes:
+          unevaluatedProperties: false
+          allOf:
+            - $ref: '#/components/schemas/report-shared-request-attributes'
+            - type: object
+              properties:
+                crypto-address:
+                  type: string
+                  description: The crypto address to search.
+                  example: 1Fz29BQp82pE3vXXcsZoMNQ3KSHfMzfMe3
+          required:
+            - crypto-address
+    report-email-address-request:
+      title: Email Address Request
+      description: Fields required to create an Email Address Report
+      type: object
+      properties:
+        type:
+          type: string
+          const: report/email-address
+          description: report/email-address
+        attributes:
+          unevaluatedProperties: false
+          allOf:
+            - $ref: '#/components/schemas/report-shared-request-attributes'
+            - type: object
+              properties:
+                query:
+                  type: object
+                  properties:
+                    email-address:
+                      type: string
+                      description: The input email address of the search.
+                      example: example@domain.com
+                  required:
+                    - email-address
+    report-finra-broker-check-request:
+      title: Finra Broker Check Request
+      description: Fields required to create a Finra Broker Check Report
+      type: object
+      properties:
+        type:
+          type: string
+          const: report/finra-broker-check
+          description: Specifies the type of report to create, in this case, a Finra Broker Check.
+        attributes:
+          unevaluatedProperties: false
+          allOf:
+            - $ref: '#/components/schemas/report-shared-request-attributes'
+            - type: object
+              properties:
+                broker-type:
+                  type: string
+                  examples:
+                    - firm
+                    - individual
+                  description: Type of broker (firm or individual).
+                crd-number:
+                  type: string
+                  description: Central Registration Depository (CRD) number for the broker or firm.
+                  example: '123456'
+                name-full:
+                  type: string
+                  description: Full name of the individual broker or the name of the firm.
+                  example: John Doe
+                firm-name:
+                  type: string
+                  description: Name of the firm, required if broker-type is firm.
+                  example: Example Investments LLC
+                address-city:
+                  type: string
+                  description: City of the broker's or firm's address.
+                  example: New York
+                address-subdivision:
+                  type: string
+                  description: State or subdivision of the broker's or firm's address.
+                  example: NY
+          required:
+            - broker-type
+            - crd-number
+    report-phone-risk-request:
+      title: Phone Risk Request
+      description: Fields required to create a Phone Risk Report
+      type: object
+      properties:
+        type:
+          type: string
+          const: report/phone-number
+          description: report/phone-number
+        attributes:
+          unevaluatedProperties: false
+          allOf:
+            - $ref: '#/components/schemas/report-shared-request-attributes'
+            - type: object
+              properties:
+                phone-number:
+                  type: string
+                  description: The input phone number of the search.
+                  example: '+14169671111'
+          required:
+            - phone-number
+    report-politically-exposed-person-request:
+      title: Politically Exposed Person Request
+      description: Fields required to create a Politically Exposed Person Report
+      type: object
+      properties:
+        type:
+          type: string
+          const: report/politically-exposed-person
+          description: report/politically-exposed-person
+        attributes:
+          unevaluatedProperties: false
+          allOf:
+            - $ref: '#/components/schemas/report-shared-request-attributes'
+            - type: object
+              properties:
+                query:
+                  type: object
+                  properties:
+                    name-first:
+                      type: string
+                      description: The input first name of the search individual.
+                      example: Joe
+                    name-middle:
+                      type: string
+                      description: The input middle name of the search individual.
+                      example: 'N'
+                    name-last:
+                      type: string
+                      description: The input last name of the search individual.
+                      example: Doe
+                    term:
+                      type: string
+                      description: The input combined term used for searching (first + middle + last name). At least one of name-first, name-middle, name-last, or term is required.
+                      example: Joe N Doe
+                    birthdate:
+                      type: string
+                      description: The input DOB in YYYY-MM-DD format.
+                      example: '1991-10-07'
+                    country-code:
+                      type: string
+                      description: The input search country in alpha2 format.
+                      example: US
+    report-profile-request:
+      title: Profile Report Request
+      description: Fields required to create a Profile Report
+      type: object
+      properties:
+        type:
+          type: string
+          const: report/profile
+          description: report/profile
+        attributes:
+          unevaluatedProperties: false
+          allOf:
+            - $ref: '#/components/schemas/report-shared-request-attributes'
+            - type: object
+              properties:
+                name-first:
+                  type: string
+                  description: Given or first name.
+                  example: John
+                name-last:
+                  type: string
+                  description: Family or last name.
+                  example: Doe
+                birthdate:
+                  type: string
+                  pattern: ^\d{4}-\d{2}-\d{2}$
+                  description: Birthdate, must be in the format "YYYY-MM-DD".
+                  example: '1970-01-01'
+                social-security-number:
+                  type: string
+                  pattern: ^\d{3}-\d{2}-\d{4}$
+                  description: Social security number, encrypted.
+                  example: 123-45-6789
+                address-street-1:
+                  type: string
+                  description: Primary street address.
+                  example: 123 Main St
+                address-street-2:
+                  type: string
+                  description: Secondary street address (if any).
+                  example: Apt 4
+                address-city:
+                  type: string
+                  description: City of residence.
+                  example: Anytown
+                address-subdivision:
+                  type: string
+                  description: State or subdivision of residence, unabbreviated.
+                  example: State
+                address-postal-code:
+                  type: string
+                  description: ZIP or postal code of residence.
+                  example: '12345'
+                country-code:
+                  type: string
+                  description: ISO 3166-1 alpha-2 country code for the location.
+                  example: US
+                phone-number:
+                  type: string
+                  description: Phone number, encrypted.
+                  example: 555-555-5555
     report-sentilink-scores-request:
       title: SentiLink Scores Request
       description: Fields required to create a SentiLink Scores Report
@@ -19633,6 +20726,7 @@ components:
                 social-security-number:
                   description: Social security number.
                   type: string
+                  pattern: ^\d{3}-\d{2}-\d{4}$
                   examples:
                     - 123-45-6789
                 user-id:
@@ -19664,6 +20758,152 @@ components:
             - address-postal-code
             - social-security-number
             - user-id
+    report-social-media-request:
+      title: Social Media Request
+      description: Fields required to create a Social Media Report
+      type: object
+      properties:
+        type:
+          type: string
+          const: report/social-media
+          description: report/social-media
+        attributes:
+          unevaluatedProperties: false
+          allOf:
+            - $ref: '#/components/schemas/report-shared-request-attributes'
+            - type: object
+              properties:
+                name-first:
+                  type: string
+                  example: Norman
+                name-last:
+                  type: string
+                  example: Mannor
+                birthdate:
+                  type: string
+                  description: Date of birth in ISO 8601 format
+                  example: 19911007T000000-0400
+                phone-number:
+                  type: string
+                  example: '+14169671111'
+                email-address:
+                  type: string
+                  example: address@domain.com
+                address-city:
+                  type: string
+                  example: Funkyville
+                address-subdivision:
+                  type: string
+                  description: Sub-national subdivision such as a US state or a Canadian province
+                  example: Wisconsin
+    report-synthetic-request:
+      title: Synthetic Report Request
+      description: Fields required to create a Synthetic Report
+      type: object
+      properties:
+        type:
+          type: string
+          const: report/synthetic
+          description: report/synthetic
+        attributes:
+          unevaluatedProperties: false
+          allOf:
+            - $ref: '#/components/schemas/report-shared-request-attributes'
+            - type: object
+              properties:
+                name-first:
+                  type:
+                    - string
+                    - 'null'
+                  description: Given or first name.
+                  example: John
+                name-last:
+                  type:
+                    - string
+                    - 'null'
+                  description: Family or last name.
+                  example: Doe
+                birthdate:
+                  type: string
+                  pattern: ^\d{4}-\d{2}-\d{2}$
+                  description: Birthdate, must be in the format "YYYY-MM-DD".
+                  example: '1980-07-15'
+                social-security-number:
+                  type: string
+                  pattern: ^\d{3}-\d{2}-\d{4}$
+                  description: Social security number, encrypted.
+                  example: 123-45-6789
+                address-street-1:
+                  type: string
+                  description: Primary street address.
+                  example: 456 Elm St
+                address-street-2:
+                  type: string
+                  description: Secondary street address (if any).
+                  example: Suite 2
+                address-city:
+                  type: string
+                  description: City of residence.
+                  example: Springfield
+                address-subdivision:
+                  type: string
+                  description: State or subdivision of residence, unabbreviated.
+                  example: AnyState
+                address-postal-code:
+                  type: string
+                  description: ZIP or postal code of residence.
+                  example: '12345'
+                address-country-code:
+                  type: string
+                  description: ISO 3166-1 alpha-2 country code for the location.
+                  example: US
+                phone-number:
+                  type: string
+                  description: Phone number, encrypted.
+                  example: 555-555-1234
+                email-address:
+                  type: string
+                  description: Email address, encrypted.
+                  example: john.doe@example.com
+    report-watchlist-request:
+      title: Watchlist Request
+      description: Fields required to create a Watchlist Report
+      type: object
+      properties:
+        type:
+          type: string
+          const: report/watchlist
+          description: report/watchlist
+        attributes:
+          unevaluatedProperties: false
+          allOf:
+            - $ref: '#/components/schemas/report-shared-request-attributes'
+            - type: object
+              properties:
+                name-first:
+                  type: string
+                  description: The input first name of the search individual.
+                  example: Joe
+                name-middle:
+                  type: string
+                  description: The input middle name of the search individual.
+                  example: 'N'
+                name-last:
+                  type: string
+                  description: The input last name of the search individual.
+                  example: Doe
+                term:
+                  type: string
+                  description: The input combined term used for searching (first + middle + last name). At least one of name-first, name-middle, name-last, or term is required.
+                  example: Joe N Doe
+                birthdate:
+                  type: string
+                  description: The input DOB in YYYY-MM-DD format.
+                  example: '1991-10-07'
+                address-country-code:
+                  type: string
+                  description: The input search country in alpha2 format.
+                  example: US
     transaction-label:
       type: object
       properties:
@@ -20292,6 +21532,35 @@ components:
                   type: object
                 type: array
             type: object
+    request-timeout:
+      description: Request Timeout
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: Request Timeout
+              value:
+                errors:
+                  - title: Request Timeout
+                    details: The server timed out waiting for the request
+          schema:
+            properties:
+              errors:
+                type: array
+                items:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    title:
+                      description: Request Timeout
+                      type: string
+                    details:
+                      type: string
+                      examples:
+                        - The server timed out waiting for the request
+                        - Client did not produce a request within the time that the server was prepared to wait
+            type: object
+            additionalProperties: false
     success:
       description: Return a 2xx status code to indicate that the data was received successfully. Any other status will trigger retries. For more info see [Retry Logic](https://docs.withpersona.com/docs/webhooks#retry-logic).
   examples:
@@ -21755,6 +23024,43 @@ components:
           relationships:
             creator:
               data: null
+    report-watchlist:
+      value:
+        data:
+          type: report/watchlist
+          id: rep_ARR4XUoYJRgQd7VMVaGEY2Gc
+          attributes:
+            status: ready
+            created-at: '2023-06-07T14:12:16.000Z'
+            completed-at: '2023-06-07T14:12:16.000Z'
+            redacted-at: null
+            report-template-version-name: v1
+            has-match: false
+            is-continuous: false
+            tags: []
+            name-first: Jane
+            name-middle: null
+            name-last: Doe
+            term: Jane Doe
+            birthdate: null
+            country-code: null
+            matched-lists: []
+            run-history:
+              - scheduled-at: '2023-06-07T14:12:16.473Z'
+                completed-at: '2023-06-07T14:12:16.473Z'
+                type: scheduled
+            ignore-list: []
+          relationships:
+            inquiry:
+              data: null
+            account:
+              data:
+                type: account
+                id: act_rD4wFHtwhkgbpy2pc3o2G94a
+            report-template:
+              data:
+                type: report-template/watchlist
+                id: rptp_2t2xwqxPDE1gw8DtYVFB9Vua
     transaction-list:
       value:
         data:
@@ -21763,7 +23069,6 @@ components:
             attributes:
               status: declined
               reference-id: null
-              external-id: null
               fields:
                 country:
                   type: string
@@ -21822,7 +23127,6 @@ components:
           attributes:
             status: declined
             reference-id: null
-            external-id: null
             fields:
               country:
                 type: string
@@ -21878,7 +23182,6 @@ components:
           attributes:
             status: declined
             reference-id: null
-            external-id: null
             fields:
               country:
                 type: string
@@ -21931,7 +23234,6 @@ components:
             id: act_ABC123
             attributes:
               reference-id: null
-              external-id: null
               created-at: '2023-05-26T16:49:35.000Z'
               updated-at: '2023-05-26T16:49:35.000Z'
               redacted-at: null
@@ -22257,7 +23559,6 @@ components:
           attributes:
             status: declined
             reference-id: null
-            external-id: null
             fields:
               country:
                 type: string

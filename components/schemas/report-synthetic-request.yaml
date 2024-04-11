@@ -1,0 +1,68 @@
+title: Synthetic Report Request
+description: Fields required to create a Synthetic Report
+type: object
+properties:
+  type:
+    type: string
+    const: report/synthetic
+    description: report/synthetic
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./report-shared-request-attributes.yaml
+      - type: object
+        properties:
+          name-first:
+            type:
+              - string
+              - 'null'
+            description: Given or first name.
+            example: John
+          name-last:
+            type:
+              - string
+              - 'null'
+            description: Family or last name.
+            example: Doe
+          birthdate:
+            type: string
+            pattern: ^\d{4}-\d{2}-\d{2}$
+            description: Birthdate, must be in the format "YYYY-MM-DD".
+            example: '1980-07-15'
+          social-security-number:
+            type: string
+            pattern: ^\d{3}-\d{2}-\d{4}$
+            description: Social security number, encrypted.
+            example: 123-45-6789
+          address-street-1:
+            type: string
+            description: Primary street address.
+            example: 456 Elm St
+          address-street-2:
+            type: string
+            description: Secondary street address (if any).
+            example: Suite 2
+          address-city:
+            type: string
+            description: City of residence.
+            example: Springfield
+          address-subdivision:
+            type: string
+            description: State or subdivision of residence, unabbreviated.
+            example: AnyState
+          address-postal-code:
+            type: string
+            description: ZIP or postal code of residence.
+            example: '12345'
+          address-country-code:
+            type: string
+            description: ISO 3166-1 alpha-2 country code for the location.
+            example: US
+          phone-number:
+            type: string
+            description: Phone number, encrypted.
+            example: 555-555-1234
+          email-address:
+            type: string
+            description: Email address, encrypted.
+            example: john.doe@example.com

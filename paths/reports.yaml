@@ -107,34 +107,25 @@ post:
         schema:
           properties:
             data:
-              discriminator:
-                propertyName: type
-                mapping:
-                  report/watchlist: ../components/schemas/report-watchlist-request.yaml
-                  report/crypto-address-watchlist: >-
-                    ../components/schemas/report-crypto-address-watchlist-request.yaml
-                  report/adverse-media: ../components/schemas/report-adverse-media-request.yaml
-                  report/address-lookup: ../components/schemas/report-address-lookup-request.yaml
-                  report/politically-exposed-person: >-
-                    ../components/schemas/report-politically-exposed-person-request.yaml
-                  report/email-address: ../components/schemas/report-email-address-request.yaml
-                  report/phone-number: ../components/schemas/report-phone-risk-request.yaml
-                  report/social-media: ../components/schemas/report-social-media-request.yaml
-                  report/business-lookup: ../components/schemas/report-business-lookup-request.yaml
-                  report/sentilink-scores: ../components/schemas/report-sentilink-scores-request.yaml
-              oneOf:
-                - $ref: ../components/schemas/report-watchlist-request.yaml
-                - $ref: >-
-                    ../components/schemas/report-crypto-address-watchlist-request.yaml
-                - $ref: ../components/schemas/report-adverse-media-request.yaml
+              unevaluatedProperties: false
+              anyOf:
                 - $ref: ../components/schemas/report-address-lookup-request.yaml
+                - $ref: ../components/schemas/report-adverse-media-request.yaml
+                - $ref: >-
+                    ../components/schemas/report-business-adverse-media-request.yaml
+                - $ref: ../components/schemas/report-business-lookup-request.yaml
+                - $ref: >-
+                    ../components/schemas/report-crypto-address-watchlist-request.yaml
+                - $ref: ../components/schemas/report-email-address-request.yaml
+                - $ref: ../components/schemas/report-finra-broker-check-request.yaml
+                - $ref: ../components/schemas/report-phone-risk-request.yaml
                 - $ref: >-
                     ../components/schemas/report-politically-exposed-person-request.yaml
-                - $ref: ../components/schemas/report-email-address-request.yaml
-                - $ref: ../components/schemas/report-phone-risk-request.yaml
-                - $ref: ../components/schemas/report-social-media-request.yaml
-                - $ref: ../components/schemas/report-business-lookup-request.yaml
+                - $ref: ../components/schemas/report-profile-request.yaml
                 - $ref: ../components/schemas/report-sentilink-scores-request.yaml
+                - $ref: ../components/schemas/report-social-media-request.yaml
+                - $ref: ../components/schemas/report-synthetic-request.yaml
+                - $ref: ../components/schemas/report-watchlist-request.yaml
             meta:
               properties:
                 auto-create-account:
@@ -161,12 +152,27 @@ post:
                   examples:
                     - my_reference_id
                   type: string
+                processing-mode:
+                  type: string
+                  examples:
+                    - sync
+                  description: The processing mode for the report.
+                request-flags:
+                  type: array
+                  items:
+                    type: string
+                    examples:
+                      - sync
               type: object
-          type: object
+              additionalProperties: false
   responses:
     '201':
       content:
         application/json:
+          examples:
+            Result:
+              summary: Created
+              $ref: ../components/examples/report-watchlist.yaml
           schema:
             type: object
             properties:
@@ -181,6 +187,8 @@ post:
       $ref: ../components/responses/forbidden.yaml
     '404':
       $ref: ../components/responses/not-found.yaml
+    '408':
+      $ref: ../components/responses/request-timeout.yaml
     '409':
       $ref: ../components/responses/conflict.yaml
     '422':

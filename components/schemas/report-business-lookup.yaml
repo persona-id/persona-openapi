@@ -1,6 +1,7 @@
 title: Business Lookup Report
 description: A Business Lookup Report
 type: object
+additionalProperties: false
 properties:
   type:
     type: string
@@ -18,6 +19,7 @@ properties:
         properties:
           query:
             type: object
+            additionalProperties: false
             properties:
               business-name:
                 type: string
@@ -66,12 +68,35 @@ properties:
               associated-people:
                 type: array
                 items:
-                  type:
-                    - string
-                    - 'null'
-                  example: John Doe
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    name-first:
+                      type:
+                        - string
+                        - 'null'
+                      example: John
+                    name-last:
+                      type:
+                        - string
+                        - 'null'
+                      example: Doe
+                    name-full:
+                      type:
+                        - string
+                        - 'null'
+                      example: John Doe
+                    titles:
+                      type: array
+                      items:
+                        type:
+                          - string
+                          - 'null'
+                        example: CEO
           result:
-            type: object
+            type:
+              - object
+              - 'null'
             properties:
               name:
                 type: string
@@ -86,13 +111,17 @@ properties:
                   - string
                   - 'null'
               legal-status:
-                type: string
+                type:
+                  - string
+                  - 'null'
                 example: unknown
               legal-entity-type:
                 type: string
                 example: LLC
               date-of-incorporation:
-                type: object
+                type:
+                  - object
+                  - 'null'
                 properties:
                   granularity:
                     type: string
@@ -106,13 +135,15 @@ properties:
                       - string
                       - 'null'
                   year:
-                    type: string
-                    format: date
+                    type:
+                      - string
+                      - 'null'
                     example: '2013'
               industry-classifications:
                 type: array
                 items:
                   type: object
+                  additionalProperties: false
                   properties:
                     code:
                       type: string
@@ -127,6 +158,7 @@ properties:
                 type: array
                 items:
                   type: object
+                  additionalProperties: false
                   properties:
                     state:
                       type: string
@@ -148,6 +180,7 @@ properties:
                       type: array
                       items:
                         type: object
+                        additionalProperties: false
                         properties:
                           street-1:
                             type: string
@@ -199,6 +232,7 @@ properties:
                 type: array
                 items:
                   type: object
+                  additionalProperties: false
                   properties:
                     street-1:
                       type: string
@@ -230,6 +264,7 @@ properties:
                 type: array
                 items:
                   type: object
+                  additionalProperties: false
                   properties:
                     name-full:
                       type: string
@@ -238,6 +273,7 @@ properties:
                 type: array
                 items:
                   type: object
+                  additionalProperties: false
                   properties:
                     name-full:
                       type: string
@@ -265,12 +301,15 @@ properties:
                 type: array
                 items:
                   type: object
+                  additionalProperties: false
                   properties:
                     name:
                       type: string
                       example: RESTAURANT INSPECTIONS
           match-status-strength:
-            type: string
+            type:
+              - string
+              - 'null'
             description: |-
               Possible values:
               - not_applicable
@@ -283,7 +322,9 @@ properties:
               Do not assume this is a static enumeration; Persona may add new
               values in the future without a versioned update.
           match-status-business-name:
-            type: string
+            type:
+              - string
+              - 'null'
             description: |-
               Possible values:
               - not_applicable
@@ -296,7 +337,9 @@ properties:
               Do not assume this is a static enumeration; Persona may add new
               values in the future without a versioned update.
           match-status-address:
-            type: string
+            type:
+              - string
+              - 'null'
             description: |-
               Possible values:
               - not_applicable
@@ -309,7 +352,9 @@ properties:
               Do not assume this is a static enumeration; Persona may add new
               values in the future without a versioned update.
           match-status-address-street:
-            type: string
+            type:
+              - string
+              - 'null'
             description: |-
               Possible values:
               - not_applicable
@@ -322,7 +367,9 @@ properties:
               Do not assume this is a static enumeration; Persona may add new
               values in the future without a versioned update.
           match-status-address-city:
-            type: string
+            type:
+              - string
+              - 'null'
             description: |-
               Possible values:
               - not_applicable
@@ -335,7 +382,9 @@ properties:
               Do not assume this is a static enumeration; Persona may add new
               values in the future without a versioned update.
           match-status-address-postal-code:
-            type: string
+            type:
+              - string
+              - 'null'
             description: |-
               Possible values:
               - not_applicable
@@ -348,7 +397,9 @@ properties:
               Do not assume this is a static enumeration; Persona may add new
               values in the future without a versioned update.
           match-status-address-subdivision:
-            type: string
+            type:
+              - string
+              - 'null'
             description: |-
               Possible values:
               - not_applicable
@@ -361,7 +412,9 @@ properties:
               Do not assume this is a static enumeration; Persona may add new
               values in the future without a versioned update.
           match-status-phone-number:
-            type: string
+            type:
+              - string
+              - 'null'
             description: |-
               Possible values:
               - not_applicable
@@ -374,7 +427,9 @@ properties:
               Do not assume this is a static enumeration; Persona may add new
               values in the future without a versioned update.
           match-status-ein:
-            type: string
+            type:
+              - string
+              - 'null'
             description: |-
               Possible values:
               - not_applicable
@@ -387,7 +442,9 @@ properties:
               Do not assume this is a static enumeration; Persona may add new
               values in the future without a versioned update.
           match-status-associated-person:
-            type: string
+            type:
+              - string
+              - 'null'
             description: |-
               Possible values:
               - not_applicable
@@ -400,7 +457,9 @@ properties:
               Do not assume this is a static enumeration; Persona may add new
               values in the future without a versioned update.
           match-status-website:
-            type: string
+            type:
+              - string
+              - 'null'
             description: |-
               Possible values:
               - not_applicable
