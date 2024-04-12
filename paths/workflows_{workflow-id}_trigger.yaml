@@ -90,11 +90,18 @@ post:
                     type: string
                   attributes:
                     properties:
-                      completed-at: {}
+                      completed-at:
+                        examples:
+                          - '2022-08-08T18:55:44.910Z'
+                        type:
+                          - string
+                          - 'null'
+                        format: date-time
                       created-at:
                         examples:
                           - '2022-08-08T18:55:44.910Z'
                         type: string
+                        format: date-time
                       status:
                         examples:
                           - in_progress
@@ -104,7 +111,40 @@ post:
                     properties:
                       creator:
                         properties:
-                          data: {}
+                          data:
+                            unevaluatedProperties: false
+                            oneOf:
+                              - type: 'null'
+                              - properties:
+                                  type:
+                                    const: administrator
+                                    description: administrator
+                                    type: string
+                                  id:
+                                    examples:
+                                      - admn_3VghhbvDc7UuUNT8uZrqZjsk
+                                    type: string
+                                type: object
+                              - properties:
+                                  type:
+                                    const: user
+                                    description: user
+                                    type: string
+                                  id:
+                                    examples:
+                                      - user_3VghhbvDc7UuUNT8uZrqZjsk
+                                    type: string
+                                type: object
+                              - properties:
+                                  type:
+                                    const: event
+                                    description: event
+                                    type: string
+                                  id:
+                                    examples:
+                                      - evt_3VghhbvDc7UuUNT8uZrqZjsk
+                                    type: string
+                                type: object
                         type: object
                       workflow:
                         properties:

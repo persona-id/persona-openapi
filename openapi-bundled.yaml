@@ -179,11 +179,20 @@ paths:
                     description: An array of Accounts
                   links:
                     properties:
+                      prev:
+                        examples:
+                          - /api/v1/accounts?page%5Bafter%5D=act_ABC123
+                        type:
+                          - 'null'
+                          - string
+                        description: URL pointing to the previous page of data, or null if on the first page.
                       next:
                         examples:
-                          - /api/v1/accounts?page%5Bafter%5D=act_u2Dgz8U3CmxTVgqEH9qzezHi
-                        type: string
-                      prev: {}
+                          - /api/v1/accounts?page%5Bafter%5D=act_ABC123
+                        type:
+                          - 'null'
+                          - string
+                        description: URL pointing to the next page of data, or null if on the last page.
                     type: object
                   included:
                     $ref: '#/components/schemas/empty-included-objects'
@@ -3590,7 +3599,13 @@ paths:
                         type: string
                       attributes:
                         properties:
-                          completed-at: {}
+                          completed-at:
+                            examples:
+                              - '2022-08-02T05:02:56.000Z'
+                            type:
+                              - string
+                              - 'null'
+                            format: date-time
                           created-at:
                             examples:
                               - '2020-07-12T17:16:54.656Z'
@@ -3714,7 +3729,13 @@ paths:
                         type: string
                       attributes:
                         properties:
-                          completed-at: {}
+                          completed-at:
+                            examples:
+                              - '2022-08-02T05:02:56.000Z'
+                            type:
+                              - string
+                              - 'null'
+                            format: date-time
                           created-at:
                             examples:
                               - '2020-07-12T17:16:54.656Z'
@@ -3810,7 +3831,13 @@ paths:
                         type: string
                       attributes:
                         properties:
-                          completed-at: {}
+                          completed-at:
+                            examples:
+                              - '2022-08-02T05:02:56.000Z'
+                            type:
+                              - string
+                              - 'null'
+                            format: date-time
                           created-at:
                             examples:
                               - '2020-07-12T17:16:54.656Z'
@@ -3885,6 +3912,9 @@ paths:
                       type: object
                   type: object
               type: object
+            encoding:
+              image-files:
+                contentType: image/*
           application/json:
             schema:
               properties:
@@ -3941,7 +3971,13 @@ paths:
                         type: string
                       attributes:
                         properties:
-                          completed-at: {}
+                          completed-at:
+                            examples:
+                              - '2022-08-02T05:02:56.000Z'
+                            type:
+                              - string
+                              - 'null'
+                            format: date-time
                           created-at:
                             examples:
                               - '2020-07-12T17:16:54.656Z'
@@ -4036,7 +4072,13 @@ paths:
                         type: string
                       attributes:
                         properties:
-                          completed-at: {}
+                          completed-at:
+                            examples:
+                              - '2022-08-02T05:02:56.000Z'
+                            type:
+                              - string
+                              - 'null'
+                            format: date-time
                           created-at:
                             examples:
                               - '2020-07-12T17:16:54.656Z'
@@ -4132,7 +4174,13 @@ paths:
                         type: string
                       attributes:
                         properties:
-                          completed-at: {}
+                          completed-at:
+                            examples:
+                              - '2022-08-02T05:02:56.000Z'
+                            type:
+                              - string
+                              - 'null'
+                            format: date-time
                           created-at:
                             examples:
                               - '2020-07-12T17:16:54.656Z'
@@ -4227,7 +4275,13 @@ paths:
                         type: string
                       attributes:
                         properties:
-                          completed-at: {}
+                          completed-at:
+                            examples:
+                              - '2022-08-02T05:02:56.000Z'
+                            type:
+                              - string
+                              - 'null'
+                            format: date-time
                           created-at:
                             examples:
                               - '2020-07-12T17:16:54.656Z'
@@ -4321,7 +4375,13 @@ paths:
                         type: string
                       attributes:
                         properties:
-                          completed-at: {}
+                          completed-at:
+                            examples:
+                              - '2022-08-02T05:02:56.000Z'
+                            type:
+                              - string
+                              - 'null'
+                            format: date-time
                           created-at:
                             examples:
                               - '2020-07-12T17:16:54.656Z'
@@ -4414,7 +4474,13 @@ paths:
                         type: string
                       attributes:
                         properties:
-                          completed-at: {}
+                          completed-at:
+                            examples:
+                              - '2022-08-02T05:02:56.000Z'
+                            type:
+                              - string
+                              - 'null'
+                            format: date-time
                           created-at:
                             examples:
                               - '2020-07-12T17:16:54.656Z'
@@ -7283,7 +7349,17 @@ paths:
                             properties:
                               data:
                                 type: array
-                                items: {}
+                                items:
+                                  type: object
+                                  properties:
+                                    id:
+                                      examples:
+                                        - libf_N6PqYkfSqeqiQYWoeHA3GGDo
+                                      type: string
+                                    type:
+                                      const: list-item/browser-fingerprint
+                                      description: list-item/browser-fingerprint
+                                      type: string
                                 description: List items associated with this list. This should always be empty when creating a new list.
               examples:
                 Result:
@@ -7387,7 +7463,17 @@ paths:
                             properties:
                               data:
                                 type: array
-                                items: {}
+                                items:
+                                  type: object
+                                  properties:
+                                    id:
+                                      examples:
+                                        - lic_wt5cgLbSi7twJ8itK7jxCs8q
+                                      type: string
+                                    type:
+                                      const: list-item/country
+                                      description: list-item/country
+                                      type: string
                                 description: List items associated with this list. This should always be empty when creating a new list.
               examples:
                 Result:
@@ -7491,7 +7577,17 @@ paths:
                             properties:
                               data:
                                 type: array
-                                items: {}
+                                items:
+                                  type: object
+                                  properties:
+                                    id:
+                                      examples:
+                                        - liea_wt5cgLbSi7twJ8itK7jxCs8q
+                                      type: string
+                                    type:
+                                      const: list-item/email-address
+                                      description: list-item/email-address
+                                      type: string
                                 description: List items associated with this list. This should always be empty when creating a new list.
               examples:
                 Result:
@@ -7595,7 +7691,17 @@ paths:
                             properties:
                               data:
                                 type: array
-                                items: {}
+                                items:
+                                  type: object
+                                  properties:
+                                    id:
+                                      examples:
+                                        - lifc_FVrbLriSXNwPqMogu8vvuTi8
+                                      type: string
+                                    type:
+                                      const: list-item/face
+                                      description: list-item/face
+                                      type: string
                                 description: List items associated with this list. This should always be empty when creating a new list.
               examples:
                 Result:
@@ -7699,7 +7805,17 @@ paths:
                             properties:
                               data:
                                 type: array
-                                items: {}
+                                items:
+                                  type: object
+                                  properties:
+                                    id:
+                                      examples:
+                                        - ligl_DQdchRN288UN6sn9mAmEcMu5
+                                      type: string
+                                    type:
+                                      const: list-item/geolocation
+                                      description: list-item/geolocation
+                                      type: string
                                 description: List items associated with this list. This should always be empty when creating a new list.
               examples:
                 Result:
@@ -7803,7 +7919,17 @@ paths:
                             properties:
                               data:
                                 type: array
-                                items: {}
+                                items:
+                                  type: object
+                                  properties:
+                                    id:
+                                      examples:
+                                        - ligin_soqGRWaUXZct3pCRbjRaXFqz
+                                      type: string
+                                    type:
+                                      const: list-item/government-id-number
+                                      description: list-item/government-id-number
+                                      type: string
                                 description: List items associated with this list. This should always be empty when creating a new list.
               examples:
                 Result:
@@ -7907,7 +8033,17 @@ paths:
                             properties:
                               data:
                                 type: array
-                                items: {}
+                                items:
+                                  type: object
+                                  properties:
+                                    id:
+                                      examples:
+                                        - liip_soqGRWaUXZct3pCRbjRaXFqz
+                                      type: string
+                                    type:
+                                      const: list-item/ip-address
+                                      description: list-item/ip-address
+                                      type: string
                                 description: List items associated with this list. This should always be empty when creating a new list.
               examples:
                 Result:
@@ -8015,7 +8151,17 @@ paths:
                             properties:
                               data:
                                 type: array
-                                items: {}
+                                items:
+                                  type: object
+                                  properties:
+                                    id:
+                                      examples:
+                                        - lin_soqGRWaUXZct3pCRbjRaXFqz
+                                      type: string
+                                    type:
+                                      const: list-item/name
+                                      description: list-item/name
+                                      type: string
                                 description: List items associated with this list. This should always be empty when creating a new list.
               examples:
                 Result:
@@ -8121,7 +8267,17 @@ paths:
                             properties:
                               data:
                                 type: array
-                                items: {}
+                                items:
+                                  type: object
+                                  properties:
+                                    id:
+                                      examples:
+                                        - lipn_soqGRWaUXZct3pCRbjRaXFqz
+                                      type: string
+                                    type:
+                                      const: list-item/phone-number
+                                      description: list-item/phone-number
+                                      type: string
                                 description: List items associated with this list. This should always be empty when creating a new list.
               examples:
                 Result:
@@ -11881,11 +12037,18 @@ paths:
                         type: string
                       attributes:
                         properties:
-                          completed-at: {}
+                          completed-at:
+                            examples:
+                              - '2022-08-08T18:55:44.910Z'
+                            type:
+                              - string
+                              - 'null'
+                            format: date-time
                           created-at:
                             examples:
                               - '2022-08-08T18:55:44.910Z'
                             type: string
+                            format: date-time
                           status:
                             examples:
                               - in_progress
@@ -11895,7 +12058,40 @@ paths:
                         properties:
                           creator:
                             properties:
-                              data: {}
+                              data:
+                                unevaluatedProperties: false
+                                oneOf:
+                                  - type: 'null'
+                                  - properties:
+                                      type:
+                                        const: administrator
+                                        description: administrator
+                                        type: string
+                                      id:
+                                        examples:
+                                          - admn_3VghhbvDc7UuUNT8uZrqZjsk
+                                        type: string
+                                    type: object
+                                  - properties:
+                                      type:
+                                        const: user
+                                        description: user
+                                        type: string
+                                      id:
+                                        examples:
+                                          - user_3VghhbvDc7UuUNT8uZrqZjsk
+                                        type: string
+                                    type: object
+                                  - properties:
+                                      type:
+                                        const: event
+                                        description: event
+                                        type: string
+                                      id:
+                                        examples:
+                                          - evt_3VghhbvDc7UuUNT8uZrqZjsk
+                                        type: string
+                                    type: object
                             type: object
                           workflow:
                             properties:
@@ -17642,7 +17838,6 @@ components:
                   type:
                     - object
                     - 'null'
-                restrictions: {}
                 sex:
                   examples:
                     - M
@@ -19364,7 +19559,50 @@ components:
           properties:
             creator:
               properties:
-                data: {}
+                data:
+                  unevaluatedProperties: false
+                  oneOf:
+                    - type: 'null'
+                    - properties:
+                        type:
+                          const: user
+                          description: user
+                          type: string
+                        id:
+                          examples:
+                            - user_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                    - properties:
+                        type:
+                          const: workflow-run
+                          description: workflow-run
+                          type: string
+                        id:
+                          examples:
+                            - wfr_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                    - properties:
+                        type:
+                          const: workflow-step/action
+                          description: workflow-step/action
+                          type: string
+                        id:
+                          examples:
+                            - wfs_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                    - properties:
+                        type:
+                          const: api-key
+                          description: api-key
+                          type: string
+                        id:
+                          examples:
+                            - api_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
               type: object
           type: object
     list-item-country:
@@ -19394,7 +19632,50 @@ components:
           properties:
             creator:
               properties:
-                data: {}
+                data:
+                  unevaluatedProperties: false
+                  oneOf:
+                    - type: 'null'
+                    - properties:
+                        type:
+                          const: user
+                          description: user
+                          type: string
+                        id:
+                          examples:
+                            - user_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                    - properties:
+                        type:
+                          const: workflow-run
+                          description: workflow-run
+                          type: string
+                        id:
+                          examples:
+                            - wfr_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                    - properties:
+                        type:
+                          const: workflow-step/action
+                          description: workflow-step/action
+                          type: string
+                        id:
+                          examples:
+                            - wfs_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                    - properties:
+                        type:
+                          const: api-key
+                          description: api-key
+                          type: string
+                        id:
+                          examples:
+                            - api_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
               type: object
           type: object
     list-item-email-address:
@@ -19429,7 +19710,60 @@ components:
           properties:
             creator:
               properties:
-                data: {}
+                data:
+                  unevaluatedProperties: false
+                  oneOf:
+                    - type: 'null'
+                    - properties:
+                        type:
+                          const: user
+                          description: user
+                          type: string
+                        id:
+                          examples:
+                            - user_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                    - properties:
+                        type:
+                          const: workflow-run
+                          description: workflow-run
+                          type: string
+                        id:
+                          examples:
+                            - wfr_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                    - properties:
+                        type:
+                          const: workflow-step/action
+                          description: workflow-step/action
+                          type: string
+                        id:
+                          examples:
+                            - wfs_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                    - properties:
+                        type:
+                          const: api-key
+                          description: api-key
+                          type: string
+                        id:
+                          examples:
+                            - api_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                    - properties:
+                        type:
+                          const: importer/email-address
+                          description: importer/email-address
+                          type: string
+                        id:
+                          examples:
+                            - mprt_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
               type: object
           type: object
     list-item-face:
@@ -19458,7 +19792,60 @@ components:
           properties:
             creator:
               properties:
-                data: {}
+                data:
+                  unevaluatedProperties: false
+                  oneOf:
+                    - type: 'null'
+                    - properties:
+                        type:
+                          const: user
+                          description: user
+                          type: string
+                        id:
+                          examples:
+                            - user_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                    - properties:
+                        type:
+                          const: workflow-run
+                          description: workflow-run
+                          type: string
+                        id:
+                          examples:
+                            - wfr_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                    - properties:
+                        type:
+                          const: workflow-step/action
+                          description: workflow-step/action
+                          type: string
+                        id:
+                          examples:
+                            - wfs_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                    - properties:
+                        type:
+                          const: api-key
+                          description: api-key
+                          type: string
+                        id:
+                          examples:
+                            - api_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                    - properties:
+                        type:
+                          const: importer/face
+                          description: importer/face
+                          type: string
+                        id:
+                          examples:
+                            - mprt_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
               type: object
           type: object
     list-item-field:
@@ -19487,7 +19874,50 @@ components:
           properties:
             creator:
               properties:
-                data: {}
+                data:
+                  unevaluatedProperties: false
+                  oneOf:
+                    - type: 'null'
+                    - properties:
+                        type:
+                          const: user
+                          description: user
+                          type: string
+                        id:
+                          examples:
+                            - user_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                    - properties:
+                        type:
+                          const: workflow-run
+                          description: workflow-run
+                          type: string
+                        id:
+                          examples:
+                            - wfr_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                    - properties:
+                        type:
+                          const: workflow-step/action
+                          description: workflow-step/action
+                          type: string
+                        id:
+                          examples:
+                            - wfs_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                    - properties:
+                        type:
+                          const: api-key
+                          description: api-key
+                          type: string
+                        id:
+                          examples:
+                            - api_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
               type: object
           type: object
     list-item-geolocation:
@@ -19529,7 +19959,60 @@ components:
           properties:
             creator:
               properties:
-                data: {}
+                data:
+                  unevaluatedProperties: false
+                  oneOf:
+                    - type: 'null'
+                    - properties:
+                        type:
+                          const: user
+                          description: user
+                          type: string
+                        id:
+                          examples:
+                            - user_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                    - properties:
+                        type:
+                          const: workflow-run
+                          description: workflow-run
+                          type: string
+                        id:
+                          examples:
+                            - wfr_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                    - properties:
+                        type:
+                          const: workflow-step/action
+                          description: workflow-step/action
+                          type: string
+                        id:
+                          examples:
+                            - wfs_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                    - properties:
+                        type:
+                          const: api-key
+                          description: api-key
+                          type: string
+                        id:
+                          examples:
+                            - api_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                    - properties:
+                        type:
+                          const: importer/geolocation
+                          description: importer/geolocation
+                          type: string
+                        id:
+                          examples:
+                            - mprt_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
               type: object
           type: object
     list-item-government-id-number:
@@ -19564,7 +20047,60 @@ components:
           properties:
             creator:
               properties:
-                data: {}
+                data:
+                  unevaluatedProperties: false
+                  oneOf:
+                    - type: 'null'
+                    - properties:
+                        type:
+                          const: user
+                          description: user
+                          type: string
+                        id:
+                          examples:
+                            - user_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                    - properties:
+                        type:
+                          const: workflow-run
+                          description: workflow-run
+                          type: string
+                        id:
+                          examples:
+                            - wfr_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                    - properties:
+                        type:
+                          const: workflow-step/action
+                          description: workflow-step/action
+                          type: string
+                        id:
+                          examples:
+                            - wfs_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                    - properties:
+                        type:
+                          const: api-key
+                          description: api-key
+                          type: string
+                        id:
+                          examples:
+                            - api_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                    - properties:
+                        type:
+                          const: importer/government-id-number
+                          description: importer/government-id-number
+                          type: string
+                        id:
+                          examples:
+                            - mprt_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
               type: object
           type: object
     list-item-ip-address:
@@ -19595,7 +20131,60 @@ components:
           properties:
             creator:
               properties:
-                data: {}
+                data:
+                  unevaluatedProperties: false
+                  oneOf:
+                    - type: 'null'
+                    - properties:
+                        type:
+                          const: user
+                          description: user
+                          type: string
+                        id:
+                          examples:
+                            - user_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                    - properties:
+                        type:
+                          const: workflow-run
+                          description: workflow-run
+                          type: string
+                        id:
+                          examples:
+                            - wfr_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                    - properties:
+                        type:
+                          const: workflow-step/action
+                          description: workflow-step/action
+                          type: string
+                        id:
+                          examples:
+                            - wfs_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                    - properties:
+                        type:
+                          const: api-key
+                          description: api-key
+                          type: string
+                        id:
+                          examples:
+                            - api_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                    - properties:
+                        type:
+                          const: importer/ip-address
+                          description: importer/ip-address
+                          type: string
+                        id:
+                          examples:
+                            - mprt_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
               type: object
           type: object
     list-item-name:
@@ -19630,7 +20219,60 @@ components:
           properties:
             creator:
               properties:
-                data: {}
+                data:
+                  unevaluatedProperties: false
+                  oneOf:
+                    - type: 'null'
+                    - properties:
+                        type:
+                          const: user
+                          description: user
+                          type: string
+                        id:
+                          examples:
+                            - user_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                    - properties:
+                        type:
+                          const: workflow-run
+                          description: workflow-run
+                          type: string
+                        id:
+                          examples:
+                            - wfr_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                    - properties:
+                        type:
+                          const: workflow-step/action
+                          description: workflow-step/action
+                          type: string
+                        id:
+                          examples:
+                            - wfs_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                    - properties:
+                        type:
+                          const: api-key
+                          description: api-key
+                          type: string
+                        id:
+                          examples:
+                            - api_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                    - properties:
+                        type:
+                          const: importer/name
+                          description: importer/name
+                          type: string
+                        id:
+                          examples:
+                            - mprt_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
               type: object
           type: object
     list-item-phone-number:
@@ -19661,7 +20303,60 @@ components:
           properties:
             creator:
               properties:
-                data: {}
+                data:
+                  unevaluatedProperties: false
+                  oneOf:
+                    - type: 'null'
+                    - properties:
+                        type:
+                          const: user
+                          description: user
+                          type: string
+                        id:
+                          examples:
+                            - user_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                    - properties:
+                        type:
+                          const: workflow-run
+                          description: workflow-run
+                          type: string
+                        id:
+                          examples:
+                            - wfr_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                    - properties:
+                        type:
+                          const: workflow-step/action
+                          description: workflow-step/action
+                          type: string
+                        id:
+                          examples:
+                            - wfs_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                    - properties:
+                        type:
+                          const: api-key
+                          description: api-key
+                          type: string
+                        id:
+                          examples:
+                            - api_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                    - properties:
+                        type:
+                          const: importer/phone-number
+                          description: importer/phone-number
+                          type: string
+                        id:
+                          examples:
+                            - mprt_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
               type: object
           type: object
     list-item-string:
@@ -19689,7 +20384,50 @@ components:
           properties:
             creator:
               properties:
-                data: {}
+                data:
+                  unevaluatedProperties: false
+                  oneOf:
+                    - type: 'null'
+                    - properties:
+                        type:
+                          const: user
+                          description: user
+                          type: string
+                        id:
+                          examples:
+                            - user_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                    - properties:
+                        type:
+                          const: workflow-run
+                          description: workflow-run
+                          type: string
+                        id:
+                          examples:
+                            - wfr_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                    - properties:
+                        type:
+                          const: workflow-step/action
+                          description: workflow-step/action
+                          type: string
+                        id:
+                          examples:
+                            - wfs_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                    - properties:
+                        type:
+                          const: api-key
+                          description: api-key
+                          type: string
+                        id:
+                          examples:
+                            - api_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
               type: object
           type: object
     list:
