@@ -21,6 +21,7 @@ get:
       style: deepObject
       schema:
         type: object
+        additionalProperties: false
         properties:
           status:
             description: Filter cases by status
@@ -134,7 +135,9 @@ get:
                       - string
                       - 'null'
                 type: object
+                additionalProperties: false
             type: object
+            additionalProperties: false
       description: OK
     '400':
       $ref: ../components/responses/bad-request.yaml
@@ -178,11 +181,12 @@ post:
                     creator-email-address:
                       description: Email of the user creating this case in the organization
                       type: string
-                  additionalProperties: true
                   required:
                     - case-template-id
                   type: object
+                  additionalProperties: true
               type: object
+              additionalProperties: false
             meta:
               properties:
                 object-ids:
@@ -202,9 +206,11 @@ post:
                     - 'null'
                     - number
               type: object
+              additionalProperties: false
           required:
             - data
           type: object
+          additionalProperties: false
   responses:
     '201':
       content:
@@ -391,6 +397,7 @@ post:
                   query parameter.
                 $ref: ../components/schemas/cases-included-objects.yaml
             type: object
+            additionalProperties: false
       description: Created
     '400':
       $ref: ../components/responses/bad-request.yaml

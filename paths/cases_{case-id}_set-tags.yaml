@@ -25,11 +25,19 @@ post:
             meta:
               properties:
                 tag-name:
+                  description: Names of the tags to add to the Case.
+                  items:
+                    type: string
+                  type: array
+                tag-id:
+                  description: IDs of the tags to add to the Case.
                   items:
                     type: string
                   type: array
               type: object
+              additionalProperties: false
           type: object
+          additionalProperties: false
   responses:
     '200':
       content:
@@ -94,6 +102,7 @@ post:
                   query parameter in the request.
                 $ref: ../components/schemas/cases-included-objects.yaml
             type: object
+            additionalProperties: false
       description: OK
     '400':
       $ref: ../components/responses/bad-request.yaml

@@ -1152,6 +1152,7 @@ paths:
           style: deepObject
           schema:
             type: object
+            additionalProperties: false
             properties:
               status:
                 description: Filter cases by status
@@ -1261,7 +1262,9 @@ paths:
                           - string
                           - 'null'
                     type: object
+                    additionalProperties: false
                 type: object
+                additionalProperties: false
           description: OK
         '400':
           $ref: '#/components/responses/bad-request'
@@ -1303,11 +1306,12 @@ paths:
                         creator-email-address:
                           description: Email of the user creating this case in the organization
                           type: string
-                      additionalProperties: true
                       required:
                         - case-template-id
                       type: object
+                      additionalProperties: true
                   type: object
+                  additionalProperties: false
                 meta:
                   properties:
                     object-ids:
@@ -1323,9 +1327,11 @@ paths:
                         - 'null'
                         - number
                   type: object
+                  additionalProperties: false
               required:
                 - data
               type: object
+              additionalProperties: false
       responses:
         '201':
           content:
@@ -1507,6 +1513,7 @@ paths:
                       Anything else must be explicitly requested with the `include` query parameter.
                     $ref: '#/components/schemas/cases-included-objects'
                 type: object
+                additionalProperties: false
           description: Created
         '400':
           $ref: '#/components/responses/bad-request'
@@ -1731,6 +1738,7 @@ paths:
                     description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
                     $ref: '#/components/schemas/cases-included-objects'
                 type: object
+                additionalProperties: false
           description: OK
         '400':
           $ref: '#/components/responses/bad-request'
@@ -1886,6 +1894,7 @@ paths:
                       Anything else must be explicitly requested with the `include` query parameter.
                     $ref: '#/components/schemas/cases-included-objects'
                 type: object
+                additionalProperties: false
           description: OK
         '400':
           $ref: '#/components/responses/bad-request'
@@ -1934,6 +1943,7 @@ paths:
                                 description: Name of the file
                                 type: string
                             type: object
+                            additionalProperties: false
                           type: array
                         fields:
                           description: 'Note: field names and data types used here will depend on the configurations for your Case Template.'
@@ -1942,7 +1952,9 @@ paths:
                           additionalProperties: true
                           type: object
                       type: object
+                      additionalProperties: true
                   type: object
+                  additionalProperties: false
                 meta:
                   properties:
                     sla-expires-in-seconds:
@@ -1954,7 +1966,9 @@ paths:
                         - 'null'
                         - number
                   type: object
+                  additionalProperties: false
               type: object
+              additionalProperties: false
       responses:
         '200':
           content:
@@ -2024,6 +2038,7 @@ paths:
                       Anything else must be explicitly requested with the `include` query parameter.
                     $ref: '#/components/schemas/cases-included-objects'
                 type: object
+                additionalProperties: false
           description: OK
         '400':
           $ref: '#/components/responses/bad-request'
@@ -2075,7 +2090,9 @@ paths:
                         - array
                         - 'null'
                   type: object
+                  additionalProperties: false
               type: object
+              additionalProperties: false
       responses:
         '200':
           content:
@@ -2137,6 +2154,7 @@ paths:
                     description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
                     $ref: '#/components/schemas/cases-included-objects'
                 type: object
+                additionalProperties: false
           description: OK
         '400':
           $ref: '#/components/responses/bad-request'
@@ -2186,9 +2204,11 @@ paths:
                   required:
                     - user-email-address
                   type: object
+                  additionalProperties: false
               required:
                 - meta
               type: object
+              additionalProperties: false
       responses:
         '200':
           content:
@@ -2250,6 +2270,7 @@ paths:
                     description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
                     $ref: '#/components/schemas/cases-included-objects'
                 type: object
+                additionalProperties: false
           description: OK
         '400':
           $ref: '#/components/responses/bad-request'
@@ -2304,7 +2325,9 @@ paths:
                   required:
                     - status
                   type: object
+                  additionalProperties: false
               type: object
+              additionalProperties: false
       responses:
         '200':
           content:
@@ -2366,6 +2389,7 @@ paths:
                     description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
                     $ref: '#/components/schemas/cases-included-objects'
                 type: object
+                additionalProperties: false
           description: OK
         '400':
           $ref: '#/components/responses/bad-request'
@@ -2416,7 +2440,9 @@ paths:
                       type: string
                       description: ID of the tag to add to the Case.
                   type: object
+                  additionalProperties: false
               type: object
+              additionalProperties: false
       responses:
         '200':
           content:
@@ -2478,6 +2504,7 @@ paths:
                     description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
                     $ref: '#/components/schemas/cases-included-objects'
                 type: object
+                additionalProperties: false
           description: OK
         '400':
           $ref: '#/components/responses/bad-request'
@@ -2528,7 +2555,9 @@ paths:
                       type: string
                       description: ID of the tag to add to the Case.
                   type: object
+                  additionalProperties: false
               type: object
+              additionalProperties: false
       responses:
         '200':
           content:
@@ -2589,6 +2618,7 @@ paths:
                     description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
                     $ref: '#/components/schemas/cases-included-objects'
                 type: object
+                additionalProperties: false
           description: OK
         '400':
           $ref: '#/components/responses/bad-request'
@@ -2633,11 +2663,19 @@ paths:
                 meta:
                   properties:
                     tag-name:
+                      description: Names of the tags to add to the Case.
+                      items:
+                        type: string
+                      type: array
+                    tag-id:
+                      description: IDs of the tags to add to the Case.
                       items:
                         type: string
                       type: array
                   type: object
+                  additionalProperties: false
               type: object
+              additionalProperties: false
       responses:
         '200':
           content:
@@ -2700,6 +2738,7 @@ paths:
                     description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
                     $ref: '#/components/schemas/cases-included-objects'
                 type: object
+                additionalProperties: false
           description: OK
         '400':
           $ref: '#/components/responses/bad-request'
@@ -8770,7 +8809,6 @@ paths:
                     - $ref: '#/components/schemas/report-business-lookup-request'
                     - $ref: '#/components/schemas/report-crypto-address-watchlist-request'
                     - $ref: '#/components/schemas/report-email-address-request'
-                    - $ref: '#/components/schemas/report-finra-broker-check-request'
                     - $ref: '#/components/schemas/report-phone-risk-request'
                     - $ref: '#/components/schemas/report-politically-exposed-person-request'
                     - $ref: '#/components/schemas/report-profile-request'
@@ -13638,6 +13676,7 @@ components:
                 - '2023-09-26T06:31:43.909+00:00'
     case:
       type: object
+      additionalProperties: false
       description: A Case object
       properties:
         type:
@@ -13650,6 +13689,7 @@ components:
           type: string
         attributes:
           type: object
+          additionalProperties: false
           properties:
             status:
               examples:
@@ -13792,10 +13832,12 @@ components:
           properties:
             accounts:
               type: object
+              additionalProperties: false
               properties:
                 data:
                   items:
                     type: object
+                    additionalProperties: false
                     properties:
                       id:
                         examples:
@@ -13808,10 +13850,12 @@ components:
                   type: array
             case-comments:
               type: object
+              additionalProperties: false
               properties:
                 data:
                   items:
                     type: object
+                    additionalProperties: false
                     properties:
                       id:
                         type: string
@@ -13822,9 +13866,11 @@ components:
                   type: array
             case-template:
               type: object
+              additionalProperties: false
               properties:
                 data:
                   type: object
+                  additionalProperties: false
                   properties:
                     id:
                       examples:
@@ -13836,10 +13882,12 @@ components:
                       type: string
             inquiries:
               type: object
+              additionalProperties: false
               properties:
                 data:
                   items:
                     type: object
+                    additionalProperties: false
                     properties:
                       id:
                         examples:
@@ -13855,6 +13903,7 @@ components:
                 data:
                   items:
                     type: object
+                    additionalProperties: false
                     properties:
                       id:
                         examples:
@@ -13867,11 +13916,13 @@ components:
                         type: string
                   type: array
               type: object
+              additionalProperties: false
             verifications:
               properties:
                 data:
                   items:
                     type: object
+                    additionalProperties: false
                     properties:
                       id:
                         examples:
@@ -13884,11 +13935,13 @@ components:
                         type: string
                   type: array
               type: object
+              additionalProperties: false
             txns:
               properties:
                 data:
                   items:
                     type: object
+                    additionalProperties: false
                     properties:
                       id:
                         examples:
@@ -13900,9 +13953,12 @@ components:
                         type: string
                   type: array
               type: object
+              additionalProperties: false
           type: object
+          additionalProperties: false
     case-comment:
       type: object
+      additionalProperties: false
       description: Comment on a Case object
       properties:
         type:
@@ -13916,6 +13972,7 @@ components:
             - cscm_yd2urRmjaCWcSSxqTSHvUcsn
         attributes:
           type: object
+          additionalProperties: false
           properties:
             message:
               type: string
@@ -13946,6 +14003,7 @@ components:
                 - user
     case-template:
       type: object
+      additionalProperties: false
       description: A Case Template object
       properties:
         type:
@@ -13959,6 +14017,7 @@ components:
             - ctmpl_yd2urRmjaCWcSSxqTSHvUcsn
         attributes:
           type: object
+          additionalProperties: false
           properties:
             status:
               description: |-
@@ -21235,50 +21294,6 @@ components:
                       example: example@domain.com
                   required:
                     - email-address
-    report-finra-broker-check-request:
-      title: Finra Broker Check Request
-      description: Fields required to create a Finra Broker Check Report
-      type: object
-      properties:
-        type:
-          type: string
-          const: report/finra-broker-check
-          description: Specifies the type of report to create, in this case, a Finra Broker Check.
-        attributes:
-          unevaluatedProperties: false
-          allOf:
-            - $ref: '#/components/schemas/report-shared-request-attributes'
-            - type: object
-              properties:
-                broker-type:
-                  type: string
-                  examples:
-                    - firm
-                    - individual
-                  description: Type of broker (firm or individual).
-                crd-number:
-                  type: string
-                  description: Central Registration Depository (CRD) number for the broker or firm.
-                  example: '123456'
-                name-full:
-                  type: string
-                  description: Full name of the individual broker or the name of the firm.
-                  example: John Doe
-                firm-name:
-                  type: string
-                  description: Name of the firm, required if broker-type is firm.
-                  example: Example Investments LLC
-                address-city:
-                  type: string
-                  description: City of the broker's or firm's address.
-                  example: New York
-                address-subdivision:
-                  type: string
-                  description: State or subdivision of the broker's or firm's address.
-                  example: NY
-          required:
-            - broker-type
-            - crd-number
     report-phone-risk-request:
       title: Phone Risk Request
       description: Fields required to create a Phone Risk Report
