@@ -1,4 +1,5 @@
 type: object
+additionalProperties: false
 properties:
   id:
     type: string
@@ -11,6 +12,7 @@ properties:
     description: transaction
   attributes:
     type: object
+    additionalProperties: false
     properties:
       status:
         type: string
@@ -34,23 +36,33 @@ properties:
         additionalProperties: true
       tags:
         type: array
+        items:
+          type: string
       created-at:
+        type: string
         format: date-time
         examples:
           - '2023-05-26T16:49:33.860Z'
       updated-at:
+        type:
+          - string
+          - 'null'
         format: date-time
         examples:
           - '2023-05-26T16:49:43.965Z'
   relationships:
     type: object
+    additionalProperties: false
     properties:
       reviewer:
         type: object
+        additionalProperties: false
         description: The entity that reviewed the transaction
         properties:
           data:
-            type: object
+            type:
+              - object
+              - 'null'
             properties:
               type:
                 x-polymorphic: true
@@ -67,6 +79,7 @@ properties:
                   - user_ABC123
       transaction-label:
         type: object
+        additionalProperties: false
         properties:
           data:
             type:
@@ -86,9 +99,11 @@ properties:
                   - txnl_ABC123
       transaction-type:
         type: object
+        additionalProperties: false
         properties:
           data:
             type: object
+            additionalProperties: false
             properties:
               type:
                 type: string
@@ -103,6 +118,7 @@ properties:
                   - txntp_ABC123
       related-objects:
         type: object
+        additionalProperties: false
         description: >-
           Any object involved in this transaction's related workflow runs
           (Deprecated)
@@ -112,6 +128,7 @@ properties:
             type: array
             items:
               type: object
+              additionalProperties: false
               properties:
                 type:
                   x-polymorphic: true

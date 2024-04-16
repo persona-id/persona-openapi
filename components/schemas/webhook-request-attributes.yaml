@@ -1,4 +1,5 @@
 type: object
+additionalProperties: false
 properties:
   url:
     description: URL to which webhook events are forwarded.
@@ -119,6 +120,7 @@ properties:
     type: integer
   payload-filter:
     type: object
+    additionalProperties: false
     description: >-
       Filter webhook events based on payload data. Only available for enterprise
       clients. For more info see [Webhook Event
@@ -126,4 +128,21 @@ properties:
     properties:
       data:
         type: object
+        additionalProperties: true
         format: json
+  custom-http-headers:
+    description: >-
+      Custom HTTP headers to include in webhook requests. For more info see
+      [Webhook Custom HTTP
+      Headers](https://docs.withpersona.com/docs/webhook-custom-http-headers).
+    type: object
+    additionalProperties: false
+    properties:
+      Authorization:
+        type: string
+      Calling-Application:
+        type: string
+      CF-Access-Client-Id:
+        type: string
+      CF-Access-Client-Secret:
+        type: string

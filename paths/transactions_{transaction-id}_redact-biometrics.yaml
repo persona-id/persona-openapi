@@ -1,0 +1,82 @@
+post:
+  x-private: true
+  summary: Redact Transaction biometrics
+  tags:
+    - Transactions
+  description: >-
+    Permanently deletes biometric data for a <<glossary:Transaction>> AND all
+    its associated objects. **This action cannot be undone**.
+  operationId: redact-transaction-biometrics
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/reference/redact-transaction-biometrics
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - name: transaction-id
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value:
+                data:
+                  type: transaction
+                  id: txn_26wUfNNK6Ze7qkwyK6kuj7RkZgdP
+                  attributes:
+                    status: created
+                    reference-id: null
+                    fields:
+                      front-photo:
+                        type: file
+                        value: null
+                      back-photo:
+                        type: file
+                        value: null
+                      country-code:
+                        type: string
+                        value: null
+                      selected-id-class:
+                        type: string
+                        value: null
+                      center-photo:
+                        type: file
+                        value: null
+                      selfie-compare-photo:
+                        type: file
+                        value: null
+                    tags: []
+                    created-at: '2021-09-29T18:00:00Z'
+                    updated-at: '2021-09-29T18:00:00Z'
+                  relationships:
+                    transaction-type:
+                      data:
+                        type: transaction-type
+                        id: txntp_N1687FCwgERcW3M88M5U4mAt
+                    related-objects:
+                      data: []
+          schema:
+            type: object
+            additionalProperties: false
+            properties:
+              data:
+                $ref: ../components/schemas/transaction.yaml
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml

@@ -1749,13 +1749,15 @@
                           ]
                         }
                       },
-                      "type": "object"
+                      "type": "object",
+                      "additionalProperties": false
                     },
                     "included": {
                       "$ref": "#/components/schemas/empty-included-objects"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -4258,6 +4260,7 @@
             "style": "deepObject",
             "schema": {
               "type": "object",
+              "additionalProperties": false,
               "properties": {
                 "inquiry-session-id": {
                   "description": "Filter devices by inquiry session ID",
@@ -4283,6 +4286,7 @@
                 },
                 "schema": {
                   "type": "object",
+                  "additionalProperties": false,
                   "properties": {
                     "data": {
                       "type": "array",
@@ -4292,6 +4296,7 @@
                     },
                     "links": {
                       "type": "object",
+                      "additionalProperties": false,
                       "properties": {
                         "prev": {
                           "type": [
@@ -4391,7 +4396,8 @@
                       "$ref": "#/components/schemas/empty-included-objects"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -15021,12 +15027,15 @@
             "application/json": {
               "schema": {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "data": {
                     "type": "object",
+                    "additionalProperties": false,
                     "properties": {
                       "attributes": {
                         "type": "object",
+                        "additionalProperties": false,
                         "properties": {
                           "transaction-type-id": {
                             "type": "string",
@@ -15051,7 +15060,10 @@
                             "items": {
                               "type": "string"
                             },
-                            "type": "array"
+                            "type": [
+                              "array",
+                              "null"
+                            ]
                           }
                         }
                       }
@@ -15075,6 +15087,7 @@
                 },
                 "schema": {
                   "type": "object",
+                  "additionalProperties": false,
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/transaction"
@@ -15140,6 +15153,7 @@
             "style": "deepObject",
             "schema": {
               "type": "object",
+              "additionalProperties": false,
               "properties": {
                 "reference-id": {
                   "description": "Filter transactions by reference ID.",
@@ -15162,6 +15176,7 @@
                 },
                 "schema": {
                   "type": "object",
+                  "additionalProperties": false,
                   "properties": {
                     "data": {
                       "type": "array",
@@ -15171,6 +15186,7 @@
                     },
                     "links": {
                       "type": "object",
+                      "additionalProperties": false,
                       "properties": {
                         "prev": {
                           "type": [
@@ -15205,6 +15221,9 @@
           },
           "403": {
             "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
           },
           "429": {
             "$ref": "#/components/responses/too-many-requests"
@@ -15308,6 +15327,7 @@
                 },
                 "schema": {
                   "type": "object",
+                  "additionalProperties": false,
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/transaction"
@@ -15381,6 +15401,7 @@
                 },
                 "schema": {
                   "type": "object",
+                  "additionalProperties": false,
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/transaction"
@@ -15468,12 +15489,15 @@
             "application/json": {
               "schema": {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "data": {
                     "type": "object",
+                    "additionalProperties": false,
                     "properties": {
                       "attributes": {
                         "type": "object",
+                        "additionalProperties": false,
                         "properties": {
                           "fields": {
                             "description": "Key value pairs of field name to field value. Exact field names and data types will depend on the configurations for your <<glossary:transaction type>>.",
@@ -15524,6 +15548,7 @@
                 },
                 "schema": {
                   "type": "object",
+                  "additionalProperties": false,
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/transaction"
@@ -15606,13 +15631,20 @@
                   "meta": {
                     "properties": {
                       "tag-name": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "Name of the tag to add to the Transaction."
+                      },
+                      "tag-id": {
+                        "type": "string",
+                        "description": "ID of the tag to add to the Transaction."
                       }
                     },
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": false
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               },
               "examples": {
                 "Example": {
@@ -15639,6 +15671,7 @@
                 },
                 "schema": {
                   "type": "object",
+                  "additionalProperties": false,
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/transaction"
@@ -15712,9 +15745,11 @@
             "application/json": {
               "schema": {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "meta": {
                     "type": "object",
+                    "additionalProperties": false,
                     "properties": {
                       "label": {
                         "type": "string"
@@ -15746,6 +15781,7 @@
                 },
                 "schema": {
                   "type": "object",
+                  "additionalProperties": false,
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/transaction"
@@ -15828,13 +15864,20 @@
                   "meta": {
                     "properties": {
                       "tag-name": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "Name of the tag to add to the Transaction."
+                      },
+                      "tag-id": {
+                        "type": "string",
+                        "description": "ID of the tag to add to the Transaction."
                       }
                     },
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": false
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               },
               "examples": {
                 "Example": {
@@ -15861,6 +15904,7 @@
                 },
                 "schema": {
                   "type": "object",
+                  "additionalProperties": false,
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/transaction"
@@ -15940,13 +15984,23 @@
                         "items": {
                           "type": "string"
                         },
-                        "type": "array"
+                        "type": "array",
+                        "description": "Name of the tag to add to the Transaction."
+                      },
+                      "tag-id": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array",
+                        "description": "ID of the tag to add to the Transaction."
                       }
                     },
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": false
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               },
               "examples": {
                 "Example": {
@@ -15976,6 +16030,7 @@
                 },
                 "schema": {
                   "type": "object",
+                  "additionalProperties": false,
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/transaction"
@@ -16002,6 +16057,131 @@
           },
           "422": {
             "$ref": "#/components/responses/unprocessable-entity"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        }
+      }
+    },
+    "/transactions/{transaction-id}/redact-biometrics": {
+      "post": {
+        "x-private": true,
+        "summary": "Redact Transaction biometrics",
+        "tags": [
+          "Transactions"
+        ],
+        "description": "Permanently deletes biometric data for a <<glossary:Transaction>> AND all its associated objects. **This action cannot be undone**.",
+        "operationId": "redact-transaction-biometrics",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/reference/redact-transaction-biometrics"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/include-query-parameter"
+          },
+          {
+            "name": "transaction-id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Result": {
+                    "summary": "OK",
+                    "value": {
+                      "data": {
+                        "type": "transaction",
+                        "id": "txn_26wUfNNK6Ze7qkwyK6kuj7RkZgdP",
+                        "attributes": {
+                          "status": "created",
+                          "reference-id": null,
+                          "fields": {
+                            "front-photo": {
+                              "type": "file",
+                              "value": null
+                            },
+                            "back-photo": {
+                              "type": "file",
+                              "value": null
+                            },
+                            "country-code": {
+                              "type": "string",
+                              "value": null
+                            },
+                            "selected-id-class": {
+                              "type": "string",
+                              "value": null
+                            },
+                            "center-photo": {
+                              "type": "file",
+                              "value": null
+                            },
+                            "selfie-compare-photo": {
+                              "type": "file",
+                              "value": null
+                            }
+                          },
+                          "tags": [],
+                          "created-at": "2021-09-29T18:00:00Z",
+                          "updated-at": "2021-09-29T18:00:00Z"
+                        },
+                        "relationships": {
+                          "transaction-type": {
+                            "data": {
+                              "type": "transaction-type",
+                              "id": "txntp_N1687FCwgERcW3M88M5U4mAt"
+                            }
+                          },
+                          "related-objects": {
+                            "data": []
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/transaction"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
           },
           "429": {
             "$ref": "#/components/responses/too-many-requests"
@@ -18237,13 +18417,15 @@
                           ]
                         }
                       },
-                      "type": "object"
+                      "type": "object",
+                      "additionalProperties": false
                     },
                     "included": {
                       "$ref": "#/components/schemas/empty-included-objects"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -18306,13 +18488,15 @@
                     "required": [
                       "attributes"
                     ],
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": false
                   }
                 },
                 "required": [
                   "data"
                 ],
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             }
           }
@@ -18336,7 +18520,8 @@
                       "$ref": "#/components/schemas/empty-included-objects"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -18417,7 +18602,8 @@
                       "$ref": "#/components/schemas/empty-included-objects"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -18485,10 +18671,12 @@
                         "$ref": "#/components/schemas/webhook-request-attributes"
                       }
                     },
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": false
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             }
           }
@@ -18512,7 +18700,8 @@
                       "$ref": "#/components/schemas/empty-included-objects"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -19222,6 +19411,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "data": {
                     "type": "object",
@@ -19246,6 +19436,7 @@
                                   },
                                   "payload": {
                                     "type": "object",
+                                    "additionalProperties": false,
                                     "properties": {
                                       "data": {
                                         "$ref": "#/components/schemas/account"
@@ -19307,6 +19498,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "data": {
                     "type": "object",
@@ -19331,6 +19523,7 @@
                                   },
                                   "payload": {
                                     "type": "object",
+                                    "additionalProperties": false,
                                     "properties": {
                                       "data": {
                                         "$ref": "#/components/schemas/account"
@@ -19392,6 +19585,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "data": {
                     "type": "object",
@@ -19416,6 +19610,7 @@
                                   },
                                   "payload": {
                                     "type": "object",
+                                    "additionalProperties": false,
                                     "properties": {
                                       "data": {
                                         "$ref": "#/components/schemas/account"
@@ -19477,6 +19672,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "data": {
                     "type": "object",
@@ -19501,6 +19697,7 @@
                                   },
                                   "payload": {
                                     "type": "object",
+                                    "additionalProperties": false,
                                     "properties": {
                                       "data": {
                                         "$ref": "#/components/schemas/account"
@@ -19562,6 +19759,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "data": {
                     "type": "object",
@@ -19586,6 +19784,7 @@
                                   },
                                   "payload": {
                                     "type": "object",
+                                    "additionalProperties": false,
                                     "properties": {
                                       "data": {
                                         "$ref": "#/components/schemas/account"
@@ -19647,6 +19846,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "data": {
                     "type": "object",
@@ -19671,6 +19871,7 @@
                                   },
                                   "payload": {
                                     "type": "object",
+                                    "additionalProperties": false,
                                     "properties": {
                                       "data": {
                                         "$ref": "#/components/schemas/account"
@@ -19732,6 +19933,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "data": {
                     "type": "object",
@@ -19756,6 +19958,7 @@
                                   },
                                   "payload": {
                                     "type": "object",
+                                    "additionalProperties": false,
                                     "properties": {
                                       "data": {
                                         "$ref": "#/components/schemas/account"
@@ -19817,6 +20020,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "data": {
                     "type": "object",
@@ -19841,6 +20045,7 @@
                                   },
                                   "payload": {
                                     "type": "object",
+                                    "additionalProperties": false,
                                     "properties": {
                                       "data": {
                                         "$ref": "#/components/schemas/inquiry"
@@ -19906,6 +20111,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "data": {
                     "type": "object",
@@ -19930,6 +20136,7 @@
                                   },
                                   "payload": {
                                     "type": "object",
+                                    "additionalProperties": false,
                                     "properties": {
                                       "data": {
                                         "$ref": "#/components/schemas/inquiry"
@@ -19995,6 +20202,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "data": {
                     "type": "object",
@@ -20019,6 +20227,7 @@
                                   },
                                   "payload": {
                                     "type": "object",
+                                    "additionalProperties": false,
                                     "properties": {
                                       "data": {
                                         "$ref": "#/components/schemas/inquiry"
@@ -20084,6 +20293,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "data": {
                     "type": "object",
@@ -20108,6 +20318,7 @@
                                   },
                                   "payload": {
                                     "type": "object",
+                                    "additionalProperties": false,
                                     "properties": {
                                       "data": {
                                         "$ref": "#/components/schemas/inquiry"
@@ -20173,6 +20384,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "data": {
                     "type": "object",
@@ -20197,6 +20409,7 @@
                                   },
                                   "payload": {
                                     "type": "object",
+                                    "additionalProperties": false,
                                     "properties": {
                                       "data": {
                                         "$ref": "#/components/schemas/inquiry"
@@ -20262,6 +20475,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "data": {
                     "type": "object",
@@ -20286,6 +20500,7 @@
                                   },
                                   "payload": {
                                     "type": "object",
+                                    "additionalProperties": false,
                                     "properties": {
                                       "data": {
                                         "$ref": "#/components/schemas/inquiry"
@@ -20351,6 +20566,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "data": {
                     "type": "object",
@@ -20375,6 +20591,7 @@
                                   },
                                   "payload": {
                                     "type": "object",
+                                    "additionalProperties": false,
                                     "properties": {
                                       "data": {
                                         "$ref": "#/components/schemas/inquiry"
@@ -20440,6 +20657,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "data": {
                     "type": "object",
@@ -20464,6 +20682,7 @@
                                   },
                                   "payload": {
                                     "type": "object",
+                                    "additionalProperties": false,
                                     "properties": {
                                       "data": {
                                         "$ref": "#/components/schemas/inquiry"
@@ -21470,6 +21689,7 @@
       },
       "api-log": {
         "type": "object",
+        "additionalProperties": false,
         "description": "An API Log object",
         "properties": {
           "type": {
@@ -21485,9 +21705,11 @@
           },
           "attributes": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "request": {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "method": {
                     "type": "string",
@@ -21503,11 +21725,19 @@
                   },
                   "headers": {
                     "type": "object",
+                    "additionalProperties": false,
                     "properties": {
                       "Accept": {
                         "type": "string",
                         "examples": [
                           "application/json"
+                        ]
+                      },
+                      "Authorization": {
+                        "type": "string",
+                        "description": "A sanitized version of the request's Authorization header.",
+                        "examples": [
+                          "****-****-************"
                         ]
                       },
                       "Host": {
@@ -21550,6 +21780,7 @@
               },
               "response": {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "status": {
                     "type": "integer",
@@ -21560,6 +21791,7 @@
                   },
                   "headers": {
                     "type": "object",
+                    "additionalProperties": false,
                     "properties": {
                       "Persona-Host": {
                         "type": "string",
@@ -25819,6 +26051,7 @@
       },
       "transaction": {
         "type": "object",
+        "additionalProperties": false,
         "properties": {
           "id": {
             "type": "string",
@@ -25834,6 +26067,7 @@
           },
           "attributes": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "status": {
                 "type": "string",
@@ -25859,15 +26093,23 @@
                 "additionalProperties": true
               },
               "tags": {
-                "type": "array"
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
               },
               "created-at": {
+                "type": "string",
                 "format": "date-time",
                 "examples": [
                   "2023-05-26T16:49:33.860Z"
                 ]
               },
               "updated-at": {
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "format": "date-time",
                 "examples": [
                   "2023-05-26T16:49:43.965Z"
@@ -25877,13 +26119,18 @@
           },
           "relationships": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "reviewer": {
                 "type": "object",
+                "additionalProperties": false,
                 "description": "The entity that reviewed the transaction",
                 "properties": {
                   "data": {
-                    "type": "object",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
                     "properties": {
                       "type": {
                         "x-polymorphic": true,
@@ -25908,6 +26155,7 @@
               },
               "transaction-label": {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "data": {
                     "type": [
@@ -25933,9 +26181,11 @@
               },
               "transaction-type": {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "data": {
                     "type": "object",
+                    "additionalProperties": false,
                     "properties": {
                       "type": {
                         "type": "string",
@@ -25955,6 +26205,7 @@
               },
               "related-objects": {
                 "type": "object",
+                "additionalProperties": false,
                 "description": "Any object involved in this transaction's related workflow runs (Deprecated)",
                 "deprecated": true,
                 "properties": {
@@ -25962,6 +26213,7 @@
                     "type": "array",
                     "items": {
                       "type": "object",
+                      "additionalProperties": false,
                       "properties": {
                         "type": {
                           "x-polymorphic": true,
@@ -27769,6 +28021,7 @@
       },
       "device": {
         "type": "object",
+        "additionalProperties": false,
         "properties": {
           "type": {
             "const": "device",
@@ -27784,6 +28037,7 @@
           },
           "attributes": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "device-vendor-id": {
                 "type": [
@@ -32947,6 +33201,7 @@
       },
       "transaction-label": {
         "type": "object",
+        "additionalProperties": false,
         "properties": {
           "type": {
             "type": "string",
@@ -32962,6 +33217,7 @@
           },
           "attributes": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "model-label": {
                 "type": "string",
@@ -32970,7 +33226,10 @@
                 ]
               },
               "model-version": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "examples": [
                   "1.2.3"
                 ]
@@ -33168,6 +33427,7 @@
       },
       "webhook": {
         "type": "object",
+        "additionalProperties": false,
         "description": "A Webhook object",
         "properties": {
           "type": {
@@ -33183,6 +33443,7 @@
           },
           "attributes": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "status": {
                 "type": "string",
@@ -33264,6 +33525,7 @@
       },
       "webhook-request-attributes": {
         "type": "object",
+        "additionalProperties": false,
         "properties": {
           "url": {
             "description": "URL to which webhook events are forwarded.",
@@ -33382,11 +33644,32 @@
           },
           "payload-filter": {
             "type": "object",
+            "additionalProperties": false,
             "description": "Filter webhook events based on payload data. Only available for enterprise clients. For more info see [Webhook Event Filters](https://docs.withpersona.com/docs/webhook-event-filters).",
             "properties": {
               "data": {
                 "type": "object",
+                "additionalProperties": true,
                 "format": "json"
+              }
+            }
+          },
+          "custom-http-headers": {
+            "description": "Custom HTTP headers to include in webhook requests. For more info see [Webhook Custom HTTP Headers](https://docs.withpersona.com/docs/webhook-custom-http-headers).",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "Authorization": {
+                "type": "string"
+              },
+              "Calling-Application": {
+                "type": "string"
+              },
+              "CF-Access-Client-Id": {
+                "type": "string"
+              },
+              "CF-Access-Client-Secret": {
+                "type": "string"
               }
             }
           }
@@ -33394,6 +33677,7 @@
       },
       "webhook-with-secret": {
         "type": "object",
+        "additionalProperties": false,
         "description": "A Webhook object",
         "properties": {
           "type": {
@@ -33409,6 +33693,7 @@
           },
           "attributes": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "status": {
                 "type": "string",
@@ -33433,6 +33718,7 @@
                 "type": "array",
                 "items": {
                   "type": "object",
+                  "additionalProperties": false,
                   "properties": {
                     "value": {
                       "type": "string",

@@ -19,12 +19,15 @@ post:
       application/json:
         schema:
           type: object
+          additionalProperties: false
           properties:
             data:
               type: object
+              additionalProperties: false
               properties:
                 attributes:
                   type: object
+                  additionalProperties: false
                   properties:
                     transaction-type-id:
                       type: string
@@ -49,7 +52,9 @@ post:
                         Transaction.
                       items:
                         type: string
-                      type: array
+                      type:
+                        - array
+                        - 'null'
   responses:
     '201':
       description: Created
@@ -61,6 +66,7 @@ post:
               $ref: ../components/examples/transaction.yaml
           schema:
             type: object
+            additionalProperties: false
             properties:
               data:
                 $ref: ../components/schemas/transaction.yaml
@@ -102,6 +108,7 @@ get:
       style: deepObject
       schema:
         type: object
+        additionalProperties: false
         properties:
           reference-id:
             description: Filter transactions by reference ID.
@@ -117,6 +124,7 @@ get:
               $ref: ../components/examples/transaction-list.yaml
           schema:
             type: object
+            additionalProperties: false
             properties:
               data:
                 type: array
@@ -124,6 +132,7 @@ get:
                   $ref: ../components/schemas/transaction.yaml
               links:
                 type: object
+                additionalProperties: false
                 properties:
                   prev:
                     type:
@@ -143,5 +152,7 @@ get:
       $ref: ../components/responses/unauthorized.yaml
     '403':
       $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
     '429':
       $ref: ../components/responses/too-many-requests.yaml
