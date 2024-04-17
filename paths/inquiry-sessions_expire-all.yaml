@@ -21,9 +21,11 @@ post:
                     type: string
                   type: array
               type: object
+              additionalProperties: false
               required:
                 - inquiry-ids
           type: object
+          additionalProperties: false
   responses:
     '200':
       content:
@@ -75,11 +77,17 @@ post:
                           id: dev_ABC123
           schema:
             type: object
+            additionalProperties: false
             properties:
               data:
                 type: array
                 items:
                   $ref: ../components/schemas/inquiry-session.yaml
+              included:
+                description: >-
+                  Objects that _may_ be returned if specified via the `include`
+                  query parameter in the request.
+                $ref: ../components/schemas/inquiry-sessions-included-objects.yaml
       description: OK
     '400':
       $ref: ../components/responses/bad-request.yaml

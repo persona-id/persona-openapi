@@ -775,6 +775,7 @@ paths:
           style: deepObject
           schema:
             type: object
+            additionalProperties: false
             properties:
               name:
                 type: string
@@ -789,6 +790,7 @@ paths:
                   $ref: '#/components/examples/api-key-list'
               schema:
                 type: object
+                additionalProperties: false
                 properties:
                   data:
                     items:
@@ -806,6 +808,7 @@ paths:
                           - string
                           - 'null'
                     type: object
+                    additionalProperties: false
                   included:
                     $ref: '#/components/schemas/empty-included-objects'
           description: OK
@@ -843,6 +846,7 @@ paths:
                   $ref: '#/components/examples/api-key-with-value'
               schema:
                 type: object
+                additionalProperties: false
                 properties:
                   data:
                     $ref: '#/components/schemas/api-key-with-value'
@@ -892,6 +896,7 @@ paths:
                   $ref: '#/components/examples/api-key-with-value'
               schema:
                 type: object
+                additionalProperties: false
                 properties:
                   data:
                     $ref: '#/components/schemas/api-key-with-value'
@@ -938,6 +943,7 @@ paths:
                   $ref: '#/components/examples/api-key'
               schema:
                 type: object
+                additionalProperties: false
                 properties:
                   data:
                     $ref: '#/components/schemas/api-key'
@@ -992,7 +998,9 @@ paths:
                   required:
                     - expires-in-seconds
                   type: object
+                  additionalProperties: false
               type: object
+              additionalProperties: false
       responses:
         '200':
           content:
@@ -1003,6 +1011,7 @@ paths:
                   $ref: '#/components/examples/api-key'
               schema:
                 type: object
+                additionalProperties: false
                 properties:
                   data:
                     $ref: '#/components/schemas/api-key'
@@ -5653,6 +5662,7 @@ paths:
           style: deepObject
           schema:
             type: object
+            additionalProperties: false
             properties:
               inquiry-id:
                 description: Filter inquiry sessions by inquiry ID
@@ -5709,13 +5719,18 @@ paths:
                       next: null
               schema:
                 type: object
+                additionalProperties: false
                 properties:
                   data:
                     type: array
                     items:
                       $ref: '#/components/schemas/inquiry-session'
+                  included:
+                    description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
+                    $ref: '#/components/schemas/inquiry-sessions-included-objects'
                   links:
                     type: object
+                    additionalProperties: false
                     properties:
                       prev:
                         type:
@@ -5767,8 +5782,11 @@ paths:
                       required:
                         - inquiry-id
                       type: object
+                      additionalProperties: false
                   type: object
+                  additionalProperties: false
               type: object
+              additionalProperties: false
       responses:
         '201':
           content:
@@ -5781,7 +5799,11 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/inquiry-session'
+                  included:
+                    description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
+                    $ref: '#/components/schemas/inquiry-sessions-included-objects'
                 type: object
+                additionalProperties: false
           description: Created
         '400':
           $ref: '#/components/responses/bad-request'
@@ -5824,9 +5846,11 @@ paths:
                         type: string
                       type: array
                   type: object
+                  additionalProperties: false
                   required:
                     - inquiry-ids
               type: object
+              additionalProperties: false
       responses:
         '200':
           content:
@@ -5875,11 +5899,15 @@ paths:
                               id: dev_ABC123
               schema:
                 type: object
+                additionalProperties: false
                 properties:
                   data:
                     type: array
                     items:
                       $ref: '#/components/schemas/inquiry-session'
+                  included:
+                    description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
+                    $ref: '#/components/schemas/inquiry-sessions-included-objects'
           description: OK
         '400':
           $ref: '#/components/responses/bad-request'
@@ -5926,7 +5954,11 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/inquiry-session'
+                  included:
+                    description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
+                    $ref: '#/components/schemas/inquiry-sessions-included-objects'
                 type: object
+                additionalProperties: false
           description: OK
         '400':
           $ref: '#/components/responses/bad-request'
@@ -5970,7 +6002,11 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/inquiry-session'
+                  included:
+                    description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
+                    $ref: '#/components/schemas/inquiry-sessions-included-objects'
                 type: object
+                additionalProperties: false
           description: OK
         '400':
           $ref: '#/components/responses/bad-request'
@@ -6066,7 +6102,12 @@ paths:
                       one-time-link-short:
                         type: string
                     type: object
+                    additionalProperties: false
+                  included:
+                    description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
+                    $ref: '#/components/schemas/inquiry-sessions-included-objects'
                 type: object
+                additionalProperties: false
           description: OK
         '400':
           $ref: '#/components/responses/bad-request'
@@ -13677,6 +13718,7 @@ components:
             - '2023-09-21T18:29:40.000Z'
     api-key:
       type: object
+      additionalProperties: false
       description: An API Key resource
       properties:
         type:
@@ -13688,9 +13730,11 @@ components:
             - api_ABC123
           type: string
         attributes:
+          unevaluatedProperties: false
           $ref: '#/components/schemas/api-key-shared-attributes'
     api-key-with-value:
       type: object
+      additionalProperties: false
       description: An API Key resource
       properties:
         type:
@@ -13989,6 +14033,7 @@ components:
             updater-type:
               description: |-
                 Possible values:
+                - case-assignment-policy
                 - user
                 - workflow-run
 
@@ -19449,6 +19494,7 @@ components:
               type: object
     inquiry-session:
       type: object
+      additionalProperties: false
       properties:
         type:
           type: string
@@ -19460,6 +19506,7 @@ components:
             - iqse_ABC123
         attributes:
           type: object
+          additionalProperties: false
           properties:
             status:
               description: |-
@@ -19618,12 +19665,15 @@ components:
                 - -122.03218079
         relationships:
           type: object
+          additionalProperties: false
           properties:
             inquiry:
               type: object
+              additionalProperties: false
               properties:
                 data:
                   type: object
+                  additionalProperties: false
                   properties:
                     type:
                       type: string
@@ -19751,6 +19801,17 @@ components:
       required:
         - type
         - data
+    inquiry-sessions-included-objects:
+      type: array
+      items:
+        discriminator:
+          propertyName: type
+          mapping:
+            device: '#/components/schemas/device'
+            inquiry: '#/components/schemas/inquiry'
+        anyOf:
+          - $ref: '#/components/schemas/device'
+          - $ref: '#/components/schemas/inquiry'
     list-item-shared-attributes:
       type: object
       properties:
@@ -22324,6 +22385,7 @@ components:
               errors:
                 type: array
                 items:
+                  additionalProperties: false
                   properties:
                     title:
                       description: Bad Request
@@ -22335,6 +22397,7 @@ components:
                         - data.type must be filled
                         - meta.object_ids must be an array
             type: object
+            additionalProperties: false
     unauthorized:
       description: Unauthorized
       content:
@@ -22350,6 +22413,7 @@ components:
               errors:
                 type: array
                 items:
+                  additionalProperties: false
                   properties:
                     title:
                       description: Unauthorized
@@ -22358,6 +22422,7 @@ components:
                         - Token is invalid
                       type: string
             type: object
+            additionalProperties: false
     forbidden:
       description: Forbidden
       content:
@@ -22374,6 +22439,7 @@ components:
               errors:
                 type: array
                 items:
+                  additionalProperties: false
                   properties:
                     title:
                       description: Forbidden
@@ -22385,6 +22451,7 @@ components:
                         - Verification creation API is not enabled
                         - IP address is not permitted access to current environment
             type: object
+            additionalProperties: false
     too-many-requests:
       description: Too Many Requests
       content:
@@ -22401,6 +22468,7 @@ components:
               errors:
                 type: array
                 items:
+                  additionalProperties: false
                   properties:
                     title:
                       type: string
@@ -22413,6 +22481,7 @@ components:
                         - You have hit your rate limit of 300 requests / min. Please reach out to support@withpersona.com if you need this changed.
                         - You have hit your create_verification quota limit of 300 requests. Please reach out to support@withpersona.com if you need this changed.
             type: object
+            additionalProperties: false
     conflict:
       description: Conflict
       content:
@@ -22429,6 +22498,7 @@ components:
               errors:
                 type: array
                 items:
+                  additionalProperties: false
                   properties:
                     title:
                       description: Conflict
@@ -22446,6 +22516,7 @@ components:
                         - Attempted to update a record that was just modified. Please try again.
                         - data.attributes.inquiry_id does not require verification/email-address
             type: object
+            additionalProperties: false
     unprocessable-entity:
       description: Unprocessable Entity
       content:
@@ -22462,6 +22533,7 @@ components:
               errors:
                 type: array
                 items:
+                  additionalProperties: false
                   properties:
                     title:
                       type: string
@@ -22476,6 +22548,7 @@ components:
                         - Invalid confirmation code
                     source:
                       type: object
+                      additionalProperties: false
                       properties:
                         pointer:
                           type: string
@@ -22483,6 +22556,7 @@ components:
                             - /data/attributes/files
                             - /data/attributes/selected-country-code
             type: object
+            additionalProperties: false
     not-found:
       description: Not Found
       content:
@@ -22497,6 +22571,7 @@ components:
             properties:
               errors:
                 items:
+                  additionalProperties: false
                   properties:
                     title:
                       examples:
@@ -22509,6 +22584,7 @@ components:
                   type: object
                 type: array
             type: object
+            additionalProperties: false
     request-timeout:
       description: Request Timeout
       content:
@@ -27436,8 +27512,11 @@ components:
                         description: How soon any file access tokens returned in API responses expire
                         type: integer
                     type: object
+                    additionalProperties: false
                 type: object
+                additionalProperties: false
             type: object
+            additionalProperties: false
     list-item-importer-csv-request:
       content:
         multipart/form-data:

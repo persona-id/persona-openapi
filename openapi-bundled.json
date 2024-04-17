@@ -1270,6 +1270,7 @@
             "style": "deepObject",
             "schema": {
               "type": "object",
+              "additionalProperties": false,
               "properties": {
                 "name": {
                   "type": "string",
@@ -1291,6 +1292,7 @@
                 },
                 "schema": {
                   "type": "object",
+                  "additionalProperties": false,
                   "properties": {
                     "data": {
                       "items": {
@@ -1314,7 +1316,8 @@
                           ]
                         }
                       },
-                      "type": "object"
+                      "type": "object",
+                      "additionalProperties": false
                     },
                     "included": {
                       "$ref": "#/components/schemas/empty-included-objects"
@@ -1379,6 +1382,7 @@
                 },
                 "schema": {
                   "type": "object",
+                  "additionalProperties": false,
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/api-key-with-value"
@@ -1460,6 +1464,7 @@
                 },
                 "schema": {
                   "type": "object",
+                  "additionalProperties": false,
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/api-key-with-value"
@@ -1536,6 +1541,7 @@
                 },
                 "schema": {
                   "type": "object",
+                  "additionalProperties": false,
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/api-key"
@@ -1623,10 +1629,12 @@
                     "required": [
                       "expires-in-seconds"
                     ],
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": false
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             }
           }
@@ -1643,6 +1651,7 @@
                 },
                 "schema": {
                   "type": "object",
+                  "additionalProperties": false,
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/api-key"
@@ -8696,6 +8705,7 @@
             "style": "deepObject",
             "schema": {
               "type": "object",
+              "additionalProperties": false,
               "properties": {
                 "inquiry-id": {
                   "description": "Filter inquiry sessions by inquiry ID",
@@ -8770,6 +8780,7 @@
                 },
                 "schema": {
                   "type": "object",
+                  "additionalProperties": false,
                   "properties": {
                     "data": {
                       "type": "array",
@@ -8777,8 +8788,13 @@
                         "$ref": "#/components/schemas/inquiry-session"
                       }
                     },
+                    "included": {
+                      "description": "Objects that _may_ be returned if specified via the `include` query parameter in the request.",
+                      "$ref": "#/components/schemas/inquiry-sessions-included-objects"
+                    },
                     "links": {
                       "type": "object",
+                      "additionalProperties": false,
                       "properties": {
                         "prev": {
                           "type": [
@@ -8862,13 +8878,16 @@
                         "required": [
                           "inquiry-id"
                         ],
-                        "type": "object"
+                        "type": "object",
+                        "additionalProperties": false
                       }
                     },
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": false
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             }
           }
@@ -8887,9 +8906,14 @@
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/inquiry-session"
+                    },
+                    "included": {
+                      "description": "Objects that _may_ be returned if specified via the `include` query parameter in the request.",
+                      "$ref": "#/components/schemas/inquiry-sessions-included-objects"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -8960,12 +8984,14 @@
                       }
                     },
                     "type": "object",
+                    "additionalProperties": false,
                     "required": [
                       "inquiry-ids"
                     ]
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             }
           }
@@ -9030,12 +9056,17 @@
                 },
                 "schema": {
                   "type": "object",
+                  "additionalProperties": false,
                   "properties": {
                     "data": {
                       "type": "array",
                       "items": {
                         "$ref": "#/components/schemas/inquiry-session"
                       }
+                    },
+                    "included": {
+                      "description": "Objects that _may_ be returned if specified via the `include` query parameter in the request.",
+                      "$ref": "#/components/schemas/inquiry-sessions-included-objects"
                     }
                   }
                 }
@@ -9113,9 +9144,14 @@
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/inquiry-session"
+                    },
+                    "included": {
+                      "description": "Objects that _may_ be returned if specified via the `include` query parameter in the request.",
+                      "$ref": "#/components/schemas/inquiry-sessions-included-objects"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -9187,9 +9223,14 @@
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/inquiry-session"
+                    },
+                    "included": {
+                      "description": "Objects that _may_ be returned if specified via the `include` query parameter in the request.",
+                      "$ref": "#/components/schemas/inquiry-sessions-included-objects"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -9327,10 +9368,16 @@
                           "type": "string"
                         }
                       },
-                      "type": "object"
+                      "type": "object",
+                      "additionalProperties": false
+                    },
+                    "included": {
+                      "description": "Objects that _may_ be returned if specified via the `include` query parameter in the request.",
+                      "$ref": "#/components/schemas/inquiry-sessions-included-objects"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -21632,6 +21679,7 @@
       },
       "api-key": {
         "type": "object",
+        "additionalProperties": false,
         "description": "An API Key resource",
         "properties": {
           "type": {
@@ -21646,12 +21694,14 @@
             "type": "string"
           },
           "attributes": {
+            "unevaluatedProperties": false,
             "$ref": "#/components/schemas/api-key-shared-attributes"
           }
         }
       },
       "api-key-with-value": {
         "type": "object",
+        "additionalProperties": false,
         "description": "An API Key resource",
         "properties": {
           "type": {
@@ -22053,7 +22103,7 @@
                 ]
               },
               "updater-type": {
-                "description": "Possible values:\n- user\n- workflow-run\n\nDo not assume this is a static enumeration; Persona may add new values\nin the future without a versioned update.",
+                "description": "Possible values:\n- case-assignment-policy\n- user\n- workflow-run\n\nDo not assume this is a static enumeration; Persona may add new values\nin the future without a versioned update.",
                 "type": [
                   "string",
                   "null"
@@ -29559,6 +29609,7 @@
       },
       "inquiry-session": {
         "type": "object",
+        "additionalProperties": false,
         "properties": {
           "type": {
             "type": "string",
@@ -29573,6 +29624,7 @@
           },
           "attributes": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "status": {
                 "description": "Possible values:\n- new\n- active\n- expired\n\nDo not assume this is a static enumeration; Persona may add new values\nin the future without a versioned update.",
@@ -29796,12 +29848,15 @@
           },
           "relationships": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "inquiry": {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "data": {
                     "type": "object",
+                    "additionalProperties": false,
                     "properties": {
                       "type": {
                         "type": "string",
@@ -30020,6 +30075,26 @@
           "type",
           "data"
         ]
+      },
+      "inquiry-sessions-included-objects": {
+        "type": "array",
+        "items": {
+          "discriminator": {
+            "propertyName": "type",
+            "mapping": {
+              "device": "#/components/schemas/device",
+              "inquiry": "#/components/schemas/inquiry"
+            }
+          },
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/device"
+            },
+            {
+              "$ref": "#/components/schemas/inquiry"
+            }
+          ]
+        }
       },
       "list-item-shared-attributes": {
         "type": "object",
@@ -33856,6 +33931,7 @@
                 "errors": {
                   "type": "array",
                   "items": {
+                    "additionalProperties": false,
                     "properties": {
                       "title": {
                         "description": "Bad Request",
@@ -33873,7 +33949,8 @@
                   }
                 }
               },
-              "type": "object"
+              "type": "object",
+              "additionalProperties": false
             }
           }
         }
@@ -33899,6 +33976,7 @@
                 "errors": {
                   "type": "array",
                   "items": {
+                    "additionalProperties": false,
                     "properties": {
                       "title": {
                         "description": "Unauthorized",
@@ -33912,7 +33990,8 @@
                   }
                 }
               },
-              "type": "object"
+              "type": "object",
+              "additionalProperties": false
             }
           }
         }
@@ -33939,6 +34018,7 @@
                 "errors": {
                   "type": "array",
                   "items": {
+                    "additionalProperties": false,
                     "properties": {
                       "title": {
                         "description": "Forbidden",
@@ -33956,7 +34036,8 @@
                   }
                 }
               },
-              "type": "object"
+              "type": "object",
+              "additionalProperties": false
             }
           }
         }
@@ -33983,6 +34064,7 @@
                 "errors": {
                   "type": "array",
                   "items": {
+                    "additionalProperties": false,
                     "properties": {
                       "title": {
                         "type": "string",
@@ -34002,7 +34084,8 @@
                   }
                 }
               },
-              "type": "object"
+              "type": "object",
+              "additionalProperties": false
             }
           }
         }
@@ -34029,6 +34112,7 @@
                 "errors": {
                   "type": "array",
                   "items": {
+                    "additionalProperties": false,
                     "properties": {
                       "title": {
                         "description": "Conflict",
@@ -34053,7 +34137,8 @@
                   }
                 }
               },
-              "type": "object"
+              "type": "object",
+              "additionalProperties": false
             }
           }
         }
@@ -34080,6 +34165,7 @@
                 "errors": {
                   "type": "array",
                   "items": {
+                    "additionalProperties": false,
                     "properties": {
                       "title": {
                         "type": "string",
@@ -34098,6 +34184,7 @@
                       },
                       "source": {
                         "type": "object",
+                        "additionalProperties": false,
                         "properties": {
                           "pointer": {
                             "type": "string",
@@ -34112,7 +34199,8 @@
                   }
                 }
               },
-              "type": "object"
+              "type": "object",
+              "additionalProperties": false
             }
           }
         }
@@ -34137,6 +34225,7 @@
               "properties": {
                 "errors": {
                   "items": {
+                    "additionalProperties": false,
                     "properties": {
                       "title": {
                         "examples": [
@@ -34156,7 +34245,8 @@
                   "type": "array"
                 }
               },
-              "type": "object"
+              "type": "object",
+              "additionalProperties": false
             }
           }
         }
@@ -40865,13 +40955,16 @@
                           "type": "integer"
                         }
                       },
-                      "type": "object"
+                      "type": "object",
+                      "additionalProperties": false
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               },
-              "type": "object"
+              "type": "object",
+              "additionalProperties": false
             }
           }
         }

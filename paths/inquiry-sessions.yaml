@@ -14,6 +14,7 @@ get:
       style: deepObject
       schema:
         type: object
+        additionalProperties: false
         properties:
           inquiry-id:
             description: Filter inquiry sessions by inquiry ID
@@ -73,13 +74,20 @@ get:
                   next: null
           schema:
             type: object
+            additionalProperties: false
             properties:
               data:
                 type: array
                 items:
                   $ref: ../components/schemas/inquiry-session.yaml
+              included:
+                description: >-
+                  Objects that _may_ be returned if specified via the `include`
+                  query parameter in the request.
+                $ref: ../components/schemas/inquiry-sessions-included-objects.yaml
               links:
                 type: object
+                additionalProperties: false
                 properties:
                   prev:
                     type:
@@ -133,8 +141,11 @@ post:
                   required:
                     - inquiry-id
                   type: object
+                  additionalProperties: false
               type: object
+              additionalProperties: false
           type: object
+          additionalProperties: false
   responses:
     '201':
       content:
@@ -147,7 +158,13 @@ post:
             properties:
               data:
                 $ref: ../components/schemas/inquiry-session.yaml
+              included:
+                description: >-
+                  Objects that _may_ be returned if specified via the `include`
+                  query parameter in the request.
+                $ref: ../components/schemas/inquiry-sessions-included-objects.yaml
             type: object
+            additionalProperties: false
       description: Created
     '400':
       $ref: ../components/responses/bad-request.yaml
