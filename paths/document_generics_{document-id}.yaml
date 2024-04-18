@@ -31,6 +31,7 @@ get:
               included:
                 $ref: ../components/schemas/document-included-objects.yaml
             type: object
+            additionalProperties: false
       description: OK
     '400':
       $ref: ../components/responses/bad-request.yaml
@@ -80,11 +81,22 @@ patch:
                     kind:
                       description: Identifier for this document, e.g. "proof_of_employment"
                       type: string
+                    fields:
+                      description: >-
+                        JSON key-value pairs of field name to field value. Exact
+                        schema depends on the configuration of your template.
+                      type:
+                        - object
+                        - 'null'
+                      additionalProperties: true
                   type: object
+                  additionalProperties: false
               type: object
+              additionalProperties: false
           required:
             - data
           type: object
+          additionalProperties: false
   responses:
     '200':
       content:
@@ -100,6 +112,7 @@ patch:
               included:
                 $ref: ../components/schemas/document-included-objects.yaml
             type: object
+            additionalProperties: false
       description: OK
     '400':
       $ref: ../components/responses/bad-request.yaml

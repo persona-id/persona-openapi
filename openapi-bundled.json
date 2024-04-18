@@ -4483,7 +4483,8 @@
                                 "data",
                                 "filename"
                               ],
-                              "type": "object"
+                              "type": "object",
+                              "additionalProperties": false
                             },
                             "type": "array"
                           },
@@ -4507,16 +4508,19 @@
                         "required": [
                           "kind"
                         ],
-                        "type": "object"
+                        "type": "object",
+                        "additionalProperties": false
                       }
                     },
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": false
                   }
                 },
                 "required": [
                   "data"
                 ],
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             }
           }
@@ -4540,7 +4544,8 @@
                       "$ref": "#/components/schemas/document-included-objects"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -4623,7 +4628,8 @@
                       "$ref": "#/components/schemas/document-included-objects"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -4701,18 +4707,29 @@
                           "kind": {
                             "description": "Identifier for this document, e.g. \"proof_of_employment\"",
                             "type": "string"
+                          },
+                          "fields": {
+                            "description": "JSON key-value pairs of field name to field value. Exact schema depends on the configuration of your template.",
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "additionalProperties": true
                           }
                         },
-                        "type": "object"
+                        "type": "object",
+                        "additionalProperties": false
                       }
                     },
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": false
                   }
                 },
                 "required": [
                   "data"
                 ],
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             }
           }
@@ -4736,7 +4753,8 @@
                       "$ref": "#/components/schemas/document-included-objects"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -4819,7 +4837,8 @@
                       "$ref": "#/components/schemas/document-included-objects"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -28173,10 +28192,15 @@
                     "type": "string"
                   }
                 },
-                "type": "object"
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "additionalProperties": false
               }
             },
-            "type": "object"
+            "type": "object",
+            "additionalProperties": false
           },
           "template": {
             "properties": {
@@ -28200,7 +28224,8 @@
                 ]
               }
             },
-            "type": "object"
+            "type": "object",
+            "additionalProperties": false
           },
           "inquiry-template-version": {
             "properties": {
@@ -28224,7 +28249,8 @@
                 ]
               }
             },
-            "type": "object"
+            "type": "object",
+            "additionalProperties": false
           },
           "inquiry-template": {
             "properties": {
@@ -28248,7 +28274,8 @@
                 ]
               }
             },
-            "type": "object"
+            "type": "object",
+            "additionalProperties": false
           },
           "document-files": {
             "properties": {
@@ -28267,15 +28294,18 @@
                       "type": "string"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 },
                 "type": "array"
               }
             },
-            "type": "object"
+            "type": "object",
+            "additionalProperties": false
           }
         },
-        "type": "object"
+        "type": "object",
+        "additionalProperties": false
       },
       "document-generic": {
         "type": "object",
@@ -33744,6 +33774,9 @@
                 "type": "string"
               },
               "CF-Access-Client-Secret": {
+                "type": "string"
+              },
+              "X-API-Key": {
                 "type": "string"
               }
             }

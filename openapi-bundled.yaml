@@ -2924,6 +2924,7 @@ paths:
                               - data
                               - filename
                             type: object
+                            additionalProperties: false
                           type: array
                         inquiry-id:
                           examples:
@@ -2939,10 +2940,13 @@ paths:
                       required:
                         - kind
                       type: object
+                      additionalProperties: false
                   type: object
+                  additionalProperties: false
               required:
                 - data
               type: object
+              additionalProperties: false
       responses:
         '201':
           content:
@@ -2958,6 +2962,7 @@ paths:
                   included:
                     $ref: '#/components/schemas/document-included-objects'
                 type: object
+                additionalProperties: false
           description: Created
         '400':
           $ref: '#/components/responses/bad-request'
@@ -3008,6 +3013,7 @@ paths:
                   included:
                     $ref: '#/components/schemas/document-included-objects'
                 type: object
+                additionalProperties: false
           description: OK
         '400':
           $ref: '#/components/responses/bad-request'
@@ -3057,11 +3063,20 @@ paths:
                         kind:
                           description: Identifier for this document, e.g. "proof_of_employment"
                           type: string
+                        fields:
+                          description: JSON key-value pairs of field name to field value. Exact schema depends on the configuration of your template.
+                          type:
+                            - object
+                            - 'null'
+                          additionalProperties: true
                       type: object
+                      additionalProperties: false
                   type: object
+                  additionalProperties: false
               required:
                 - data
               type: object
+              additionalProperties: false
       responses:
         '200':
           content:
@@ -3077,6 +3092,7 @@ paths:
                   included:
                     $ref: '#/components/schemas/document-included-objects'
                 type: object
+                additionalProperties: false
           description: OK
         '400':
           $ref: '#/components/responses/bad-request'
@@ -3127,6 +3143,7 @@ paths:
                   included:
                     $ref: '#/components/schemas/document-included-objects'
                 type: object
+                additionalProperties: false
           description: OK
         '400':
           $ref: '#/components/responses/bad-request'
@@ -18475,8 +18492,12 @@ components:
                   const: inquiry
                   description: inquiry
                   type: string
-              type: object
+              type:
+                - object
+                - 'null'
+              additionalProperties: false
           type: object
+          additionalProperties: false
         template:
           properties:
             data:
@@ -18493,6 +18514,7 @@ components:
                 - 'null'
                 - object
           type: object
+          additionalProperties: false
         inquiry-template-version:
           properties:
             data:
@@ -18509,6 +18531,7 @@ components:
                 - 'null'
                 - object
           type: object
+          additionalProperties: false
         inquiry-template:
           properties:
             data:
@@ -18525,6 +18548,7 @@ components:
                 - 'null'
                 - object
           type: object
+          additionalProperties: false
         document-files:
           properties:
             data:
@@ -18539,9 +18563,12 @@ components:
                     description: document-file
                     type: string
                 type: object
+                additionalProperties: false
               type: array
           type: object
+          additionalProperties: false
       type: object
+      additionalProperties: false
     document-generic:
       type: object
       description: A Document Generic object
@@ -22260,6 +22287,8 @@ components:
             CF-Access-Client-Id:
               type: string
             CF-Access-Client-Secret:
+              type: string
+            X-API-Key:
               type: string
     webhook-with-secret:
       type: object
