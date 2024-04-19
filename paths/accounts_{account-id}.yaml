@@ -40,6 +40,7 @@ delete:
                 $ref: ../components/schemas/account.yaml
               included:
                 $ref: ../components/schemas/empty-included-objects.yaml
+            additionalProperties: false
             type: object
       description: OK
     '400':
@@ -51,7 +52,42 @@ delete:
     '404':
       $ref: ../components/responses/not-found.yaml
     '409':
-      $ref: ../components/responses/conflict.yaml
+      description: Conflict
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: Conflict
+              $ref: ../components/examples/account.yaml
+          schema:
+            unevaluatedProperties: false
+            oneOf:
+              - properties:
+                  data:
+                    $ref: ../components/schemas/account.yaml
+                  included:
+                    $ref: ../components/schemas/empty-included-objects.yaml
+                additionalProperties: false
+                type: object
+              - properties:
+                  errors:
+                    type: array
+                    items:
+                      properties:
+                        title:
+                          description: Conflict
+                          examples:
+                            - Conflict
+                            - Record not unique
+                            - Stale object error
+                          type: string
+                        details:
+                          type: string
+                          examples:
+                            - Account already redacted
+                      additionalProperties: false
+                additionalProperties: false
+                type: object
     '422':
       $ref: ../components/responses/unprocessable-entity.yaml
     '429':
@@ -89,6 +125,7 @@ get:
                 $ref: ../components/schemas/account.yaml
               included:
                 $ref: ../components/schemas/empty-included-objects.yaml
+            additionalProperties: false
             type: object
       description: OK
     '400':
@@ -137,6 +174,11 @@ patch:
                             Reference ID on Account, refers to an entity in your
                             user model
                           type: string
+                        account-status:
+                          type: string
+                          description: >-
+                            BETA FEATURE -- Name of the status to set on this
+                            Account.
                         selfie-photo:
                           description: Selfie photo.
                           properties:
@@ -153,7 +195,9 @@ patch:
                                 filename:
                                   description: Name of the image
                                   type: string
+                              additionalProperties: false
                               type: object
+                          additionalProperties: false
                           type: object
                         tags:
                           description: >-
@@ -161,7 +205,9 @@ patch:
                             Account.
                           items:
                             type: string
-                          type: array
+                          type:
+                            - array
+                            - 'null'
                         country-code:
                           description: ISO 3166-1 alpha 2 country code.
                           examples:
@@ -177,7 +223,9 @@ patch:
                             - string
                             - 'null'
                     - $ref: ../components/schemas/default-fields.yaml
+              additionalProperties: false
               type: object
+          additionalProperties: false
           type: object
   responses:
     '200':
@@ -193,6 +241,7 @@ patch:
                 $ref: ../components/schemas/account.yaml
               included:
                 $ref: ../components/schemas/empty-included-objects.yaml
+            additionalProperties: false
             type: object
       description: OK
     '400':

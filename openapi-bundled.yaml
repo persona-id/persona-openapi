@@ -174,28 +174,32 @@ paths:
                 properties:
                   data:
                     items:
-                      $ref: '#/components/schemas/account'
+                      unevaluatedProperties: false
+                      allOf:
+                        - $ref: '#/components/schemas/account'
                     type: array
                     description: An array of Accounts
                   links:
                     properties:
                       prev:
+                        type:
+                          - string
+                          - 'null'
                         examples:
                           - /api/v1/accounts?page%5Bafter%5D=act_ABC123
-                        type:
-                          - 'null'
-                          - string
                         description: URL pointing to the previous page of data, or null if on the first page.
                       next:
+                        type:
+                          - string
+                          - 'null'
                         examples:
                           - /api/v1/accounts?page%5Bafter%5D=act_ABC123
-                        type:
-                          - 'null'
-                          - string
                         description: URL pointing to the next page of data, or null if on the last page.
+                    additionalProperties: false
                     type: object
                   included:
                     $ref: '#/components/schemas/empty-included-objects'
+                additionalProperties: false
                 type: object
           description: OK
         '400':
@@ -204,6 +208,8 @@ paths:
           $ref: '#/components/responses/unauthorized'
         '403':
           $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not-found'
         '429':
           $ref: '#/components/responses/too-many-requests'
       summary: List all Accounts
@@ -232,6 +238,9 @@ paths:
                       allOf:
                         - type: object
                           properties:
+                            account-status:
+                              type: string
+                              description: BETA FEATURE -- Name of the status to set on this Account.
                             reference-id:
                               description: Reference ID on Account, refers to an entity in your user model
                               type: string
@@ -247,13 +256,17 @@ paths:
                                     filename:
                                       description: Name of the image
                                       type: string
+                                  additionalProperties: false
                                   type: object
+                              additionalProperties: false
                               type: object
                             tags:
                               description: A list of tag names to be associated with the Account.
                               items:
                                 type: string
-                              type: array
+                              type:
+                                - array
+                                - 'null'
                             country-code:
                               description: ISO 3166-1 alpha 2 country code.
                               examples:
@@ -269,7 +282,9 @@ paths:
                                 - string
                                 - 'null'
                         - $ref: '#/components/schemas/default-fields'
+                  additionalProperties: false
                   type: object
+              additionalProperties: false
               type: object
       responses:
         '201':
@@ -338,6 +353,7 @@ paths:
                     $ref: '#/components/schemas/account'
                   included:
                     $ref: '#/components/schemas/empty-included-objects'
+                additionalProperties: false
                 type: object
           description: OK
         '400':
@@ -349,7 +365,42 @@ paths:
         '404':
           $ref: '#/components/responses/not-found'
         '409':
-          $ref: '#/components/responses/conflict'
+          description: Conflict
+          content:
+            application/json:
+              examples:
+                Result:
+                  summary: Conflict
+                  $ref: '#/components/examples/account'
+              schema:
+                unevaluatedProperties: false
+                oneOf:
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/account'
+                      included:
+                        $ref: '#/components/schemas/empty-included-objects'
+                    additionalProperties: false
+                    type: object
+                  - properties:
+                      errors:
+                        type: array
+                        items:
+                          properties:
+                            title:
+                              description: Conflict
+                              examples:
+                                - Conflict
+                                - Record not unique
+                                - Stale object error
+                              type: string
+                            details:
+                              type: string
+                              examples:
+                                - Account already redacted
+                          additionalProperties: false
+                    additionalProperties: false
+                    type: object
         '422':
           $ref: '#/components/responses/unprocessable-entity'
         '429':
@@ -387,6 +438,7 @@ paths:
                     $ref: '#/components/schemas/account'
                   included:
                     $ref: '#/components/schemas/empty-included-objects'
+                additionalProperties: false
                 type: object
           description: OK
         '400':
@@ -433,6 +485,9 @@ paths:
                             reference-id:
                               description: Reference ID on Account, refers to an entity in your user model
                               type: string
+                            account-status:
+                              type: string
+                              description: BETA FEATURE -- Name of the status to set on this Account.
                             selfie-photo:
                               description: Selfie photo.
                               properties:
@@ -445,13 +500,17 @@ paths:
                                     filename:
                                       description: Name of the image
                                       type: string
+                                  additionalProperties: false
                                   type: object
+                              additionalProperties: false
                               type: object
                             tags:
                               description: A list of tag names to be associated with the Account.
                               items:
                                 type: string
-                              type: array
+                              type:
+                                - array
+                                - 'null'
                             country-code:
                               description: ISO 3166-1 alpha 2 country code.
                               examples:
@@ -467,7 +526,9 @@ paths:
                                 - string
                                 - 'null'
                         - $ref: '#/components/schemas/default-fields'
+                  additionalProperties: false
                   type: object
+              additionalProperties: false
               type: object
       responses:
         '200':
@@ -483,6 +544,7 @@ paths:
                     $ref: '#/components/schemas/account'
                   included:
                     $ref: '#/components/schemas/empty-included-objects'
+                additionalProperties: false
                 type: object
           description: OK
         '400':
@@ -528,8 +590,14 @@ paths:
                   properties:
                     tag-name:
                       type: string
+                      description: Name of the tag to add to the Account.
+                    tag-id:
+                      type: string
+                      description: ID of the tag to add to the Account.
                   type: object
+                  additionalProperties: false
               type: object
+              additionalProperties: false
       responses:
         '200':
           content:
@@ -540,6 +608,7 @@ paths:
                     $ref: '#/components/schemas/account'
                   included:
                     $ref: '#/components/schemas/empty-included-objects'
+                additionalProperties: false
                 type: object
               examples:
                 Result:
@@ -598,7 +667,9 @@ paths:
                       items:
                         type: string
                       type: array
+                  additionalProperties: false
                   type: object
+              additionalProperties: false
               type: object
       responses:
         '202':
@@ -614,6 +685,7 @@ paths:
                     $ref: '#/components/schemas/account'
                   included:
                     $ref: '#/components/schemas/empty-included-objects'
+                additionalProperties: false
                 type: object
           description: Accepted
         '400':
@@ -659,7 +731,13 @@ paths:
                   properties:
                     tag-name:
                       type: string
+                      description: Name of the tag to remove from the Account.
+                    tag-id:
+                      type: string
+                      description: ID of the tag to remove from the Account.
+                  additionalProperties: false
                   type: object
+              additionalProperties: false
               type: object
       responses:
         '200':
@@ -671,6 +749,7 @@ paths:
                     $ref: '#/components/schemas/account'
                   included:
                     $ref: '#/components/schemas/empty-included-objects'
+                additionalProperties: false
                 type: object
               examples:
                 Result:
@@ -719,10 +798,18 @@ paths:
                 meta:
                   properties:
                     tag-name:
+                      description: Name of the tags to set on the Account.
                       items:
                         type: string
                       type: array
+                    tag-id:
+                      description: ID of the tags to set on the Account.
+                      items:
+                        type: string
+                      type: array
+                  additionalProperties: false
                   type: object
+              additionalProperties: false
               type: object
       responses:
         '200':
@@ -734,6 +821,7 @@ paths:
                     $ref: '#/components/schemas/account'
                   included:
                     $ref: '#/components/schemas/empty-included-objects'
+                additionalProperties: false
                 type: object
               examples:
                 Result:
@@ -2925,7 +3013,9 @@ paths:
                               - filename
                             type: object
                             additionalProperties: false
-                          type: array
+                          type:
+                            - array
+                            - 'null'
                         inquiry-id:
                           examples:
                             - inq_GC7xwqnhgNHwomz5yT3geLrT
@@ -3619,6 +3709,87 @@ paths:
       summary: Retrieve an Event
       tags:
         - Events
+  /importers:
+    get:
+      description: Returns a list of your organization's importers.
+      operationId: list-all-importers
+      externalDocs:
+        description: Full documentation for this API on the Persona website.
+        url: https://docs.withpersona.com/reference/list-all-importers
+      parameters:
+        - $ref: '#/components/parameters/key-inflection-header'
+        - $ref: '#/components/parameters/idempotency-key-header'
+        - $ref: '#/components/parameters/persona-version-header'
+        - $ref: '#/components/parameters/pagination-query-params'
+        - $ref: '#/components/parameters/include-query-parameter'
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                Result:
+                  summary: OK
+                  value:
+                    data:
+                      - type: importer/account
+                        id: mprt_TKqquVbHaSVYqgWhxNjuYDjQ
+                        attributes:
+                          status: pending
+                          created-at: '2020-07-12T17:16:54.656Z'
+                          completed-at: null
+                          error-count: 0
+                          successful-count: 0
+                          duplicate-count: 0
+                      - type: importer/list-item/face
+                        id: mprt_N6PqYkfSqeqiQYWoeHA3GGDo
+                        attributes:
+                          status: ready
+                          created-at: '2020-07-12T17:16:54.656Z'
+                          completed-at: '2020-07-14T17:17:23.032Z'
+                          error-count: 0
+                          successful-count: 104
+                          duplicate-count: 3
+                    links:
+                      prev: null
+                      next: null
+              schema:
+                properties:
+                  data:
+                    type: array
+                    description: An array of Importers
+                    items:
+                      unevaluatedProperties: false
+                      $ref: '#/components/schemas/importer'
+                  links:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      prev:
+                        type:
+                          - string
+                          - 'null'
+                        examples:
+                          - /api/v1/events?page%5Bbefore%5D=mprt_ABC123
+                      next:
+                        type:
+                          - string
+                          - 'null'
+                        examples:
+                          - /api/v1/events?page%5Bafter%5D=mprt_ABC123
+                  included:
+                    $ref: '#/components/schemas/empty-included-objects'
+          description: OK
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+      summary: List all Importers
+      tags:
+        - Importers
   /importers/{importer-id}:
     get:
       description: Retrieve the details of an existing importer.
@@ -3656,53 +3827,14 @@ paths:
                         successful-count: 0
                         duplicate-count: 0
               schema:
+                type: object
+                additionalProperties: false
                 properties:
                   data:
-                    properties:
-                      type:
-                        x-polymorphic: true
-                        examples:
-                          - importer/account
-                        type: string
-                      id:
-                        examples:
-                          - mprt_TKqquVbHaSVYqgWhxNjuYDjQ
-                        type: string
-                      attributes:
-                        properties:
-                          completed-at:
-                            examples:
-                              - '2022-08-02T05:02:56.000Z'
-                            type:
-                              - string
-                              - 'null'
-                            format: date-time
-                          created-at:
-                            examples:
-                              - '2020-07-12T17:16:54.656Z'
-                            type: string
-                          duplicate-count:
-                            default: 0
-                            examples:
-                              - 0
-                            type: integer
-                          error-count:
-                            default: 0
-                            examples:
-                              - 0
-                            type: integer
-                          status:
-                            examples:
-                              - pending
-                            type: string
-                          successful-count:
-                            default: 0
-                            examples:
-                              - 0
-                            type: integer
-                        type: object
-                    type: object
-                type: object
+                    unevaluatedProperties: false
+                    $ref: '#/components/schemas/importer'
+                  included:
+                    $ref: '#/components/schemas/empty-included-objects'
           description: OK
         '400':
           $ref: '#/components/responses/bad-request'
@@ -10430,6 +10562,7 @@ paths:
                           name-last: Doe
               schema:
                 type: object
+                additionalProperties: false
                 properties:
                   data:
                     type: array
@@ -10437,6 +10570,7 @@ paths:
                       $ref: '#/components/schemas/user-audit-log'
                   links:
                     type: object
+                    additionalProperties: false
                     properties:
                       prev:
                         type:
@@ -10462,6 +10596,8 @@ paths:
           $ref: '#/components/responses/unauthorized'
         '403':
           $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not-found'
         '429':
           $ref: '#/components/responses/too-many-requests'
       summary: List all User Audit Logs
@@ -13373,6 +13509,7 @@ components:
                   properties:
                     name:
                       type: object
+                      additionalProperties: false
                       properties:
                         type:
                           type: string
@@ -13380,9 +13517,11 @@ components:
                             - hash
                         value:
                           type: object
+                          additionalProperties: false
                           properties:
                             first:
                               type: object
+                              additionalProperties: false
                               properties:
                                 type:
                                   type: string
@@ -13396,6 +13535,7 @@ components:
                                     - Jane
                             middle:
                               type: object
+                              additionalProperties: false
                               properties:
                                 type:
                                   type: string
@@ -13409,6 +13549,7 @@ components:
                                     - Marie
                             last:
                               type: object
+                              additionalProperties: false
                               properties:
                                 type:
                                   type: string
@@ -13422,6 +13563,7 @@ components:
                                     - Doe
                     address:
                       type: object
+                      additionalProperties: false
                       properties:
                         type:
                           type: string
@@ -13429,9 +13571,11 @@ components:
                             - hash
                         value:
                           type: object
+                          additionalProperties: false
                           properties:
                             street_1:
                               type: object
+                              additionalProperties: false
                               properties:
                                 type:
                                   type: string
@@ -13445,6 +13589,7 @@ components:
                                     - 123 Main St
                             street_2:
                               type: object
+                              additionalProperties: false
                               properties:
                                 type:
                                   type: string
@@ -13458,6 +13603,7 @@ components:
                                     - Apt 1
                             subdivision:
                               type: object
+                              additionalProperties: false
                               properties:
                                 type:
                                   type: string
@@ -13471,6 +13617,7 @@ components:
                                     - California
                             city:
                               type: object
+                              additionalProperties: false
                               properties:
                                 type:
                                   type: string
@@ -13484,6 +13631,7 @@ components:
                                     - San Francisco
                             postal_code:
                               type: object
+                              additionalProperties: false
                               properties:
                                 type:
                                   type: string
@@ -13497,6 +13645,7 @@ components:
                                     - '94111'
                             country_code:
                               type: object
+                              additionalProperties: false
                               properties:
                                 type:
                                   type: string
@@ -13510,6 +13659,7 @@ components:
                                     - US
                     identification_numbers:
                       type: object
+                      additionalProperties: false
                       properties:
                         type:
                           type: string
@@ -13519,6 +13669,7 @@ components:
                           type: array
                           items:
                             type: object
+                            additionalProperties: false
                             properties:
                               type:
                                 type: string
@@ -13526,9 +13677,11 @@ components:
                                   - hash
                               value:
                                 type: object
+                                additionalProperties: false
                                 properties:
                                   identification_class:
                                     type: object
+                                    additionalProperties: false
                                     properties:
                                       type:
                                         type: string
@@ -13541,6 +13694,7 @@ components:
                                           - cct
                                   identification_number:
                                     type: object
+                                    additionalProperties: false
                                     properties:
                                       type:
                                         type: string
@@ -13553,6 +13707,7 @@ components:
                                           - AB-12345678
                                   issuing_country:
                                     type: object
+                                    additionalProperties: false
                                     properties:
                                       type:
                                         type: string
@@ -13565,6 +13720,7 @@ components:
                                           - UK
                     birthdate:
                       type: object
+                      additionalProperties: false
                       properties:
                         type:
                           type: string
@@ -13578,6 +13734,7 @@ components:
                             - '1994-04-12'
                     phone_number:
                       type: object
+                      additionalProperties: false
                       properties:
                         type:
                           type: string
@@ -13591,6 +13748,7 @@ components:
                             - 415-555-1234
                     email_address:
                       type: object
+                      additionalProperties: false
                       properties:
                         type:
                           type: string
@@ -13604,6 +13762,7 @@ components:
                             - jane@doe.com
                     selfie_photo:
                       type: object
+                      additionalProperties: false
                       properties:
                         type:
                           const: file
@@ -13622,6 +13781,7 @@ components:
                     properties:
                       items:
                         type: object
+                        additionalProperties: false
                         properties:
                           issuing-country:
                             type: string
@@ -19433,6 +19593,225 @@ components:
               format: date-time
               examples:
                 - '2023-09-23T17:14:01.918Z'
+    importer-shared-attributes:
+      type: object
+      additionalProperties: false
+      properties:
+        completed-at:
+          examples:
+            - '2022-08-02T05:02:56.000Z'
+          type:
+            - string
+            - 'null'
+          format: date-time
+        created-at:
+          examples:
+            - '2020-07-12T17:16:54.656Z'
+          type: string
+        duplicate-count:
+          default: 0
+          examples:
+            - 0
+          type: integer
+        error-count:
+          default: 0
+          examples:
+            - 0
+          type: integer
+        status:
+          description: |-
+            Possible values:
+            - pending
+            - ready
+            - errored
+
+            Do not assume this is a static enumeration; Persona may add new values
+            in the future without a versioned update.
+          examples:
+            - pending
+          type: string
+        successful-count:
+          default: 0
+          examples:
+            - 0
+          type: integer
+    importer-account:
+      title: Account Importer
+      description: An Importer for Accounts
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          description: Unique identifier for this Importer. Starts with `mprt_`.
+          examples:
+            - mprt_N6PqYkfSqeqiQYWoeHA3GGDo
+          type: string
+        type:
+          const: importer/account
+          description: importer/account
+          type: string
+        attributes:
+          $ref: '#/components/schemas/importer-shared-attributes'
+    importer-list-item-email-address:
+      title: Email address List Item Importer
+      description: An Importer for email address List Items
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          description: Unique identifier for this Importer. Starts with `mprt_`.
+          examples:
+            - mprt_N6PqYkfSqeqiQYWoeHA3GGDo
+          type: string
+        type:
+          const: importer/list-item/email-address
+          description: importer/list-item/email-address
+          type: string
+        attributes:
+          $ref: '#/components/schemas/importer-shared-attributes'
+    importer-list-item-face:
+      title: Face List Item Importer
+      description: An Importer for face List Items
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          description: Unique identifier for this Importer. Starts with `mprt_`.
+          examples:
+            - mprt_N6PqYkfSqeqiQYWoeHA3GGDo
+          type: string
+        type:
+          const: importer/list-item/face
+          description: importer/list-item/face
+          type: string
+        attributes:
+          $ref: '#/components/schemas/importer-shared-attributes'
+    importer-list-item-field:
+      title: Field List Item Importer
+      description: An Importer for field List Items
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          description: Unique identifier for this Importer. Starts with `mprt_`.
+          examples:
+            - mprt_N6PqYkfSqeqiQYWoeHA3GGDo
+          type: string
+        type:
+          const: importer/list-item/field
+          description: importer/list-item/field
+          type: string
+        attributes:
+          $ref: '#/components/schemas/importer-shared-attributes'
+    importer-list-item-geolocation:
+      title: Geolocation List Item Importer
+      description: An Importer for geolocation List Items
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          description: Unique identifier for this Importer. Starts with `mprt_`.
+          examples:
+            - mprt_N6PqYkfSqeqiQYWoeHA3GGDo
+          type: string
+        type:
+          const: importer/list-item/geolocation
+          description: importer/list-item/geolocation
+          type: string
+        attributes:
+          $ref: '#/components/schemas/importer-shared-attributes'
+    importer-list-item-government-id-number:
+      title: Government ID number List Item Importer
+      description: An Importer for government ID number List Items
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          description: Unique identifier for this Importer. Starts with `mprt_`.
+          examples:
+            - mprt_N6PqYkfSqeqiQYWoeHA3GGDo
+          type: string
+        type:
+          const: importer/list-item/government-id-number
+          description: importer/list-item/government-id-number
+          type: string
+        attributes:
+          $ref: '#/components/schemas/importer-shared-attributes'
+    importer-list-item-ip-address:
+      title: IP address List Item Importer
+      description: An Importer for IP address List Items
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          description: Unique identifier for this Importer. Starts with `mprt_`.
+          examples:
+            - mprt_N6PqYkfSqeqiQYWoeHA3GGDo
+          type: string
+        type:
+          const: importer/list-item/ip-address
+          description: importer/list-item/ip-address
+          type: string
+        attributes:
+          $ref: '#/components/schemas/importer-shared-attributes'
+    importer-list-item-name:
+      title: Name List Item Importer
+      description: An Importer for name List Items
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          description: Unique identifier for this Importer. Starts with `mprt_`.
+          examples:
+            - mprt_N6PqYkfSqeqiQYWoeHA3GGDo
+          type: string
+        type:
+          const: importer/list-item/name
+          description: importer/list-item/name
+          type: string
+        attributes:
+          $ref: '#/components/schemas/importer-shared-attributes'
+    importer-list-item-phone-number:
+      title: Phone number List Item Importer
+      description: An Importer for phone number List Items
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          description: Unique identifier for this Importer. Starts with `mprt_`.
+          examples:
+            - mprt_N6PqYkfSqeqiQYWoeHA3GGDo
+          type: string
+        type:
+          const: importer/list-item/phone-number
+          description: importer/list-item/phone-number
+          type: string
+        attributes:
+          $ref: '#/components/schemas/importer-shared-attributes'
+    importer:
+      type: object
+      discriminator:
+        propertyName: type
+        mapping:
+          importer/account: '#/components/schemas/importer-account'
+          importer/list-item/email-address: '#/components/schemas/importer-list-item-email-address'
+          importer/list-item/face: '#/components/schemas/importer-list-item-face'
+          importer/list-item/field: '#/components/schemas/importer-list-item-field'
+          importer/list-item/geolocation: '#/components/schemas/importer-list-item-geolocation'
+          importer/list-item/government-id-number: '#/components/schemas/importer-list-item-government-id-number'
+          importer/list-item/ip-address: '#/components/schemas/importer-list-item-ip-address'
+          importer/list-item/name: '#/components/schemas/importer-list-item-name'
+          importer/list-item/phone-number: '#/components/schemas/importer-list-item-phone-number'
+      oneOf:
+        - $ref: '#/components/schemas/importer-account'
+        - $ref: '#/components/schemas/importer-list-item-email-address'
+        - $ref: '#/components/schemas/importer-list-item-face'
+        - $ref: '#/components/schemas/importer-list-item-field'
+        - $ref: '#/components/schemas/importer-list-item-geolocation'
+        - $ref: '#/components/schemas/importer-list-item-government-id-number'
+        - $ref: '#/components/schemas/importer-list-item-ip-address'
+        - $ref: '#/components/schemas/importer-list-item-name'
+        - $ref: '#/components/schemas/importer-list-item-phone-number'
     'null':
       title: 'null'
       description: 'null'
@@ -21985,6 +22364,7 @@ components:
                 - '2023-06-29T23:54:35.293Z'
     user-audit-log:
       type: object
+      additionalProperties: false
       properties:
         type:
           type: string
@@ -21996,6 +22376,7 @@ components:
             - ual_ABC123
         attributes:
           type: object
+          additionalProperties: false
           properties:
             path:
               type: string
@@ -22031,12 +22412,15 @@ components:
                 - user@withpersona.com
         relationships:
           type: object
+          additionalProperties: false
           properties:
             user:
               type: object
+              additionalProperties: false
               properties:
                 data:
                   type: object
+                  additionalProperties: false
                   properties:
                     type:
                       type: string
@@ -22481,6 +22865,34 @@ components:
                         - IP address is not permitted access to current environment
             type: object
             additionalProperties: false
+    not-found:
+      description: Not Found
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: Not Found
+              value:
+                errors:
+                  - title: Record not found
+          schema:
+            properties:
+              errors:
+                items:
+                  additionalProperties: false
+                  properties:
+                    title:
+                      examples:
+                        - Record not found
+                      type: string
+                    details:
+                      examples:
+                        - data.attributes.inquiry_id is not found
+                      type: string
+                  type: object
+                type: array
+            type: object
+            additionalProperties: false
     too-many-requests:
       description: Too Many Requests
       content:
@@ -22584,34 +22996,6 @@ components:
                           examples:
                             - /data/attributes/files
                             - /data/attributes/selected-country-code
-            type: object
-            additionalProperties: false
-    not-found:
-      description: Not Found
-      content:
-        application/json:
-          examples:
-            Result:
-              summary: Not Found
-              value:
-                errors:
-                  - title: Record not found
-          schema:
-            properties:
-              errors:
-                items:
-                  additionalProperties: false
-                  properties:
-                    title:
-                      examples:
-                        - Record not found
-                      type: string
-                    details:
-                      examples:
-                        - data.attributes.inquiry_id is not found
-                      type: string
-                  type: object
-                type: array
             type: object
             additionalProperties: false
     request-timeout:

@@ -23,8 +23,14 @@ post:
               properties:
                 tag-name:
                   type: string
+                  description: Name of the tag to add to the Account.
+                tag-id:
+                  type: string
+                  description: ID of the tag to add to the Account.
               type: object
+              additionalProperties: false
           type: object
+          additionalProperties: false
   responses:
     '200':
       content:
@@ -35,6 +41,7 @@ post:
                 $ref: ../components/schemas/account.yaml
               included:
                 $ref: ../components/schemas/empty-included-objects.yaml
+            additionalProperties: false
             type: object
           examples:
             Result:

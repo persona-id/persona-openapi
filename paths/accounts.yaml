@@ -96,32 +96,36 @@ get:
             properties:
               data:
                 items:
-                  $ref: ../components/schemas/account.yaml
+                  unevaluatedProperties: false
+                  allOf:
+                    - $ref: ../components/schemas/account.yaml
                 type: array
                 description: An array of Accounts
               links:
                 properties:
                   prev:
+                    type:
+                      - string
+                      - 'null'
                     examples:
                       - /api/v1/accounts?page%5Bafter%5D=act_ABC123
-                    type:
-                      - 'null'
-                      - string
                     description: >-
                       URL pointing to the previous page of data, or null if on
                       the first page.
                   next:
+                    type:
+                      - string
+                      - 'null'
                     examples:
                       - /api/v1/accounts?page%5Bafter%5D=act_ABC123
-                    type:
-                      - 'null'
-                      - string
                     description: >-
                       URL pointing to the next page of data, or null if on the
                       last page.
+                additionalProperties: false
                 type: object
               included:
                 $ref: ../components/schemas/empty-included-objects.yaml
+            additionalProperties: false
             type: object
       description: OK
     '400':
@@ -130,6 +134,8 @@ get:
       $ref: ../components/responses/unauthorized.yaml
     '403':
       $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
     '429':
       $ref: ../components/responses/too-many-requests.yaml
   summary: List all Accounts
@@ -158,6 +164,11 @@ post:
                   allOf:
                     - type: object
                       properties:
+                        account-status:
+                          type: string
+                          description: >-
+                            BETA FEATURE -- Name of the status to set on this
+                            Account.
                         reference-id:
                           description: >-
                             Reference ID on Account, refers to an entity in your
@@ -179,7 +190,9 @@ post:
                                 filename:
                                   description: Name of the image
                                   type: string
+                              additionalProperties: false
                               type: object
+                          additionalProperties: false
                           type: object
                         tags:
                           description: >-
@@ -187,7 +200,9 @@ post:
                             Account.
                           items:
                             type: string
-                          type: array
+                          type:
+                            - array
+                            - 'null'
                         country-code:
                           description: ISO 3166-1 alpha 2 country code.
                           examples:
@@ -203,7 +218,9 @@ post:
                             - string
                             - 'null'
                     - $ref: ../components/schemas/default-fields.yaml
+              additionalProperties: false
               type: object
+          additionalProperties: false
           type: object
   responses:
     '201':

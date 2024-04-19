@@ -24,10 +24,18 @@ post:
             meta:
               properties:
                 tag-name:
+                  description: Name of the tags to set on the Account.
                   items:
                     type: string
                   type: array
+                tag-id:
+                  description: ID of the tags to set on the Account.
+                  items:
+                    type: string
+                  type: array
+              additionalProperties: false
               type: object
+          additionalProperties: false
           type: object
   responses:
     '200':
@@ -39,6 +47,7 @@ post:
                 $ref: ../components/schemas/account.yaml
               included:
                 $ref: ../components/schemas/empty-included-objects.yaml
+            additionalProperties: false
             type: object
           examples:
             Result:

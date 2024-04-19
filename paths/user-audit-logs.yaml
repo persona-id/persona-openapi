@@ -65,6 +65,7 @@ get:
                       name-last: Doe
           schema:
             type: object
+            additionalProperties: false
             properties:
               data:
                 type: array
@@ -72,6 +73,7 @@ get:
                   $ref: ../components/schemas/user-audit-log.yaml
               links:
                 type: object
+                additionalProperties: false
                 properties:
                   prev:
                     type:
@@ -99,6 +101,8 @@ get:
       $ref: ../components/responses/unauthorized.yaml
     '403':
       $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
     '429':
       $ref: ../components/responses/too-many-requests.yaml
   summary: List all User Audit Logs
