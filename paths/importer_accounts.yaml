@@ -26,28 +26,53 @@ post:
           properties:
             data:
               properties:
-                file:
-                  type: string
-                  contentMediaType: application/octet-stream
+                attributes:
+                  properties:
+                    file:
+                      type: string
+                      contentMediaType: application/octet-stream
+                  required:
+                    - file
+                  type: object
+                  additionalProperties: false
+              required:
+                - attributes
               type: object
+              additionalProperties: false
+          required:
+            - data
           type: object
+          additionalProperties: false
       application/json:
         schema:
           properties:
             data:
               properties:
-                file:
+                attributes:
                   properties:
-                    data:
-                      description: Base64 encoded file
-                      format: binary
-                      type: string
-                    filename:
-                      description: Name of file
-                      type: string
+                    file:
+                      properties:
+                        data:
+                          description: Base64 encoded file
+                          format: binary
+                          type: string
+                        filename:
+                          description: Name of file
+                          type: string
+                      type: object
+                      additionalProperties: false
+                  required:
+                    - file
                   type: object
+                  additionalProperties: false
+              required:
+                - attributes
               type: object
+              additionalProperties: false
+          required:
+            - data
           type: object
+          additionalProperties: false
   responses:
     '201':
       content:
@@ -69,50 +94,9 @@ post:
           schema:
             properties:
               data:
-                properties:
-                  type:
-                    const: importer/account
-                    description: importer/account
-                    type: string
-                  id:
-                    examples:
-                      - mprt_TKqquVbHaSVYqgWhxNjuYDjQ
-                    type: string
-                  attributes:
-                    properties:
-                      completed-at:
-                        examples:
-                          - '2022-08-02T05:02:56.000Z'
-                        type:
-                          - string
-                          - 'null'
-                        format: date-time
-                      created-at:
-                        examples:
-                          - '2020-07-12T17:16:54.656Z'
-                        type: string
-                      duplicate-count:
-                        default: 0
-                        examples:
-                          - 0
-                        type: integer
-                      error-count:
-                        default: 0
-                        examples:
-                          - 0
-                        type: integer
-                      status:
-                        examples:
-                          - pending
-                        type: string
-                      successful-count:
-                        default: 0
-                        examples:
-                          - 0
-                        type: integer
-                    type: object
-                type: object
+                $ref: ../components/schemas/importer-account.yaml
             type: object
+            additionalProperties: false
       description: Created
     '400':
       $ref: ../components/responses/bad-request.yaml

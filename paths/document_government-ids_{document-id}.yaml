@@ -1,3 +1,51 @@
+get:
+  description: >-
+    Retrieves the details of a government-id document that has been previously
+    created.
+  operationId: retrieve-a-government-id-document
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/reference/retrieve-a-government-id-document
+  parameters:
+    - in: path
+      name: document-id
+      required: true
+      schema:
+        type: string
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              $ref: ../components/examples/document-government-id.yaml
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/document-government-id.yaml
+              included:
+                $ref: ../components/schemas/document-included-objects.yaml
+            type: object
+            additionalProperties: false
+      description: OK
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Retrieve a Government Id Document
+  tags:
+    - Documents
 patch:
   description: >-
     Updates an existing government ID document. Can only update `initiated`
@@ -29,59 +77,78 @@ patch:
                       description: Back of ID.
                       properties:
                         data:
-                          description: >-
-                            Government ID photo data, must be images. Can
-                            provide more than one image and we will pick the
-                            best for processing. Can also be provided as
-                            uploaded file(s) such as with multipart/form-data
-                            requests instead of this object(s). Images must be
-                            between 10KB and 15MB.
-                          properties:
-                            data:
-                              description: Base64 encoded file.
-                              format: binary
-                              type: string
-                            filename:
-                              description: Name of file.
-                              type: string
-                          required:
-                            - data
-                            - filename
-                          type: object
-                      type: object
+                          items:
+                            description: >-
+                              Government ID photo data, must be images. Can
+                              provide more than one image and we will pick the
+                              best for processing. Can also be provided as
+                              uploaded file(s) such as with multipart/form-data
+                              requests instead of this object(s). Images must be
+                              between 10KB and 15MB.
+                            properties:
+                              data:
+                                description: Base64 encoded file.
+                                format: binary
+                                type: string
+                              filename:
+                                description: Name of file.
+                                type: string
+                            required:
+                              - data
+                              - filename
+                            type: object
+                            additionalProperties: false
+                          type: array
+                      type:
+                        - object
+                        - 'null'
+                      additionalProperties: false
                     front-photo:
                       description: Front of ID.
                       properties:
                         data:
-                          description: >-
-                            Government ID photo data, must be images. Can
-                            provide more than one image and we will pick the
-                            best for processing. Can also be provided as
-                            uploaded file(s) such as with multipart/form-data
-                            requests instead of this object(s). Images must be
-                            between 10KB and 15MB.
-                          properties:
-                            data:
-                              description: Base64 encoded file.
-                              format: binary
-                              type: string
-                            filename:
-                              description: Name of file.
-                              type: string
-                          required:
-                            - data
-                            - filename
-                          type: object
-                      type: object
+                          items:
+                            description: >-
+                              Government ID photo data, must be images. Can
+                              provide more than one image and we will pick the
+                              best for processing. Can also be provided as
+                              uploaded file(s) such as with multipart/form-data
+                              requests instead of this object(s). Images must be
+                              between 10KB and 15MB.
+                            properties:
+                              data:
+                                description: Base64 encoded file.
+                                format: binary
+                                type: string
+                              filename:
+                                description: Name of file.
+                                type: string
+                            required:
+                              - data
+                              - filename
+                            type: object
+                            additionalProperties: false
+                          type: array
+                      type:
+                        - object
+                        - 'null'
+                      additionalProperties: false
+                    selected-country-code:
+                      type: string
                     selected-id-class:
                       items:
                         type: string
-                      type: array
+                      type:
+                        - array
+                        - string
                   type: object
+                  additionalProperties: false
               type: object
+              additionalProperties: false
           required:
             - data
           type: object
+          additionalProperties: false
   responses:
     '200':
       content:

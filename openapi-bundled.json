@@ -5031,26 +5031,31 @@
                             "description": "Back of ID.",
                             "properties": {
                               "data": {
-                                "description": "Government ID photo data, must be images. Can provide more than one image and we will pick the best for processing. Can also be provided as uploaded file(s) such as with multipart/form-data requests instead of this object(s). Images must be between 10KB and 15MB.",
-                                "properties": {
-                                  "data": {
-                                    "description": "Base64 encoded file.",
-                                    "format": "binary",
-                                    "type": "string"
+                                "items": {
+                                  "description": "Government ID photo data, must be images. Can provide more than one image and we will pick the best for processing. Can also be provided as uploaded file(s) such as with multipart/form-data requests instead of this object(s). Images must be between 10KB and 15MB.",
+                                  "properties": {
+                                    "data": {
+                                      "description": "Base64 encoded file.",
+                                      "format": "binary",
+                                      "type": "string"
+                                    },
+                                    "filename": {
+                                      "description": "Name of file.",
+                                      "type": "string"
+                                    }
                                   },
-                                  "filename": {
-                                    "description": "Name of file.",
-                                    "type": "string"
-                                  }
+                                  "required": [
+                                    "data",
+                                    "filename"
+                                  ],
+                                  "type": "object",
+                                  "additionalProperties": false
                                 },
-                                "required": [
-                                  "data",
-                                  "filename"
-                                ],
-                                "type": "object"
+                                "type": "array"
                               }
                             },
-                            "type": "object"
+                            "type": "object",
+                            "additionalProperties": false
                           },
                           "country-code": {
                             "description": "ISO 3166-1 alpha-2 code of the ID’s issuing country.",
@@ -5060,51 +5065,68 @@
                             "description": "Front of ID.",
                             "properties": {
                               "data": {
-                                "description": "Government ID photo data, must be images. Can provide more than one image and we will pick the best for processing. Can also be provided as uploaded file(s) such as with multipart/form-data requests instead of this object(s). Images must be between 10KB and 15MB.",
-                                "properties": {
-                                  "data": {
-                                    "description": "Base64 encoded file.",
-                                    "format": "binary",
-                                    "type": "string"
+                                "items": {
+                                  "description": "Government ID photo data, must be images. Can provide more than one image and we will pick the best for processing. Can also be provided as uploaded file(s) such as with multipart/form-data requests instead of this object(s). Images must be between 10KB and 15MB.",
+                                  "properties": {
+                                    "data": {
+                                      "description": "Base64 encoded file.",
+                                      "format": "binary",
+                                      "type": "string"
+                                    },
+                                    "filename": {
+                                      "description": "Name of file.",
+                                      "type": "string"
+                                    }
                                   },
-                                  "filename": {
-                                    "description": "Name of file.",
-                                    "type": "string"
-                                  }
+                                  "required": [
+                                    "data",
+                                    "filename"
+                                  ],
+                                  "type": "object",
+                                  "additionalProperties": false
                                 },
-                                "required": [
-                                  "data",
-                                  "filename"
-                                ],
-                                "type": "object"
+                                "type": "array"
                               }
                             },
-                            "type": "object"
+                            "type": "object",
+                            "additionalProperties": false
                           },
                           "inquiry-id": {
+                            "type": "string"
+                          },
+                          "account-id": {
+                            "type": "string"
+                          },
+                          "selected-country-code": {
                             "type": "string"
                           },
                           "selected-id-class": {
                             "items": {
                               "type": "string"
                             },
-                            "type": "array"
+                            "type": [
+                              "array",
+                              "string"
+                            ]
                           }
                         },
                         "required": [
                           "inquiry-id",
                           "country-code"
                         ],
-                        "type": "object"
+                        "type": "object",
+                        "additionalProperties": false
                       }
                     },
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": false
                   }
                 },
                 "required": [
                   "data"
                 ],
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             }
           }
@@ -5125,7 +5147,8 @@
                       "$ref": "#/components/schemas/document-government-id"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -5160,6 +5183,82 @@
       }
     },
     "/document/government-ids/{document-id}": {
+      "get": {
+        "description": "Retrieves the details of a government-id document that has been previously created.",
+        "operationId": "retrieve-a-government-id-document",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/reference/retrieve-a-government-id-document"
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "document-id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/include-query-parameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Result": {
+                    "summary": "OK",
+                    "$ref": "#/components/examples/document-government-id"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/document-government-id"
+                    },
+                    "included": {
+                      "$ref": "#/components/schemas/document-included-objects"
+                    }
+                  },
+                  "type": "object",
+                  "additionalProperties": false
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        },
+        "summary": "Retrieve a Government Id Document",
+        "tags": [
+          "Documents"
+        ]
+      },
       "patch": {
         "description": "Updates an existing government ID document. Can only update `initiated` documents.",
         "operationId": "update-a-government-id-document",
@@ -5202,69 +5301,94 @@
                             "description": "Back of ID.",
                             "properties": {
                               "data": {
-                                "description": "Government ID photo data, must be images. Can provide more than one image and we will pick the best for processing. Can also be provided as uploaded file(s) such as with multipart/form-data requests instead of this object(s). Images must be between 10KB and 15MB.",
-                                "properties": {
-                                  "data": {
-                                    "description": "Base64 encoded file.",
-                                    "format": "binary",
-                                    "type": "string"
+                                "items": {
+                                  "description": "Government ID photo data, must be images. Can provide more than one image and we will pick the best for processing. Can also be provided as uploaded file(s) such as with multipart/form-data requests instead of this object(s). Images must be between 10KB and 15MB.",
+                                  "properties": {
+                                    "data": {
+                                      "description": "Base64 encoded file.",
+                                      "format": "binary",
+                                      "type": "string"
+                                    },
+                                    "filename": {
+                                      "description": "Name of file.",
+                                      "type": "string"
+                                    }
                                   },
-                                  "filename": {
-                                    "description": "Name of file.",
-                                    "type": "string"
-                                  }
+                                  "required": [
+                                    "data",
+                                    "filename"
+                                  ],
+                                  "type": "object",
+                                  "additionalProperties": false
                                 },
-                                "required": [
-                                  "data",
-                                  "filename"
-                                ],
-                                "type": "object"
+                                "type": "array"
                               }
                             },
-                            "type": "object"
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "additionalProperties": false
                           },
                           "front-photo": {
                             "description": "Front of ID.",
                             "properties": {
                               "data": {
-                                "description": "Government ID photo data, must be images. Can provide more than one image and we will pick the best for processing. Can also be provided as uploaded file(s) such as with multipart/form-data requests instead of this object(s). Images must be between 10KB and 15MB.",
-                                "properties": {
-                                  "data": {
-                                    "description": "Base64 encoded file.",
-                                    "format": "binary",
-                                    "type": "string"
+                                "items": {
+                                  "description": "Government ID photo data, must be images. Can provide more than one image and we will pick the best for processing. Can also be provided as uploaded file(s) such as with multipart/form-data requests instead of this object(s). Images must be between 10KB and 15MB.",
+                                  "properties": {
+                                    "data": {
+                                      "description": "Base64 encoded file.",
+                                      "format": "binary",
+                                      "type": "string"
+                                    },
+                                    "filename": {
+                                      "description": "Name of file.",
+                                      "type": "string"
+                                    }
                                   },
-                                  "filename": {
-                                    "description": "Name of file.",
-                                    "type": "string"
-                                  }
+                                  "required": [
+                                    "data",
+                                    "filename"
+                                  ],
+                                  "type": "object",
+                                  "additionalProperties": false
                                 },
-                                "required": [
-                                  "data",
-                                  "filename"
-                                ],
-                                "type": "object"
+                                "type": "array"
                               }
                             },
-                            "type": "object"
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "selected-country-code": {
+                            "type": "string"
                           },
                           "selected-id-class": {
                             "items": {
                               "type": "string"
                             },
-                            "type": "array"
+                            "type": [
+                              "array",
+                              "string"
+                            ]
                           }
                         },
-                        "type": "object"
+                        "type": "object",
+                        "additionalProperties": false
                       }
                     },
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": false
                   }
                 },
                 "required": [
                   "data"
                 ],
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             }
           }
@@ -5365,7 +5489,8 @@
                       "$ref": "#/components/schemas/document-government-id"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -5976,15 +6101,32 @@
                 "properties": {
                   "data": {
                     "properties": {
-                      "file": {
-                        "type": "string",
-                        "contentMediaType": "application/octet-stream"
+                      "attributes": {
+                        "properties": {
+                          "file": {
+                            "type": "string",
+                            "contentMediaType": "application/octet-stream"
+                          }
+                        },
+                        "required": [
+                          "file"
+                        ],
+                        "type": "object",
+                        "additionalProperties": false
                       }
                     },
-                    "type": "object"
+                    "required": [
+                      "attributes"
+                    ],
+                    "type": "object",
+                    "additionalProperties": false
                   }
                 },
-                "type": "object"
+                "required": [
+                  "data"
+                ],
+                "type": "object",
+                "additionalProperties": false
               }
             },
             "application/json": {
@@ -5992,25 +6134,43 @@
                 "properties": {
                   "data": {
                     "properties": {
-                      "file": {
+                      "attributes": {
                         "properties": {
-                          "data": {
-                            "description": "Base64 encoded file",
-                            "format": "binary",
-                            "type": "string"
-                          },
-                          "filename": {
-                            "description": "Name of file",
-                            "type": "string"
+                          "file": {
+                            "properties": {
+                              "data": {
+                                "description": "Base64 encoded file",
+                                "format": "binary",
+                                "type": "string"
+                              },
+                              "filename": {
+                                "description": "Name of file",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object",
+                            "additionalProperties": false
                           }
                         },
-                        "type": "object"
+                        "required": [
+                          "file"
+                        ],
+                        "type": "object",
+                        "additionalProperties": false
                       }
                     },
-                    "type": "object"
+                    "required": [
+                      "attributes"
+                    ],
+                    "type": "object",
+                    "additionalProperties": false
                   }
                 },
-                "type": "object"
+                "required": [
+                  "data"
+                ],
+                "type": "object",
+                "additionalProperties": false
               }
             }
           }
@@ -6041,71 +6201,11 @@
                 "schema": {
                   "properties": {
                     "data": {
-                      "properties": {
-                        "type": {
-                          "const": "importer/account",
-                          "description": "importer/account",
-                          "type": "string"
-                        },
-                        "id": {
-                          "examples": [
-                            "mprt_TKqquVbHaSVYqgWhxNjuYDjQ"
-                          ],
-                          "type": "string"
-                        },
-                        "attributes": {
-                          "properties": {
-                            "completed-at": {
-                              "examples": [
-                                "2022-08-02T05:02:56.000Z"
-                              ],
-                              "type": [
-                                "string",
-                                "null"
-                              ],
-                              "format": "date-time"
-                            },
-                            "created-at": {
-                              "examples": [
-                                "2020-07-12T17:16:54.656Z"
-                              ],
-                              "type": "string"
-                            },
-                            "duplicate-count": {
-                              "default": 0,
-                              "examples": [
-                                0
-                              ],
-                              "type": "integer"
-                            },
-                            "error-count": {
-                              "default": 0,
-                              "examples": [
-                                0
-                              ],
-                              "type": "integer"
-                            },
-                            "status": {
-                              "examples": [
-                                "pending"
-                              ],
-                              "type": "string"
-                            },
-                            "successful-count": {
-                              "default": 0,
-                              "examples": [
-                                0
-                              ],
-                              "type": "integer"
-                            }
-                          },
-                          "type": "object"
-                        }
-                      },
-                      "type": "object"
+                      "$ref": "#/components/schemas/importer-account"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -6187,71 +6287,11 @@
                 "schema": {
                   "properties": {
                     "data": {
-                      "properties": {
-                        "type": {
-                          "const": "importer/list-item/email-address",
-                          "description": "importer/list-item/email-address",
-                          "type": "string"
-                        },
-                        "id": {
-                          "examples": [
-                            "mprt_TKqquVbHaSVYqgWhxNjuYDjQ"
-                          ],
-                          "type": "string"
-                        },
-                        "attributes": {
-                          "properties": {
-                            "completed-at": {
-                              "examples": [
-                                "2022-08-02T05:02:56.000Z"
-                              ],
-                              "type": [
-                                "string",
-                                "null"
-                              ],
-                              "format": "date-time"
-                            },
-                            "created-at": {
-                              "examples": [
-                                "2020-07-12T17:16:54.656Z"
-                              ],
-                              "type": "string"
-                            },
-                            "duplicate-count": {
-                              "default": 0,
-                              "examples": [
-                                0
-                              ],
-                              "type": "integer"
-                            },
-                            "error-count": {
-                              "default": 0,
-                              "examples": [
-                                0
-                              ],
-                              "type": "integer"
-                            },
-                            "status": {
-                              "examples": [
-                                "pending"
-                              ],
-                              "type": "string"
-                            },
-                            "successful-count": {
-                              "default": 0,
-                              "examples": [
-                                0
-                              ],
-                              "type": "integer"
-                            }
-                          },
-                          "type": "object"
-                        }
-                      },
-                      "type": "object"
+                      "$ref": "#/components/schemas/importer-list-item-email-address"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -6314,20 +6354,36 @@
                       "attributes": {
                         "properties": {
                           "image-files": {
-                            "items": {},
+                            "items": {
+                              "type": "string",
+                              "contentMediaType": "application/octet-stream"
+                            },
                             "type": "array"
                           },
                           "list-id": {
                             "type": "string"
                           }
                         },
-                        "type": "object"
+                        "required": [
+                          "image-files",
+                          "list-id"
+                        ],
+                        "type": "object",
+                        "additionalProperties": false
                       }
                     },
-                    "type": "object"
+                    "required": [
+                      "attributes"
+                    ],
+                    "type": "object",
+                    "additionalProperties": false
                   }
                 },
-                "type": "object"
+                "required": [
+                  "data"
+                ],
+                "type": "object",
+                "additionalProperties": false
               },
               "encoding": {
                 "image-files": {
@@ -6355,7 +6411,8 @@
                                   "type": "string"
                                 }
                               },
-                              "type": "object"
+                              "type": "object",
+                              "additionalProperties": false
                             },
                             "type": "array"
                           },
@@ -6363,13 +6420,26 @@
                             "type": "string"
                           }
                         },
-                        "type": "object"
+                        "required": [
+                          "image-files",
+                          "list-id"
+                        ],
+                        "type": "object",
+                        "additionalProperties": false
                       }
                     },
-                    "type": "object"
+                    "required": [
+                      "attributes"
+                    ],
+                    "type": "object",
+                    "additionalProperties": false
                   }
                 },
-                "type": "object"
+                "required": [
+                  "data"
+                ],
+                "type": "object",
+                "additionalProperties": false
               }
             }
           }
@@ -6400,71 +6470,11 @@
                 "schema": {
                   "properties": {
                     "data": {
-                      "properties": {
-                        "type": {
-                          "const": "importer/list-item/face",
-                          "description": "importer/list-item/face",
-                          "type": "string"
-                        },
-                        "id": {
-                          "examples": [
-                            "mprt_TKqquVbHaSVYqgWhxNjuYDjQ"
-                          ],
-                          "type": "string"
-                        },
-                        "attributes": {
-                          "properties": {
-                            "completed-at": {
-                              "examples": [
-                                "2022-08-02T05:02:56.000Z"
-                              ],
-                              "type": [
-                                "string",
-                                "null"
-                              ],
-                              "format": "date-time"
-                            },
-                            "created-at": {
-                              "examples": [
-                                "2020-07-12T17:16:54.656Z"
-                              ],
-                              "type": "string"
-                            },
-                            "duplicate-count": {
-                              "default": 0,
-                              "examples": [
-                                0
-                              ],
-                              "type": "integer"
-                            },
-                            "error-count": {
-                              "default": 0,
-                              "examples": [
-                                0
-                              ],
-                              "type": "integer"
-                            },
-                            "status": {
-                              "examples": [
-                                "pending"
-                              ],
-                              "type": "string"
-                            },
-                            "successful-count": {
-                              "default": 0,
-                              "examples": [
-                                0
-                              ],
-                              "type": "integer"
-                            }
-                          },
-                          "type": "object"
-                        }
-                      },
-                      "type": "object"
+                      "$ref": "#/components/schemas/importer-list-item-face"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -6546,71 +6556,11 @@
                 "schema": {
                   "properties": {
                     "data": {
-                      "properties": {
-                        "type": {
-                          "const": "importer/list-item/geolocation",
-                          "description": "importer/list-item/geolocation",
-                          "type": "string"
-                        },
-                        "id": {
-                          "examples": [
-                            "mprt_TKqquVbHaSVYqgWhxNjuYDjQ"
-                          ],
-                          "type": "string"
-                        },
-                        "attributes": {
-                          "properties": {
-                            "completed-at": {
-                              "examples": [
-                                "2022-08-02T05:02:56.000Z"
-                              ],
-                              "type": [
-                                "string",
-                                "null"
-                              ],
-                              "format": "date-time"
-                            },
-                            "created-at": {
-                              "examples": [
-                                "2020-07-12T17:16:54.656Z"
-                              ],
-                              "type": "string"
-                            },
-                            "duplicate-count": {
-                              "default": 0,
-                              "examples": [
-                                0
-                              ],
-                              "type": "integer"
-                            },
-                            "error-count": {
-                              "default": 0,
-                              "examples": [
-                                0
-                              ],
-                              "type": "integer"
-                            },
-                            "status": {
-                              "examples": [
-                                "pending"
-                              ],
-                              "type": "string"
-                            },
-                            "successful-count": {
-                              "default": 0,
-                              "examples": [
-                                0
-                              ],
-                              "type": "integer"
-                            }
-                          },
-                          "type": "object"
-                        }
-                      },
-                      "type": "object"
+                      "$ref": "#/components/schemas/importer-list-item-geolocation"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -6692,71 +6642,11 @@
                 "schema": {
                   "properties": {
                     "data": {
-                      "properties": {
-                        "type": {
-                          "type": "string",
-                          "const": "importer/list-item/government-id-number",
-                          "description": "importer/list-item/government-id-number"
-                        },
-                        "id": {
-                          "examples": [
-                            "mprt_TKqquVbHaSVYqgWhxNjuYDjQ"
-                          ],
-                          "type": "string"
-                        },
-                        "attributes": {
-                          "properties": {
-                            "completed-at": {
-                              "examples": [
-                                "2022-08-02T05:02:56.000Z"
-                              ],
-                              "type": [
-                                "string",
-                                "null"
-                              ],
-                              "format": "date-time"
-                            },
-                            "created-at": {
-                              "examples": [
-                                "2020-07-12T17:16:54.656Z"
-                              ],
-                              "type": "string"
-                            },
-                            "duplicate-count": {
-                              "default": 0,
-                              "examples": [
-                                0
-                              ],
-                              "type": "integer"
-                            },
-                            "error-count": {
-                              "default": 0,
-                              "examples": [
-                                0
-                              ],
-                              "type": "integer"
-                            },
-                            "status": {
-                              "examples": [
-                                "pending"
-                              ],
-                              "type": "string"
-                            },
-                            "successful-count": {
-                              "default": 0,
-                              "examples": [
-                                0
-                              ],
-                              "type": "integer"
-                            }
-                          },
-                          "type": "object"
-                        }
-                      },
-                      "type": "object"
+                      "$ref": "#/components/schemas/importer-list-item-government-id-number"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -6838,71 +6728,11 @@
                 "schema": {
                   "properties": {
                     "data": {
-                      "properties": {
-                        "type": {
-                          "const": "importer/list-item/ip-address",
-                          "description": "importer/list-item/ip-address",
-                          "type": "string"
-                        },
-                        "id": {
-                          "examples": [
-                            "mprt_TKqquVbHaSVYqgWhxNjuYDjQ"
-                          ],
-                          "type": "string"
-                        },
-                        "attributes": {
-                          "properties": {
-                            "completed-at": {
-                              "examples": [
-                                "2022-08-02T05:02:56.000Z"
-                              ],
-                              "type": [
-                                "string",
-                                "null"
-                              ],
-                              "format": "date-time"
-                            },
-                            "created-at": {
-                              "examples": [
-                                "2020-07-12T17:16:54.656Z"
-                              ],
-                              "type": "string"
-                            },
-                            "duplicate-count": {
-                              "default": 0,
-                              "examples": [
-                                0
-                              ],
-                              "type": "integer"
-                            },
-                            "error-count": {
-                              "default": 0,
-                              "examples": [
-                                0
-                              ],
-                              "type": "integer"
-                            },
-                            "status": {
-                              "examples": [
-                                "pending"
-                              ],
-                              "type": "string"
-                            },
-                            "successful-count": {
-                              "default": 0,
-                              "examples": [
-                                0
-                              ],
-                              "type": "integer"
-                            }
-                          },
-                          "type": "object"
-                        }
-                      },
-                      "type": "object"
+                      "$ref": "#/components/schemas/importer-list-item-ip-address"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -6984,71 +6814,11 @@
                 "schema": {
                   "properties": {
                     "data": {
-                      "properties": {
-                        "type": {
-                          "const": "importer/list-item/name",
-                          "description": "importer/list-item/name",
-                          "type": "string"
-                        },
-                        "id": {
-                          "examples": [
-                            "mprt_TKqquVbHaSVYqgWhxNjuYDjQ"
-                          ],
-                          "type": "string"
-                        },
-                        "attributes": {
-                          "properties": {
-                            "completed-at": {
-                              "examples": [
-                                "2022-08-02T05:02:56.000Z"
-                              ],
-                              "type": [
-                                "string",
-                                "null"
-                              ],
-                              "format": "date-time"
-                            },
-                            "created-at": {
-                              "examples": [
-                                "2020-07-12T17:16:54.656Z"
-                              ],
-                              "type": "string"
-                            },
-                            "duplicate-count": {
-                              "default": 0,
-                              "examples": [
-                                0
-                              ],
-                              "type": "integer"
-                            },
-                            "error-count": {
-                              "default": 0,
-                              "examples": [
-                                0
-                              ],
-                              "type": "integer"
-                            },
-                            "status": {
-                              "examples": [
-                                "pending"
-                              ],
-                              "type": "string"
-                            },
-                            "successful-count": {
-                              "default": 0,
-                              "examples": [
-                                0
-                              ],
-                              "type": "integer"
-                            }
-                          },
-                          "type": "object"
-                        }
-                      },
-                      "type": "object"
+                      "$ref": "#/components/schemas/importer-list-item-name"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -7130,71 +6900,11 @@
                 "schema": {
                   "properties": {
                     "data": {
-                      "properties": {
-                        "type": {
-                          "const": "importer/list-item/phone-number",
-                          "description": "importer/list-item/phone-number",
-                          "type": "string"
-                        },
-                        "id": {
-                          "examples": [
-                            "mprt_TKqquVbHaSVYqgWhxNjuYDjQ"
-                          ],
-                          "type": "string"
-                        },
-                        "attributes": {
-                          "properties": {
-                            "completed-at": {
-                              "examples": [
-                                "2022-08-02T05:02:56.000Z"
-                              ],
-                              "type": [
-                                "string",
-                                "null"
-                              ],
-                              "format": "date-time"
-                            },
-                            "created-at": {
-                              "examples": [
-                                "2020-07-12T17:16:54.656Z"
-                              ],
-                              "type": "string"
-                            },
-                            "duplicate-count": {
-                              "default": 0,
-                              "examples": [
-                                0
-                              ],
-                              "type": "integer"
-                            },
-                            "error-count": {
-                              "default": 0,
-                              "examples": [
-                                0
-                              ],
-                              "type": "integer"
-                            },
-                            "status": {
-                              "examples": [
-                                "pending"
-                              ],
-                              "type": "string"
-                            },
-                            "successful-count": {
-                              "default": 0,
-                              "examples": [
-                                0
-                              ],
-                              "type": "integer"
-                            }
-                          },
-                          "type": "object"
-                        }
-                      },
-                      "type": "object"
+                      "$ref": "#/components/schemas/importer-list-item-phone-number"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -11699,13 +11409,16 @@
                             "type": "string"
                           }
                         },
-                        "type": "object"
+                        "type": "object",
+                        "additionalProperties": false
                       }
                     },
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": false
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               },
               "examples": {
                 "exampleRequest": {
@@ -11730,6 +11443,7 @@
                 "schema": {
                   "properties": {
                     "data": {
+                      "additionalProperties": false,
                       "properties": {
                         "type": {
                           "const": "list/browser-fingerprint",
@@ -11740,6 +11454,7 @@
                           "type": "string"
                         },
                         "attributes": {
+                          "additionalProperties": false,
                           "properties": {
                             "name": {
                               "type": "string"
@@ -11764,13 +11479,16 @@
                           }
                         },
                         "relationships": {
+                          "additionalProperties": false,
                           "properties": {
                             "list-items": {
+                              "additionalProperties": false,
                               "properties": {
                                 "data": {
                                   "type": "array",
                                   "items": {
                                     "type": "object",
+                                    "additionalProperties": false,
                                     "properties": {
                                       "id": {
                                         "examples": [
@@ -11882,13 +11600,16 @@
                             "type": "string"
                           }
                         },
-                        "type": "object"
+                        "type": "object",
+                        "additionalProperties": false
                       }
                     },
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": false
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               },
               "examples": {
                 "exampleRequest": {
@@ -11913,6 +11634,7 @@
                 "schema": {
                   "properties": {
                     "data": {
+                      "additionalProperties": false,
                       "properties": {
                         "type": {
                           "const": "list/country",
@@ -11923,6 +11645,7 @@
                           "type": "string"
                         },
                         "attributes": {
+                          "additionalProperties": false,
                           "properties": {
                             "name": {
                               "type": "string"
@@ -11947,13 +11670,16 @@
                           }
                         },
                         "relationships": {
+                          "additionalProperties": false,
                           "properties": {
                             "list-items": {
+                              "additionalProperties": false,
                               "properties": {
                                 "data": {
                                   "type": "array",
                                   "items": {
                                     "type": "object",
+                                    "additionalProperties": false,
                                     "properties": {
                                       "id": {
                                         "examples": [
@@ -12065,13 +11791,16 @@
                             "type": "string"
                           }
                         },
-                        "type": "object"
+                        "type": "object",
+                        "additionalProperties": false
                       }
                     },
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": false
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               },
               "examples": {
                 "exampleRequest": {
@@ -12096,6 +11825,7 @@
                 "schema": {
                   "properties": {
                     "data": {
+                      "additionalProperties": false,
                       "properties": {
                         "type": {
                           "const": "list/email-address",
@@ -12106,6 +11836,7 @@
                           "type": "string"
                         },
                         "attributes": {
+                          "additionalProperties": false,
                           "properties": {
                             "name": {
                               "type": "string"
@@ -12130,13 +11861,16 @@
                           }
                         },
                         "relationships": {
+                          "additionalProperties": false,
                           "properties": {
                             "list-items": {
+                              "additionalProperties": false,
                               "properties": {
                                 "data": {
                                   "type": "array",
                                   "items": {
                                     "type": "object",
+                                    "additionalProperties": false,
                                     "properties": {
                                       "id": {
                                         "examples": [
@@ -12248,13 +11982,16 @@
                             "type": "string"
                           }
                         },
-                        "type": "object"
+                        "type": "object",
+                        "additionalProperties": false
                       }
                     },
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": false
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               },
               "examples": {
                 "exampleRequest": {
@@ -12279,6 +12016,7 @@
                 "schema": {
                   "properties": {
                     "data": {
+                      "additionalProperties": false,
                       "properties": {
                         "type": {
                           "const": "list/face",
@@ -12289,6 +12027,7 @@
                           "type": "string"
                         },
                         "attributes": {
+                          "additionalProperties": false,
                           "properties": {
                             "name": {
                               "type": "string"
@@ -12313,13 +12052,16 @@
                           }
                         },
                         "relationships": {
+                          "additionalProperties": false,
                           "properties": {
                             "list-items": {
+                              "additionalProperties": false,
                               "properties": {
                                 "data": {
                                   "type": "array",
                                   "items": {
                                     "type": "object",
+                                    "additionalProperties": false,
                                     "properties": {
                                       "id": {
                                         "examples": [
@@ -12431,13 +12173,16 @@
                             "type": "string"
                           }
                         },
-                        "type": "object"
+                        "type": "object",
+                        "additionalProperties": false
                       }
                     },
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": false
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               },
               "examples": {
                 "exampleRequest": {
@@ -12462,6 +12207,7 @@
                 "schema": {
                   "properties": {
                     "data": {
+                      "additionalProperties": false,
                       "properties": {
                         "type": {
                           "const": "list/geolocation",
@@ -12472,6 +12218,7 @@
                           "type": "string"
                         },
                         "attributes": {
+                          "additionalProperties": false,
                           "properties": {
                             "name": {
                               "type": "string"
@@ -12496,13 +12243,16 @@
                           }
                         },
                         "relationships": {
+                          "additionalProperties": false,
                           "properties": {
                             "list-items": {
+                              "additionalProperties": false,
                               "properties": {
                                 "data": {
                                   "type": "array",
                                   "items": {
                                     "type": "object",
+                                    "additionalProperties": false,
                                     "properties": {
                                       "id": {
                                         "examples": [
@@ -12614,13 +12364,16 @@
                             "type": "string"
                           }
                         },
-                        "type": "object"
+                        "type": "object",
+                        "additionalProperties": false
                       }
                     },
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": false
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               },
               "examples": {
                 "exampleRequest": {
@@ -12645,6 +12398,7 @@
                 "schema": {
                   "properties": {
                     "data": {
+                      "additionalProperties": false,
                       "properties": {
                         "type": {
                           "const": "list/government-id-number",
@@ -12655,6 +12409,7 @@
                           "type": "string"
                         },
                         "attributes": {
+                          "additionalProperties": false,
                           "properties": {
                             "name": {
                               "type": "string"
@@ -12679,13 +12434,16 @@
                           }
                         },
                         "relationships": {
+                          "additionalProperties": false,
                           "properties": {
                             "list-items": {
+                              "additionalProperties": false,
                               "properties": {
                                 "data": {
                                   "type": "array",
                                   "items": {
                                     "type": "object",
+                                    "additionalProperties": false,
                                     "properties": {
                                       "id": {
                                         "examples": [
@@ -12797,13 +12555,16 @@
                             "type": "string"
                           }
                         },
-                        "type": "object"
+                        "type": "object",
+                        "additionalProperties": false
                       }
                     },
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": false
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               },
               "examples": {
                 "exampleRequest": {
@@ -12828,6 +12589,7 @@
                 "schema": {
                   "properties": {
                     "data": {
+                      "additionalProperties": false,
                       "properties": {
                         "type": {
                           "const": "list/ip-address",
@@ -12838,6 +12600,7 @@
                           "type": "string"
                         },
                         "attributes": {
+                          "additionalProperties": false,
                           "properties": {
                             "name": {
                               "type": "string"
@@ -12862,13 +12625,16 @@
                           }
                         },
                         "relationships": {
+                          "additionalProperties": false,
                           "properties": {
                             "list-items": {
+                              "additionalProperties": false,
                               "properties": {
                                 "data": {
                                   "type": "array",
                                   "items": {
                                     "type": "object",
+                                    "additionalProperties": false,
                                     "properties": {
                                       "id": {
                                         "examples": [
@@ -12984,13 +12750,16 @@
                             "type": "string"
                           }
                         },
-                        "type": "object"
+                        "type": "object",
+                        "additionalProperties": false
                       }
                     },
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": false
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               },
               "examples": {
                 "exampleRequest": {
@@ -13016,6 +12785,7 @@
                 "schema": {
                   "properties": {
                     "data": {
+                      "additionalProperties": false,
                       "properties": {
                         "type": {
                           "const": "list/name",
@@ -13026,6 +12796,7 @@
                           "type": "string"
                         },
                         "attributes": {
+                          "additionalProperties": false,
                           "properties": {
                             "name": {
                               "type": "string"
@@ -13046,17 +12817,23 @@
                             "updated-at": {
                               "type": "string",
                               "format": "date-time"
+                            },
+                            "allow-fuzzy-name-first": {
+                              "type": "boolean"
                             }
                           }
                         },
                         "relationships": {
+                          "additionalProperties": false,
                           "properties": {
                             "list-items": {
+                              "additionalProperties": false,
                               "properties": {
                                 "data": {
                                   "type": "array",
                                   "items": {
                                     "type": "object",
+                                    "additionalProperties": false,
                                     "properties": {
                                       "id": {
                                         "examples": [
@@ -13168,13 +12945,16 @@
                             "type": "string"
                           }
                         },
-                        "type": "object"
+                        "type": "object",
+                        "additionalProperties": false
                       }
                     },
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": false
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               },
               "examples": {
                 "exampleRequest": {
@@ -13199,6 +12979,7 @@
                 "schema": {
                   "properties": {
                     "data": {
+                      "additionalProperties": false,
                       "properties": {
                         "type": {
                           "const": "list/phone-number",
@@ -13212,6 +12993,7 @@
                           ]
                         },
                         "attributes": {
+                          "additionalProperties": false,
                           "properties": {
                             "name": {
                               "type": "string"
@@ -13236,13 +13018,16 @@
                           }
                         },
                         "relationships": {
+                          "additionalProperties": false,
                           "properties": {
                             "list-items": {
+                              "additionalProperties": false,
                               "properties": {
                                 "data": {
                                   "type": "array",
                                   "items": {
                                     "type": "object",
+                                    "additionalProperties": false,
                                     "properties": {
                                       "id": {
                                         "examples": [
@@ -29401,6 +29186,7 @@
       },
       "document-government-id": {
         "type": "object",
+        "additionalProperties": false,
         "description": "A Document Government ID object",
         "properties": {
           "id": {
@@ -41550,13 +41336,26 @@
                           "type": "string"
                         }
                       },
-                      "type": "object"
+                      "required": [
+                        "file",
+                        "list-id"
+                      ],
+                      "type": "object",
+                      "additionalProperties": false
                     }
                   },
-                  "type": "object"
+                  "required": [
+                    "attributes"
+                  ],
+                  "type": "object",
+                  "additionalProperties": false
                 }
               },
-              "type": "object"
+              "required": [
+                "data"
+              ],
+              "type": "object",
+              "additionalProperties": false
             }
           },
           "application/json": {
@@ -41578,19 +41377,33 @@
                               "type": "string"
                             }
                           },
-                          "type": "object"
+                          "type": "object",
+                          "additionalProperties": false
                         },
                         "list-id": {
                           "type": "string"
                         }
                       },
-                      "type": "object"
+                      "required": [
+                        "file",
+                        "list-id"
+                      ],
+                      "type": "object",
+                      "additionalProperties": false
                     }
                   },
-                  "type": "object"
+                  "required": [
+                    "attributes"
+                  ],
+                  "type": "object",
+                  "additionalProperties": false
                 }
               },
-              "type": "object"
+              "required": [
+                "data"
+              ],
+              "type": "object",
+              "additionalProperties": false
             }
           }
         }

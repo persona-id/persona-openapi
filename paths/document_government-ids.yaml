@@ -22,26 +22,30 @@ post:
                       description: Back of ID.
                       properties:
                         data:
-                          description: >-
-                            Government ID photo data, must be images. Can
-                            provide more than one image and we will pick the
-                            best for processing. Can also be provided as
-                            uploaded file(s) such as with multipart/form-data
-                            requests instead of this object(s). Images must be
-                            between 10KB and 15MB.
-                          properties:
-                            data:
-                              description: Base64 encoded file.
-                              format: binary
-                              type: string
-                            filename:
-                              description: Name of file.
-                              type: string
-                          required:
-                            - data
-                            - filename
-                          type: object
+                          items:
+                            description: >-
+                              Government ID photo data, must be images. Can
+                              provide more than one image and we will pick the
+                              best for processing. Can also be provided as
+                              uploaded file(s) such as with multipart/form-data
+                              requests instead of this object(s). Images must be
+                              between 10KB and 15MB.
+                            properties:
+                              data:
+                                description: Base64 encoded file.
+                                format: binary
+                                type: string
+                              filename:
+                                description: Name of file.
+                                type: string
+                            required:
+                              - data
+                              - filename
+                            type: object
+                            additionalProperties: false
+                          type: array
                       type: object
+                      additionalProperties: false
                     country-code:
                       description: ISO 3166-1 alpha-2 code of the ID’s issuing country.
                       type: string
@@ -49,40 +53,53 @@ post:
                       description: Front of ID.
                       properties:
                         data:
-                          description: >-
-                            Government ID photo data, must be images. Can
-                            provide more than one image and we will pick the
-                            best for processing. Can also be provided as
-                            uploaded file(s) such as with multipart/form-data
-                            requests instead of this object(s). Images must be
-                            between 10KB and 15MB.
-                          properties:
-                            data:
-                              description: Base64 encoded file.
-                              format: binary
-                              type: string
-                            filename:
-                              description: Name of file.
-                              type: string
-                          required:
-                            - data
-                            - filename
-                          type: object
+                          items:
+                            description: >-
+                              Government ID photo data, must be images. Can
+                              provide more than one image and we will pick the
+                              best for processing. Can also be provided as
+                              uploaded file(s) such as with multipart/form-data
+                              requests instead of this object(s). Images must be
+                              between 10KB and 15MB.
+                            properties:
+                              data:
+                                description: Base64 encoded file.
+                                format: binary
+                                type: string
+                              filename:
+                                description: Name of file.
+                                type: string
+                            required:
+                              - data
+                              - filename
+                            type: object
+                            additionalProperties: false
+                          type: array
                       type: object
+                      additionalProperties: false
                     inquiry-id:
+                      type: string
+                    account-id:
+                      type: string
+                    selected-country-code:
                       type: string
                     selected-id-class:
                       items:
                         type: string
-                      type: array
+                      type:
+                        - array
+                        - string
                   required:
                     - inquiry-id
                     - country-code
                   type: object
+                  additionalProperties: false
               type: object
+              additionalProperties: false
           required:
             - data
           type: object
+          additionalProperties: false
   responses:
     '201':
       content:
@@ -96,6 +113,7 @@ post:
               data:
                 $ref: ../components/schemas/document-government-id.yaml
             type: object
+            additionalProperties: false
       description: Created
     '400':
       $ref: ../components/responses/bad-request.yaml
