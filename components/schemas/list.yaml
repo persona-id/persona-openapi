@@ -1,5 +1,6 @@
 type: object
 description: A List object
+additionalProperties: false
 properties:
   type:
     x-polymorphic: true
@@ -21,6 +22,7 @@ properties:
   id:
     type: string
   attributes:
+    additionalProperties: false
     type: object
     properties:
       name:
@@ -38,14 +40,19 @@ properties:
       updated-at:
         type: string
         format: date-time
+      allow-fuzzy-name-first:
+        type: boolean
   relationships:
+    additionalProperties: false
     type: object
     properties:
       list-items:
+        additionalProperties: false
         type: object
         properties:
           data:
             type: array
             items:
+              additionalProperties: false
               type: object
               description: List items associated with this list.

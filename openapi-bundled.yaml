@@ -8461,6 +8461,7 @@ paths:
                     items:
                       $ref: '#/components/schemas/list'
                   links:
+                    additionalProperties: false
                     type: object
                     properties:
                       prev:
@@ -8469,7 +8470,9 @@ paths:
                           - string
                         description: URL pointing to the previous page of data, or null if on the first page.
                       next:
-                        type: string
+                        type:
+                          - string
+                          - 'null'
                         description: URL pointing to the next page of data, or null if on the last page.
               examples:
                 Result:
@@ -8497,6 +8500,8 @@ paths:
           $ref: '#/components/responses/unauthorized'
         '403':
           $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not-found'
         '429':
           $ref: '#/components/responses/too-many-requests'
   /lists/{list-id}:
@@ -12233,6 +12238,13 @@ paths:
                 data:
                   description: Matches the trigger payload schema defined by the Workflow version
                   properties:
+                    type:
+                      const: workflow
+                      description: workflow
+                      type: string
+                    id:
+                      type: string
+                      description: Unique identifier for this Workflow. Starts with `wfl_`.
                     attributes:
                       description: Matches the trigger payload schema defined by the workflow version
                       properties:
@@ -12243,9 +12255,12 @@ paths:
                           description: This is just an example field name. The actual name will depend on the trigger schema defined for the workflow version.
                           format: int32
                           type: integer
+                      additionalProperties: true
                       type: object
                   type: object
+                  additionalProperties: false
               type: object
+              additionalProperties: false
       responses:
         '200':
           content:
@@ -12275,104 +12290,9 @@ paths:
               schema:
                 properties:
                   data:
-                    properties:
-                      type:
-                        const: workflow-run
-                        description: workflow-run
-                        type: string
-                      id:
-                        examples:
-                          - wfr_3JqAR9ddLRVZLK5z4yD8oeHB
-                        type: string
-                      attributes:
-                        properties:
-                          completed-at:
-                            examples:
-                              - '2022-08-08T18:55:44.910Z'
-                            type:
-                              - string
-                              - 'null'
-                            format: date-time
-                          created-at:
-                            examples:
-                              - '2022-08-08T18:55:44.910Z'
-                            type: string
-                            format: date-time
-                          status:
-                            examples:
-                              - in_progress
-                            type: string
-                        type: object
-                      relationships:
-                        properties:
-                          creator:
-                            properties:
-                              data:
-                                unevaluatedProperties: false
-                                oneOf:
-                                  - type: 'null'
-                                  - properties:
-                                      type:
-                                        const: administrator
-                                        description: administrator
-                                        type: string
-                                      id:
-                                        examples:
-                                          - admn_3VghhbvDc7UuUNT8uZrqZjsk
-                                        type: string
-                                    type: object
-                                  - properties:
-                                      type:
-                                        const: user
-                                        description: user
-                                        type: string
-                                      id:
-                                        examples:
-                                          - user_3VghhbvDc7UuUNT8uZrqZjsk
-                                        type: string
-                                    type: object
-                                  - properties:
-                                      type:
-                                        const: event
-                                        description: event
-                                        type: string
-                                      id:
-                                        examples:
-                                          - evt_3VghhbvDc7UuUNT8uZrqZjsk
-                                        type: string
-                                    type: object
-                            type: object
-                          workflow:
-                            properties:
-                              data:
-                                properties:
-                                  type:
-                                    const: workflow
-                                    description: workflow
-                                    type: string
-                                  id:
-                                    examples:
-                                      - wfl_3VghhbvDc7UuUNT8uZrqZjsk
-                                    type: string
-                                type: object
-                            type: object
-                          workflow-version:
-                            properties:
-                              data:
-                                properties:
-                                  type:
-                                    const: workflow-version
-                                    description: workflow-version
-                                    type: string
-                                  id:
-                                    examples:
-                                      - wfv_DkWeGvK9wojQnubF8ABHzJRQ
-                                    type: string
-                                type: object
-                            type: object
-                        type: object
-                    type: object
+                    $ref: '#/components/schemas/workflow-run'
                 type: object
+                additionalProperties: false
           description: OK
         '400':
           $ref: '#/components/responses/bad-request'
@@ -12389,6 +12309,174 @@ paths:
         '429':
           $ref: '#/components/responses/too-many-requests'
       summary: Create a Workflow Run
+      tags:
+        - Workflows
+  /workflow-runs/{workflow-run-id}:
+    get:
+      description: Retrieves the details of an existing workflow run.
+      operationId: retrieve-a-workflow-run
+      externalDocs:
+        description: Full documentation for this API on the Persona website.
+        url: https://docs.withpersona.com/reference/retrieve-a-workflow-run
+      parameters:
+        - $ref: '#/components/parameters/key-inflection-header'
+        - $ref: '#/components/parameters/idempotency-key-header'
+        - $ref: '#/components/parameters/persona-version-header'
+        - $ref: '#/components/parameters/include-query-parameter'
+        - description: Workflow Run's ID (starts with "wfr_")
+          in: path
+          name: workflow-run-id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                Result:
+                  summary: OK
+                  value:
+                    data:
+                      type: workflow-run
+                      id: wfr_3JqAR9ddLRVZLK5z4yD8oeHB
+                      attributes:
+                        status: in_progress
+                        created-at: '2022-08-08T18:55:44.910Z'
+                        completed-at: null
+                      relationships:
+                        workflow-version:
+                          data:
+                            type: workflow-version
+                            id: wfv_DkWeGvK9wojQnubF8ABHzJRQ
+                        workflow:
+                          data:
+                            type: workflow
+                            id: wfl_3VghhbvDc7UuUNT8uZrqZjsk
+                        creator:
+                          data: null
+              schema:
+                properties:
+                  data:
+                    $ref: '#/components/schemas/workflow-run'
+                    type: object
+                type: object
+          description: OK
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not-found'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+      summary: Retrieve a Workflow Run
+      tags:
+        - Workflows
+  /workflow-runs:
+    get:
+      description: Returns a list of your environment's workflow runs.
+      operationId: list-all-workflow-runs
+      externalDocs:
+        description: Full documentation for this API on the Persona website.
+        url: https://docs.withpersona.com/reference/list-all-workflow-runs
+      parameters:
+        - $ref: '#/components/parameters/key-inflection-header'
+        - $ref: '#/components/parameters/idempotency-key-header'
+        - $ref: '#/components/parameters/persona-version-header'
+        - $ref: '#/components/parameters/pagination-query-params'
+        - $ref: '#/components/parameters/include-query-parameter'
+        - in: query
+          name: filter
+          style: deepObject
+          schema:
+            type: object
+            additionalProperties: false
+            properties:
+              status:
+                description: Filter workflow runs by workflow id
+                type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                Result:
+                  summary: OK
+                  value:
+                    data:
+                      - type: workflow-run
+                        id: wfr_3JqAR9ddLRVZLK5z4yD8oeHB
+                        attributes:
+                          status: in_progress
+                          created-at: '2022-08-08T18:55:44.910Z'
+                          completed-at: null
+                        relationships:
+                          workflow-version:
+                            data:
+                              type: workflow-version
+                              id: wfv_DkWeGvK9wojQnubF8ABHzJRQ
+                          workflow:
+                            data:
+                              type: workflow
+                              id: wfl_3VghhbvDc7UuUNT8uZrqZjsk
+                          creator:
+                            data: null
+                      - type: workflow-run
+                        id: wfr_3JqAR9ddLRVZLK5z4yD8oeHB
+                        attributes:
+                          status: in_progress
+                          created-at: '2022-08-08T18:55:44.910Z'
+                          completed-at: null
+                        relationships:
+                          workflow-version:
+                            data:
+                              type: workflow-version
+                              id: wfv_DkWeGvK9wojQnubF8ABHzJRQ
+                          workflow:
+                            data:
+                              type: workflow
+                              id: wfl_3VghhbvDc7UuUNT8uZrqZjsk
+                          creator:
+                            data: null
+                    links:
+                      prev: null
+                      next: null
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/workflow-run'
+                    type: array
+                    description: An array of Workflow Runs
+                  links:
+                    properties:
+                      next:
+                        type:
+                          - string
+                          - 'null'
+                      prev:
+                        type:
+                          - string
+                          - 'null'
+                    type: object
+                    additionalProperties: false
+                  included:
+                    $ref: '#/components/schemas/empty-included-objects'
+                type: object
+                additionalProperties: false
+          description: OK
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+      summary: List all Workflow Runs
       tags:
         - Workflows
 webhooks:
@@ -21037,6 +21125,7 @@ components:
     list:
       type: object
       description: A List object
+      additionalProperties: false
       properties:
         type:
           x-polymorphic: true
@@ -21058,6 +21147,7 @@ components:
         id:
           type: string
         attributes:
+          additionalProperties: false
           type: object
           properties:
             name:
@@ -21075,15 +21165,20 @@ components:
             updated-at:
               type: string
               format: date-time
+            allow-fuzzy-name-first:
+              type: boolean
         relationships:
+          additionalProperties: false
           type: object
           properties:
             list-items:
+              additionalProperties: false
               type: object
               properties:
                 data:
                   type: array
                   items:
+                    additionalProperties: false
                     type: object
                     description: List items associated with this list.
     report-business-adverse-media:
@@ -22639,6 +22734,124 @@ components:
               format: date-time
               examples:
                 - '2023-09-21T18:29:40.000Z'
+    workflow-run:
+      type: object
+      additionalProperties: false
+      description: A Workflow Run object
+      properties:
+        type:
+          const: workflow-run
+          description: workflow-run
+          type: string
+        id:
+          examples:
+            - wfr_3JqAR9ddLRVZLK5z4yD8oeHB
+          type: string
+        attributes:
+          properties:
+            completed-at:
+              examples:
+                - '2022-08-08T18:55:44.910Z'
+              type:
+                - string
+                - 'null'
+              format: date-time
+            created-at:
+              examples:
+                - '2022-08-08T18:55:44.910Z'
+              type: string
+              format: date-time
+            status:
+              examples:
+                - in_progress
+              type: string
+          type: object
+          additionalProperties: false
+        relationships:
+          properties:
+            creator:
+              properties:
+                data:
+                  unevaluatedProperties: false
+                  oneOf:
+                    - type: 'null'
+                    - properties:
+                        type:
+                          const: administrator
+                          description: administrator
+                          type: string
+                        id:
+                          examples:
+                            - admn_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                      additionalProperties: false
+                    - properties:
+                        type:
+                          const: user
+                          description: user
+                          type: string
+                        id:
+                          examples:
+                            - user_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                      additionalProperties: false
+                    - properties:
+                        type:
+                          const: event
+                          description: event
+                          type: string
+                        id:
+                          examples:
+                            - evt_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                      additionalProperties: false
+              type: object
+              additionalProperties: false
+            workflow:
+              properties:
+                data:
+                  properties:
+                    type:
+                      const: workflow
+                      description: workflow
+                      type: string
+                    id:
+                      examples:
+                        - wfl_3VghhbvDc7UuUNT8uZrqZjsk
+                      type: string
+                  type: object
+                  additionalProperties: false
+              type: object
+              additionalProperties: false
+            workflow-version:
+              properties:
+                data:
+                  properties:
+                    type:
+                      const: workflow-version
+                      description: workflow-version
+                      type: string
+                    id:
+                      examples:
+                        - wfv_DkWeGvK9wojQnubF8ABHzJRQ
+                      type: string
+                  type: object
+                  additionalProperties: false
+              type: object
+              additionalProperties: false
+          type: object
+          additionalProperties: false
+        meta:
+          type: object
+          additionalProperties: false
+          properties:
+            processing-time-seconds:
+              type:
+                - number
+                - 'null'
     webhook-body-shared-data:
       type: object
       properties:

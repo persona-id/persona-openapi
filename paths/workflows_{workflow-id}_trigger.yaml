@@ -29,6 +29,13 @@ post:
                 Matches the trigger payload schema defined by the Workflow
                 version
               properties:
+                type:
+                  const: workflow
+                  description: workflow
+                  type: string
+                id:
+                  type: string
+                  description: Unique identifier for this Workflow. Starts with `wfl_`.
                 attributes:
                   description: >-
                     Matches the trigger payload schema defined by the workflow
@@ -47,9 +54,12 @@ post:
                         version.
                       format: int32
                       type: integer
+                  additionalProperties: true
                   type: object
               type: object
+              additionalProperties: false
           type: object
+          additionalProperties: false
   responses:
     '200':
       content:
@@ -79,104 +89,9 @@ post:
           schema:
             properties:
               data:
-                properties:
-                  type:
-                    const: workflow-run
-                    description: workflow-run
-                    type: string
-                  id:
-                    examples:
-                      - wfr_3JqAR9ddLRVZLK5z4yD8oeHB
-                    type: string
-                  attributes:
-                    properties:
-                      completed-at:
-                        examples:
-                          - '2022-08-08T18:55:44.910Z'
-                        type:
-                          - string
-                          - 'null'
-                        format: date-time
-                      created-at:
-                        examples:
-                          - '2022-08-08T18:55:44.910Z'
-                        type: string
-                        format: date-time
-                      status:
-                        examples:
-                          - in_progress
-                        type: string
-                    type: object
-                  relationships:
-                    properties:
-                      creator:
-                        properties:
-                          data:
-                            unevaluatedProperties: false
-                            oneOf:
-                              - type: 'null'
-                              - properties:
-                                  type:
-                                    const: administrator
-                                    description: administrator
-                                    type: string
-                                  id:
-                                    examples:
-                                      - admn_3VghhbvDc7UuUNT8uZrqZjsk
-                                    type: string
-                                type: object
-                              - properties:
-                                  type:
-                                    const: user
-                                    description: user
-                                    type: string
-                                  id:
-                                    examples:
-                                      - user_3VghhbvDc7UuUNT8uZrqZjsk
-                                    type: string
-                                type: object
-                              - properties:
-                                  type:
-                                    const: event
-                                    description: event
-                                    type: string
-                                  id:
-                                    examples:
-                                      - evt_3VghhbvDc7UuUNT8uZrqZjsk
-                                    type: string
-                                type: object
-                        type: object
-                      workflow:
-                        properties:
-                          data:
-                            properties:
-                              type:
-                                const: workflow
-                                description: workflow
-                                type: string
-                              id:
-                                examples:
-                                  - wfl_3VghhbvDc7UuUNT8uZrqZjsk
-                                type: string
-                            type: object
-                        type: object
-                      workflow-version:
-                        properties:
-                          data:
-                            properties:
-                              type:
-                                const: workflow-version
-                                description: workflow-version
-                                type: string
-                              id:
-                                examples:
-                                  - wfv_DkWeGvK9wojQnubF8ABHzJRQ
-                                type: string
-                            type: object
-                        type: object
-                    type: object
-                type: object
+                $ref: ../components/schemas/workflow-run.yaml
             type: object
+            additionalProperties: false
       description: OK
     '400':
       $ref: ../components/responses/bad-request.yaml

@@ -38,6 +38,7 @@ get:
                 items:
                   $ref: ../components/schemas/list.yaml
               links:
+                additionalProperties: false
                 type: object
                 properties:
                   prev:
@@ -48,7 +49,9 @@ get:
                       URL pointing to the previous page of data, or null if on
                       the first page.
                   next:
-                    type: string
+                    type:
+                      - string
+                      - 'null'
                     description: >-
                       URL pointing to the next page of data, or null if on the
                       last page.
@@ -78,5 +81,7 @@ get:
       $ref: ../components/responses/unauthorized.yaml
     '403':
       $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
     '429':
       $ref: ../components/responses/too-many-requests.yaml
