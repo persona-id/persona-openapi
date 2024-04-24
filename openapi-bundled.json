@@ -528,7 +528,7 @@
     },
     "/accounts/{account-id}": {
       "delete": {
-        "description": "Permanently deletes personally identifiable information (PII) for an Account and all associated Inquiries, Verifications and Reports. **This action cannot be undone**.\n\nThis endpoint can be used to comply with privacy regulations such as GDPR / CCPA or to enforce data privacy.\n\nNote: An account is still updatable after redaction. If you want to delete data continuously, please reach out to us to help you setup a retention policy.",
+        "description": "Permanently deletes personally identifiable information (PII) for an Account and all associated Inquiries, Verifications and Reports. The response indicates a successful redaction of the Account itself, and its associated child objects are done asynchronously and may take some time before all children objects are redacted. **This action cannot be undone**.\n\nThis endpoint can be used to comply with privacy regulations such as GDPR / CCPA or to enforce data privacy. \n\nNote: An account is still updatable after redaction. If you want to delete data continuously, please reach out to us to help you setup a retention policy.",
         "operationId": "redact-an-account",
         "externalDocs": {
           "description": "Full documentation for this API on the Persona website.",
@@ -9374,13 +9374,16 @@
                             "type": "string"
                           }
                         },
-                        "type": "object"
+                        "type": "object",
+                        "additionalProperties": false
                       }
                     },
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": false
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             }
           }
@@ -9401,7 +9404,8 @@
                       "$ref": "#/components/schemas/list-item-browser-fingerprint"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -9436,6 +9440,86 @@
       }
     },
     "/list-item/browser-fingerprints/{list-item-id}": {
+      "get": {
+        "description": "Retrieves the details of an existing browser fingerprint List Item.",
+        "operationId": "retrieve-a-browser-fingerprint-list-item",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/reference/retrieve-a-browser-fingerprint-list-item"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/include-query-parameter"
+          },
+          {
+            "description": "ID of list item to retrieve.",
+            "in": "path",
+            "name": "list-item-id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Result": {
+                    "summary": "OK",
+                    "$ref": "#/components/examples/list-item-browser-fingerprint"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/list-item-browser-fingerprint"
+                    }
+                  },
+                  "type": "object",
+                  "additionalProperties": false
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "409": {
+            "$ref": "#/components/responses/conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessable-entity"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        },
+        "summary": "Retrieve a Browser Fingerprint List Item",
+        "tags": [
+          "List Items"
+        ]
+      },
       "delete": {
         "description": "Archived items are not matched against new inquiries.",
         "operationId": "archive-a-browser-fingerprint-list-item",
@@ -9482,7 +9566,8 @@
                       "$ref": "#/components/schemas/list-item-browser-fingerprint"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -9556,13 +9641,16 @@
                             "type": "string"
                           }
                         },
-                        "type": "object"
+                        "type": "object",
+                        "additionalProperties": false
                       }
                     },
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": false
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             }
           }
@@ -9583,7 +9671,8 @@
                       "$ref": "#/components/schemas/list-item-country"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -9618,6 +9707,86 @@
       }
     },
     "/list-item/countries/{list-item-id}": {
+      "get": {
+        "description": "Retrieves the details of an existing country List Item.",
+        "operationId": "retrieve-a-country-list-item",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/reference/retrieve-a-country-list-item"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/include-query-parameter"
+          },
+          {
+            "description": "ID of list item to archive.",
+            "in": "path",
+            "name": "list-item-id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Result": {
+                    "summary": "OK",
+                    "$ref": "#/components/examples/list-item-country"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/list-item-country"
+                    }
+                  },
+                  "type": "object",
+                  "additionalProperties": false
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "409": {
+            "$ref": "#/components/responses/conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessable-entity"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        },
+        "summary": "Retrieve a Country List Item",
+        "tags": [
+          "List Items"
+        ]
+      },
       "delete": {
         "description": "Archived items are not matched against new inquiries.",
         "operationId": "archive-a-country-list-item",
@@ -9664,7 +9833,8 @@
                       "$ref": "#/components/schemas/list-item-country"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -9693,6 +9863,273 @@
           }
         },
         "summary": "Archive a Country List Item",
+        "tags": [
+          "List Items"
+        ]
+      }
+    },
+    "/list-item/device-fingerprints": {
+      "post": {
+        "description": "Create a new item in a <<glossary:list>>.",
+        "operationId": "create-a-device-fingerprint-list-item",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/reference/create-a-device-fingerprint-list-item"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/include-query-parameter"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "data": {
+                    "properties": {
+                      "attributes": {
+                        "properties": {
+                          "list-id": {
+                            "description": "ID of the list to add this item to. List must be a Device Fingerprint List.",
+                            "type": "string"
+                          },
+                          "value": {
+                            "description": "Device fingerprint to add to list.",
+                            "type": "string"
+                          }
+                        },
+                        "type": "object",
+                        "additionalProperties": false
+                      }
+                    },
+                    "type": "object",
+                    "additionalProperties": false
+                  }
+                },
+                "type": "object",
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Result": {
+                    "summary": "Created",
+                    "$ref": "#/components/examples/list-item-device-fingerprint"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/list-item-device-fingerprint"
+                    }
+                  },
+                  "type": "object",
+                  "additionalProperties": false
+                }
+              }
+            },
+            "description": "Created"
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "409": {
+            "$ref": "#/components/responses/conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessable-entity"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        },
+        "summary": "Create a Device Fingerprint List Item",
+        "tags": [
+          "List Items"
+        ]
+      }
+    },
+    "/list-item/device-fingerprints/{list-item-id}": {
+      "get": {
+        "description": "Retrieves the details of an existing device fingerprint List Item.",
+        "operationId": "retrieve-a-device-fingerprint-list-item",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/reference/retrieve-a-device-fingerprint-list-item"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/include-query-parameter"
+          },
+          {
+            "description": "ID of list item to retrieve.",
+            "in": "path",
+            "name": "list-item-id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Result": {
+                    "summary": "OK",
+                    "$ref": "#/components/examples/list-item-device-fingerprint"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/list-item-device-fingerprint"
+                    }
+                  },
+                  "type": "object",
+                  "additionalProperties": false
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "409": {
+            "$ref": "#/components/responses/conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessable-entity"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        },
+        "summary": "Retrieve a Device Fingerprint List Item",
+        "tags": [
+          "List Items"
+        ]
+      },
+      "delete": {
+        "description": "Archived items are not matched against new inquiries.",
+        "operationId": "archive-a-device-fingerprint-list-item",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/reference/archive-a-device-fingerprint-list-item"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/include-query-parameter"
+          },
+          {
+            "description": "ID of list item to archive.",
+            "in": "path",
+            "name": "list-item-id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Result": {
+                    "summary": "OK",
+                    "$ref": "#/components/examples/list-item-device-fingerprint-archived"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/list-item-device-fingerprint"
+                    }
+                  },
+                  "type": "object",
+                  "additionalProperties": false
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "409": {
+            "$ref": "#/components/responses/conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessable-entity"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        },
+        "summary": "Archive a Device Fingerprint List Item",
         "tags": [
           "List Items"
         ]
@@ -9742,13 +10179,16 @@
                             "type": "string"
                           }
                         },
-                        "type": "object"
+                        "type": "object",
+                        "additionalProperties": false
                       }
                     },
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": false
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             }
           }
@@ -9769,7 +10209,8 @@
                       "$ref": "#/components/schemas/list-item-email-address"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -9804,6 +10245,86 @@
       }
     },
     "/list-item/email-addresses/{list-item-id}": {
+      "get": {
+        "description": "Retrieves the details of an existing email address List Item.",
+        "operationId": "retrieve-an-email-address-list-item",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/reference/retrieve-an-email-address-list-item"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/include-query-parameter"
+          },
+          {
+            "description": "ID of list item to archive.",
+            "in": "path",
+            "name": "list-item-id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Result": {
+                    "summary": "OK",
+                    "$ref": "#/components/examples/list-item-email-address"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/list-item-email-address"
+                    }
+                  },
+                  "type": "object",
+                  "additionalProperties": false
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "409": {
+            "$ref": "#/components/responses/conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessable-entity"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        },
+        "summary": "Retrieve an Email Address List Item",
+        "tags": [
+          "List Items"
+        ]
+      },
       "delete": {
         "description": "Archived items are not matched against new inquiries.",
         "operationId": "archive-an-email-address-list-item",
@@ -9850,7 +10371,8 @@
                       "$ref": "#/components/schemas/list-item-email-address"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -9927,20 +10449,24 @@
                                 "type": "string"
                               }
                             },
-                            "type": "object"
+                            "type": "object",
+                            "additionalProperties": false
                           },
                           "list-id": {
                             "description": "ID of the list to add this item to. List must be a Face List.",
                             "type": "string"
                           }
                         },
-                        "type": "object"
+                        "type": "object",
+                        "additionalProperties": false
                       }
                     },
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": false
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             }
           }
@@ -9961,7 +10487,8 @@
                       "$ref": "#/components/schemas/list-item-face"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -9996,6 +10523,86 @@
       }
     },
     "/list-item/faces/{list-item-id}": {
+      "get": {
+        "description": "Retrieves the details of an existing face List Item.",
+        "operationId": "retrieve-a-face-list-item",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/reference/retrieve-a-face-list-item"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/include-query-parameter"
+          },
+          {
+            "description": "ID of list item to archive.",
+            "in": "path",
+            "name": "list-item-id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Result": {
+                    "summary": "OK",
+                    "$ref": "#/components/examples/list-item-face"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/list-item-face"
+                    }
+                  },
+                  "type": "object",
+                  "additionalProperties": false
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "409": {
+            "$ref": "#/components/responses/conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessable-entity"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        },
+        "summary": "Retrieve a Face List Item",
+        "tags": [
+          "List Items"
+        ]
+      },
       "delete": {
         "description": "Archived items are not matched against new inquiries.",
         "operationId": "archive-a-face-list-item",
@@ -10042,7 +10649,8 @@
                       "$ref": "#/components/schemas/list-item-face"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -10116,13 +10724,16 @@
                             "type": "string"
                           }
                         },
-                        "type": "object"
+                        "type": "object",
+                        "additionalProperties": false
                       }
                     },
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": false
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             }
           }
@@ -10143,7 +10754,8 @@
                       "$ref": "#/components/schemas/list-item-field"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -10178,6 +10790,86 @@
       }
     },
     "/list-item/fields/{list-item-id}": {
+      "get": {
+        "description": "Retrieves the details of an existing field List Item.",
+        "operationId": "retrieve-a-field-list-item",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/reference/retrieve-a-field-list-item"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/include-query-parameter"
+          },
+          {
+            "description": "ID of list item to archive.",
+            "in": "path",
+            "name": "list-item-id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Result": {
+                    "summary": "OK",
+                    "$ref": "#/components/examples/list-item-field"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/list-item-field"
+                    }
+                  },
+                  "type": "object",
+                  "additionalProperties": false
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "409": {
+            "$ref": "#/components/responses/conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessable-entity"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        },
+        "summary": "Retrieve a Field List Item",
+        "tags": [
+          "List Items"
+        ]
+      },
       "delete": {
         "description": "Archived items are not matched against new inquiries.",
         "operationId": "archive-a-field-list-item",
@@ -10224,7 +10916,8 @@
                       "$ref": "#/components/schemas/list-item-field"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -10309,13 +11002,16 @@
                             "type": "number"
                           }
                         },
-                        "type": "object"
+                        "type": "object",
+                        "additionalProperties": false
                       }
                     },
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": false
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             }
           }
@@ -10336,7 +11032,8 @@
                       "$ref": "#/components/schemas/list-item-geolocation"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -10371,6 +11068,86 @@
       }
     },
     "/list-item/geolocations/{list-item-id}": {
+      "get": {
+        "description": "Retrieves the details of an existing geolocation List Item.",
+        "operationId": "retrieve-a-geolocation-list-item",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/reference/retrieve-a-geolocation-list-item"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/include-query-parameter"
+          },
+          {
+            "description": "ID of list item to archive.",
+            "in": "path",
+            "name": "list-item-id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Result": {
+                    "summary": "OK",
+                    "$ref": "#/components/examples/list-item-geolocation"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/list-item-geolocation"
+                    }
+                  },
+                  "type": "object",
+                  "additionalProperties": false
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "409": {
+            "$ref": "#/components/responses/conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessable-entity"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        },
+        "summary": "Retrieve a Geolocation List Item",
+        "tags": [
+          "List Items"
+        ]
+      },
       "delete": {
         "description": "Archived items are not matched against new inquiries.",
         "operationId": "archive-a-geolocation-list-item",
@@ -10417,7 +11194,8 @@
                       "$ref": "#/components/schemas/list-item-geolocation"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -10495,13 +11273,16 @@
                             "type": "string"
                           }
                         },
-                        "type": "object"
+                        "type": "object",
+                        "additionalProperties": false
                       }
                     },
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": false
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             }
           }
@@ -10522,7 +11303,8 @@
                       "$ref": "#/components/schemas/list-item-government-id-number"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -10557,6 +11339,86 @@
       }
     },
     "/list-item/government-id-numbers/{list-item-id}": {
+      "get": {
+        "description": "Retrieves the details of an existing government ID number List Item.",
+        "operationId": "retrieve-a-government-id-number-list-item",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/reference/retrieve-a-government-id-number-list-item"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/include-query-parameter"
+          },
+          {
+            "description": "ID of list item to archive.",
+            "in": "path",
+            "name": "list-item-id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Result": {
+                    "summary": "OK",
+                    "$ref": "#/components/examples/list-item-government-id-number"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/list-item-government-id-number"
+                    }
+                  },
+                  "type": "object",
+                  "additionalProperties": false
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "409": {
+            "$ref": "#/components/responses/conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessable-entity"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        },
+        "summary": "Retrieve a Government ID Number List Item",
+        "tags": [
+          "List Items"
+        ]
+      },
       "delete": {
         "description": "Archived items are not matched against new inquiries.",
         "operationId": "archive-a-government-id-number-list-item",
@@ -10603,7 +11465,8 @@
                       "$ref": "#/components/schemas/list-item-government-id-number"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -10677,13 +11540,16 @@
                             "type": "string"
                           }
                         },
-                        "type": "object"
+                        "type": "object",
+                        "additionalProperties": false
                       }
                     },
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": false
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             }
           }
@@ -10704,7 +11570,8 @@
                       "$ref": "#/components/schemas/list-item-ip-address"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -10739,6 +11606,86 @@
       }
     },
     "/list-item/ip-addresses/{list-item-id}": {
+      "get": {
+        "description": "Retrieves the details of an existing IP address List Item.",
+        "operationId": "retrieve-an-ip-address-list-item",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/reference/retrieve-an-ip-address-list-item"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/include-query-parameter"
+          },
+          {
+            "description": "ID of list item to archive.",
+            "in": "path",
+            "name": "list-item-id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Result": {
+                    "summary": "OK",
+                    "$ref": "#/components/examples/list-item-ip-address"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/list-item-ip-address"
+                    }
+                  },
+                  "type": "object",
+                  "additionalProperties": false
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "409": {
+            "$ref": "#/components/responses/conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessable-entity"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        },
+        "summary": "Retrieve an IP Address List Item",
+        "tags": [
+          "List Items"
+        ]
+      },
       "delete": {
         "description": "Archived items are not matched against new inquiries.",
         "operationId": "archive-an-ip-address-list-item",
@@ -10776,7 +11723,7 @@
                 "examples": {
                   "Result": {
                     "summary": "OK",
-                    "$ref": "#/components/examples/list-item-address-archived"
+                    "$ref": "#/components/examples/list-item-ip-address-archived"
                   }
                 },
                 "schema": {
@@ -10785,7 +11732,8 @@
                       "$ref": "#/components/schemas/list-item-ip-address"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -10863,13 +11811,16 @@
                             "type": "string"
                           }
                         },
-                        "type": "object"
+                        "type": "object",
+                        "additionalProperties": false
                       }
                     },
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": false
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             }
           }
@@ -10890,7 +11841,8 @@
                       "$ref": "#/components/schemas/list-item-name"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -10925,6 +11877,86 @@
       }
     },
     "/list-item/names/{list-item-id}": {
+      "get": {
+        "description": "Retrieves the details of an existing name List Item.",
+        "operationId": "retrieve-a-name-list-item",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/reference/retrieve-a-name-list-item"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/include-query-parameter"
+          },
+          {
+            "description": "ID of list item to archive.",
+            "in": "path",
+            "name": "list-item-id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Result": {
+                    "summary": "OK",
+                    "$ref": "#/components/examples/list-item-name"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/list-item-name"
+                    }
+                  },
+                  "type": "object",
+                  "additionalProperties": false
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "409": {
+            "$ref": "#/components/responses/conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessable-entity"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        },
+        "summary": "Retrieve a Name List Item",
+        "tags": [
+          "List Items"
+        ]
+      },
       "delete": {
         "description": "Archived items are not matched against new inquiries.",
         "operationId": "archive-a-name-list-item",
@@ -10971,7 +12003,8 @@
                       "$ref": "#/components/schemas/list-item-name"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -11045,13 +12078,16 @@
                             "type": "string"
                           }
                         },
-                        "type": "object"
+                        "type": "object",
+                        "additionalProperties": false
                       }
                     },
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": false
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             }
           }
@@ -11072,7 +12108,8 @@
                       "$ref": "#/components/schemas/list-item-phone-number"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -11107,6 +12144,86 @@
       }
     },
     "/list-item/phone-numbers/{list-item-id}": {
+      "get": {
+        "description": "Retrieves the details of an existing phone number List Item.",
+        "operationId": "retrieve-a-phone-number-list-item",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/reference/retrieve-a-phone-number-list-item"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/include-query-parameter"
+          },
+          {
+            "description": "ID of list item to archive.",
+            "in": "path",
+            "name": "list-item-id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Result": {
+                    "summary": "OK",
+                    "$ref": "#/components/examples/list-item-phone-number"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/list-item-phone-number"
+                    }
+                  },
+                  "type": "object",
+                  "additionalProperties": false
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "409": {
+            "$ref": "#/components/responses/conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessable-entity"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        },
+        "summary": "Retrieve a Phone Number List Item",
+        "tags": [
+          "List Items"
+        ]
+      },
       "delete": {
         "description": "Archived items are not matched against new inquiries.",
         "operationId": "archive-a-phone-number-list-item",
@@ -11153,7 +12270,8 @@
                       "$ref": "#/components/schemas/list-item-phone-number"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -11227,13 +12345,16 @@
                             "type": "string"
                           }
                         },
-                        "type": "object"
+                        "type": "object",
+                        "additionalProperties": false
                       }
                     },
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": false
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             }
           }
@@ -11254,7 +12375,8 @@
                       "$ref": "#/components/schemas/list-item-string"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -11289,6 +12411,86 @@
       }
     },
     "/list-item/strings/{list-item-id}": {
+      "get": {
+        "description": "Retrieves the details of an existing string List Item.",
+        "operationId": "retrieve-a-string-list-item",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/reference/retrieve-a-string-list-item"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/include-query-parameter"
+          },
+          {
+            "description": "ID of list item to archive.",
+            "in": "path",
+            "name": "list-item-id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Result": {
+                    "summary": "OK",
+                    "$ref": "#/components/examples/list-item-string"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/list-item-string"
+                    }
+                  },
+                  "type": "object",
+                  "additionalProperties": false
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "409": {
+            "$ref": "#/components/responses/conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessable-entity"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        },
+        "summary": "Retrieve a String List Item",
+        "tags": [
+          "List Items"
+        ]
+      },
       "delete": {
         "description": "Archived items are not matched against new inquiries.",
         "operationId": "archive-a-string-list-item",
@@ -11335,7 +12537,8 @@
                       "$ref": "#/components/schemas/list-item-string"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -11443,73 +12646,7 @@
                 "schema": {
                   "properties": {
                     "data": {
-                      "additionalProperties": false,
-                      "properties": {
-                        "type": {
-                          "const": "list/browser-fingerprint",
-                          "description": "list/browser-fingerprint",
-                          "type": "string"
-                        },
-                        "id": {
-                          "type": "string"
-                        },
-                        "attributes": {
-                          "additionalProperties": false,
-                          "properties": {
-                            "name": {
-                              "type": "string"
-                            },
-                            "status": {
-                              "type": "string"
-                            },
-                            "archived-at": {
-                              "type": [
-                                "null",
-                                "string"
-                              ]
-                            },
-                            "created-at": {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            "updated-at": {
-                              "type": "string",
-                              "format": "date-time"
-                            }
-                          }
-                        },
-                        "relationships": {
-                          "additionalProperties": false,
-                          "properties": {
-                            "list-items": {
-                              "additionalProperties": false,
-                              "properties": {
-                                "data": {
-                                  "type": "array",
-                                  "items": {
-                                    "type": "object",
-                                    "additionalProperties": false,
-                                    "properties": {
-                                      "id": {
-                                        "examples": [
-                                          "libf_N6PqYkfSqeqiQYWoeHA3GGDo"
-                                        ],
-                                        "type": "string"
-                                      },
-                                      "type": {
-                                        "const": "list-item/browser-fingerprint",
-                                        "description": "list-item/browser-fingerprint",
-                                        "type": "string"
-                                      }
-                                    }
-                                  },
-                                  "description": "List items associated with this list. This should always be empty when creating a new list."
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
+                      "$ref": "#/components/schemas/lists-browser-fingerprints"
                     }
                   }
                 },
@@ -11634,73 +12771,7 @@
                 "schema": {
                   "properties": {
                     "data": {
-                      "additionalProperties": false,
-                      "properties": {
-                        "type": {
-                          "const": "list/country",
-                          "description": "list/country",
-                          "type": "string"
-                        },
-                        "id": {
-                          "type": "string"
-                        },
-                        "attributes": {
-                          "additionalProperties": false,
-                          "properties": {
-                            "name": {
-                              "type": "string"
-                            },
-                            "status": {
-                              "type": "string"
-                            },
-                            "archived-at": {
-                              "type": [
-                                "null",
-                                "string"
-                              ]
-                            },
-                            "created-at": {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            "updated-at": {
-                              "type": "string",
-                              "format": "date-time"
-                            }
-                          }
-                        },
-                        "relationships": {
-                          "additionalProperties": false,
-                          "properties": {
-                            "list-items": {
-                              "additionalProperties": false,
-                              "properties": {
-                                "data": {
-                                  "type": "array",
-                                  "items": {
-                                    "type": "object",
-                                    "additionalProperties": false,
-                                    "properties": {
-                                      "id": {
-                                        "examples": [
-                                          "lic_wt5cgLbSi7twJ8itK7jxCs8q"
-                                        ],
-                                        "type": "string"
-                                      },
-                                      "type": {
-                                        "const": "list-item/country",
-                                        "description": "list-item/country",
-                                        "type": "string"
-                                      }
-                                    }
-                                  },
-                                  "description": "List items associated with this list. This should always be empty when creating a new list."
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
+                      "$ref": "#/components/schemas/lists-countries"
                     }
                   }
                 },
@@ -11825,73 +12896,7 @@
                 "schema": {
                   "properties": {
                     "data": {
-                      "additionalProperties": false,
-                      "properties": {
-                        "type": {
-                          "const": "list/email-address",
-                          "description": "list/email-address",
-                          "type": "string"
-                        },
-                        "id": {
-                          "type": "string"
-                        },
-                        "attributes": {
-                          "additionalProperties": false,
-                          "properties": {
-                            "name": {
-                              "type": "string"
-                            },
-                            "status": {
-                              "type": "string"
-                            },
-                            "archived-at": {
-                              "type": [
-                                "null",
-                                "string"
-                              ]
-                            },
-                            "created-at": {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            "updated-at": {
-                              "type": "string",
-                              "format": "date-time"
-                            }
-                          }
-                        },
-                        "relationships": {
-                          "additionalProperties": false,
-                          "properties": {
-                            "list-items": {
-                              "additionalProperties": false,
-                              "properties": {
-                                "data": {
-                                  "type": "array",
-                                  "items": {
-                                    "type": "object",
-                                    "additionalProperties": false,
-                                    "properties": {
-                                      "id": {
-                                        "examples": [
-                                          "liea_wt5cgLbSi7twJ8itK7jxCs8q"
-                                        ],
-                                        "type": "string"
-                                      },
-                                      "type": {
-                                        "const": "list-item/email-address",
-                                        "description": "list-item/email-address",
-                                        "type": "string"
-                                      }
-                                    }
-                                  },
-                                  "description": "List items associated with this list. This should always be empty when creating a new list."
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
+                      "$ref": "#/components/schemas/lists-email-addresses"
                     }
                   }
                 },
@@ -12016,73 +13021,7 @@
                 "schema": {
                   "properties": {
                     "data": {
-                      "additionalProperties": false,
-                      "properties": {
-                        "type": {
-                          "const": "list/face",
-                          "description": "list/face",
-                          "type": "string"
-                        },
-                        "id": {
-                          "type": "string"
-                        },
-                        "attributes": {
-                          "additionalProperties": false,
-                          "properties": {
-                            "name": {
-                              "type": "string"
-                            },
-                            "status": {
-                              "type": "string"
-                            },
-                            "archived-at": {
-                              "type": [
-                                "null",
-                                "string"
-                              ]
-                            },
-                            "created-at": {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            "updated-at": {
-                              "type": "string",
-                              "format": "date-time"
-                            }
-                          }
-                        },
-                        "relationships": {
-                          "additionalProperties": false,
-                          "properties": {
-                            "list-items": {
-                              "additionalProperties": false,
-                              "properties": {
-                                "data": {
-                                  "type": "array",
-                                  "items": {
-                                    "type": "object",
-                                    "additionalProperties": false,
-                                    "properties": {
-                                      "id": {
-                                        "examples": [
-                                          "lifc_FVrbLriSXNwPqMogu8vvuTi8"
-                                        ],
-                                        "type": "string"
-                                      },
-                                      "type": {
-                                        "const": "list-item/face",
-                                        "description": "list-item/face",
-                                        "type": "string"
-                                      }
-                                    }
-                                  },
-                                  "description": "List items associated with this list. This should always be empty when creating a new list."
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
+                      "$ref": "#/components/schemas/lists-faces"
                     }
                   }
                 },
@@ -12207,73 +13146,7 @@
                 "schema": {
                   "properties": {
                     "data": {
-                      "additionalProperties": false,
-                      "properties": {
-                        "type": {
-                          "const": "list/geolocation",
-                          "description": "list/geolocation",
-                          "type": "string"
-                        },
-                        "id": {
-                          "type": "string"
-                        },
-                        "attributes": {
-                          "additionalProperties": false,
-                          "properties": {
-                            "name": {
-                              "type": "string"
-                            },
-                            "status": {
-                              "type": "string"
-                            },
-                            "archived-at": {
-                              "type": [
-                                "null",
-                                "string"
-                              ]
-                            },
-                            "created-at": {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            "updated-at": {
-                              "type": "string",
-                              "format": "date-time"
-                            }
-                          }
-                        },
-                        "relationships": {
-                          "additionalProperties": false,
-                          "properties": {
-                            "list-items": {
-                              "additionalProperties": false,
-                              "properties": {
-                                "data": {
-                                  "type": "array",
-                                  "items": {
-                                    "type": "object",
-                                    "additionalProperties": false,
-                                    "properties": {
-                                      "id": {
-                                        "examples": [
-                                          "ligl_DQdchRN288UN6sn9mAmEcMu5"
-                                        ],
-                                        "type": "string"
-                                      },
-                                      "type": {
-                                        "const": "list-item/geolocation",
-                                        "description": "list-item/geolocation",
-                                        "type": "string"
-                                      }
-                                    }
-                                  },
-                                  "description": "List items associated with this list. This should always be empty when creating a new list."
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
+                      "$ref": "#/components/schemas/lists-geolocations"
                     }
                   }
                 },
@@ -12398,73 +13271,7 @@
                 "schema": {
                   "properties": {
                     "data": {
-                      "additionalProperties": false,
-                      "properties": {
-                        "type": {
-                          "const": "list/government-id-number",
-                          "description": "list/government-id-number",
-                          "type": "string"
-                        },
-                        "id": {
-                          "type": "string"
-                        },
-                        "attributes": {
-                          "additionalProperties": false,
-                          "properties": {
-                            "name": {
-                              "type": "string"
-                            },
-                            "status": {
-                              "type": "string"
-                            },
-                            "archived-at": {
-                              "type": [
-                                "null",
-                                "string"
-                              ]
-                            },
-                            "created-at": {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            "updated-at": {
-                              "type": "string",
-                              "format": "date-time"
-                            }
-                          }
-                        },
-                        "relationships": {
-                          "additionalProperties": false,
-                          "properties": {
-                            "list-items": {
-                              "additionalProperties": false,
-                              "properties": {
-                                "data": {
-                                  "type": "array",
-                                  "items": {
-                                    "type": "object",
-                                    "additionalProperties": false,
-                                    "properties": {
-                                      "id": {
-                                        "examples": [
-                                          "ligin_soqGRWaUXZct3pCRbjRaXFqz"
-                                        ],
-                                        "type": "string"
-                                      },
-                                      "type": {
-                                        "const": "list-item/government-id-number",
-                                        "description": "list-item/government-id-number",
-                                        "type": "string"
-                                      }
-                                    }
-                                  },
-                                  "description": "List items associated with this list. This should always be empty when creating a new list."
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
+                      "$ref": "#/components/schemas/lists-government-id-numbers"
                     }
                   }
                 },
@@ -12589,73 +13396,7 @@
                 "schema": {
                   "properties": {
                     "data": {
-                      "additionalProperties": false,
-                      "properties": {
-                        "type": {
-                          "const": "list/ip-address",
-                          "description": "list/ip-address",
-                          "type": "string"
-                        },
-                        "id": {
-                          "type": "string"
-                        },
-                        "attributes": {
-                          "additionalProperties": false,
-                          "properties": {
-                            "name": {
-                              "type": "string"
-                            },
-                            "status": {
-                              "type": "string"
-                            },
-                            "archived-at": {
-                              "type": [
-                                "null",
-                                "string"
-                              ]
-                            },
-                            "created-at": {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            "updated-at": {
-                              "type": "string",
-                              "format": "date-time"
-                            }
-                          }
-                        },
-                        "relationships": {
-                          "additionalProperties": false,
-                          "properties": {
-                            "list-items": {
-                              "additionalProperties": false,
-                              "properties": {
-                                "data": {
-                                  "type": "array",
-                                  "items": {
-                                    "type": "object",
-                                    "additionalProperties": false,
-                                    "properties": {
-                                      "id": {
-                                        "examples": [
-                                          "liip_soqGRWaUXZct3pCRbjRaXFqz"
-                                        ],
-                                        "type": "string"
-                                      },
-                                      "type": {
-                                        "const": "list-item/ip-address",
-                                        "description": "list-item/ip-address",
-                                        "type": "string"
-                                      }
-                                    }
-                                  },
-                                  "description": "List items associated with this list. This should always be empty when creating a new list."
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
+                      "$ref": "#/components/schemas/lists-ip-addresses"
                     }
                   }
                 },
@@ -12785,76 +13526,7 @@
                 "schema": {
                   "properties": {
                     "data": {
-                      "additionalProperties": false,
-                      "properties": {
-                        "type": {
-                          "const": "list/name",
-                          "description": "list/name",
-                          "type": "string"
-                        },
-                        "id": {
-                          "type": "string"
-                        },
-                        "attributes": {
-                          "additionalProperties": false,
-                          "properties": {
-                            "name": {
-                              "type": "string"
-                            },
-                            "status": {
-                              "type": "string"
-                            },
-                            "archived-at": {
-                              "type": [
-                                "null",
-                                "string"
-                              ]
-                            },
-                            "created-at": {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            "updated-at": {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            "allow-fuzzy-name-first": {
-                              "type": "boolean"
-                            }
-                          }
-                        },
-                        "relationships": {
-                          "additionalProperties": false,
-                          "properties": {
-                            "list-items": {
-                              "additionalProperties": false,
-                              "properties": {
-                                "data": {
-                                  "type": "array",
-                                  "items": {
-                                    "type": "object",
-                                    "additionalProperties": false,
-                                    "properties": {
-                                      "id": {
-                                        "examples": [
-                                          "lin_soqGRWaUXZct3pCRbjRaXFqz"
-                                        ],
-                                        "type": "string"
-                                      },
-                                      "type": {
-                                        "const": "list-item/name",
-                                        "description": "list-item/name",
-                                        "type": "string"
-                                      }
-                                    }
-                                  },
-                                  "description": "List items associated with this list. This should always be empty when creating a new list."
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
+                      "$ref": "#/components/schemas/lists-names"
                     }
                   }
                 },
@@ -12979,76 +13651,7 @@
                 "schema": {
                   "properties": {
                     "data": {
-                      "additionalProperties": false,
-                      "properties": {
-                        "type": {
-                          "const": "list/phone-number",
-                          "description": "list/phone-number",
-                          "type": "string"
-                        },
-                        "id": {
-                          "type": "string",
-                          "examples": [
-                            "lst_kRcKDJ4c8wF2AmAghggtYxboX"
-                          ]
-                        },
-                        "attributes": {
-                          "additionalProperties": false,
-                          "properties": {
-                            "name": {
-                              "type": "string"
-                            },
-                            "status": {
-                              "type": "string"
-                            },
-                            "archived-at": {
-                              "type": [
-                                "null",
-                                "string"
-                              ]
-                            },
-                            "created-at": {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            "updated-at": {
-                              "type": "string",
-                              "format": "date-time"
-                            }
-                          }
-                        },
-                        "relationships": {
-                          "additionalProperties": false,
-                          "properties": {
-                            "list-items": {
-                              "additionalProperties": false,
-                              "properties": {
-                                "data": {
-                                  "type": "array",
-                                  "items": {
-                                    "type": "object",
-                                    "additionalProperties": false,
-                                    "properties": {
-                                      "id": {
-                                        "examples": [
-                                          "lipn_soqGRWaUXZct3pCRbjRaXFqz"
-                                        ],
-                                        "type": "string"
-                                      },
-                                      "type": {
-                                        "const": "list-item/phone-number",
-                                        "description": "list-item/phone-number",
-                                        "type": "string"
-                                      }
-                                    }
-                                  },
-                                  "description": "List items associated with this list. This should always be empty when creating a new list."
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
+                      "$ref": "#/components/schemas/lists-phone-numbers"
                     }
                   }
                 },
@@ -15289,7 +15892,7 @@
         "tags": [
           "Transactions"
         ],
-        "description": "Permanently deletes personally identifiable information (PII) for a <<glossary:Transaction>>. **This action cannot be undone**.",
+        "description": "Permanently deletes personally identifiable information (PII) for a <<glossary:Transaction>>. The response indicates a successful redaction of the Transaction itself, and its associated child objects are done asynchronously and may take some time before all children objects are redacted. **This action cannot be undone**.",
         "operationId": "redact-a-transaction",
         "externalDocs": {
           "description": "Full documentation for this API on the Persona website.",
@@ -30627,6 +31230,7 @@
         "title": "Browser Fingerprint List Item",
         "description": "A Browser Fingerprint List Item",
         "type": "object",
+        "additionalProperties": false,
         "properties": {
           "id": {
             "description": "Unique identifier for this list item. Starts with `libf_`.",
@@ -30736,10 +31340,12 @@
                     ]
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             },
-            "type": "object"
+            "type": "object",
+            "additionalProperties": false
           }
         }
       },
@@ -30747,6 +31353,7 @@
         "title": "Country List Item",
         "description": "A Country List Item",
         "type": "object",
+        "additionalProperties": false,
         "properties": {
           "id": {
             "description": "Unique identifier for this list item. Starts with `lic_`.",
@@ -30854,10 +31461,135 @@
                     ]
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             },
-            "type": "object"
+            "type": "object",
+            "additionalProperties": false
+          }
+        }
+      },
+      "list-item-device-fingerprint": {
+        "title": "Device Fingerprint List Item",
+        "description": "A Device Fingerprint List Item",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "description": "Unique identifier for this list item. Starts with `lidf_`.",
+            "examples": [
+              "lidf_N6PqYkfSqeqiQYWoeHA3GGDo"
+            ],
+            "type": "string"
+          },
+          "type": {
+            "const": "list-item/device-fingerprint",
+            "description": "list-item/device-fingerprint",
+            "type": "string"
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/list-item-shared-attributes"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "value": {
+                    "examples": [
+                      "3082c312c9bfc8f0a43bc7173b18afe6"
+                    ],
+                    "type": "string"
+                  }
+                }
+              }
+            ]
+          },
+          "relationships": {
+            "properties": {
+              "creator": {
+                "properties": {
+                  "data": {
+                    "unevaluatedProperties": false,
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "properties": {
+                          "type": {
+                            "const": "user",
+                            "description": "user",
+                            "type": "string"
+                          },
+                          "id": {
+                            "examples": [
+                              "user_3VghhbvDc7UuUNT8uZrqZjsk"
+                            ],
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      {
+                        "properties": {
+                          "type": {
+                            "const": "workflow-run",
+                            "description": "workflow-run",
+                            "type": "string"
+                          },
+                          "id": {
+                            "examples": [
+                              "wfr_3VghhbvDc7UuUNT8uZrqZjsk"
+                            ],
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      {
+                        "properties": {
+                          "type": {
+                            "const": "workflow-step/action",
+                            "description": "workflow-step/action",
+                            "type": "string"
+                          },
+                          "id": {
+                            "examples": [
+                              "wfs_3VghhbvDc7UuUNT8uZrqZjsk"
+                            ],
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      {
+                        "properties": {
+                          "type": {
+                            "const": "api-key",
+                            "description": "api-key",
+                            "type": "string"
+                          },
+                          "id": {
+                            "examples": [
+                              "api_3VghhbvDc7UuUNT8uZrqZjsk"
+                            ],
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      }
+                    ]
+                  }
+                },
+                "type": "object",
+                "additionalProperties": false
+              }
+            },
+            "type": "object",
+            "additionalProperties": false
           }
         }
       },
@@ -30865,6 +31597,7 @@
         "title": "Email Address List Item",
         "description": "An Email Address List Item",
         "type": "object",
+        "additionalProperties": false,
         "properties": {
           "id": {
             "description": "Unique identifier for this list item. Starts with `liea_`.",
@@ -30996,10 +31729,12 @@
                     ]
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             },
-            "type": "object"
+            "type": "object",
+            "additionalProperties": false
           }
         }
       },
@@ -31007,6 +31742,7 @@
         "title": "Face List Item",
         "description": "A Face List Item",
         "type": "object",
+        "additionalProperties": false,
         "properties": {
           "id": {
             "description": "Unique identifier for this list item. Starts with `lifc_`.",
@@ -31129,10 +31865,12 @@
                     ]
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             },
-            "type": "object"
+            "type": "object",
+            "additionalProperties": false
           }
         }
       },
@@ -31140,6 +31878,7 @@
         "title": "Field List Item",
         "description": "A Field List Item",
         "type": "object",
+        "additionalProperties": false,
         "properties": {
           "id": {
             "description": "Unique identifier for this list item. Starts with `liif_`.",
@@ -31246,10 +31985,12 @@
                     ]
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             },
-            "type": "object"
+            "type": "object",
+            "additionalProperties": false
           }
         }
       },
@@ -31257,6 +31998,7 @@
         "title": "Geolocation List Item",
         "description": "A Geolocation List Item",
         "type": "object",
+        "additionalProperties": false,
         "properties": {
           "id": {
             "description": "Unique identifier for this list item. Starts with `ligl_`.",
@@ -31397,10 +32139,12 @@
                     ]
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             },
-            "type": "object"
+            "type": "object",
+            "additionalProperties": false
           }
         }
       },
@@ -31408,6 +32152,7 @@
         "title": "Government ID Number List Item",
         "description": "A Government ID Number List Item",
         "type": "object",
+        "additionalProperties": false,
         "properties": {
           "id": {
             "description": "Unique identifier for this list item. Starts with `ligin_`.",
@@ -31539,10 +32284,12 @@
                     ]
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             },
-            "type": "object"
+            "type": "object",
+            "additionalProperties": false
           }
         }
       },
@@ -31550,6 +32297,7 @@
         "title": "IP Address List Item",
         "description": "An IP Address List Item",
         "type": "object",
+        "additionalProperties": false,
         "properties": {
           "id": {
             "description": "Unique identifier for this list item. Starts with `liip_`.",
@@ -31675,10 +32423,12 @@
                     ]
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             },
-            "type": "object"
+            "type": "object",
+            "additionalProperties": false
           }
         }
       },
@@ -31686,6 +32436,7 @@
         "title": "Name List Item",
         "description": "A Name List Item",
         "type": "object",
+        "additionalProperties": false,
         "properties": {
           "id": {
             "description": "Unique identifier for this list item. Starts with `lin_`.",
@@ -31817,10 +32568,12 @@
                     ]
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             },
-            "type": "object"
+            "type": "object",
+            "additionalProperties": false
           }
         }
       },
@@ -31828,6 +32581,7 @@
         "title": "Phone Number List Item",
         "description": "A Phone Number List Item",
         "type": "object",
+        "additionalProperties": false,
         "properties": {
           "id": {
             "description": "Unique identifier for this list item. Starts with `lipn_`.",
@@ -31953,10 +32707,12 @@
                     ]
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             },
-            "type": "object"
+            "type": "object",
+            "additionalProperties": false
           }
         }
       },
@@ -31964,6 +32720,7 @@
         "title": "String List Item",
         "description": "A String List Item",
         "type": "object",
+        "additionalProperties": false,
         "properties": {
           "id": {
             "examples": [
@@ -32069,55 +32826,61 @@
                     ]
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             },
-            "type": "object"
+            "type": "object",
+            "additionalProperties": false
           }
         }
       },
-      "list": {
+      "lists-shared-attributes": {
         "type": "object",
-        "description": "A List object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "archived-at": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "date-time"
+          },
+          "created-at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated-at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "lists-browser-fingerprints": {
+        "type": "object",
+        "description": "A Browser Fingerprint List object",
         "additionalProperties": false,
         "properties": {
           "type": {
-            "x-polymorphic": true,
             "type": "string",
-            "description": "Possible values:\n- list/browser-fingerprint\n- list/country\n- list/email-address\n- list/face\n- list/geolocation\n- list/government-id-number\n- list/ip-address\n- list/name\n- list/phone-number\n\nDo not assume this is a static enumeration; Persona may add new values in\nthe future without a versioned update."
+            "description": "list/browser-fingerprint",
+            "const": "list/browser-fingerprint"
           },
           "id": {
             "type": "string"
           },
           "attributes": {
-            "additionalProperties": false,
-            "type": "object",
-            "properties": {
-              "name": {
-                "type": "string"
-              },
-              "status": {
-                "type": "string"
-              },
-              "archived-at": {
-                "type": [
-                  "null",
-                  "string"
-                ],
-                "format": "date-time"
-              },
-              "created-at": {
-                "type": "string",
-                "format": "date-time"
-              },
-              "updated-at": {
-                "type": "string",
-                "format": "date-time"
-              },
-              "allow-fuzzy-name-first": {
-                "type": "boolean"
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/lists-shared-attributes"
               }
-            }
+            ]
           },
           "relationships": {
             "additionalProperties": false,
@@ -32132,7 +32895,7 @@
                     "items": {
                       "additionalProperties": false,
                       "type": "object",
-                      "description": "List items associated with this list."
+                      "description": "Browser Fingerprint List items associated with this list."
                     }
                   }
                 }
@@ -32140,6 +32903,399 @@
             }
           }
         }
+      },
+      "lists-countries": {
+        "type": "object",
+        "description": "A Country List object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "list/country",
+            "const": "list/country"
+          },
+          "id": {
+            "type": "string"
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/lists-shared-attributes"
+              }
+            ]
+          },
+          "relationships": {
+            "additionalProperties": false,
+            "type": "object",
+            "properties": {
+              "list-items": {
+                "additionalProperties": false,
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "array",
+                    "items": {
+                      "additionalProperties": false,
+                      "type": "object",
+                      "description": "Country List items associated with this list."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "lists-email-addresses": {
+        "type": "object",
+        "description": "A Email Address List object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "list/email-address",
+            "const": "list/email-address"
+          },
+          "id": {
+            "type": "string"
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/lists-shared-attributes"
+              }
+            ]
+          },
+          "relationships": {
+            "additionalProperties": false,
+            "type": "object",
+            "properties": {
+              "list-items": {
+                "additionalProperties": false,
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "array",
+                    "items": {
+                      "additionalProperties": false,
+                      "type": "object",
+                      "description": "Email Address List items associated with this list."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "lists-faces": {
+        "type": "object",
+        "description": "A Face List object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "list/face",
+            "const": "list/face"
+          },
+          "id": {
+            "type": "string"
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/lists-shared-attributes"
+              }
+            ]
+          },
+          "relationships": {
+            "additionalProperties": false,
+            "type": "object",
+            "properties": {
+              "list-items": {
+                "additionalProperties": false,
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "array",
+                    "items": {
+                      "additionalProperties": false,
+                      "type": "object",
+                      "description": "Face List items associated with this list."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "lists-geolocations": {
+        "type": "object",
+        "description": "A Geolocation List object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "list/geolocation",
+            "const": "list/geolocation"
+          },
+          "id": {
+            "type": "string"
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/lists-shared-attributes"
+              }
+            ]
+          },
+          "relationships": {
+            "additionalProperties": false,
+            "type": "object",
+            "properties": {
+              "list-items": {
+                "additionalProperties": false,
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "array",
+                    "items": {
+                      "additionalProperties": false,
+                      "type": "object",
+                      "description": "Geolocation List items associated with this list."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "lists-government-id-numbers": {
+        "type": "object",
+        "description": "A Government Id Number List object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "list/government-id-number",
+            "const": "list/government-id-number"
+          },
+          "id": {
+            "type": "string"
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/lists-shared-attributes"
+              }
+            ]
+          },
+          "relationships": {
+            "additionalProperties": false,
+            "type": "object",
+            "properties": {
+              "list-items": {
+                "additionalProperties": false,
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "array",
+                    "items": {
+                      "additionalProperties": false,
+                      "type": "object",
+                      "description": "Government Id Number List items associated with this list."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "lists-ip-addresses": {
+        "type": "object",
+        "description": "A Ip Address List object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "list/ip-address",
+            "const": "list/ip-address"
+          },
+          "id": {
+            "type": "string"
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/lists-shared-attributes"
+              }
+            ]
+          },
+          "relationships": {
+            "additionalProperties": false,
+            "type": "object",
+            "properties": {
+              "list-items": {
+                "additionalProperties": false,
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "array",
+                    "items": {
+                      "additionalProperties": false,
+                      "type": "object",
+                      "description": "Ip Address List items associated with this list."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "lists-names": {
+        "type": "object",
+        "description": "A Name List object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "list/name",
+            "const": "list/name"
+          },
+          "id": {
+            "type": "string"
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/lists-shared-attributes"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "allow-fuzzy-name-first": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            ]
+          },
+          "relationships": {
+            "additionalProperties": false,
+            "type": "object",
+            "properties": {
+              "list-items": {
+                "additionalProperties": false,
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "array",
+                    "items": {
+                      "additionalProperties": false,
+                      "type": "object",
+                      "description": "Name List items associated with this list."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "lists-phone-numbers": {
+        "type": "object",
+        "description": "A Phone Number List object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "list/phone-number",
+            "const": "list/phone-number"
+          },
+          "id": {
+            "type": "string"
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "$ref": "#/components/schemas/lists-shared-attributes"
+          },
+          "relationships": {
+            "additionalProperties": false,
+            "type": "object",
+            "properties": {
+              "list-items": {
+                "additionalProperties": false,
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "array",
+                    "items": {
+                      "additionalProperties": false,
+                      "type": "object",
+                      "description": "Phone Number List items associated with this list."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "list": {
+        "discriminator": {
+          "propertyName": "type",
+          "mapping": {
+            "list/browser-fingerprint": "#/components/schemas/lists-browser-fingerprints",
+            "list/country": "#/components/schemas/lists-countries",
+            "list/email-address": "#/components/schemas/lists-email-addresses",
+            "list/face": "#/components/schemas/lists-faces",
+            "list/geolocation": "#/components/schemas/lists-geolocations",
+            "list/government-id-number": "#/components/schemas/lists-government-id-numbers",
+            "list/ip-address": "#/components/schemas/lists-ip-addresses",
+            "list/name": "#/components/schemas/lists-names",
+            "list/phone-number": "#/components/schemas/lists-phone-numbers"
+          }
+        },
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/lists-browser-fingerprints"
+          },
+          {
+            "$ref": "#/components/schemas/lists-countries"
+          },
+          {
+            "$ref": "#/components/schemas/lists-email-addresses"
+          },
+          {
+            "$ref": "#/components/schemas/lists-faces"
+          },
+          {
+            "$ref": "#/components/schemas/lists-geolocations"
+          },
+          {
+            "$ref": "#/components/schemas/lists-government-id-numbers"
+          },
+          {
+            "$ref": "#/components/schemas/lists-ip-addresses"
+          },
+          {
+            "$ref": "#/components/schemas/lists-names"
+          },
+          {
+            "$ref": "#/components/schemas/lists-phone-numbers"
+          }
+        ]
       },
       "report-business-adverse-media": {
         "title": "Business Adverse Media Report",
@@ -34227,7 +35383,7 @@
           "custom-http-headers": {
             "description": "Custom HTTP headers to include in webhook requests. For more info see [Webhook Custom HTTP Headers](https://docs.withpersona.com/docs/webhook-custom-http-headers).",
             "type": "object",
-            "additionalProperties": false,
+            "additionalProperties": true,
             "properties": {
               "Authorization": {
                 "type": "string"
@@ -36464,8 +37620,8 @@
             "attributes": {
               "status": "pending",
               "archived-at": null,
-              "updated-at": "2020-09-18T18:06:40.515Z'",
-              "created-at": "2020-09-18T18:06:40.515Z'",
+              "updated-at": "2020-09-18T18:06:40.515Z",
+              "created-at": "2020-09-18T18:06:40.515Z",
               "match-count": 0,
               "value": "3082c312c9bfc8f0a43bc7173b18afe6"
             },
@@ -36485,8 +37641,8 @@
             "attributes": {
               "status": "archived",
               "archived-at": "2020-12-18T19:07:53.000Z",
-              "updated-at": "2020-09-18T18:06:40.515Z'",
-              "created-at": "2020-09-18T18:06:40.515Z'",
+              "updated-at": "2020-09-18T18:06:40.515Z",
+              "created-at": "2020-09-18T18:06:40.515Z",
               "match-count": 0,
               "value": "3082c312c9bfc8f0a43bc7173b18afe6"
             },
@@ -36531,6 +37687,48 @@
               "created-at": "2020-09-18T17:58:06.866Z",
               "match-count": 0,
               "country-code": "US"
+            },
+            "relationships": {
+              "creator": {
+                "data": null
+              }
+            }
+          }
+        }
+      },
+      "list-item-device-fingerprint": {
+        "value": {
+          "data": {
+            "type": "list-item/device-fingerprint",
+            "id": "libf_N6PqYkfSqeqiQYWoeHA3GGDo",
+            "attributes": {
+              "status": "pending",
+              "archived-at": null,
+              "updated-at": "2020-09-18T18:06:40.515Z",
+              "created-at": "2020-09-18T18:06:40.515Z",
+              "match-count": 0,
+              "value": "3082c312c9bfc8f0a43bc7173b18afe6"
+            },
+            "relationships": {
+              "creator": {
+                "data": null
+              }
+            }
+          }
+        }
+      },
+      "list-item-device-fingerprint-archived": {
+        "value": {
+          "data": {
+            "type": "list-item/device-fingerprint",
+            "id": "libf_N6PqYkfSqeqiQYWoeHA3GGDo",
+            "attributes": {
+              "status": "archived",
+              "archived-at": "2020-12-18T19:07:53.000Z",
+              "updated-at": "2020-09-18T18:06:40.515Z",
+              "created-at": "2020-09-18T18:06:40.515Z",
+              "match-count": 0,
+              "value": "3082c312c9bfc8f0a43bc7173b18afe6"
             },
             "relationships": {
               "creator": {
@@ -36787,7 +37985,7 @@
           }
         }
       },
-      "list-item-address-archived": {
+      "list-item-ip-address-archived": {
         "value": {
           "data": {
             "type": "list-item/ip-address",

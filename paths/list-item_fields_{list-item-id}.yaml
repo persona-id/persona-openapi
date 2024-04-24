@@ -1,3 +1,52 @@
+get:
+  description: Retrieves the details of an existing field List Item.
+  operationId: retrieve-a-field-list-item
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/reference/retrieve-a-field-list-item
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - description: ID of list item to archive.
+      in: path
+      name: list-item-id
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              $ref: ../components/examples/list-item-field.yaml
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/list-item-field.yaml
+            type: object
+            additionalProperties: false
+      description: OK
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Retrieve a Field List Item
+  tags:
+    - List Items
 delete:
   description: Archived items are not matched against new inquiries.
   operationId: archive-a-field-list-item
@@ -28,6 +77,7 @@ delete:
               data:
                 $ref: ../components/schemas/list-item-field.yaml
             type: object
+            additionalProperties: false
       description: OK
     '400':
       $ref: ../components/responses/bad-request.yaml

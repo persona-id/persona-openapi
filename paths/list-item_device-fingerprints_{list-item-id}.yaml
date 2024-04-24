@@ -1,15 +1,16 @@
 get:
-  description: Retrieves the details of an existing phone number List Item.
-  operationId: retrieve-a-phone-number-list-item
+  description: Retrieves the details of an existing device fingerprint List Item.
+  operationId: retrieve-a-device-fingerprint-list-item
   externalDocs:
     description: Full documentation for this API on the Persona website.
-    url: https://docs.withpersona.com/reference/retrieve-a-phone-number-list-item
+    url: >-
+      https://docs.withpersona.com/reference/retrieve-a-device-fingerprint-list-item
   parameters:
     - $ref: ../components/parameters/key-inflection-header.yaml
     - $ref: ../components/parameters/idempotency-key-header.yaml
     - $ref: ../components/parameters/persona-version-header.yaml
     - $ref: ../components/parameters/include-query-parameter.yaml
-    - description: ID of list item to archive.
+    - description: ID of list item to retrieve.
       in: path
       name: list-item-id
       required: true
@@ -22,11 +23,11 @@ get:
           examples:
             Result:
               summary: OK
-              $ref: ../components/examples/list-item-phone-number.yaml
+              $ref: ../components/examples/list-item-device-fingerprint.yaml
           schema:
             properties:
               data:
-                $ref: ../components/schemas/list-item-phone-number.yaml
+                $ref: ../components/schemas/list-item-device-fingerprint.yaml
             type: object
             additionalProperties: false
       description: OK
@@ -44,15 +45,16 @@ get:
       $ref: ../components/responses/unprocessable-entity.yaml
     '429':
       $ref: ../components/responses/too-many-requests.yaml
-  summary: Retrieve a Phone Number List Item
+  summary: Retrieve a Device Fingerprint List Item
   tags:
     - List Items
 delete:
   description: Archived items are not matched against new inquiries.
-  operationId: archive-a-phone-number-list-item
+  operationId: archive-a-device-fingerprint-list-item
   externalDocs:
     description: Full documentation for this API on the Persona website.
-    url: https://docs.withpersona.com/reference/archive-a-phone-number-list-item
+    url: >-
+      https://docs.withpersona.com/reference/archive-a-device-fingerprint-list-item
   parameters:
     - $ref: ../components/parameters/key-inflection-header.yaml
     - $ref: ../components/parameters/idempotency-key-header.yaml
@@ -71,11 +73,12 @@ delete:
           examples:
             Result:
               summary: OK
-              $ref: ../components/examples/list-item-phone-number-archived.yaml
+              $ref: >-
+                ../components/examples/list-item-device-fingerprint-archived.yaml
           schema:
             properties:
               data:
-                $ref: ../components/schemas/list-item-phone-number.yaml
+                $ref: ../components/schemas/list-item-device-fingerprint.yaml
             type: object
             additionalProperties: false
       description: OK
@@ -93,6 +96,6 @@ delete:
       $ref: ../components/responses/unprocessable-entity.yaml
     '429':
       $ref: ../components/responses/too-many-requests.yaml
-  summary: Archive a Phone Number List Item
+  summary: Archive a Device Fingerprint List Item
   tags:
     - List Items
