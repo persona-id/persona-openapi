@@ -1,4 +1,4 @@
-title: Profile Report Request
+title: Profile Report Report
 description: Fields required to create a Profile Report
 type: object
 properties:
@@ -13,48 +13,72 @@ properties:
       - type: object
         properties:
           name-first:
-            type: string
-            description: Given or first name.
+            type:
+              - string
+              - 'null'
+            description: The first name of the individual to search.
             example: John
           name-last:
-            type: string
-            description: Family or last name.
+            type:
+              - string
+              - 'null'
+            description: The last name of the individual to search.
             example: Doe
           birthdate:
-            type: string
+            type:
+              - string
+              - 'null'
             pattern: ^\d{4}-\d{2}-\d{2}$
-            description: Birthdate, must be in the format "YYYY-MM-DD".
+            description: >-
+              The birthdate of the individual, formatted as YYYY-MM-DD (ISO
+              8601).
             example: '1970-01-01'
           social-security-number:
-            type: string
+            type:
+              - string
+              - 'null'
             pattern: ^\d{3}-\d{2}-\d{4}$
-            description: Social security number, encrypted.
+            description: Social security number.
             example: 123-45-6789
           address-street-1:
-            type: string
-            description: Primary street address.
+            type:
+              - string
+              - 'null'
+            description: Address line 1 (e.g., street or PO Box).
             example: 123 Main St
           address-street-2:
-            type: string
-            description: Secondary street address (if any).
+            type:
+              - string
+              - 'null'
+            description: Address line 2 (e.g., apartment, suite, unit, or building).
             example: Apt 4
           address-city:
-            type: string
+            type:
+              - string
+              - 'null'
             description: City of residence.
             example: Anytown
           address-subdivision:
-            type: string
+            type:
+              - string
+              - 'null'
             description: State or subdivision of residence, unabbreviated.
-            example: State
+            example: California
           address-postal-code:
-            type: string
+            type:
+              - string
+              - 'null'
             description: ZIP or postal code of residence.
             example: '12345'
           country-code:
-            type: string
-            description: ISO 3166-1 alpha-2 country code for the location.
+            type:
+              - string
+              - 'null'
+            description: ISO 3166-1 alpha-2 country code for the location of residence.
             example: US
           phone-number:
-            type: string
-            description: Phone number, encrypted.
+            type:
+              - string
+              - 'null'
+            description: Phone number.
             example: 555-555-5555

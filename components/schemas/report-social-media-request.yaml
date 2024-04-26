@@ -1,4 +1,4 @@
-title: Social Media Request
+title: Social Media Report
 description: Fields required to create a Social Media Report
 type: object
 properties:
@@ -7,31 +7,69 @@ properties:
     const: report/social-media
     description: report/social-media
   attributes:
+    description: >-
+      Requires `phone-number` or `email-address` or both `first-name` and
+      `last-name`.
     unevaluatedProperties: false
     allOf:
       - $ref: ./report-shared-request-attributes.yaml
       - type: object
         properties:
           name-first:
-            type: string
-            example: Norman
+            type:
+              - string
+              - 'null'
+            description: The first name of the individual to search.
+            example: Jane
           name-last:
-            type: string
-            example: Mannor
+            type:
+              - string
+              - 'null'
+            description: The last name of the individual to search.
+            example: Doe
           birthdate:
-            type: string
-            description: Date of birth in ISO 8601 format
-            example: 19911007T000000-0400
+            type:
+              - string
+              - 'null'
+            description: >-
+              The birthdate of the individual, formatted as YYYY-MM-DD (ISO
+              8601).
+            example: '1991-10-07'
           phone-number:
-            type: string
+            type:
+              - string
+              - 'null'
+            description: Phone number of the individual to search.
             example: '+14169671111'
           email-address:
-            type: string
+            description: Email address of the individual to search.
+            type:
+              - string
+              - 'null'
             example: address@domain.com
           address-city:
-            type: string
+            type:
+              - string
+              - 'null'
+            description: City
             example: Funkyville
           address-subdivision:
-            type: string
-            description: Sub-national subdivision such as a US state or a Canadian province
+            type:
+              - string
+              - 'null'
+            description: >-
+              Subnational division (such as a state or province) of the country
+              of residence.
             example: Wisconsin
+          address-postal-code:
+            type:
+              - string
+              - 'null'
+            description: ZIP or postal code of residence.
+            example: '12345'
+          address-country-code:
+            type:
+              - string
+              - 'null'
+            description: ISO 3166-1 alpha-2 country code for the location of residence.
+            example: US

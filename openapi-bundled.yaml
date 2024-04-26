@@ -322,7 +322,7 @@ paths:
       description: |-
         Permanently deletes personally identifiable information (PII) for an Account and all associated Inquiries, Verifications and Reports. The response indicates a successful redaction of the Account itself, and its associated child objects are done asynchronously and may take some time before all children objects are redacted. **This action cannot be undone**.
 
-        This endpoint can be used to comply with privacy regulations such as GDPR / CCPA or to enforce data privacy. 
+        This endpoint can be used to comply with privacy regulations such as GDPR / CCPA or to enforce data privacy.
 
         Note: An account is still updatable after redaction. If you want to delete data continuously, please reach out to us to help you setup a retention policy.
       operationId: redact-an-account
@@ -4110,128 +4110,6 @@ paths:
       summary: Import Email Address Lists
       tags:
         - Importers
-  /importer/list-item/faces:
-    post:
-      description: |-
-        Bulk import face List Items by uploading image files.
-
-        Each file being a new List Item. We recommend uploading max 50 images (with average image size of 500KB) at a time.
-      operationId: import-face-lists
-      externalDocs:
-        description: Full documentation for this API on the Persona website.
-        url: https://docs.withpersona.com/reference/import-face-lists
-      parameters:
-        - $ref: '#/components/parameters/key-inflection-header'
-        - $ref: '#/components/parameters/idempotency-key-header'
-        - $ref: '#/components/parameters/persona-version-header'
-        - $ref: '#/components/parameters/include-query-parameter'
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              properties:
-                data:
-                  properties:
-                    attributes:
-                      properties:
-                        image-files:
-                          items:
-                            type: string
-                            contentMediaType: application/octet-stream
-                          type: array
-                        list-id:
-                          type: string
-                      required:
-                        - image-files
-                        - list-id
-                      type: object
-                      additionalProperties: false
-                  required:
-                    - attributes
-                  type: object
-                  additionalProperties: false
-              required:
-                - data
-              type: object
-              additionalProperties: false
-            encoding:
-              image-files:
-                contentType: image/*
-          application/json:
-            schema:
-              properties:
-                data:
-                  properties:
-                    attributes:
-                      properties:
-                        image-files:
-                          items:
-                            properties:
-                              data:
-                                description: Base64 encoded file
-                                format: binary
-                                type: string
-                              filename:
-                                description: Name of file
-                                type: string
-                            type: object
-                            additionalProperties: false
-                          type: array
-                        list-id:
-                          type: string
-                      required:
-                        - image-files
-                        - list-id
-                      type: object
-                      additionalProperties: false
-                  required:
-                    - attributes
-                  type: object
-                  additionalProperties: false
-              required:
-                - data
-              type: object
-              additionalProperties: false
-      responses:
-        '201':
-          content:
-            application/json:
-              examples:
-                Result:
-                  summary: Created
-                  value:
-                    data:
-                      type: importer/list-item/face
-                      id: mprt_TKqquVbHaSVYqgWhxNjuYDjQ
-                      attributes:
-                        status: pending
-                        created-at: '2020-07-12T17:16:54.656Z'
-                        completed-at: null
-                        error-count: 0
-                        successful-count: 0
-                        duplicate-count: 0
-              schema:
-                properties:
-                  data:
-                    $ref: '#/components/schemas/importer-list-item-face'
-                type: object
-                additionalProperties: false
-          description: Created
-        '400':
-          $ref: '#/components/responses/bad-request'
-        '401':
-          $ref: '#/components/responses/unauthorized'
-        '403':
-          $ref: '#/components/responses/forbidden'
-        '409':
-          $ref: '#/components/responses/conflict'
-        '422':
-          $ref: '#/components/responses/unprocessable-entity'
-        '429':
-          $ref: '#/components/responses/too-many-requests'
-      summary: Import Face Lists
-      tags:
-        - Importers
   /importer/list-item/geolocations:
     post:
       description: |-
@@ -6738,178 +6616,6 @@ paths:
       summary: Archive an Email Address List Item
       tags:
         - List Items
-  /list-item/faces:
-    post:
-      description: Create a new item in a <<glossary:list>>.
-      operationId: create-a-face-list-item
-      externalDocs:
-        description: Full documentation for this API on the Persona website.
-        url: https://docs.withpersona.com/reference/create-a-face-list-item
-      parameters:
-        - $ref: '#/components/parameters/key-inflection-header'
-        - $ref: '#/components/parameters/idempotency-key-header'
-        - $ref: '#/components/parameters/persona-version-header'
-        - $ref: '#/components/parameters/include-query-parameter'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              properties:
-                data:
-                  properties:
-                    attributes:
-                      properties:
-                        face-photo:
-                          properties:
-                            data:
-                              description: Base64 encoded file
-                              format: binary
-                              type: string
-                            filename:
-                              description: Name of file
-                              type: string
-                          type: object
-                          additionalProperties: false
-                        list-id:
-                          description: ID of the list to add this item to. List must be a Face List.
-                          type: string
-                      type: object
-                      additionalProperties: false
-                  type: object
-                  additionalProperties: false
-              type: object
-              additionalProperties: false
-      responses:
-        '201':
-          content:
-            application/json:
-              examples:
-                Result:
-                  summary: Created
-                  $ref: '#/components/examples/list-item-face'
-              schema:
-                properties:
-                  data:
-                    $ref: '#/components/schemas/list-item-face'
-                type: object
-                additionalProperties: false
-          description: Created
-        '400':
-          $ref: '#/components/responses/bad-request'
-        '401':
-          $ref: '#/components/responses/unauthorized'
-        '403':
-          $ref: '#/components/responses/forbidden'
-        '404':
-          $ref: '#/components/responses/not-found'
-        '409':
-          $ref: '#/components/responses/conflict'
-        '422':
-          $ref: '#/components/responses/unprocessable-entity'
-        '429':
-          $ref: '#/components/responses/too-many-requests'
-      summary: Create a Face List Item
-      tags:
-        - List Items
-  /list-item/faces/{list-item-id}:
-    get:
-      description: Retrieves the details of an existing face List Item.
-      operationId: retrieve-a-face-list-item
-      externalDocs:
-        description: Full documentation for this API on the Persona website.
-        url: https://docs.withpersona.com/reference/retrieve-a-face-list-item
-      parameters:
-        - $ref: '#/components/parameters/key-inflection-header'
-        - $ref: '#/components/parameters/idempotency-key-header'
-        - $ref: '#/components/parameters/persona-version-header'
-        - $ref: '#/components/parameters/include-query-parameter'
-        - description: ID of list item to archive.
-          in: path
-          name: list-item-id
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              examples:
-                Result:
-                  summary: OK
-                  $ref: '#/components/examples/list-item-face'
-              schema:
-                properties:
-                  data:
-                    $ref: '#/components/schemas/list-item-face'
-                type: object
-                additionalProperties: false
-          description: OK
-        '400':
-          $ref: '#/components/responses/bad-request'
-        '401':
-          $ref: '#/components/responses/unauthorized'
-        '403':
-          $ref: '#/components/responses/forbidden'
-        '404':
-          $ref: '#/components/responses/not-found'
-        '409':
-          $ref: '#/components/responses/conflict'
-        '422':
-          $ref: '#/components/responses/unprocessable-entity'
-        '429':
-          $ref: '#/components/responses/too-many-requests'
-      summary: Retrieve a Face List Item
-      tags:
-        - List Items
-    delete:
-      description: Archived items are not matched against new inquiries.
-      operationId: archive-a-face-list-item
-      externalDocs:
-        description: Full documentation for this API on the Persona website.
-        url: https://docs.withpersona.com/reference/archive-a-face-list-item
-      parameters:
-        - $ref: '#/components/parameters/key-inflection-header'
-        - $ref: '#/components/parameters/idempotency-key-header'
-        - $ref: '#/components/parameters/persona-version-header'
-        - $ref: '#/components/parameters/include-query-parameter'
-        - description: ID of list item to archive.
-          in: path
-          name: list-item-id
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              examples:
-                Result:
-                  summary: OK
-                  $ref: '#/components/examples/list-item-face-archived'
-              schema:
-                properties:
-                  data:
-                    $ref: '#/components/schemas/list-item-face'
-                type: object
-                additionalProperties: false
-          description: OK
-        '400':
-          $ref: '#/components/responses/bad-request'
-        '401':
-          $ref: '#/components/responses/unauthorized'
-        '403':
-          $ref: '#/components/responses/forbidden'
-        '404':
-          $ref: '#/components/responses/not-found'
-        '409':
-          $ref: '#/components/responses/conflict'
-        '422':
-          $ref: '#/components/responses/unprocessable-entity'
-        '429':
-          $ref: '#/components/responses/too-many-requests'
-      summary: Archive a Face List Item
-      tags:
-        - List Items
   /list-item/fields:
     post:
       description: Create a new item in a <<glossary:list>>.
@@ -8304,83 +8010,6 @@ paths:
           $ref: '#/components/responses/unprocessable-entity'
         '429':
           $ref: '#/components/responses/too-many-requests'
-  /list/faces:
-    post:
-      summary: Create a Face List
-      tags:
-        - Lists
-      description: Create a new <<glossary:list>> for your organization.
-      operationId: create-a-face-list
-      externalDocs:
-        description: Full documentation for this API on the Persona website.
-        url: https://docs.withpersona.com/reference/create-a-face-list
-      parameters:
-        - $ref: '#/components/parameters/key-inflection-header'
-        - $ref: '#/components/parameters/idempotency-key-header'
-        - $ref: '#/components/parameters/persona-version-header'
-        - $ref: '#/components/parameters/include-query-parameter'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              properties:
-                data:
-                  properties:
-                    attributes:
-                      properties:
-                        name:
-                          description: Name of the list
-                          type: string
-                      type: object
-                      additionalProperties: false
-                  type: object
-                  additionalProperties: false
-              type: object
-              additionalProperties: false
-            examples:
-              exampleRequest:
-                summary: Example Request
-                value:
-                  data:
-                    attributes:
-                      name: My New List
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                properties:
-                  data:
-                    $ref: '#/components/schemas/lists-faces'
-              examples:
-                Result:
-                  summary: Created
-                  value:
-                    data:
-                      type: list/face
-                      id: lst_kRcKDJ4c8wF2AmAghggtYxboX
-                      attributes:
-                        name: My New List
-                        status: active
-                        archived-at: null
-                        created-at: '2023-08-30T20:22:07.000Z'
-                        updated-at: '2023-08-30T20:22:07.000Z'
-                      relationships:
-                        list-items:
-                          data: []
-        '400':
-          $ref: '#/components/responses/bad-request'
-        '401':
-          $ref: '#/components/responses/unauthorized'
-        '403':
-          $ref: '#/components/responses/forbidden'
-        '409':
-          $ref: '#/components/responses/conflict'
-        '422':
-          $ref: '#/components/responses/unprocessable-entity'
-        '429':
-          $ref: '#/components/responses/too-many-requests'
   /list/geolocations:
     post:
       summary: Create a Geolocation List
@@ -9241,7 +8870,6 @@ paths:
                     - $ref: '#/components/schemas/report-phone-risk-request'
                     - $ref: '#/components/schemas/report-politically-exposed-person-request'
                     - $ref: '#/components/schemas/report-profile-request'
-                    - $ref: '#/components/schemas/report-sentilink-scores-request'
                     - $ref: '#/components/schemas/report-social-media-request'
                     - $ref: '#/components/schemas/report-synthetic-request'
                     - $ref: '#/components/schemas/report-watchlist-request'
@@ -10205,6 +9833,10 @@ paths:
           $ref: '#/components/responses/forbidden'
         '404':
           $ref: '#/components/responses/not-found'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '422':
+          $ref: '#/components/responses/unprocessable-entity'
         '429':
           $ref: '#/components/responses/too-many-requests'
     get:
@@ -10726,6 +10358,10 @@ paths:
           $ref: '#/components/responses/forbidden'
         '404':
           $ref: '#/components/responses/not-found'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '422':
+          $ref: '#/components/responses/unprocessable-entity'
         '429':
           $ref: '#/components/responses/too-many-requests'
   /user-audit-logs:
@@ -15550,30 +15186,36 @@ components:
             - type: object
               properties:
                 addressee:
+                  description: The name of an individual at this location.
                   type:
                     - string
                     - 'null'
                   example: Joe Doe
                 address-street-1:
+                  description: Address line 1 (e.g., street, PO Box, or company name).
                   type:
                     - string
                     - 'null'
                   example: 1 Infinite Loop
                 address-street-2:
+                  description: Address line 2 (e.g., apartment, suite, unit, or building).
                   type:
                     - string
                     - 'null'
                 address-city:
+                  description: City
                   type:
                     - string
                     - 'null'
                   example: Cupertino
                 address-subdivision:
+                  description: Subnational division of a country, such as a state or province.
                   type:
                     - string
                     - 'null'
                   example: California
                 address-postal-code:
+                  description: ZIP or postal code.
                   type:
                     - string
                     - 'null'
@@ -19986,23 +19628,6 @@ components:
           type: string
         attributes:
           $ref: '#/components/schemas/importer-shared-attributes'
-    importer-list-item-face:
-      title: Face List Item Importer
-      description: An Importer for face List Items
-      type: object
-      additionalProperties: false
-      properties:
-        id:
-          description: Unique identifier for this Importer. Starts with `mprt_`.
-          examples:
-            - mprt_N6PqYkfSqeqiQYWoeHA3GGDo
-          type: string
-        type:
-          const: importer/list-item/face
-          description: importer/list-item/face
-          type: string
-        attributes:
-          $ref: '#/components/schemas/importer-shared-attributes'
     importer-list-item-field:
       title: Field List Item Importer
       description: An Importer for field List Items
@@ -20122,7 +19747,6 @@ components:
       oneOf:
         - $ref: '#/components/schemas/importer-account'
         - $ref: '#/components/schemas/importer-list-item-email-address'
-        - $ref: '#/components/schemas/importer-list-item-face'
         - $ref: '#/components/schemas/importer-list-item-field'
         - $ref: '#/components/schemas/importer-list-item-geolocation'
         - $ref: '#/components/schemas/importer-list-item-government-id-number'
@@ -20894,91 +20518,6 @@ components:
               additionalProperties: false
           type: object
           additionalProperties: false
-    list-item-face:
-      title: Face List Item
-      description: A Face List Item
-      type: object
-      additionalProperties: false
-      properties:
-        id:
-          description: Unique identifier for this list item. Starts with `lifc_`.
-          examples:
-            - lifc_FVrbLriSXNwPqMogu8vvuTi8
-          type: string
-        type:
-          type: string
-          const: list-item/face
-          description: list-item/face
-        attributes:
-          unevaluatedProperties: false
-          allOf:
-            - $ref: '#/components/schemas/list-item-shared-attributes'
-            - type: object
-              properties:
-                face-photo:
-                  $ref: '#/components/schemas/file'
-        relationships:
-          properties:
-            creator:
-              properties:
-                data:
-                  unevaluatedProperties: false
-                  oneOf:
-                    - type: 'null'
-                    - properties:
-                        type:
-                          const: user
-                          description: user
-                          type: string
-                        id:
-                          examples:
-                            - user_3VghhbvDc7UuUNT8uZrqZjsk
-                          type: string
-                      type: object
-                    - properties:
-                        type:
-                          const: workflow-run
-                          description: workflow-run
-                          type: string
-                        id:
-                          examples:
-                            - wfr_3VghhbvDc7UuUNT8uZrqZjsk
-                          type: string
-                      type: object
-                    - properties:
-                        type:
-                          const: workflow-step/action
-                          description: workflow-step/action
-                          type: string
-                        id:
-                          examples:
-                            - wfs_3VghhbvDc7UuUNT8uZrqZjsk
-                          type: string
-                      type: object
-                    - properties:
-                        type:
-                          const: api-key
-                          description: api-key
-                          type: string
-                        id:
-                          examples:
-                            - api_3VghhbvDc7UuUNT8uZrqZjsk
-                          type: string
-                      type: object
-                    - properties:
-                        type:
-                          const: importer/face
-                          description: importer/face
-                          type: string
-                        id:
-                          examples:
-                            - mprt_3VghhbvDc7UuUNT8uZrqZjsk
-                          type: string
-                      type: object
-              type: object
-              additionalProperties: false
-          type: object
-          additionalProperties: false
     list-item-field:
       title: Field List Item
       description: A Field List Item
@@ -21687,35 +21226,6 @@ components:
                     additionalProperties: false
                     type: object
                     description: Email Address List items associated with this list.
-    lists-faces:
-      type: object
-      description: A Face List object
-      additionalProperties: false
-      properties:
-        type:
-          type: string
-          description: list/face
-          const: list/face
-        id:
-          type: string
-        attributes:
-          unevaluatedProperties: false
-          allOf:
-            - $ref: '#/components/schemas/lists-shared-attributes'
-        relationships:
-          additionalProperties: false
-          type: object
-          properties:
-            list-items:
-              additionalProperties: false
-              type: object
-              properties:
-                data:
-                  type: array
-                  items:
-                    additionalProperties: false
-                    type: object
-                    description: Face List items associated with this list.
     lists-geolocations:
       type: object
       description: A Geolocation List object
@@ -21881,7 +21391,6 @@ components:
         - $ref: '#/components/schemas/lists-browser-fingerprints'
         - $ref: '#/components/schemas/lists-countries'
         - $ref: '#/components/schemas/lists-email-addresses'
-        - $ref: '#/components/schemas/lists-faces'
         - $ref: '#/components/schemas/lists-geolocations'
         - $ref: '#/components/schemas/lists-government-id-numbers'
         - $ref: '#/components/schemas/lists-ip-addresses'
@@ -22004,7 +21513,7 @@ components:
                         - Anytown
                     address-state:
                       type: string
-                      description: The state or province in which the business is located.
+                      description: Subnational division of a country (such as a state or province) where the business is located.
                       examples:
                         - CA
                     address-country:
@@ -22434,8 +21943,8 @@ components:
             - rptp_abc123
           type: string
     report-address-lookup-request:
-      title: Address Lookup Request
-      description: Fields required to create an Address Lookup Report
+      title: Address Lookup Report
+      description: Fields required to create an Address Lookup Report.
       type: object
       properties:
         type:
@@ -22449,26 +21958,35 @@ components:
             - type: object
               properties:
                 addressee:
-                  type: string
+                  description: The name of an individual at this location.
+                  type:
+                    - string
+                    - 'null'
                   example: Joe Doe
                 address-street-1:
+                  description: Address line 1 (e.g., street, PO Box, or company name).
                   type: string
                   example: 1 Example Way
                 address-street-2:
+                  description: Address line 2 (e.g., apartment, suite, unit, or building).
                   type:
                     - string
                     - 'null'
                   example: Ste 300
                 address-city:
+                  description: City.
                   type: string
                   example: Cupertino
                 address-subdivision:
+                  description: Subnational division of a country, such as a state or province.
                   type: string
                   example: California
                 address-postal-code:
+                  description: ZIP or postal code.
                   type: string
                   example: '95014'
                 address-country-code:
+                  description: ISO 3166-1 alpha-2 country code.
                   type: string
                   example: US
           required:
@@ -22476,8 +21994,9 @@ components:
             - address-city
             - address-subdivision
             - address-postal-code
+            - address-country-code
     report-adverse-media-request:
-      title: Adverse Media Request
+      title: Adverse Media Report
       description: Fields required to create an Adverse Media Report
       type: object
       properties:
@@ -22486,37 +22005,50 @@ components:
           const: report/adverse-media
           description: report/adverse-media
         attributes:
+          description: At least one of `name-first`, `name-middle`, `name-last`, or `term` is required.
           unevaluatedProperties: false
           allOf:
             - $ref: '#/components/schemas/report-shared-request-attributes'
             - type: object
               properties:
                 name-first:
-                  type: string
-                  description: The input first name of the search individual.
+                  type:
+                    - string
+                    - 'null'
+                  description: The first name of the individual to search.
                   example: Joe
                 name-middle:
-                  type: string
-                  description: The input middle name of the search individual.
+                  type:
+                    - string
+                    - 'null'
+                  description: The middle name of the individual to search.
                   example: 'N'
                 name-last:
-                  type: string
-                  description: The input last name of the search individual.
+                  type:
+                    - string
+                    - 'null'
+                  description: The last name of the individual to search.
                   example: Doe
                 term:
-                  type: string
-                  description: The input combined term used for searching (first + middle + last name). At least one of name-first, name-middle, name-last, or term is required.
+                  type:
+                    - string
+                    - 'null'
+                  description: Custom search term instead of separate name parts of the individual (i.e. first + middle + last name).
                   example: Joe N Doe
                 birthdate:
-                  type: string
-                  description: The input DOB in YYYY-MM-DD format.
+                  type:
+                    - string
+                    - 'null'
+                  description: The birthdate of the individual, formatted as YYYY-MM-DD (ISO 8601).
                   example: '1991-10-07'
                 country-code:
-                  type: string
-                  description: The input search country in alpha2 format.
+                  type:
+                    - string
+                    - 'null'
+                  description: ISO 3166-1 alpha-2 country code.
                   example: US
     report-business-adverse-media-request:
-      title: Business Adverse Media Report Request
+      title: Business Adverse Media Report
       description: Fields required to create a Business Adverse Media Report
       type: object
       properties:
@@ -22534,14 +22066,10 @@ components:
                   type: string
                   description: The search term for the adverse media report, typically the name of the business.
                   example: Acme Corporation
-                country-code:
-                  type: string
-                  description: ISO 3166-1 alpha-2 country code for the business location.
-                  example: US
           required:
             - term
     report-business-lookup-request:
-      title: Business Lookup Request
+      title: Business Lookup Report
       description: Fields required to create a Business Lookup Report
       type: object
       properties:
@@ -22559,44 +22087,96 @@ components:
                   type: object
                   properties:
                     business-name:
+                      description: The name of the business to search.
                       type: string
                       example: Coffee Shop
                     phone-number:
-                      type: string
+                      description: The phone number of the business to search.
+                      type:
+                        - string
+                        - 'null'
                     website:
-                      type: string
+                      description: The website of the business to search.
+                      type:
+                        - string
+                        - 'null'
                     ein:
-                      type: string
+                      description: The Employer Identification Number (EIN) of the business to search.
+                      type:
+                        - string
+                        - 'null'
                     address-street-1:
-                      type: string
+                      description: Address line 1 (e.g., street, PO Box, or company name).
+                      type:
+                        - string
+                        - 'null'
                       example: 123 Funky St
                     address-street-2:
-                      type: string
+                      description: Address line 2 (e.g., apartment, suite, unit, or building).
+                      type:
+                        - string
+                        - 'null'
                     address-city:
-                      type: string
+                      description: City
+                      type:
+                        - string
+                        - 'null'
                       example: Funkyville
                     address-subdivision:
-                      type: string
-                      description: Subnational division of a country such as a US state.
+                      type:
+                        - string
+                        - 'null'
+                      description: Subnational division of a country, such as a state or province.
                       example: CA
                     address-postal-code:
-                      type: string
+                      description: ZIP or postal code
+                      type:
+                        - string
+                        - 'null'
                       example: '12345'
                     address-country-code:
-                      type: string
+                      description: ISO 3166-1 alpha-2 country code.
+                      type:
+                        - string
+                        - 'null'
                       example: US
-                    incorporation-state:
-                      type: string
-                      example: CA
                     associated-people:
+                      description: Officers or agents associated with the business.
                       type: array
                       items:
-                        type: string
-                        example: John Doe
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          name-full:
+                            description: The full name of an officer or agent associated with the business.
+                            type:
+                              - string
+                              - 'null'
+                            example: Jane Doe
+                          name-first:
+                            description: The first name of an officer or agent associated with the business.
+                            type:
+                              - string
+                              - 'null'
+                            example: Jane
+                          name-last:
+                            description: The last name of an officer or agent associated with the business.
+                            type:
+                              - string
+                              - 'null'
+                            example: Doe
+                          titles:
+                            description: Titles of an officer or agent associated with the business.
+                            type: array
+                            items:
+                              type:
+                                - string
+                                - 'null'
+                              example: CEO
                   required:
                     - business-name
     report-crypto-address-watchlist-request:
-      title: Crypto Address Watchlist Request
+      title: Crypto Address Watchlist Report
       description: Fields required to create a Crypto Address Watchlist Report
       type: object
       properties:
@@ -22612,12 +22192,12 @@ components:
               properties:
                 crypto-address:
                   type: string
-                  description: The crypto address to search.
+                  description: The crypto wallet address to search.
                   example: 1Fz29BQp82pE3vXXcsZoMNQ3KSHfMzfMe3
           required:
             - crypto-address
     report-email-address-request:
-      title: Email Address Request
+      title: Email Address Report
       description: Fields required to create an Email Address Report
       type: object
       properties:
@@ -22636,12 +22216,12 @@ components:
                   properties:
                     email-address:
                       type: string
-                      description: The input email address of the search.
+                      description: The email address to search.
                       example: example@domain.com
                   required:
                     - email-address
     report-phone-risk-request:
-      title: Phone Risk Request
+      title: Phone Risk Report
       description: Fields required to create a Phone Risk Report
       type: object
       properties:
@@ -22657,12 +22237,12 @@ components:
               properties:
                 phone-number:
                   type: string
-                  description: The input phone number of the search.
+                  description: The phone number to search.
                   example: '+14169671111'
           required:
             - phone-number
     report-politically-exposed-person-request:
-      title: Politically Exposed Person Request
+      title: Politically Exposed Person Report
       description: Fields required to create a Politically Exposed Person Report
       type: object
       properties:
@@ -22671,6 +22251,7 @@ components:
           const: report/politically-exposed-person
           description: report/politically-exposed-person
         attributes:
+          description: At least one of `name-first`, `name-middle`, `name-last`, or `term` is required.
           unevaluatedProperties: false
           allOf:
             - $ref: '#/components/schemas/report-shared-request-attributes'
@@ -22680,31 +22261,43 @@ components:
                   type: object
                   properties:
                     name-first:
-                      type: string
-                      description: The input first name of the search individual.
+                      type:
+                        - string
+                        - 'null'
+                      description: The first name of the individual to search.
                       example: Joe
                     name-middle:
-                      type: string
-                      description: The input middle name of the search individual.
+                      type:
+                        - string
+                        - 'null'
+                      description: The middle name of the individual to search.
                       example: 'N'
                     name-last:
-                      type: string
-                      description: The input last name of the search individual.
+                      type:
+                        - string
+                        - 'null'
+                      description: The last name of the individual to search.
                       example: Doe
                     term:
-                      type: string
-                      description: The input combined term used for searching (first + middle + last name). At least one of name-first, name-middle, name-last, or term is required.
+                      type:
+                        - string
+                        - 'null'
+                      description: Custom search term instead of separate name parts of the individual (i.e. first + middle + last name).
                       example: Joe N Doe
                     birthdate:
-                      type: string
-                      description: The input DOB in YYYY-MM-DD format.
+                      type:
+                        - string
+                        - 'null'
+                      description: The birthdate of the individual, formatted as YYYY-MM-DD (ISO 8601).
                       example: '1991-10-07'
                     country-code:
-                      type: string
-                      description: The input search country in alpha2 format.
+                      type:
+                        - string
+                        - 'null'
+                      description: ISO 3166-1 alpha-2 country code.
                       example: US
     report-profile-request:
-      title: Profile Report Request
+      title: Profile Report Report
       description: Fields required to create a Profile Report
       type: object
       properties:
@@ -22719,146 +22312,75 @@ components:
             - type: object
               properties:
                 name-first:
-                  type: string
-                  description: Given or first name.
+                  type:
+                    - string
+                    - 'null'
+                  description: The first name of the individual to search.
                   example: John
                 name-last:
-                  type: string
-                  description: Family or last name.
+                  type:
+                    - string
+                    - 'null'
+                  description: The last name of the individual to search.
                   example: Doe
                 birthdate:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   pattern: ^\d{4}-\d{2}-\d{2}$
-                  description: Birthdate, must be in the format "YYYY-MM-DD".
+                  description: The birthdate of the individual, formatted as YYYY-MM-DD (ISO 8601).
                   example: '1970-01-01'
                 social-security-number:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   pattern: ^\d{3}-\d{2}-\d{4}$
-                  description: Social security number, encrypted.
+                  description: Social security number.
                   example: 123-45-6789
                 address-street-1:
-                  type: string
-                  description: Primary street address.
+                  type:
+                    - string
+                    - 'null'
+                  description: Address line 1 (e.g., street or PO Box).
                   example: 123 Main St
                 address-street-2:
-                  type: string
-                  description: Secondary street address (if any).
+                  type:
+                    - string
+                    - 'null'
+                  description: Address line 2 (e.g., apartment, suite, unit, or building).
                   example: Apt 4
                 address-city:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   description: City of residence.
                   example: Anytown
                 address-subdivision:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   description: State or subdivision of residence, unabbreviated.
-                  example: State
+                  example: California
                 address-postal-code:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   description: ZIP or postal code of residence.
                   example: '12345'
                 country-code:
-                  type: string
-                  description: ISO 3166-1 alpha-2 country code for the location.
+                  type:
+                    - string
+                    - 'null'
+                  description: ISO 3166-1 alpha-2 country code for the location of residence.
                   example: US
                 phone-number:
-                  type: string
-                  description: Phone number, encrypted.
-                  example: 555-555-5555
-    report-sentilink-scores-request:
-      title: SentiLink Scores Request
-      description: Fields required to create a SentiLink Scores Report
-      type: object
-      properties:
-        type:
-          type: string
-          const: report/sentilink-scores
-          description: report/sentilink-scores
-        attributes:
-          unevaluatedProperties: false
-          allOf:
-            - $ref: '#/components/schemas/report-shared-request-attributes'
-            - type: object
-              properties:
-                birthdate:
-                  description: Birthdate, must be in the format "YYYY-MM-DD".
-                  format: date
-                  examples:
-                    - '1994-04-12'
-                  type: string
-                name-first:
-                  description: Given or first name.
-                  examples:
-                    - Jane
-                  type: string
-                name-last:
-                  description: Family or last name.
-                  examples:
-                    - Doe
-                  type: string
-                address-street-1:
-                  description: Street name of residence address.
-                  examples:
-                    - 123 Main St
-                  type: string
-                address-city:
-                  description: City of residence address. Not all international addresses use this attribute.
-                  examples:
-                    - San Francisco
-                  type: string
-                address-subdivision:
-                  description: State or subdivision of residence address. In the US, this should be the unabbreviated name. Not all international addresses use this attribute.
-                  examples:
-                    - California
-                  type: string
-                address-postal-code:
-                  description: ZIP or postal code of residence address. Not all international addresses use this attribute.
-                  examples:
-                    - '94111'
-                  type: string
-                address-country-code:
-                  description: Country code of residence address.
-                  examples:
-                    - US
                   type:
                     - string
                     - 'null'
-                social-security-number:
-                  description: Social security number.
-                  type: string
-                  pattern: ^\d{3}-\d{2}-\d{4}$
-                  examples:
-                    - 123-45-6789
-                user-id:
-                  description: A reference ID for the applicant.
-                  type: string
-                  examples:
-                    - USER-123
-                phone-number:
                   description: Phone number.
-                  examples:
-                    - 415-555-1234
-                  type:
-                    - string
-                    - 'null'
-                email-address:
-                  description: Email address.
-                  examples:
-                    - jane@doe.com
-                  type:
-                    - string
-                    - 'null'
-          required:
-            - name-first
-            - name-last
-            - birthdate
-            - address-street-1
-            - address-city
-            - address-subdivision
-            - address-postal-code
-            - social-security-number
-            - user-id
+                  example: 555-555-5555
     report-social-media-request:
-      title: Social Media Request
+      title: Social Media Report
       description: Fields required to create a Social Media Report
       type: object
       properties:
@@ -22867,36 +22389,68 @@ components:
           const: report/social-media
           description: report/social-media
         attributes:
+          description: Requires `phone-number` or `email-address` or both `first-name` and `last-name`.
           unevaluatedProperties: false
           allOf:
             - $ref: '#/components/schemas/report-shared-request-attributes'
             - type: object
               properties:
                 name-first:
-                  type: string
-                  example: Norman
+                  type:
+                    - string
+                    - 'null'
+                  description: The first name of the individual to search.
+                  example: Jane
                 name-last:
-                  type: string
-                  example: Mannor
+                  type:
+                    - string
+                    - 'null'
+                  description: The last name of the individual to search.
+                  example: Doe
                 birthdate:
-                  type: string
-                  description: Date of birth in ISO 8601 format
-                  example: 19911007T000000-0400
+                  type:
+                    - string
+                    - 'null'
+                  description: The birthdate of the individual, formatted as YYYY-MM-DD (ISO 8601).
+                  example: '1991-10-07'
                 phone-number:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
+                  description: Phone number of the individual to search.
                   example: '+14169671111'
                 email-address:
-                  type: string
+                  description: Email address of the individual to search.
+                  type:
+                    - string
+                    - 'null'
                   example: address@domain.com
                 address-city:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
+                  description: City
                   example: Funkyville
                 address-subdivision:
-                  type: string
-                  description: Sub-national subdivision such as a US state or a Canadian province
+                  type:
+                    - string
+                    - 'null'
+                  description: Subnational division (such as a state or province) of the country of residence.
                   example: Wisconsin
+                address-postal-code:
+                  type:
+                    - string
+                    - 'null'
+                  description: ZIP or postal code of residence.
+                  example: '12345'
+                address-country-code:
+                  type:
+                    - string
+                    - 'null'
+                  description: ISO 3166-1 alpha-2 country code for the location of residence.
+                  example: US
     report-synthetic-request:
-      title: Synthetic Report Request
+      title: Synthetic Report Report
       description: Fields required to create a Synthetic Report
       type: object
       properties:
@@ -22911,61 +22465,79 @@ components:
             - type: object
               properties:
                 name-first:
-                  type:
-                    - string
-                    - 'null'
-                  description: Given or first name.
+                  type: string
+                  description: The first name of the individual to search.
                   example: John
                 name-last:
-                  type:
-                    - string
-                    - 'null'
-                  description: Family or last name.
+                  type: string
+                  description: The last name of the individual to search.
                   example: Doe
                 birthdate:
                   type: string
                   pattern: ^\d{4}-\d{2}-\d{2}$
-                  description: Birthdate, must be in the format "YYYY-MM-DD".
+                  description: The birthdate of the individual, formatted as YYYY-MM-DD (ISO 8601).
                   example: '1980-07-15'
                 social-security-number:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   pattern: ^\d{3}-\d{2}-\d{4}$
-                  description: Social security number, encrypted.
+                  description: Social security number. One of `identification-number` or `social-security-number` is required.
                   example: 123-45-6789
+                identification-number:
+                  type:
+                    - string
+                    - 'null'
+                  description: Any identification number that is not a social security number. One of `identification-number` or `social-security-number` is required.
                 address-street-1:
                   type: string
-                  description: Primary street address.
+                  description: Address line 1 (e.g., street, PO Box, or company name).
                   example: 456 Elm St
                 address-street-2:
-                  type: string
-                  description: Secondary street address (if any).
+                  type:
+                    - string
+                    - 'null'
+                  description: Address line 2 (e.g., apartment, suite, unit, or building).
                   example: Suite 2
                 address-city:
                   type: string
-                  description: City of residence.
+                  description: City
                   example: Springfield
                 address-subdivision:
                   type: string
-                  description: State or subdivision of residence, unabbreviated.
-                  example: AnyState
+                  description: Subnational division of a country, such as a state or province. Unabbreviated.
+                  example: California
                 address-postal-code:
                   type: string
-                  description: ZIP or postal code of residence.
+                  description: ZIP or postal code.
                   example: '12345'
                 address-country-code:
                   type: string
-                  description: ISO 3166-1 alpha-2 country code for the location.
+                  description: ISO 3166-1 alpha-2 country code.
                   example: US
                 phone-number:
-                  type: string
-                  description: Phone number, encrypted.
+                  type:
+                    - string
+                    - 'null'
+                  description: Phone number.
                   example: 555-555-1234
                 email-address:
-                  type: string
-                  description: Email address, encrypted.
+                  type:
+                    - string
+                    - 'null'
+                  description: Email address.
                   example: john.doe@example.com
+          required:
+            - name-first
+            - name-last
+            - birthdate
+            - address-street-1
+            - address-city
+            - address-subdivision
+            - address-postal-code
+            - address-country-code
     report-watchlist-request:
-      title: Watchlist Request
+      title: Watchlist Report
       description: Fields required to create a Watchlist Report
       type: object
       properties:
@@ -22974,34 +22546,47 @@ components:
           const: report/watchlist
           description: report/watchlist
         attributes:
+          description: At least one of `name-first`, `name-middle`, `name-last`, or `term` is required.
           unevaluatedProperties: false
           allOf:
             - $ref: '#/components/schemas/report-shared-request-attributes'
             - type: object
               properties:
                 name-first:
-                  type: string
-                  description: The input first name of the search individual.
+                  type:
+                    - string
+                    - 'null'
+                  description: The first name of the individual to search.
                   example: Joe
                 name-middle:
-                  type: string
-                  description: The input middle name of the search individual.
+                  type:
+                    - string
+                    - 'null'
+                  description: The middle name of the individual to search.
                   example: 'N'
                 name-last:
-                  type: string
-                  description: The input last name of the search individual.
+                  type:
+                    - string
+                    - 'null'
+                  description: The last name of the individual to search.
                   example: Doe
                 term:
-                  type: string
-                  description: The input combined term used for searching (first + middle + last name). At least one of name-first, name-middle, name-last, or term is required.
+                  type:
+                    - string
+                    - 'null'
+                  description: Custom search term instead of separate name parts of the individual (i.e. first + middle + last name).
                   example: Joe N Doe
                 birthdate:
-                  type: string
-                  description: The input DOB in YYYY-MM-DD format.
+                  type:
+                    - string
+                    - 'null'
+                  description: The birthdate of the individual, formatted as YYYY-MM-DD (ISO 8601).
                   example: '1991-10-07'
                 address-country-code:
-                  type: string
-                  description: The input search country in alpha2 format.
+                  type:
+                    - string
+                    - 'null'
+                  description: ISO 3166-1 alpha-2 country code.
                   example: US
     transaction-label:
       type: object
@@ -25061,42 +24646,6 @@ components:
             match-count: 0
             value: joe-imposter@yahoo.com
             match-type: email_address
-          relationships:
-            creator:
-              data: null
-    list-item-face:
-      value:
-        data:
-          type: list-item/face
-          id: lifc_wt5cgLbSi7twJ8itK7jxCs8q
-          attributes:
-            status: pending
-            archived-at: null
-            updated-at: '2020-09-18T17:58:06.866Z'
-            created-at: '2020-09-18T17:58:06.866Z'
-            match-count: 0
-            face-photo:
-              filename: photo.png
-              url: https://files.withpersona.com/photo.png?access_token=ACCESS_TOKEN
-              byte-size: 124917
-          relationships:
-            creator:
-              data: null
-    list-item-face-archived:
-      value:
-        data:
-          type: list-item/face
-          id: lifc_wt5cgLbSi7twJ8itK7jxCs8q
-          attributes:
-            status: archived
-            archived-at: '2020-12-18T19:07:53.000Z'
-            updated-at: '2020-09-18T17:58:06.866Z'
-            created-at: '2020-09-18T17:58:06.866Z'
-            match-count: 0
-            face-photo:
-              filename: photo.png
-              url: https://files.withpersona.com/photo.png?access_token=ACCESS_TOKEN
-              byte-size: 124917
           relationships:
             creator:
               data: null

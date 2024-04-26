@@ -1,4 +1,4 @@
-title: Adverse Media Request
+title: Adverse Media Report
 description: Fields required to create an Adverse Media Report
 type: object
 properties:
@@ -7,35 +7,51 @@ properties:
     const: report/adverse-media
     description: report/adverse-media
   attributes:
+    description: >-
+      At least one of `name-first`, `name-middle`, `name-last`, or `term` is
+      required.
     unevaluatedProperties: false
     allOf:
       - $ref: ./report-shared-request-attributes.yaml
       - type: object
         properties:
           name-first:
-            type: string
-            description: The input first name of the search individual.
+            type:
+              - string
+              - 'null'
+            description: The first name of the individual to search.
             example: Joe
           name-middle:
-            type: string
-            description: The input middle name of the search individual.
+            type:
+              - string
+              - 'null'
+            description: The middle name of the individual to search.
             example: 'N'
           name-last:
-            type: string
-            description: The input last name of the search individual.
+            type:
+              - string
+              - 'null'
+            description: The last name of the individual to search.
             example: Doe
           term:
-            type: string
+            type:
+              - string
+              - 'null'
             description: >-
-              The input combined term used for searching (first + middle + last
-              name). At least one of name-first, name-middle, name-last, or term
-              is required.
+              Custom search term instead of separate name parts of the
+              individual (i.e. first + middle + last name).
             example: Joe N Doe
           birthdate:
-            type: string
-            description: The input DOB in YYYY-MM-DD format.
+            type:
+              - string
+              - 'null'
+            description: >-
+              The birthdate of the individual, formatted as YYYY-MM-DD (ISO
+              8601).
             example: '1991-10-07'
           country-code:
-            type: string
-            description: The input search country in alpha2 format.
+            type:
+              - string
+              - 'null'
+            description: ISO 3166-1 alpha-2 country code.
             example: US
