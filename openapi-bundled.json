@@ -17563,164 +17563,6 @@
         "tags": [
           "Government ID Verifications"
         ]
-      },
-      "patch": {
-        "description": "Updates an existing government ID verification. Can only update `initiated` verifications.",
-        "operationId": "update-a-government-id-verification",
-        "externalDocs": {
-          "description": "Full documentation for this API on the Persona website.",
-          "url": "https://docs.withpersona.com/reference/update-a-government-id-verification"
-        },
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/key-inflection-header"
-          },
-          {
-            "$ref": "#/components/parameters/idempotency-key-header"
-          },
-          {
-            "$ref": "#/components/parameters/persona-version-header"
-          },
-          {
-            "$ref": "#/components/parameters/include-query-parameter"
-          },
-          {
-            "name": "verification-id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "properties": {
-                  "data": {
-                    "properties": {
-                      "attributes": {
-                        "properties": {
-                          "back-photo": {
-                            "description": "Back of ID.",
-                            "properties": {
-                              "data": {
-                                "description": "Government ID photo data, must be images. Can provide more than one image and we will pick the best for processing. Can also be provided as uploaded file(s) such as with multipart/form-data requests instead of this object(s). Images must be between 10KB and 15MB.",
-                                "properties": {
-                                  "data": {
-                                    "description": "Base64 encoded file.",
-                                    "format": "binary",
-                                    "type": "string"
-                                  },
-                                  "filename": {
-                                    "description": "Name of file.",
-                                    "type": "string"
-                                  }
-                                },
-                                "required": [
-                                  "data",
-                                  "filename"
-                                ],
-                                "type": "object"
-                              }
-                            },
-                            "type": "object"
-                          },
-                          "front-photo": {
-                            "description": "Front of ID.",
-                            "properties": {
-                              "data": {
-                                "description": "Government ID photo data, must be images. Can provide more than one image and we will pick the best for processing. Can also be provided as uploaded file(s) such as with multipart/form-data requests instead of this object(s). Images must be between 10KB and 15MB.",
-                                "properties": {
-                                  "data": {
-                                    "description": "Base64 encoded file.",
-                                    "format": "binary",
-                                    "type": "string"
-                                  },
-                                  "filename": {
-                                    "description": "Name of file.",
-                                    "type": "string"
-                                  }
-                                },
-                                "required": [
-                                  "data",
-                                  "filename"
-                                ],
-                                "type": "object"
-                              }
-                            },
-                            "type": "object"
-                          },
-                          "selected-id-class": {
-                            "items": {
-                              "type": "string"
-                            },
-                            "type": "array"
-                          }
-                        },
-                        "type": "object"
-                      }
-                    },
-                    "type": "object"
-                  }
-                },
-                "required": [
-                  "data"
-                ],
-                "type": "object"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "examples": {
-                  "Result": {
-                    "summary": "OK",
-                    "$ref": "#/components/examples/verification-government-id"
-                  }
-                },
-                "schema": {
-                  "properties": {
-                    "data": {
-                      "$ref": "#/components/schemas/verification-government-id"
-                    }
-                  },
-                  "type": "object"
-                }
-              }
-            },
-            "description": "OK"
-          },
-          "400": {
-            "$ref": "#/components/responses/bad-request"
-          },
-          "401": {
-            "$ref": "#/components/responses/unauthorized"
-          },
-          "403": {
-            "$ref": "#/components/responses/forbidden"
-          },
-          "404": {
-            "$ref": "#/components/responses/not-found"
-          },
-          "409": {
-            "$ref": "#/components/responses/conflict"
-          },
-          "422": {
-            "$ref": "#/components/responses/unprocessable-entity"
-          },
-          "429": {
-            "$ref": "#/components/responses/too-many-requests"
-          }
-        },
-        "summary": "Update a Government ID Verification",
-        "tags": [
-          "Government ID Verifications"
-        ]
       }
     },
     "/verification/government-id-nfcs/{verification-id}": {
@@ -27935,6 +27777,7 @@
       },
       "verification-phone-number": {
         "type": "object",
+        "additionalProperties": false,
         "title": "Phone Number Verification",
         "description": "A Phone Number Verification",
         "properties": {
@@ -27967,6 +27810,7 @@
                   },
                   "metadata": {
                     "type": "object",
+                    "additionalProperties": false,
                     "properties": {
                       "telesign-risk-score": {
                         "type": "integer",
@@ -38604,99 +38448,6 @@
                   "type": "inquiry",
                   "id": "inq_ABC123"
                 }
-              },
-              "template": {
-                "data": null
-              },
-              "inquiry-template-version": {
-                "data": {
-                  "type": "inquiry-template-version",
-                  "id": "itmplv_ABC123"
-                }
-              },
-              "inquiry-template": {
-                "data": {
-                  "type": "inquiry-template",
-                  "id": "itmpl_ABC123"
-                }
-              },
-              "verification-template": {
-                "data": {
-                  "type": "verification-template/government-id",
-                  "id": "vtmpl_ABC123"
-                }
-              },
-              "verification-template-version": {
-                "data": {
-                  "type": "verification-template-version/government-id",
-                  "id": "vtmplv_ABC123"
-                }
-              },
-              "document": {
-                "data": {
-                  "type": "document/government-id",
-                  "id": "doc_ABC123"
-                }
-              }
-            }
-          }
-        }
-      },
-      "verification-government-id": {
-        "value": {
-          "data": {
-            "type": "verification/government-id",
-            "id": "ver_ABC123",
-            "attributes": {
-              "status": "initiated",
-              "created-at": "2024-03-20T21:22:25.000Z",
-              "created-at-ts": 1710969745,
-              "submitted-at": null,
-              "submitted-at-ts": null,
-              "completed-at": null,
-              "completed-at-ts": null,
-              "country-code": "US",
-              "entity-confidence-score": null,
-              "entity-confidence-reasons": [
-                "generic"
-              ],
-              "front-photo-url": null,
-              "back-photo-url": null,
-              "photo-urls": [],
-              "selfie-photo": null,
-              "selfie-photo-url": null,
-              "video-url": null,
-              "id-class": null,
-              "capture-method": "api",
-              "name-first": null,
-              "name-middle": null,
-              "name-last": null,
-              "name-suffix": null,
-              "birthdate": null,
-              "address-street-1": null,
-              "address-street-2": null,
-              "address-city": null,
-              "address-subdivision": null,
-              "address-postal-code": null,
-              "issuing-authority": null,
-              "issuing-subdivision": null,
-              "nationality": null,
-              "document-number": null,
-              "visa-status": null,
-              "issue-date": null,
-              "expiration-date": null,
-              "designations": null,
-              "birthplace": null,
-              "endorsements": null,
-              "height": null,
-              "sex": null,
-              "restrictions": null,
-              "vehicle-class": null,
-              "identification-number": null
-            },
-            "relationships": {
-              "inquiry": {
-                "data": null
               },
               "template": {
                 "data": null
