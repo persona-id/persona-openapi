@@ -13861,6 +13861,9 @@
                         "$ref": "#/components/schemas/report-business-lookup-request"
                       },
                       {
+                        "$ref": "#/components/schemas/report-business-watchlist-request"
+                      },
+                      {
                         "$ref": "#/components/schemas/report-crypto-address-watchlist-request"
                       },
                       {
@@ -17537,6 +17540,7 @@
                       "$ref": "#/components/schemas/verification-government-id"
                     }
                   },
+                  "additionalProperties": false,
                   "type": "object"
                 }
               }
@@ -33500,6 +33504,47 @@
                   }
                 }
               }
+            ]
+          }
+        }
+      },
+      "report-business-watchlist-request": {
+        "title": "Business Watchlist Report",
+        "description": "Fields required to create a Business Watchlist Report",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report/business-watchlist",
+            "description": "report/business-watchlist"
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/report-shared-request-attributes"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "term": {
+                    "type": "string",
+                    "description": "The search term for the business watchlist report, typically the name of the business.",
+                    "example": "Acme Corporation"
+                  },
+                  "address-country-code": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": "ISO 3166-1 alpha-2 country code.",
+                    "example": "US"
+                  }
+                }
+              }
+            ],
+            "required": [
+              "term"
             ]
           }
         }
