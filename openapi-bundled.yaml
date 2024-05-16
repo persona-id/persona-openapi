@@ -48,6 +48,8 @@ tags:
     description: View your organization's User Audit logs
   - name: Verifications
     description: Interact with Persona Verification objects
+  - name: AAMVA Verifications
+    description: Interact with AAMVA Verifications
   - name: Phone Carrier Database Verifications
     description: Interact with Phone Carrier Database Verifications
   - name: Serpro Database Verifications
@@ -10537,6 +10539,51 @@ paths:
       summary: Retrieve an User Audit Log
       tags:
         - User Audit Logs
+  /verification/aamvas/{verification-id}:
+    get:
+      description: Retrieve an AAMVA verification
+      operationId: retrieve-an-aamva-verification
+      externalDocs:
+        description: Full documentation for this API on the Persona website.
+        url: https://docs.withpersona.com/reference/retrieve-an-aamva-verification
+      parameters:
+        - $ref: '#/components/parameters/key-inflection-header'
+        - $ref: '#/components/parameters/idempotency-key-header'
+        - $ref: '#/components/parameters/persona-version-header'
+        - $ref: '#/components/parameters/include-query-parameter'
+        - description: ID of Verification to retrieve
+          in: path
+          name: verification-id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                Result:
+                  summary: OK
+                  $ref: '#/components/examples/verification-aamva'
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/verification-aamva'
+          description: OK
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not-found'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+      summary: Retrieve an AAMVA Verification
+      tags:
+        - AAMVA Verifications
   /verification/database-phone-carriers/{verification-id}:
     get:
       description: Retrieve a phone carrier database verification
@@ -17416,6 +17463,7 @@ components:
     verification-aamva:
       title: AAMVA Verification
       description: An AAMVA Verification
+      additionalProperties: false
       type: object
       properties:
         type:
@@ -17756,6 +17804,7 @@ components:
     verification-document:
       title: Document Verification
       description: A Document Verification
+      additionalProperties: false
       type: object
       properties:
         type:
@@ -17774,6 +17823,7 @@ components:
               properties:
                 fields:
                   description: JSON key-value pairs of field name to field value.
+                  additionalProperties: false
                   type: object
                 files:
                   description: The files uploaded to the associated document for processing.
@@ -17788,7 +17838,9 @@ components:
                   $ref: '#/components/schemas/extraction-responses'
                 document-type:
                   description: Document classification assignment based on document content.
-                  type: string
+                  type:
+                    - string
+                    - 'null'
         relationships:
           unevaluatedProperties: false
           allOf:
@@ -17808,11 +17860,14 @@ components:
                           examples:
                             - document/generic
                           type: string
+                      additionalProperties: false
                       type: object
+                  additionalProperties: false
                   type: object
     verification-email-address:
       title: Email Address Verification
       description: An Email Address Verification
+      additionalProperties: false
       type: object
       properties:
         type:
@@ -17831,7 +17886,9 @@ components:
               properties:
                 email-address:
                   example: jane@doe.com
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                 confirmation-code:
                   example: '12345'
                   type: string
@@ -18245,6 +18302,7 @@ components:
           $ref: '#/components/schemas/verification-shared-relationships'
     verification-selfie:
       type: object
+      additionalProperties: false
       title: Selfie Verification
       description: A Selfie Verification
       properties:
@@ -18352,6 +18410,7 @@ components:
                       url:
                         example: https://files.withpersona.com/...
                         type: string
+                    additionalProperties: false
                     type: object
                   type: array
                 right-photo-url:
@@ -25390,6 +25449,48 @@ components:
               model-version: 1.2.3
               created-at: '2023-06-29T23:54:35.293Z'
               updated-at: '2023-06-29T23:54:35.293Z'
+    verification-aamva:
+      value:
+        data:
+          type: verification/aamva
+          id: ver_ABC123
+          attributes:
+            status: initiated
+            created-at: '2023-11-03T17:37:06.000Z'
+            created-at-ts: 1699033026
+            submitted-at: null
+            submitted-at-ts: null
+            completed-at: null
+            completed-at-ts: null
+            country-code: US
+            name-first: Jane
+            name-last: Doe
+            birthdate: '1994-04-12'
+            issue-date: '2021-05-27'
+            expiration-date: '2029-05-08'
+            address-postal-code: '94111'
+            issuing-authority: CA
+            identification-number: B12345678
+            checks: []
+          relationships:
+            inquiry:
+              data:
+                type: inquiry
+                id: inq_ABC123
+            template:
+              data: null
+            inquiry-template-version:
+              data: null
+            inquiry-template:
+              data: null
+            verification-template:
+              data:
+                type: verification-template/aamva
+                id: vtmpl_ABC123
+            verification-template-version:
+              data:
+                type: verification-template-version/aamva
+                id: vtmplv_ABC123
     verification-database-phone-carrier:
       value:
         data:

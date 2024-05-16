@@ -1,5 +1,6 @@
 title: Document Verification
 description: A Document Verification
+additionalProperties: false
 type: object
 properties:
   type:
@@ -18,6 +19,7 @@ properties:
         properties:
           fields:
             description: JSON key-value pairs of field name to field value.
+            additionalProperties: false
             type: object
           files:
             description: The files uploaded to the associated document for processing.
@@ -32,7 +34,9 @@ properties:
             $ref: ./extraction-responses.yaml
           document-type:
             description: Document classification assignment based on document content.
-            type: string
+            type:
+              - string
+              - 'null'
   relationships:
     unevaluatedProperties: false
     allOf:
@@ -52,5 +56,7 @@ properties:
                     examples:
                       - document/generic
                     type: string
+                additionalProperties: false
                 type: object
+            additionalProperties: false
             type: object
