@@ -1,6 +1,7 @@
 title: TIN Database Verification
 description: A TIN Database Verification
 type: object
+additionalProperties: false
 properties:
   type:
     type: string
@@ -30,9 +31,13 @@ properties:
               - ein
               - itin
           name-first:
-            type: string
+            type:
+              - string
+              - 'null'
           name-last:
-            type: string
+            type:
+              - string
+              - 'null'
           name-business:
             type:
               - string
@@ -42,6 +47,7 @@ properties:
               properties:
                 metadata:
                   type: object
+                  additionalProperties: false
                 name:
                   examples:
                     - database_tin_name_comparison
@@ -53,6 +59,7 @@ properties:
                     - passed
                   type: string
               type: object
+              additionalProperties: false
             type: array
   relationships:
     $ref: ./verification-shared-relationships.yaml
