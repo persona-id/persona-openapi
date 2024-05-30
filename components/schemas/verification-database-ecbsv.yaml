@@ -1,6 +1,7 @@
 title: eCBSV Database Verification
 description: An eCBSV Database Verification
 type: object
+additionalProperties: false
 properties:
   type:
     type: string
@@ -14,25 +15,34 @@ properties:
     unevaluatedProperties: false
     allOf:
       - $ref: ./verification-shared-attributes.yaml
-      - $ref: ./default-fields.yaml
       - type: object
         properties:
+          name-first:
+            description: First name of the individual.
+            type:
+              - string
+              - 'null'
+          name-last:
+            description: Last name of the individual.
+            type:
+              - string
+              - 'null'
           birthdate:
             description: Birthdate of the individual
             format: date
-            type: string
-          name-first:
-            description: First name of the individual.
-            type: string
-          name-last:
-            description: Last name of the individual.
-            type: string
+            type:
+              - string
+              - 'null'
           email-address:
             description: Email address of the individual.
-            type: string
+            type:
+              - string
+              - 'null'
           identification-number:
             description: Social Security Number of the individual.
-            type: string
+            type:
+              - string
+              - 'null'
           signature-timestamp:
             description: Timestamp of the signature
             type:
@@ -44,11 +54,5 @@ properties:
             type:
               - string
               - 'null'
-          verification-template-id:
-            description: >-
-              ID of Verification Template. You can find your Verification
-              Template IDs
-              [here](https://app.withpersona.com/dashboard/verification-templates?filter=%7B%22type%22%3A%5B%22verification-template%2Fdatabase-ecbsv"%5D%7D)
-            type: string
   relationships:
     $ref: ./verification-shared-relationships.yaml

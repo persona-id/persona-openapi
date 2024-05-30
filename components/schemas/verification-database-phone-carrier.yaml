@@ -1,6 +1,7 @@
 title: Phone Carrier Database Verification
 description: A Phone Carrier Database Verification
 type: object
+additionalProperties: false
 properties:
   type:
     type: string
@@ -14,12 +15,37 @@ properties:
     unevaluatedProperties: false
     allOf:
       - $ref: ./verification-shared-attributes.yaml
-      - $ref: ./default-fields.yaml
       - type: object
         properties:
           name-first:
-            type: string
+            description: Given or first name.
+            examples:
+              - Jane
+            type:
+              - string
+              - 'null'
           name-last:
-            type: string
+            description: Family or last name.
+            examples:
+              - Doe
+            type:
+              - string
+              - 'null'
+          birthdate:
+            description: Birthdate in the format "YYYY-MM-DD".
+            format: date
+            examples:
+              - '1994-04-12'
+            type:
+              - string
+              - 'null'
+          phone-number:
+            description: Phone number.
+            examples:
+              - 415-555-1234
+            type:
+              - string
+              - 'null'
+      - $ref: ./address-fields.yaml
   relationships:
     $ref: ./verification-shared-relationships.yaml

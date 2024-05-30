@@ -97,6 +97,10 @@
       "description": "Interact with AAMVA Verifications"
     },
     {
+      "name": "eCBSV Database Verifications",
+      "description": "Interact with eCBSV Database Verifications"
+    },
+    {
       "name": "Phone Carrier Database Verifications",
       "description": "Interact with Phone Carrier Database Verifications"
     },
@@ -16739,6 +16743,81 @@
         ]
       }
     },
+    "/verification/database-ecbsvs/{verification-id}": {
+      "get": {
+        "description": "Retrieve an eCBSV database verification",
+        "operationId": "retrieve-an-ecbsv-database-verification",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/reference/retrieve-an-ecbsv-database-verification"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/include-query-parameter"
+          },
+          {
+            "description": "ID of Verification to retrieve",
+            "in": "path",
+            "name": "verification-id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Result": {
+                    "summary": "OK",
+                    "$ref": "#/components/examples/verification-database-ecbsv"
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/verification-database-ecbsv"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        },
+        "summary": "Retrieve an eCBSV Database Verification",
+        "tags": [
+          "eCBSV Database Verifications"
+        ]
+      }
+    },
     "/verification/database-phone-carriers/{verification-id}": {
       "get": {
         "description": "Retrieve a phone carrier database verification",
@@ -16852,54 +16931,7 @@
                 "examples": {
                   "Result": {
                     "summary": "OK",
-                    "value": {
-                      "data": {
-                        "type": "verification/database-serpro",
-                        "id": "ver_b9uPLjR3xtihTQsSmdKceTx9",
-                        "attributes": {
-                          "status": "passed",
-                          "created-at": "2022-08-03T03:42:20.000Z",
-                          "created-at-ts": 1659498140,
-                          "submitted-at": "2022-08-03T03:52:00.000Z",
-                          "submitted-at-ts": 1659498720,
-                          "completed-at": "2022-08-03T03:52:03.000Z",
-                          "completed-at-ts": 1659498723,
-                          "country-code": "BR",
-                          "name-first": "ALEXANDER",
-                          "checks": [
-                            {
-                              "name": "database_serpro_name_comparison",
-                              "status": "passed",
-                              "reasons": [],
-                              "metadata": {}
-                            },
-                            {
-                              "name": "database_serpro_birthdate_comparison",
-                              "status": "passed",
-                              "reasons": [],
-                              "metadata": {}
-                            },
-                            {
-                              "name": "database_serpro_cpf_comparison",
-                              "status": "passed",
-                              "reasons": [],
-                              "metadata": {}
-                            },
-                            {
-                              "name": "database_serpro_service_available_detection",
-                              "status": "passed",
-                              "reasons": [],
-                              "metadata": {}
-                            }
-                          ]
-                        },
-                        "relationships": {
-                          "inquiry": {
-                            "data": null
-                          }
-                        }
-                      }
-                    }
+                    "$ref": "#/components/examples/verification-database-serpro"
                   }
                 },
                 "schema": {
@@ -16974,345 +17006,17 @@
                 "examples": {
                   "Result": {
                     "summary": "OK",
-                    "value": {
-                      "data": {
-                        "type": "verification/database-standard",
-                        "id": "ver_1rWMmoV3hoy2qWv3wGPcH43c",
-                        "attributes": {
-                          "status": "passed",
-                          "created-at": "2022-08-02T05:02:56.000Z",
-                          "created-at-ts": 1659416576,
-                          "submitted-at": "2022-08-02T05:03:02.000Z",
-                          "submitted-at-ts": 1659416582,
-                          "completed-at": "2022-08-02T05:03:02.000Z",
-                          "completed-at-ts": 1659416582,
-                          "country-code": "US",
-                          "name-first": "ALEXANDER",
-                          "name-middle": "JAMES",
-                          "name-last": "HAMILTON",
-                          "address-street-1": "555 Beverly Hills",
-                          "address-street-2": "Apartment 123",
-                          "address-city": "Los Angeles",
-                          "address-subdivision": "CA",
-                          "address-postal-code": "55555",
-                          "normalized-address-street-1": "555 Beverly Hills",
-                          "normalized-address-street-2": "Apt 123",
-                          "normalized-address-city": "Los Angeles",
-                          "normalized-address-subdivision": "CA",
-                          "normalized-address-postal-code": "55555",
-                          "checks": [
-                            {
-                              "name": "database_standard_identity_comparison",
-                              "status": "passed",
-                              "reasons": [],
-                              "metadata": {
-                                "check-requirements": [
-                                  {
-                                    "name": "name_first",
-                                    "match-result": "partial",
-                                    "status": "passed",
-                                    "comparisons": [
-                                      {
-                                        "type": "string_similarity",
-                                        "match-level-minimum": "partial",
-                                        "match-result": "partial"
-                                      },
-                                      {
-                                        "type": "nickname",
-                                        "match-level-minimum": "partial",
-                                        "match-result": "none"
-                                      },
-                                      {
-                                        "type": "string_difference",
-                                        "match-level-minimum": "partial",
-                                        "match-result": "none"
-                                      },
-                                      {
-                                        "type": "substring",
-                                        "match-level-minimum": "partial",
-                                        "match-result": "partial"
-                                      },
-                                      {
-                                        "type": "tokenization",
-                                        "match-level-minimum": "partial",
-                                        "match-result": "partial"
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "name": "name_last",
-                                    "match-result": "full",
-                                    "status": "passed",
-                                    "comparisons": [
-                                      {
-                                        "type": "string_similarity",
-                                        "match-level-minimum": "partial",
-                                        "match-result": "full"
-                                      },
-                                      {
-                                        "type": "string_difference",
-                                        "match-level-minimum": "partial",
-                                        "match-result": "full"
-                                      },
-                                      {
-                                        "type": "substring",
-                                        "match-level-minimum": "partial",
-                                        "match-result": "full"
-                                      },
-                                      {
-                                        "type": "tokenization",
-                                        "match-level-minimum": "partial",
-                                        "match-result": "partial"
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "name": "address_postal_code",
-                                    "match-result": "full",
-                                    "status": "passed",
-                                    "comparisons": [
-                                      {
-                                        "type": "string_difference",
-                                        "match-level-minimum": "partial",
-                                        "match-result": "full"
-                                      }
-                                    ]
-                                  }
-                                ]
-                              }
-                            }
-                          ]
-                        },
-                        "relationships": {
-                          "inquiry": {
-                            "data": {}
-                          }
-                        }
-                      }
-                    }
+                    "$ref": "#/components/examples/verification-database-standard"
                   }
                 },
                 "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
                   "properties": {
                     "data": {
-                      "properties": {
-                        "type": {
-                          "const": "verification/database-standard",
-                          "description": "verification/database-standard",
-                          "type": "string"
-                        },
-                        "id": {
-                          "examples": [
-                            "ver_1rWMmoV3hoy2qWv3wGPcH43c"
-                          ],
-                          "type": "string"
-                        },
-                        "attributes": {
-                          "unevaluatedProperties": false,
-                          "allOf": [
-                            {
-                              "$ref": "#/components/schemas/default-fields"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "checks": {
-                                  "items": {
-                                    "properties": {
-                                      "metadata": {
-                                        "properties": {
-                                          "check-requirements": {
-                                            "items": {
-                                              "properties": {
-                                                "comparisons": {
-                                                  "items": {
-                                                    "properties": {
-                                                      "match-level-minimum": {
-                                                        "examples": [
-                                                          "partial"
-                                                        ],
-                                                        "type": "string"
-                                                      },
-                                                      "match-result": {
-                                                        "examples": [
-                                                          "partial"
-                                                        ],
-                                                        "type": "string"
-                                                      },
-                                                      "type": {
-                                                        "examples": [
-                                                          "string_similarity"
-                                                        ],
-                                                        "type": "string"
-                                                      }
-                                                    },
-                                                    "type": "object"
-                                                  },
-                                                  "type": "array"
-                                                },
-                                                "match-result": {
-                                                  "examples": [
-                                                    "partial"
-                                                  ],
-                                                  "type": "string"
-                                                },
-                                                "name": {
-                                                  "examples": [
-                                                    "John"
-                                                  ],
-                                                  "type": "string"
-                                                },
-                                                "status": {
-                                                  "examples": [
-                                                    "passed"
-                                                  ],
-                                                  "type": "string"
-                                                }
-                                              },
-                                              "type": "object"
-                                            },
-                                            "type": "array"
-                                          }
-                                        },
-                                        "type": "object"
-                                      },
-                                      "name": {
-                                        "examples": [
-                                          "database_standard_identity_comparison"
-                                        ],
-                                        "type": "string"
-                                      },
-                                      "reasons": {
-                                        "items": {
-                                          "examples": [
-                                            "no_inquiry"
-                                          ],
-                                          "type": "string"
-                                        },
-                                        "type": "array"
-                                      },
-                                      "status": {
-                                        "examples": [
-                                          "not_applicable"
-                                        ],
-                                        "type": "string"
-                                      }
-                                    },
-                                    "type": "object"
-                                  },
-                                  "type": "array"
-                                },
-                                "completed-at": {
-                                  "examples": [
-                                    "2022-08-02T05:03:02.000Z"
-                                  ],
-                                  "type": "string"
-                                },
-                                "completed-at-ts": {
-                                  "default": 0,
-                                  "examples": [
-                                    1659416582
-                                  ],
-                                  "type": "integer"
-                                },
-                                "country-code": {
-                                  "examples": [
-                                    "US"
-                                  ],
-                                  "type": "string"
-                                },
-                                "created-at": {
-                                  "examples": [
-                                    "2022-08-02T05:02:56.000Z"
-                                  ],
-                                  "type": "string"
-                                },
-                                "created-at-ts": {
-                                  "default": 0,
-                                  "examples": [
-                                    1659416576
-                                  ],
-                                  "type": "integer"
-                                },
-                                "normalized-address-city": {
-                                  "examples": [
-                                    "Los Angeles"
-                                  ],
-                                  "type": "string"
-                                },
-                                "normalized-address-postal-code": {
-                                  "examples": [
-                                    "55555"
-                                  ],
-                                  "type": "string"
-                                },
-                                "normalized-address-street-1": {
-                                  "examples": [
-                                    "555 Beverly Hills"
-                                  ],
-                                  "type": "string"
-                                },
-                                "normalized-address-street-2": {
-                                  "examples": [
-                                    "Apt 123"
-                                  ],
-                                  "type": "string"
-                                },
-                                "normalized-address-subdivision": {
-                                  "examples": [
-                                    "CA"
-                                  ],
-                                  "type": "string"
-                                },
-                                "status": {
-                                  "examples": [
-                                    "passed"
-                                  ],
-                                  "type": "string"
-                                },
-                                "submitted-at": {
-                                  "examples": [
-                                    "2022-08-02T05:03:02.000Z"
-                                  ],
-                                  "type": "string"
-                                },
-                                "submitted-at-ts": {
-                                  "default": 0,
-                                  "examples": [
-                                    1659416582
-                                  ],
-                                  "type": "integer"
-                                }
-                              }
-                            }
-                          ]
-                        },
-                        "relationships": {
-                          "properties": {
-                            "inquiry": {
-                              "properties": {
-                                "data": {
-                                  "properties": {
-                                    "id": {
-                                      "examples": [
-                                        "inq_Dj1JxEG9K153GbvFYGScCRlL"
-                                      ],
-                                      "type": "string"
-                                    }
-                                  },
-                                  "type": "object"
-                                }
-                              },
-                              "type": "object"
-                            }
-                          },
-                          "type": "object"
-                        }
-                      },
-                      "type": "object"
+                      "$ref": "#/components/schemas/verification-database-standard"
                     }
-                  },
-                  "type": "object"
+                  }
                 }
               }
             },
@@ -26897,6 +26601,7 @@
         "title": "eCBSV Database Verification",
         "description": "An eCBSV Database Verification",
         "type": "object",
+        "additionalProperties": false,
         "properties": {
           "type": {
             "type": "string",
@@ -26915,31 +26620,43 @@
                 "$ref": "#/components/schemas/verification-shared-attributes"
               },
               {
-                "$ref": "#/components/schemas/default-fields"
-              },
-              {
                 "type": "object",
                 "properties": {
-                  "birthdate": {
-                    "description": "Birthdate of the individual",
-                    "format": "date",
-                    "type": "string"
-                  },
                   "name-first": {
                     "description": "First name of the individual.",
-                    "type": "string"
+                    "type": [
+                      "string",
+                      "null"
+                    ]
                   },
                   "name-last": {
                     "description": "Last name of the individual.",
-                    "type": "string"
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "birthdate": {
+                    "description": "Birthdate of the individual",
+                    "format": "date",
+                    "type": [
+                      "string",
+                      "null"
+                    ]
                   },
                   "email-address": {
                     "description": "Email address of the individual.",
-                    "type": "string"
+                    "type": [
+                      "string",
+                      "null"
+                    ]
                   },
                   "identification-number": {
                     "description": "Social Security Number of the individual.",
-                    "type": "string"
+                    "type": [
+                      "string",
+                      "null"
+                    ]
                   },
                   "signature-timestamp": {
                     "description": "Timestamp of the signature",
@@ -26955,10 +26672,6 @@
                       "string",
                       "null"
                     ]
-                  },
-                  "verification-template-id": {
-                    "description": "ID of Verification Template. You can find your Verification Template IDs [here](https://app.withpersona.com/dashboard/verification-templates?filter=%7B%22type%22%3A%5B%22verification-template%2Fdatabase-ecbsv\"%5D%7D)",
-                    "type": "string"
                   }
                 }
               }
@@ -26973,6 +26686,7 @@
         "title": "Phone Carrier Database Verification",
         "description": "A Phone Carrier Database Verification",
         "type": "object",
+        "additionalProperties": false,
         "properties": {
           "type": {
             "type": "string",
@@ -26991,18 +26705,53 @@
                 "$ref": "#/components/schemas/verification-shared-attributes"
               },
               {
-                "$ref": "#/components/schemas/default-fields"
-              },
-              {
                 "type": "object",
                 "properties": {
                   "name-first": {
-                    "type": "string"
+                    "description": "Given or first name.",
+                    "examples": [
+                      "Jane"
+                    ],
+                    "type": [
+                      "string",
+                      "null"
+                    ]
                   },
                   "name-last": {
-                    "type": "string"
+                    "description": "Family or last name.",
+                    "examples": [
+                      "Doe"
+                    ],
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "birthdate": {
+                    "description": "Birthdate in the format \"YYYY-MM-DD\".",
+                    "format": "date",
+                    "examples": [
+                      "1994-04-12"
+                    ],
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "phone-number": {
+                    "description": "Phone number.",
+                    "examples": [
+                      "415-555-1234"
+                    ],
+                    "type": [
+                      "string",
+                      "null"
+                    ]
                   }
                 }
+              },
+              {
+                "$ref": "#/components/schemas/address-fields"
               }
             ]
           },
@@ -27015,6 +26764,7 @@
         "title": "Serpro Database Verification",
         "description": "A Serpro Database Verification",
         "type": "object",
+        "additionalProperties": false,
         "properties": {
           "type": {
             "type": "string",
@@ -27033,38 +26783,30 @@
                 "$ref": "#/components/schemas/verification-shared-attributes"
               },
               {
-                "$ref": "#/components/schemas/default-fields"
-              },
-              {
                 "type": "object",
                 "properties": {
                   "birthdate": {
-                    "description": "Birthdate of the individual",
+                    "description": "Birthdate of the individual.",
                     "format": "date",
-                    "type": "string"
+                    "type": [
+                      "string",
+                      "null"
+                    ]
                   },
                   "cpf": {
-                    "description": "The Cadastro de Pessoas Físicas for the individual",
+                    "description": "The Cadastro de Pessoas Físicas for the individual.",
                     "type": "string"
                   },
                   "name-first": {
-                    "description": "First name of the individual. This will be overwritten by name-full.",
+                    "description": "First name of the individual.",
                     "type": "string"
                   },
                   "name-full": {
-                    "description": "Full name of the individual. This will overwrite values for name-first and name-last if provided.",
+                    "description": "Full name of the individual.",
                     "type": "string"
                   },
                   "name-last": {
-                    "description": "Last name of the individual. This will be overwritten by name-full.",
-                    "type": "string"
-                  },
-                  "selfie-id": {
-                    "description": "ID of a selfie of the individual. This id should begin with self_.",
-                    "type": "string"
-                  },
-                  "verification-template-id": {
-                    "description": "ID of Verification Template. You can find your Verification Template IDs [here](https://app.withpersona.com/dashboard/verification-templates?filter=%7B%22type%22%3A%5B%22verification-template%2Fdatabase-serpro\"%5D%7D).",
+                    "description": "Last name of the individual.",
                     "type": "string"
                   }
                 }
@@ -27072,7 +26814,46 @@
             ]
           },
           "relationships": {
-            "$ref": "#/components/schemas/verification-shared-relationships"
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/verification-shared-relationships"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "selfie": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "description": "The selfie linked to the Verification",
+                    "properties": {
+                      "data": {
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "properties": {
+                          "id": {
+                            "example": "self_ABC123",
+                            "type": "string"
+                          },
+                          "type": {
+                            "x-polymorphic": true,
+                            "examples": [
+                              "selfie/profile-and-center",
+                              "selfie/center-only",
+                              "selfie/configurable-poses"
+                            ],
+                            "type": "string",
+                            "description": "Possible values:\n- selfie/profile-and-center\n- selfie/center-only\n- selfie/configurable-poses\n\nDo not assume this is a static enumeration; Persona may add new values in\nthe future without a versioned update."
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
           }
         }
       },
@@ -34491,6 +34272,74 @@
           }
         }
       },
+      "verification-database-standard": {
+        "title": "Standard Database Verification",
+        "description": "A Standard Database Verification",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "const": "verification/database-standard",
+            "description": "verification/database-standard",
+            "type": "string"
+          },
+          "id": {
+            "examples": [
+              "ver_1rWMmoV3hoy2qWv3wGPcH43c"
+            ],
+            "type": "string"
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/verification-shared-attributes"
+              },
+              {
+                "$ref": "#/components/schemas/default-fields"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "normalized-address-city": {
+                    "examples": [
+                      "Los Angeles"
+                    ],
+                    "type": "string"
+                  },
+                  "normalized-address-postal-code": {
+                    "examples": [
+                      "55555"
+                    ],
+                    "type": "string"
+                  },
+                  "normalized-address-street-1": {
+                    "examples": [
+                      "555 Beverly Hills"
+                    ],
+                    "type": "string"
+                  },
+                  "normalized-address-street-2": {
+                    "examples": [
+                      "Apt 123"
+                    ],
+                    "type": "string"
+                  },
+                  "normalized-address-subdivision": {
+                    "examples": [
+                      "CA"
+                    ],
+                    "type": "string"
+                  }
+                }
+              }
+            ]
+          },
+          "relationships": {
+            "$ref": "#/components/schemas/verification-shared-relationships"
+          }
+        }
+      },
       "verification": {
         "type": "object",
         "discriminator": {
@@ -38370,64 +38219,220 @@
           }
         }
       },
+      "verification-database-ecbsv": {
+        "value": {
+          "data": {
+            "type": "verification/database-ecbsv",
+            "id": "ver_2wpqiEtejRcTA1hMJEXmbrJ6",
+            "attributes": {
+              "status": "initiated",
+              "created-at": "2022-08-03T04:11:32.000Z",
+              "created-at-ts": 1659499892,
+              "submitted-at": null,
+              "submitted-at-ts": null,
+              "completed-at": null,
+              "completed-at-ts": null,
+              "country-code": "US",
+              "name-first": "Jane",
+              "name-last": "Doe",
+              "birthdate": "1994-04-12",
+              "email-address": "jane@doe.com",
+              "identification-number": "B12345678",
+              "signature-timestamp": "2022-09-03T04:13:06.000Z",
+              "signature-ip": "127.0.0.1",
+              "checks": []
+            },
+            "relationships": {
+              "inquiry": {
+                "data": null
+              },
+              "template": {
+                "data": null
+              },
+              "inquiry-template-version": {
+                "data": null
+              },
+              "inquiry-template": {
+                "data": null
+              },
+              "verification-template-version": {
+                "data": {
+                  "type": "verification-template-version/database-ecbsv",
+                  "id": "vtmplv_ABC123"
+                }
+              },
+              "verification-template": {
+                "data": {
+                  "type": "verification-template/database-ecbsv",
+                  "id": "vtmpl_ABC123"
+                }
+              }
+            }
+          }
+        }
+      },
       "verification-database-phone-carrier": {
         "value": {
           "data": {
             "type": "verification/database-phone-carrier",
             "id": "ver_sg4L6Zax4TfXrVsGbVaBoSdr",
             "attributes": {
-              "status": "failed",
+              "status": "initiated",
               "created-at": "2022-08-03T03:15:56.000Z",
               "created-at-ts": 1659496556,
-              "submitted-at": "2022-08-03T03:16:26.000Z",
-              "submitted-at-ts": 1659496586,
-              "completed-at": "2022-08-03T03:16:27.000Z",
-              "completed-at-ts": 1659496587,
+              "submitted-at": null,
+              "submitted-at-ts": null,
+              "completed-at": null,
+              "completed-at-ts": null,
+              "name-first": "Jane",
+              "name-last": "Doe",
+              "address-street-1": "123 Main St",
+              "address-street-2": null,
+              "address-city": "San Francisco",
+              "address-subdivision": "California",
+              "address-postal-code": "94111",
               "country-code": "US",
-              "name-first": "ALEXANDER",
-              "checks": [
-                {
-                  "name": "database_phone_carrier_name_first_comparison",
-                  "status": "passed",
-                  "reasons": [],
-                  "metadata": {
-                    "match-score": 100,
-                    "match-result": "full"
-                  }
-                },
-                {
-                  "name": "database_phone_carrier_name_last_comparison",
-                  "status": "failed",
-                  "reasons": [
-                    "insufficient_match"
-                  ],
-                  "metadata": {
-                    "match-score": 63,
-                    "match-result": "partial"
-                  }
-                },
-                {
-                  "name": "database_phone_carrier_birthdate_comparison",
-                  "status": "not_applicable",
-                  "reasons": [
-                    "unavailable_for_country"
-                  ],
-                  "metadata": {}
-                },
-                {
-                  "name": "database_phone_carrier_address_comparison",
-                  "status": "passed",
-                  "reasons": [],
-                  "metadata": {
-                    "match-score": 48,
-                    "match-result": "none"
-                  }
-                }
-              ]
+              "birthdate": "1994-12-30",
+              "checks": []
             },
             "relationships": {
               "inquiry": {
                 "data": null
+              },
+              "template": {
+                "data": null
+              },
+              "inquiry-template-version": {
+                "data": null
+              },
+              "inquiry-template": {
+                "data": null
+              },
+              "verification-template-version": {
+                "data": {
+                  "type": "verification-template-version/database-tin",
+                  "id": "vtmplv_ABC123"
+                }
+              },
+              "verification-template": {
+                "data": {
+                  "type": "verification-template/database-tin",
+                  "id": "vtmpl_ABC123"
+                }
+              }
+            }
+          }
+        }
+      },
+      "verification-database-serpro": {
+        "value": {
+          "data": {
+            "type": "verification/database-serpro",
+            "id": "ver_ixBrVPK2jKwg4qGmbWZvwMmw",
+            "attributes": {
+              "status": "initiated",
+              "created-at": "2022-08-03T03:42:20.000Z",
+              "created-at-ts": 1659498140,
+              "submitted-at": null,
+              "submitted-at-ts": null,
+              "completed-at": null,
+              "completed-at-ts": null,
+              "country-code": "BR",
+              "cpf": "123456789",
+              "name-full": "Jane Doe",
+              "name-first": "Jane",
+              "name-last": "Doe",
+              "birthdate": "1994-12-30",
+              "checks": []
+            },
+            "relationships": {
+              "inquiry": {
+                "data": null
+              },
+              "template": {
+                "data": null
+              },
+              "inquiry-template-version": {
+                "data": null
+              },
+              "inquiry-template": {
+                "data": null
+              },
+              "verification-template-version": {
+                "data": {
+                  "type": "verification-template-version/database-serpro",
+                  "id": "vtmplv_ABC123"
+                }
+              },
+              "verification-template": {
+                "data": {
+                  "type": "verification-template/database-serpro",
+                  "id": "vtmpl_ABC123"
+                }
+              },
+              "selfie": {
+                "data": {
+                  "type": "selfie/profile-and-center",
+                  "id": "self_ABC123"
+                }
+              }
+            }
+          }
+        }
+      },
+      "verification-database-standard": {
+        "value": {
+          "data": {
+            "type": "verification/database-standard",
+            "id": "ver_6hhbmCZyhrhTjqHVwwP66QGe",
+            "attributes": {
+              "status": "initiated",
+              "created-at": "2022-08-02T04:53:19.000Z",
+              "created-at-ts": 1659415999,
+              "submitted-at": null,
+              "submitted-at-ts": null,
+              "completed-at": null,
+              "completed-at-ts": null,
+              "country-code": "US",
+              "name-first": "ALEXANDER",
+              "name-middle": "JAMES",
+              "name-last": "HAMILTON",
+              "address-street-1": "555 Beverly Hills",
+              "address-street-2": "Apartment 123",
+              "address-city": "Los Angeles",
+              "address-subdivision": "CA",
+              "address-postal-code": "55555",
+              "normalized-address-street-1": "555 Beverly Hills",
+              "normalized-address-street-2": "Apt 123",
+              "normalized-address-city": "Los Angeles",
+              "normalized-address-subdivision": "CA",
+              "normalized-address-postal-code": "55555",
+              "checks": []
+            },
+            "relationships": {
+              "inquiry": {
+                "data": null
+              },
+              "template": {
+                "data": null
+              },
+              "inquiry-template-version": {
+                "data": null
+              },
+              "inquiry-template": {
+                "data": null
+              },
+              "verification-template-version": {
+                "data": {
+                  "type": "verification-template-version/database-standard",
+                  "id": "vtmplv_ABC123"
+                }
+              },
+              "verification-template": {
+                "data": {
+                  "type": "verification-template/database-standard",
+                  "id": "vtmpl_ABC123"
+                }
               }
             }
           }

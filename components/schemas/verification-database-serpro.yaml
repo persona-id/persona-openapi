@@ -1,6 +1,7 @@
 title: Serpro Database Verification
 description: A Serpro Database Verification
 type: object
+additionalProperties: false
 properties:
   type:
     type: string
@@ -14,39 +15,63 @@ properties:
     unevaluatedProperties: false
     allOf:
       - $ref: ./verification-shared-attributes.yaml
-      - $ref: ./default-fields.yaml
       - type: object
         properties:
           birthdate:
-            description: Birthdate of the individual
+            description: Birthdate of the individual.
             format: date
-            type: string
+            type:
+              - string
+              - 'null'
           cpf:
-            description: The Cadastro de Pessoas Físicas for the individual
+            description: The Cadastro de Pessoas Físicas for the individual.
             type: string
           name-first:
-            description: >-
-              First name of the individual. This will be overwritten by
-              name-full.
+            description: First name of the individual.
             type: string
           name-full:
-            description: >-
-              Full name of the individual. This will overwrite values for
-              name-first and name-last if provided.
+            description: Full name of the individual.
             type: string
           name-last:
-            description: >-
-              Last name of the individual. This will be overwritten by
-              name-full.
-            type: string
-          selfie-id:
-            description: ID of a selfie of the individual. This id should begin with self_.
-            type: string
-          verification-template-id:
-            description: >-
-              ID of Verification Template. You can find your Verification
-              Template IDs
-              [here](https://app.withpersona.com/dashboard/verification-templates?filter=%7B%22type%22%3A%5B%22verification-template%2Fdatabase-serpro"%5D%7D).
+            description: Last name of the individual.
             type: string
   relationships:
-    $ref: ./verification-shared-relationships.yaml
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./verification-shared-relationships.yaml
+      - type: object
+        properties:
+          selfie:
+            type: object
+            additionalProperties: false
+            description: The selfie linked to the Verification
+            properties:
+              data:
+                type:
+                  - object
+                  - 'null'
+                properties:
+                  id:
+                    example: self_ABC123
+                    type: string
+                  type:
+                    x-polymorphic: true
+                    examples:
+                      - selfie/profile-and-center
+                      - selfie/center-only
+                      - selfie/configurable-poses
+                    type: string
+                    description: >-
+                      Possible values:
+
+                      - selfie/profile-and-center
+
+                      - selfie/center-only
+
+                      - selfie/configurable-poses
+
+
+                      Do not assume this is a static enumeration; Persona may
+                      add new values in
+
+                      the future without a versioned update.
