@@ -11378,6 +11378,7 @@ paths:
                   $ref: '#/components/examples/verification-database'
               schema:
                 type: object
+                additionalProperties: false
                 properties:
                   data:
                     $ref: '#/components/schemas/verification'
@@ -11457,6 +11458,7 @@ paths:
                           data: null
               schema:
                 type: object
+                additionalProperties: false
                 properties:
                   data:
                     $ref: '#/components/schemas/verification'
@@ -17224,13 +17226,16 @@ components:
               metadata:
                 description: This is a free-form object containing relevant metadata to the processing and result of the check.
                 type: object
+                additionalProperties: true
             type: object
+            additionalProperties: false
           type: array
     verification-shared-relationships:
       type: object
       properties:
         inquiry:
           type: object
+          additionalProperties: false
           description: The inquiry linked to the verification
           properties:
             data:
@@ -17247,6 +17252,7 @@ components:
                   type: string
         template:
           type: object
+          additionalProperties: false
           properties:
             data:
               type:
@@ -17262,6 +17268,7 @@ components:
                   example: tmpl_ABC123
         inquiry-template-version:
           type: object
+          additionalProperties: false
           properties:
             data:
               type:
@@ -17277,6 +17284,7 @@ components:
                   example: itmplv_ABC123
         inquiry-template:
           type: object
+          additionalProperties: false
           properties:
             data:
               type:
@@ -17292,6 +17300,7 @@ components:
                   example: itmpl_ABC123
         verification-template:
           type: object
+          additionalProperties: false
           properties:
             data:
               type:
@@ -17307,6 +17316,7 @@ components:
                   example: vtmpl_ABC123
         verification-template-version:
           type: object
+          additionalProperties: false
           properties:
             data:
               type:
@@ -17699,6 +17709,7 @@ components:
       description: A list of extractions resulting from processing the uploaded documents corresponding to the document's extraction configuration.
       items:
         type: object
+        additionalProperties: false
         properties:
           extraction-type:
             examples:
@@ -17730,6 +17741,7 @@ components:
                     - object
                     - 'null'
               type: object
+              additionalProperties: false
     verification-document:
       title: Document Verification
       description: A Document Verification
@@ -17825,6 +17837,7 @@ components:
           $ref: '#/components/schemas/verification-shared-relationships'
     verification-government-id:
       type: object
+      additionalProperties: false
       title: Government ID Verification
       description: A Government ID Verification
       properties:
@@ -17895,6 +17908,7 @@ components:
                           - https://files.withpersona.com/...
                         type: string
                     type: object
+                    additionalProperties: false
                   type:
                     - array
                     - 'null'
@@ -18076,9 +18090,12 @@ components:
                             - document/generic
                           type: string
                       type: object
+                      additionalProperties: false
                   type: object
+                  additionalProperties: false
     verification-government-id-nfc:
       type: object
+      additionalProperties: false
       title: Government ID NFC Verification
       description: A Government ID NFC Verification
       properties:
@@ -18123,6 +18140,7 @@ components:
                           - failed
                         type: string
                     type: object
+                    additionalProperties: false
                   type: array
                 expiration-date:
                   examples:
@@ -18193,7 +18211,9 @@ components:
                             - document/generic
                           type: string
                       type: object
+                      additionalProperties: false
                   type: object
+                  additionalProperties: false
     verification-phone-number:
       type: object
       additionalProperties: false
@@ -18583,6 +18603,7 @@ components:
       additionalProperties: false
     document-generic:
       type: object
+      additionalProperties: false
       description: A Document Generic object
       properties:
         id:
@@ -19138,6 +19159,7 @@ components:
               type: string
     document-file:
       type: object
+      additionalProperties: false
       properties:
         type:
           const: document-file
@@ -19149,6 +19171,7 @@ components:
           type: string
         attributes:
           type: object
+          additionalProperties: false
           properties:
             name:
               type:
@@ -19174,6 +19197,7 @@ components:
       description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
       type: array
       items:
+        unevaluatedProperties: false
         discriminator:
           propertyName: type
           mapping:
@@ -19653,6 +19677,7 @@ components:
       const: null
       additionalProperties: false
     inquiry-fields:
+      unevaluatedProperties: false
       description: JSON key-value pairs of field name to field value. Schema is defined by your Inquiry Template.
       allOf:
         - $ref: '#/components/schemas/default-fields'
@@ -19668,6 +19693,7 @@ components:
           additionalProperties: true
     selfie:
       type: object
+      additionalProperties: false
       description: A Selfie object
       properties:
         type:
@@ -19692,6 +19718,7 @@ components:
           type: string
         attributes:
           type: object
+          additionalProperties: false
           properties:
             status:
               type: string
@@ -19718,6 +19745,7 @@ components:
                 - '2020-07-12T17:16:54.656Z'
         relationships:
           type: object
+          additionalProperties: false
           properties:
             inquiry:
               properties:
@@ -19732,7 +19760,9 @@ components:
                       description: inquiry
                       type: string
                   type: object
+                  additionalProperties: false
               type: object
+              additionalProperties: false
     inquiry-session:
       type: object
       additionalProperties: false
@@ -22618,6 +22648,7 @@ components:
                         - user_ABC123
     user:
       type: object
+      additionalProperties: false
       description: A User object
       properties:
         type:
@@ -22630,6 +22661,7 @@ components:
             - user_ABC123
         attributes:
           type: object
+          additionalProperties: false
           properties:
             email-address:
               type: string
