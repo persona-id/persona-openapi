@@ -13850,6 +13850,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": false,
                   "properties": {
                     "data": {
                       "type": "array",
@@ -13859,6 +13860,7 @@
                     },
                     "links": {
                       "type": "object",
+                      "additionalProperties": false,
                       "properties": {
                         "prev": {
                           "type": [
@@ -14082,9 +14084,14 @@
                 },
                 "schema": {
                   "type": "object",
+                  "additionalProperties": false,
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/report"
+                    },
+                    "included": {
+                      "description": "Objects that _may_ be returned if specified via the `include` query parameter in the request.",
+                      "$ref": "#/components/schemas/reports-included-objects"
                     }
                   }
                 }
@@ -14165,9 +14172,14 @@
                 },
                 "schema": {
                   "type": "object",
+                  "additionalProperties": false,
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/report"
+                    },
+                    "included": {
+                      "description": "Objects that _may_ be returned if specified via the `include` query parameter in the request.",
+                      "$ref": "#/components/schemas/reports-included-objects"
                     }
                   }
                 }
@@ -14242,12 +14254,17 @@
                   }
                 },
                 "schema": {
-                  "type": "object",
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/report"
+                    },
+                    "included": {
+                      "description": "Included by default:\n\n- Report Template\n\nAnything else must be explicitly requested with the `include` query parameter.",
+                      "$ref": "#/components/schemas/reports-included-objects"
                     }
-                  }
+                  },
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             },
@@ -14313,13 +14330,20 @@
                   "meta": {
                     "properties": {
                       "tag-name": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "Name of the tag to add to the Report."
+                      },
+                      "tag-id": {
+                        "type": "string",
+                        "description": "ID of the tag to add to the Report."
                       }
                     },
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": false
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             }
           }
@@ -14364,9 +14388,14 @@
                 },
                 "schema": {
                   "type": "object",
+                  "additionalProperties": false,
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/report"
+                    },
+                    "included": {
+                      "description": "Objects that _may_ be returned if specified via the `include` query parameter in the request.",
+                      "$ref": "#/components/schemas/reports-included-objects"
                     }
                   }
                 }
@@ -14458,16 +14487,19 @@
                             "type": "string"
                           }
                         },
-                        "type": "object"
+                        "type": "object",
+                        "additionalProperties": false
                       }
                     },
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": false
                   }
                 },
                 "required": [
                   "data"
                 ],
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             }
           }
@@ -14512,9 +14544,14 @@
                 },
                 "schema": {
                   "type": "object",
+                  "additionalProperties": false,
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/report"
+                    },
+                    "included": {
+                      "description": "Objects that _may_ be returned if specified via the `include` query parameter in the request.",
+                      "$ref": "#/components/schemas/reports-included-objects"
                     }
                   }
                 }
@@ -14620,9 +14657,14 @@
                 },
                 "schema": {
                   "type": "object",
+                  "additionalProperties": false,
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/report"
+                    },
+                    "included": {
+                      "description": "Objects that _may_ be returned if specified via the `include` query parameter in the request.",
+                      "$ref": "#/components/schemas/reports-included-objects"
                     }
                   }
                 }
@@ -14763,13 +14805,20 @@
                   "meta": {
                     "properties": {
                       "tag-name": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "Name of the tag to remove from the Report."
+                      },
+                      "tag-id": {
+                        "type": "string",
+                        "description": "ID of the tag to remove from the Report."
                       }
                     },
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": false
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             }
           }
@@ -14814,9 +14863,14 @@
                 },
                 "schema": {
                   "type": "object",
+                  "additionalProperties": false,
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/report"
+                    },
+                    "included": {
+                      "description": "Objects that _may_ be returned if specified via the `include` query parameter in the request.",
+                      "$ref": "#/components/schemas/reports-included-objects"
                     }
                   }
                 }
@@ -14922,9 +14976,14 @@
                 },
                 "schema": {
                   "type": "object",
+                  "additionalProperties": false,
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/report"
+                    },
+                    "included": {
+                      "description": "Objects that _may_ be returned if specified via the `include` query parameter in the request.",
+                      "$ref": "#/components/schemas/reports-included-objects"
                     }
                   }
                 }
@@ -15030,9 +15089,14 @@
                 },
                 "schema": {
                   "type": "object",
+                  "additionalProperties": false,
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/report"
+                    },
+                    "included": {
+                      "description": "Objects that _may_ be returned if specified via the `include` query parameter in the request.",
+                      "$ref": "#/components/schemas/reports-included-objects"
                     }
                   }
                 }
@@ -15107,15 +15171,25 @@
                     "properties": {
                       "tag-name": {
                         "items": {
-                          "type": "string"
+                          "type": "string",
+                          "description": "Name of the tag to add to the Report."
+                        },
+                        "type": "array"
+                      },
+                      "tag-id": {
+                        "items": {
+                          "type": "string",
+                          "description": "ID of the tag to add to the Report."
                         },
                         "type": "array"
                       }
                     },
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": false
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             }
           }
@@ -15160,9 +15234,14 @@
                 },
                 "schema": {
                   "type": "object",
+                  "additionalProperties": false,
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/report"
+                    },
+                    "included": {
+                      "description": "Objects that _may_ be returned if specified via the `include` query parameter in the request.",
+                      "$ref": "#/components/schemas/reports-included-objects"
                     }
                   }
                 }
@@ -25365,8 +25444,8 @@
         "properties": {
           "type": {
             "type": "string",
-            "const": "report/sentilink-scores",
-            "description": "report/sentilink-scores"
+            "const": "report/integration/sentilink-scores",
+            "description": "report/integration/sentilink-scores"
           },
           "id": {
             "type": "string",
@@ -27981,7 +28060,7 @@
               "report/email-address": "#/components/schemas/report-email-address",
               "report/phone-number": "#/components/schemas/report-phone-risk",
               "report/politically-exposed-person": "#/components/schemas/report-politically-exposed-person",
-              "report/sentilink-scores": "#/components/schemas/report-sentilink-scores",
+              "report/integration/sentilink-scores": "#/components/schemas/report-sentilink-scores",
               "report/social-media": "#/components/schemas/report-social-media",
               "report/watchlist": "#/components/schemas/report-watchlist",
               "transaction": "#/components/schemas/transaction",
@@ -30239,7 +30318,7 @@
               "report/phone-number": "#/components/schemas/report-phone-risk",
               "report/social-media": "#/components/schemas/report-social-media",
               "report/business-lookup": "#/components/schemas/report-business-lookup",
-              "report/sentilink-scores": "#/components/schemas/report-sentilink-scores",
+              "report/integration/sentilink-scores": "#/components/schemas/report-sentilink-scores",
               "selfie": "#/components/schemas/selfie",
               "inquiry-session": "#/components/schemas/inquiry-session",
               "verification/aamva": "#/components/schemas/verification-aamva",
@@ -33073,7 +33152,7 @@
             "report/politically-exposed-person": "#/components/schemas/report-politically-exposed-person",
             "report/profile": "#/components/schemas/report-profile",
             "report/sec-action-lookup": "#/components/schemas/report-sec-action-lookup",
-            "report/sentilink-scores": "#/components/schemas/report-sentilink-scores",
+            "report/integration/sentilink-scores": "#/components/schemas/report-sentilink-scores",
             "report/social-media": "#/components/schemas/report-social-media",
             "report/synthetic": "#/components/schemas/report-synthetic",
             "report/watchlist": "#/components/schemas/report-watchlist"
@@ -33170,59 +33249,71 @@
               {
                 "type": "object",
                 "properties": {
-                  "addressee": {
-                    "description": "The name of an individual at this location.",
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "example": "Joe Doe"
-                  },
-                  "address-street-1": {
-                    "description": "Address line 1 (e.g., street, PO Box, or company name).",
-                    "type": "string",
-                    "example": "1 Example Way"
-                  },
-                  "address-street-2": {
-                    "description": "Address line 2 (e.g., apartment, suite, unit, or building).",
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "example": "Ste 300"
-                  },
-                  "address-city": {
-                    "description": "City.",
-                    "type": "string",
-                    "example": "Cupertino"
-                  },
-                  "address-subdivision": {
-                    "description": "Subnational division of a country, such as a state or province.",
-                    "type": "string",
-                    "example": "California"
-                  },
-                  "address-postal-code": {
-                    "description": "ZIP or postal code.",
-                    "type": "string",
-                    "example": "95014"
-                  },
-                  "address-country-code": {
-                    "description": "ISO 3166-1 alpha-2 country code.",
-                    "type": "string",
-                    "example": "US"
+                  "query": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "addressee": {
+                        "description": "The name of an individual at this location.",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "example": "Joe Doe"
+                      },
+                      "address-street-1": {
+                        "description": "Address line 1 (e.g., street, PO Box, or company name).",
+                        "type": "string",
+                        "example": "1 Example Way"
+                      },
+                      "address-street-2": {
+                        "description": "Address line 2 (e.g., apartment, suite, unit, or building).",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "example": "Ste 300"
+                      },
+                      "address-city": {
+                        "description": "City.",
+                        "type": "string",
+                        "example": "Cupertino"
+                      },
+                      "address-subdivision": {
+                        "description": "Subnational division of a country, such as a state or province.",
+                        "type": "string",
+                        "example": "California"
+                      },
+                      "address-postal-code": {
+                        "description": "ZIP or postal code.",
+                        "type": "string",
+                        "example": "95014"
+                      },
+                      "address-country-code": {
+                        "description": "ISO 3166-1 alpha-2 country code.",
+                        "type": "string",
+                        "example": "US"
+                      }
+                    },
+                    "required": [
+                      "address-street-1",
+                      "address-city",
+                      "address-subdivision",
+                      "address-postal-code",
+                      "address-country-code"
+                    ]
                   }
-                }
+                },
+                "required": [
+                  "query"
+                ]
               }
-            ],
-            "required": [
-              "address-street-1",
-              "address-city",
-              "address-subdivision",
-              "address-postal-code",
-              "address-country-code"
             ]
           }
-        }
+        },
+        "required": [
+          "attributes"
+        ]
       },
       "report-adverse-media-request": {
         "title": "Adverse Media Report",
@@ -33235,7 +33326,6 @@
             "description": "report/adverse-media"
           },
           "attributes": {
-            "description": "At least one of `name-first`, `name-middle`, `name-last`, or `term` is required.",
             "unevaluatedProperties": false,
             "allOf": [
               {
@@ -33244,64 +33334,78 @@
               {
                 "type": "object",
                 "properties": {
-                  "name-first": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "The first name of the individual to search.",
-                    "example": "Joe"
-                  },
-                  "name-middle": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "The middle name of the individual to search.",
-                    "example": "N"
-                  },
-                  "name-last": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "The last name of the individual to search.",
-                    "example": "Doe"
-                  },
-                  "term": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "Custom search term instead of separate name parts of the individual (i.e. first + middle + last name).",
-                    "example": "Joe N Doe"
-                  },
-                  "birthdate": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "The birthdate of the individual, formatted as YYYY-MM-DD (ISO 8601).",
-                    "example": "1991-10-07"
-                  },
-                  "country-code": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "ISO 3166-1 alpha-2 country code.",
-                    "example": "US"
+                  "query": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "description": "At least one of `name-first`, `name-middle`, `name-last`, or `term` is required.",
+                    "properties": {
+                      "name-first": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "The first name of the individual to search.",
+                        "example": "Joe"
+                      },
+                      "name-middle": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "The middle name of the individual to search.",
+                        "example": "N"
+                      },
+                      "name-last": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "The last name of the individual to search.",
+                        "example": "Doe"
+                      },
+                      "term": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "Custom search term instead of separate name parts of the individual (i.e. first + middle + last name).",
+                        "example": "Joe N Doe"
+                      },
+                      "birthdate": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "The birthdate of the individual, formatted as YYYY-MM-DD (ISO 8601).",
+                        "example": "1991-10-07"
+                      },
+                      "country-code": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "ISO 3166-1 alpha-2 country code.",
+                        "example": "US"
+                      }
+                    }
                   }
-                }
+                },
+                "required": [
+                  "query"
+                ]
               }
             ]
           }
-        }
+        },
+        "required": [
+          "attributes"
+        ]
       },
       "report-business-adverse-media-request": {
         "title": "Business Adverse Media Report",
         "description": "Fields required to create a Business Adverse Media Report",
         "type": "object",
+        "additionalProperties": false,
         "properties": {
           "type": {
             "type": "string",
@@ -33317,24 +33421,37 @@
               {
                 "type": "object",
                 "properties": {
-                  "term": {
-                    "type": "string",
-                    "description": "The search term for the adverse media report, typically the name of the business.",
-                    "example": "Acme Corporation"
+                  "query": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "term": {
+                        "type": "string",
+                        "description": "The search term for the adverse media report, typically the name of the business.",
+                        "example": "Acme Corporation"
+                      }
+                    },
+                    "required": [
+                      "term"
+                    ]
                   }
-                }
+                },
+                "required": [
+                  "query"
+                ]
               }
-            ],
-            "required": [
-              "term"
             ]
           }
-        }
+        },
+        "required": [
+          "attributes"
+        ]
       },
       "report-business-lookup-request": {
         "title": "Business Lookup Report",
         "description": "Fields required to create a Business Lookup Report",
         "type": "object",
+        "additionalProperties": false,
         "properties": {
           "type": {
             "type": "string",
@@ -33352,6 +33469,7 @@
                 "properties": {
                   "query": {
                     "type": "object",
+                    "additionalProperties": false,
                     "properties": {
                       "business-name": {
                         "description": "The name of the business to search.",
@@ -33476,11 +33594,17 @@
                       "business-name"
                     ]
                   }
-                }
+                },
+                "required": [
+                  "query"
+                ]
               }
             ]
           }
-        }
+        },
+        "required": [
+          "attributes"
+        ]
       },
       "report-business-watchlist-request": {
         "title": "Business Watchlist Report",
@@ -33501,27 +33625,39 @@
               {
                 "type": "object",
                 "properties": {
-                  "term": {
-                    "type": "string",
-                    "description": "The search term for the business watchlist report, typically the name of the business.",
-                    "example": "Acme Corporation"
-                  },
-                  "address-country-code": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "ISO 3166-1 alpha-2 country code.",
-                    "example": "US"
+                  "query": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "term": {
+                        "type": "string",
+                        "description": "The search term for the business watchlist report, typically the name of the business.",
+                        "example": "Acme Corporation"
+                      },
+                      "address-country-code": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "ISO 3166-1 alpha-2 country code.",
+                        "example": "US"
+                      }
+                    },
+                    "required": [
+                      "term"
+                    ]
                   }
-                }
+                },
+                "required": [
+                  "query"
+                ]
               }
-            ],
-            "required": [
-              "term"
             ]
           }
-        }
+        },
+        "required": [
+          "attributes"
+        ]
       },
       "report-crypto-address-watchlist-request": {
         "title": "Crypto Address Watchlist Report",
@@ -33542,24 +33678,37 @@
               {
                 "type": "object",
                 "properties": {
-                  "crypto-address": {
-                    "type": "string",
-                    "description": "The crypto wallet address to search.",
-                    "example": "1Fz29BQp82pE3vXXcsZoMNQ3KSHfMzfMe3"
+                  "query": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "crypto-address": {
+                        "type": "string",
+                        "description": "The crypto wallet address to search.",
+                        "example": "1Fz29BQp82pE3vXXcsZoMNQ3KSHfMzfMe3"
+                      }
+                    },
+                    "required": [
+                      "crypto-address"
+                    ]
                   }
-                }
+                },
+                "required": [
+                  "query"
+                ]
               }
-            ],
-            "required": [
-              "crypto-address"
             ]
           }
-        }
+        },
+        "required": [
+          "attributes"
+        ]
       },
       "report-email-address-request": {
         "title": "Email Address Report",
         "description": "Fields required to create an Email Address Report",
         "type": "object",
+        "additionalProperties": false,
         "properties": {
           "type": {
             "type": "string",
@@ -33577,6 +33726,7 @@
                 "properties": {
                   "query": {
                     "type": "object",
+                    "additionalProperties": false,
                     "properties": {
                       "email-address": {
                         "type": "string",
@@ -33588,11 +33738,17 @@
                       "email-address"
                     ]
                   }
-                }
+                },
+                "required": [
+                  "query"
+                ]
               }
             ]
           }
-        }
+        },
+        "required": [
+          "attributes"
+        ]
       },
       "report-phone-risk-request": {
         "title": "Phone Risk Report",
@@ -33613,24 +33769,37 @@
               {
                 "type": "object",
                 "properties": {
-                  "phone-number": {
-                    "type": "string",
-                    "description": "The phone number to search.",
-                    "example": "+14169671111"
+                  "query": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "phone-number": {
+                        "type": "string",
+                        "description": "The phone number to search.",
+                        "example": "+14169671111"
+                      }
+                    },
+                    "required": [
+                      "phone-number"
+                    ]
                   }
-                }
+                },
+                "required": [
+                  "query"
+                ]
               }
-            ],
-            "required": [
-              "phone-number"
             ]
           }
-        }
+        },
+        "required": [
+          "attributes"
+        ]
       },
       "report-politically-exposed-person-request": {
         "title": "Politically Exposed Person Report",
         "description": "Fields required to create a Politically Exposed Person Report",
         "type": "object",
+        "additionalProperties": false,
         "properties": {
           "type": {
             "type": "string",
@@ -33638,7 +33807,6 @@
             "description": "report/politically-exposed-person"
           },
           "attributes": {
-            "description": "At least one of `name-first`, `name-middle`, `name-last`, or `term` is required.",
             "unevaluatedProperties": false,
             "allOf": [
               {
@@ -33649,6 +33817,8 @@
                 "properties": {
                   "query": {
                     "type": "object",
+                    "additionalProperties": false,
+                    "description": "At least one of `name-first`, `name-middle`, `name-last`, or `term` is required.",
                     "properties": {
                       "name-first": {
                         "type": [
@@ -33700,11 +33870,17 @@
                       }
                     }
                   }
-                }
+                },
+                "required": [
+                  "query"
+                ]
               }
             ]
           }
-        }
+        },
+        "required": [
+          "attributes"
+        ]
       },
       "report-profile-request": {
         "title": "Profile Report Report",
@@ -33725,95 +33901,101 @@
               {
                 "type": "object",
                 "properties": {
-                  "name-first": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "The first name of the individual to search.",
-                    "example": "John"
-                  },
-                  "name-last": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "The last name of the individual to search.",
-                    "example": "Doe"
-                  },
-                  "birthdate": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
-                    "description": "The birthdate of the individual, formatted as YYYY-MM-DD (ISO 8601).",
-                    "example": "1970-01-01"
-                  },
-                  "social-security-number": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "pattern": "^\\d{3}-\\d{2}-\\d{4}$",
-                    "description": "Social security number.",
-                    "example": "123-45-6789"
-                  },
-                  "address-street-1": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "Address line 1 (e.g., street or PO Box).",
-                    "example": "123 Main St"
-                  },
-                  "address-street-2": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "Address line 2 (e.g., apartment, suite, unit, or building).",
-                    "example": "Apt 4"
-                  },
-                  "address-city": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "City of residence.",
-                    "example": "Anytown"
-                  },
-                  "address-subdivision": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "State or subdivision of residence, unabbreviated.",
-                    "example": "California"
-                  },
-                  "address-postal-code": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "ZIP or postal code of residence.",
-                    "example": "12345"
-                  },
-                  "country-code": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "ISO 3166-1 alpha-2 country code for the location of residence.",
-                    "example": "US"
-                  },
-                  "phone-number": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "Phone number.",
-                    "example": "555-555-5555"
+                  "query": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "name-first": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "The first name of the individual to search.",
+                        "example": "John"
+                      },
+                      "name-last": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "The last name of the individual to search.",
+                        "example": "Doe"
+                      },
+                      "birthdate": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+                        "description": "The birthdate of the individual, formatted as YYYY-MM-DD (ISO 8601).",
+                        "example": "1970-01-01"
+                      },
+                      "social-security-number": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "pattern": "^\\d{3}-\\d{2}-\\d{4}$",
+                        "description": "Social security number.",
+                        "example": "123-45-6789"
+                      },
+                      "address-street-1": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "Address line 1 (e.g., street or PO Box).",
+                        "example": "123 Main St"
+                      },
+                      "address-street-2": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "Address line 2 (e.g., apartment, suite, unit, or building).",
+                        "example": "Apt 4"
+                      },
+                      "address-city": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "City of residence.",
+                        "example": "Anytown"
+                      },
+                      "address-subdivision": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "State or subdivision of residence, unabbreviated.",
+                        "example": "California"
+                      },
+                      "address-postal-code": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "ZIP or postal code of residence.",
+                        "example": "12345"
+                      },
+                      "country-code": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "ISO 3166-1 alpha-2 country code for the location of residence.",
+                        "example": "US"
+                      },
+                      "phone-number": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "Phone number.",
+                        "example": "555-555-5555"
+                      }
+                    }
                   }
                 }
               }
@@ -33832,7 +34014,6 @@
             "description": "report/social-media"
           },
           "attributes": {
-            "description": "Requires `phone-number` or `email-address` or both `first-name` and `last-name`.",
             "unevaluatedProperties": false,
             "allOf": [
               {
@@ -33841,83 +34022,96 @@
               {
                 "type": "object",
                 "properties": {
-                  "name-first": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "The first name of the individual to search.",
-                    "example": "Jane"
-                  },
-                  "name-last": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "The last name of the individual to search.",
-                    "example": "Doe"
-                  },
-                  "birthdate": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "The birthdate of the individual, formatted as YYYY-MM-DD (ISO 8601).",
-                    "example": "1991-10-07"
-                  },
-                  "phone-number": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "Phone number of the individual to search.",
-                    "example": "+14169671111"
-                  },
-                  "email-address": {
-                    "description": "Email address of the individual to search.",
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "example": "address@domain.com"
-                  },
-                  "address-city": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "City",
-                    "example": "Funkyville"
-                  },
-                  "address-subdivision": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "Subnational division (such as a state or province) of the country of residence.",
-                    "example": "Wisconsin"
-                  },
-                  "address-postal-code": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "ZIP or postal code of residence.",
-                    "example": "12345"
-                  },
-                  "address-country-code": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "ISO 3166-1 alpha-2 country code for the location of residence.",
-                    "example": "US"
+                  "query": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "description": "Requires `phone-number` or `email-address` or both `first-name` and `last-name`.",
+                    "properties": {
+                      "name-first": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "The first name of the individual to search.",
+                        "example": "Jane"
+                      },
+                      "name-last": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "The last name of the individual to search.",
+                        "example": "Doe"
+                      },
+                      "birthdate": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "The birthdate of the individual, formatted as YYYY-MM-DD (ISO 8601).",
+                        "example": "1991-10-07"
+                      },
+                      "phone-number": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "Phone number of the individual to search.",
+                        "example": "+14169671111"
+                      },
+                      "email-address": {
+                        "description": "Email address of the individual to search.",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "example": "address@domain.com"
+                      },
+                      "address-city": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "City",
+                        "example": "Funkyville"
+                      },
+                      "address-subdivision": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "Subnational division (such as a state or province) of the country of residence.",
+                        "example": "Wisconsin"
+                      },
+                      "address-postal-code": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "ZIP or postal code of residence.",
+                        "example": "12345"
+                      },
+                      "address-country-code": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "ISO 3166-1 alpha-2 country code for the location of residence.",
+                        "example": "US"
+                      }
+                    }
                   }
-                }
+                },
+                "required": [
+                  "query"
+                ]
               }
             ]
           }
-        }
+        },
+        "required": [
+          "attributes"
+        ]
       },
       "report-synthetic-request": {
         "title": "Synthetic Report Report",
@@ -33938,102 +34132,114 @@
               {
                 "type": "object",
                 "properties": {
-                  "name-first": {
-                    "type": "string",
-                    "description": "The first name of the individual to search.",
-                    "example": "John"
-                  },
-                  "name-last": {
-                    "type": "string",
-                    "description": "The last name of the individual to search.",
-                    "example": "Doe"
-                  },
-                  "birthdate": {
-                    "type": "string",
-                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
-                    "description": "The birthdate of the individual, formatted as YYYY-MM-DD (ISO 8601).",
-                    "example": "1980-07-15"
-                  },
-                  "social-security-number": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "pattern": "^\\d{3}-\\d{2}-\\d{4}$",
-                    "description": "Social security number. One of `identification-number` or `social-security-number` is required.",
-                    "example": "123-45-6789"
-                  },
-                  "identification-number": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "Any identification number that is not a social security number. One of `identification-number` or `social-security-number` is required."
-                  },
-                  "address-street-1": {
-                    "type": "string",
-                    "description": "Address line 1 (e.g., street, PO Box, or company name).",
-                    "example": "456 Elm St"
-                  },
-                  "address-street-2": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "Address line 2 (e.g., apartment, suite, unit, or building).",
-                    "example": "Suite 2"
-                  },
-                  "address-city": {
-                    "type": "string",
-                    "description": "City",
-                    "example": "Springfield"
-                  },
-                  "address-subdivision": {
-                    "type": "string",
-                    "description": "Subnational division of a country, such as a state or province. Unabbreviated.",
-                    "example": "California"
-                  },
-                  "address-postal-code": {
-                    "type": "string",
-                    "description": "ZIP or postal code.",
-                    "example": "12345"
-                  },
-                  "address-country-code": {
-                    "type": "string",
-                    "description": "ISO 3166-1 alpha-2 country code.",
-                    "example": "US"
-                  },
-                  "phone-number": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "Phone number.",
-                    "example": "555-555-1234"
-                  },
-                  "email-address": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "Email address.",
-                    "example": "john.doe@example.com"
+                  "query": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "name-first": {
+                        "type": "string",
+                        "description": "The first name of the individual to search.",
+                        "example": "John"
+                      },
+                      "name-last": {
+                        "type": "string",
+                        "description": "The last name of the individual to search.",
+                        "example": "Doe"
+                      },
+                      "birthdate": {
+                        "type": "string",
+                        "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+                        "description": "The birthdate of the individual, formatted as YYYY-MM-DD (ISO 8601).",
+                        "example": "1980-07-15"
+                      },
+                      "social-security-number": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "pattern": "^\\d{3}-\\d{2}-\\d{4}$",
+                        "description": "Social security number. One of `identification-number` or `social-security-number` is required.",
+                        "example": "123-45-6789"
+                      },
+                      "identification-number": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "Any identification number that is not a social security number. One of `identification-number` or `social-security-number` is required."
+                      },
+                      "address-street-1": {
+                        "type": "string",
+                        "description": "Address line 1 (e.g., street, PO Box, or company name).",
+                        "example": "456 Elm St"
+                      },
+                      "address-street-2": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "Address line 2 (e.g., apartment, suite, unit, or building).",
+                        "example": "Suite 2"
+                      },
+                      "address-city": {
+                        "type": "string",
+                        "description": "City",
+                        "example": "Springfield"
+                      },
+                      "address-subdivision": {
+                        "type": "string",
+                        "description": "Subnational division of a country, such as a state or province. Unabbreviated.",
+                        "example": "California"
+                      },
+                      "address-postal-code": {
+                        "type": "string",
+                        "description": "ZIP or postal code.",
+                        "example": "12345"
+                      },
+                      "address-country-code": {
+                        "type": "string",
+                        "description": "ISO 3166-1 alpha-2 country code.",
+                        "example": "US"
+                      },
+                      "phone-number": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "Phone number.",
+                        "example": "555-555-1234"
+                      },
+                      "email-address": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "Email address.",
+                        "example": "john.doe@example.com"
+                      }
+                    },
+                    "required": [
+                      "name-first",
+                      "name-last",
+                      "birthdate",
+                      "address-street-1",
+                      "address-city",
+                      "address-subdivision",
+                      "address-postal-code",
+                      "address-country-code"
+                    ]
                   }
-                }
+                },
+                "required": [
+                  "query"
+                ]
               }
-            ],
-            "required": [
-              "name-first",
-              "name-last",
-              "birthdate",
-              "address-street-1",
-              "address-city",
-              "address-subdivision",
-              "address-postal-code",
-              "address-country-code"
             ]
           }
-        }
+        },
+        "required": [
+          "attributes"
+        ]
       },
       "report-watchlist-request": {
         "title": "Watchlist Report",
@@ -34046,7 +34252,6 @@
             "description": "report/watchlist"
           },
           "attributes": {
-            "description": "At least one of `name-first`, `name-middle`, `name-last`, or `term` is required.",
             "unevaluatedProperties": false,
             "allOf": [
               {
@@ -34055,58 +34260,649 @@
               {
                 "type": "object",
                 "properties": {
-                  "name-first": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "The first name of the individual to search.",
-                    "example": "Joe"
-                  },
-                  "name-middle": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "The middle name of the individual to search.",
-                    "example": "N"
-                  },
-                  "name-last": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "The last name of the individual to search.",
-                    "example": "Doe"
-                  },
-                  "term": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "Custom search term instead of separate name parts of the individual (i.e. first + middle + last name).",
-                    "example": "Joe N Doe"
-                  },
-                  "birthdate": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "The birthdate of the individual, formatted as YYYY-MM-DD (ISO 8601).",
-                    "example": "1991-10-07"
-                  },
-                  "address-country-code": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "ISO 3166-1 alpha-2 country code.",
-                    "example": "US"
+                  "query": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "description": "At least one of `name-first`, `name-middle`, `name-last`, or `term` is required.",
+                    "properties": {
+                      "name-first": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "The first name of the individual to search.",
+                        "example": "Joe"
+                      },
+                      "name-middle": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "The middle name of the individual to search.",
+                        "example": "N"
+                      },
+                      "name-last": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "The last name of the individual to search.",
+                        "example": "Doe"
+                      },
+                      "term": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "Custom search term instead of separate name parts of the individual (i.e. first + middle + last name).",
+                        "example": "Joe N Doe"
+                      },
+                      "birthdate": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "The birthdate of the individual, formatted as YYYY-MM-DD (ISO 8601).",
+                        "example": "1991-10-07"
+                      },
+                      "address-country-code": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "ISO 3166-1 alpha-2 country code.",
+                        "example": "US"
+                      }
+                    }
+                  }
+                },
+                "required": [
+                  "query"
+                ]
+              }
+            ]
+          }
+        },
+        "required": [
+          "attributes"
+        ]
+      },
+      "report-template-shared-attributes": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "created-at": {
+            "format": "date-time",
+            "examples": [
+              "2020-04-12T05:08:51.000Z"
+            ],
+            "type": "string"
+          },
+          "updated-at": {
+            "format": "date-time",
+            "examples": [
+              "2020-04-12T05:08:51.000Z"
+            ],
+            "type": "string"
+          }
+        }
+      },
+      "report-template-shared-meta": {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "created-at": {
+                "format": "date-time",
+                "examples": [
+                  "2020-04-12T05:08:51.000Z"
+                ],
+                "type": "string"
+              },
+              "updated-at": {
+                "format": "date-time",
+                "examples": [
+                  "2020-04-12T05:08:51.000Z"
+                ],
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "report-template-address-lookup": {
+        "title": "Address Lookup Report Template",
+        "description": "An Address Lookup Report Template",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report-template/address-lookup",
+            "description": "report-template/address-lookup"
+          },
+          "id": {
+            "type": "string",
+            "description": "The ID of the Report Template",
+            "example": "rptp_7WNzPaNcroBKLarNHBjYDLAp"
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "$ref": "#/components/schemas/report-template-shared-attributes"
+          },
+          "meta": {
+            "unevaluatedProperties": false,
+            "$ref": "#/components/schemas/report-template-shared-meta"
+          }
+        }
+      },
+      "report-template-adverse-media": {
+        "title": "Adverse Media Report Template",
+        "description": "An Adverse Media Report Template",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report-template/adverse-media",
+            "description": "report-template/adverse-media"
+          },
+          "id": {
+            "type": "string",
+            "description": "The ID of the Report Template",
+            "example": "rptp_7WNzPaNcroBKLarNHBjYDLAp"
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "$ref": "#/components/schemas/report-template-shared-attributes"
+          },
+          "meta": {
+            "unevaluatedProperties": false,
+            "$ref": "#/components/schemas/report-template-shared-meta"
+          }
+        }
+      },
+      "report-template-business-adverse-media": {
+        "title": "Business Adverse Media Report Template",
+        "description": "A Business Adverse Media Report Template",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report-template/business-adverse-media",
+            "description": "report-template/business-adverse-media"
+          },
+          "id": {
+            "type": "string",
+            "description": "The ID of the Report Template",
+            "example": "rptp_7WNzPaNcroBKLarNHBjYDLAp"
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "$ref": "#/components/schemas/report-template-shared-attributes"
+          },
+          "meta": {
+            "unevaluatedProperties": false,
+            "$ref": "#/components/schemas/report-template-shared-meta"
+          }
+        }
+      },
+      "report-template-business-lookup": {
+        "title": "Business Lookup Report Template",
+        "description": "A Business Lookup Report Template",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report-template/business-lookup",
+            "description": "report-template/business-lookup"
+          },
+          "id": {
+            "type": "string",
+            "description": "The ID of the Report Template",
+            "example": "rptp_7WNzPaNcroBKLarNHBjYDLAp"
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "$ref": "#/components/schemas/report-template-shared-attributes"
+          },
+          "meta": {
+            "unevaluatedProperties": false,
+            "$ref": "#/components/schemas/report-template-shared-meta"
+          }
+        }
+      },
+      "report-template-business-watchlist": {
+        "title": "Business Watchlist Report Template",
+        "description": "A Business Watchlist Report Template",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report-template/business-watchlist",
+            "description": "report-template/business-watchlist"
+          },
+          "id": {
+            "type": "string",
+            "description": "The ID of the Report Template",
+            "example": "rptp_7WNzPaNcroBKLarNHBjYDLAp"
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "$ref": "#/components/schemas/report-template-shared-attributes"
+          },
+          "meta": {
+            "unevaluatedProperties": false,
+            "$ref": "#/components/schemas/report-template-shared-meta"
+          }
+        }
+      },
+      "report-template-crypto-address-watchlist": {
+        "title": "Crypto Address Watchlist Report Template",
+        "description": "A Crypto Address Watchlist Report Template",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report-template/crypto-address-watchlist",
+            "description": "report-template/crypto-address-watchlist"
+          },
+          "id": {
+            "type": "string",
+            "description": "The ID of the Report Template",
+            "example": "rptp_7WNzPaNcroBKLarNHBjYDLAp"
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "$ref": "#/components/schemas/report-template-shared-attributes"
+          },
+          "meta": {
+            "unevaluatedProperties": false,
+            "$ref": "#/components/schemas/report-template-shared-meta"
+          }
+        }
+      },
+      "report-template-email-address": {
+        "title": "Email Address Report Template",
+        "description": "An Email Address Report Template",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report-template/email-address",
+            "description": "report-template/email-address"
+          },
+          "id": {
+            "type": "string",
+            "description": "The ID of the Report Template",
+            "example": "rptp_7WNzPaNcroBKLarNHBjYDLAp"
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "$ref": "#/components/schemas/report-template-shared-attributes"
+          },
+          "meta": {
+            "unevaluatedProperties": false,
+            "$ref": "#/components/schemas/report-template-shared-meta"
+          }
+        }
+      },
+      "report-template-finra-broker-check": {
+        "title": "FINRA Broker Check Report Template",
+        "description": "A FINRA Broker Check Report Template",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report-template/finra-broker-check",
+            "description": "report-template/finra-broker-check"
+          },
+          "id": {
+            "type": "string",
+            "description": "The ID of the Report Template",
+            "example": "rptp_7WNzPaNcroBKLarNHBjYDLAp"
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "$ref": "#/components/schemas/report-template-shared-attributes"
+          },
+          "meta": {
+            "unevaluatedProperties": false,
+            "$ref": "#/components/schemas/report-template-shared-meta"
+          }
+        }
+      },
+      "report-template-phone-risk": {
+        "title": "Phone Risk Report Template",
+        "description": "A Phone Risk Report Template",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report-template/phone-risk",
+            "description": "report-template/phone-risk"
+          },
+          "id": {
+            "type": "string",
+            "description": "The ID of the Report Template",
+            "example": "rptp_7WNzPaNcroBKLarNHBjYDLAp"
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "$ref": "#/components/schemas/report-template-shared-attributes"
+          },
+          "meta": {
+            "unevaluatedProperties": false,
+            "$ref": "#/components/schemas/report-template-shared-meta"
+          }
+        }
+      },
+      "report-template-politically-exposed-person": {
+        "title": "Politically Exposed Person Report Template",
+        "description": "A Politically Exposed Person Report Template",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report-template/politically-exposed-person",
+            "description": "report-template/politically-exposed-person"
+          },
+          "id": {
+            "type": "string",
+            "description": "The ID of the Report Template",
+            "example": "rptp_7WNzPaNcroBKLarNHBjYDLAp"
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "$ref": "#/components/schemas/report-template-shared-attributes"
+          },
+          "meta": {
+            "unevaluatedProperties": false,
+            "$ref": "#/components/schemas/report-template-shared-meta"
+          }
+        }
+      },
+      "report-template-profile": {
+        "title": "Profile Report Template",
+        "description": "A Profile Report Template",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report-template/profile",
+            "description": "report-template/profile"
+          },
+          "id": {
+            "type": "string",
+            "description": "The ID of the Report Template",
+            "example": "rptp_7WNzPaNcroBKLarNHBjYDLAp"
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "$ref": "#/components/schemas/report-template-shared-attributes"
+          },
+          "meta": {
+            "unevaluatedProperties": false,
+            "$ref": "#/components/schemas/report-template-shared-meta"
+          }
+        }
+      },
+      "report-template-sec-action-lookup": {
+        "title": "SEC Action Lookup Report Template",
+        "description": "A SEC Action Lookup Report Template",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report-template/sec-action-lookup",
+            "description": "report-template/sec-action-lookup"
+          },
+          "id": {
+            "type": "string",
+            "description": "The ID of the Report Template",
+            "example": "rptp_7WNzPaNcroBKLarNHBjYDLAp"
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "$ref": "#/components/schemas/report-template-shared-attributes"
+          },
+          "meta": {
+            "unevaluatedProperties": false,
+            "$ref": "#/components/schemas/report-template-shared-meta"
+          }
+        }
+      },
+      "report-template-sentilink-scores": {
+        "title": "SentiLink Report Template",
+        "description": "A SentiLink Report Template",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report-template/integration/sentilink-scores",
+            "description": "report-template/integration/sentilink-scores"
+          },
+          "id": {
+            "type": "string",
+            "description": "The ID of the Report Template",
+            "example": "rptp_7WNzPaNcroBKLarNHBjYDLAp"
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "$ref": "#/components/schemas/report-template-shared-attributes"
+          },
+          "meta": {
+            "unevaluatedProperties": false,
+            "$ref": "#/components/schemas/report-template-shared-meta"
+          }
+        }
+      },
+      "report-template-social-media": {
+        "title": "Social Media Report Template",
+        "description": "A Social Media Report Template",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report-template/social-media",
+            "description": "report-template/social-media"
+          },
+          "id": {
+            "type": "string",
+            "description": "The ID of the Report Template",
+            "example": "rptp_7WNzPaNcroBKLarNHBjYDLAp"
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "$ref": "#/components/schemas/report-template-shared-attributes"
+          },
+          "meta": {
+            "unevaluatedProperties": false,
+            "$ref": "#/components/schemas/report-template-shared-meta"
+          }
+        }
+      },
+      "report-template-synthetic": {
+        "title": "Synthetic Template",
+        "description": "A Synthetic Template",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report-template/synthetic",
+            "description": "report-template/synthetic"
+          },
+          "id": {
+            "type": "string",
+            "description": "The ID of the Report Template",
+            "example": "rptp_7WNzPaNcroBKLarNHBjYDLAp"
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "$ref": "#/components/schemas/report-template-shared-attributes"
+          },
+          "meta": {
+            "unevaluatedProperties": false,
+            "$ref": "#/components/schemas/report-template-shared-meta"
+          }
+        }
+      },
+      "report-template-watchlist": {
+        "title": "Watchlist Report Template",
+        "description": "A Watchlist Report Template",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report-template/watchlist",
+            "description": "report-template/watchlist"
+          },
+          "id": {
+            "type": "string",
+            "description": "The ID of the Report Template",
+            "example": "rptp_7WNzPaNcroBKLarNHBjYDLAp"
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/report-template-shared-attributes"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "search-lists": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "slug": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        }
+                      }
+                    }
                   }
                 }
               }
             ]
+          },
+          "meta": {
+            "unevaluatedProperties": false,
+            "$ref": "#/components/schemas/report-template-shared-meta"
           }
+        }
+      },
+      "reports-included-objects": {
+        "type": "array",
+        "items": {
+          "discriminator": {
+            "propertyName": "type",
+            "mapping": {
+              "inquiry": "#/components/schemas/inquiry",
+              "account": "#/components/schemas/account",
+              "case": "#/components/schemas/case",
+              "report-template/address-lookup": "#/components/schemas/report-template-address-lookup",
+              "report-template/adverse-media": "#/components/schemas/report-template-adverse-media",
+              "report-template/business-adverse-media": "#/components/schemas/report-template-business-adverse-media",
+              "report-template/business-lookup": "#/components/schemas/report-template-business-lookup",
+              "report-template/business-watchlist": "#/components/schemas/report-template-business-watchlist",
+              "report-template/crypto-address-watchlist": "#/components/schemas/report-template-crypto-address-watchlist",
+              "report-template/email-address": "#/components/schemas/report-template-email-address",
+              "report-template/finra-broker-check": "#/components/schemas/report-template-finra-broker-check",
+              "report-template/phone-risk": "#/components/schemas/report-template-phone-risk",
+              "report-template/politically-exposed-person": "#/components/schemas/report-template-politically-exposed-person",
+              "report-template/profile": "#/components/schemas/report-template-profile",
+              "report-template/sec-action-lookup": "#/components/schemas/report-template-sec-action-lookup",
+              "report-template/integration/sentilink-scores": "#/components/schemas/report-template-sentilink-scores",
+              "report-template/social-media": "#/components/schemas/report-template-social-media",
+              "report-template/synthetic": "#/components/schemas/report-template-synthetic",
+              "report-template/watchlist": "#/components/schemas/report-template-watchlist"
+            }
+          },
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/inquiry"
+            },
+            {
+              "$ref": "#/components/schemas/account"
+            },
+            {
+              "$ref": "#/components/schemas/case"
+            },
+            {
+              "$ref": "#/components/schemas/report-template-address-lookup"
+            },
+            {
+              "$ref": "#/components/schemas/report-template-adverse-media"
+            },
+            {
+              "$ref": "#/components/schemas/report-template-business-adverse-media"
+            },
+            {
+              "$ref": "#/components/schemas/report-template-business-lookup"
+            },
+            {
+              "$ref": "#/components/schemas/report-template-business-watchlist"
+            },
+            {
+              "$ref": "#/components/schemas/report-template-crypto-address-watchlist"
+            },
+            {
+              "$ref": "#/components/schemas/report-template-email-address"
+            },
+            {
+              "$ref": "#/components/schemas/report-template-finra-broker-check"
+            },
+            {
+              "$ref": "#/components/schemas/report-template-phone-risk"
+            },
+            {
+              "$ref": "#/components/schemas/report-template-politically-exposed-person"
+            },
+            {
+              "$ref": "#/components/schemas/report-template-profile"
+            },
+            {
+              "$ref": "#/components/schemas/report-template-sec-action-lookup"
+            },
+            {
+              "$ref": "#/components/schemas/report-template-sentilink-scores"
+            },
+            {
+              "$ref": "#/components/schemas/report-template-social-media"
+            },
+            {
+              "$ref": "#/components/schemas/report-template-synthetic"
+            },
+            {
+              "$ref": "#/components/schemas/report-template-watchlist"
+            }
+          ]
         }
       },
       "transaction-label": {

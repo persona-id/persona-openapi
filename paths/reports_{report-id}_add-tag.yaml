@@ -23,8 +23,14 @@ post:
               properties:
                 tag-name:
                   type: string
+                  description: Name of the tag to add to the Report.
+                tag-id:
+                  type: string
+                  description: ID of the tag to add to the Report.
               type: object
+              additionalProperties: false
           type: object
+          additionalProperties: false
   responses:
     '200':
       content:
@@ -55,9 +61,15 @@ post:
                         id: rptp_jfp2TAY28vijxxxCcn4WVqdX
           schema:
             type: object
+            additionalProperties: false
             properties:
               data:
                 $ref: ../components/schemas/report.yaml
+              included:
+                description: >-
+                  Objects that _may_ be returned if specified via the `include`
+                  query parameter in the request.
+                $ref: ../components/schemas/reports-included-objects.yaml
       description: OK
     '400':
       $ref: ../components/responses/bad-request.yaml

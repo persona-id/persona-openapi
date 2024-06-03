@@ -7,69 +7,77 @@ properties:
     const: report/social-media
     description: report/social-media
   attributes:
-    description: >-
-      Requires `phone-number` or `email-address` or both `first-name` and
-      `last-name`.
     unevaluatedProperties: false
     allOf:
       - $ref: ./report-shared-request-attributes.yaml
       - type: object
         properties:
-          name-first:
-            type:
-              - string
-              - 'null'
-            description: The first name of the individual to search.
-            example: Jane
-          name-last:
-            type:
-              - string
-              - 'null'
-            description: The last name of the individual to search.
-            example: Doe
-          birthdate:
-            type:
-              - string
-              - 'null'
+          query:
+            type: object
+            additionalProperties: false
             description: >-
-              The birthdate of the individual, formatted as YYYY-MM-DD (ISO
-              8601).
-            example: '1991-10-07'
-          phone-number:
-            type:
-              - string
-              - 'null'
-            description: Phone number of the individual to search.
-            example: '+14169671111'
-          email-address:
-            description: Email address of the individual to search.
-            type:
-              - string
-              - 'null'
-            example: address@domain.com
-          address-city:
-            type:
-              - string
-              - 'null'
-            description: City
-            example: Funkyville
-          address-subdivision:
-            type:
-              - string
-              - 'null'
-            description: >-
-              Subnational division (such as a state or province) of the country
-              of residence.
-            example: Wisconsin
-          address-postal-code:
-            type:
-              - string
-              - 'null'
-            description: ZIP or postal code of residence.
-            example: '12345'
-          address-country-code:
-            type:
-              - string
-              - 'null'
-            description: ISO 3166-1 alpha-2 country code for the location of residence.
-            example: US
+              Requires `phone-number` or `email-address` or both `first-name`
+              and `last-name`.
+            properties:
+              name-first:
+                type:
+                  - string
+                  - 'null'
+                description: The first name of the individual to search.
+                example: Jane
+              name-last:
+                type:
+                  - string
+                  - 'null'
+                description: The last name of the individual to search.
+                example: Doe
+              birthdate:
+                type:
+                  - string
+                  - 'null'
+                description: >-
+                  The birthdate of the individual, formatted as YYYY-MM-DD (ISO
+                  8601).
+                example: '1991-10-07'
+              phone-number:
+                type:
+                  - string
+                  - 'null'
+                description: Phone number of the individual to search.
+                example: '+14169671111'
+              email-address:
+                description: Email address of the individual to search.
+                type:
+                  - string
+                  - 'null'
+                example: address@domain.com
+              address-city:
+                type:
+                  - string
+                  - 'null'
+                description: City
+                example: Funkyville
+              address-subdivision:
+                type:
+                  - string
+                  - 'null'
+                description: >-
+                  Subnational division (such as a state or province) of the
+                  country of residence.
+                example: Wisconsin
+              address-postal-code:
+                type:
+                  - string
+                  - 'null'
+                description: ZIP or postal code of residence.
+                example: '12345'
+              address-country-code:
+                type:
+                  - string
+                  - 'null'
+                description: ISO 3166-1 alpha-2 country code for the location of residence.
+                example: US
+        required:
+          - query
+required:
+  - attributes

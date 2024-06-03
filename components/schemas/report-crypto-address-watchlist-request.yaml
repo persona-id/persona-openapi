@@ -12,9 +12,17 @@ properties:
       - $ref: ./report-shared-request-attributes.yaml
       - type: object
         properties:
-          crypto-address:
-            type: string
-            description: The crypto wallet address to search.
-            example: 1Fz29BQp82pE3vXXcsZoMNQ3KSHfMzfMe3
-    required:
-      - crypto-address
+          query:
+            type: object
+            additionalProperties: false
+            properties:
+              crypto-address:
+                type: string
+                description: The crypto wallet address to search.
+                example: 1Fz29BQp82pE3vXXcsZoMNQ3KSHfMzfMe3
+            required:
+              - crypto-address
+        required:
+          - query
+required:
+  - attributes

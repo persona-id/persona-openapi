@@ -1,15 +1,13 @@
 title: Politically Exposed Person Report
 description: Fields required to create a Politically Exposed Person Report
 type: object
+additionalProperties: false
 properties:
   type:
     type: string
     const: report/politically-exposed-person
     description: report/politically-exposed-person
   attributes:
-    description: >-
-      At least one of `name-first`, `name-middle`, `name-last`, or `term` is
-      required.
     unevaluatedProperties: false
     allOf:
       - $ref: ./report-shared-request-attributes.yaml
@@ -17,6 +15,10 @@ properties:
         properties:
           query:
             type: object
+            additionalProperties: false
+            description: >-
+              At least one of `name-first`, `name-middle`, `name-last`, or
+              `term` is required.
             properties:
               name-first:
                 type:
@@ -58,3 +60,7 @@ properties:
                   - 'null'
                 description: ISO 3166-1 alpha-2 country code.
                 example: US
+        required:
+          - query
+required:
+  - attributes

@@ -12,9 +12,17 @@ properties:
       - $ref: ./report-shared-request-attributes.yaml
       - type: object
         properties:
-          phone-number:
-            type: string
-            description: The phone number to search.
-            example: '+14169671111'
-    required:
-      - phone-number
+          query:
+            type: object
+            additionalProperties: false
+            properties:
+              phone-number:
+                type: string
+                description: The phone number to search.
+                example: '+14169671111'
+            required:
+              - phone-number
+        required:
+          - query
+required:
+  - attributes

@@ -1,6 +1,7 @@
 title: Business Adverse Media Report
 description: Fields required to create a Business Adverse Media Report
 type: object
+additionalProperties: false
 properties:
   type:
     type: string
@@ -12,11 +13,19 @@ properties:
       - $ref: ./report-shared-request-attributes.yaml
       - type: object
         properties:
-          term:
-            type: string
-            description: >-
-              The search term for the adverse media report, typically the name
-              of the business.
-            example: Acme Corporation
-    required:
-      - term
+          query:
+            type: object
+            additionalProperties: false
+            properties:
+              term:
+                type: string
+                description: >-
+                  The search term for the adverse media report, typically the
+                  name of the business.
+                example: Acme Corporation
+            required:
+              - term
+        required:
+          - query
+required:
+  - attributes

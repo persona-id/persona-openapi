@@ -12,41 +12,51 @@ properties:
       - $ref: ./report-shared-request-attributes.yaml
       - type: object
         properties:
-          addressee:
-            description: The name of an individual at this location.
-            type:
-              - string
-              - 'null'
-            example: Joe Doe
-          address-street-1:
-            description: Address line 1 (e.g., street, PO Box, or company name).
-            type: string
-            example: 1 Example Way
-          address-street-2:
-            description: Address line 2 (e.g., apartment, suite, unit, or building).
-            type:
-              - string
-              - 'null'
-            example: Ste 300
-          address-city:
-            description: City.
-            type: string
-            example: Cupertino
-          address-subdivision:
-            description: Subnational division of a country, such as a state or province.
-            type: string
-            example: California
-          address-postal-code:
-            description: ZIP or postal code.
-            type: string
-            example: '95014'
-          address-country-code:
-            description: ISO 3166-1 alpha-2 country code.
-            type: string
-            example: US
-    required:
-      - address-street-1
-      - address-city
-      - address-subdivision
-      - address-postal-code
-      - address-country-code
+          query:
+            type: object
+            additionalProperties: false
+            properties:
+              addressee:
+                description: The name of an individual at this location.
+                type:
+                  - string
+                  - 'null'
+                example: Joe Doe
+              address-street-1:
+                description: Address line 1 (e.g., street, PO Box, or company name).
+                type: string
+                example: 1 Example Way
+              address-street-2:
+                description: Address line 2 (e.g., apartment, suite, unit, or building).
+                type:
+                  - string
+                  - 'null'
+                example: Ste 300
+              address-city:
+                description: City.
+                type: string
+                example: Cupertino
+              address-subdivision:
+                description: >-
+                  Subnational division of a country, such as a state or
+                  province.
+                type: string
+                example: California
+              address-postal-code:
+                description: ZIP or postal code.
+                type: string
+                example: '95014'
+              address-country-code:
+                description: ISO 3166-1 alpha-2 country code.
+                type: string
+                example: US
+            required:
+              - address-street-1
+              - address-city
+              - address-subdivision
+              - address-postal-code
+              - address-country-code
+        required:
+          - query
+required:
+  - attributes

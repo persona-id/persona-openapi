@@ -27,6 +27,7 @@ get:
         application/json:
           schema:
             type: object
+            additionalProperties: false
             properties:
               data:
                 type: array
@@ -34,6 +35,7 @@ get:
                   $ref: ../components/schemas/report.yaml
               links:
                 type: object
+                additionalProperties: false
                 properties:
                   prev:
                     type:
@@ -173,9 +175,15 @@ post:
               $ref: ../components/examples/report-watchlist.yaml
           schema:
             type: object
+            additionalProperties: false
             properties:
               data:
                 $ref: ../components/schemas/report.yaml
+              included:
+                description: >-
+                  Objects that _may_ be returned if specified via the `include`
+                  query parameter in the request.
+                $ref: ../components/schemas/reports-included-objects.yaml
       description: Created
     '400':
       $ref: ../components/responses/bad-request.yaml

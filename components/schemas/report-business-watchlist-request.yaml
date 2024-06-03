@@ -12,17 +12,25 @@ properties:
       - $ref: ./report-shared-request-attributes.yaml
       - type: object
         properties:
-          term:
-            type: string
-            description: >-
-              The search term for the business watchlist report, typically the
-              name of the business.
-            example: Acme Corporation
-          address-country-code:
-            type:
-              - string
-              - 'null'
-            description: ISO 3166-1 alpha-2 country code.
-            example: US
-    required:
-      - term
+          query:
+            type: object
+            additionalProperties: false
+            properties:
+              term:
+                type: string
+                description: >-
+                  The search term for the business watchlist report, typically
+                  the name of the business.
+                example: Acme Corporation
+              address-country-code:
+                type:
+                  - string
+                  - 'null'
+                description: ISO 3166-1 alpha-2 country code.
+                example: US
+            required:
+              - term
+        required:
+          - query
+required:
+  - attributes

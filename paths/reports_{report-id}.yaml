@@ -33,9 +33,15 @@ delete:
               $ref: ../components/examples/report-watchlist.yaml
           schema:
             type: object
+            additionalProperties: false
             properties:
               data:
                 $ref: ../components/schemas/report.yaml
+              included:
+                description: >-
+                  Objects that _may_ be returned if specified via the `include`
+                  query parameter in the request.
+                $ref: ../components/schemas/reports-included-objects.yaml
       description: OK
     '400':
       $ref: ../components/responses/bad-request.yaml
@@ -79,10 +85,22 @@ get:
               summary: Created
               $ref: ../components/examples/report-watchlist.yaml
           schema:
-            type: object
             properties:
               data:
                 $ref: ../components/schemas/report.yaml
+              included:
+                description: >-
+                  Included by default:
+
+
+                  - Report Template
+
+
+                  Anything else must be explicitly requested with the `include`
+                  query parameter.
+                $ref: ../components/schemas/reports-included-objects.yaml
+            type: object
+            additionalProperties: false
       description: OK
     '400':
       $ref: ../components/responses/bad-request.yaml
