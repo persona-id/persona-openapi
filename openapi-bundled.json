@@ -24080,6 +24080,240 @@
           }
         }
       },
+      "report-business-adverse-media": {
+        "title": "Business Adverse Media Report",
+        "description": "A report detailing adverse media findings for a business entity.",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report/business-adverse-media",
+            "description": "The type identifier for a Business Adverse Media Report."
+          },
+          "id": {
+            "type": "string",
+            "description": "A unique identifier for the report.",
+            "examples": [
+              "rep_9XxZsPaNcroBKmJNHBlYDLOp"
+            ]
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/report-shared-attributes"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "term": {
+                    "type": "string",
+                    "description": "The search term for the adverse media report, typically the name of the business.",
+                    "example": "Acme Corporation"
+                  },
+                  "related-sources": {
+                    "description": "The sources that matched for the search",
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "akas": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "example": "Joey Doey"
+                          }
+                        },
+                        "birthdates": {
+                          "type": "array",
+                          "items": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          }
+                        },
+                        "match_types": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "example": "name_exact"
+                          }
+                        },
+                        "media": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "date": {
+                                "type": "string",
+                                "format": "date",
+                                "example": "2022-11-12"
+                              },
+                              "snippet": {
+                                "type": "string",
+                                "description": "Snippet from matched article",
+                                "example": "Joe Doe was ordered to jail on Friday after a judge revoked his bail for alleged witness tampering."
+                              },
+                              "url": {
+                                "type": "string",
+                                "description": "URL of matched article",
+                                "example": "https://www.example.com/"
+                              },
+                              "title": {
+                                "type": "string",
+                                "description": "Title of matched article",
+                                "example": "Joe Doe ordered to jail"
+                              }
+                            }
+                          }
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Joe Doe"
+                        },
+                        "sources": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "country_codes": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string",
+                                  "example": "FR"
+                                }
+                              },
+                              "name": {
+                                "type": "string",
+                                "example": "Adverse Media"
+                              },
+                              "token": {
+                                "type": "string"
+                              },
+                              "types": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string",
+                                  "example": "adverse-media-v2-other-minor"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "id": {
+                          "type": "string",
+                          "example": "FV933QHOUDG73V8"
+                        }
+                      }
+                    }
+                  },
+                  "query": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "business-name": {
+                        "type": "string",
+                        "description": "The name of the business being queried.",
+                        "examples": [
+                          "Acme Corporation"
+                        ]
+                      },
+                      "address-street": {
+                        "type": "string",
+                        "description": "The street address of the business being queried.",
+                        "examples": [
+                          "123 Elm Street"
+                        ]
+                      },
+                      "address-city": {
+                        "type": "string",
+                        "description": "The city in which the business is located.",
+                        "examples": [
+                          "Anytown"
+                        ]
+                      },
+                      "address-state": {
+                        "type": "string",
+                        "description": "Subnational division of a country (such as a state or province) where the business is located.",
+                        "examples": [
+                          "CA"
+                        ]
+                      },
+                      "address-country": {
+                        "type": "string",
+                        "description": "The country in which the business is located.",
+                        "examples": [
+                          "US"
+                        ]
+                      },
+                      "incorporation-date": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "The date the business was incorporated.",
+                        "examples": [
+                          "2001-04-15"
+                        ]
+                      }
+                    }
+                  },
+                  "result": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "adverse-media": {
+                        "type": "array",
+                        "description": "A list of adverse media articles related to the business.",
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "title": {
+                              "type": "string",
+                              "description": "The title of the media article.",
+                              "examples": [
+                                "Acme Corporation Accused of Environmental Violations"
+                              ]
+                            },
+                            "url": {
+                              "type": "string",
+                              "format": "uri",
+                              "description": "The URL to the full media article.",
+                              "examples": [
+                                "https://news.example.com/business/acme-environmental-violations"
+                              ]
+                            },
+                            "date": {
+                              "type": "string",
+                              "format": "date",
+                              "description": "The publication date of the media article.",
+                              "examples": [
+                                "2023-03-01"
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "relationships": {
+            "$ref": "#/components/schemas/report-shared-relationships"
+          }
+        },
+        "required": [
+          "type",
+          "id",
+          "attributes"
+        ]
+      },
       "report-business-lookup": {
         "title": "Business Lookup Report",
         "description": "A Business Lookup Report",
@@ -24602,6 +24836,139 @@
           }
         }
       },
+      "report-run-history": {
+        "type": "array",
+        "title": "Report Run History",
+        "description": "A history of the report runs",
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "scheduled-at": {
+              "type": "string",
+              "format": "date-time",
+              "example": "2023-08-11T20:36:04.291Z"
+            },
+            "completed-at": {
+              "type": "string",
+              "format": "date-time",
+              "example": "2023-08-11T20:36:04.291Z"
+            },
+            "type": {
+              "type": "string",
+              "description": "The type of report run\n\nPossible values:\n- scheduled\n- manual\n\n  Do not assume this is a static enumeration; Persona may add new values in the future without a versioned update.",
+              "example": "scheduled"
+            },
+            "report-template-version-id": {
+              "type": "integer",
+              "deprecated": true
+            }
+          }
+        }
+      },
+      "report-business-watchlist": {
+        "title": "Business Watchlist Report",
+        "description": "A Business Watchlist Report",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report/business-watchlist",
+            "description": "report/business-watchlist"
+          },
+          "id": {
+            "type": "string",
+            "description": "The ID of the report",
+            "examples": [
+              "rep_8YZjQaNjXpZLKrJNHBkYDLAp"
+            ]
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/report-shared-attributes"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "matched-lists": {
+                    "type": "array",
+                    "description": "A list of slugs identifying the lists on which matches were found.",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "sanction-list": {
+                    "type": "array",
+                    "description": "Detailed information about matches found on sanction lists.",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "description": "The name of the sanction list."
+                        },
+                        "url": {
+                          "type": "string",
+                          "format": "uri",
+                          "description": "A URL with more information about the list."
+                        }
+                      }
+                    }
+                  },
+                  "fitness-probity-list": {
+                    "type": "array",
+                    "description": "Detailed information about matches found on fitness and probity lists.",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "description": "The name of the fitness and probity list."
+                        },
+                        "url": {
+                          "type": "string",
+                          "format": "uri",
+                          "description": "A URL with more information about the list."
+                        }
+                      }
+                    }
+                  },
+                  "warning-list": {
+                    "type": "array",
+                    "description": "Detailed information about matches found on warning lists.",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "description": "The name of the warning list."
+                        },
+                        "url": {
+                          "type": "string",
+                          "format": "uri",
+                          "description": "A URL with more information about the list."
+                        }
+                      }
+                    }
+                  },
+                  "run-history": {
+                    "$ref": "#/components/schemas/report-run-history"
+                  }
+                }
+              }
+            ]
+          },
+          "relationships": {
+            "$ref": "#/components/schemas/report-shared-relationships"
+          }
+        }
+      },
       "report-crypto-address-watchlist": {
         "title": "Crypto Address Watchlist Report",
         "description": "A Crypto Address Watchlist Report",
@@ -25052,36 +25419,6 @@
           }
         }
       },
-      "report-run-history": {
-        "type": "array",
-        "title": "Report Run History",
-        "description": "A history of the report runs",
-        "items": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "scheduled-at": {
-              "type": "string",
-              "format": "date-time",
-              "example": "2023-08-11T20:36:04.291Z"
-            },
-            "completed-at": {
-              "type": "string",
-              "format": "date-time",
-              "example": "2023-08-11T20:36:04.291Z"
-            },
-            "type": {
-              "type": "string",
-              "description": "The type of report run\n\nPossible values:\n- scheduled\n- manual\n\n  Do not assume this is a static enumeration; Persona may add new values in the future without a versioned update.",
-              "example": "scheduled"
-            },
-            "report-template-version-id": {
-              "type": "integer",
-              "deprecated": true
-            }
-          }
-        }
-      },
       "report-politically-exposed-person": {
         "title": "Politically Exposed Person Report",
         "description": "A Politically Exposed Person Report",
@@ -25501,6 +25838,285 @@
           }
         }
       },
+      "report-profile": {
+        "title": "Profile Report",
+        "description": "A Profile Report",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report/profile",
+            "description": "report/profile"
+          },
+          "id": {
+            "type": "string",
+            "description": "The ID of the report",
+            "examples": [
+              "rep_XYZ1234567890ABCDEF"
+            ]
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/report-shared-attributes"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "name-first": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": "Given or first name.",
+                    "examples": [
+                      "John"
+                    ]
+                  },
+                  "name-last": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": "Family or last name.",
+                    "examples": [
+                      "Doe"
+                    ]
+                  },
+                  "birthdate": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": "Birthdate, must be in the format \"YYYY-MM-DD\".",
+                    "format": "date",
+                    "examples": [
+                      "1980-04-12"
+                    ]
+                  },
+                  "social-security-number": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": "Full social security number.",
+                    "examples": [
+                      "123-45-6789"
+                    ]
+                  },
+                  "social-security-number-last-4": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": "Last 4 digits of social security number.",
+                    "examples": [
+                      "6789"
+                    ]
+                  },
+                  "address-street-1": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": "Primary street address.",
+                    "examples": [
+                      "123 Main St"
+                    ]
+                  },
+                  "address-street-2": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": "Secondary street address (if any).",
+                    "examples": [
+                      "Apt 4"
+                    ]
+                  },
+                  "address-city": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": "City of residence.",
+                    "examples": [
+                      "Metropolis"
+                    ]
+                  },
+                  "address-subdivision": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": "State or subdivision of residence.",
+                    "examples": [
+                      "New York"
+                    ]
+                  },
+                  "address-subdivision-abbr": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": "State or subdivision abbreviation.",
+                    "examples": [
+                      "NY"
+                    ]
+                  },
+                  "address-postal-code": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": "ZIP or postal code.",
+                    "examples": [
+                      "12345"
+                    ]
+                  },
+                  "address-postal-code-abbr": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": "ZIP or postal code abbreviation (if applicable)."
+                  },
+                  "phone-number": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": "Phone number.",
+                    "examples": [
+                      "555-1234"
+                    ]
+                  },
+                  "identity-records": {
+                    "type": "array",
+                    "description": "Detailed identity records if available.",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "names": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "name-full": {
+                                "type": "string"
+                              },
+                              "name-first": {
+                                "type": "string"
+                              },
+                              "name-middle": {
+                                "type": "string"
+                              },
+                              "name-last": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        },
+                        "birthdates": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "addresses": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "country-code": {
+                                "type": "string"
+                              },
+                              "street-1": {
+                                "type": "string"
+                              },
+                              "street-2": {
+                                "type": "string"
+                              },
+                              "city": {
+                                "type": "string"
+                              },
+                              "postal-code": {
+                                "type": "string"
+                              },
+                              "longitude": {
+                                "type": "number"
+                              },
+                              "latitude": {
+                                "type": "number"
+                              },
+                              "subdivision": {
+                                "type": "string"
+                              },
+                              "date-first-seen": {
+                                "type": "string"
+                              },
+                              "date-last-seen": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        },
+                        "social-security-numbers": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "phone-numbers": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "email-addresses": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "deceased": {
+                          "type": "boolean"
+                        },
+                        "deceased-date": {
+                          "type": "string"
+                        },
+                        "drivers-licenses": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "number": {
+                                "type": "string"
+                              },
+                              "state": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "relationships": {
+            "$ref": "#/components/schemas/report-shared-relationships"
+          }
+        }
+      },
       "report-sentilink-scores": {
         "title": "SentiLink Scores Report",
         "description": "A SentiLink Scores Report",
@@ -25841,6 +26457,106 @@
                       "null"
                     ],
                     "example": "username"
+                  }
+                }
+              }
+            ]
+          },
+          "relationships": {
+            "$ref": "#/components/schemas/report-shared-relationships"
+          }
+        }
+      },
+      "report-synthetic": {
+        "title": "Synthetic Report",
+        "description": "A Synthetic Report",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report/synthetic",
+            "description": "report/synthetic"
+          },
+          "id": {
+            "type": "string",
+            "description": "The ID of the report",
+            "examples": [
+              "rep_9Ht4ZsNjXpZLKrJNHBYDLAp"
+            ]
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/report-shared-attributes"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "sentilink-abuse-score": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "description": "Sentilink abuse score.",
+                    "examples": [
+                      72
+                    ]
+                  },
+                  "sentilink-first-party-synthetic-score": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "description": "Sentilink first party synthetic score.",
+                    "examples": [
+                      58
+                    ]
+                  },
+                  "sentilink-third-party-synthetic-score": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "description": "Sentilink third party synthetic score.",
+                    "examples": [
+                      85
+                    ]
+                  },
+                  "report-template-version-name": {
+                    "type": "string",
+                    "description": "The name of the report template version used for this report.",
+                    "examples": [
+                      "v2"
+                    ]
+                  },
+                  "has-match": {
+                    "type": "boolean",
+                    "description": "Indicates if the report matched.",
+                    "examples": [
+                      true
+                    ]
+                  },
+                  "is-continuous": {
+                    "type": "boolean",
+                    "description": "Indicates if the report is recurring.",
+                    "examples": [
+                      false
+                    ]
+                  },
+                  "tags": {
+                    "type": "array",
+                    "description": "Tags associated with the report.",
+                    "items": {
+                      "type": "string"
+                    },
+                    "examples": [
+                      [
+                        "suspicious",
+                        "reviewed"
+                      ]
+                    ]
                   }
                 }
               }
@@ -27014,6 +27730,74 @@
           }
         }
       },
+      "verification-database-standard": {
+        "title": "Standard Database Verification",
+        "description": "A Standard Database Verification",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "const": "verification/database-standard",
+            "description": "verification/database-standard",
+            "type": "string"
+          },
+          "id": {
+            "examples": [
+              "ver_1rWMmoV3hoy2qWv3wGPcH43c"
+            ],
+            "type": "string"
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/verification-shared-attributes"
+              },
+              {
+                "$ref": "#/components/schemas/default-fields"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "normalized-address-city": {
+                    "examples": [
+                      "Los Angeles"
+                    ],
+                    "type": "string"
+                  },
+                  "normalized-address-postal-code": {
+                    "examples": [
+                      "55555"
+                    ],
+                    "type": "string"
+                  },
+                  "normalized-address-street-1": {
+                    "examples": [
+                      "555 Beverly Hills"
+                    ],
+                    "type": "string"
+                  },
+                  "normalized-address-street-2": {
+                    "examples": [
+                      "Apt 123"
+                    ],
+                    "type": "string"
+                  },
+                  "normalized-address-subdivision": {
+                    "examples": [
+                      "CA"
+                    ],
+                    "type": "string"
+                  }
+                }
+              }
+            ]
+          },
+          "relationships": {
+            "$ref": "#/components/schemas/verification-shared-relationships"
+          }
+        }
+      },
       "verification-database-tin": {
         "title": "TIN Database Verification",
         "description": "A TIN Database Verification",
@@ -27074,34 +27858,6 @@
                       "string",
                       "null"
                     ]
-                  },
-                  "checks": {
-                    "items": {
-                      "properties": {
-                        "metadata": {
-                          "type": "object",
-                          "additionalProperties": false
-                        },
-                        "name": {
-                          "examples": [
-                            "database_tin_name_comparison"
-                          ],
-                          "type": "string"
-                        },
-                        "reasons": {
-                          "type": "array"
-                        },
-                        "status": {
-                          "examples": [
-                            "passed"
-                          ],
-                          "type": "string"
-                        }
-                      },
-                      "type": "object",
-                      "additionalProperties": false
-                    },
-                    "type": "array"
                   }
                 }
               }
@@ -28123,13 +28879,19 @@
               "inquiry": "#/components/schemas/inquiry",
               "report/address-lookup": "#/components/schemas/report-address-lookup",
               "report/adverse-media": "#/components/schemas/report-adverse-media",
+              "report/business-adverse-media": "#/components/schemas/report-business-adverse-media",
               "report/business-lookup": "#/components/schemas/report-business-lookup",
+              "report/business-watchlist": "#/components/schemas/report-business-watchlist",
               "report/crypto-address-watchlist": "#/components/schemas/report-crypto-address-watchlist",
               "report/email-address": "#/components/schemas/report-email-address",
+              "report/finra-broker-check": "#/components/schemas/report-finra-broker-check",
               "report/phone-number": "#/components/schemas/report-phone-risk",
               "report/politically-exposed-person": "#/components/schemas/report-politically-exposed-person",
+              "report/profile": "#/components/schemas/report-profile",
+              "report/sec-action-lookup": "#/components/schemas/report-sec-action-lookup",
               "report/integration/sentilink-scores": "#/components/schemas/report-sentilink-scores",
               "report/social-media": "#/components/schemas/report-social-media",
+              "report/synthetic": "#/components/schemas/report-synthetic",
               "report/watchlist": "#/components/schemas/report-watchlist",
               "transaction": "#/components/schemas/transaction",
               "verification/aamva": "#/components/schemas/verification-aamva",
@@ -28137,6 +28899,7 @@
               "verification/database-ecbsv": "#/components/schemas/verification-database-ecbsv",
               "verification/database-phone-carrier": "#/components/schemas/verification-database-phone-carrier",
               "verification/database-serpro": "#/components/schemas/verification-database-serpro",
+              "verification/database-standard": "#/components/schemas/verification-database-standard",
               "verification/database-tin": "#/components/schemas/verification-database-tin",
               "verification/document": "#/components/schemas/verification-document",
               "verification/email-address": "#/components/schemas/verification-email-address",
@@ -28166,7 +28929,13 @@
               "$ref": "#/components/schemas/report-adverse-media"
             },
             {
+              "$ref": "#/components/schemas/report-business-adverse-media"
+            },
+            {
               "$ref": "#/components/schemas/report-business-lookup"
+            },
+            {
+              "$ref": "#/components/schemas/report-business-watchlist"
             },
             {
               "$ref": "#/components/schemas/report-crypto-address-watchlist"
@@ -28181,10 +28950,16 @@
               "$ref": "#/components/schemas/report-politically-exposed-person"
             },
             {
+              "$ref": "#/components/schemas/report-profile"
+            },
+            {
               "$ref": "#/components/schemas/report-sentilink-scores"
             },
             {
               "$ref": "#/components/schemas/report-social-media"
+            },
+            {
+              "$ref": "#/components/schemas/report-synthetic"
             },
             {
               "$ref": "#/components/schemas/report-watchlist"
@@ -28206,6 +28981,9 @@
             },
             {
               "$ref": "#/components/schemas/verification-database-serpro"
+            },
+            {
+              "$ref": "#/components/schemas/verification-database-standard"
             },
             {
               "$ref": "#/components/schemas/verification-database-tin"
@@ -30379,23 +31157,35 @@
               "template": "#/components/schemas/template",
               "inquiry-template": "#/components/schemas/inquiry-template",
               "inquiry-template-version": "#/components/schemas/inquiry-template-version",
-              "report/watchlist": "#/components/schemas/report-watchlist",
-              "report/crypto-address-watchlist": "#/components/schemas/report-crypto-address-watchlist",
-              "report/adverse-media": "#/components/schemas/report-adverse-media",
               "report/address-lookup": "#/components/schemas/report-address-lookup",
-              "report/politically-exposed-person": "#/components/schemas/report-politically-exposed-person",
-              "report/email-address": "#/components/schemas/report-email-address",
-              "report/phone-number": "#/components/schemas/report-phone-risk",
-              "report/social-media": "#/components/schemas/report-social-media",
+              "report/adverse-media": "#/components/schemas/report-adverse-media",
+              "report/business-adverse-media": "#/components/schemas/report-business-adverse-media",
               "report/business-lookup": "#/components/schemas/report-business-lookup",
+              "report/business-watchlist": "#/components/schemas/report-business-watchlist",
+              "report/crypto-address-watchlist": "#/components/schemas/report-crypto-address-watchlist",
+              "report/email-address": "#/components/schemas/report-email-address",
+              "report/finra-broker-check": "#/components/schemas/report-finra-broker-check",
+              "report/phone-number": "#/components/schemas/report-phone-risk",
+              "report/politically-exposed-person": "#/components/schemas/report-politically-exposed-person",
+              "report/profile": "#/components/schemas/report-profile",
+              "report/sec-action-lookup": "#/components/schemas/report-sec-action-lookup",
               "report/integration/sentilink-scores": "#/components/schemas/report-sentilink-scores",
+              "report/social-media": "#/components/schemas/report-social-media",
+              "report/synthetic": "#/components/schemas/report-synthetic",
+              "report/watchlist": "#/components/schemas/report-watchlist",
               "selfie": "#/components/schemas/selfie",
               "inquiry-session": "#/components/schemas/inquiry-session",
               "verification/aamva": "#/components/schemas/verification-aamva",
-              "verification/document": "#/components/schemas/verification-document",
               "verification/database": "#/components/schemas/verification-database",
+              "verification/database-ecbsv": "#/components/schemas/verification-database-ecbsv",
+              "verification/database-phone-carrier": "#/components/schemas/verification-database-phone-carrier",
+              "verification/database-serpro": "#/components/schemas/verification-database-serpro",
+              "verification/database-standard": "#/components/schemas/verification-database-standard",
+              "verification/database-tin": "#/components/schemas/verification-database-tin",
+              "verification/document": "#/components/schemas/verification-document",
               "verification/email-address": "#/components/schemas/verification-email-address",
               "verification/government-id": "#/components/schemas/verification-government-id",
+              "verification/government-id-nfc": "#/components/schemas/verification-government-id-nfc",
               "verification/phone-number": "#/components/schemas/verification-phone-number",
               "verification/selfie": "#/components/schemas/verification-selfie"
             }
@@ -30426,19 +31216,22 @@
               "$ref": "#/components/schemas/inquiry-template-version"
             },
             {
-              "$ref": "#/components/schemas/report-watchlist"
-            },
-            {
-              "$ref": "#/components/schemas/report-crypto-address-watchlist"
+              "$ref": "#/components/schemas/report-address-lookup"
             },
             {
               "$ref": "#/components/schemas/report-adverse-media"
             },
             {
-              "$ref": "#/components/schemas/report-address-lookup"
+              "$ref": "#/components/schemas/report-business-adverse-media"
             },
             {
-              "$ref": "#/components/schemas/report-politically-exposed-person"
+              "$ref": "#/components/schemas/report-business-lookup"
+            },
+            {
+              "$ref": "#/components/schemas/report-business-watchlist"
+            },
+            {
+              "$ref": "#/components/schemas/report-crypto-address-watchlist"
             },
             {
               "$ref": "#/components/schemas/report-email-address"
@@ -30447,13 +31240,22 @@
               "$ref": "#/components/schemas/report-phone-risk"
             },
             {
-              "$ref": "#/components/schemas/report-social-media"
+              "$ref": "#/components/schemas/report-politically-exposed-person"
             },
             {
-              "$ref": "#/components/schemas/report-business-lookup"
+              "$ref": "#/components/schemas/report-profile"
             },
             {
               "$ref": "#/components/schemas/report-sentilink-scores"
+            },
+            {
+              "$ref": "#/components/schemas/report-social-media"
+            },
+            {
+              "$ref": "#/components/schemas/report-synthetic"
+            },
+            {
+              "$ref": "#/components/schemas/report-watchlist"
             },
             {
               "$ref": "#/components/schemas/selfie"
@@ -30465,16 +31267,34 @@
               "$ref": "#/components/schemas/verification-aamva"
             },
             {
-              "$ref": "#/components/schemas/verification-document"
+              "$ref": "#/components/schemas/verification-database"
             },
             {
-              "$ref": "#/components/schemas/verification-database"
+              "$ref": "#/components/schemas/verification-database-ecbsv"
+            },
+            {
+              "$ref": "#/components/schemas/verification-database-phone-carrier"
+            },
+            {
+              "$ref": "#/components/schemas/verification-database-serpro"
+            },
+            {
+              "$ref": "#/components/schemas/verification-database-standard"
+            },
+            {
+              "$ref": "#/components/schemas/verification-database-tin"
+            },
+            {
+              "$ref": "#/components/schemas/verification-document"
             },
             {
               "$ref": "#/components/schemas/verification-email-address"
             },
             {
               "$ref": "#/components/schemas/verification-government-id"
+            },
+            {
+              "$ref": "#/components/schemas/verification-government-id-nfc"
             },
             {
               "$ref": "#/components/schemas/verification-phone-number"
@@ -32496,722 +33316,6 @@
           }
         ]
       },
-      "report-business-adverse-media": {
-        "title": "Business Adverse Media Report",
-        "description": "A report detailing adverse media findings for a business entity.",
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "type": {
-            "type": "string",
-            "const": "report/business-adverse-media",
-            "description": "The type identifier for a Business Adverse Media Report."
-          },
-          "id": {
-            "type": "string",
-            "description": "A unique identifier for the report.",
-            "examples": [
-              "rep_9XxZsPaNcroBKmJNHBlYDLOp"
-            ]
-          },
-          "attributes": {
-            "unevaluatedProperties": false,
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/report-shared-attributes"
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "term": {
-                    "type": "string",
-                    "description": "The search term for the adverse media report, typically the name of the business.",
-                    "example": "Acme Corporation"
-                  },
-                  "related-sources": {
-                    "description": "The sources that matched for the search",
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "additionalProperties": false,
-                      "properties": {
-                        "akas": {
-                          "type": "array",
-                          "items": {
-                            "type": "string",
-                            "example": "Joey Doey"
-                          }
-                        },
-                        "birthdates": {
-                          "type": "array",
-                          "items": {
-                            "type": [
-                              "string",
-                              "null"
-                            ]
-                          }
-                        },
-                        "match_types": {
-                          "type": "array",
-                          "items": {
-                            "type": "string",
-                            "example": "name_exact"
-                          }
-                        },
-                        "media": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "additionalProperties": false,
-                            "properties": {
-                              "date": {
-                                "type": "string",
-                                "format": "date",
-                                "example": "2022-11-12"
-                              },
-                              "snippet": {
-                                "type": "string",
-                                "description": "Snippet from matched article",
-                                "example": "Joe Doe was ordered to jail on Friday after a judge revoked his bail for alleged witness tampering."
-                              },
-                              "url": {
-                                "type": "string",
-                                "description": "URL of matched article",
-                                "example": "https://www.example.com/"
-                              },
-                              "title": {
-                                "type": "string",
-                                "description": "Title of matched article",
-                                "example": "Joe Doe ordered to jail"
-                              }
-                            }
-                          }
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "Joe Doe"
-                        },
-                        "sources": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "additionalProperties": false,
-                            "properties": {
-                              "country_codes": {
-                                "type": "array",
-                                "items": {
-                                  "type": "string",
-                                  "example": "FR"
-                                }
-                              },
-                              "name": {
-                                "type": "string",
-                                "example": "Adverse Media"
-                              },
-                              "token": {
-                                "type": "string"
-                              },
-                              "types": {
-                                "type": "array",
-                                "items": {
-                                  "type": "string",
-                                  "example": "adverse-media-v2-other-minor"
-                                }
-                              }
-                            }
-                          }
-                        },
-                        "id": {
-                          "type": "string",
-                          "example": "FV933QHOUDG73V8"
-                        }
-                      }
-                    }
-                  },
-                  "query": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "properties": {
-                      "business-name": {
-                        "type": "string",
-                        "description": "The name of the business being queried.",
-                        "examples": [
-                          "Acme Corporation"
-                        ]
-                      },
-                      "address-street": {
-                        "type": "string",
-                        "description": "The street address of the business being queried.",
-                        "examples": [
-                          "123 Elm Street"
-                        ]
-                      },
-                      "address-city": {
-                        "type": "string",
-                        "description": "The city in which the business is located.",
-                        "examples": [
-                          "Anytown"
-                        ]
-                      },
-                      "address-state": {
-                        "type": "string",
-                        "description": "Subnational division of a country (such as a state or province) where the business is located.",
-                        "examples": [
-                          "CA"
-                        ]
-                      },
-                      "address-country": {
-                        "type": "string",
-                        "description": "The country in which the business is located.",
-                        "examples": [
-                          "US"
-                        ]
-                      },
-                      "incorporation-date": {
-                        "type": "string",
-                        "format": "date",
-                        "description": "The date the business was incorporated.",
-                        "examples": [
-                          "2001-04-15"
-                        ]
-                      }
-                    }
-                  },
-                  "result": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "properties": {
-                      "adverse-media": {
-                        "type": "array",
-                        "description": "A list of adverse media articles related to the business.",
-                        "items": {
-                          "type": "object",
-                          "additionalProperties": false,
-                          "properties": {
-                            "title": {
-                              "type": "string",
-                              "description": "The title of the media article.",
-                              "examples": [
-                                "Acme Corporation Accused of Environmental Violations"
-                              ]
-                            },
-                            "url": {
-                              "type": "string",
-                              "format": "uri",
-                              "description": "The URL to the full media article.",
-                              "examples": [
-                                "https://news.example.com/business/acme-environmental-violations"
-                              ]
-                            },
-                            "date": {
-                              "type": "string",
-                              "format": "date",
-                              "description": "The publication date of the media article.",
-                              "examples": [
-                                "2023-03-01"
-                              ]
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            ]
-          },
-          "relationships": {
-            "$ref": "#/components/schemas/report-shared-relationships"
-          }
-        },
-        "required": [
-          "type",
-          "id",
-          "attributes"
-        ]
-      },
-      "report-business-watchlist": {
-        "title": "Business Watchlist Report",
-        "description": "A Business Watchlist Report",
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "type": {
-            "type": "string",
-            "const": "report/business-watchlist",
-            "description": "report/business-watchlist"
-          },
-          "id": {
-            "type": "string",
-            "description": "The ID of the report",
-            "examples": [
-              "rep_8YZjQaNjXpZLKrJNHBkYDLAp"
-            ]
-          },
-          "attributes": {
-            "unevaluatedProperties": false,
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/report-shared-attributes"
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "matched-lists": {
-                    "type": "array",
-                    "description": "A list of slugs identifying the lists on which matches were found.",
-                    "items": {
-                      "type": "string"
-                    }
-                  },
-                  "sanction-list": {
-                    "type": "array",
-                    "description": "Detailed information about matches found on sanction lists.",
-                    "items": {
-                      "type": "object",
-                      "additionalProperties": false,
-                      "properties": {
-                        "name": {
-                          "type": "string",
-                          "description": "The name of the sanction list."
-                        },
-                        "url": {
-                          "type": "string",
-                          "format": "uri",
-                          "description": "A URL with more information about the list."
-                        }
-                      }
-                    }
-                  },
-                  "fitness-probity-list": {
-                    "type": "array",
-                    "description": "Detailed information about matches found on fitness and probity lists.",
-                    "items": {
-                      "type": "object",
-                      "additionalProperties": false,
-                      "properties": {
-                        "name": {
-                          "type": "string",
-                          "description": "The name of the fitness and probity list."
-                        },
-                        "url": {
-                          "type": "string",
-                          "format": "uri",
-                          "description": "A URL with more information about the list."
-                        }
-                      }
-                    }
-                  },
-                  "warning-list": {
-                    "type": "array",
-                    "description": "Detailed information about matches found on warning lists.",
-                    "items": {
-                      "type": "object",
-                      "additionalProperties": false,
-                      "properties": {
-                        "name": {
-                          "type": "string",
-                          "description": "The name of the warning list."
-                        },
-                        "url": {
-                          "type": "string",
-                          "format": "uri",
-                          "description": "A URL with more information about the list."
-                        }
-                      }
-                    }
-                  },
-                  "run-history": {
-                    "$ref": "#/components/schemas/report-run-history"
-                  }
-                }
-              }
-            ]
-          },
-          "relationships": {
-            "$ref": "#/components/schemas/report-shared-relationships"
-          }
-        }
-      },
-      "report-profile": {
-        "title": "Profile Report",
-        "description": "A Profile Report",
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "type": {
-            "type": "string",
-            "const": "report/profile",
-            "description": "report/profile"
-          },
-          "id": {
-            "type": "string",
-            "description": "The ID of the report",
-            "examples": [
-              "rep_XYZ1234567890ABCDEF"
-            ]
-          },
-          "attributes": {
-            "unevaluatedProperties": false,
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/report-shared-attributes"
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "name-first": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "Given or first name.",
-                    "examples": [
-                      "John"
-                    ]
-                  },
-                  "name-last": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "Family or last name.",
-                    "examples": [
-                      "Doe"
-                    ]
-                  },
-                  "birthdate": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "Birthdate, must be in the format \"YYYY-MM-DD\".",
-                    "format": "date",
-                    "examples": [
-                      "1980-04-12"
-                    ]
-                  },
-                  "social-security-number": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "Full social security number.",
-                    "examples": [
-                      "123-45-6789"
-                    ]
-                  },
-                  "social-security-number-last-4": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "Last 4 digits of social security number.",
-                    "examples": [
-                      "6789"
-                    ]
-                  },
-                  "address-street-1": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "Primary street address.",
-                    "examples": [
-                      "123 Main St"
-                    ]
-                  },
-                  "address-street-2": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "Secondary street address (if any).",
-                    "examples": [
-                      "Apt 4"
-                    ]
-                  },
-                  "address-city": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "City of residence.",
-                    "examples": [
-                      "Metropolis"
-                    ]
-                  },
-                  "address-subdivision": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "State or subdivision of residence.",
-                    "examples": [
-                      "New York"
-                    ]
-                  },
-                  "address-subdivision-abbr": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "State or subdivision abbreviation.",
-                    "examples": [
-                      "NY"
-                    ]
-                  },
-                  "address-postal-code": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "ZIP or postal code.",
-                    "examples": [
-                      "12345"
-                    ]
-                  },
-                  "address-postal-code-abbr": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "ZIP or postal code abbreviation (if applicable)."
-                  },
-                  "phone-number": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "description": "Phone number.",
-                    "examples": [
-                      "555-1234"
-                    ]
-                  },
-                  "identity-records": {
-                    "type": "array",
-                    "description": "Detailed identity records if available.",
-                    "items": {
-                      "type": "object",
-                      "additionalProperties": false,
-                      "properties": {
-                        "names": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "additionalProperties": false,
-                            "properties": {
-                              "name-full": {
-                                "type": "string"
-                              },
-                              "name-first": {
-                                "type": "string"
-                              },
-                              "name-middle": {
-                                "type": "string"
-                              },
-                              "name-last": {
-                                "type": "string"
-                              }
-                            }
-                          }
-                        },
-                        "birthdates": {
-                          "type": "array",
-                          "items": {
-                            "type": "string"
-                          }
-                        },
-                        "addresses": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "additionalProperties": false,
-                            "properties": {
-                              "country-code": {
-                                "type": "string"
-                              },
-                              "street-1": {
-                                "type": "string"
-                              },
-                              "street-2": {
-                                "type": "string"
-                              },
-                              "city": {
-                                "type": "string"
-                              },
-                              "postal-code": {
-                                "type": "string"
-                              },
-                              "longitude": {
-                                "type": "number"
-                              },
-                              "latitude": {
-                                "type": "number"
-                              },
-                              "subdivision": {
-                                "type": "string"
-                              },
-                              "date-first-seen": {
-                                "type": "string"
-                              },
-                              "date-last-seen": {
-                                "type": "string"
-                              }
-                            }
-                          }
-                        },
-                        "social-security-numbers": {
-                          "type": "array",
-                          "items": {
-                            "type": "string"
-                          }
-                        },
-                        "phone-numbers": {
-                          "type": "array",
-                          "items": {
-                            "type": "string"
-                          }
-                        },
-                        "email-addresses": {
-                          "type": "array",
-                          "items": {
-                            "type": "string"
-                          }
-                        },
-                        "deceased": {
-                          "type": "boolean"
-                        },
-                        "deceased-date": {
-                          "type": "string"
-                        },
-                        "drivers-licenses": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "additionalProperties": false,
-                            "properties": {
-                              "number": {
-                                "type": "string"
-                              },
-                              "state": {
-                                "type": "string"
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            ]
-          },
-          "relationships": {
-            "$ref": "#/components/schemas/report-shared-relationships"
-          }
-        }
-      },
-      "report-synthetic": {
-        "title": "Synthetic Report",
-        "description": "A Synthetic Report",
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "type": {
-            "type": "string",
-            "const": "report/synthetic",
-            "description": "report/synthetic"
-          },
-          "id": {
-            "type": "string",
-            "description": "The ID of the report",
-            "examples": [
-              "rep_9Ht4ZsNjXpZLKrJNHBYDLAp"
-            ]
-          },
-          "attributes": {
-            "unevaluatedProperties": false,
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/report-shared-attributes"
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "sentilink-abuse-score": {
-                    "type": [
-                      "integer",
-                      "null"
-                    ],
-                    "description": "Sentilink abuse score.",
-                    "examples": [
-                      72
-                    ]
-                  },
-                  "sentilink-first-party-synthetic-score": {
-                    "type": [
-                      "integer",
-                      "null"
-                    ],
-                    "description": "Sentilink first party synthetic score.",
-                    "examples": [
-                      58
-                    ]
-                  },
-                  "sentilink-third-party-synthetic-score": {
-                    "type": [
-                      "integer",
-                      "null"
-                    ],
-                    "description": "Sentilink third party synthetic score.",
-                    "examples": [
-                      85
-                    ]
-                  },
-                  "report-template-version-name": {
-                    "type": "string",
-                    "description": "The name of the report template version used for this report.",
-                    "examples": [
-                      "v2"
-                    ]
-                  },
-                  "has-match": {
-                    "type": "boolean",
-                    "description": "Indicates if the report matched.",
-                    "examples": [
-                      true
-                    ]
-                  },
-                  "is-continuous": {
-                    "type": "boolean",
-                    "description": "Indicates if the report is recurring.",
-                    "examples": [
-                      false
-                    ]
-                  },
-                  "tags": {
-                    "type": "array",
-                    "description": "Tags associated with the report.",
-                    "items": {
-                      "type": "string"
-                    },
-                    "examples": [
-                      [
-                        "suspicious",
-                        "reviewed"
-                      ]
-                    ]
-                  }
-                }
-              }
-            ]
-          },
-          "relationships": {
-            "$ref": "#/components/schemas/report-shared-relationships"
-          }
-        }
-      },
       "report": {
         "type": "object",
         "discriminator": {
@@ -35189,84 +35293,22 @@
           }
         }
       },
-      "verification-database-standard": {
-        "title": "Standard Database Verification",
-        "description": "A Standard Database Verification",
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "type": {
-            "const": "verification/database-standard",
-            "description": "verification/database-standard",
-            "type": "string"
-          },
-          "id": {
-            "examples": [
-              "ver_1rWMmoV3hoy2qWv3wGPcH43c"
-            ],
-            "type": "string"
-          },
-          "attributes": {
-            "unevaluatedProperties": false,
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/verification-shared-attributes"
-              },
-              {
-                "$ref": "#/components/schemas/default-fields"
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "normalized-address-city": {
-                    "examples": [
-                      "Los Angeles"
-                    ],
-                    "type": "string"
-                  },
-                  "normalized-address-postal-code": {
-                    "examples": [
-                      "55555"
-                    ],
-                    "type": "string"
-                  },
-                  "normalized-address-street-1": {
-                    "examples": [
-                      "555 Beverly Hills"
-                    ],
-                    "type": "string"
-                  },
-                  "normalized-address-street-2": {
-                    "examples": [
-                      "Apt 123"
-                    ],
-                    "type": "string"
-                  },
-                  "normalized-address-subdivision": {
-                    "examples": [
-                      "CA"
-                    ],
-                    "type": "string"
-                  }
-                }
-              }
-            ]
-          },
-          "relationships": {
-            "$ref": "#/components/schemas/verification-shared-relationships"
-          }
-        }
-      },
       "verification": {
         "type": "object",
         "discriminator": {
           "propertyName": "type",
           "mapping": {
             "verification/aamva": "#/components/schemas/verification-aamva",
-            "verification/document": "#/components/schemas/verification-document",
             "verification/database": "#/components/schemas/verification-database",
+            "verification/database-ecbsv": "#/components/schemas/verification-database-ecbsv",
+            "verification/database-phone-carrier": "#/components/schemas/verification-database-phone-carrier",
+            "verification/database-serpro": "#/components/schemas/verification-database-serpro",
+            "verification/database-standard": "#/components/schemas/verification-database-standard",
+            "verification/database-tin": "#/components/schemas/verification-database-tin",
+            "verification/document": "#/components/schemas/verification-document",
             "verification/email-address": "#/components/schemas/verification-email-address",
             "verification/government-id": "#/components/schemas/verification-government-id",
+            "verification/government-id-nfc": "#/components/schemas/verification-government-id-nfc",
             "verification/phone-number": "#/components/schemas/verification-phone-number",
             "verification/selfie": "#/components/schemas/verification-selfie"
           }
@@ -35276,16 +35318,34 @@
             "$ref": "#/components/schemas/verification-aamva"
           },
           {
-            "$ref": "#/components/schemas/verification-document"
+            "$ref": "#/components/schemas/verification-database"
           },
           {
-            "$ref": "#/components/schemas/verification-database"
+            "$ref": "#/components/schemas/verification-database-ecbsv"
+          },
+          {
+            "$ref": "#/components/schemas/verification-database-phone-carrier"
+          },
+          {
+            "$ref": "#/components/schemas/verification-database-serpro"
+          },
+          {
+            "$ref": "#/components/schemas/verification-database-standard"
+          },
+          {
+            "$ref": "#/components/schemas/verification-database-tin"
+          },
+          {
+            "$ref": "#/components/schemas/verification-document"
           },
           {
             "$ref": "#/components/schemas/verification-email-address"
           },
           {
             "$ref": "#/components/schemas/verification-government-id"
+          },
+          {
+            "$ref": "#/components/schemas/verification-government-id-nfc"
           },
           {
             "$ref": "#/components/schemas/verification-phone-number"
@@ -39096,6 +39156,7 @@
               "completed-at": null,
               "completed-at-ts": null,
               "country-code": "US",
+              "checks": [],
               "name-first": "Jane",
               "name-last": "Doe",
               "birthdate": "1994-04-12",
@@ -39103,8 +39164,7 @@
               "expiration-date": "2029-05-08",
               "address-postal-code": "94111",
               "issuing-authority": "CA",
-              "identification-number": "B12345678",
-              "checks": []
+              "identification-number": "B12345678"
             },
             "relationships": {
               "inquiry": {
@@ -39152,14 +39212,14 @@
               "completed-at": null,
               "completed-at-ts": null,
               "country-code": "US",
+              "checks": [],
               "name-first": "Jane",
               "name-last": "Doe",
               "birthdate": "1994-04-12",
               "email-address": "jane@doe.com",
               "identification-number": "B12345678",
               "signature-timestamp": "2022-09-03T04:13:06.000Z",
-              "signature-ip": "127.0.0.1",
-              "checks": []
+              "signature-ip": "127.0.0.1"
             },
             "relationships": {
               "inquiry": {
@@ -39203,6 +39263,8 @@
               "submitted-at-ts": null,
               "completed-at": null,
               "completed-at-ts": null,
+              "country-code": "US",
+              "checks": [],
               "name-first": "Jane",
               "name-last": "Doe",
               "address-street-1": "123 Main St",
@@ -39210,9 +39272,7 @@
               "address-city": "San Francisco",
               "address-subdivision": "California",
               "address-postal-code": "94111",
-              "country-code": "US",
-              "birthdate": "1994-12-30",
-              "checks": []
+              "birthdate": "1994-12-30"
             },
             "relationships": {
               "inquiry": {
@@ -39257,12 +39317,12 @@
               "completed-at": null,
               "completed-at-ts": null,
               "country-code": "BR",
+              "checks": [],
               "cpf": "123456789",
               "name-full": "Jane Doe",
               "name-first": "Jane",
               "name-last": "Doe",
-              "birthdate": "1994-12-30",
-              "checks": []
+              "birthdate": "1994-12-30"
             },
             "relationships": {
               "inquiry": {
@@ -39313,6 +39373,7 @@
               "completed-at": null,
               "completed-at-ts": null,
               "country-code": "US",
+              "checks": [],
               "name-first": "ALEXANDER",
               "name-middle": "JAMES",
               "name-last": "HAMILTON",
@@ -39325,8 +39386,7 @@
               "normalized-address-street-2": "Apt 123",
               "normalized-address-city": "Los Angeles",
               "normalized-address-subdivision": "CA",
-              "normalized-address-postal-code": "55555",
-              "checks": []
+              "normalized-address-postal-code": "55555"
             },
             "relationships": {
               "inquiry": {
@@ -39371,43 +39431,12 @@
               "completed-at": "2022-08-03T04:13:06.000Z",
               "completed-at-ts": 1659499986,
               "country-code": "US",
+              "checks": [],
               "tin": "123456789",
               "tin-type": "itin",
               "name-first": "JANE",
               "name-last": "DOE",
-              "name-business": null,
-              "checks": [
-                {
-                  "name": "database_tin_name_comparison",
-                  "status": "passed",
-                  "reasons": [],
-                  "metadata": {}
-                },
-                {
-                  "name": "database_tin_deceased_detection",
-                  "status": "passed",
-                  "reasons": [],
-                  "metadata": {}
-                },
-                {
-                  "name": "database_tin_invalid_format_detection",
-                  "status": "passed",
-                  "reasons": [],
-                  "metadata": {}
-                },
-                {
-                  "name": "database_tin_disallowed_type_detection",
-                  "status": "passed",
-                  "reasons": [],
-                  "metadata": {}
-                },
-                {
-                  "name": "database_tin_service_available_detection",
-                  "status": "passed",
-                  "reasons": [],
-                  "metadata": {}
-                }
-              ]
+              "name-business": null
             },
             "relationships": {
               "inquiry": {
@@ -39452,6 +39481,7 @@
               "completed-at": null,
               "completed-at-ts": null,
               "country-code": "US",
+              "checks": [],
               "name-first": "Jane",
               "name-middle": null,
               "name-last": "Doe",
@@ -39469,8 +39499,7 @@
               "identification-number": null,
               "document-number": null,
               "phone-number": null,
-              "email-address": "jane@doe.com",
-              "checks": []
+              "email-address": "jane@doe.com"
             },
             "relationships": {
               "inquiry": {
@@ -39524,15 +39553,7 @@
               "completed-at": null,
               "completed-at-ts": null,
               "country-code": null,
-              "checks": [
-                {
-                  "name": "document_unprocessable_submission_detection",
-                  "status": "passed",
-                  "reasons": [],
-                  "requirement": "required",
-                  "metadata": {}
-                }
-              ],
+              "checks": [],
               "fields": {},
               "files": [
                 {
@@ -39605,6 +39626,7 @@
               "completed-at": null,
               "completed-at-ts": null,
               "country-code": "US",
+              "checks": [],
               "email-address": "jane@doe.com",
               "confirmation-code": "12345"
             },
@@ -39660,6 +39682,7 @@
               "completed-at": "2024-03-20T21:22:31.000Z",
               "completed-at-ts": 1710969751,
               "country-code": "US",
+              "checks": [],
               "entity-confidence-score": 96.1831512451172,
               "entity-confidence-reasons": [
                 "generic"
@@ -39769,6 +39792,7 @@
               "completed-at": null,
               "completed-at-ts": null,
               "country-code": "US",
+              "checks": [],
               "phone-number": "+14169671111",
               "confirmation-code": "12345",
               "metadata": {}
