@@ -28,9 +28,6 @@ get:
             examples:
               - Open
             type: string
-          resolution:
-            description: Filter cases by resolution
-            type: string
           case-template-id:
             description: Filter cases by case template ID
             examples:
@@ -40,6 +37,11 @@ get:
             description: Filter cases by account ID
             examples:
               - act_ABC123
+            type: string
+          reference-id:
+            description: Filter cases by reference ID
+            examples:
+              - abc-123
             type: string
           inquiry-id:
             description: Filter cases by inquiry ID
@@ -88,6 +90,10 @@ get:
                         data:
                           type: case-template
                           id: ctmpl_336jV1uVaaY84GAqvG91oiy9
+                      case-queue:
+                        data:
+                          type: case-queue
+                          id: cqueue_7JRbkcdbx9fTossK98NJvRZcmk1
                       case-comments:
                         data: []
                       accounts:
@@ -180,6 +186,9 @@ post:
                     creator-email-address:
                       description: Email of the user creating this case in the organization
                       type: string
+                    case-queue-id:
+                      description: ID of the case queue to put this case in
+                      type: string
                   required:
                     - case-template-id
                   type: object
@@ -249,6 +258,10 @@ post:
                       data:
                         type: case-template
                         id: ctmpl_Jumm3K4zHwaLBBdyLUCnHbBC
+                    case-queue:
+                      data:
+                        type: case-queue
+                        id: cqueue_7JRbkcdbx9fTossK98NJvRZcmk1
                     case-comments:
                       data: []
                     accounts:

@@ -556,7 +556,7 @@ paths:
                               description: Selfie photo.
                               properties:
                                 data:
-                                  description: Selfie photo data, must be an image. Can also be provided as an uploaded file such as with multipart/form-data requests instead of this object.
+                                  description: Selfie photo data, must be an image. Can also be provided as an uploaded file such as with multipart/form-data requests instead of this object. Null will remove the existing selfie photo from the Account.
                                   properties:
                                     data:
                                       description: Base64 encoded image
@@ -565,7 +565,9 @@ paths:
                                       description: Name of the image
                                       type: string
                                   additionalProperties: false
-                                  type: object
+                                  type:
+                                    - object
+                                    - 'null'
                               additionalProperties: false
                               type: object
                             tags:
@@ -1374,9 +1376,6 @@ paths:
                 examples:
                   - Open
                 type: string
-              resolution:
-                description: Filter cases by resolution
-                type: string
               case-template-id:
                 description: Filter cases by case template ID
                 examples:
@@ -1386,6 +1385,11 @@ paths:
                 description: Filter cases by account ID
                 examples:
                   - act_ABC123
+                type: string
+              reference-id:
+                description: Filter cases by reference ID
+                examples:
+                  - abc-123
                 type: string
               inquiry-id:
                 description: Filter cases by inquiry ID
@@ -1434,6 +1438,10 @@ paths:
                             data:
                               type: case-template
                               id: ctmpl_336jV1uVaaY84GAqvG91oiy9
+                          case-queue:
+                            data:
+                              type: case-queue
+                              id: cqueue_7JRbkcdbx9fTossK98NJvRZcmk1
                           case-comments:
                             data: []
                           accounts:
@@ -1520,6 +1528,9 @@ paths:
                         creator-email-address:
                           description: Email of the user creating this case in the organization
                           type: string
+                        case-queue-id:
+                          description: ID of the case queue to put this case in
+                          type: string
                       required:
                         - case-template-id
                       type: object
@@ -1583,6 +1594,10 @@ paths:
                           data:
                             type: case-template
                             id: ctmpl_Jumm3K4zHwaLBBdyLUCnHbBC
+                        case-queue:
+                          data:
+                            type: case-queue
+                            id: cqueue_7JRbkcdbx9fTossK98NJvRZcmk1
                         case-comments:
                           data: []
                         accounts:
@@ -1796,6 +1811,10 @@ paths:
                           data:
                             type: case-template
                             id: ctmpl_336jV1uVaaY84GAqvG91oiy9
+                        case-queue:
+                          data:
+                            type: case-queue
+                            id: cqueue_7JRbkcdbx9fTossK98NJvRZcmk1
                         case-comments:
                           data:
                             - type: case-comment
@@ -2024,6 +2043,10 @@ paths:
                           data:
                             type: case-template
                             id: ctmpl_336jV1uVaaY84GAqvG91oiy9
+                        case-queue:
+                          data:
+                            type: case-queue
+                            id: cqueue_7JRbkcdbx9fTossK98NJvRZcmk1
                         case-comments:
                           data:
                             - type: case-comment
@@ -2159,6 +2182,11 @@ paths:
                             type: object
                             additionalProperties: false
                           type: array
+                        case-queue-id:
+                          description: ID of the case queue to put this case in. Set to null to remove case from case queue.
+                          type:
+                            - string
+                            - 'null'
                         fields:
                           description: 'Note: field names and data types used here will depend on the configurations for your Case Template.'
                           examples:
@@ -2220,6 +2248,10 @@ paths:
                           data:
                             type: case-template
                             id: ctmpl_6HheND7s14a2o7fg33iHqhg7
+                        case-queue:
+                          data:
+                            type: case-queue
+                            id: cqueue_7JRbkcdbx9fTossK98NJvRZcmk1
                         case-comments:
                           data: []
                         accounts:
@@ -2340,6 +2372,10 @@ paths:
                         tags: []
                         fields: {}
                       relationships:
+                        case-queue:
+                          data:
+                            type: case-queue
+                            id: cqueue_7JRbkcdbx9fTossK98NJvRZcmk1
                         case-template:
                           data:
                             type: case-template
@@ -2460,6 +2496,10 @@ paths:
                           data:
                             type: case-template
                             id: ctmpl_6HheND7s14a2o7fg33iHqhg7
+                        case-queue:
+                          data:
+                            type: case-queue
+                            id: cqueue_7JRbkcdbx9fTossK98NJvRZcmk1
                         case-comments:
                           data: []
                         accounts:
@@ -2579,6 +2619,10 @@ paths:
                           data:
                             type: case-template
                             id: ctmpl_6HheND7s14a2o7fg33iHqhg7
+                        case-queue:
+                          data:
+                            type: case-queue
+                            id: cqueue_7JRbkcdbx9fTossK98NJvRZcmk1
                         case-comments:
                           data: []
                         accounts:
@@ -2694,6 +2738,10 @@ paths:
                           data:
                             type: case-template
                             id: ctmpl_6HheND7s14a2o7fg33iHqhg7
+                        case-queue:
+                          data:
+                            type: case-queue
+                            id: cqueue_7JRbkcdbx9fTossK98NJvRZcmk1
                         case-comments:
                           data: []
                         accounts:
@@ -2808,6 +2856,10 @@ paths:
                           data:
                             type: case-template
                             id: ctmpl_6HheND7s14a2o7fg33iHqhg7
+                        case-queue:
+                          data:
+                            type: case-queue
+                            id: cqueue_7JRbkcdbx9fTossK98NJvRZcmk1
                         case-comments:
                           data: []
                         accounts:
@@ -2928,6 +2980,10 @@ paths:
                           data:
                             type: case-template
                             id: ctmpl_6HheND7s14a2o7fg33iHqhg7
+                        case-queue:
+                          data:
+                            type: case-queue
+                            id: cqueue_7JRbkcdbx9fTossK98NJvRZcmk1
                         case-comments:
                           data: []
                         accounts:
@@ -14175,6 +14231,24 @@ components:
                       const: case-template
                       description: case-template
                       type: string
+            case-queue:
+              type: object
+              additionalProperties: false
+              properties:
+                data:
+                  type:
+                    - object
+                    - 'null'
+                  additionalProperties: false
+                  properties:
+                    id:
+                      examples:
+                        - cqueue_7JRbkcdbx9fTossK98NJvRZcmk1
+                      type: string
+                    type:
+                      const: case-queue
+                      description: case-queue
+                      type: string
             inquiries:
               type: object
               additionalProperties: false
@@ -14354,6 +14428,59 @@ components:
                 - 'null'
               format: date-time
               description: The time the template was archived
+              examples:
+                - '2021-03-25T07:04:16.667Z'
+    case-queue:
+      type: object
+      additionalProperties: false
+      description: A Case Queue object
+      properties:
+        type:
+          type: string
+          const: case-queue
+          description: Case Queue
+        id:
+          type: string
+          description: Unique identifier for the Case Queue
+          examples:
+            - cqueue_7JRbkcdbx9fTossK98NJvRZcmk1
+        attributes:
+          type: object
+          additionalProperties: false
+          properties:
+            status:
+              description: |-
+                Possible values:
+                - active
+                - archived
+
+                Do not assume this is a static enumeration; Persona may add new values
+                in the future without a versioned update.
+              examples:
+                - active
+              type: string
+            name:
+              type: string
+            created-at:
+              type: string
+              format: date-time
+              description: The time the queue was created
+              examples:
+                - '2021-03-25T07:04:16.667Z'
+            updated-at:
+              type:
+                - string
+                - 'null'
+              format: date-time
+              description: The time the queue was last updated
+              examples:
+                - '2021-03-25T07:04:16.667Z'
+            archived-at:
+              type:
+                - string
+                - 'null'
+              format: date-time
+              description: The time the queue was archived
               examples:
                 - '2021-03-25T07:04:16.667Z'
     inquiry:
@@ -19048,6 +19175,7 @@ components:
             account: '#/components/schemas/account'
             case-comment: '#/components/schemas/case-comment'
             case-template: '#/components/schemas/case-template'
+            case-queue: '#/components/schemas/case-queue'
             inquiry: '#/components/schemas/inquiry'
             report/address-lookup: '#/components/schemas/report-address-lookup'
             report/adverse-media: '#/components/schemas/report-adverse-media'
@@ -19083,6 +19211,7 @@ components:
           - $ref: '#/components/schemas/account'
           - $ref: '#/components/schemas/case-comment'
           - $ref: '#/components/schemas/case-template'
+          - $ref: '#/components/schemas/case-queue'
           - $ref: '#/components/schemas/inquiry'
           - $ref: '#/components/schemas/report-address-lookup'
           - $ref: '#/components/schemas/report-adverse-media'
