@@ -10,28 +10,30 @@ post:
     - $ref: ../components/parameters/key-inflection-header.yaml
     - $ref: ../components/parameters/idempotency-key-header.yaml
     - $ref: ../components/parameters/persona-version-header.yaml
-    - description: Organization (`org_`) to authorize
-      in: query
-      name: client_id
-      required: true
-      schema:
-        type: string
-    - description: Must be set to 'code'
-      in: query
-      name: response_type
-      required: true
-      schema:
-        default: code
-        type: string
-    - description: >-
-        Space-separated list of 'permission:object' combinations (i.e.
-        `inquiry.read:inq_uX7kRTiBxsJ1sZqPLAsjdP9j
-        verification.read:ver_ynYuWdrjwwjiHJ2rgHfSoHeT`
-      in: query
-      name: scope
-      required: true
-      schema:
-        type: string
+  requestBody:
+    content:
+      application/x-www-form-urlencoded:
+        schema:
+          properties:
+            client-id:
+              description: Organization (`org_`) to authorize
+              type: string
+            response-type:
+              description: Must be set to 'code'
+              type: string
+              default: code
+            scope:
+              description: >-
+                Space-separated list of 'permission:object' combinations (i.e.
+                `inquiry.read:inq_uX7kRTiBxsJ1sZqPLAsjdP9j
+                verification.read:ver_ynYuWdrjwwjiHJ2rgHfSoHeT`
+              type: string
+          type: object
+          additionalProperties: false
+          required:
+            - client-id
+            - response-type
+            - scope
   responses:
     '201':
       content:

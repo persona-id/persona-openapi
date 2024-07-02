@@ -8,19 +8,23 @@ post:
     - $ref: ../components/parameters/key-inflection-header.yaml
     - $ref: ../components/parameters/idempotency-key-header.yaml
     - $ref: ../components/parameters/persona-version-header.yaml
-    - description: Authorization Code
-      in: query
-      name: code
-      required: true
-      schema:
-        type: string
-    - description: Must be set to 'authorization_code'
-      in: query
-      name: grant_type
-      required: true
-      schema:
-        default: authorization_code
-        type: string
+  requestBody:
+    content:
+      application/x-www-form-urlencoded:
+        schema:
+          properties:
+            code:
+              description: Authorization Code
+              type: string
+            grant-type:
+              description: Must be set to 'authorization_code'
+              type: string
+              default: authorization_code
+          type: object
+          additionalProperties: false
+          required:
+            - code
+            - grant-type
   responses:
     '201':
       content:
