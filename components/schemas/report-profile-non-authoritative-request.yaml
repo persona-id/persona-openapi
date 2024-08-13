@@ -1,12 +1,12 @@
-title: Profile Report
-description: Fields required to create a Profile Report
+title: Profile Non-Authoritative Report
+description: Fields required to create a Profile Non-Authoritative Report
 type: object
 additionalProperties: false
 properties:
   type:
     type: string
-    const: report/profile
-    description: report/profile
+    const: report/profile-non-authoritative
+    description: report/profile-non-authoritative
   attributes:
     unevaluatedProperties: false
     allOf:
@@ -16,13 +16,16 @@ properties:
           query:
             type: object
             additionalProperties: false
+            description: >-
+              Requires `phone-number` or `email-address` or both `first-name`
+              and `last-name`.
             properties:
               name-first:
                 type:
                   - string
                   - 'null'
                 description: The first name of the individual to search.
-                example: John
+                example: Jane
               name-last:
                 type:
                   - string
@@ -33,57 +36,49 @@ properties:
                 type:
                   - string
                   - 'null'
-                pattern: ^\d{4}-\d{2}-\d{2}$
                 description: >-
                   The birthdate of the individual, formatted as YYYY-MM-DD (ISO
                   8601).
-                example: '1970-01-01'
-              social-security-number:
+                example: '1991-10-07'
+              phone-number:
                 type:
                   - string
                   - 'null'
-                pattern: ^\d{3}-\d{2}-\d{4}$
-                description: Social security number.
-                example: 123-45-6789
-              address-street-1:
+                description: Phone number of the individual to search.
+                example: '+14169671111'
+              email-address:
+                description: Email address of the individual to search.
                 type:
                   - string
                   - 'null'
-                description: Address line 1 (e.g., street or PO Box).
-                example: 123 Main St
-              address-street-2:
-                type:
-                  - string
-                  - 'null'
-                description: Address line 2 (e.g., apartment, suite, unit, or building).
-                example: Apt 4
+                example: address@domain.com
               address-city:
                 type:
                   - string
                   - 'null'
-                description: City of residence.
-                example: Anytown
+                description: City
+                example: Funkyville
               address-subdivision:
                 type:
                   - string
                   - 'null'
-                description: State or subdivision of residence, unabbreviated.
-                example: California
+                description: >-
+                  Subnational division (such as a state or province) of the
+                  country of residence.
+                example: Wisconsin
               address-postal-code:
                 type:
                   - string
                   - 'null'
                 description: ZIP or postal code of residence.
                 example: '12345'
-              country-code:
+              address-country-code:
                 type:
                   - string
                   - 'null'
                 description: ISO 3166-1 alpha-2 country code for the location of residence.
                 example: US
-              phone-number:
-                type:
-                  - string
-                  - 'null'
-                description: Phone number.
-                example: 555-555-5555
+        required:
+          - query
+required:
+  - attributes
