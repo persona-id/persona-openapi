@@ -17,8 +17,9 @@ properties:
             type: object
             additionalProperties: false
             description: >-
-              Requires `phone-number` or `email-address` or both `first-name`
-              and `last-name`.
+              Requires `phone-number`, or `email-address`, or all of
+              `name-first`, `name-last`, `address-city`, and
+              `address-subdivision`.
             properties:
               name-first:
                 type:
@@ -32,14 +33,6 @@ properties:
                   - 'null'
                 description: The last name of the individual to search.
                 example: Doe
-              birthdate:
-                type:
-                  - string
-                  - 'null'
-                description: >-
-                  The birthdate of the individual, formatted as YYYY-MM-DD (ISO
-                  8601).
-                example: '1991-10-07'
               phone-number:
                 type:
                   - string
@@ -66,18 +59,6 @@ properties:
                   Subnational division (such as a state or province) of the
                   country of residence.
                 example: Wisconsin
-              address-postal-code:
-                type:
-                  - string
-                  - 'null'
-                description: ZIP or postal code of residence.
-                example: '12345'
-              address-country-code:
-                type:
-                  - string
-                  - 'null'
-                description: ISO 3166-1 alpha-2 country code for the location of residence.
-                example: US
         required:
           - query
 required:
