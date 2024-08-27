@@ -5500,7 +5500,11 @@ paths:
         - Inquiries
   /inquiries/{inquiry-id}/resume:
     post:
-      description: Creates a new inquiry session and returns `meta.session-token`. If the inquiry's status is `expired`, changes the status to `pending`. The `session-token` must be included when loading the inquiry flow if the inquiry's status is `pending`. For more information, see [Resuming Inquiries](https://docs.withpersona.com/docs/inquiries-resuming-inquiries).
+      description: |-
+        Creates a session token that is returned as `meta.session-token`. If the inquiry's status is `expired`, changes the status to `pending`. The `session-token` must be included when loading the inquiry flow if the inquiry's status is `pending`.
+        This endpoint will error if the inquiry is redacted.
+        This endpoint first tries to reuse any existing valid unused [sessions](https://docs.withpersona.com/docs/inquiry-sessions). If none exist, a new session is created.
+        For more information, see [Resuming Inquiries](https://docs.withpersona.com/docs/inquiries-resuming-inquiries).
       operationId: resume-an-inquiry
       externalDocs:
         description: Full documentation for this API on the Persona website.
