@@ -55,7 +55,24 @@ post:
                       type:
                         - array
                         - 'null'
+            meta:
+              type: object
+              additionalProperties: false
   responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              $ref: ../components/examples/transaction.yaml
+          schema:
+            type: object
+            additionalProperties: false
+            properties:
+              data:
+                $ref: ../components/schemas/transaction.yaml
     '201':
       description: Created
       content:

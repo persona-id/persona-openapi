@@ -10018,7 +10018,24 @@ paths:
                           type:
                             - array
                             - 'null'
+                meta:
+                  type: object
+                  additionalProperties: false
       responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              examples:
+                Result:
+                  summary: OK
+                  $ref: '#/components/examples/transaction'
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  data:
+                    $ref: '#/components/schemas/transaction'
         '201':
           description: Created
           content:
@@ -13354,11 +13371,6 @@ components:
       description: A comma-separated list of relationship paths. This can be used to customize which related resources will be fully serialized in the `included` key in the response. See [Serialization](https://docs.withpersona.com/reference/serialization#inclusion-of-related-resources) for more details.
       schema:
         type: string
-        examples:
-          - sessions,account
-          - selfie.inquiry
-          - verifications
-          - verifications,selfie.inquiry,template
     persona-signature-header:
       name: Persona-Signature
       in: header
@@ -15164,6 +15176,23 @@ components:
                   type: array
               additionalProperties: false
               type: object
+            transaction:
+              properties:
+                data:
+                  properties:
+                    id:
+                      examples:
+                        - txn_ABC123
+                      type: string
+                    type:
+                      const: transaction
+                      description: transaction
+                      type: string
+                  type:
+                    - object
+                    - 'null'
+              additionalProperties: false
+              type: object
             reviewer:
               properties:
                 data:
@@ -15330,6 +15359,24 @@ components:
                 type:
                   const: account
                   description: account
+                  type: string
+        transaction:
+          type: object
+          additionalProperties: false
+          description: The transaction linked to the report
+          properties:
+            data:
+              type:
+                - object
+                - 'null'
+              additionalProperties: false
+              properties:
+                id:
+                  example: txn_9e3yoAUApTRMjgNoPAC7TNtz
+                  type: string
+                type:
+                  const: transaction
+                  description: transaction
                   type: string
         report-template:
           type: object
@@ -18435,6 +18482,22 @@ components:
                 id:
                   type: string
                   example: itmpl_ABC123
+        transaction:
+          type: object
+          additionalProperties: false
+          properties:
+            data:
+              type:
+                - object
+                - 'null'
+              properties:
+                type:
+                  type: string
+                  const: transaction
+                  description: transaction
+                id:
+                  type: string
+                  example: txn_ABC123
         verification-template:
           type: object
           additionalProperties: false
@@ -19587,12 +19650,10 @@ components:
             report/business-watchlist: '#/components/schemas/report-business-watchlist'
             report/crypto-address-watchlist: '#/components/schemas/report-crypto-address-watchlist'
             report/email-address: '#/components/schemas/report-email-address'
-            report/finra-broker-check: '#/components/schemas/report-finra-broker-check'
             report/phone-number: '#/components/schemas/report-phone-risk'
             report/politically-exposed-person: '#/components/schemas/report-politically-exposed-person'
             report/profile: '#/components/schemas/report-profile'
             report/profile-non-authoritative: '#/components/schemas/report-profile-non-authoritative'
-            report/sec-action-lookup: '#/components/schemas/report-sec-action-lookup'
             report/integration/sentilink-scores: '#/components/schemas/report-sentilink-scores'
             report/social-media: '#/components/schemas/report-social-media'
             report/synthetic: '#/components/schemas/report-synthetic'
@@ -19785,6 +19846,22 @@ components:
                 - object
           type: object
           additionalProperties: false
+        transaction:
+          type: object
+          additionalProperties: false
+          properties:
+            data:
+              type:
+                - object
+                - 'null'
+              properties:
+                type:
+                  type: string
+                  const: transaction
+                  description: transaction
+                id:
+                  type: string
+                  example: txn_ABC123
         document-files:
           properties:
             data:
@@ -20418,12 +20495,14 @@ components:
             inquiry-template: '#/components/schemas/inquiry-template'
             inquiry-template-version: '#/components/schemas/inquiry-template-version'
             template: '#/components/schemas/template'
+            transaction: '#/components/schemas/transaction'
             document-file: '#/components/schemas/document-file'
         anyOf:
           - $ref: '#/components/schemas/inquiry'
           - $ref: '#/components/schemas/inquiry-template'
           - $ref: '#/components/schemas/inquiry-template-version'
           - $ref: '#/components/schemas/template'
+          - $ref: '#/components/schemas/transaction'
           - $ref: '#/components/schemas/document-file'
     document-government-id:
       type: object
@@ -20870,7 +20949,6 @@ components:
         mapping:
           importer/account: '#/components/schemas/importer-account'
           importer/list-item/email-address: '#/components/schemas/importer-list-item-email-address'
-          importer/list-item/face: '#/components/schemas/importer-list-item-face'
           importer/list-item/field: '#/components/schemas/importer-list-item-field'
           importer/list-item/geolocation: '#/components/schemas/importer-list-item-geolocation'
           importer/list-item/government-id-number: '#/components/schemas/importer-list-item-government-id-number'
@@ -21229,12 +21307,10 @@ components:
             report/business-watchlist: '#/components/schemas/report-business-watchlist'
             report/crypto-address-watchlist: '#/components/schemas/report-crypto-address-watchlist'
             report/email-address: '#/components/schemas/report-email-address'
-            report/finra-broker-check: '#/components/schemas/report-finra-broker-check'
             report/phone-number: '#/components/schemas/report-phone-risk'
             report/politically-exposed-person: '#/components/schemas/report-politically-exposed-person'
             report/profile: '#/components/schemas/report-profile'
             report/profile-non-authoritative: '#/components/schemas/report-profile-non-authoritative'
-            report/sec-action-lookup: '#/components/schemas/report-sec-action-lookup'
             report/integration/sentilink-scores: '#/components/schemas/report-sentilink-scores'
             report/social-media: '#/components/schemas/report-social-media'
             report/synthetic: '#/components/schemas/report-synthetic'
@@ -21243,6 +21319,7 @@ components:
             selfie/center-only: '#/components/schemas/selfie'
             selfie/configurable-poses: '#/components/schemas/selfie'
             inquiry-session: '#/components/schemas/inquiry-session'
+            transaction: '#/components/schemas/transaction'
             verification/aamva: '#/components/schemas/verification-aamva'
             verification/database: '#/components/schemas/verification-database'
             verification/database-ecbsv: '#/components/schemas/verification-database-ecbsv'
@@ -21282,6 +21359,7 @@ components:
           - $ref: '#/components/schemas/report-watchlist'
           - $ref: '#/components/schemas/selfie'
           - $ref: '#/components/schemas/inquiry-session'
+          - $ref: '#/components/schemas/transaction'
           - $ref: '#/components/schemas/verification-aamva'
           - $ref: '#/components/schemas/verification-database'
           - $ref: '#/components/schemas/verification-database-ecbsv'
@@ -22578,7 +22656,6 @@ components:
           list/browser-fingerprint: '#/components/schemas/lists-browser-fingerprints'
           list/country: '#/components/schemas/lists-countries'
           list/email-address: '#/components/schemas/lists-email-addresses'
-          list/face: '#/components/schemas/lists-faces'
           list/geolocation: '#/components/schemas/lists-geolocations'
           list/government-id-number: '#/components/schemas/lists-government-id-numbers'
           list/ip-address: '#/components/schemas/lists-ip-addresses'
@@ -22605,12 +22682,10 @@ components:
           report/business-watchlist: '#/components/schemas/report-business-watchlist'
           report/crypto-address-watchlist: '#/components/schemas/report-crypto-address-watchlist'
           report/email-address: '#/components/schemas/report-email-address'
-          report/finra-broker-check: '#/components/schemas/report-finra-broker-check'
           report/phone-number: '#/components/schemas/report-phone-risk'
           report/politically-exposed-person: '#/components/schemas/report-politically-exposed-person'
           report/profile: '#/components/schemas/report-profile'
           report/profile-non-authoritative: '#/components/schemas/report-profile-non-authoritative'
-          report/sec-action-lookup: '#/components/schemas/report-sec-action-lookup'
           report/integration/sentilink-scores: '#/components/schemas/report-sentilink-scores'
           report/social-media: '#/components/schemas/report-social-media'
           report/synthetic: '#/components/schemas/report-synthetic'
@@ -23883,6 +23958,7 @@ components:
             report-template/social-media: '#/components/schemas/report-template-social-media'
             report-template/synthetic: '#/components/schemas/report-template-synthetic'
             report-template/watchlist: '#/components/schemas/report-template-watchlist'
+            transaction: '#/components/schemas/transaction'
         anyOf:
           - $ref: '#/components/schemas/inquiry'
           - $ref: '#/components/schemas/account'
@@ -23903,6 +23979,7 @@ components:
           - $ref: '#/components/schemas/report-template-social-media'
           - $ref: '#/components/schemas/report-template-synthetic'
           - $ref: '#/components/schemas/report-template-watchlist'
+          - $ref: '#/components/schemas/transaction'
     transaction-label:
       type: object
       additionalProperties: false
@@ -25392,6 +25469,8 @@ components:
               data:
                 type: inquiry-template-version
                 id: itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo
+            transaction:
+              data: null
             reviewer:
               data: {}
             reports:
@@ -26244,6 +26323,8 @@ components:
               data:
                 type: account
                 id: act_rD4wFHtwhkgbpy2pc3o2G94a
+            transaction:
+              data: null
             report-template:
               data:
                 type: report-template/watchlist
@@ -26835,6 +26916,8 @@ components:
               data: null
             inquiry-template:
               data: null
+            transaction:
+              data: null
             verification-template:
               data:
                 type: verification-template/aamva
@@ -26873,6 +26956,8 @@ components:
             inquiry-template-version:
               data: null
             inquiry-template:
+              data: null
+            transaction:
               data: null
             verification-template-version:
               data:
@@ -26914,6 +26999,8 @@ components:
               data: null
             inquiry-template:
               data: null
+            transaction:
+              data: null
             verification-template-version:
               data:
                 type: verification-template-version/database-tin
@@ -26950,6 +27037,8 @@ components:
             inquiry-template-version:
               data: null
             inquiry-template:
+              data: null
+            transaction:
               data: null
             verification-template-version:
               data:
@@ -27000,6 +27089,8 @@ components:
               data: null
             inquiry-template:
               data: null
+            transaction:
+              data: null
             verification-template-version:
               data:
                 type: verification-template-version/database-standard
@@ -27036,6 +27127,8 @@ components:
             inquiry-template-version:
               data: null
             inquiry-template:
+              data: null
+            transaction:
               data: null
             verification-template-version:
               data:
@@ -27093,6 +27186,8 @@ components:
               data:
                 type: inquiry-template
                 id: itmpl_ABC123
+            transaction:
+              data: null
             verification-template:
               data:
                 type: verification-template/database
@@ -27139,6 +27234,8 @@ components:
               data: null
             inquiry-template:
               data: null
+            transaction:
+              data: null
             verification-template-version:
               data:
                 type: verification-template-version/document
@@ -27183,6 +27280,8 @@ components:
               data:
                 type: inquiry-template
                 id: itmpl_ABC123
+            transaction:
+              data: null
             verification-template:
               data:
                 type: verification-template/email-address
@@ -27265,6 +27364,8 @@ components:
               data:
                 type: inquiry-template
                 id: itmpl_ABC123
+            transaction:
+              data: null
             verification-template:
               data:
                 type: verification-template/government-id
@@ -27310,6 +27411,8 @@ components:
               data:
                 type: inquiry-template
                 id: itmpl_ABC123
+            transaction:
+              data: null
             verification-template:
               data:
                 type: verification-template/email-address
