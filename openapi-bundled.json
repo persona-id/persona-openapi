@@ -462,6 +462,11 @@
                                   "string"
                                 ]
                               },
+                              "fields": {
+                                "description": "JSON key-value pairs of field name to field value. Schema is defined by your Account Type.",
+                                "type": "object",
+                                "additionalProperties": true
+                              },
                               "birthdate": {
                                 "description": "Birthdate, must be in the format \"YYYY-MM-DD\".",
                                 "format": "date",
@@ -935,6 +940,11 @@
                                 "type": [
                                   "string"
                                 ]
+                              },
+                              "fields": {
+                                "description": "JSON key-value pairs of field name to field value. Schema is defined by your Account Type.",
+                                "type": "object",
+                                "additionalProperties": true
                               },
                               "birthdate": {
                                 "description": "Birthdate, must be in the format \"YYYY-MM-DD\".",
@@ -16746,7 +16756,7 @@
     },
     "/user-audit-logs": {
       "get": {
-        "description": "Returns a list of your organization's user audit logs.",
+        "description": "Returns a list of your organization’s user audit logs for up to the most recent 6 months.",
         "operationId": "list-all-user-audit-logs",
         "externalDocs": {
           "description": "Full documentation for this API on the Persona website.",
@@ -16912,7 +16922,7 @@
     },
     "/user-audit-logs/{user-audit-log-id}": {
       "get": {
-        "description": "Retrieves the details of an existing API Log.",
+        "description": "Retrieves the details of an existing user audit logs for up to the most recent 6 months.",
         "operationId": "retrieve-an-user-audit-log",
         "externalDocs": {
           "description": "Full documentation for this API on the Persona website.",
@@ -23813,7 +23823,11 @@
           },
           "is-continuous": {
             "type": "boolean",
-            "description": "Whether or not the report is recurrable and is currently recurring"
+            "description": "Whether or not this report has been run more than once"
+          },
+          "is-recurring": {
+            "type": "boolean",
+            "description": "Whether or not this report is scheduled to run in the future"
           },
           "tags": {
             "type": "array",
