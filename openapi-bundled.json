@@ -19357,6 +19357,10 @@
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/workflow-run"
+                    },
+                    "included": {
+                      "description": "Objects that _may_ be returned if specified via the `include` query parameter in the request.",
+                      "$ref": "#/components/schemas/workflow-run-included-objects"
                     }
                   },
                   "type": "object",
@@ -19466,6 +19470,10 @@
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/workflow-run"
+                    },
+                    "included": {
+                      "description": "Objects that _may_ be returned if specified via the `include` query parameter in the request.",
+                      "$ref": "#/components/schemas/workflow-run-included-objects"
                     }
                   },
                   "type": "object",
@@ -36939,6 +36947,139 @@
               }
             }
           }
+        }
+      },
+      "workflow": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "A Workflow object",
+        "properties": {
+          "type": {
+            "const": "workflow",
+            "description": "workflow",
+            "type": "string"
+          },
+          "id": {
+            "examples": [
+              "wfl_3JqAR9ddLRVZLK5z4yD8oeHB"
+            ],
+            "type": "string"
+          },
+          "attributes": {
+            "properties": {
+              "status": {
+                "description": "The status of the Workflow\n\nPossible values:\n- paused\n- running\n- archived\n\nDo not assume this is a static enumeration; Persona may add new\nvalues in the future without a versioned update.",
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "created-at": {
+                "examples": [
+                  "2022-08-08T18:55:44.910Z"
+                ],
+                "type": "string",
+                "format": "date-time"
+              }
+            },
+            "type": "object",
+            "additionalProperties": false
+          }
+        }
+      },
+      "workflow-version": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "A Workflow Version object",
+        "properties": {
+          "type": {
+            "const": "workflow-version",
+            "description": "workflow-version",
+            "type": "string"
+          },
+          "id": {
+            "examples": [
+              "wfv_3JqAR9ddLRVZLK5z4yD8oeHB"
+            ],
+            "type": "string"
+          },
+          "attributes": {
+            "properties": {
+              "description": {
+                "type": "string"
+              },
+              "status": {
+                "description": "The status of the Workflow Version\n\nPossible values:\n- draft\n- published\n- archived\n\nDo not assume this is a static enumeration; Persona may add new\nvalues in the future without a versioned update.",
+                "type": "string"
+              },
+              "created-at": {
+                "examples": [
+                  "2022-08-08T18:55:44.910Z"
+                ],
+                "type": "string",
+                "format": "date-time"
+              }
+            },
+            "type": "object",
+            "additionalProperties": false
+          },
+          "relationships": {
+            "properties": {
+              "workflow": {
+                "properties": {
+                  "data": {
+                    "properties": {
+                      "type": {
+                        "const": "workflow",
+                        "description": "workflow",
+                        "type": "string"
+                      },
+                      "id": {
+                        "examples": [
+                          "wfl_3VghhbvDc7UuUNT8uZrqZjsk"
+                        ],
+                        "type": "string"
+                      }
+                    },
+                    "type": "object",
+                    "additionalProperties": false
+                  }
+                },
+                "type": "object",
+                "additionalProperties": false
+              }
+            },
+            "type": "object",
+            "additionalProperties": false
+          }
+        }
+      },
+      "workflow-run-included-objects": {
+        "type": "array",
+        "items": {
+          "discriminator": {
+            "propertyName": "type",
+            "mapping": {
+              "workflow": "#/components/schemas/workflow",
+              "workflow-version": "#/components/schemas/workflow-version",
+              "event": "#/components/schemas/event",
+              "user": "#/components/schemas/user"
+            }
+          },
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/workflow"
+            },
+            {
+              "$ref": "#/components/schemas/workflow-version"
+            },
+            {
+              "$ref": "#/components/schemas/event"
+            },
+            {
+              "$ref": "#/components/schemas/user"
+            }
+          ]
         }
       },
       "webhook-body-shared-data": {
