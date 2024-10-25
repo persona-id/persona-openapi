@@ -24,10 +24,18 @@ get:
         type: object
         properties:
           account-id:
-            description: Filter inquiries by account ID
+            description: Comma separated list of account IDs to filter inquiries by
             examples:
               - act_ABC123
-            type: string
+              - act_ABC123,act_DEF456
+              - - act_ABC123
+                - act_DEF456
+            unevaluatedProperties: false
+            oneOf:
+              - type: string
+              - type: array
+                items:
+                  type: string
           note:
             description: Filter inquiries by note. Must be the only filter.
             examples:
@@ -38,20 +46,56 @@ get:
             examples:
               - abc-123
             type: string
-          template-id:
-            description: >-
-              Filter inquiries by template ID (use this field if your template
-              ID starts with `tmpl_`)
-            examples:
-              - tmpl_ABC123
-            type: string
           inquiry-template-id:
             description: >-
-              Filter inquiries by inquiry template ID (use this field if your
-              template ID starts with `itmpl_`)
+              Comma separated list of inquiry template IDs (starting with
+              `itmpl_`) to filter inquiries by
             examples:
               - itmpl_ABC123
-            type: string
+              - itmpl_ABC123,itmpl_DEF456
+              - - itmpl_ABC123
+                - itmpl_DEF456
+            unevaluatedProperties: false
+            oneOf:
+              - type: string
+              - type: array
+                items:
+                  type: string
+          template-id:
+            description: >-
+              Comma separated list of legacy template IDs (starting with
+              `tmpl_`) to filter inquiries by
+            examples:
+              - tmpl_ABC123
+              - tmpl_ABC123,tmpl_DEF456
+              - - tmpl_ABC123
+                - tmpl_DEF456
+            unevaluatedProperties: false
+            oneOf:
+              - type: string
+              - type: array
+                items:
+                  type: string
+          status:
+            description: Comma separated list of statuses to filter inquiries by
+            examples:
+              - created
+              - pending
+              - completed
+              - expired
+              - failed
+              - needs_review
+              - approved
+              - declined
+              - completed,approved
+              - - completed
+                - approved
+            unevaluatedProperties: false
+            oneOf:
+              - type: string
+              - type: array
+                items:
+                  type: string
           created-at-start:
             description: Filter inquiries by creation date, equal to or later than
             examples:

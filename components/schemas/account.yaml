@@ -24,6 +24,11 @@ properties:
               - 'null'
             examples:
               - abc-123
+          account-type-name:
+            type:
+              - string
+            examples:
+              - User
           created-at:
             format: date-time
             examples:
@@ -361,3 +366,23 @@ properties:
               - string
               - 'null'
       - $ref: ./default-fields.yaml
+  relationships:
+    type: object
+    additionalProperties: false
+    properties:
+      account-type:
+        type: object
+        additionalProperties: false
+        properties:
+          data:
+            type: object
+            additionalProperties: false
+            properties:
+              id:
+                examples:
+                  - acttp_7X5W5w9GMtQntE6oPtKnj44c
+                type: string
+              type:
+                const: account-type
+                description: account-type
+                type: string

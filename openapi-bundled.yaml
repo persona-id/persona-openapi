@@ -201,8 +201,6 @@ paths:
                         description: URL pointing to the next page of data, or null if on the last page.
                     additionalProperties: false
                     type: object
-                  included:
-                    $ref: '#/components/schemas/empty-included-objects'
                 additionalProperties: false
                 type: object
           description: OK
@@ -382,8 +380,6 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/account'
-                  included:
-                    $ref: '#/components/schemas/empty-included-objects'
                 type: object
                 additionalProperties: false
           description: Created
@@ -437,7 +433,8 @@ paths:
                   data:
                     $ref: '#/components/schemas/account'
                   included:
-                    $ref: '#/components/schemas/empty-included-objects'
+                    description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
+                    $ref: '#/components/schemas/accounts-included-objects'
                 additionalProperties: false
                 type: object
           description: OK
@@ -464,7 +461,8 @@ paths:
                       data:
                         $ref: '#/components/schemas/account'
                       included:
-                        $ref: '#/components/schemas/empty-included-objects'
+                        description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
+                        $ref: '#/components/schemas/accounts-included-objects'
                     additionalProperties: false
                     type: object
                   - properties:
@@ -522,7 +520,8 @@ paths:
                   data:
                     $ref: '#/components/schemas/account'
                   included:
-                    $ref: '#/components/schemas/empty-included-objects'
+                    description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
+                    $ref: '#/components/schemas/accounts-included-objects'
                 additionalProperties: false
                 type: object
           description: OK
@@ -687,7 +686,8 @@ paths:
                   data:
                     $ref: '#/components/schemas/account'
                   included:
-                    $ref: '#/components/schemas/empty-included-objects'
+                    description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
+                    $ref: '#/components/schemas/accounts-included-objects'
                 additionalProperties: false
                 type: object
           description: OK
@@ -751,7 +751,8 @@ paths:
                   data:
                     $ref: '#/components/schemas/account'
                   included:
-                    $ref: '#/components/schemas/empty-included-objects'
+                    description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
+                    $ref: '#/components/schemas/accounts-included-objects'
                 additionalProperties: false
                 type: object
               examples:
@@ -828,7 +829,8 @@ paths:
                   data:
                     $ref: '#/components/schemas/account'
                   included:
-                    $ref: '#/components/schemas/empty-included-objects'
+                    description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
+                    $ref: '#/components/schemas/accounts-included-objects'
                 additionalProperties: false
                 type: object
           description: Accepted
@@ -892,7 +894,8 @@ paths:
                   data:
                     $ref: '#/components/schemas/account'
                   included:
-                    $ref: '#/components/schemas/empty-included-objects'
+                    description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
+                    $ref: '#/components/schemas/accounts-included-objects'
                 additionalProperties: false
                 type: object
               examples:
@@ -964,7 +967,8 @@ paths:
                   data:
                     $ref: '#/components/schemas/account'
                   included:
-                    $ref: '#/components/schemas/empty-included-objects'
+                    description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
+                    $ref: '#/components/schemas/accounts-included-objects'
                 additionalProperties: false
                 type: object
               examples:
@@ -4641,10 +4645,18 @@ paths:
             type: object
             properties:
               account-id:
-                description: Filter inquiries by account ID
+                description: Comma separated list of account IDs to filter inquiries by
                 examples:
                   - act_ABC123
-                type: string
+                  - act_ABC123,act_DEF456
+                  - - act_ABC123
+                    - act_DEF456
+                unevaluatedProperties: false
+                oneOf:
+                  - type: string
+                  - type: array
+                    items:
+                      type: string
               note:
                 description: Filter inquiries by note. Must be the only filter.
                 examples:
@@ -4655,16 +4667,52 @@ paths:
                 examples:
                   - abc-123
                 type: string
-              template-id:
-                description: Filter inquiries by template ID (use this field if your template ID starts with `tmpl_`)
-                examples:
-                  - tmpl_ABC123
-                type: string
               inquiry-template-id:
-                description: Filter inquiries by inquiry template ID (use this field if your template ID starts with `itmpl_`)
+                description: Comma separated list of inquiry template IDs (starting with `itmpl_`) to filter inquiries by
                 examples:
                   - itmpl_ABC123
-                type: string
+                  - itmpl_ABC123,itmpl_DEF456
+                  - - itmpl_ABC123
+                    - itmpl_DEF456
+                unevaluatedProperties: false
+                oneOf:
+                  - type: string
+                  - type: array
+                    items:
+                      type: string
+              template-id:
+                description: Comma separated list of legacy template IDs (starting with `tmpl_`) to filter inquiries by
+                examples:
+                  - tmpl_ABC123
+                  - tmpl_ABC123,tmpl_DEF456
+                  - - tmpl_ABC123
+                    - tmpl_DEF456
+                unevaluatedProperties: false
+                oneOf:
+                  - type: string
+                  - type: array
+                    items:
+                      type: string
+              status:
+                description: Comma separated list of statuses to filter inquiries by
+                examples:
+                  - created
+                  - pending
+                  - completed
+                  - expired
+                  - failed
+                  - needs_review
+                  - approved
+                  - declined
+                  - completed,approved
+                  - - completed
+                    - approved
+                unevaluatedProperties: false
+                oneOf:
+                  - type: string
+                  - type: array
+                    items:
+                      type: string
               created-at-start:
                 description: Filter inquiries by creation date, equal to or later than
                 examples:
@@ -12645,6 +12693,9 @@ webhooks:
                                   properties:
                                     data:
                                       $ref: '#/components/schemas/account'
+                                    included:
+                                      description: All objects that are present in `data.attributes.relationships` will be provided in `included`.
+                                      $ref: '#/components/schemas/accounts-included-objects'
                             - $ref: '#/components/schemas/webhook-body-shared-attributes'
             examples:
               Example Body:
@@ -12693,6 +12744,9 @@ webhooks:
                                   properties:
                                     data:
                                       $ref: '#/components/schemas/account'
+                                    included:
+                                      description: All objects that are present in `data.attributes.relationships` will be provided in `included`.
+                                      $ref: '#/components/schemas/accounts-included-objects'
                             - $ref: '#/components/schemas/webhook-body-shared-attributes'
             examples:
               Example Body:
@@ -12741,6 +12795,9 @@ webhooks:
                                   properties:
                                     data:
                                       $ref: '#/components/schemas/account'
+                                    included:
+                                      description: All objects that are present in `data.attributes.relationships` will be provided in `included`.
+                                      $ref: '#/components/schemas/accounts-included-objects'
                             - $ref: '#/components/schemas/webhook-body-shared-attributes'
             examples:
               Example Body:
@@ -12789,6 +12846,9 @@ webhooks:
                                   properties:
                                     data:
                                       $ref: '#/components/schemas/account'
+                                    included:
+                                      description: All objects that are present in `data.attributes.relationships` will be provided in `included`.
+                                      $ref: '#/components/schemas/accounts-included-objects'
                             - $ref: '#/components/schemas/webhook-body-shared-attributes'
             examples:
               Example Body:
@@ -12837,6 +12897,9 @@ webhooks:
                                   properties:
                                     data:
                                       $ref: '#/components/schemas/account'
+                                    included:
+                                      description: All objects that are present in `data.attributes.relationships` will be provided in `included`.
+                                      $ref: '#/components/schemas/accounts-included-objects'
                             - $ref: '#/components/schemas/webhook-body-shared-attributes'
             examples:
               Example Body:
@@ -12885,6 +12948,9 @@ webhooks:
                                   properties:
                                     data:
                                       $ref: '#/components/schemas/account'
+                                    included:
+                                      description: All objects that are present in `data.attributes.relationships` will be provided in `included`.
+                                      $ref: '#/components/schemas/accounts-included-objects'
                             - $ref: '#/components/schemas/webhook-body-shared-attributes'
             examples:
               Example Body:
@@ -12933,6 +12999,9 @@ webhooks:
                                   properties:
                                     data:
                                       $ref: '#/components/schemas/account'
+                                    included:
+                                      description: All objects that are present in `data.attributes.relationships` will be provided in `included`.
+                                      $ref: '#/components/schemas/accounts-included-objects'
                             - $ref: '#/components/schemas/webhook-body-shared-attributes'
             examples:
               Example Body:
@@ -13575,6 +13644,11 @@ components:
                     - 'null'
                   examples:
                     - abc-123
+                account-type-name:
+                  type:
+                    - string
+                  examples:
+                    - User
                 created-at:
                   format: date-time
                   examples:
@@ -13912,9 +13986,68 @@ components:
                     - string
                     - 'null'
             - $ref: '#/components/schemas/default-fields'
-    empty-included-objects:
+        relationships:
+          type: object
+          additionalProperties: false
+          properties:
+            account-type:
+              type: object
+              additionalProperties: false
+              properties:
+                data:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    id:
+                      examples:
+                        - acttp_7X5W5w9GMtQntE6oPtKnj44c
+                      type: string
+                    type:
+                      const: account-type
+                      description: account-type
+                      type: string
+    account-type:
+      type: object
+      additionalProperties: false
+      description: An Account Type object
+      properties:
+        type:
+          const: account-type
+          description: account-type
+          type: string
+        id:
+          examples:
+            - acttp_7X5W5w9GMtQntE6oPtKnj44c
+          type: string
+        attributes:
+          additionalProperties: false
+          type: object
+          properties:
+            name:
+              examples:
+                - User
+              type: string
+            created-at:
+              type: string
+              format: date-time
+              examples:
+                - '2022-11-09T00:22:59.828Z'
+            updated-at:
+              type:
+                - string
+                - 'null'
+              format: date-time
+              examples:
+                - '2023-02-15T23:15:06.034Z'
+    accounts-included-objects:
       type: array
-      description: Excluded from the response by default. Will be an empty array when the `include` query parameter in the request was explicitly set to empty.
+      items:
+        discriminator:
+          propertyName: type
+          mapping:
+            account-type: '#/components/schemas/account-type'
+        anyOf:
+          - $ref: '#/components/schemas/account-type'
     api-key-shared-attributes:
       x-inheritable: true
       type: object
@@ -13999,6 +14132,9 @@ components:
         attributes:
           unevaluatedProperties: false
           $ref: '#/components/schemas/api-key-shared-attributes'
+    empty-included-objects:
+      type: array
+      description: Excluded from the response by default. Will be an empty array when the `include` query parameter in the request was explicitly set to empty.
     api-key-with-value:
       type: object
       additionalProperties: false
@@ -24975,6 +25111,7 @@ components:
           id: act_hpNqyAbEG4HeVjZoBRNCMKkA
           attributes:
             reference-id: abc-123
+            account-type-name: User
             created-at: '2023-09-22T17:13:49.000Z'
             updated-at: '2023-09-23T00:22:19.000Z'
             redacted-at: null
@@ -25094,6 +25231,11 @@ components:
                   identification-number: A12345678
                   created-at: '2023-09-23T00:22:19.963Z'
                   updated-at: '2023-09-23T00:22:19.963Z'
+          relationships:
+            account-type:
+              data:
+                type: account-type
+                id: acttp_7X5W5w9GMtQntE6oPtKnj44c
     api-key-list:
       value:
         data:
