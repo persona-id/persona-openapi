@@ -1789,6 +1789,8 @@ paths:
           $ref: '#/components/responses/unprocessable-entity'
         '429':
           $ref: '#/components/responses/too-many-requests'
+        '503':
+          $ref: '#/components/responses/service-unavailable'
       summary: Create a Case
       tags:
         - Cases
@@ -25043,6 +25045,30 @@ components:
                           examples:
                             - /data/attributes/files
                             - /data/attributes/selected-country-code
+            type: object
+            additionalProperties: false
+    service-unavailable:
+      description: Service Unavailable
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: Service Unavailable
+              value:
+                errors:
+                  - title: Service unavailable
+          schema:
+            properties:
+              errors:
+                type: array
+                items:
+                  additionalProperties: false
+                  properties:
+                    title:
+                      description: Service unavailable
+                      type: string
+                    details:
+                      type: string
             type: object
             additionalProperties: false
     request-timeout:
