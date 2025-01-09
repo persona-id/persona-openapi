@@ -1,0 +1,106 @@
+post:
+  x-remove-from-github: true
+  x-remove-from-readme: true
+  description: Add Objects to a Suspicious Activity Report
+  operationId: add-objects-to-suspicious-activity-report
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: >-
+      https://docs.withpersona.com/reference/add-objects-to-suspicious-activity-report
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - name: sar-id
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            data:
+              properties:
+                id:
+                  type: string
+                  description: >-
+                    The token of the Suspicious Activity Report. Starts with
+                    `sar_`
+                type:
+                  type: string
+                  const: sar
+                  description: sar
+                attributes:
+                  properties:
+                    case-id:
+                      type: string
+                      description: >-
+                        Token of the Case Id to attach to this activity report.
+                        Starts with `case_`
+                  type: object
+                  additionalProperties: false
+              type: object
+              additionalProperties: false
+            meta:
+              properties:
+                object-ids:
+                  type: array
+                  items:
+                    type: string
+                    description: Object Ids that should be attached to this activity report
+              type: object
+              additionalProperties: false
+          type: object
+          additionalProperties: false
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value:
+                data:
+                  type: sar
+                  id: sar_KsFU1Vxv9oK3ztnwQuD7MaJo
+                  attributes:
+                    created-at: '2021-03-24T04:59:21.764Z'
+                    updated-at: '2021-03-24T04:59:21.764Z'
+                    creator-id: sar_creator@withpersona.com
+                    creator-type: user
+                  relationships:
+                    accounts:
+                      data: []
+                    txns:
+                      data: []
+                    cases:
+                      data: []
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/sar.yaml
+            type: object
+            additionalProperties: false
+      description: Updated
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '408':
+      $ref: ../components/responses/request-timeout.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Add Objects to a Suspicious Activity Report
+  tags:
+    - Suspicious Activity Reports

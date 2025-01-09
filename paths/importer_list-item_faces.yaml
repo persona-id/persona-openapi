@@ -1,0 +1,128 @@
+post:
+  x-remove-from-github: true
+  description: >-
+    Bulk import face List Items by uploading image files.
+
+
+    Each file being a new List Item. We recommend uploading max 50 images (with
+    average image size of 500KB) at a time.
+
+
+    IMPORTANT: You must ensure proper consent for processing of biometrics is in
+    place prior to using face Lists.
+  operationId: import-face-lists
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/reference/import-face-lists
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+  requestBody:
+    content:
+      multipart/form-data:
+        schema:
+          properties:
+            data:
+              properties:
+                attributes:
+                  properties:
+                    image-files:
+                      items:
+                        type: string
+                        contentMediaType: application/octet-stream
+                      type: array
+                    list-id:
+                      type: string
+                  required:
+                    - image-files
+                    - list-id
+                  type: object
+                  additionalProperties: false
+              required:
+                - attributes
+              type: object
+              additionalProperties: false
+          required:
+            - data
+          type: object
+          additionalProperties: false
+        encoding:
+          image-files:
+            contentType: image/*
+      application/json:
+        schema:
+          properties:
+            data:
+              properties:
+                attributes:
+                  properties:
+                    image-files:
+                      items:
+                        properties:
+                          data:
+                            description: Base64 encoded file
+                            format: binary
+                            type: string
+                          filename:
+                            description: Name of file
+                            type: string
+                        type: object
+                        additionalProperties: false
+                      type: array
+                    list-id:
+                      type: string
+                  required:
+                    - image-files
+                    - list-id
+                  type: object
+                  additionalProperties: false
+              required:
+                - attributes
+              type: object
+              additionalProperties: false
+          required:
+            - data
+          type: object
+          additionalProperties: false
+  responses:
+    '201':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: Created
+              value:
+                data:
+                  type: importer/list-item/face
+                  id: mprt_TKqquVbHaSVYqgWhxNjuYDjQ
+                  attributes:
+                    status: pending
+                    created-at: '2020-07-12T17:16:54.656Z'
+                    completed-at: null
+                    error-count: 0
+                    successful-count: 0
+                    duplicate-count: 0
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/importer-list-item-face.yaml
+            type: object
+            additionalProperties: false
+      description: Created
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Import Face Lists
+  tags:
+    - Importers

@@ -1,0 +1,74 @@
+x-remove-from-readme: true
+x-remove-from-github: true
+title: SEC Action Lookup Report
+description: An SEC Action Lookup Report
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: report/sec-action-lookup
+    description: report/sec-action-lookup
+  id:
+    type: string
+    description: The ID of the report
+    examples:
+      - rep_4XZtQaNjYpBLKrJNHBkYDLAp
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./report-shared-attributes.yaml
+      - type: object
+        properties:
+          name-first:
+            type: string
+            description: Given or first name of the individual.
+            examples:
+              - John
+          name-last:
+            type: string
+            description: Family or last name of the individual.
+            examples:
+              - Doe
+          birthdate:
+            type:
+              - string
+              - 'null'
+            description: Birthdate of the individual, must be in the format "YYYY-MM-DD".
+            format: date
+            examples:
+              - '1980-04-12'
+          result:
+            type:
+              - array
+              - 'null'
+            items:
+              type: object
+              additionalProperties: false
+              description: >-
+                Contains the result of the SEC action lookup if the report is
+                ready.
+              properties:
+                case-number:
+                  type: string
+                  description: SEC case number.
+                  examples:
+                    - SEC-2018-00421
+                action-type:
+                  type: string
+                  description: Type of action taken.
+                  examples:
+                    - Cease and Desist
+                date-of-action:
+                  type: string
+                  format: date
+                  description: The date when the action was taken.
+                  examples:
+                    - '2018-06-01'
+                outcome:
+                  type: string
+                  description: Outcome of the SEC action.
+                  examples:
+                    - Settled
+  relationships:
+    $ref: ./report-shared-relationships.yaml

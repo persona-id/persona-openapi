@@ -1,0 +1,31 @@
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: file
+    description: file
+  key:
+    type: string
+  label:
+    type:
+      - string
+      - 'null'
+  config:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./field-schema-default-config.yaml
+      - type: object
+        properties:
+          encrypt-value:
+            type: boolean
+            default: false
+          supported-mime-types:
+            type: array
+            items:
+              type: string
+            default:
+              - >-
+                image/jpg image/jpeg image/png image/heic image/heif image/tif
+                image/tiff image/gif image/svg+xml application/pdf text/plain
+                text/csv video/mp4 video/webm video/quicktime

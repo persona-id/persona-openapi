@@ -1,0 +1,127 @@
+post:
+  x-remove-from-github: true
+  description: Create a new AAMVA verification
+  operationId: create-an-aamva-verification
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/reference/create-an-aamva-verification
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            data:
+              properties:
+                attributes:
+                  properties:
+                    verification-template-id:
+                      description: >-
+                        ID of Verification Template. You can find your
+                        Verification Template IDs
+                        [here](https://app.withpersona.com/dashboard/verification-templates?filter=%7B%22type%22%3A%5B%22verification-template%2Faamva%22%5D%7D)
+                      type: string
+                    name-first:
+                      description: First name of the individual
+                      type:
+                        - string
+                        - 'null'
+                    name-last:
+                      description: Last name of the individual
+                      type:
+                        - string
+                        - 'null'
+                    birthdate:
+                      description: >-
+                        The birthdate of the individual, formatted as YYYY-MM-DD
+                        (ISO 8601).
+                      format: date
+                      type:
+                        - string
+                        - 'null'
+                    issue-date:
+                      description: Formatted as YYYY-MM-DD (ISO 8601).
+                      type:
+                        - string
+                        - 'null'
+                      format: date
+                    expiration-date:
+                      description: Formatted as YYYY-MM-DD (ISO 8601).
+                      type:
+                        - string
+                        - 'null'
+                      format: date
+                    address-postal-code:
+                      description: ZIP or postal code.
+                      type:
+                        - string
+                        - 'null'
+                      examples:
+                        - '12345'
+                    issuing-authority:
+                      type:
+                        - string
+                        - 'null'
+                    identification-number:
+                      type:
+                        - string
+                        - 'null'
+                  required:
+                    - verification-template-id
+                  additionalProperties: false
+                  type: object
+              required:
+                - attributes
+              additionalProperties: false
+              type: object
+            meta:
+              additionalProperties: false
+              type: object
+              properties:
+                debug-forced-status:
+                  type: string
+                processing-mode:
+                  type: string
+                  examples:
+                    - sync
+                    - async
+          required:
+            - data
+          additionalProperties: false
+          type: object
+  responses:
+    '201':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: Created
+              $ref: ../components/examples/verification-aamva.yaml
+          schema:
+            type: object
+            additionalProperties: false
+            properties:
+              data:
+                $ref: ../components/schemas/verification-aamva.yaml
+      description: Created
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Create an AAMVA Verification
+  tags:
+    - AAMVA Verifications

@@ -43,3 +43,116 @@ get:
   summary: Retrieve an AAMVA Verification
   tags:
     - AAMVA Verifications
+patch:
+  x-remove-from-github: true
+  description: >-
+    Updates an existing AAMVA verification. Can only update `initiated`
+    verifications.
+  operationId: update-an-aamva-verification
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/reference/update-an-aamva-verification
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - name: verification-id
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            data:
+              properties:
+                attributes:
+                  properties:
+                    name-first:
+                      description: First name of the individual
+                      type:
+                        - string
+                        - 'null'
+                    name-last:
+                      description: Last name of the individual
+                      type:
+                        - string
+                        - 'null'
+                    birthdate:
+                      description: >-
+                        The birthdate of the individual, formatted as YYYY-MM-DD
+                        (ISO 8601).
+                      format: date
+                      type:
+                        - string
+                        - 'null'
+                    issue-date:
+                      description: Formatted as YYYY-MM-DD (ISO 8601).
+                      type:
+                        - string
+                        - 'null'
+                      format: date
+                    expiration-date:
+                      description: Formatted as YYYY-MM-DD (ISO 8601).
+                      type:
+                        - string
+                        - 'null'
+                      format: date
+                    address-postal-code:
+                      description: ZIP or postal code.
+                      type:
+                        - string
+                        - 'null'
+                      examples:
+                        - '12345'
+                    issuing-authority:
+                      type:
+                        - string
+                        - 'null'
+                    identification-number:
+                      type:
+                        - string
+                        - 'null'
+                  additionalProperties: false
+                  type: object
+              additionalProperties: false
+              type: object
+          required:
+            - data
+          additionalProperties: false
+          type: object
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              $ref: ../components/examples/verification-aamva.yaml
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/verification-aamva.yaml
+            additionalProperties: false
+            type: object
+      description: OK
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Update an AAMVA Verification
+  tags:
+    - AAMVA Verifications

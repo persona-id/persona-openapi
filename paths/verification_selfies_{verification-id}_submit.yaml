@@ -1,0 +1,76 @@
+post:
+  x-remove-from-github: true
+  description: >-
+    Submit a selfie verification for processing. Can only submit `initiated`
+    verifications
+  operationId: submit-a-selfie-verification
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/reference/submit-a-selfie-verification
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - name: verification-id
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              value:
+                data:
+                  type: verification/selfie
+                  id: ver_dCvHHPUHxvb5j2iYKfjwafBU
+                  attributes:
+                    status: submitted
+                    created-at: '2022-07-28T21:54:23.000Z'
+                    created-at-ts: 1659045263
+                    submitted-at: '2022-07-28T21:54:29.000Z'
+                    submitted-at-ts: 1659045269
+                    completed-at: null
+                    completed-at-ts: null
+                    country-code: null
+                    selfie-similarity-score-left: 0
+                    selfie-similarity-score-right: 0
+                    checks: []
+                    capture-method: photo
+                    document-similarity-score: null
+                    left-photo-url: null
+                    center-photo-url: null
+                    right-photo-url: null
+                    photo-urls: []
+                    video-url: null
+                  relationships:
+                    inquiry:
+                      data: null
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/verification-selfie.yaml
+            type: object
+            additionalProperties: false
+      description: OK
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Submit a Selfie Verification
+  tags:
+    - Selfie Verifications

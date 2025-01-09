@@ -1,0 +1,36 @@
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: date
+    description: date
+  key:
+    type: string
+  label:
+    type:
+      - string
+      - 'null'
+  config:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./field-schema-default-config.yaml
+      - type: object
+        properties:
+          encrypt-value:
+            type: boolean
+            default: true
+          min-date:
+            type:
+              - string
+              - 'null'
+            format: date
+            examples:
+              - '2023-06-29'
+          max-date:
+            type:
+              - string
+              - 'null'
+            format: date
+            examples:
+              - '2023-06-29'

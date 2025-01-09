@@ -1,0 +1,202 @@
+post:
+  x-remove-from-github: true
+  description: Create a new government ID verification
+  operationId: create-a-gov-id-verification
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/reference/create-a-gov-id-verification
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            data:
+              properties:
+                attributes:
+                  properties:
+                    verification-template-id:
+                      description: >-
+                        ID of Verification Template. You can find your
+                        Verification Template IDs
+                        [here](https://app.withpersona.com/dashboard/verification-templates?filter=%7B%22type%22%3A%5B%22verification-template%2Fgovernment-id%22%5D%7D)
+                      type: string
+                    document-id:
+                      description: >-
+                        ID of an existing Government ID Document to use to
+                        create the verification.
+                      type: string
+                    country-code:
+                      description: ISO 3166-1 alpha-2 code of the ID’s issuing country.
+                      type:
+                        - string
+                        - 'null'
+                    selected-country-code:
+                      description: ISO 3166-1 alpha-2 country code selected by the user.
+                      type:
+                        - string
+                        - 'null'
+                    front-photo:
+                      description: Front of ID.
+                      properties:
+                        data:
+                          description: >-
+                            Government ID photo data, must be images. Can
+                            provide more than one image and we will pick the
+                            best for processing. Can also be provided as
+                            uploaded file(s) such as with multipart/form-data
+                            requests instead of this object(s). Images must be
+                            between 10KB and 15MB.
+                          type: array
+                          items:
+                            properties:
+                              data:
+                                description: Base64 encoded file.
+                                format: binary
+                                type: string
+                              filename:
+                                description: Name of file.
+                                type: string
+                            required:
+                              - data
+                              - filename
+                            additionalProperties: false
+                            type: object
+                      additionalProperties: false
+                      type:
+                        - object
+                        - 'null'
+                    back-photo:
+                      description: Back of ID.
+                      properties:
+                        data:
+                          description: >-
+                            Government ID photo data, must be images. Can
+                            provide more than one image and we will pick the
+                            best for processing. Can also be provided as
+                            uploaded file(s) such as with multipart/form-data
+                            requests instead of this object(s). Images must be
+                            between 10KB and 15MB.
+                          type: array
+                          items:
+                            properties:
+                              data:
+                                description: Base64 encoded file.
+                                format: binary
+                                type: string
+                              filename:
+                                description: Name of file.
+                                type: string
+                            required:
+                              - data
+                              - filename
+                            additionalProperties: false
+                            type: object
+                      additionalProperties: false
+                      type:
+                        - object
+                        - 'null'
+                    government-id-files:
+                      description: >-
+                        Use this parameter to upload photos that aren't
+                        necessarily just the front or back of the government ID.
+                      type:
+                        - array
+                        - 'null'
+                      items:
+                        properties:
+                          data:
+                            description: >-
+                              Government ID photo data, must be images. Can
+                              provide more than one image and we will pick the
+                              best for processing. Can also be provided as
+                              uploaded file(s) such as with multipart/form-data
+                              requests instead of this object(s). Images must be
+                              between 10KB and 15MB.
+                            type: array
+                            items:
+                              properties:
+                                data:
+                                  description: Base64 encoded file.
+                                  format: binary
+                                  type: string
+                                filename:
+                                  description: Name of file.
+                                  type: string
+                              required:
+                                - data
+                                - filename
+                              additionalProperties: false
+                              type: object
+                          page:
+                            description: >-
+                              What part of the government ID is pictured in the
+                              file. One of: front, back, passport_signature, or
+                              front_and_back.
+                            type: string
+                        additionalProperties: false
+                        type: object
+                    selected-id-class:
+                      description: >-
+                        ID class of the input government ID. Can be a list of
+                        multiple ID classes or a single ID class.
+                      unevaluatedProperties: false
+                      oneOf:
+                        - type: string
+                        - type: array
+                          items:
+                            type: string
+                  required:
+                    - verification-template-id
+                  additionalProperties: false
+                  type: object
+              required:
+                - attributes
+              additionalProperties: false
+              type: object
+            meta:
+              additionalProperties: false
+              type: object
+              properties:
+                debug-forced-status:
+                  type: string
+          required:
+            - data
+          additionalProperties: false
+          type: object
+  responses:
+    '201':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: Created
+              $ref: ../components/examples/verification-government-id.yaml
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/verification-government-id.yaml
+            additionalProperties: false
+            type: object
+      description: Created
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Create a Government ID Verification
+  tags:
+    - Government ID Verifications

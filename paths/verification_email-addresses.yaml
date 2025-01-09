@@ -1,0 +1,83 @@
+post:
+  x-remove-from-github: true
+  description: Create a new email address verification
+  operationId: create-an-email-address-verification
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: >-
+      https://docs.withpersona.com/reference/create-an-email-address-verification
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            data:
+              properties:
+                attributes:
+                  properties:
+                    verification-template-id:
+                      description: >-
+                        ID of Verification Template. You can find your
+                        Verification Template IDs
+                        [here](https://app.withpersona.com/dashboard/verification-templates?filter=%7B%22type%22%3A%5B%22verification-template%2Femail_address"%5D%7D)
+                      type: string
+                    email-address:
+                      description: >-
+                        Claimed email address of the individual to send the
+                        confirmation code to
+                      type: string
+                  required:
+                    - verification-template-id
+                  additionalProperties: false
+                  type: object
+              required:
+                - attributes
+              additionalProperties: false
+              type: object
+            meta:
+              additionalProperties: false
+              type: object
+              properties:
+                debug-forced-status:
+                  type: string
+          required:
+            - data
+          type: object
+          additionalProperties: false
+  responses:
+    '201':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: Created
+              $ref: ../components/examples/verification-email-address.yaml
+          schema:
+            additionalProperties: false
+            type: object
+            properties:
+              data:
+                $ref: ../components/schemas/verification-email-address.yaml
+      description: Created
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Create an Email Address Verification
+  tags:
+    - Email Address Verifications

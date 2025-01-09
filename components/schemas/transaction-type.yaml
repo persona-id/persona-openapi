@@ -1,0 +1,35 @@
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: transaction-type
+    description: transaction-type
+  id:
+    description: Unique identifier for this Transaction Type. Starts with `txntp_`.
+    type: string
+    examples:
+      - txntp_ABC123
+  attributes:
+    type: object
+    additionalProperties: false
+    properties:
+      name:
+        type: string
+      created-at:
+        type: string
+        format: date-time
+        examples:
+          - '2023-06-29T23:54:35.293Z'
+      updated-at:
+        type:
+          - string
+          - 'null'
+        format: date-time
+        examples:
+          - '2023-06-29T23:54:35.293Z'
+      field-schemas:
+        type: array
+        items:
+          unevaluatedProperties: false
+          $ref: ./field-schema.yaml

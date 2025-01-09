@@ -1,0 +1,24 @@
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: array
+    description: array
+  key:
+    type: string
+  label:
+    type:
+      - string
+      - 'null'
+  config:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./field-schema-default-config.yaml
+      - type: object
+        properties:
+          encrypt-value:
+            type: boolean
+            default: false
+          item-schema:
+            $ref: ./field-schema.yaml

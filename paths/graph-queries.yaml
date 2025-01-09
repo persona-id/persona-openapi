@@ -1,0 +1,126 @@
+post:
+  x-remove-from-github: true
+  description: Create a Graph Query
+  operationId: create-a-graph-query
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/reference/create-a-graph-query
+  parameters:
+    - $ref: ../components/parameters/include-query-parameter.yaml
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            data:
+              properties:
+                attributes:
+                  properties:
+                    graph-query-template-id:
+                      type: string
+                    parameter-map:
+                      type: object
+                      additionalProperties: true
+                      description: >-
+                        Required. JSON key-value pairs of parameter name to
+                        value. Schema is defined by your Graph Query Template.
+                      examples:
+                        - example-key-1: example-value-1
+                          example-key-2: example-value-2
+                    variable-map:
+                      type: object
+                      additionalProperties: true
+                      deprecated: true
+                      description: >-
+                        Deprecated, use parameter-map instead.
+
+
+                        JSON key-value pairs of variable name to value. Schema
+                        is defined by your Graph Query Template.
+                      examples:
+                        - example-key-1: example-value-1
+                          example-key-2: example-value-2
+                    timeout-in-seconds:
+                      description: >-
+                        Number of seconds from now to timeout the graph query.
+                        Must be greater than 0 and less than 60.
+                      type: integer
+                  required:
+                    - graph-query-template-id
+                  type: object
+                  additionalProperties: false
+              required:
+                - attributes
+              type: object
+              additionalProperties: false
+            meta:
+              properties:
+                run-sync:
+                  type: boolean
+                  description: >-
+                    If true, the query will run synchronously and results will
+                    be returned in the response. If false, the query will run
+                    asynchronously and you will have to poll for results.
+                  default: false
+              type: object
+              additionalProperties: false
+          required:
+            - data
+          type: object
+          additionalProperties: false
+  responses:
+    '201':
+      content:
+        application/json:
+          schema:
+            type: object
+            additionalProperties: false
+            properties:
+              data:
+                $ref: ../components/schemas/graph-query.yaml
+              included:
+                description: >-
+                  Optional included resources, requested via the `include` query
+                  parameter.
+                type: array
+                items:
+                  $ref: ../components/schemas/account.yaml
+          examples:
+            Result:
+              summary: Created
+              value:
+                data:
+                  type: graph-query
+                  id: grphq_prM3gdSL6ciwGjSjj4aXgKJT
+                  attributes:
+                    status: submitted
+                    params:
+                      <query-key>: <query params>
+                    created-at: '2023-09-1T06:30:44.000Z'
+                    updated-at: null
+                    errored-at: null
+                    completed-at: null
+                    redacted-at: null
+                    stats: {}
+                    explorer-url: >-
+                      https://withpersona.com/dashboard/explorer?queryId=grphq_prM3gdSL6ciwGjSjj4aXgKJT
+                    node-limit-reached: false
+                    nodes: []
+      description: Created
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Create a Graph Query
+  tags:
+    - Graph

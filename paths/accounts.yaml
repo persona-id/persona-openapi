@@ -99,6 +99,16 @@ get:
                   unevaluatedProperties: false
                   allOf:
                     - $ref: ../components/schemas/account.yaml
+                    - type: object
+                      x-remove-from-readme: true
+                      x-remove-from-github: true
+                      properties:
+                        meta:
+                          type: object
+                          additionalProperties: false
+                          properties:
+                            score:
+                              type: number
                 type: array
                 description: An array of Accounts
               links:
@@ -162,6 +172,13 @@ post:
                   allOf:
                     - type: object
                       properties:
+                        account-type-id:
+                          x-remove-from-readme: true
+                          x-remove-from-github: true
+                          type: string
+                          description: >-
+                            BETA FEATURE -- Account Type ID to create the
+                            account for. Starts with `acttp_`.
                         account-status:
                           type: string
                           description: >-
@@ -192,6 +209,30 @@ post:
                               type: object
                           additionalProperties: false
                           type: object
+                        selfies:
+                          x-remove-from-readme: true
+                          x-remove-from-github: true
+                          deprecated: true
+                          description: Other selfie photos for the Account.
+                          type: array
+                          items:
+                            properties:
+                              data:
+                                description: >-
+                                  Must be an image. Can also be provided as an
+                                  uploaded file such as with multipart/form-data
+                                  requests instead of this object.
+                                properties:
+                                  data:
+                                    description: Base64 encoded image
+                                    type: string
+                                  filename:
+                                    description: Name of the image
+                                    type: string
+                                additionalProperties: false
+                                type: object
+                            additionalProperties: false
+                            type: object
                         tags:
                           description: >-
                             A list of tag names to be associated with the
@@ -295,6 +336,17 @@ post:
             meta:
               type: object
               additionalProperties: false
+              properties:
+                upsert-by:
+                  type:
+                    - string
+                    - 'null'
+                  description: >-
+                    The field name to use for upserting the account. This field
+                    must be unique across all accounts for the given account
+                    type.
+                  x-remove-from-readme: true
+                  x-remove-from-github: true
           additionalProperties: false
           type: object
   responses:

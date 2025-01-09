@@ -1,0 +1,101 @@
+type: object
+additionalProperties: false
+description: A Suspicious Activity Report object
+properties:
+  type:
+    const: sar
+    description: sar
+    type: string
+  id:
+    examples:
+      - sar_WFmjbqewsZz7R85ZpJMod2cViEKx
+    type: string
+  attributes:
+    type: object
+    additionalProperties: false
+    properties:
+      created-at:
+        examples:
+          - '2021-09-28T05:18:36.200Z'
+        type: string
+      updated-at:
+        examples:
+          - '2021-09-28T05:18:36.200Z'
+        type:
+          - string
+          - 'null'
+      creator-id:
+        examples:
+          - case_creator@withpersona.com
+        type:
+          - string
+          - 'null'
+      creator-type:
+        description: |-
+          Possible values:
+          - user
+          - workflow-run
+
+          Do not assume this is a static enumeration; Persona may add new values
+          in the future without a versioned update.
+        type:
+          - string
+          - 'null'
+  relationships:
+    properties:
+      accounts:
+        type: object
+        additionalProperties: false
+        properties:
+          data:
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                id:
+                  examples:
+                    - act_9e3yoAUApTRMjgNoPAC7TNtz
+                  type: string
+                type:
+                  const: account
+                  description: account
+                  type: string
+            type: array
+      txns:
+        properties:
+          data:
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                id:
+                  examples:
+                    - txn_0GKUnDBJi6RJpZhmKdYsM5me
+                  type: string
+                type:
+                  const: transaction
+                  description: transaction
+                  type: string
+            type: array
+        type: object
+        additionalProperties: false
+      cases:
+        properties:
+          data:
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                id:
+                  examples:
+                    - case_gqe7rH38FvxtzhGBQmDBsjkB
+                  type: string
+                type:
+                  const: case
+                  description: case
+                  type: string
+            type: array
+        type: object
+        additionalProperties: false
+    type: object
+    additionalProperties: false

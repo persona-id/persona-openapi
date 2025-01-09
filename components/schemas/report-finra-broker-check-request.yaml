@@ -1,0 +1,70 @@
+x-remove-from-github: true
+x-remove-from-readme: true
+title: Finra Broker Check Report
+description: Fields required to create a Finra Broker Check Report
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: report/finra-broker-check
+    description: >-
+      Specifies the type of report to create, in this case, a Finra Broker
+      Check.
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./report-shared-request-attributes.yaml
+      - type: object
+        properties:
+          query:
+            type: object
+            additionalProperties: false
+            properties:
+              broker-type:
+                type: string
+                examples:
+                  - firm
+                  - individual
+                description: Type of broker (firm or individual).
+              crd-number:
+                type: string
+                description: >-
+                  Central Registration Depository (CRD) number for the broker or
+                  firm.
+                example: '123456'
+              name-full:
+                type:
+                  - string
+                  - 'null'
+                description: >-
+                  Full name of the individual broker, only used when broker type
+                  is "individual".
+                example: John Doe
+              firm-name:
+                type:
+                  - string
+                  - 'null'
+                description: Name of the firm, only used if when broker-type is "firm".
+                example: Example Investments LLC
+              address-city:
+                type:
+                  - string
+                  - 'null'
+                description: City of the broker's or firm's address.
+                example: New York
+              address-subdivision:
+                type:
+                  - string
+                  - 'null'
+                description: >-
+                  State or other country subdivision of the broker's or firm's
+                  address.
+                example: NY
+            required:
+              - broker-type
+              - crd-number
+        required:
+          - query
+required:
+  - attributes
