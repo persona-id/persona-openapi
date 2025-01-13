@@ -47,13 +47,6 @@ post:
                       description: >-
                         Reference ID on Account, refers to an entity in your
                         user model.
-                    external-id:
-                      x-remove-from-readme: true
-                      x-remove-from-github: true
-                      type: string
-                      description: >-
-                        External ID should be set to the ID for this transaction
-                        from your system. It can be used for lookup.
                     tags:
                       description: >-
                         A list of tag names to be associated with the
@@ -66,17 +59,6 @@ post:
             meta:
               type: object
               additionalProperties: false
-              properties:
-                upsert-by:
-                  type:
-                    - string
-                    - 'null'
-                  description: >-
-                    The field name to use for upserting the transaction. This
-                    field must be unique across all transactions for the given
-                    transaction type.
-                  x-remove-from-readme: true
-                  x-remove-from-github: true
   responses:
     '200':
       description: OK
@@ -151,11 +133,6 @@ get:
             type: string
           transaction-type-id:
             description: Filter transactions by Transaction Type ID.
-            type: string
-          external-id:
-            x-remove-from-readme: true
-            x-remove-from-github: true
-            description: Filter transactions by external ID.
             type: string
           identifier:
             type: object

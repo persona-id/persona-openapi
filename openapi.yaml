@@ -28,9 +28,6 @@ tags:
     description: Interact with Persona Document objects
   - name: Events
     description: Endpoints for viewing your organization's events
-  - name: Graph
-    x-remove-from-github: true
-    description: Interact with Persona Graph objects
   - name: Importers
     description: Import external data as corresponding objects within Persona
   - name: Inquiries
@@ -47,10 +44,6 @@ tags:
     description: Interact with Persona Report objects
   - name: Transactions
     description: Interact with Persona Transaction objects
-  - name: Transaction Types
-    x-remove-from-github: true
-    x-remove-from-readme: true
-    description: Interact with Persona Transaction Type objects
   - name: User Audit Logs
     description: View your organization's User Audit logs
   - name: Verifications
@@ -85,10 +78,6 @@ tags:
     description: Interact with Webhooks via API
   - name: Workflows
     description: Interact with Persona Workflow objects
-  - name: Suspicious Activity Reports
-    description: Interact with Suspicious Activity Reports
-    x-remove-from-github: true
-    x-remove-from-readme: true
 externalDocs:
   description: Full API documentation on the Persona website
   url: https://docs.withpersona.com/reference
@@ -153,10 +142,6 @@ paths:
     $ref: paths/events.yaml
   /events/{event-id}:
     $ref: paths/events_{event-id}.yaml
-  /graph-queries:
-    $ref: paths/graph-queries.yaml
-  /graph-queries/{graph-query-id}:
-    $ref: paths/graph-queries_{graph-query-id}.yaml
   /importers:
     $ref: paths/importers.yaml
   /importers/{importer-id}:
@@ -165,8 +150,6 @@ paths:
     $ref: paths/importer_accounts.yaml
   /importer/list-item/email-addresses:
     $ref: paths/importer_list-item_email-addresses.yaml
-  /importer/list-item/faces:
-    $ref: paths/importer_list-item_faces.yaml
   /importer/list-item/geolocations:
     $ref: paths/importer_list-item_geolocations.yaml
   /importer/list-item/government-id-numbers:
@@ -201,8 +184,6 @@ paths:
     $ref: paths/inquiries_{inquiry-id}_set-tags.yaml
   /inquiries/{inquiry-id}/perform-simulate-actions:
     $ref: paths/inquiries_{inquiry-id}_perform-simulate-actions.yaml
-  /inquiries/{inquiry-id}/set-simulate-stubs:
-    $ref: paths/inquiries_{inquiry-id}_set-simulate-stubs.yaml
   /inquiry-sessions:
     $ref: paths/inquiry-sessions.yaml
   /inquiry-sessions/expire-all:
@@ -229,10 +210,6 @@ paths:
     $ref: paths/list-item_email-addresses.yaml
   /list-item/email-addresses/{list-item-id}:
     $ref: paths/list-item_email-addresses_{list-item-id}.yaml
-  /list-item/faces:
-    $ref: paths/list-item_faces.yaml
-  /list-item/faces/{list-item-id}:
-    $ref: paths/list-item_faces_{list-item-id}.yaml
   /list-item/fields:
     $ref: paths/list-item_fields.yaml
   /list-item/fields/{list-item-id}:
@@ -267,8 +244,6 @@ paths:
     $ref: paths/list_countries.yaml
   /list/email-addresses:
     $ref: paths/list_email-addresses.yaml
-  /list/faces:
-    $ref: paths/list_faces.yaml
   /list/geolocations:
     $ref: paths/list_geolocations.yaml
   /list/government-id-numbers:
@@ -307,12 +282,6 @@ paths:
     $ref: paths/reports_{report-id}_run.yaml
   /reports/{report-id}/set-tags:
     $ref: paths/reports_{report-id}_set-tags.yaml
-  /sars:
-    $ref: paths/sars.yaml
-  /sars/{sar-id}:
-    $ref: paths/sars_{sar-id}.yaml
-  /sars/{sar-id}/add-objects:
-    $ref: paths/sars_{sar-id}_add-objects.yaml
   /transactions:
     $ref: paths/transactions.yaml
   /transactions/{transaction-id}:
@@ -327,104 +296,36 @@ paths:
     $ref: paths/transactions_{transaction-id}_set-tags.yaml
   /transactions/{transaction-id}/redact-biometrics:
     $ref: paths/transactions_{transaction-id}_redact-biometrics.yaml
-  /transaction-types:
-    $ref: paths/transaction-types.yaml
-  /transaction-types/{transaction-type-id}:
-    $ref: paths/transaction-types_{transaction-type-id}.yaml
   /user-audit-logs:
     $ref: paths/user-audit-logs.yaml
   /user-audit-logs/{user-audit-log-id}:
     $ref: paths/user-audit-logs_{user-audit-log-id}.yaml
-  /verification/aamvas:
-    $ref: paths/verification_aamvas.yaml
   /verification/aamvas/{verification-id}:
     $ref: paths/verification_aamvas_{verification-id}.yaml
-  /verification/aamvas/{verification-id}/submit:
-    $ref: paths/verification_aamvas_{verification-id}_submit.yaml
-  /verification/database-businesses:
-    $ref: paths/verification_database-businesses.yaml
-  /verification/database-businesses/{verification-id}:
-    $ref: paths/verification_database-businesses_{verification-id}.yaml
-  /verification/database-businesses/{verification-id}/submit:
-    $ref: paths/verification_database-businesses_{verification-id}_submit.yaml
-  /verification/database-ecbsvs:
-    $ref: paths/verification_database-ecbsvs.yaml
   /verification/database-ecbsvs/{verification-id}:
     $ref: paths/verification_database-ecbsvs_{verification-id}.yaml
-  /verification/database-ecbsvs/{verification-id}/submit:
-    $ref: paths/verification_database-ecbsvs_{verification-id}_submit.yaml
-  /verification/database-phone-carriers:
-    $ref: paths/verification_database-phone-carriers.yaml
   /verification/database-phone-carriers/{verification-id}:
     $ref: paths/verification_database-phone-carriers_{verification-id}.yaml
-  /verification/database-phone-carriers/{verification-id}/submit:
-    $ref: paths/verification_database-phone-carriers_{verification-id}_submit.yaml
-  /verification/database-serpros:
-    $ref: paths/verification_database-serpros.yaml
   /verification/database-serpros/{verification-id}:
     $ref: paths/verification_database-serpros_{verification-id}.yaml
-  /verification/database-serpros/{verification-id}/submit:
-    $ref: paths/verification_database-serpros_{verification-id}_submit.yaml
-  /verification/database-standards:
-    $ref: paths/verification_database-standards.yaml
   /verification/database-standards/{verification-id}:
     $ref: paths/verification_database-standards_{verification-id}.yaml
-  /verification/database-standards/{verification-id}/submit:
-    $ref: paths/verification_database-standards_{verification-id}_submit.yaml
-  /verification/database-tins:
-    $ref: paths/verification_database-tins.yaml
   /verification/database-tins/{verification-id}:
     $ref: paths/verification_database-tins_{verification-id}.yaml
-  /verification/database-tins/{verification-id}/submit:
-    $ref: paths/verification_database-tins_{verification-id}_submit.yaml
-  /verification/databases:
-    $ref: paths/verification_databases.yaml
   /verification/databases/{verification-id}:
     $ref: paths/verification_databases_{verification-id}.yaml
-  /verification/databases/{verification-id}/submit:
-    $ref: paths/verification_databases_{verification-id}_submit.yaml
-  /verification/documents:
-    $ref: paths/verification_documents.yaml
   /verification/documents/{verification-id}:
     $ref: paths/verification_documents_{verification-id}.yaml
-  /verification/documents/{verification-id}/submit:
-    $ref: paths/verification_documents_{verification-id}_submit.yaml
   /verification/email-addresses/{verification-id}:
     $ref: paths/verification_email-addresses_{verification-id}.yaml
-  /verification/email-addresses:
-    $ref: paths/verification_email-addresses.yaml
-  /verification/email-addresses/{verification-id}/confirm:
-    $ref: paths/verification_email-addresses_{verification-id}_confirm.yaml
-  /verification/email-addresses/{verification-id}/send-confirmation-code:
-    $ref: >-
-      paths/verification_email-addresses_{verification-id}_send-confirmation-code.yaml
-  /verification/email-addresses/{verification-id}/submit:
-    $ref: paths/verification_email-addresses_{verification-id}_submit.yaml
-  /verification/government-ids:
-    $ref: paths/verification_government-ids.yaml
   /verification/government-ids/{verification-id}:
     $ref: paths/verification_government-ids_{verification-id}.yaml
-  /verification/government-ids/{verification-id}/submit:
-    $ref: paths/verification_government-ids_{verification-id}_submit.yaml
   /verification/government-id-nfcs/{verification-id}:
     $ref: paths/verification_government-id-nfcs_{verification-id}.yaml
-  /verification/phone-numbers:
-    $ref: paths/verification_phone-numbers.yaml
   /verification/phone-numbers/{verification-id}:
     $ref: paths/verification_phone-numbers_{verification-id}.yaml
-  /verification/phone-numbers/{verification-id}/confirm:
-    $ref: paths/verification_phone-numbers_{verification-id}_confirm.yaml
-  /verification/phone-numbers/{verification-id}/send-confirmation-code:
-    $ref: >-
-      paths/verification_phone-numbers_{verification-id}_send-confirmation-code.yaml
-  /verification/phone-numbers/{verification-id}/submit:
-    $ref: paths/verification_phone-numbers_{verification-id}_submit.yaml
-  /verification/selfies:
-    $ref: paths/verification_selfies.yaml
   /verification/selfies/{verification-id}:
     $ref: paths/verification_selfies_{verification-id}.yaml
-  /verification/selfies/{verification-id}/submit:
-    $ref: paths/verification_selfies_{verification-id}_submit.yaml
   /verifications/{verification-id}:
     $ref: paths/verifications_{verification-id}.yaml
   /verifications/{verification-id}/print:
@@ -484,11 +385,3 @@ components:
       type: http
       scheme: bearer
       x-bearer-format: bearer
-x-readme:
-  x-remove-from-github: true
-  explorer-enabled: true
-  headers:
-    - key: Persona-Version
-      value: '2023-01-05'
-  proxy-enabled: true
-  samples-enabled: true
