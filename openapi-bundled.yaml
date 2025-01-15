@@ -15550,6 +15550,7 @@ components:
                         - workflow
                         - workflow-run
                       type: string
+                      description: Will be either `user`, `workflow`, or `workflow-run`.
                   type:
                     - object
                     - 'null'
@@ -21329,6 +21330,35 @@ components:
                 - GB
               type: string
           additionalProperties: true
+    user:
+      type: object
+      additionalProperties: false
+      description: A User object
+      properties:
+        type:
+          type: string
+          const: user
+          description: user
+        id:
+          type: string
+          examples:
+            - user_ABC123
+        attributes:
+          type: object
+          additionalProperties: false
+          properties:
+            email-address:
+              type: string
+              examples:
+                - jane@doe.com
+            name-first:
+              type: string
+              examples:
+                - Jane
+            name-last:
+              type: string
+              examples:
+                - Doe
     selfie:
       type: object
       additionalProperties: false
@@ -21648,6 +21678,160 @@ components:
                       type: string
                       examples:
                         - net_ABC123
+    workflow:
+      type: object
+      additionalProperties: false
+      description: A Workflow object
+      properties:
+        type:
+          const: workflow
+          description: workflow
+          type: string
+        id:
+          examples:
+            - wfl_3JqAR9ddLRVZLK5z4yD8oeHB
+          type: string
+        attributes:
+          properties:
+            status:
+              description: |-
+                The status of the Workflow
+
+                Possible values:
+                - paused
+                - running
+                - archived
+
+                Do not assume this is a static enumeration; Persona may add new
+                values in the future without a versioned update.
+              type: string
+            name:
+              type: string
+            created-at:
+              examples:
+                - '2022-08-08T18:55:44.910Z'
+              type: string
+              format: date-time
+          type: object
+          additionalProperties: false
+    workflow-run:
+      type: object
+      additionalProperties: false
+      description: A Workflow Run object
+      properties:
+        type:
+          const: workflow-run
+          description: workflow-run
+          type: string
+        id:
+          examples:
+            - wfr_3JqAR9ddLRVZLK5z4yD8oeHB
+          type: string
+        attributes:
+          properties:
+            completed-at:
+              examples:
+                - '2022-08-08T18:55:44.910Z'
+              type:
+                - string
+                - 'null'
+              format: date-time
+            created-at:
+              examples:
+                - '2022-08-08T18:55:44.910Z'
+              type: string
+              format: date-time
+            status:
+              examples:
+                - in_progress
+              type: string
+          type: object
+          additionalProperties: false
+        relationships:
+          properties:
+            creator:
+              properties:
+                data:
+                  unevaluatedProperties: false
+                  oneOf:
+                    - type: 'null'
+                    - properties:
+                        type:
+                          const: administrator
+                          description: administrator
+                          type: string
+                        id:
+                          examples:
+                            - admn_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                      additionalProperties: false
+                    - properties:
+                        type:
+                          const: user
+                          description: user
+                          type: string
+                        id:
+                          examples:
+                            - user_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                      additionalProperties: false
+                    - properties:
+                        type:
+                          const: event
+                          description: event
+                          type: string
+                        id:
+                          examples:
+                            - evt_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                      additionalProperties: false
+              type: object
+              additionalProperties: false
+            workflow:
+              properties:
+                data:
+                  properties:
+                    type:
+                      const: workflow
+                      description: workflow
+                      type: string
+                    id:
+                      examples:
+                        - wfl_3VghhbvDc7UuUNT8uZrqZjsk
+                      type: string
+                  type: object
+                  additionalProperties: false
+              type: object
+              additionalProperties: false
+            workflow-version:
+              properties:
+                data:
+                  properties:
+                    type:
+                      const: workflow-version
+                      description: workflow-version
+                      type: string
+                    id:
+                      examples:
+                        - wfv_DkWeGvK9wojQnubF8ABHzJRQ
+                      type: string
+                  type: object
+                  additionalProperties: false
+              type: object
+              additionalProperties: false
+          type: object
+          additionalProperties: false
+        meta:
+          type: object
+          additionalProperties: false
+          properties:
+            processing-time-seconds:
+              type:
+                - number
+                - 'null'
     inquiry-included-objects:
       type: array
       items:
@@ -21660,6 +21844,7 @@ components:
             document/government-id-nfc: '#/components/schemas/document-government-id-nfc'
             document/mobile-drivers-license: '#/components/schemas/document-mobile-drivers-license'
             template: '#/components/schemas/template'
+            user: '#/components/schemas/user'
             inquiry-template: '#/components/schemas/inquiry-template'
             inquiry-template-version: '#/components/schemas/inquiry-template-version'
             report/address-lookup: '#/components/schemas/report-address-lookup'
@@ -21695,6 +21880,8 @@ components:
             verification/government-id-nfc: '#/components/schemas/verification-government-id-nfc'
             verification/phone-number: '#/components/schemas/verification-phone-number'
             verification/selfie: '#/components/schemas/verification-selfie'
+            workflow: '#/components/schemas/workflow'
+            workflow-run: '#/components/schemas/workflow-run'
         anyOf:
           - $ref: '#/components/schemas/account'
           - $ref: '#/components/schemas/document-generic'
@@ -21702,6 +21889,7 @@ components:
           - $ref: '#/components/schemas/document-government-id-nfc'
           - $ref: '#/components/schemas/document-mobile-drivers-license'
           - $ref: '#/components/schemas/template'
+          - $ref: '#/components/schemas/user'
           - $ref: '#/components/schemas/inquiry-template'
           - $ref: '#/components/schemas/inquiry-template-version'
           - $ref: '#/components/schemas/report-address-lookup'
@@ -21735,6 +21923,8 @@ components:
           - $ref: '#/components/schemas/verification-government-id-nfc'
           - $ref: '#/components/schemas/verification-phone-number'
           - $ref: '#/components/schemas/verification-selfie'
+          - $ref: '#/components/schemas/workflow'
+          - $ref: '#/components/schemas/workflow-run'
     inquiry-status-action:
       title: Inquiry Status Action
       type: object
@@ -24405,35 +24595,6 @@ components:
                       type: string
                       examples:
                         - user_ABC123
-    user:
-      type: object
-      additionalProperties: false
-      description: A User object
-      properties:
-        type:
-          type: string
-          const: user
-          description: user
-        id:
-          type: string
-          examples:
-            - user_ABC123
-        attributes:
-          type: object
-          additionalProperties: false
-          properties:
-            email-address:
-              type: string
-              examples:
-                - jane@doe.com
-            name-first:
-              type: string
-              examples:
-                - Jane
-            name-last:
-              type: string
-              examples:
-                - Doe
     verification:
       type: object
       discriminator:
@@ -24749,160 +24910,6 @@ components:
               format: date-time
               examples:
                 - '2023-09-21T18:29:40.000Z'
-    workflow-run:
-      type: object
-      additionalProperties: false
-      description: A Workflow Run object
-      properties:
-        type:
-          const: workflow-run
-          description: workflow-run
-          type: string
-        id:
-          examples:
-            - wfr_3JqAR9ddLRVZLK5z4yD8oeHB
-          type: string
-        attributes:
-          properties:
-            completed-at:
-              examples:
-                - '2022-08-08T18:55:44.910Z'
-              type:
-                - string
-                - 'null'
-              format: date-time
-            created-at:
-              examples:
-                - '2022-08-08T18:55:44.910Z'
-              type: string
-              format: date-time
-            status:
-              examples:
-                - in_progress
-              type: string
-          type: object
-          additionalProperties: false
-        relationships:
-          properties:
-            creator:
-              properties:
-                data:
-                  unevaluatedProperties: false
-                  oneOf:
-                    - type: 'null'
-                    - properties:
-                        type:
-                          const: administrator
-                          description: administrator
-                          type: string
-                        id:
-                          examples:
-                            - admn_3VghhbvDc7UuUNT8uZrqZjsk
-                          type: string
-                      type: object
-                      additionalProperties: false
-                    - properties:
-                        type:
-                          const: user
-                          description: user
-                          type: string
-                        id:
-                          examples:
-                            - user_3VghhbvDc7UuUNT8uZrqZjsk
-                          type: string
-                      type: object
-                      additionalProperties: false
-                    - properties:
-                        type:
-                          const: event
-                          description: event
-                          type: string
-                        id:
-                          examples:
-                            - evt_3VghhbvDc7UuUNT8uZrqZjsk
-                          type: string
-                      type: object
-                      additionalProperties: false
-              type: object
-              additionalProperties: false
-            workflow:
-              properties:
-                data:
-                  properties:
-                    type:
-                      const: workflow
-                      description: workflow
-                      type: string
-                    id:
-                      examples:
-                        - wfl_3VghhbvDc7UuUNT8uZrqZjsk
-                      type: string
-                  type: object
-                  additionalProperties: false
-              type: object
-              additionalProperties: false
-            workflow-version:
-              properties:
-                data:
-                  properties:
-                    type:
-                      const: workflow-version
-                      description: workflow-version
-                      type: string
-                    id:
-                      examples:
-                        - wfv_DkWeGvK9wojQnubF8ABHzJRQ
-                      type: string
-                  type: object
-                  additionalProperties: false
-              type: object
-              additionalProperties: false
-          type: object
-          additionalProperties: false
-        meta:
-          type: object
-          additionalProperties: false
-          properties:
-            processing-time-seconds:
-              type:
-                - number
-                - 'null'
-    workflow:
-      type: object
-      additionalProperties: false
-      description: A Workflow object
-      properties:
-        type:
-          const: workflow
-          description: workflow
-          type: string
-        id:
-          examples:
-            - wfl_3JqAR9ddLRVZLK5z4yD8oeHB
-          type: string
-        attributes:
-          properties:
-            status:
-              description: |-
-                The status of the Workflow
-
-                Possible values:
-                - paused
-                - running
-                - archived
-
-                Do not assume this is a static enumeration; Persona may add new
-                values in the future without a versioned update.
-              type: string
-            name:
-              type: string
-            created-at:
-              examples:
-                - '2022-08-08T18:55:44.910Z'
-              type: string
-              format: date-time
-          type: object
-          additionalProperties: false
     workflow-version:
       type: object
       additionalProperties: false
