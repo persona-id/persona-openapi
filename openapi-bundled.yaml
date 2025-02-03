@@ -16298,6 +16298,195 @@ components:
         - type
         - id
         - attributes
+    report-business-associated-persons:
+      title: Business Associated Persons Report
+      description: A report containing information about the Associated Persons of a business entity
+      type: object
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+          const: report/business-associated-persons
+          description: The type identifier for a Business Associated Persons Report.
+        id:
+          type: string
+          description: A unique identifier for the report.
+          examples:
+            - rep_9XxZsPaNcroBKmJNHBlYDLOp
+        attributes:
+          type: object
+          unevaluatedProperties: false
+          allOf:
+            - $ref: '#/components/schemas/report-shared-attributes'
+            - type: object
+              properties:
+                query:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    address-country-code:
+                      type: string
+                      description: The country code used for the search
+                  required:
+                    - address-country-code
+                associated-persons:
+                  type: array
+                  description: List of persons associated with the business
+                  items:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      names:
+                        type: array
+                        description: Names associated with the person
+                        items:
+                          type: object
+                          additionalProperties: false
+                          properties:
+                            value:
+                              type: string
+                              description: The person's name
+                          required:
+                            - value
+                      positions:
+                        type: array
+                        description: Positions held by the person
+                        items:
+                          type: object
+                          additionalProperties: false
+                          properties:
+                            value:
+                              type: string
+                              description: The position title
+                          required:
+                            - value
+                    required:
+                      - names
+                      - positions
+              required:
+                - query
+                - associated-persons
+        relationships:
+          $ref: '#/components/schemas/report-shared-relationships'
+      required:
+        - type
+        - id
+        - attributes
+    report-business-registrations-lookup:
+      title: Business Registrations Lookup Report
+      description: A report containing business registration information from official sources
+      type: object
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+          const: report/business-registrations-lookup
+          description: The type identifier for a Business Registrations Lookup Report.
+        id:
+          type: string
+          description: A unique identifier for the report.
+          examples:
+            - rep_9XxZsPaNcroBKmJNHBlYDLOp
+        attributes:
+          type: object
+          unevaluatedProperties: false
+          allOf:
+            - $ref: '#/components/schemas/report-shared-attributes'
+            - type: object
+              additionalProperties: false
+              properties:
+                query:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    address-country-code:
+                      type: string
+                      description: The country code used for the search
+                  required:
+                    - address-country-code
+                result:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    registry-records:
+                      type: array
+                      description: List of business registration records
+                      items:
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          type:
+                            type: string
+                            description: The type of registry record
+                            example: us_secretary_of_state
+                          issue-date:
+                            type: string
+                            format: date
+                            description: Date the registration was issued
+                          issuing-authority:
+                            type: string
+                            description: Authority that issued the registration
+                          file-number:
+                            type: string
+                            description: Official registration number
+                          registered-name:
+                            type: string
+                            description: Official registered business name
+                          registration-type:
+                            type: string
+                            description: Type of registration (e.g. domestic, foreign)
+                          status:
+                            type: object
+                            additionalProperties: false
+                            properties:
+                              raw:
+                                type: string
+                                description: Status on the registry record
+                              standardized:
+                                type: string
+                                description: Normalized status value
+                          registration-state:
+                            type: string
+                            description: State/subdivision where business is registered
+                          legal-entity-type:
+                            type: string
+                            description: Type of legal entity
+                          addresses:
+                            type: array
+                            items:
+                              type: object
+                              additionalProperties: false
+                              properties:
+                                type:
+                                  type: string
+                                  description: Type of address
+                                street-1:
+                                  type: string
+                                  description: Street address
+                                street-2:
+                                  type: string
+                                  description: Street address
+                                city:
+                                  type: string
+                                  description: City
+                                subdivision:
+                                  type: string
+                                  description: State/province/region
+                                postal-code:
+                                  type: string
+                                  description: Postal code
+                                country-code:
+                                  type: string
+                                  description: Country code
+              required:
+                - query
+                - result
+        relationships:
+          $ref: '#/components/schemas/report-shared-relationships'
+      required:
+        - type
+        - id
+        - attributes
     report-business-lookup:
       title: Business Lookup Report
       description: A Business Lookup Report
@@ -20002,6 +20191,8 @@ components:
             report/address-lookup: '#/components/schemas/report-address-lookup'
             report/adverse-media: '#/components/schemas/report-adverse-media'
             report/business-adverse-media: '#/components/schemas/report-business-adverse-media'
+            report/business-associated-persons: '#/components/schemas/report-business-associated-persons'
+            report/business-registrations-lookup: '#/components/schemas/report-business-registrations-lookup'
             report/business-lookup: '#/components/schemas/report-business-lookup'
             report/business-watchlist: '#/components/schemas/report-business-watchlist'
             report/crypto-address-watchlist: '#/components/schemas/report-crypto-address-watchlist'
@@ -20037,7 +20228,9 @@ components:
           - $ref: '#/components/schemas/report-address-lookup'
           - $ref: '#/components/schemas/report-adverse-media'
           - $ref: '#/components/schemas/report-business-adverse-media'
+          - $ref: '#/components/schemas/report-business-associated-persons'
           - $ref: '#/components/schemas/report-business-lookup'
+          - $ref: '#/components/schemas/report-business-registrations-lookup'
           - $ref: '#/components/schemas/report-business-watchlist'
           - $ref: '#/components/schemas/report-crypto-address-watchlist'
           - $ref: '#/components/schemas/report-email-address'
@@ -21860,6 +22053,8 @@ components:
             report/address-lookup: '#/components/schemas/report-address-lookup'
             report/adverse-media: '#/components/schemas/report-adverse-media'
             report/business-adverse-media: '#/components/schemas/report-business-adverse-media'
+            report/business-associated-persons: '#/components/schemas/report-business-associated-persons'
+            report/business-registrations-lookup: '#/components/schemas/report-business-registrations-lookup'
             report/business-lookup: '#/components/schemas/report-business-lookup'
             report/business-watchlist: '#/components/schemas/report-business-watchlist'
             report/crypto-address-watchlist: '#/components/schemas/report-crypto-address-watchlist'
@@ -21905,7 +22100,9 @@ components:
           - $ref: '#/components/schemas/report-address-lookup'
           - $ref: '#/components/schemas/report-adverse-media'
           - $ref: '#/components/schemas/report-business-adverse-media'
+          - $ref: '#/components/schemas/report-business-associated-persons'
           - $ref: '#/components/schemas/report-business-lookup'
+          - $ref: '#/components/schemas/report-business-registrations-lookup'
           - $ref: '#/components/schemas/report-business-watchlist'
           - $ref: '#/components/schemas/report-crypto-address-watchlist'
           - $ref: '#/components/schemas/report-email-address'
@@ -23240,6 +23437,8 @@ components:
           report/address-lookup: '#/components/schemas/report-address-lookup'
           report/adverse-media: '#/components/schemas/report-adverse-media'
           report/business-adverse-media: '#/components/schemas/report-business-adverse-media'
+          report/business-associated-persons: '#/components/schemas/report-business-associated-persons'
+          report/business-registrations-lookup: '#/components/schemas/report-business-registrations-lookup'
           report/business-lookup: '#/components/schemas/report-business-lookup'
           report/business-watchlist: '#/components/schemas/report-business-watchlist'
           report/crypto-address-watchlist: '#/components/schemas/report-crypto-address-watchlist'
@@ -23256,6 +23455,8 @@ components:
         - $ref: '#/components/schemas/report-address-lookup'
         - $ref: '#/components/schemas/report-adverse-media'
         - $ref: '#/components/schemas/report-business-adverse-media'
+        - $ref: '#/components/schemas/report-business-associated-persons'
+        - $ref: '#/components/schemas/report-business-registrations-lookup'
         - $ref: '#/components/schemas/report-business-lookup'
         - $ref: '#/components/schemas/report-business-watchlist'
         - $ref: '#/components/schemas/report-crypto-address-watchlist'
