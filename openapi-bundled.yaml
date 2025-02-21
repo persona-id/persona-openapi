@@ -5305,6 +5305,8 @@ paths:
         Approves an <<glossary:Inquiry>>.
 
         Note that this action will trigger any associated workflows and webhooks.
+
+        Approving an inquiry will prevent further progress on the inquiry.
       operationId: approve-an-inquiry
       externalDocs:
         description: Full documentation for this API on the Persona website.
@@ -5361,7 +5363,10 @@ paths:
     post:
       description: |-
         Declines an <<glossary:Inquiry>>.
+
         Note that this action will trigger any associated workflows and webhooks.
+
+        Declining an inquiry will prevent further progress on the inquiry.
       operationId: decline-an-inquiry
       externalDocs:
         description: Full documentation for this API on the Persona website.
@@ -5412,6 +5417,65 @@ paths:
         '429':
           $ref: '#/components/responses/too-many-requests'
       summary: Decline an Inquiry
+      tags:
+        - Inquiries
+  /inquiries/{inquiry-id}/mark-for-review:
+    post:
+      description: |-
+        Marks an <<glossary:Inquiry>> for manual review. Inquiries that are already
+        approved or declined cannot be marked for review.
+
+        Note that this action will trigger any associated workflows and webhooks.
+
+        Marking an inquiry for review will prevent further progress on the inquiry.
+      operationId: mark-an-inquiry-for-review
+      externalDocs:
+        description: Full documentation for this API on the Persona website.
+        url: https://docs.withpersona.com/reference/mark-an-inquiry-for-review
+      parameters:
+        - $ref: '#/components/parameters/key-inflection-header'
+        - $ref: '#/components/parameters/idempotency-key-header'
+        - $ref: '#/components/parameters/persona-version-header'
+        - $ref: '#/components/parameters/include-query-parameter'
+        - $ref: '#/components/parameters/fields-query-parameter'
+        - name: inquiry-id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                Result:
+                  summary: OK
+                  $ref: '#/components/examples/inquiry'
+              schema:
+                properties:
+                  data:
+                    $ref: '#/components/schemas/inquiry'
+                  included:
+                    description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
+                    $ref: '#/components/schemas/inquiry-included-objects'
+                type: object
+                additionalProperties: false
+          description: OK
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not-found'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '422':
+          $ref: '#/components/responses/unprocessable-entity'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+      summary: Mark an Inquiry for manual review
       tags:
         - Inquiries
   /inquiries/{inquiry-id}/expire:

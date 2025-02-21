@@ -1,14 +1,15 @@
 post:
   description: |-
-    Approves an <<glossary:Inquiry>>.
+    Marks an <<glossary:Inquiry>> for manual review. Inquiries that are already
+    approved or declined cannot be marked for review.
 
     Note that this action will trigger any associated workflows and webhooks.
 
-    Approving an inquiry will prevent further progress on the inquiry.
-  operationId: approve-an-inquiry
+    Marking an inquiry for review will prevent further progress on the inquiry.
+  operationId: mark-an-inquiry-for-review
   externalDocs:
     description: Full documentation for this API on the Persona website.
-    url: https://docs.withpersona.com/reference/approve-an-inquiry
+    url: https://docs.withpersona.com/reference/mark-an-inquiry-for-review
   parameters:
     - $ref: ../components/parameters/key-inflection-header.yaml
     - $ref: ../components/parameters/idempotency-key-header.yaml
@@ -20,8 +21,6 @@ post:
       required: true
       schema:
         type: string
-  requestBody:
-    $ref: ../components/requestBodies/inquiries-review-request.yaml
   responses:
     '200':
       content:
@@ -56,6 +55,6 @@ post:
       $ref: ../components/responses/unprocessable-entity.yaml
     '429':
       $ref: ../components/responses/too-many-requests.yaml
-  summary: Approve an Inquiry
+  summary: Mark an Inquiry for manual review
   tags:
     - Inquiries
