@@ -34,6 +34,8 @@ tags:
     description: Interact with Persona Inquiry objects
   - name: Inquiry Sessions
     description: Interact with Persona Inquiry Session objects
+  - name: Inquiry Templates
+    description: Interact with Persona Inquiry Template objects
   - name: List Items
     description: Interact with Persona List Item objects
   - name: Lists
@@ -6251,7 +6253,7 @@ paths:
         - $ref: '#/components/parameters/persona-version-header'
         - $ref: '#/components/parameters/include-query-parameter'
         - $ref: '#/components/parameters/fields-query-parameter'
-        - description: Inquiry session ID
+        - description: Inquiry Session ID
           in: path
           name: inquiry-session-id
           required: true
@@ -6444,6 +6446,111 @@ paths:
       summary: Generate a one-time link for Inquiry Session
       tags:
         - Inquiry Sessions
+  /inquiry-templates:
+    get:
+      description: Retrieves a list of your organization's Inquiry Templates.
+      operationId: list-all-inquiry-templates
+      externalDocs:
+        description: Full documentation for this API on the Persona website.
+        url: https://docs.withpersona.com/reference/list-all-inquiry-templates
+      parameters:
+        - $ref: '#/components/parameters/key-inflection-header'
+        - $ref: '#/components/parameters/idempotency-key-header'
+        - $ref: '#/components/parameters/persona-version-header'
+        - $ref: '#/components/parameters/pagination-query-params'
+        - $ref: '#/components/parameters/fields-query-parameter'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              examples:
+                Result:
+                  summary: OK
+                  $ref: '#/components/examples/inquiry-template-list'
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  data:
+                    type: array
+                    description: An array of Inquiry Templates
+                    items:
+                      $ref: '#/components/schemas/inquiry-template'
+                  links:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      prev:
+                        type:
+                          - 'null'
+                          - string
+                        examples:
+                          - /api/v1/inquiry-templates?page%5Bafter%5D=itmpl_ABC123
+                      next:
+                        type:
+                          - 'null'
+                          - string
+                        examples:
+                          - /api/v1/inquiry-templates?page%5Bafter%5D=itmpl_ABC123
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+      summary: List all Inquiry Templates
+      tags:
+        - Inquiry Templates
+  /inquiry-templates/{inquiry-template-id}:
+    get:
+      description: Retrieves details of a specific Inquiry Template by ID.
+      operationId: retrieve-an-inquiry-template
+      externalDocs:
+        description: Full documentation for this API on the Persona website.
+        url: https://docs.withpersona.com/reference/retrieve-an-inquiry-template
+      parameters:
+        - $ref: '#/components/parameters/key-inflection-header'
+        - $ref: '#/components/parameters/idempotency-key-header'
+        - $ref: '#/components/parameters/persona-version-header'
+        - $ref: '#/components/parameters/include-query-parameter'
+        - $ref: '#/components/parameters/fields-query-parameter'
+        - description: Inquiry Template ID
+          in: path
+          name: inquiry-template-id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              examples:
+                Result:
+                  summary: OK
+                  $ref: '#/components/examples/inquiry-template'
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  data:
+                    $ref: '#/components/schemas/inquiry-template'
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not-found'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+      summary: Retrieve an Inquiry Template
+      tags:
+        - Inquiry Templates
   /list-item/browser-fingerprints:
     post:
       description: Create a new item in a <<glossary:list>>.
@@ -17117,15 +17224,21 @@ components:
         additionalProperties: false
         properties:
           scheduled-at:
-            type: string
+            type:
+              - string
+              - 'null'
             format: date-time
             example: '2023-08-11T20:36:04.291Z'
           completed-at:
-            type: string
+            type:
+              - string
+              - 'null'
             format: date-time
             example: '2023-08-11T20:36:04.291Z'
           type:
-            type: string
+            type:
+              - string
+              - 'null'
             description: |-
               The type of report run
 
@@ -17136,7 +17249,9 @@ components:
                 Do not assume this is a static enumeration; Persona may add new values in the future without a versioned update.
             example: scheduled
           report-template-version-id:
-            type: integer
+            type:
+              - integer
+              - 'null'
             deprecated: true
     report-business-watchlist:
       title: Business Watchlist Report
@@ -20647,14 +20762,20 @@ components:
           description: inquiry-template
           type: string
         id:
+          type: string
           examples:
             - itmpl_ABC123
-          type: string
         attributes:
-          additionalProperties: false
           type: object
+          additionalProperties: false
           properties:
+            name:
+              type: string
+              description: Name of the Inquiry Template
+              examples:
+                - Government ID Front and Back
             status:
+              type: string
               description: |-
                 Possible values:
                 - active
@@ -20664,19 +20785,45 @@ components:
                 in the future without a versioned update.
               examples:
                 - active
-              type: string
-            name:
+            embedded-flow-domain-allowlist:
+              type: array
+              items:
+                type: string
+              description: List of domains allowed for embedded flows
               examples:
-                - Government ID Front and Back
-              type: string
+                - - example.com
+                  - app.example.com
+            hosted-flow-subdomains:
+              type: array
+              items:
+                type: string
+              description: The subdomain that your hosted flow can be hosted on (e.g. "mycompany.withpersona.com")
+              examples:
+                - - mycompanyname
+            hosted-flow-redirect-uri-schemes:
+              type: array
+              items:
+                type: string
+              description: |-
+                An allowlist that specifies the URI schemes for redirect after completion of a Hosted Flow.
+                This can be used to implement deep linking for mobile integrations. If this list is empty,
+                all URLs with the URI scheme http or https are allowed.
+              examples:
+                - - https
+                  - http
         relationships:
+          type: object
+          additionalProperties: false
           properties:
             latest-published-version:
-              description: |-
-                The latest published template configuration. If no version ID is
-                explicitly specified, the latest published version will be used.
+              type: object
+              additionalProperties: false
               properties:
                 data:
+                  type:
+                    - object
+                    - 'null'
+                  additionalProperties: false
                   properties:
                     type:
                       type: string
@@ -20686,12 +20833,6 @@ components:
                       type: string
                       examples:
                         - itmplv_ABC123
-                  additionalProperties: false
-                  type: object
-              additionalProperties: false
-              type: object
-          additionalProperties: false
-          type: object
     inquiry-template-version:
       type: object
       additionalProperties: false
@@ -22211,10 +22352,10 @@ components:
             document/government-id: '#/components/schemas/document-government-id'
             document/government-id-nfc: '#/components/schemas/document-government-id-nfc'
             document/mobile-drivers-license: '#/components/schemas/document-mobile-drivers-license'
-            template: '#/components/schemas/template'
             user: '#/components/schemas/user'
             inquiry-template: '#/components/schemas/inquiry-template'
             inquiry-template-version: '#/components/schemas/inquiry-template-version'
+            template: '#/components/schemas/template'
             report/address-lookup: '#/components/schemas/report-address-lookup'
             report/adverse-media: '#/components/schemas/report-adverse-media'
             report/business-adverse-media: '#/components/schemas/report-business-adverse-media'
@@ -22258,10 +22399,10 @@ components:
           - $ref: '#/components/schemas/document-government-id'
           - $ref: '#/components/schemas/document-government-id-nfc'
           - $ref: '#/components/schemas/document-mobile-drivers-license'
-          - $ref: '#/components/schemas/template'
           - $ref: '#/components/schemas/user'
           - $ref: '#/components/schemas/inquiry-template'
           - $ref: '#/components/schemas/inquiry-template-version'
+          - $ref: '#/components/schemas/template'
           - $ref: '#/components/schemas/report-address-lookup'
           - $ref: '#/components/schemas/report-adverse-media'
           - $ref: '#/components/schemas/report-business-adverse-media'
@@ -26786,6 +26927,51 @@ components:
               data:
                 type: device
                 id: dev_ABC123
+    inquiry-template-list:
+      value:
+        data:
+          - type: inquiry-template
+            id: itmpl_ABC123
+            attributes:
+              name: Basic KYC verification flow
+              status: active
+              embedded-flow-domain-allowlist:
+                - example.com
+                - app.example.com
+              hosted-flow-subdomains:
+                - mycompanyname
+              hosted-flow-redirect-uri-schemes:
+                - https
+                - http
+            relationships:
+              latest-published-version:
+                data:
+                  type: inquiry-template-version
+                  id: itmplv_XYZ789
+        links:
+          prev: null
+          next: /api/v1/inquiry-templates?page%5Bafter%5D=itmpl_ABC123
+    inquiry-template:
+      value:
+        data:
+          type: inquiry-template
+          id: itmpl_ABC123
+          attributes:
+            name: Basic KYC verification flow
+            status: active
+            embedded-flow-domain-allowlist:
+              - example.com
+              - app.example.com
+            hosted-flow-subdomains:
+              - mycompanyname
+            hosted-flow-redirect-uri-schemes:
+              - https
+              - http
+          relationships:
+            latest-published-version:
+              data:
+                type: inquiry-template-version
+                id: itmplv_XYZ789
     list-item-browser-fingerprint:
       value:
         data:

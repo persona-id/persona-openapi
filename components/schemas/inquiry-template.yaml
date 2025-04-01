@@ -7,14 +7,20 @@ properties:
     description: inquiry-template
     type: string
   id:
+    type: string
     examples:
       - itmpl_ABC123
-    type: string
   attributes:
-    additionalProperties: false
     type: object
+    additionalProperties: false
     properties:
+      name:
+        type: string
+        description: Name of the Inquiry Template
+        examples:
+          - Government ID Front and Back
       status:
+        type: string
         description: |-
           Possible values:
           - active
@@ -24,19 +30,51 @@ properties:
           in the future without a versioned update.
         examples:
           - active
-        type: string
-      name:
+      embedded-flow-domain-allowlist:
+        type: array
+        items:
+          type: string
+        description: List of domains allowed for embedded flows
         examples:
-          - Government ID Front and Back
-        type: string
+          - - example.com
+            - app.example.com
+      hosted-flow-subdomains:
+        type: array
+        items:
+          type: string
+        description: >-
+          The subdomain that your hosted flow can be hosted on (e.g.
+          "mycompany.withpersona.com")
+        examples:
+          - - mycompanyname
+      hosted-flow-redirect-uri-schemes:
+        type: array
+        items:
+          type: string
+        description: >-
+          An allowlist that specifies the URI schemes for redirect after
+          completion of a Hosted Flow.
+
+          This can be used to implement deep linking for mobile integrations. If
+          this list is empty,
+
+          all URLs with the URI scheme http or https are allowed.
+        examples:
+          - - https
+            - http
   relationships:
+    type: object
+    additionalProperties: false
     properties:
       latest-published-version:
-        description: |-
-          The latest published template configuration. If no version ID is
-          explicitly specified, the latest published version will be used.
+        type: object
+        additionalProperties: false
         properties:
           data:
+            type:
+              - object
+              - 'null'
+            additionalProperties: false
             properties:
               type:
                 type: string
@@ -46,9 +84,3 @@ properties:
                 type: string
                 examples:
                   - itmplv_ABC123
-            additionalProperties: false
-            type: object
-        additionalProperties: false
-        type: object
-    additionalProperties: false
-    type: object

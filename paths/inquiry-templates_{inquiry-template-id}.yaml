@@ -1,41 +1,36 @@
 get:
-  description: Retrieves details of a specific Inquiry Session.
-  operationId: retrieve-an-inquiry-session
+  description: Retrieves details of a specific Inquiry Template by ID.
+  operationId: retrieve-an-inquiry-template
   externalDocs:
     description: Full documentation for this API on the Persona website.
-    url: https://docs.withpersona.com/reference/retrieve-an-inquiry-session
+    url: https://docs.withpersona.com/reference/retrieve-an-inquiry-template
   parameters:
     - $ref: ../components/parameters/key-inflection-header.yaml
     - $ref: ../components/parameters/idempotency-key-header.yaml
     - $ref: ../components/parameters/persona-version-header.yaml
     - $ref: ../components/parameters/include-query-parameter.yaml
     - $ref: ../components/parameters/fields-query-parameter.yaml
-    - description: Inquiry Session ID
+    - description: Inquiry Template ID
       in: path
-      name: inquiry-session-id
+      name: inquiry-template-id
       required: true
       schema:
         type: string
   responses:
     '200':
+      description: OK
       content:
         application/json:
           examples:
             Result:
               summary: OK
-              $ref: ../components/examples/inquiry-session.yaml
+              $ref: ../components/examples/inquiry-template.yaml
           schema:
-            properties:
-              data:
-                $ref: ../components/schemas/inquiry-session.yaml
-              included:
-                description: >-
-                  Objects that _may_ be returned if specified via the `include`
-                  query parameter in the request.
-                $ref: ../components/schemas/inquiry-sessions-included-objects.yaml
             type: object
             additionalProperties: false
-      description: OK
+            properties:
+              data:
+                $ref: ../components/schemas/inquiry-template.yaml
     '400':
       $ref: ../components/responses/bad-request.yaml
     '401':
@@ -46,6 +41,6 @@ get:
       $ref: ../components/responses/not-found.yaml
     '429':
       $ref: ../components/responses/too-many-requests.yaml
-  summary: Retrieve an Inquiry Session
+  summary: Retrieve an Inquiry Template
   tags:
-    - Inquiry Sessions
+    - Inquiry Templates
