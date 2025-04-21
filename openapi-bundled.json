@@ -2078,6 +2078,91 @@
         "x-persona-product": "API Keys"
       }
     },
+    "/api-keys/{api-key-id}/clone": {
+      "post": {
+        "description": "Creates a copy of an existing API key. All attributes except the value are copied over to the new API key.",
+        "operationId": "clone-api-key",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "api-key-id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The token/ID of the API key to be cloned."
+          },
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/include-query-parameter"
+          },
+          {
+            "$ref": "#/components/parameters/fields-query-parameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Result": {
+                    "summary": "OK",
+                    "$ref": "#/components/examples/api-key-with-value"
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/api-key-with-value"
+                    },
+                    "included": {
+                      "$ref": "#/components/schemas/empty-included-objects"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "409": {
+            "$ref": "#/components/responses/conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessable-entity"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        },
+        "summary": "Clone an API key",
+        "tags": [
+          "API Keys"
+        ],
+        "x-persona-product": "API Keys"
+      }
+    },
     "/api-logs": {
       "get": {
         "description": "Returns a list of your organization's API Logs.",
