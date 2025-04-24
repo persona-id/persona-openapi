@@ -6575,7 +6575,10 @@ paths:
       x-persona-product: Inquiries
   /inquiry-templates:
     get:
-      description: Retrieves a list of your organization's Inquiry Templates.
+      description: |-
+        Retrieves a list of your organization's Inquiry Templates.
+
+        Note: You must use a production API key to access this endpoint. For security reasons, we do not expose organization-level resources like Inquiry Templates in Sandbox via API.
       operationId: list-all-inquiry-templates
       externalDocs:
         description: Full documentation for this API on the Persona website.
@@ -6634,7 +6637,10 @@ paths:
       x-persona-product: Inquiries
   /inquiry-templates/{inquiry-template-id}:
     get:
-      description: Retrieves details of a specific Inquiry Template by ID.
+      description: |-
+        Retrieves details of a specific Inquiry Template by ID.
+
+        Note: You must use a production API key to access this endpoint. For security reasons, we do not expose organization-level resources like Inquiry Templates in Sandbox via API.
       operationId: retrieve-an-inquiry-template
       externalDocs:
         description: Full documentation for this API on the Persona website.
@@ -11363,7 +11369,10 @@ paths:
           $ref: '#/components/responses/too-many-requests'
   /user-audit-logs:
     get:
-      description: Returns a list of your organization’s user audit logs for up to the most recent 6 months.
+      description: |-
+        Returns a list of your organization’s user audit logs for up to the most recent 6 months.
+
+        Note: You must use a production API key to access this endpoint. For security reasons, we do not expose organization-level resources like user audit logs in Sandbox via API.
       operationId: list-all-user-audit-logs
       externalDocs:
         description: Full documentation for this API on the Persona website.
@@ -11472,7 +11481,10 @@ paths:
       x-persona-product: User Audit Logs
   /user-audit-logs/{user-audit-log-id}:
     get:
-      description: Retrieves the details of an existing user audit logs for up to the most recent 6 months.
+      description: |-
+        Retrieves the details of an existing user audit logs for up to the most recent 6 months.
+
+        Note: You must use a production API key to access this endpoint. For security reasons, we do not expose organization-level resources like user audit logs in Sandbox via API.
       operationId: retrieve-an-user-audit-log
       externalDocs:
         description: Full documentation for this API on the Persona website.
@@ -12962,6 +12974,60 @@ paths:
         '429':
           $ref: '#/components/responses/too-many-requests'
       summary: Rotate a Webhook's secret
+      tags:
+        - Webhooks
+      x-persona-product: Webhooks
+  /webhooks/{webhook-id}/clone:
+    post:
+      description: Creates a copy of an existing webhook. All attributes except the secret are copied over to the new webhook.
+      operationId: clone-a-webhook
+      externalDocs:
+        description: Full documentation for this API on the Persona website.
+        url: https://docs.withpersona.com/reference/clone-a-webhook
+      parameters:
+        - $ref: '#/components/parameters/key-inflection-header'
+        - $ref: '#/components/parameters/idempotency-key-header'
+        - $ref: '#/components/parameters/persona-version-header'
+        - $ref: '#/components/parameters/include-query-parameter'
+        - $ref: '#/components/parameters/fields-query-parameter'
+        - description: The ID of the Webhook to clone (starts with "wbh_")
+          in: path
+          name: webhook-id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK.
+          content:
+            application/json:
+              examples:
+                Result:
+                  summary: OK
+                  $ref: '#/components/examples/webhook-cloned'
+              schema:
+                properties:
+                  data:
+                    $ref: '#/components/schemas/webhook-with-secret'
+                  included:
+                    $ref: '#/components/schemas/empty-included-objects'
+                type: object
+                additionalProperties: false
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not-found'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '422':
+          $ref: '#/components/responses/unprocessable-entity'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+      summary: Clone a Webhook
       tags:
         - Webhooks
       x-persona-product: Webhooks
@@ -28821,6 +28887,37 @@ components:
           attributes:
             status: enabled
             url: https://withpersona.com
+            api-version: '2023-01-05'
+            api-key-inflection: kebab
+            api-attributes-blocklist:
+              - address-*
+              - name-last
+              - /data/attributes/fields/*-number
+            file-access-token-expires-in: 21600
+            enabled-events:
+              - account.created
+              - verification.created
+            payload-filter:
+              data:
+                relationships:
+                  inquiry-template:
+                    data:
+                      id: itmpl_abc123def456
+            created-at: '2023-08-17T23:18:13.000Z'
+    webhook-cloned:
+      value:
+        data:
+          type: webhook
+          id: wbh_ABC123
+          attributes:
+            name: Webhook Copy
+            description: A cloned webhook
+            status: disabled
+            url: https://withpersona.com
+            secret: wbhsec_abcdefgh-1234-5678-9ijk-lmnopqrstuvw
+            secrets:
+              - value: wbhsec_abcdefgh-1234-5678-9ijk-lmnopqrstuvw
+                expires-at: null
             api-version: '2023-01-05'
             api-key-inflection: kebab
             api-attributes-blocklist:
