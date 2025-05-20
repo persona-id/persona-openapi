@@ -26,39 +26,39 @@ post:
         schema:
           properties:
             data:
-              description: >-
-                Matches the trigger payload schema defined by the Workflow
-                version
               properties:
-                type:
-                  const: workflow
-                  description: workflow
-                  type: string
-                id:
-                  type: string
-                  description: Unique identifier for this Workflow. Starts with `wfl_`.
                 attributes:
                   description: >-
-                    Matches the trigger payload schema defined by the workflow
-                    version
-                  properties:
-                    example-field-1:
-                      description: >-
-                        This is just an example field name. The actual name will
-                        depend on the trigger schema defined for the workflow
-                        version.
-                      type: string
-                    example-field-2:
-                      description: >-
-                        This is just an example field name. The actual name will
-                        depend on the trigger schema defined for the workflow
-                        version.
-                      format: int32
-                      type: integer
+                    JSON key-value pairs of field name to field value. Schema is
+                    defined by the trigger payload schema on your Workflow
+                    Version.
+                  examples:
+                    - preferred-name: Albert
+                      example-field: 123
                   additionalProperties: true
                   type: object
+              required:
+                - attributes
               type: object
               additionalProperties: false
+            meta:
+              type: object
+              properties:
+                params:
+                  description: >-
+                    JSON key-value pairs of field name to field value. Schema is
+                    defined by the trigger payload schema on your Workflow
+                    Version.
+                  examples:
+                    - preferred-name: Albert
+                      example-field: 123
+                  type: object
+                  additionalProperties: true
+              additionalProperties: false
+              x-remove-from-readme: true
+              x-remove-from-github: true
+          required:
+            - data
           type: object
           additionalProperties: false
   responses:
