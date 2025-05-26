@@ -1350,6 +1350,122 @@ paths:
       tags:
         - API Keys
       x-persona-product: API Keys
+  '/client-tokens/{client-token-id}/add-allowed-resources':
+    post:
+      summary: Add allowed resources to a client token
+      tags:
+        - Client Tokens
+      x-persona-product: Client Tokens
+      description: Adds resources that this client token is authorized to manipulate. No effect if the client token already has access to the resource.
+      operationId: client-tokens-add-allowed-resources
+      externalDocs:
+        description: Full documentation for this API on the Persona website.
+        url: 'https://docs.withpersona.com/reference/client-tokens-add-allowed-resources'
+      parameters:
+        - $ref: '#/components/parameters/key-inflection-header'
+        - $ref: '#/components/parameters/idempotency-key-header'
+        - $ref: '#/components/parameters/persona-version-header'
+        - $ref: '#/components/parameters/include-query-parameter'
+        - $ref: '#/components/parameters/fields-query-parameter'
+        - name: client-token-id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the client token
+      requestBody:
+        $ref: '#/components/requestBodies/client-token-allowed-resources-request'
+      responses:
+        '200':
+          description: The client token with updated allowed resources
+          content:
+            application/json:
+              examples:
+                Result:
+                  summary: OK
+                  $ref: '#/components/examples/client-token-with-value'
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  data:
+                    $ref: '#/components/schemas/client-token'
+                  included:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/client-token-version-with-value'
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not-found'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '422':
+          $ref: '#/components/responses/unprocessable-entity'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  '/client-tokens/{client-token-id}/remove-allowed-resources':
+    post:
+      summary: Remove allowed resources from a client token
+      tags:
+        - Client Tokens
+      x-persona-product: Client Tokens
+      description: Removes resources that this client token is authorized to manipulate. No effect if the client token does not have access to the resource.
+      operationId: client-tokens-remove-allowed-resources
+      externalDocs:
+        description: Full documentation for this API on the Persona website.
+        url: 'https://docs.withpersona.com/reference/client-tokens-remove-allowed-resources'
+      parameters:
+        - $ref: '#/components/parameters/key-inflection-header'
+        - $ref: '#/components/parameters/idempotency-key-header'
+        - $ref: '#/components/parameters/persona-version-header'
+        - $ref: '#/components/parameters/include-query-parameter'
+        - $ref: '#/components/parameters/fields-query-parameter'
+        - name: client-token-id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the client token
+      requestBody:
+        $ref: '#/components/requestBodies/client-token-allowed-resources-request'
+      responses:
+        '200':
+          description: The client token with updated allowed resources
+          content:
+            application/json:
+              examples:
+                Result:
+                  summary: OK
+                  $ref: '#/components/examples/client-token-with-value'
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  data:
+                    $ref: '#/components/schemas/client-token'
+                  included:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/client-token-version-with-value'
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not-found'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '422':
+          $ref: '#/components/responses/unprocessable-entity'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
   /api-logs:
     get:
       description: Returns a list of your organization's API Logs.
@@ -14543,6 +14659,143 @@ components:
                   description: The API Key value. This should be treated with the utmost security.
                   examples:
                     - persona_production_abcdefg
+    client-token:
+      type: object
+      additionalProperties: false
+      description: A Client Token resource
+      properties:
+        type:
+          const: client-token
+          description: client-token
+          type: string
+        id:
+          examples:
+            - ctk_ABC123
+          type: string
+        attributes:
+          type: object
+          additionalProperties: false
+          properties:
+            name:
+              type: string
+              description: The name of the client token
+              examples:
+                - Client Token 123
+            api-version:
+              type: string
+              format: date
+              description: The API version used by this client token
+              examples:
+                - '2023-01-05'
+            api-key-inflection:
+              type: string
+              description: The key inflection used by this client token
+              examples:
+                - kebab
+            permissions:
+              type: array
+              description: List of permissions granted to this client token
+              items:
+                type: string
+              examples:
+                - - sentinel.collect
+                  - txn.write
+            domain-allowlist:
+              type: array
+              description: List of domains allowed to use this client token
+              items:
+                type: string
+              examples:
+                - - '*.example.com'
+                  - api.example.com
+            allowed-resources:
+              type: array
+              description: List of resources that this client token is authorized to manipulate
+              items:
+                type: string
+              examples:
+                - - txntp_ABC123
+                  - txntp_DEF456
+            created-at:
+              type: string
+              format: date-time
+              description: When this client token was created
+              examples:
+                - '2023-09-21T18:29:40.000Z'
+        relationships:
+          type: object
+          additionalProperties: false
+          properties:
+            primary-version:
+              properties:
+                data:
+                  properties:
+                    type:
+                      type: string
+                      const: client-token-version
+                      description: client-token-version
+                    id:
+                      examples:
+                        - ctkv_ABC123
+                      type: string
+                  additionalProperties: false
+                  type: object
+              additionalProperties: false
+              type: object
+    client-token-version-with-value:
+      type: object
+      additionalProperties: false
+      description: A Client Token Version resource
+      properties:
+        type:
+          const: client-token-version
+          description: client-token-version
+          type: string
+        id:
+          examples:
+            - ctkv_ABC123
+          type: string
+        attributes:
+          type: object
+          additionalProperties: false
+          properties:
+            value:
+              type: string
+              description: The Client Token Version value. This should be treated with the utmost security.
+              examples:
+                - persona_production_abcdefg
+            created-at:
+              type: string
+              format: date-time
+              description: When this client token version was created
+              examples:
+                - '2023-09-21T18:29:40.000Z'
+            expires-at:
+              type:
+                - string
+                - 'null'
+              format: date-time
+              description: When this client token version expires
+              examples:
+                - '2023-09-21T18:29:40.000Z'
+        relationships:
+          type: object
+          additionalProperties: false
+          properties:
+            client-token:
+              type: object
+              additionalProperties: false
+              properties:
+                data:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    type:
+                      type: string
+                      const: client-token
+                      description: client-token
+                    id:
+                      type: string
     api-log:
       type: object
       additionalProperties: false
@@ -26232,6 +26485,42 @@ components:
             last-used-at: '2023-08-17T23:24:00.000Z'
             expires-at: null
             created-at: '2023-08-17T23:18:13.000Z'
+    client-token-with-value:
+      value:
+        data:
+          type: client-token
+          id: ctk_ABC123
+          attributes:
+            name: Default Client Token
+            api-version: '2023-01-05'
+            api-key-inflection: kebab
+            permissions:
+              - sentinel.collect
+              - txn.write
+            domain-allowlist:
+              - '*.example.com'
+              - api.example.com
+            allowed-resources:
+              - txntp_ABC123
+              - txntp_DEF456
+            created-at: '2023-08-17T23:18:13.000Z'
+          relationships:
+            primary-version:
+              data:
+                type: client-token-version
+                id: ctkv_ABC123
+        included:
+          - type: client-token-version
+            id: ctkv_ABC123
+            attributes:
+              value: persona_production_abcdefg
+              created-at: '2023-08-17T23:18:13.000Z'
+              expires-at: '2023-09-17T23:18:13.000Z'
+            relationships:
+              client-token:
+                data:
+                  type: client-token
+                  id: ctk_ABC123
     api-log-list:
       value:
         data:
@@ -31233,6 +31522,30 @@ components:
                         type: integer
                     type: object
                     additionalProperties: false
+                type: object
+                additionalProperties: false
+            type: object
+            additionalProperties: false
+    client-token-allowed-resources-request:
+      content:
+        application/json:
+          schema:
+            required:
+              - meta
+            properties:
+              meta:
+                required:
+                  - allowed-resources
+                properties:
+                  allowed-resources:
+                    type: array
+                    description: List of resource IDs to add/remove
+                    items:
+                      type: string
+                      description: Resource ID (e.g. txntp_ABC123)
+                      examples:
+                        - txntp_ABC123
+                        - txntp_DEF456
                 type: object
                 additionalProperties: false
             type: object

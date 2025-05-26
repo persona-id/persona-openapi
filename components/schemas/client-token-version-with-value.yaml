@@ -1,0 +1,55 @@
+type: object
+additionalProperties: false
+description: A Client Token Version resource
+properties:
+  type:
+    const: client-token-version
+    description: client-token-version
+    type: string
+  id:
+    examples:
+      - ctkv_ABC123
+    type: string
+  attributes:
+    type: object
+    additionalProperties: false
+    properties:
+      value:
+        type: string
+        description: >-
+          The Client Token Version value. This should be treated with the utmost
+          security.
+        examples:
+          - persona_production_abcdefg
+      created-at:
+        type: string
+        format: date-time
+        description: When this client token version was created
+        examples:
+          - '2023-09-21T18:29:40.000Z'
+      expires-at:
+        type:
+          - string
+          - 'null'
+        format: date-time
+        description: When this client token version expires
+        examples:
+          - '2023-09-21T18:29:40.000Z'
+  relationships:
+    type: object
+    additionalProperties: false
+    properties:
+      client-token:
+        type: object
+        additionalProperties: false
+        properties:
+          data:
+            type: object
+            additionalProperties: false
+            properties:
+              type:
+                type: string
+                const: client-token
+                description: client-token
+              id:
+                type: string
