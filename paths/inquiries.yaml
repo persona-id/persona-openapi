@@ -25,8 +25,25 @@ get:
         additionalProperties: false
         type: object
         properties:
+          inquiry-id:
+            description: >-
+              Comma separated list of inquiry IDs (starting with `inq_`) to
+              filter inquiries by
+            examples:
+              - inq_ABC123
+              - inq_ABC123,inq_DEF456
+              - - inq_ABC123
+                - inq_DEF456
+            unevaluatedProperties: false
+            oneOf:
+              - type: string
+              - type: array
+                items:
+                  type: string
           account-id:
-            description: Comma separated list of account IDs to filter inquiries by
+            description: >-
+              Comma separated list of account IDs (starting with `act_`) to
+              filter inquiries by
             examples:
               - act_ABC123
               - act_ABC123,act_DEF456
