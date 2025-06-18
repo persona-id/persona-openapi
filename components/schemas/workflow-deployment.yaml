@@ -1,0 +1,59 @@
+type: object
+additionalProperties: false
+description: A Workflow Deployment object
+properties:
+  type:
+    const: workflow-deployment
+    description: workflow-deployment
+    type: string
+  id:
+    examples:
+      - wfd_3JqAR9ddLRVZLK5z4yD8oeHB
+    type: string
+  attributes:
+    properties:
+      status:
+        description: |-
+          The status of the Workflow Deployment
+
+          Possible values:
+          - active
+          - inactive
+
+          Do not assume this is a static enumeration; Persona may add new
+          values in the future without a versioned update.
+        type: string
+      configuration:
+        type: object
+        description: The deployment configuration containing version information
+        additionalProperties: false
+        properties:
+          versions:
+            type: array
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                token:
+                  type: string
+                  description: The token of the workflow version
+                percentage:
+                  type: integer
+                  description: The percentage of traffic this version should receive
+                  minimum: 1
+                  maximum: 100
+                label:
+                  type: string
+                  description: The label of the version (treatment or control)
+      created-at:
+        examples:
+          - '2022-08-08T18:55:44.910Z'
+        type: string
+        format: date-time
+      updated-at:
+        examples:
+          - '2022-08-08T18:55:44.910Z'
+        type: string
+        format: date-time
+    type: object
+    additionalProperties: false

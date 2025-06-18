@@ -33,3 +33,32 @@ properties:
         format: date-time
     type: object
     additionalProperties: false
+  relationships:
+    type: object
+    additionalProperties: false
+    properties:
+      latest-published-version:
+        type: object
+        description: latest published version
+        additionalProperties: false
+        properties:
+          data:
+            type: object
+            additionalProperties: false
+            properties:
+              type:
+                const: workflow-version
+                description: workflow version
+                type: string
+              id:
+                type: string
+      active-deployment:
+        type: object
+        description: latest active deployment
+        additionalProperties: false
+        properties:
+          data:
+            oneOf:
+              - type: 'null'
+              - $ref: ./workflow-deployment.yaml
+            unevaluatedProperties: false
