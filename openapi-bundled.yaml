@@ -12089,6 +12089,7 @@ paths:
                         created-at: '2019-11-15T21:24:24.000Z'
                         completed-at: null
                         country-code: null
+                        tags: []
                         entity-confidence-score: null
                         entity-confidence-reasons: []
                         front-photo-url: null
@@ -19307,6 +19308,11 @@ components:
           type:
             - string
             - 'null'
+        tags:
+          description: Tags on the verification
+          items:
+            type: string
+          type: array
         checks:
           items:
             properties:
@@ -25388,12 +25394,18 @@ components:
                 - GET
                 - POST
             get-params:
-              type: object
-              description: The GET params of the request. Schema depends on the action taken.
+              type:
+                - object
+                - string
+              description: |
+                The GET params of the request. Schema depends on the action taken. Note: For large payloads, the value may appear as [FILTERED] to indicate redaction or truncation.
               additionalProperties: true
             post-params:
-              type: object
-              description: The POST params of the request. Schema depends on the action taken.
+              type:
+                - object
+                - string
+              description: |
+                The POST params of the request. Schema depends on the action taken. Note: For large payloads, the value may appear as [FILTERED] to indicate redaction or truncation.
               additionalProperties: true
             ip-address:
               type: string
