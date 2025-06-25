@@ -115,71 +115,7 @@ paths:
               examples:
                 Result:
                   summary: OK
-                  value:
-                    data:
-                      - type: account
-                        id: act_ef2mUFHAejxf2XJ5qzU4uMQb
-                        attributes:
-                          reference-id: null
-                          created-at: '2020-01-02T17:42:27.000Z'
-                          updated-at: '2020-01-02T18:06:41.000Z'
-                      - type: account
-                        id: act_YcNZJLxuwEuV8jUPbykYQyXG
-                        attributes:
-                          reference-id: Mike's test
-                          created-at: '2019-12-19T21:42:49.000Z'
-                          updated-at: '2019-12-19T21:42:49.000Z'
-                      - type: account
-                        id: act_2wM8yufwLrbMV6kUtGPBxeGS
-                        attributes:
-                          reference-id: null
-                          created-at: '2019-12-18T22:43:03.000Z'
-                          updated-at: '2019-12-18T22:43:03.000Z'
-                      - type: account
-                        id: act_LatvE1PdVhfiwcJWVLj4Z25j
-                        attributes:
-                          reference-id: null
-                          created-at: '2019-12-13T08:34:10.000Z'
-                          updated-at: '2019-12-13T08:34:10.000Z'
-                      - type: account
-                        id: act_RU3JgzXaAzVV2g2NYLd7ub12
-                        attributes:
-                          reference-id: null
-                          created-at: '2019-12-13T08:32:49.000Z'
-                          updated-at: '2019-12-13T08:33:29.000Z'
-                      - type: account
-                        id: act_Eoe14YQ7efbiH73zkTFAkveB
-                        attributes:
-                          reference-id: null
-                          created-at: '2019-12-12T20:50:55.000Z'
-                          updated-at: '2019-12-12T20:50:55.000Z'
-                      - type: account
-                        id: act_X5LmoEaYASq3ahQmRRTpMG1t
-                        attributes:
-                          reference-id: null
-                          created-at: '2019-12-05T20:56:43.000Z'
-                          updated-at: '2019-12-05T20:56:43.000Z'
-                      - type: account
-                        id: act_6LRELcKmPcx9MxYGk6mdCPJo
-                        attributes:
-                          reference-id: null
-                          created-at: '2019-11-19T00:10:27.000Z'
-                          updated-at: '2019-11-19T00:10:27.000Z'
-                      - type: account
-                        id: act_1bRzHZSH17PpXCCnMGoYhzde
-                        attributes:
-                          reference-id: null
-                          created-at: '2019-11-18T17:38:03.000Z'
-                          updated-at: '2019-11-18T17:38:03.000Z'
-                      - type: account
-                        id: act_u2Dgz8U3CmxTVgqEH9qzezHi
-                        attributes:
-                          reference-id: null
-                          created-at: '2019-11-15T22:14:41.000Z'
-                          updated-at: '2019-11-15T22:14:41.000Z'
-                    links:
-                      prev: null
-                      next: /api/v1/accounts?page%5Bafter%5D=act_u2Dgz8U3CmxTVgqEH9qzezHi
+                  $ref: '#/components/examples/account-list'
               schema:
                 properties:
                   data:
@@ -25890,279 +25826,111 @@ components:
           description: Datetime when the event was created.
           examples:
             - '2023-09-21T18:29:40.000Z'
-  responses:
-    bad-request:
-      description: Bad Request
-      content:
-        application/json:
-          examples:
-            Result:
-              summary: Bad Request
-              value:
-                errors:
-                  - title: Bad Request
-                    details: data.attributes.type must be a string
-          schema:
-            properties:
-              errors:
-                type: array
-                items:
-                  additionalProperties: false
-                  properties:
-                    title:
-                      description: Bad Request
-                      type: string
-                    details:
-                      type: string
-                      examples:
-                        - data.attributes.name is missing
-                        - data.type must be filled
-                        - meta.object_ids must be an array
-            type: object
-            additionalProperties: false
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          examples:
-            Result:
-              summary: Unauthorized
-              value:
-                errors:
-                  - title: Must be authenticated to access this endpoint
-          schema:
-            properties:
-              errors:
-                type: array
-                items:
-                  additionalProperties: false
-                  properties:
-                    title:
-                      description: Unauthorized
-                      examples:
-                        - Must be authenticated to access this endpoint
-                        - Token is invalid
-                      type: string
-            type: object
-            additionalProperties: false
-    forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          examples:
-            Result:
-              summary: Forbidden
-              value:
-                errors:
-                  - title: Forbidden
-                    details: IP address is not permitted access to current environment
-          schema:
-            properties:
-              errors:
-                type: array
-                items:
-                  additionalProperties: false
-                  properties:
-                    title:
-                      description: Forbidden
-                      type: string
-                    details:
-                      type: string
-                      examples:
-                        - Resource cannot be created in an inactive environment
-                        - Verification creation API is not enabled
-                        - IP address is not permitted access to current environment
-            type: object
-            additionalProperties: false
-    not-found:
-      description: Not Found
-      content:
-        application/json:
-          examples:
-            Result:
-              summary: Not Found
-              value:
-                errors:
-                  - title: Record not found
-          schema:
-            properties:
-              errors:
-                items:
-                  additionalProperties: false
-                  properties:
-                    title:
-                      examples:
-                        - Record not found
-                      type: string
-                    details:
-                      examples:
-                        - data.attributes.inquiry_id is not found
-                      type: string
-                  type: object
-                type: array
-            type: object
-            additionalProperties: false
-    too-many-requests:
-      description: Too Many Requests
-      content:
-        application/json:
-          examples:
-            Result:
-              summary: Too Many Requests
-              value:
-                errors:
-                  - title: Rate limit exceeded
-                    details: You have hit your rate limit of 300 requests / min. Please reach out to support@withpersona.com if you need this changed.
-          schema:
-            properties:
-              errors:
-                type: array
-                items:
-                  additionalProperties: false
-                  properties:
-                    title:
-                      type: string
-                      examples:
-                        - Rate limit exceeded
-                        - Quota exceeded
-                    details:
-                      type: string
-                      examples:
-                        - You have hit your rate limit of 300 requests / min. Please reach out to support@withpersona.com if you need this changed.
-                        - You have hit your create_verification quota limit of 300 requests. Please reach out to support@withpersona.com if you need this changed.
-            type: object
-            additionalProperties: false
-    conflict:
-      description: Conflict
-      content:
-        application/json:
-          examples:
-            Result:
-              summary: Conflict
-              value:
-                errors:
-                  - title: Conflict
-                    details: Resource already exists as an active resource
-          schema:
-            properties:
-              errors:
-                type: array
-                items:
-                  additionalProperties: false
-                  properties:
-                    title:
-                      description: Conflict
-                      examples:
-                        - Conflict
-                        - Record not unique
-                        - Stale object error
-                      type: string
-                    details:
-                      type: string
-                      examples:
-                        - Name already exists as an active item in list
-                        - Inquiry already redacted
-                        - Record not unique
-                        - Attempted to update a record that was just modified. Please try again.
-                        - data.attributes.inquiry_id does not require verification/email-address
-            type: object
-            additionalProperties: false
-    unprocessable-entity:
-      description: Unprocessable Entity
-      content:
-        application/json:
-          examples:
-            Result:
-              summary: Unprocessable Entity
-              value:
-                errors:
-                  - title: Unprocessable entity
-                    details: Invalid confirmation code
-          schema:
-            properties:
-              errors:
-                type: array
-                items:
-                  additionalProperties: false
-                  properties:
-                    title:
-                      type: string
-                      examples:
-                        - Unprocessable entity
-                        - Record invalid
-                    details:
-                      type: string
-                      examples:
-                        - File must be under 2 bytes
-                        - Selected country code invalid selected country code of ZX
-                        - Invalid confirmation code
-                    source:
-                      type: object
-                      additionalProperties: false
-                      properties:
-                        pointer:
-                          type: string
-                          examples:
-                            - /data/attributes/files
-                            - /data/attributes/selected-country-code
-            type: object
-            additionalProperties: false
-    service-unavailable:
-      description: Service Unavailable
-      content:
-        application/json:
-          examples:
-            Result:
-              summary: Service Unavailable
-              value:
-                errors:
-                  - title: Service unavailable
-          schema:
-            properties:
-              errors:
-                type: array
-                items:
-                  additionalProperties: false
-                  properties:
-                    title:
-                      description: Service unavailable
-                      type: string
-                    details:
-                      type: string
-            type: object
-            additionalProperties: false
-    request-timeout:
-      description: Request Timeout
-      content:
-        application/json:
-          examples:
-            Result:
-              summary: Request Timeout
-              value:
-                errors:
-                  - title: Request Timeout
-                    details: The server timed out waiting for the request
-          schema:
-            properties:
-              errors:
-                type: array
-                items:
-                  type: object
-                  additionalProperties: false
-                  properties:
-                    title:
-                      description: Request Timeout
-                      type: string
-                    details:
-                      type: string
-                      examples:
-                        - The server timed out waiting for the request
-                        - Client did not produce a request within the time that the server was prepared to wait
-            type: object
-            additionalProperties: false
-    success:
-      description: 'Return a 2xx status code to indicate that the data was received successfully. Any other status will trigger retries. For more info see [Retry Logic](https://docs.withpersona.com/docs/webhooks#retry-logic).'
   examples:
+    account-list:
+      value:
+        data:
+          - type: account
+            id: act_hpNqyAbEG4HeVjZoBRNCMKkA
+            attributes:
+              reference-id: abc-123
+              account-type-name: User
+              created-at: '2023-09-22T17:13:49.000Z'
+              updated-at: '2023-09-23T00:22:19.000Z'
+              redacted-at: null
+              fields:
+                name:
+                  type: hash
+                  value:
+                    first:
+                      type: string
+                      value: Jane
+                    middle:
+                      type: string
+                      value: Marie
+                    last:
+                      type: string
+                      value: Doe
+                address:
+                  type: hash
+                  value:
+                    street_1:
+                      type: string
+                      value: 123 Main St
+                    street_2:
+                      type: string
+                      value: null
+                    subdivision:
+                      type: string
+                      value: California
+                    city:
+                      type: string
+                      value: San Francisco
+                    postal_code:
+                      type: string
+                      value: '94111'
+                    country_code:
+                      type: string
+                      value: US
+                identification_numbers:
+                  type: array
+                  value:
+                    - type: hash
+                      value:
+                        identification_class:
+                          type: string
+                          value: visa
+                        identification_number:
+                          type: string
+                          value: '12345678'
+                        issuing_country:
+                          type: string
+                          value: US
+                    - type: hash
+                      value:
+                        identification_class:
+                          type: string
+                          value: visa
+                        identification_number:
+                          type: string
+                          value: '87654321'
+                        issuing_country:
+                          type: string
+                          value: UK
+                    - type: hash
+                      value:
+                        identification_class:
+                          type: string
+                          value: cct
+                        identification_number:
+                          type: string
+                          value: A12345678
+                        issuing_country:
+                          type: string
+                          value: AF
+                birthdate:
+                  type: date
+                  value: '1994-12-30'
+                phone_number:
+                  type: string
+                  value: 111-222-3333
+                email_address:
+                  type: string
+                  value: jane@doe.com
+                selfie_photo:
+                  type: file
+                  value: null
+              tags:
+                - tag1
+                - tag2
+            relationships:
+              account-type:
+                data:
+                  type: account-type
+                  id: acttp_7X5W5w9GMtQntE6oPtKnj44c
+        links:
+          prev: null
+          next: /api/v1/accounts?page%5Bafter%5D=act_hpNqyAbEG4HeVjZoBRNCMKkA
     account:
       value:
         data:
@@ -31330,6 +31098,278 @@ components:
                         type: inquiry-template-version
                         id: itmplv_ABC123
             created-at: '2024-02-15T23:48:17.732Z'
+  responses:
+    bad-request:
+      description: Bad Request
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: Bad Request
+              value:
+                errors:
+                  - title: Bad Request
+                    details: data.attributes.type must be a string
+          schema:
+            properties:
+              errors:
+                type: array
+                items:
+                  additionalProperties: false
+                  properties:
+                    title:
+                      description: Bad Request
+                      type: string
+                    details:
+                      type: string
+                      examples:
+                        - data.attributes.name is missing
+                        - data.type must be filled
+                        - meta.object_ids must be an array
+            type: object
+            additionalProperties: false
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: Unauthorized
+              value:
+                errors:
+                  - title: Must be authenticated to access this endpoint
+          schema:
+            properties:
+              errors:
+                type: array
+                items:
+                  additionalProperties: false
+                  properties:
+                    title:
+                      description: Unauthorized
+                      examples:
+                        - Must be authenticated to access this endpoint
+                        - Token is invalid
+                      type: string
+            type: object
+            additionalProperties: false
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: Forbidden
+              value:
+                errors:
+                  - title: Forbidden
+                    details: IP address is not permitted access to current environment
+          schema:
+            properties:
+              errors:
+                type: array
+                items:
+                  additionalProperties: false
+                  properties:
+                    title:
+                      description: Forbidden
+                      type: string
+                    details:
+                      type: string
+                      examples:
+                        - Resource cannot be created in an inactive environment
+                        - Verification creation API is not enabled
+                        - IP address is not permitted access to current environment
+            type: object
+            additionalProperties: false
+    not-found:
+      description: Not Found
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: Not Found
+              value:
+                errors:
+                  - title: Record not found
+          schema:
+            properties:
+              errors:
+                items:
+                  additionalProperties: false
+                  properties:
+                    title:
+                      examples:
+                        - Record not found
+                      type: string
+                    details:
+                      examples:
+                        - data.attributes.inquiry_id is not found
+                      type: string
+                  type: object
+                type: array
+            type: object
+            additionalProperties: false
+    too-many-requests:
+      description: Too Many Requests
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: Too Many Requests
+              value:
+                errors:
+                  - title: Rate limit exceeded
+                    details: You have hit your rate limit of 300 requests / min. Please reach out to support@withpersona.com if you need this changed.
+          schema:
+            properties:
+              errors:
+                type: array
+                items:
+                  additionalProperties: false
+                  properties:
+                    title:
+                      type: string
+                      examples:
+                        - Rate limit exceeded
+                        - Quota exceeded
+                    details:
+                      type: string
+                      examples:
+                        - You have hit your rate limit of 300 requests / min. Please reach out to support@withpersona.com if you need this changed.
+                        - You have hit your create_verification quota limit of 300 requests. Please reach out to support@withpersona.com if you need this changed.
+            type: object
+            additionalProperties: false
+    conflict:
+      description: Conflict
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: Conflict
+              value:
+                errors:
+                  - title: Conflict
+                    details: Resource already exists as an active resource
+          schema:
+            properties:
+              errors:
+                type: array
+                items:
+                  additionalProperties: false
+                  properties:
+                    title:
+                      description: Conflict
+                      examples:
+                        - Conflict
+                        - Record not unique
+                        - Stale object error
+                      type: string
+                    details:
+                      type: string
+                      examples:
+                        - Name already exists as an active item in list
+                        - Inquiry already redacted
+                        - Record not unique
+                        - Attempted to update a record that was just modified. Please try again.
+                        - data.attributes.inquiry_id does not require verification/email-address
+            type: object
+            additionalProperties: false
+    unprocessable-entity:
+      description: Unprocessable Entity
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: Unprocessable Entity
+              value:
+                errors:
+                  - title: Unprocessable entity
+                    details: Invalid confirmation code
+          schema:
+            properties:
+              errors:
+                type: array
+                items:
+                  additionalProperties: false
+                  properties:
+                    title:
+                      type: string
+                      examples:
+                        - Unprocessable entity
+                        - Record invalid
+                    details:
+                      type: string
+                      examples:
+                        - File must be under 2 bytes
+                        - Selected country code invalid selected country code of ZX
+                        - Invalid confirmation code
+                    source:
+                      type: object
+                      additionalProperties: false
+                      properties:
+                        pointer:
+                          type: string
+                          examples:
+                            - /data/attributes/files
+                            - /data/attributes/selected-country-code
+            type: object
+            additionalProperties: false
+    service-unavailable:
+      description: Service Unavailable
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: Service Unavailable
+              value:
+                errors:
+                  - title: Service unavailable
+          schema:
+            properties:
+              errors:
+                type: array
+                items:
+                  additionalProperties: false
+                  properties:
+                    title:
+                      description: Service unavailable
+                      type: string
+                    details:
+                      type: string
+            type: object
+            additionalProperties: false
+    request-timeout:
+      description: Request Timeout
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: Request Timeout
+              value:
+                errors:
+                  - title: Request Timeout
+                    details: The server timed out waiting for the request
+          schema:
+            properties:
+              errors:
+                type: array
+                items:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    title:
+                      description: Request Timeout
+                      type: string
+                    details:
+                      type: string
+                      examples:
+                        - The server timed out waiting for the request
+                        - Client did not produce a request within the time that the server was prepared to wait
+            type: object
+            additionalProperties: false
+    success:
+      description: 'Return a 2xx status code to indicate that the data was received successfully. Any other status will trigger retries. For more info see [Retry Logic](https://docs.withpersona.com/docs/webhooks#retry-logic).'
   requestBodies:
     api-key-request:
       content:
@@ -31378,7 +31418,7 @@ components:
                           type: string
                         type: array
                       file-access-token-expires-in:
-                        description: How soon any file access tokens returned in API responses expire
+                        description: 'How soon any file access tokens returned in API responses expire. For more info see [Downloading Files](https://docs.withpersona.com/reference/downloading-files).'
                         type: integer
                     type: object
                     additionalProperties: false
