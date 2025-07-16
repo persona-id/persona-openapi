@@ -1,0 +1,39 @@
+content:
+  application/json:
+    schema:
+      required:
+        - data
+      properties:
+        data:
+          required:
+            - attributes
+          properties:
+            attributes:
+              required:
+                - bridge-id
+                - source-id
+              properties:
+                bridge-id:
+                  type: string
+                  description: The ID of the connect organization bridge
+                  examples:
+                    - cnob_ABC123
+                source-id:
+                  type: string
+                  description: The ID of the source resource (Account or Inquiry)
+                  examples:
+                    - act_ABC123
+                    - inq_DEF456
+                expires-in-seconds:
+                  type: integer
+                  description: The number of seconds until the share token expires
+                  minimum: 0
+                  examples:
+                    - 86400
+                    - 3600
+              type: object
+              additionalProperties: false
+          type: object
+          additionalProperties: false
+      type: object
+      additionalProperties: false

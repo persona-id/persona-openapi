@@ -1,0 +1,138 @@
+type: object
+additionalProperties: false
+description: >-
+  A Share Token resource. The specific attributes and relationships included may
+  vary based on the requesting organization's context.
+properties:
+  type:
+    const: connect/share-token
+    description: connect/share-token
+    type: string
+  id:
+    examples:
+      - cnst_ABC123
+    type: string
+  attributes:
+    type: object
+    additionalProperties: false
+    properties:
+      status:
+        type: string
+        description: The status of the share token
+        examples:
+          - new
+          - pending
+          - completed
+          - expired
+      source-id:
+        type: string
+        description: The ID of the source resource being shared (Account or Inquiry)
+        examples:
+          - act_ABC123
+          - inq_DEF456
+      created-at:
+        type: string
+        format: date-time
+        description: When this share token was created
+        examples:
+          - '2023-09-21T18:29:40.000Z'
+      updated-at:
+        type: string
+        format: date-time
+        description: When this share token was last updated
+        examples:
+          - '2023-09-21T18:29:40.000Z'
+      accepted-at:
+        type:
+          - string
+          - 'null'
+        format: date-time
+        description: When this share token was accepted
+        examples:
+          - '2023-09-21T18:30:15.000Z'
+          - null
+      completed-at:
+        type:
+          - string
+          - 'null'
+        format: date-time
+        description: When this share token was completed
+        examples:
+          - '2023-09-21T18:35:20.000Z'
+          - null
+      expires-at:
+        type:
+          - string
+          - 'null'
+        format: date-time
+        description: When this share token expires
+        examples:
+          - '2023-09-22T18:29:40.000Z'
+          - null
+      expired-at:
+        type:
+          - string
+          - 'null'
+        format: date-time
+        description: When this share token expired
+        examples:
+          - '2023-09-22T18:29:40.000Z'
+          - null
+  relationships:
+    type: object
+    additionalProperties: false
+    properties:
+      connect-organization-bridge:
+        type: object
+        additionalProperties: false
+        properties:
+          data:
+            type: object
+            additionalProperties: false
+            properties:
+              type:
+                type: string
+                const: connect/organization-bridge
+                description: connect/organization-bridge
+              id:
+                type: string
+                examples:
+                  - cnob_ABC123
+      creator:
+        type: object
+        additionalProperties: false
+        properties:
+          data:
+            type: object
+            additionalProperties: false
+            properties:
+              type:
+                type: string
+                x-polymorphic: true
+                examples:
+                  - user
+                  - api-key
+              id:
+                type: string
+                examples:
+                  - user_ABC123
+                  - api_DEF456
+      source:
+        type: object
+        additionalProperties: false
+        properties:
+          data:
+            type: object
+            additionalProperties: false
+            properties:
+              type:
+                type: string
+                x-polymorphic: true
+                examples:
+                  - account
+                  - inquiry
+              id:
+                type: string
+                examples:
+                  - act_ABC123
+                  - inq_DEF456

@@ -1,0 +1,128 @@
+get:
+  description: >-
+    Returns a list of your organization's share tokens. Results are returned in
+    reverse chronological order, with the most recently created objects first.
+  operationId: list-all-share-tokens
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: >-
+      https://docs.withpersona.com/api-reference/share-tokens/list-all-share-tokens
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/pagination-query-params.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+    - in: query
+      name: filter
+      style: deepObject
+      explode: true
+      schema:
+        type: object
+        additionalProperties: false
+        properties:
+          bridge-id:
+            description: Filter share tokens by connect organization bridge ID
+            type: string
+            examples:
+              - cnob_ABC123
+          status:
+            description: Filter share tokens by status
+            type: string
+            examples:
+              - new
+              - pending
+              - completed
+              - expired
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              $ref: ../components/examples/connect-share-token-list.yaml
+          schema:
+            type: object
+            additionalProperties: false
+            properties:
+              data:
+                items:
+                  $ref: ../components/schemas/connect-share-token.yaml
+                type: array
+                description: An array of Share Tokens
+              links:
+                properties:
+                  next:
+                    type:
+                      - string
+                      - 'null'
+                  prev:
+                    type:
+                      - string
+                      - 'null'
+                type: object
+                additionalProperties: false
+              included:
+                $ref: ../components/schemas/empty-included-objects.yaml
+      description: OK
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: List all share tokens
+  tags:
+    - Share Tokens
+  x-persona-product: Share Tokens
+post:
+  description: Creates a new share token with the specified bridge and source.
+  operationId: create-a-share-token
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: >-
+      https://docs.withpersona.com/api-reference/share-tokens/create-a-share-token
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+  requestBody:
+    $ref: ../components/requestBodies/share-token-request.yaml
+  responses:
+    '201':
+      content:
+        application/json:
+          examples:
+            Result:
+              summary: OK
+              $ref: ../components/examples/connect-share-token.yaml
+          schema:
+            type: object
+            additionalProperties: false
+            properties:
+              data:
+                $ref: ../components/schemas/connect-share-token.yaml
+              included:
+                $ref: ../components/schemas/empty-included-objects.yaml
+      description: Created
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Create a share token
+  tags:
+    - Share Tokens
+  x-persona-product: Share Tokens
