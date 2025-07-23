@@ -116,7 +116,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/account-list'
               schema:
                 properties:
@@ -145,7 +144,7 @@ paths:
                     type: object
                 additionalProperties: false
                 type: object
-          description: OK
+          description: This endpoint returns a collection of Account objects.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -297,25 +296,26 @@ paths:
               type: object
       responses:
         '200':
-          description: OK
+          description: This endpoint returns an Account object and (optionally) its related objects in `included`.
           content:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/account'
               schema:
-                type: object
-                additionalProperties: false
                 properties:
                   data:
                     $ref: '#/components/schemas/account'
+                  included:
+                    description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
+                    $ref: '#/components/schemas/accounts-included-objects'
+                additionalProperties: false
+                type: object
         '201':
           content:
             application/json:
               examples:
                 Result:
-                  summary: Created
                   $ref: '#/components/examples/account'
               schema:
                 properties:
@@ -323,7 +323,7 @@ paths:
                     $ref: '#/components/schemas/account'
                 type: object
                 additionalProperties: false
-          description: Created
+          description: This endpoint returns an Account object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -369,7 +369,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/account'
               schema:
                 properties:
@@ -380,7 +379,7 @@ paths:
                     $ref: '#/components/schemas/accounts-included-objects'
                 additionalProperties: false
                 type: object
-          description: OK
+          description: This endpoint returns an Account object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -458,7 +457,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/account'
               schema:
                 properties:
@@ -469,7 +467,7 @@ paths:
                     $ref: '#/components/schemas/accounts-included-objects'
                 additionalProperties: false
                 type: object
-          description: OK
+          description: This endpoint returns an Account object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -626,7 +624,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/account'
               schema:
                 properties:
@@ -637,7 +634,7 @@ paths:
                     $ref: '#/components/schemas/accounts-included-objects'
                 additionalProperties: false
                 type: object
-          description: OK
+          description: This endpoint returns an Account object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -706,9 +703,8 @@ paths:
                 type: object
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/account'
-          description: OK
+          description: This endpoint returns an Account object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -773,7 +769,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: Accepted
                   $ref: '#/components/examples/account'
               schema:
                 properties:
@@ -784,7 +779,7 @@ paths:
                     $ref: '#/components/schemas/accounts-included-objects'
                 additionalProperties: false
                 type: object
-          description: Accepted
+          description: This endpoint returns an Account object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -853,9 +848,8 @@ paths:
                 type: object
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/account'
-          description: OK
+          description: This endpoint returns an Account object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -928,9 +922,8 @@ paths:
                 type: object
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/account'
-          description: OK
+          description: This endpoint returns an Account object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -979,7 +972,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/api-key-list'
               schema:
                 type: object
@@ -1004,7 +996,7 @@ paths:
                     additionalProperties: false
                   included:
                     $ref: '#/components/schemas/empty-included-objects'
-          description: OK
+          description: This endpoint returns a collection of API key objects.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -1037,7 +1029,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/api-key-with-value'
               schema:
                 type: object
@@ -1047,7 +1038,7 @@ paths:
                     $ref: '#/components/schemas/api-key-with-value'
                   included:
                     $ref: '#/components/schemas/empty-included-objects'
-          description: Created
+          description: This endpoint returns an API key object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -1089,7 +1080,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/api-key-with-value'
               schema:
                 type: object
@@ -1099,7 +1089,7 @@ paths:
                     $ref: '#/components/schemas/api-key-with-value'
                   included:
                     $ref: '#/components/schemas/empty-included-objects'
-          description: OK
+          description: This endpoint returns an API key object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -1138,7 +1128,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/api-key'
               schema:
                 type: object
@@ -1148,7 +1137,7 @@ paths:
                     $ref: '#/components/schemas/api-key'
                   included:
                     $ref: '#/components/schemas/empty-included-objects'
-          description: OK
+          description: This endpoint returns an API key object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -1208,7 +1197,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/api-key'
               schema:
                 type: object
@@ -1218,7 +1206,7 @@ paths:
                     $ref: '#/components/schemas/api-key'
                   included:
                     $ref: '#/components/schemas/empty-included-objects'
-          description: OK
+          description: This endpoint returns an API key object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -1255,12 +1243,11 @@ paths:
         - $ref: '#/components/parameters/fields-query-parameter'
       responses:
         '200':
-          description: OK.
+          description: This endpoint returns an API key object.
           content:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/api-key-with-value'
               schema:
                 type: object
@@ -1307,7 +1294,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/api-log-list'
               schema:
                 properties:
@@ -1336,7 +1322,7 @@ paths:
                     $ref: '#/components/schemas/empty-included-objects'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a collection of API log objects.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -1375,7 +1361,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/api-log'
               schema:
                 properties:
@@ -1385,7 +1370,7 @@ paths:
                     $ref: '#/components/schemas/empty-included-objects'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns an API log object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -1460,7 +1445,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   value:
                     data:
                       - type: case
@@ -1541,7 +1525,7 @@ paths:
                     additionalProperties: false
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a collection of Case objects.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -1619,7 +1603,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: Created
                   value:
                     data:
                       type: case
@@ -1685,7 +1668,7 @@ paths:
                     $ref: '#/components/schemas/cases-included-objects'
                 type: object
                 additionalProperties: false
-          description: Created
+          description: This endpoint returns a Case object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -1789,7 +1772,7 @@ paths:
                     $ref: '#/components/schemas/cases-included-objects'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a Case object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -1831,7 +1814,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   value:
                     data:
                       type: case
@@ -1903,7 +1885,7 @@ paths:
                     $ref: '#/components/schemas/cases-included-objects'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a Case object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -1990,7 +1972,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   value:
                     data:
                       type: case
@@ -2059,7 +2040,7 @@ paths:
                     $ref: '#/components/schemas/cases-included-objects'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a Case object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -2121,7 +2102,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   value:
                     data:
                       type: case
@@ -2182,7 +2162,7 @@ paths:
                     $ref: '#/components/schemas/cases-included-objects'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a Case object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -2244,7 +2224,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   value:
                     data:
                       type: case
@@ -2305,7 +2284,7 @@ paths:
                     $ref: '#/components/schemas/cases-included-objects'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a Case object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -2370,7 +2349,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   value:
                     data:
                       type: case
@@ -2431,7 +2409,7 @@ paths:
                     $ref: '#/components/schemas/cases-included-objects'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a Case object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -2553,7 +2531,7 @@ paths:
                     $ref: '#/components/schemas/cases-included-objects'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a Case object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -2674,7 +2652,7 @@ paths:
                     $ref: '#/components/schemas/cases-included-objects'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a Case object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -2801,7 +2779,7 @@ paths:
                     $ref: '#/components/schemas/cases-included-objects'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a Case object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -2852,7 +2830,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/device-list'
               schema:
                 type: object
@@ -2880,7 +2857,7 @@ paths:
                           - /api/v1/devices?page%5Bafter%5D=dev_ABC123
                   included:
                     $ref: '#/components/schemas/empty-included-objects'
-          description: OK
+          description: This endpoint returns a collection of Device objects.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -2918,7 +2895,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/device'
               schema:
                 properties:
@@ -2928,7 +2904,7 @@ paths:
                     $ref: '#/components/schemas/empty-included-objects'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a Device object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -3011,7 +2987,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: Created
                   $ref: '#/components/examples/document-generic'
               schema:
                 properties:
@@ -3021,7 +2996,7 @@ paths:
                     $ref: '#/components/schemas/document-included-objects'
                 type: object
                 additionalProperties: false
-          description: Created
+          description: This endpoint returns a Generic Document object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -3064,7 +3039,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/document-generic'
               schema:
                 properties:
@@ -3074,7 +3048,7 @@ paths:
                     $ref: '#/components/schemas/document-included-objects'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a Generic Document object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -3145,7 +3119,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/document-generic'
               schema:
                 properties:
@@ -3155,7 +3128,7 @@ paths:
                     $ref: '#/components/schemas/document-included-objects'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a Generic Document object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -3198,7 +3171,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/document-generic'
               schema:
                 properties:
@@ -3208,7 +3180,7 @@ paths:
                     $ref: '#/components/schemas/document-included-objects'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a Generic Document object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -3325,7 +3297,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: Created
                   $ref: '#/components/examples/document-government-id'
               schema:
                 properties:
@@ -3333,7 +3304,7 @@ paths:
                     $ref: '#/components/schemas/document-government-id'
                 type: object
                 additionalProperties: false
-          description: Created
+          description: This endpoint returns a Government ID Document object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -3376,7 +3347,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/document-government-id'
               schema:
                 properties:
@@ -3386,7 +3356,7 @@ paths:
                     $ref: '#/components/schemas/document-included-objects'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a Government ID Document object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -3497,7 +3467,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/document-government-id'
               schema:
                 properties:
@@ -3505,7 +3474,7 @@ paths:
                     $ref: '#/components/schemas/document-government-id'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a Government ID Document object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -3548,7 +3517,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/document-government-id'
               schema:
                 properties:
@@ -3556,7 +3524,7 @@ paths:
                     $ref: '#/components/schemas/document-government-id'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a Government ID Document object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -3599,7 +3567,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/document-generic'
               schema:
                 type: object
@@ -3609,7 +3576,7 @@ paths:
                     $ref: '#/components/schemas/document'
                   included:
                     $ref: '#/components/schemas/document-included-objects'
-          description: OK
+          description: This endpoint returns a Document object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -3660,7 +3627,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   value:
                     data:
                       - type: event
@@ -3713,7 +3679,7 @@ paths:
                     $ref: '#/components/schemas/empty-included-objects'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a collection of Event objects.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -3750,7 +3716,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   value:
                     data:
                       type: event
@@ -3771,7 +3736,7 @@ paths:
                     $ref: '#/components/schemas/empty-included-objects'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns an Event object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -3805,7 +3770,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   value:
                     data:
                       - type: importer/account
@@ -3857,7 +3821,7 @@ paths:
                     $ref: '#/components/schemas/empty-included-objects'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns an Importer object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -3895,7 +3859,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   value:
                     data:
                       type: importer/account
@@ -3916,7 +3879,7 @@ paths:
                     $ref: '#/components/schemas/importer'
                   included:
                     $ref: '#/components/schemas/empty-included-objects'
-          description: OK
+          description: This endpoint returns an Importer object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -4014,7 +3977,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: Created
                   value:
                     data:
                       type: importer/account
@@ -4032,7 +3994,7 @@ paths:
                     $ref: '#/components/schemas/importer-account'
                 type: object
                 additionalProperties: false
-          description: Created
+          description: This endpoint returns an Importer object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -4077,7 +4039,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: Created
                   value:
                     data:
                       type: importer/list-item/email-address
@@ -4095,7 +4056,7 @@ paths:
                     $ref: '#/components/schemas/importer-list-item-email-address'
                 type: object
                 additionalProperties: false
-          description: Created
+          description: This endpoint returns an Importer object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -4139,7 +4100,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: Created
                   value:
                     data:
                       type: importer/list-item/geolocation
@@ -4157,7 +4117,7 @@ paths:
                     $ref: '#/components/schemas/importer-list-item-geolocation'
                 type: object
                 additionalProperties: false
-          description: Created
+          description: This endpoint returns an Importer object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -4202,7 +4162,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: Created
                   value:
                     data:
                       type: importer/list-item/government-id-number
@@ -4220,7 +4179,7 @@ paths:
                     $ref: '#/components/schemas/importer-list-item-government-id-number'
                 type: object
                 additionalProperties: false
-          description: Created
+          description: This endpoint returns an Importer object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -4264,7 +4223,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: Created
                   value:
                     data:
                       type: importer/list-item/ip-address
@@ -4282,7 +4240,7 @@ paths:
                     $ref: '#/components/schemas/importer-list-item-ip-address'
                 type: object
                 additionalProperties: false
-          description: Created
+          description: This endpoint returns an Importer object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -4325,7 +4283,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: Created
                   value:
                     data:
                       type: importer/list-item/name
@@ -4343,7 +4300,7 @@ paths:
                     $ref: '#/components/schemas/importer-list-item-name'
                 type: object
                 additionalProperties: false
-          description: Created
+          description: This endpoint returns an Importer object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -4385,7 +4342,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: Created
                   value:
                     data:
                       type: importer/list-item/phone-number
@@ -4403,7 +4359,7 @@ paths:
                     $ref: '#/components/schemas/importer-list-item-phone-number'
                 type: object
                 additionalProperties: false
-          description: Created
+          description: This endpoint returns an Importer object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -4544,7 +4500,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/inquiry-list'
               schema:
                 properties:
@@ -4573,7 +4528,7 @@ paths:
                     type: object
                 additionalProperties: false
                 type: object
-          description: OK
+          description: This endpoint returns a collection of Inquiry objects.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -4767,7 +4722,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: Created
                   $ref: '#/components/examples/inquiry'
               schema:
                 properties:
@@ -4778,7 +4732,7 @@ paths:
                     $ref: '#/components/schemas/inquiry-included-objects'
                 additionalProperties: false
                 type: object
-          description: Created
+          description: This endpoint returns an Inquiry object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -4824,7 +4778,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/inquiry'
               schema:
                 properties:
@@ -4835,7 +4788,7 @@ paths:
                     $ref: '#/components/schemas/inquiry-included-objects'
                 additionalProperties: false
                 type: object
-          description: OK
+          description: This endpoint returns an Inquiry object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -4882,7 +4835,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/inquiry-retrieve'
               schema:
                 properties:
@@ -4902,7 +4854,7 @@ paths:
                     $ref: '#/components/schemas/inquiry-included-objects'
                 additionalProperties: false
                 type: object
-          description: OK
+          description: This endpoint returns an Inquiry object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -4978,7 +4930,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/inquiry'
               schema:
                 properties:
@@ -4989,7 +4940,7 @@ paths:
                     $ref: '#/components/schemas/inquiry-included-objects'
                 additionalProperties: false
                 type: object
-          description: OK
+          description: This endpoint returns an Inquiry object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -5034,7 +4985,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/inquiry'
               schema:
                 properties:
@@ -5045,7 +4995,7 @@ paths:
                     $ref: '#/components/schemas/inquiry-included-objects'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns an Inquiry object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -5095,7 +5045,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/inquiry'
               schema:
                 properties:
@@ -5106,7 +5055,7 @@ paths:
                     $ref: '#/components/schemas/inquiry-included-objects'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns an Inquiry object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -5156,7 +5105,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/inquiry'
               schema:
                 properties:
@@ -5167,7 +5115,7 @@ paths:
                     $ref: '#/components/schemas/inquiry-included-objects'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns an Inquiry object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -5216,7 +5164,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/inquiry'
               schema:
                 properties:
@@ -5227,7 +5174,7 @@ paths:
                     $ref: '#/components/schemas/inquiry-included-objects'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns an Inquiry object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -5273,7 +5220,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/inquiry'
               schema:
                 properties:
@@ -5284,7 +5230,7 @@ paths:
                     $ref: '#/components/schemas/inquiry-included-objects'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns an Inquiry object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -5345,7 +5291,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/inquiry-one-time-link'
               schema:
                 properties:
@@ -5368,7 +5313,7 @@ paths:
                     type: object
                 additionalProperties: false
                 type: object
-          description: OK
+          description: This endpoint returns an Inquiry object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -5405,7 +5350,7 @@ paths:
             type: string
       responses:
         '200':
-          description: OK
+          description: This endpoint returns a PDF for the Inquiry object.
           content:
             application/pdf:
               schema:
@@ -5453,7 +5398,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/inquiry'
               schema:
                 properties:
@@ -5464,7 +5408,7 @@ paths:
                     $ref: '#/components/schemas/inquiry-included-objects'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns an Inquiry object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -5511,7 +5455,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/inquiry-resume'
               schema:
                 properties:
@@ -5530,7 +5473,7 @@ paths:
                     type: object
                 additionalProperties: false
                 type: object
-          description: OK
+          description: This endpoint returns an Inquiry object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -5596,7 +5539,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/inquiry'
               schema:
                 properties:
@@ -5607,7 +5549,7 @@ paths:
                     $ref: '#/components/schemas/inquiry-included-objects'
                 additionalProperties: false
                 type: object
-          description: OK
+          description: This endpoint returns an Inquiry object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -5683,7 +5625,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/inquiry'
               schema:
                 properties:
@@ -5694,7 +5635,7 @@ paths:
                     $ref: '#/components/schemas/inquiry-included-objects'
                 additionalProperties: false
                 type: object
-          description: OK
+          description: This endpoint returns an Inquiry object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -5742,7 +5683,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   value:
                     data:
                       - type: inquiry-session
@@ -5813,7 +5753,7 @@ paths:
                           - 'null'
                         examples:
                           - /api/v1/inquiry-sessions?page%5Bafter%5D=iqse_ABC123
-          description: OK
+          description: This endpoint returns a collection of Inquiry Session objects.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -5864,7 +5804,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: Created
                   $ref: '#/components/examples/inquiry-session'
               schema:
                 properties:
@@ -5875,7 +5814,7 @@ paths:
                     $ref: '#/components/schemas/inquiry-sessions-included-objects'
                 type: object
                 additionalProperties: false
-          description: Created
+          description: This endpoint returns an Inquiry Session object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -5930,7 +5869,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   value:
                     data:
                       - type: inquiry-session
@@ -5982,7 +5920,7 @@ paths:
                   included:
                     description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
                     $ref: '#/components/schemas/inquiry-sessions-included-objects'
-          description: OK
+          description: This endpoint returns an Inquiry Session object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -6024,7 +5962,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/inquiry-session'
               schema:
                 properties:
@@ -6035,7 +5972,7 @@ paths:
                     $ref: '#/components/schemas/inquiry-sessions-included-objects'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns an Inquiry Session object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -6074,7 +6011,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/inquiry-session'
               schema:
                 properties:
@@ -6085,7 +6021,7 @@ paths:
                     $ref: '#/components/schemas/inquiry-sessions-included-objects'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns an Inquiry Session object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -6128,7 +6064,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   value:
                     data:
                       type: inquiry-session
@@ -6189,7 +6124,7 @@ paths:
                     $ref: '#/components/schemas/inquiry-sessions-included-objects'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns an Inquiry Session object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -6226,12 +6161,11 @@ paths:
         - $ref: '#/components/parameters/fields-query-parameter'
       responses:
         '200':
-          description: OK
+          description: This endpoint returns a collection of Inquiry Template objects.
           content:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/inquiry-template-list'
               schema:
                 type: object
@@ -6294,12 +6228,11 @@ paths:
             type: string
       responses:
         '200':
-          description: OK
+          description: This endpoint returns an Inquiry Template object.
           content:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/inquiry-template'
               schema:
                 type: object
@@ -6361,7 +6294,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: Created
                   $ref: '#/components/examples/list-item-browser-fingerprint'
               schema:
                 properties:
@@ -6369,7 +6301,7 @@ paths:
                     $ref: '#/components/schemas/list-item-browser-fingerprint'
                 type: object
                 additionalProperties: false
-          description: Created
+          description: This endpoint returns the created List Item object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -6413,7 +6345,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/list-item-browser-fingerprint'
               schema:
                 properties:
@@ -6421,7 +6352,7 @@ paths:
                     $ref: '#/components/schemas/list-item-browser-fingerprint'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a List Item object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -6464,7 +6395,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/list-item-browser-fingerprint-archived'
               schema:
                 properties:
@@ -6472,7 +6402,7 @@ paths:
                     $ref: '#/components/schemas/list-item-browser-fingerprint'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a List Item object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -6531,7 +6461,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: Created
                   $ref: '#/components/examples/list-item-country'
               schema:
                 properties:
@@ -6539,7 +6468,7 @@ paths:
                     $ref: '#/components/schemas/list-item-country'
                 type: object
                 additionalProperties: false
-          description: Created
+          description: This endpoint returns the created List Item object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -6583,7 +6512,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/list-item-country'
               schema:
                 properties:
@@ -6591,7 +6519,7 @@ paths:
                     $ref: '#/components/schemas/list-item-country'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a List Item object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -6634,7 +6562,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/list-item-country-archived'
               schema:
                 properties:
@@ -6642,7 +6569,7 @@ paths:
                     $ref: '#/components/schemas/list-item-country'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a List Item object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -6701,7 +6628,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: Created
                   $ref: '#/components/examples/list-item-device-fingerprint'
               schema:
                 properties:
@@ -6709,7 +6635,7 @@ paths:
                     $ref: '#/components/schemas/list-item-device-fingerprint'
                 type: object
                 additionalProperties: false
-          description: Created
+          description: This endpoint returns the created List Item object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -6753,7 +6679,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/list-item-device-fingerprint'
               schema:
                 properties:
@@ -6761,7 +6686,7 @@ paths:
                     $ref: '#/components/schemas/list-item-device-fingerprint'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a List Item object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -6804,7 +6729,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/list-item-device-fingerprint-archived'
               schema:
                 properties:
@@ -6812,7 +6736,7 @@ paths:
                     $ref: '#/components/schemas/list-item-device-fingerprint'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a List Item object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -6874,7 +6798,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: Created
                   $ref: '#/components/examples/list-item-email-address'
               schema:
                 properties:
@@ -6882,7 +6805,7 @@ paths:
                     $ref: '#/components/schemas/list-item-email-address'
                 type: object
                 additionalProperties: false
-          description: Created
+          description: This endpoint returns the created List Item object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -6926,7 +6849,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/list-item-email-address'
               schema:
                 properties:
@@ -6934,7 +6856,7 @@ paths:
                     $ref: '#/components/schemas/list-item-email-address'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a List Item object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -6977,7 +6899,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/list-item-email-address-archived'
               schema:
                 properties:
@@ -6985,7 +6906,7 @@ paths:
                     $ref: '#/components/schemas/list-item-email-address'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a List Item object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -7044,7 +6965,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: Created
                   $ref: '#/components/examples/list-item-field'
               schema:
                 properties:
@@ -7052,7 +6972,7 @@ paths:
                     $ref: '#/components/schemas/list-item-field'
                 type: object
                 additionalProperties: false
-          description: Created
+          description: This endpoint returns the created List Item object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -7096,7 +7016,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/list-item-field'
               schema:
                 properties:
@@ -7104,7 +7023,7 @@ paths:
                     $ref: '#/components/schemas/list-item-field'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a List Item object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -7147,7 +7066,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/list-item-field-archived'
               schema:
                 properties:
@@ -7155,7 +7073,7 @@ paths:
                     $ref: '#/components/schemas/list-item-field'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a List Item object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -7223,7 +7141,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: Created
                   $ref: '#/components/examples/list-item-geolocation'
               schema:
                 properties:
@@ -7231,7 +7148,7 @@ paths:
                     $ref: '#/components/schemas/list-item-geolocation'
                 type: object
                 additionalProperties: false
-          description: Created
+          description: This endpoint returns the created List Item object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -7275,7 +7192,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/list-item-geolocation'
               schema:
                 properties:
@@ -7283,7 +7199,7 @@ paths:
                     $ref: '#/components/schemas/list-item-geolocation'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a List Item object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -7326,7 +7242,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/list-item-geolocation-archived'
               schema:
                 properties:
@@ -7334,7 +7249,7 @@ paths:
                     $ref: '#/components/schemas/list-item-geolocation'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a List Item object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -7396,7 +7311,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: Created
                   $ref: '#/components/examples/list-item-government-id-number'
               schema:
                 properties:
@@ -7404,7 +7318,7 @@ paths:
                     $ref: '#/components/schemas/list-item-government-id-number'
                 type: object
                 additionalProperties: false
-          description: Created
+          description: This endpoint returns the created List Item object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -7448,7 +7362,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/list-item-government-id-number'
               schema:
                 properties:
@@ -7456,7 +7369,7 @@ paths:
                     $ref: '#/components/schemas/list-item-government-id-number'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a List Item object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -7499,7 +7412,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/list-item-government-id-number-archived'
               schema:
                 properties:
@@ -7507,7 +7419,7 @@ paths:
                     $ref: '#/components/schemas/list-item-government-id-number'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a List Item object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -7566,7 +7478,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: Created
                   $ref: '#/components/examples/list-item-ip-address'
               schema:
                 properties:
@@ -7574,7 +7485,7 @@ paths:
                     $ref: '#/components/schemas/list-item-ip-address'
                 type: object
                 additionalProperties: false
-          description: Created
+          description: This endpoint returns the created List Item object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -7618,7 +7529,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/list-item-ip-address'
               schema:
                 properties:
@@ -7626,7 +7536,7 @@ paths:
                     $ref: '#/components/schemas/list-item-ip-address'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a List Item object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -7669,7 +7579,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/list-item-ip-address-archived'
               schema:
                 properties:
@@ -7677,7 +7586,7 @@ paths:
                     $ref: '#/components/schemas/list-item-ip-address'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a List Item object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -7739,7 +7648,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: Created
                   $ref: '#/components/examples/list-item-name'
               schema:
                 properties:
@@ -7747,7 +7655,7 @@ paths:
                     $ref: '#/components/schemas/list-item-name'
                 type: object
                 additionalProperties: false
-          description: Created
+          description: This endpoint returns the created List Item object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -7791,7 +7699,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/list-item-name'
               schema:
                 properties:
@@ -7799,7 +7706,7 @@ paths:
                     $ref: '#/components/schemas/list-item-name'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a List Item object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -7842,7 +7749,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/list-item-name-archived'
               schema:
                 properties:
@@ -7850,7 +7756,7 @@ paths:
                     $ref: '#/components/schemas/list-item-name'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a List Item object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -7909,7 +7815,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: Created
                   $ref: '#/components/examples/list-item-phone-number'
               schema:
                 properties:
@@ -7917,7 +7822,7 @@ paths:
                     $ref: '#/components/schemas/list-item-phone-number'
                 type: object
                 additionalProperties: false
-          description: Created
+          description: This endpoint returns the created List Item object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -7961,7 +7866,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/list-item-phone-number'
               schema:
                 properties:
@@ -7969,7 +7873,7 @@ paths:
                     $ref: '#/components/schemas/list-item-phone-number'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a List Item object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -8012,7 +7916,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/list-item-phone-number-archived'
               schema:
                 properties:
@@ -8020,7 +7923,7 @@ paths:
                     $ref: '#/components/schemas/list-item-phone-number'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a List Item object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -8079,7 +7982,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: Created
                   $ref: '#/components/examples/list-item-string'
               schema:
                 properties:
@@ -8087,7 +7989,7 @@ paths:
                     $ref: '#/components/schemas/list-item-string'
                 type: object
                 additionalProperties: false
-          description: Created
+          description: This endpoint returns the created List Item object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -8131,7 +8033,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/list-item-string'
               schema:
                 properties:
@@ -8139,7 +8040,7 @@ paths:
                     $ref: '#/components/schemas/list-item-string'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a List Item object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -8182,7 +8083,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/list-item-string-archived'
               schema:
                 properties:
@@ -8190,7 +8090,7 @@ paths:
                     $ref: '#/components/schemas/list-item-string'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a List Item object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -8253,7 +8153,7 @@ paths:
                       name: My New List
       responses:
         '201':
-          description: Created
+          description: This endpoint returns the created List object.
           content:
             application/json:
               schema:
@@ -8264,7 +8164,6 @@ paths:
                 additionalProperties: false
               examples:
                 Result:
-                  summary: Created
                   value:
                     data:
                       type: list/browser-fingerprint
@@ -8334,7 +8233,7 @@ paths:
                       name: My New List
       responses:
         '201':
-          description: Created
+          description: This endpoint returns the created List object.
           content:
             application/json:
               schema:
@@ -8345,7 +8244,6 @@ paths:
                 additionalProperties: false
               examples:
                 Result:
-                  summary: Created
                   value:
                     data:
                       type: list/country
@@ -8415,7 +8313,7 @@ paths:
                       name: My New List
       responses:
         '201':
-          description: Created
+          description: This endpoint returns the created List object.
           content:
             application/json:
               schema:
@@ -8426,7 +8324,6 @@ paths:
                 additionalProperties: false
               examples:
                 Result:
-                  summary: Created
                   value:
                     data:
                       type: list/email-address
@@ -8496,7 +8393,7 @@ paths:
                       name: My New List
       responses:
         '201':
-          description: Created
+          description: This endpoint returns the created List object.
           content:
             application/json:
               schema:
@@ -8507,7 +8404,6 @@ paths:
                 additionalProperties: false
               examples:
                 Result:
-                  summary: Created
                   value:
                     data:
                       type: list/geolocation
@@ -8577,7 +8473,7 @@ paths:
                       name: My New List
       responses:
         '201':
-          description: Created
+          description: This endpoint returns the created List object.
           content:
             application/json:
               schema:
@@ -8588,7 +8484,6 @@ paths:
                 additionalProperties: false
               examples:
                 Result:
-                  summary: Created
                   value:
                     data:
                       type: list/government-id-number
@@ -8658,7 +8553,7 @@ paths:
                       name: My New List
       responses:
         '201':
-          description: Created
+          description: This endpoint returns the created List object.
           content:
             application/json:
               schema:
@@ -8669,7 +8564,6 @@ paths:
                 additionalProperties: false
               examples:
                 Result:
-                  summary: Created
                   value:
                     data:
                       type: list/ip-address
@@ -8743,7 +8637,7 @@ paths:
                       allow-fuzzy-name-first: true
       responses:
         '201':
-          description: Created
+          description: This endpoint returns the created List object.
           content:
             application/json:
               schema:
@@ -8754,7 +8648,6 @@ paths:
                 additionalProperties: false
               examples:
                 Result:
-                  summary: Created
                   value:
                     data:
                       type: list/name
@@ -8824,7 +8717,7 @@ paths:
                       name: My New List
       responses:
         '201':
-          description: Created
+          description: This endpoint returns the created List object.
           content:
             application/json:
               schema:
@@ -8835,7 +8728,6 @@ paths:
                 additionalProperties: false
               examples:
                 Result:
-                  summary: Created
                   value:
                     data:
                       type: list/phone-number
@@ -8902,7 +8794,7 @@ paths:
                 properties:
                   data:
                     type: array
-                    description: An array of Events
+                    description: An array of Lists
                     items:
                       $ref: '#/components/schemas/list'
                   links:
@@ -8921,7 +8813,6 @@ paths:
                         description: 'URL pointing to the next page of data, or null if on the last page.'
               examples:
                 Result:
-                  summary: OK
                   value:
                     data:
                       - type: list/phone-number
@@ -8938,7 +8829,7 @@ paths:
                     links:
                       prev: null
                       next: /api/v1/lists?page%5Bafter%5D=lst_3DS1z7bME8vWqqxmdCDqHwLm
-          description: OK
+          description: This endpoint returns a collection List objects.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -8974,7 +8865,7 @@ paths:
             type: string
       responses:
         '200':
-          description: OK
+          description: This endpoint returns a List object.
           content:
             application/json:
               schema:
@@ -8985,7 +8876,6 @@ paths:
                 additionalProperties: false
               examples:
                 Result:
-                  summary: OK
                   value:
                     data:
                       type: list/phone-number
@@ -9037,7 +8927,7 @@ paths:
             type: string
       responses:
         '200':
-          description: OK
+          description: This endpoint returns a List object.
           content:
             application/json:
               schema:
@@ -9048,7 +8938,6 @@ paths:
                 additionalProperties: false
               examples:
                 Result:
-                  summary: OK
                   value:
                     data:
                       type: list/phone-number
@@ -9110,7 +8999,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: Created
                   value:
                     code: 8qaA6Q9GQnPjqiWB8BPed9MC6twE
                     expires-in: 599
@@ -9129,7 +9017,7 @@ paths:
                     type: integer
                 type: object
                 additionalProperties: false
-          description: Created
+          description: This endpoint returns an Authorization Code.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -9182,7 +9070,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: Created
                   value:
                     access-token: persona_access_token_d8b7f084-385f-4ff0-930e-1580ccefa16d
                     token-type: bearer
@@ -9212,7 +9099,7 @@ paths:
                     type: string
                 type: object
                 additionalProperties: false
-          description: Created
+          description: This endpoint returns an Access Token.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -9284,7 +9171,6 @@ paths:
                           - 'null'
               examples:
                 Result:
-                  summary: OK
                   value:
                     data:
                       - type: report/address-lookup
@@ -9316,7 +9202,7 @@ paths:
                     links:
                       prev: null
                       next: /api/v1/reports?page%5Bafter%5D=rep_u2Dgz8U3CmxTVgqEH9qzezHi
-          description: OK
+          description: This endpoint returns a collection of Report objects.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -9401,7 +9287,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: Created
                   $ref: '#/components/examples/report-watchlist'
               schema:
                 type: object
@@ -9412,7 +9297,7 @@ paths:
                   included:
                     description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
                     $ref: '#/components/schemas/reports-included-objects'
-          description: Created
+          description: This endpoint returns a Report object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -9462,7 +9347,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: Created
                   $ref: '#/components/examples/report-watchlist'
               schema:
                 type: object
@@ -9473,7 +9357,7 @@ paths:
                   included:
                     description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
                     $ref: '#/components/schemas/reports-included-objects'
-          description: OK
+          description: This endpoint returns a Report object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -9515,7 +9399,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: Created
                   $ref: '#/components/examples/report-watchlist'
               schema:
                 properties:
@@ -9531,7 +9414,7 @@ paths:
                     $ref: '#/components/schemas/reports-included-objects'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a Report object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -9587,7 +9470,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   value:
                     data:
                       type: report/watchlist
@@ -9618,7 +9500,7 @@ paths:
                   included:
                     description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
                     $ref: '#/components/schemas/reports-included-objects'
-          description: OK
+          description: This endpoint returns a Report object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -9690,7 +9572,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   value:
                     data:
                       type: report/watchlist
@@ -9721,7 +9602,7 @@ paths:
                   included:
                     description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
                     $ref: '#/components/schemas/reports-included-objects'
-          description: OK
+          description: This endpoint returns a Report object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -9764,7 +9645,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   value:
                     data:
                       type: report/watchlist
@@ -9795,7 +9675,7 @@ paths:
                   included:
                     description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
                     $ref: '#/components/schemas/reports-included-objects'
-          description: OK
+          description: This endpoint returns a Report object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -9832,7 +9712,7 @@ paths:
             type: string
       responses:
         '200':
-          description: OK
+          description: This endpoint returns a PDF of a Report object.
           content:
             application/pdf:
               schema:
@@ -9895,7 +9775,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   value:
                     data:
                       type: report/watchlist
@@ -9926,7 +9805,7 @@ paths:
                   included:
                     description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
                     $ref: '#/components/schemas/reports-included-objects'
-          description: OK
+          description: This endpoint returns a Report object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -9969,7 +9848,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   value:
                     data:
                       type: report/watchlist
@@ -10000,7 +9878,7 @@ paths:
                   included:
                     description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
                     $ref: '#/components/schemas/reports-included-objects'
-          description: OK
+          description: This endpoint returns a Report object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -10043,7 +9921,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   value:
                     data:
                       type: report/watchlist
@@ -10074,7 +9951,7 @@ paths:
                   included:
                     description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
                     $ref: '#/components/schemas/reports-included-objects'
-          description: OK
+          description: This endpoint returns a Report object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -10138,7 +10015,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   value:
                     data:
                       type: report/watchlist
@@ -10169,7 +10045,7 @@ paths:
                   included:
                     description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
                     $ref: '#/components/schemas/reports-included-objects'
-          description: OK
+          description: This endpoint returns a Report object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -10244,12 +10120,11 @@ paths:
                   additionalProperties: false
       responses:
         '200':
-          description: OK
+          description: This endpoint returns a Transaction object and (optionally) its related objects in `included`.
           content:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/transaction'
               schema:
                 type: object
@@ -10258,12 +10133,11 @@ paths:
                   data:
                     $ref: '#/components/schemas/transaction'
         '201':
-          description: Created
+          description: This endpoint returns a Transaction object and (optionally) its related objects in `included`.
           content:
             application/json:
               examples:
                 Result:
-                  summary: Created
                   $ref: '#/components/examples/transaction'
               schema:
                 type: object
@@ -10326,12 +10200,11 @@ paths:
                     type: string
       responses:
         '200':
-          description: OK
+          description: This endpoint returns a collection of Transaction objects.
           content:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/transaction-list'
               schema:
                 type: object
@@ -10391,12 +10264,11 @@ paths:
             type: string
       responses:
         '200':
-          description: OK
+          description: This endpoint returns a Transaction object and (optionally) its related objects in `included`.
           content:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   value:
                     data:
                       type: transaction
@@ -10477,12 +10349,11 @@ paths:
           required: true
       responses:
         '200':
-          description: OK
+          description: This endpoint returns a Transaction object and (optionally) its related objects in `included`.
           content:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/transaction-retrieve'
               schema:
                 type: object
@@ -10572,12 +10443,11 @@ paths:
                           type: array
       responses:
         '200':
-          description: OK
+          description: This endpoint returns a Transaction object and (optionally) its related objects in `included`.
           content:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/transaction-with-label'
               schema:
                 type: object
@@ -10650,12 +10520,11 @@ paths:
                     tag-name: new tag
       responses:
         '200':
-          description: OK
+          description: This endpoint returns a Transaction object and (optionally) its related objects in `included`.
           content:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/transaction'
               schema:
                 type: object
@@ -10720,12 +10589,11 @@ paths:
                       type: string
       responses:
         '200':
-          description: OK
+          description: This endpoint returns a Transaction object and (optionally) its related objects in `included`.
           content:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/transaction-with-label'
               schema:
                 type: object
@@ -10798,12 +10666,11 @@ paths:
                     tag-name: new tag
       responses:
         '200':
-          description: OK
+          description: This endpoint returns a Transaction object and (optionally) its related objects in `included`.
           content:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/transaction'
               schema:
                 type: object
@@ -10878,12 +10745,11 @@ paths:
                       - new tag 2
       responses:
         '200':
-          description: OK
+          description: This endpoint returns a Transaction object and (optionally) its related objects in `included`.
           content:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/transaction'
               schema:
                 type: object
@@ -10930,12 +10796,11 @@ paths:
             type: string
       responses:
         '200':
-          description: OK
+          description: This endpoint returns a Transaction object and (optionally) its related objects in `included`.
           content:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   value:
                     data:
                       type: transaction
@@ -11014,7 +10879,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   value:
                     data:
                       - type: user-audit-log
@@ -11055,13 +10919,6 @@ paths:
                     links:
                       next: null
                       prev: null
-                    included:
-                      - type: user
-                        id: user_ABC123
-                        attributes:
-                          email-address: jane@doe.com
-                          name-first: Jane
-                          name-last: Doe
               schema:
                 type: object
                 additionalProperties: false
@@ -11091,7 +10948,7 @@ paths:
                     description: Objects that will be returned by default unless otherwise specified using the `include` query parameter in the request.
                     items:
                       $ref: '#/components/schemas/user'
-          description: OK
+          description: This endpoint returns a collection of User Audit Logs objects.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -11133,7 +10990,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   value:
                     data:
                       type: user-audit-log
@@ -11162,7 +11018,7 @@ paths:
                       $ref: '#/components/schemas/user'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a User Audit Log object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -11202,7 +11058,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/verification-aamva'
               schema:
                 type: object
@@ -11210,7 +11065,7 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/verification-aamva'
-          description: OK
+          description: This endpoint returns an AAMVA Verification object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -11250,7 +11105,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/verification-database-ecbsv'
               schema:
                 type: object
@@ -11258,7 +11112,7 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/verification-database-ecbsv'
-          description: OK
+          description: This endpoint returns a Database eCBSV Verification object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -11298,7 +11152,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/verification-database-phone-carrier'
               schema:
                 type: object
@@ -11306,7 +11159,7 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/verification-database-phone-carrier'
-          description: OK
+          description: This endpoint returns a Phone Carrier Database Verification object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -11346,7 +11199,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/verification-database-serpro'
               schema:
                 type: object
@@ -11354,7 +11206,7 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/verification-database-serpro'
-          description: OK
+          description: This endpoint returns a Serpro Database Verification object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -11394,7 +11246,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/verification-database-standard'
               schema:
                 type: object
@@ -11402,7 +11253,7 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/verification-database-standard'
-          description: OK
+          description: This endpoint returns a Database Standard Verification object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -11442,7 +11293,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/verification-database-tin'
               schema:
                 type: object
@@ -11450,7 +11300,7 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/verification-database-tin'
-          description: OK
+          description: This endpoint returns a TIN Database Verification object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -11490,7 +11340,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/verification-database'
               schema:
                 type: object
@@ -11498,7 +11347,7 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/verification-database'
-          description: OK
+          description: This endpoint returns a Database Verification object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -11537,7 +11386,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/verification-document'
               schema:
                 type: object
@@ -11545,7 +11393,7 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/verification-document'
-          description: OK
+          description: This endpoint returns a Document Verification object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -11585,7 +11433,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/verification-email-address'
               schema:
                 type: object
@@ -11593,7 +11440,7 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/verification-email-address'
-          description: OK
+          description: This endpoint returns an Email Address Verification object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -11604,7 +11451,7 @@ paths:
           $ref: '#/components/responses/not-found'
         '429':
           $ref: '#/components/responses/too-many-requests'
-      summary: Retrieve a Email Address Verification
+      summary: Retrieve an Email Address Verification
       tags:
         - Email Address Verifications
       x-persona-product: Verifications
@@ -11632,7 +11479,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/verification-government-id-passed'
               schema:
                 properties:
@@ -11640,7 +11486,7 @@ paths:
                     $ref: '#/components/schemas/verification-government-id'
                 additionalProperties: false
                 type: object
-          description: OK
+          description: This endpoint returns a Government ID Verification object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -11651,7 +11497,7 @@ paths:
           $ref: '#/components/responses/not-found'
         '429':
           $ref: '#/components/responses/too-many-requests'
-      summary: Retrieve a Government Id Verification
+      summary: Retrieve a Government ID Verification
       tags:
         - Government ID Verifications
       x-persona-product: Verifications
@@ -11679,7 +11525,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   value:
                     data:
                       type: verification/government-id-nfc
@@ -11722,7 +11567,7 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/verification-government-id-nfc'
-          description: OK
+          description: This endpoint returns a Government ID NFC Verification object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -11733,7 +11578,7 @@ paths:
           $ref: '#/components/responses/not-found'
         '429':
           $ref: '#/components/responses/too-many-requests'
-      summary: Retrieve a Government Id NFC Verification
+      summary: Retrieve a Government ID NFC Verification
       tags:
         - Government ID NFC Verifications
       x-persona-product: Verifications
@@ -11762,7 +11607,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/verification-phone-number'
               schema:
                 type: object
@@ -11770,7 +11614,7 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/verification-phone-number'
-          description: OK
+          description: This endpoint returns a Phone Number Verification object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -11809,7 +11653,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   value:
                     data:
                       type: verification/selfie
@@ -11910,7 +11753,7 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/verification-selfie'
-          description: OK
+          description: This endpoint returns a Selfie Verification object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -11949,7 +11792,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: Created
                   $ref: '#/components/examples/verification-database'
               schema:
                 type: object
@@ -11957,7 +11799,7 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/verification'
-          description: OK
+          description: This endpoint returns a Verification object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -11993,7 +11835,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   value:
                     data:
                       type: verification/government-id
@@ -12039,7 +11880,7 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/verification'
-          description: OK
+          description: This endpoint returns a Verification object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -12076,7 +11917,7 @@ paths:
             type: string
       responses:
         '200':
-          description: OK
+          description: This endpoint returns a PDF of a Verification object.
           content:
             application/pdf:
               schema:
@@ -12115,7 +11956,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   value:
                     data:
                       - type: webhook
@@ -12176,11 +12016,9 @@ paths:
                           - 'null'
                     type: object
                     additionalProperties: false
-                  included:
-                    $ref: '#/components/schemas/empty-included-objects'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a collection of Webhook objects.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -12231,7 +12069,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: Created
                   $ref: '#/components/examples/webhook-created'
               schema:
                 properties:
@@ -12241,7 +12078,7 @@ paths:
                     $ref: '#/components/schemas/empty-included-objects'
                 type: object
                 additionalProperties: false
-          description: Created
+          description: This endpoint returns a Webhook object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -12283,7 +12120,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/webhook-created'
               schema:
                 properties:
@@ -12293,7 +12129,7 @@ paths:
                     $ref: '#/components/schemas/empty-included-objects'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a Webhook object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -12345,7 +12181,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/webhook-disabled'
               schema:
                 properties:
@@ -12355,7 +12190,7 @@ paths:
                     $ref: '#/components/schemas/empty-included-objects'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a Webhook object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -12399,7 +12234,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/webhook-archived'
               schema:
                 properties:
@@ -12409,7 +12243,7 @@ paths:
                     $ref: '#/components/schemas/empty-included-objects'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a Webhook object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -12453,7 +12287,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/webhook-enabled'
               schema:
                 properties:
@@ -12463,7 +12296,7 @@ paths:
                     $ref: '#/components/schemas/empty-included-objects'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a Webhook object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -12507,7 +12340,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/webhook-disabled'
               schema:
                 properties:
@@ -12517,7 +12349,7 @@ paths:
                     $ref: '#/components/schemas/empty-included-objects'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a Webhook object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -12576,7 +12408,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/webhook-created'
               schema:
                 properties:
@@ -12586,7 +12417,7 @@ paths:
                     $ref: '#/components/schemas/empty-included-objects'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a Webhook object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -12626,12 +12457,11 @@ paths:
             type: string
       responses:
         '200':
-          description: OK.
+          description: This endpoint returns a Webhook object..
           content:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   $ref: '#/components/examples/webhook-cloned'
               schema:
                 properties:
@@ -12721,7 +12551,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   value:
                     data:
                       type: workflow-run
@@ -12750,7 +12579,7 @@ paths:
                     $ref: '#/components/schemas/workflow-run-included-objects'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a Workflow object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -12794,7 +12623,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   value:
                     data:
                       type: workflow-run
@@ -12823,7 +12651,7 @@ paths:
                     $ref: '#/components/schemas/workflow-run-included-objects'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a Workflow Run object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -12868,7 +12696,6 @@ paths:
             application/json:
               examples:
                 Result:
-                  summary: OK
                   value:
                     data:
                       - type: workflow-run
@@ -12931,7 +12758,7 @@ paths:
                     $ref: '#/components/schemas/empty-included-objects'
                 type: object
                 additionalProperties: false
-          description: OK
+          description: This endpoint returns a Workflow Run object.
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -13735,7 +13562,7 @@ components:
     key-inflection-header:
       name: Key-Inflection
       in: header
-      description: Determines casing for the API response
+      description: Determines casing for the API response.
       schema:
         type: string
         enum:
@@ -13745,7 +13572,7 @@ components:
     idempotency-key-header:
       name: Idempotency-Key
       in: header
-      description: Ensures the request is idempotent
+      description: Ensures the request is idempotent.
       schema:
         type: string
     persona-version-header:
@@ -31072,12 +30899,11 @@ components:
             created-at: '2024-02-15T23:48:17.732Z'
   responses:
     bad-request:
-      description: Bad Request
+      description: 'The request was unacceptable, often due to invalid parameters.'
       content:
         application/json:
           examples:
-            Result:
-              summary: Bad Request
+            Bad Request:
               value:
                 errors:
                   - title: Bad Request
@@ -31105,12 +30931,11 @@ components:
             type: object
             additionalProperties: false
     unauthorized:
-      description: Unauthorized
+      description: An invalid API key was provided.
       content:
         application/json:
           examples:
-            Result:
-              summary: Unauthorized
+            Unauthorized:
               value:
                 errors:
                   - title: Must be authenticated to access this endpoint
@@ -31130,12 +30955,11 @@ components:
             type: object
             additionalProperties: false
     forbidden:
-      description: Forbidden
+      description: The given API key doesn’t have permissions to perform the request or a quota has been exceeded.
       content:
         application/json:
           examples:
-            Result:
-              summary: Forbidden
+            Forbidden:
               value:
                 errors:
                   - title: Forbidden
@@ -31163,12 +30987,11 @@ components:
             type: object
             additionalProperties: false
     not-found:
-      description: Not Found
+      description: The requested resource doesn’t exist.
       content:
         application/json:
           examples:
-            Result:
-              summary: Not Found
+            Not Found:
               value:
                 errors:
                   - title: Record not found
@@ -31195,12 +31018,11 @@ components:
             type: object
             additionalProperties: false
     too-many-requests:
-      description: Too Many Requests
+      description: Your organization’s rate limit has been exceeded. We recommend an exponential backoff on requests.
       content:
         application/json:
           examples:
-            Result:
-              summary: Too Many Requests
+            Too Many Requests:
               value:
                 errors:
                   - title: Rate limit exceeded
@@ -31225,12 +31047,11 @@ components:
             type: object
             additionalProperties: false
     conflict:
-      description: Conflict
+      description: 'The request conflicts with another request, often due to attempting to create a duplicate resource.'
       content:
         application/json:
           examples:
-            Result:
-              summary: Conflict
+            Conflict:
               value:
                 errors:
                   - title: Conflict
@@ -31264,12 +31085,11 @@ components:
             type: object
             additionalProperties: false
     unprocessable-entity:
-      description: Unprocessable Entity
+      description: 'The request modifies the resource in an unacceptable way, often due to an invalid action or parameter.'
       content:
         application/json:
           examples:
-            Result:
-              summary: Unprocessable Entity
+            Unprocessable Entity:
               value:
                 errors:
                   - title: Unprocessable entity
@@ -31304,12 +31124,11 @@ components:
             type: object
             additionalProperties: false
     service-unavailable:
-      description: Service Unavailable
+      description: Something went wrong on Persona’s end. These are rare.
       content:
         application/json:
           examples:
-            Result:
-              summary: Service Unavailable
+            Service Unavailable:
               value:
                 errors:
                   - title: Service unavailable
@@ -31328,12 +31147,11 @@ components:
             type: object
             additionalProperties: false
     request-timeout:
-      description: Request Timeout
+      description: Something went wrong on Persona’s end.
       content:
         application/json:
           examples:
-            Result:
-              summary: Request Timeout
+            Request Timeout:
               value:
                 errors:
                   - title: Request Timeout

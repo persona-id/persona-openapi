@@ -23,7 +23,6 @@ get:
         application/json:
           examples:
             Result:
-              summary: OK
               $ref: ../components/examples/verification-email-address.yaml
           schema:
             type: object
@@ -31,7 +30,9 @@ get:
             properties:
               data:
                 $ref: ../components/schemas/verification-email-address.yaml
-      description: OK
+      description: >-
+        This endpoint returns an Email Address Verification object and
+        (optionally) its related objects in `included`.
     '400':
       $ref: ../components/responses/bad-request.yaml
     '401':
@@ -42,7 +43,7 @@ get:
       $ref: ../components/responses/not-found.yaml
     '429':
       $ref: ../components/responses/too-many-requests.yaml
-  summary: Retrieve a Email Address Verification
+  summary: Retrieve an Email Address Verification
   tags:
     - Email Address Verifications
   x-persona-product: Verifications

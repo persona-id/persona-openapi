@@ -29,7 +29,6 @@ get:
         application/json:
           examples:
             Result:
-              summary: OK
               $ref: ../components/examples/account-list.yaml
           schema:
             properties:
@@ -62,7 +61,7 @@ get:
                 type: object
             additionalProperties: false
             type: object
-      description: OK
+      description: This endpoint returns a collection of Account objects.
     '400':
       $ref: ../components/responses/bad-request.yaml
     '401':
@@ -235,25 +234,30 @@ post:
           type: object
   responses:
     '200':
-      description: OK
+      description: >-
+        This endpoint returns an Account object and (optionally) its related
+        objects in `included`.
       content:
         application/json:
           examples:
             Result:
-              summary: OK
               $ref: ../components/examples/account.yaml
           schema:
-            type: object
-            additionalProperties: false
             properties:
               data:
                 $ref: ../components/schemas/account.yaml
+              included:
+                description: >-
+                  Objects that _may_ be returned if specified via the `include`
+                  query parameter in the request.
+                $ref: ../components/schemas/accounts-included-objects.yaml
+            additionalProperties: false
+            type: object
     '201':
       content:
         application/json:
           examples:
             Result:
-              summary: Created
               $ref: ../components/examples/account.yaml
           schema:
             properties:
@@ -261,7 +265,9 @@ post:
                 $ref: ../components/schemas/account.yaml
             type: object
             additionalProperties: false
-      description: Created
+      description: >-
+        This endpoint returns an Account object and (optionally) its related
+        objects in `included`.
     '400':
       $ref: ../components/responses/bad-request.yaml
     '401':

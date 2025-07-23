@@ -22,7 +22,6 @@ get:
         application/json:
           examples:
             Result:
-              summary: OK
               $ref: ../components/examples/verification-government-id-passed.yaml
           schema:
             properties:
@@ -30,7 +29,9 @@ get:
                 $ref: ../components/schemas/verification-government-id.yaml
             additionalProperties: false
             type: object
-      description: OK
+      description: >-
+        This endpoint returns a Government ID Verification object and
+        (optionally) its related objects in `included`.
     '400':
       $ref: ../components/responses/bad-request.yaml
     '401':
@@ -41,7 +42,7 @@ get:
       $ref: ../components/responses/not-found.yaml
     '429':
       $ref: ../components/responses/too-many-requests.yaml
-  summary: Retrieve a Government Id Verification
+  summary: Retrieve a Government ID Verification
   tags:
     - Government ID Verifications
   x-persona-product: Verifications

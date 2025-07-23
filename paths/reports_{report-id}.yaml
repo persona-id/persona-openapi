@@ -30,7 +30,6 @@ delete:
         application/json:
           examples:
             Result:
-              summary: Created
               $ref: ../components/examples/report-watchlist.yaml
           schema:
             type: object
@@ -43,7 +42,9 @@ delete:
                   Objects that _may_ be returned if specified via the `include`
                   query parameter in the request.
                 $ref: ../components/schemas/reports-included-objects.yaml
-      description: OK
+      description: >-
+        This endpoint returns a Report object and (optionally) its related
+        objects in `included`.
     '400':
       $ref: ../components/responses/bad-request.yaml
     '401':
@@ -85,7 +86,6 @@ get:
         application/json:
           examples:
             Result:
-              summary: Created
               $ref: ../components/examples/report-watchlist.yaml
           schema:
             properties:
@@ -104,7 +104,9 @@ get:
                 $ref: ../components/schemas/reports-included-objects.yaml
             type: object
             additionalProperties: false
-      description: OK
+      description: >-
+        This endpoint returns a Report object and (optionally) its related
+        objects in `included`.
     '400':
       $ref: ../components/responses/bad-request.yaml
     '401':

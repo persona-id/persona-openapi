@@ -52,7 +52,6 @@ get:
                       - 'null'
           examples:
             Result:
-              summary: OK
               value:
                 data:
                   - type: report/address-lookup
@@ -84,7 +83,7 @@ get:
                 links:
                   prev: null
                   next: /api/v1/reports?page%5Bafter%5D=rep_u2Dgz8U3CmxTVgqEH9qzezHi
-      description: OK
+      description: This endpoint returns a collection of Report objects.
     '400':
       $ref: ../components/responses/bad-request.yaml
     '401':
@@ -182,7 +181,6 @@ post:
         application/json:
           examples:
             Result:
-              summary: Created
               $ref: ../components/examples/report-watchlist.yaml
           schema:
             type: object
@@ -195,7 +193,9 @@ post:
                   Objects that _may_ be returned if specified via the `include`
                   query parameter in the request.
                 $ref: ../components/schemas/reports-included-objects.yaml
-      description: Created
+      description: >-
+        This endpoint returns a Report object and (optionally) its related
+        objects in `included`.
     '400':
       $ref: ../components/responses/bad-request.yaml
     '401':

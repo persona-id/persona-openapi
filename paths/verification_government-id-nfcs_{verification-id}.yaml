@@ -22,7 +22,6 @@ get:
         application/json:
           examples:
             Result:
-              summary: OK
               value:
                 data:
                   type: verification/government-id-nfc
@@ -65,7 +64,9 @@ get:
             properties:
               data:
                 $ref: ../components/schemas/verification-government-id-nfc.yaml
-      description: OK
+      description: >-
+        This endpoint returns a Government ID NFC Verification object and
+        (optionally) its related objects in `included`.
     '400':
       $ref: ../components/responses/bad-request.yaml
     '401':
@@ -76,7 +77,7 @@ get:
       $ref: ../components/responses/not-found.yaml
     '429':
       $ref: ../components/responses/too-many-requests.yaml
-  summary: Retrieve a Government Id NFC Verification
+  summary: Retrieve a Government ID NFC Verification
   tags:
     - Government ID NFC Verifications
   x-persona-product: Verifications
