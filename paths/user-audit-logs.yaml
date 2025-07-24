@@ -35,6 +35,9 @@ get:
                       get-params: {}
                       post-params: {}
                       ip-address: 127.0.0.1
+                      user-agent: >-
+                        Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)
+                        AppleWebKit/537.36
                       response-status: 200
                       created-at: '2023-10-03T21:31:05.163Z'
                       impersonator-email-address: null
@@ -43,6 +46,10 @@ get:
                         data:
                           type: user
                           id: user_ABC123
+                      user-session:
+                        data:
+                          type: user-session
+                          id: uses_ABC123
                   - type: user-audit-log
                     id: ual_ABC123XYZ
                     attributes:
@@ -55,6 +62,9 @@ get:
                           id: uses_ABC123
                           type: user-session
                       ip-address: 127.0.0.1
+                      user-agent: >-
+                        Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)
+                        AppleWebKit/537.36
                       response-status: 200
                       created-at: '2023-10-03T21:31:05.163Z'
                       impersonator-email-address: null
@@ -63,9 +73,20 @@ get:
                         data:
                           type: user
                           id: user_ABC123
+                      user-session:
+                        data:
+                          type: user-session
+                          id: uses_ABC123
                 links:
                   next: null
                   prev: null
+                included:
+                  - type: user
+                    id: user_ABC123
+                    attributes:
+                      email-address: jane@doe.com
+                      name-first: Jane
+                      name-last: Doe
           schema:
             type: object
             additionalProperties: false

@@ -10889,6 +10889,7 @@ paths:
                           get-params: {}
                           post-params: {}
                           ip-address: 127.0.0.1
+                          user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
                           response-status: 200
                           created-at: '2023-10-03T21:31:05.163Z'
                           impersonator-email-address: null
@@ -10897,6 +10898,10 @@ paths:
                             data:
                               type: user
                               id: user_ABC123
+                          user-session:
+                            data:
+                              type: user-session
+                              id: uses_ABC123
                       - type: user-audit-log
                         id: ual_ABC123XYZ
                         attributes:
@@ -10908,6 +10913,7 @@ paths:
                               id: uses_ABC123
                               type: user-session
                           ip-address: 127.0.0.1
+                          user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
                           response-status: 200
                           created-at: '2023-10-03T21:31:05.163Z'
                           impersonator-email-address: null
@@ -10916,9 +10922,20 @@ paths:
                             data:
                               type: user
                               id: user_ABC123
+                          user-session:
+                            data:
+                              type: user-session
+                              id: uses_ABC123
                     links:
                       next: null
                       prev: null
+                    included:
+                      - type: user
+                        id: user_ABC123
+                        attributes:
+                          email-address: jane@doe.com
+                          name-first: Jane
+                          name-last: Doe
               schema:
                 type: object
                 additionalProperties: false
@@ -25146,6 +25163,10 @@ components:
               type: string
               examples:
                 - 127.0.0.1
+            user-agent:
+              type: string
+              examples:
+                - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
             response-status:
               type: integer
               format: int32
@@ -25182,6 +25203,22 @@ components:
                       type: string
                       examples:
                         - user_ABC123
+            user-session:
+              type: object
+              additionalProperties: false
+              properties:
+                data:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    type:
+                      type: string
+                      const: user-session
+                      description: user-session
+                    id:
+                      type: string
+                      examples:
+                        - uses_ABC123
     verification:
       type: object
       discriminator:
