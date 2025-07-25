@@ -1,0 +1,59 @@
+type: object
+additionalProperties: false
+description: A Case Template object
+properties:
+  type:
+    type: string
+    const: case-template
+    description: Case Template
+  id:
+    type: string
+    description: Unique identifier for the Case Template
+    examples:
+      - ctmpl_yd2urRmjaCWcSSxqTSHvUcsn
+  attributes:
+    type: object
+    additionalProperties: false
+    properties:
+      status:
+        description: |-
+          Possible values:
+          - active
+          - archived
+
+          Do not assume this is a static enumeration; Persona may add new values
+          in the future without a versioned update.
+        examples:
+          - active
+        type: string
+      name:
+        type: string
+      resolutions:
+        type: array
+        items:
+          type: string
+        examples:
+          - - Approved
+            - Declined
+      created-at:
+        type: string
+        format: date-time
+        description: The time the template was created
+        examples:
+          - '2021-03-25T07:04:16.667Z'
+      updated-at:
+        type:
+          - string
+          - 'null'
+        format: date-time
+        description: The time the template was last updated
+        examples:
+          - '2021-03-25T07:04:16.667Z'
+      archived-at:
+        type:
+          - string
+          - 'null'
+        format: date-time
+        description: The time the template was archived
+        examples:
+          - '2021-03-25T07:04:16.667Z'

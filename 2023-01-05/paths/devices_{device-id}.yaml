@@ -1,0 +1,48 @@
+get:
+  description: Retrieves details of a specific Device.
+  operationId: retrieve-a-device
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/api-reference/devices/retrieve-a-device
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+    - description: Device ID
+      in: path
+      name: device-id
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              $ref: ../components/examples/device.yaml
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/device.yaml
+              included:
+                $ref: ../components/schemas/empty-included-objects.yaml
+            type: object
+            additionalProperties: false
+      description: This endpoint returns a Device object.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Retrieve a Device
+  tags:
+    - Devices
+  x-persona-product: Devices

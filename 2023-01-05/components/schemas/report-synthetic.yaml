@@ -1,0 +1,66 @@
+title: Synthetic Report
+description: A Synthetic Report
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: report/synthetic
+    description: report/synthetic
+  id:
+    type: string
+    description: The ID of the report
+    examples:
+      - rep_9Ht4ZsNjXpZLKrJNHBYDLAp
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./report-shared-attributes.yaml
+      - type: object
+        properties:
+          sentilink-abuse-score:
+            type:
+              - integer
+              - 'null'
+            description: Sentilink abuse score.
+            examples:
+              - 72
+          sentilink-first-party-synthetic-score:
+            type:
+              - integer
+              - 'null'
+            description: Sentilink first party synthetic score.
+            examples:
+              - 58
+          sentilink-third-party-synthetic-score:
+            type:
+              - integer
+              - 'null'
+            description: Sentilink third party synthetic score.
+            examples:
+              - 85
+          report-template-version-name:
+            type: string
+            description: The name of the report template version used for this report.
+            examples:
+              - v2
+          has-match:
+            type: boolean
+            description: Indicates if the report matched.
+            examples:
+              - true
+          is-continuous:
+            type: boolean
+            description: Indicates if the report is recurring.
+            examples:
+              - false
+          tags:
+            type: array
+            description: Tags associated with the report.
+            items:
+              type: string
+            examples:
+              - - suspicious
+                - reviewed
+  relationships:
+    $ref: ./report-shared-relationships.yaml

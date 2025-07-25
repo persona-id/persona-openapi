@@ -1,0 +1,447 @@
+get:
+  description: >-
+    Returns a list of your organization's inquiries.
+
+
+    Note that this endpoint aggregates inquiries across all inquiry template(s).
+    See [Pagination](https://docs.withpersona.com/pagination) for more details
+    about handling the response. Results are returned in reverse chronological
+    order, with the most recently created objects first.
+  operationId: list-all-inquiries
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/api-reference/inquiries/list-all-inquiries
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/pagination-query-params.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+    - in: query
+      name: filter
+      style: deepObject
+      explode: true
+      schema:
+        additionalProperties: false
+        type: object
+        properties:
+          inquiry-id:
+            description: >-
+              Comma separated list of inquiry IDs (starting with `inq_`) to
+              filter inquiries by
+            examples:
+              - inq_ABC123
+              - inq_ABC123,inq_DEF456
+              - - inq_ABC123
+                - inq_DEF456
+            unevaluatedProperties: false
+            oneOf:
+              - type: string
+              - type: array
+                items:
+                  type: string
+          account-id:
+            description: >-
+              Comma separated list of account IDs (starting with `act_`) to
+              filter inquiries by
+            examples:
+              - act_ABC123
+              - act_ABC123,act_DEF456
+              - - act_ABC123
+                - act_DEF456
+            unevaluatedProperties: false
+            oneOf:
+              - type: string
+              - type: array
+                items:
+                  type: string
+          note:
+            description: Filter inquiries by note. Must be the only filter.
+            examples:
+              - A note saved on an Inquiry
+            type: string
+          reference-id:
+            description: Filter inquiries by reference ID
+            examples:
+              - abc-123
+            type: string
+          inquiry-template-id:
+            description: >-
+              Comma separated list of inquiry template IDs (starting with
+              `itmpl_`) to filter inquiries by
+            examples:
+              - itmpl_ABC123
+              - itmpl_ABC123,itmpl_DEF456
+              - - itmpl_ABC123
+                - itmpl_DEF456
+            unevaluatedProperties: false
+            oneOf:
+              - type: string
+              - type: array
+                items:
+                  type: string
+          template-id:
+            description: >-
+              Comma separated list of legacy template IDs (starting with
+              `tmpl_`) to filter inquiries by
+            examples:
+              - tmpl_ABC123
+              - tmpl_ABC123,tmpl_DEF456
+              - - tmpl_ABC123
+                - tmpl_DEF456
+            unevaluatedProperties: false
+            oneOf:
+              - type: string
+              - type: array
+                items:
+                  type: string
+          status:
+            description: Comma separated list of statuses to filter inquiries by
+            examples:
+              - created
+              - pending
+              - completed
+              - expired
+              - failed
+              - needs_review
+              - approved
+              - declined
+              - completed,approved
+              - - completed
+                - approved
+            unevaluatedProperties: false
+            oneOf:
+              - type: string
+              - type: array
+                items:
+                  type: string
+          created-at-start:
+            description: Filter inquiries by creation date, equal to or later than
+            examples:
+              - '2023-10-11T04:59:21.764Z'
+            format: date-time
+            type: string
+          created-at-end:
+            description: Filter inquiries by creation date, earlier than or equal to
+            examples:
+              - '2023-10-20T04:59:21.764Z'
+            format: date-time
+            type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              $ref: ../components/examples/inquiry-list.yaml
+          schema:
+            properties:
+              data:
+                items:
+                  $ref: ../components/schemas/inquiry.yaml
+                type: array
+                description: An array of Inquiries
+              links:
+                properties:
+                  prev:
+                    examples:
+                      - /api/v1/inquiries?page%5Bafter%5D=inq_ABC123
+                    type:
+                      - 'null'
+                      - string
+                    description: >-
+                      URL pointing to the previous page of data, or null if on
+                      the first page.
+                  next:
+                    examples:
+                      - /api/v1/inquiries?page%5Bafter%5D=inq_ABC123
+                    type:
+                      - 'null'
+                      - string
+                    description: >-
+                      URL pointing to the next page of data, or null if on the
+                      last page.
+                additionalProperties: false
+                type: object
+            additionalProperties: false
+            type: object
+      description: This endpoint returns a collection of Inquiry objects.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: List all Inquiries
+  tags:
+    - Inquiries
+  x-persona-product: Inquiries
+post:
+  description: >-
+    Creates a new inquiry with optional pre-filled attributes.
+
+
+    See [Sessions](https://docs.withpersona.com/inquiry-sessions) for how to
+    continue the inquiry in [Embedded
+    Flow](https://docs.withpersona.com/embedded-flow) or [Hosted
+    Flow](https://docs.withpersona.com/hosted-flow).
+  operationId: create-an-inquiry
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/api-reference/inquiries/create-an-inquiry
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            data:
+              properties:
+                attributes:
+                  properties:
+                    template-id:
+                      description: >-
+                        Template ID for flow requirements (use this field if
+                        your template ID starts with `tmpl_`). *You must pass in
+                        either template-id OR inquiry-template-id OR
+                        inquiry-template-version-id*
+                      examples:
+                        - tmpl_ABC123
+                      type:
+                        - string
+                        - 'null'
+                    inquiry-template-id:
+                      description: >-
+                        Template ID for flow requirements (use this field if
+                        your template ID starts with `itmpl_`). *You must pass
+                        in either template-id OR inquiry-template-id OR
+                        inquiry-template-version-id*
+                      examples:
+                        - itmpl_ABC123
+                      type:
+                        - string
+                        - 'null'
+                    inquiry-template-version-id:
+                      description: >-
+                        Template Version ID for flow requirements (begins with
+                        `itmplv_`). *You must pass in either template-id OR
+                        inquiry-template-id OR inquiry-template-version-id*
+                      examples:
+                        - itmplv_ABC123
+                      type:
+                        - string
+                        - 'null'
+                    reference-id:
+                      description: >-
+                        Reference ID to refer to an entity in your user model.
+                        This field is deprecated in favor of
+                        `meta.auto-create-account-reference-id`.
+                      deprecated: true
+                      examples:
+                        - abc-123
+                      type:
+                        - string
+                        - 'null'
+                    account-id:
+                      description: Account ID to associate with this inquiry
+                      examples:
+                        - act_ABC123
+                      type:
+                        - string
+                        - 'null'
+                    creator-email-address:
+                      description: >-
+                        Email of the user creating this inquiry in the
+                        organization
+                      examples:
+                        - creator@withpersona.com
+                      type:
+                        - string
+                        - 'null'
+                    theme-id:
+                      description: >-
+                        Theme ID for styling. Only available for Legacy 2.0
+                        Inquiries.
+                      examples:
+                        - the_ABC123
+                      type:
+                        - string
+                        - 'null'
+                    theme-set-id:
+                      description: >-
+                        BETA FEATURE -- Theme Set ID for styling. Only available
+                        for Dynamic Flow Inquiries.
+                      examples:
+                        - theset_ABC123
+                      type:
+                        - string
+                        - 'null'
+                    redirect-uri:
+                      description: >-
+                        If using the Hosted flow, redirect to this URL after
+                        completion
+                      examples:
+                        - https://yoururl.com/redirect
+                      type:
+                        - string
+                        - 'null'
+                    note:
+                      description: Unstructured field for your custom use
+                      examples:
+                        - A note about this inquiry
+                      type:
+                        - string
+                        - 'null'
+                    fields:
+                      description: >-
+                        JSON key-value pairs of field name to field value.
+                        Schema is defined by your Inquiry Template.
+                      unevaluatedProperties: false
+                      oneOf:
+                        - type: 'null'
+                        - $ref: ../components/schemas/inquiry-fields.yaml
+                    tags:
+                      description: A list of tag names to be associated with the Inquiry.
+                      items:
+                        type: string
+                      type:
+                        - array
+                        - 'null'
+                    initial-step-name:
+                      description: >-
+                        BETA FEATURE -- Specify an alternate initial step. Only
+                        available for Dynamic Flow Inquiries.
+                      type:
+                        - string
+                        - 'null'
+                  additionalProperties: true
+                  type: object
+              required:
+                - attributes
+              additionalProperties: false
+              type: object
+            meta:
+              properties:
+                auto-create-account:
+                  description: >-
+                    If true, automatically create an Account for the user if one
+                    does not exist. Default is true.
+                  examples:
+                    - true
+                  type: boolean
+                auto-create-account-type-id:
+                  description: >-
+                    If `auto-create-account` is true, the type ID to use for the
+                    Account. If not provided, the default type ID for the
+                    organization will be used.
+
+                    If `auto-create-account-reference-id` is present and
+                    corresponds to an existing Account,
+                    `auto-create-account-type-id` will be ignored.
+
+                    Will error if passed when `auto-create-account` is false.
+                  examples:
+                    - acttp_ABC123
+                  type: string
+                auto-create-account-reference-id:
+                  description: >-
+                    If `auto-create-account` is true, this Inquiry will be
+                    attached to the Account with this reference ID, or a new
+                    Account will be created with this reference ID if one does
+                    not exist.
+
+                    Will error if passed when `auto-create-account` is false.
+                  examples:
+                    - my_reference_id
+                  type: string
+                expiration-after-create-interval-seconds:
+                  description: >-
+                    Time interval from inquiry creation after which an Inquiry
+                    expires and the flow can no longer be accessed. Overrides
+                    value set at the template level.
+                  examples:
+                    - 86400
+                  type:
+                    - integer
+                    - 'null'
+                expiration-after-start-interval-seconds:
+                  description: >-
+                    Time interval from inquiry start after which an Inquiry
+                    expires and the flow can no longer be accessed. Overrides
+                    value set at the template level.
+                  examples:
+                    - 86400
+                  type:
+                    - integer
+                    - 'null'
+                expiration-after-resume-interval-seconds:
+                  description: >-
+                    Time interval from inquiry start after which an Inquiry
+                    expires and the flow can no longer be accessed. Overrides
+                    value set at the template level.
+                  examples:
+                    - 86400
+                  type:
+                    - integer
+                    - 'null'
+                one-time-link-expiration-seconds:
+                  description: >-
+                    Time interval after which Device Handoff one time links
+                    expire. Overrides value set at the template level.
+                  examples:
+                    - 3600
+                  type:
+                    - integer
+                    - 'null'
+              additionalProperties: false
+              type: object
+          required:
+            - data
+          additionalProperties: false
+          type: object
+  responses:
+    '201':
+      content:
+        application/json:
+          examples:
+            Result:
+              $ref: ../components/examples/inquiry.yaml
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/inquiry.yaml
+              included:
+                description: >-
+                  Objects that _may_ be returned if specified via the `include`
+                  query parameter in the request.
+                $ref: ../components/schemas/inquiry-included-objects.yaml
+            additionalProperties: false
+            type: object
+      description: >-
+        This endpoint returns an Inquiry object and (optionally) its related
+        objects in `included`.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Create an Inquiry
+  tags:
+    - Inquiries
+  x-persona-product: Inquiries

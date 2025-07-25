@@ -1,0 +1,144 @@
+type: object
+additionalProperties: false
+description: An API Log object
+properties:
+  type:
+    type: string
+    const: api-log
+    description: api-log
+  id:
+    type: string
+    examples:
+      - req_prM3gdSL6ciwGjSjj4aXgKJT
+  attributes:
+    type: object
+    additionalProperties: false
+    properties:
+      request:
+        type: object
+        additionalProperties: false
+        properties:
+          method:
+            type: string
+            examples:
+              - GET
+          path:
+            type: string
+            examples:
+              - /api/v1/api-keys
+          headers:
+            type: object
+            additionalProperties: false
+            properties:
+              Accept:
+                type: string
+                examples:
+                  - application/json
+              Authorization:
+                type: string
+                description: A sanitized version of the request's Authorization header.
+                examples:
+                  - '****-****-************'
+              Host:
+                type: string
+                examples:
+                  - withpersona.com
+              Persona-Version:
+                type: string
+                examples:
+                  - 2023-01-05, 2023-01-05
+              User-Agent:
+                type: string
+                examples:
+                  - >-
+                    Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)
+                    AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0
+                    Safari/537.36
+          get-params:
+            type: object
+            description: The GET params of the request. Schema depends on the API called.
+            additionalProperties: true
+          post-params:
+            type: object
+            description: The POST params of the request. Schema depends on the API called.
+            additionalProperties: true
+          ip-address:
+            type: string
+            examples:
+              - 44.203.11.87
+      response:
+        type: object
+        additionalProperties: false
+        properties:
+          status:
+            type: integer
+            format: int32
+            examples:
+              - 200
+          headers:
+            type: object
+            additionalProperties: false
+            properties:
+              Persona-Host:
+                type: string
+                examples:
+                  - us-central1 persona-web-web-77b874ff88-rrdk9 53e23b240
+              Cache-Control:
+                type: string
+                examples:
+                  - no-cache, no-store, max-age=0, must-revalidate
+              Pragma:
+                type: string
+                examples:
+                  - no-cache
+              Expires:
+                type: string
+                examples:
+                  - Fri, 01 Jan 1990 00:00:00 GMT
+              RateLimit-Limit:
+                type: integer
+                format: int32
+                examples:
+                  - 300
+              RateLimit-Remaining:
+                type: integer
+                format: int32
+                examples:
+                  - 299
+              RateLimit-Reset:
+                type: integer
+                format: int32
+                examples:
+                  - 60
+              Quota-Limit:
+                type: integer
+                format: int32
+                examples:
+                  - 1000
+              Quota-Remaining:
+                type: integer
+                format: int32
+                examples:
+                  - 998
+              Quota-Reset:
+                type: integer
+                format: int32
+                examples:
+                  - 31
+              Request-Id:
+                type: string
+                examples:
+                  - req_prM3gdSL6ciwGjSjj4aXgKJT
+              Content-Type:
+                type: string
+                examples:
+                  - application/json; charset=utf-8
+              Vary:
+                type: string
+                examples:
+                  - Accept
+      created-at:
+        type: string
+        format: date-time
+        examples:
+          - '2023-09-26T06:31:43.909+00:00'

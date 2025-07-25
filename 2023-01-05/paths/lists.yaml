@@ -1,0 +1,92 @@
+get:
+  summary: List all Lists
+  tags:
+    - Lists
+  x-persona-product: Lists
+  description: >-
+    Returns a list of your organization's lists. Results are returned in reverse
+    chronological order, with the most recently created objects first.
+  operationId: list-all-lists
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/api-reference/lists/list-all-lists
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/pagination-query-params.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+    - in: query
+      name: filter
+      style: deepObject
+      explode: true
+      schema:
+        type: object
+        additionalProperties: false
+        properties:
+          status:
+            description: Filter lists by status
+            type: string
+            enum:
+              - active
+              - archived
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            type: object
+            additionalProperties: false
+            properties:
+              data:
+                type: array
+                description: An array of Lists
+                items:
+                  $ref: ../components/schemas/list.yaml
+              links:
+                additionalProperties: false
+                type: object
+                properties:
+                  prev:
+                    type:
+                      - 'null'
+                      - string
+                    description: >-
+                      URL pointing to the previous page of data, or null if on
+                      the first page.
+                  next:
+                    type:
+                      - string
+                      - 'null'
+                    description: >-
+                      URL pointing to the next page of data, or null if on the
+                      last page.
+          examples:
+            Result:
+              value:
+                data:
+                  - type: list/phone-number
+                    id: lst_kRcKDJ4c8wF2AmAghggtYxboX
+                    attributes:
+                      name: My List
+                      status: active
+                      archived-at: null
+                      created-at: '2023-08-30T21:31:06.000Z'
+                      updated-at: '2023-08-30T21:31:06.000Z'
+                    relationships:
+                      list-items:
+                        data: []
+                links:
+                  prev: null
+                  next: /api/v1/lists?page%5Bafter%5D=lst_3DS1z7bME8vWqqxmdCDqHwLm
+      description: This endpoint returns a collection List objects.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml

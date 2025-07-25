@@ -1,0 +1,46 @@
+title: TIN Database Verification
+description: A TIN Database Verification
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    description: verification/database-tin
+    const: verification/database-tin
+  id:
+    type: string
+    description: The token of the verification
+    example: ver_ABC123
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./verification-shared-attributes.yaml
+      - type: object
+        properties:
+          tin:
+            type: string
+            examples:
+              - '287654321'
+              - '123456789'
+          tin-type:
+            type:
+              - string
+              - 'null'
+            examples:
+              - ssn
+              - ein
+              - itin
+          name-first:
+            type:
+              - string
+              - 'null'
+          name-last:
+            type:
+              - string
+              - 'null'
+          name-business:
+            type:
+              - string
+              - 'null'
+  relationships:
+    $ref: ./verification-shared-relationships.yaml

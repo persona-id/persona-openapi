@@ -1,0 +1,89 @@
+post:
+  description: >-
+    Consolidates several source Accounts' information into one target Account.
+    Any Persona resource associated with the source Account will be transferred
+    over to the destination Account. However, the Account's attributes will
+    **not** be transferred. After consolidation, you can update the destination
+    Account's attributes using the [Account update
+    endpoint](https://docs.withpersona.com/api-reference/accounts/update-an-account).
+
+
+    This endpoint can be used to clean up duplicate Accounts.
+
+
+    Note: A source account can only be consolidated once. Afterwards, the source
+    account will be archived.
+  operationId: consolidate-into-an-account
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: >-
+      https://docs.withpersona.com/api-reference/accounts/consolidate-into-an-account
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+    - description: Destination Account ID
+      in: path
+      name: account-id
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            meta:
+              properties:
+                source-account-ids:
+                  description: >-
+                    A list of Account IDs that need to be consolidated into the
+                    destination Account.
+                  items:
+                    type: string
+                  type: array
+              additionalProperties: false
+              type: object
+          additionalProperties: false
+          type: object
+  responses:
+    '202':
+      content:
+        application/json:
+          examples:
+            Result:
+              $ref: ../components/examples/account.yaml
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/account.yaml
+              included:
+                description: >-
+                  Objects that _may_ be returned if specified via the `include`
+                  query parameter in the request.
+                $ref: ../components/schemas/accounts-included-objects.yaml
+            additionalProperties: false
+            type: object
+      description: >-
+        This endpoint returns an Account object and (optionally) its related
+        objects in `included`.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Consolidate Accounts
+  tags:
+    - Accounts
+  x-persona-product: Accounts

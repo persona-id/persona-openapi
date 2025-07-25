@@ -1,0 +1,55 @@
+type: object
+additionalProperties: false
+description: An Event object
+properties:
+  type:
+    type: string
+    const: event
+    description: event
+  id:
+    type: string
+    examples:
+      - evt_ABC123
+  attributes:
+    type: object
+    additionalProperties: false
+    properties:
+      name:
+        type: string
+        examples:
+          - inquiry.expired
+          - workflow-run.created
+          - account.tag-added
+      payload:
+        description: The entire serialized entity that triggered the event
+        type: object
+        additionalProperties: false
+        properties:
+          data:
+            type: object
+            additionalProperties: false
+            properties:
+              type:
+                x-polymorphic: true
+                type: string
+                examples:
+                  - inquiry
+                  - workflow-run
+                  - account
+              id:
+                type: string
+                examples:
+                  - inq_ABC123
+                  - wfr_ABC123
+                  - act_ABC123
+              attributes:
+                type: object
+                additionalProperties: true
+              relationships:
+                type: object
+                additionalProperties: true
+      created-at:
+        type: string
+        format: date-time
+        examples:
+          - '2023-09-23T17:14:01.918Z'

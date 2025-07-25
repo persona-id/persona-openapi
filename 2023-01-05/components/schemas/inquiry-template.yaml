@@ -1,0 +1,86 @@
+type: object
+additionalProperties: false
+description: An Inquiry Template object
+properties:
+  type:
+    const: inquiry-template
+    description: inquiry-template
+    type: string
+  id:
+    type: string
+    examples:
+      - itmpl_ABC123
+  attributes:
+    type: object
+    additionalProperties: false
+    properties:
+      name:
+        type: string
+        description: Name of the Inquiry Template
+        examples:
+          - Government ID Front and Back
+      status:
+        type: string
+        description: |-
+          Possible values:
+          - active
+          - inactive
+
+          Do not assume this is a static enumeration; Persona may add new values
+          in the future without a versioned update.
+        examples:
+          - active
+      embedded-flow-domain-allowlist:
+        type: array
+        items:
+          type: string
+        description: List of domains allowed for embedded flows
+        examples:
+          - - example.com
+            - app.example.com
+      hosted-flow-subdomains:
+        type: array
+        items:
+          type: string
+        description: >-
+          The subdomain that your hosted flow can be hosted on (e.g.
+          "mycompany.withpersona.com")
+        examples:
+          - - mycompanyname
+      hosted-flow-redirect-uri-schemes:
+        type: array
+        items:
+          type: string
+        description: >-
+          An allowlist that specifies the URI schemes for redirect after
+          completion of a Hosted Flow.
+
+          This can be used to implement deep linking for mobile integrations. If
+          this list is empty,
+
+          all URLs with the URI scheme http or https are allowed.
+        examples:
+          - - https
+            - http
+  relationships:
+    type: object
+    additionalProperties: false
+    properties:
+      latest-published-version:
+        type: object
+        additionalProperties: false
+        properties:
+          data:
+            type:
+              - object
+              - 'null'
+            additionalProperties: false
+            properties:
+              type:
+                type: string
+                const: inquiry-template-version
+                description: inquiry-template-version
+              id:
+                type: string
+                examples:
+                  - itmplv_ABC123

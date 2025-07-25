@@ -1,0 +1,77 @@
+title: Serpro Database Verification
+description: A Serpro Database Verification
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    description: verification/database-serpro
+    const: verification/database-serpro
+  id:
+    type: string
+    description: The token of the verification
+    example: ver_ABC123
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./verification-shared-attributes.yaml
+      - type: object
+        properties:
+          birthdate:
+            description: Birthdate of the individual.
+            format: date
+            type:
+              - string
+              - 'null'
+          cpf:
+            description: The Cadastro de Pessoas Físicas for the individual.
+            type: string
+          name-first:
+            description: First name of the individual.
+            type: string
+          name-full:
+            description: Full name of the individual.
+            type: string
+          name-last:
+            description: Last name of the individual.
+            type: string
+  relationships:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./verification-shared-relationships.yaml
+      - type: object
+        properties:
+          selfie:
+            type: object
+            additionalProperties: false
+            description: The selfie linked to the Verification
+            properties:
+              data:
+                type:
+                  - object
+                  - 'null'
+                properties:
+                  id:
+                    example: self_ABC123
+                    type: string
+                  type:
+                    x-polymorphic: true
+                    examples:
+                      - selfie/profile-and-center
+                      - selfie/center-only
+                      - selfie/configurable-poses
+                    type: string
+                    description: >-
+                      Possible values:
+
+                      - selfie/profile-and-center
+
+                      - selfie/center-only
+
+                      - selfie/configurable-poses
+
+
+                      Do not assume this is a static enumeration; Persona may
+                      add new values in
+
+                      the future without a versioned update.

@@ -1,0 +1,119 @@
+x-inheritable: true
+type: object
+properties:
+  status:
+    type: string
+    description: |-
+      The status of the verification
+
+      Possible values:
+      - initiated
+      - submitted
+      - passed
+      - failed
+      - requires_retry
+      - canceled
+      - confirmed
+
+      Do not assume this is a static enumeration; Persona may add new values in
+      the future without a versioned update.
+  created-at:
+    type: string
+    format: date-time
+    description: The time the verification was created in ISO 8601 format
+    example: '2023-11-16T01:31:16.000Z'
+  created-at-ts:
+    type: integer
+    format: int32
+    description: The time the verification was created in Unix timestamp format
+    example: 1700098276
+  submitted-at:
+    type:
+      - string
+      - 'null'
+    format: date-time
+    description: The time the verification was submitted in ISO 8601 format
+    example: '2023-11-16T01:31:16.000Z'
+  submitted-at-ts:
+    type:
+      - integer
+      - 'null'
+    description: The time the verification was submitted in Unix timestamp format
+    example: 1700098276
+  completed-at:
+    type:
+      - string
+      - 'null'
+    format: date-time
+    description: The time the verification was completed in ISO 8601 format
+    example: '2023-11-16T01:31:16.000Z'
+  completed-at-ts:
+    type:
+      - integer
+      - 'null'
+    description: The time the verification was completed in Unix timestamp format
+    example: 1700098276
+  redacted-at:
+    type:
+      - string
+      - 'null'
+    format: date-time
+    description: The time the verification was redacted in ISO 8601 format
+    example: '2023-11-16T01:31:16.000Z'
+  country-code:
+    description: ISO 3166-1 alpha 2 country code.
+    example: US
+    type:
+      - string
+      - 'null'
+  tags:
+    description: Tags on the verification
+    items:
+      type: string
+    type: array
+  checks:
+    items:
+      properties:
+        name:
+          examples:
+            - aamva_identification_number_comparison
+            - document_type_detection
+          type: string
+        status:
+          description: |-
+            Possible values:
+            - passed
+            - failed
+            - not_applicable
+
+            Do not assume this is a static enumeration; Persona may add new
+            values in the future without a versioned update.
+          type: string
+        reasons:
+          type: array
+          description: >-
+            If applicable, reasons are the list of reasons explaining why the
+            check failed or is not applicable.
+          items:
+            type:
+              - string
+              - 'null'
+        requirement:
+          type: string
+          description: |-
+            Possible values:
+            - required
+            - not_required
+            - requires_retry
+
+            Do not assume this is a static enumeration; Persona may add new
+            values in the future without a versioned update.
+        metadata:
+          description: >-
+            This is a free-form object containing relevant metadata to the
+            processing and result of the check.
+          type: object
+          additionalProperties: true
+      type: object
+      additionalProperties: false
+    type: array

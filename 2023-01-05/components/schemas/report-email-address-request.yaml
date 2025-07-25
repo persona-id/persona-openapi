@@ -1,0 +1,29 @@
+title: Email Address Report
+description: Fields required to create an Email Address Report
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: report/email-address
+    description: report/email-address
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./report-shared-request-attributes.yaml
+      - type: object
+        properties:
+          query:
+            type: object
+            additionalProperties: false
+            properties:
+              email-address:
+                type: string
+                description: The email address to search.
+                example: example@domain.com
+            required:
+              - email-address
+        required:
+          - query
+required:
+  - attributes

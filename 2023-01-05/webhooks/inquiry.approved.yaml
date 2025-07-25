@@ -1,0 +1,58 @@
+post:
+  operationId: webhook-inquiry-approved
+  summary: Inquiry approved
+  description: >-
+    Webhook for the `inquiry.approved` event. For more info see [Webhooks
+    Overview](https://docs.withpersona.com/webhooks).
+  tags:
+    - 'Webhooks: Inquiry events'
+  x-persona-product: Inquiries
+  parameters:
+    - $ref: ../components/parameters/persona-signature-header.yaml
+    - $ref: ../components/parameters/persona-webhook-attempts-made.yaml
+    - $ref: ../components/parameters/persona-webhook-attempts-left.yaml
+    - $ref: ../components/parameters/persona-webhook-first-attempted-at.yaml
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          additionalProperties: false
+          properties:
+            data:
+              type: object
+              unevaluatedProperties: false
+              allOf:
+                - $ref: ../components/schemas/webhook-body-shared-data.yaml
+                - type: object
+                  properties:
+                    attributes:
+                      unevaluatedProperties: false
+                      allOf:
+                        - type: object
+                          properties:
+                            name:
+                              type: string
+                              const: inquiry.approved
+                              description: inquiry.approved
+                            payload:
+                              type: object
+                              additionalProperties: false
+                              properties:
+                                data:
+                                  $ref: ../components/schemas/inquiry.yaml
+                                included:
+                                  description: >-
+                                    All objects that are present in
+                                    `data.attributes.relationships` will be
+                                    provided in `included`.
+                                  $ref: >-
+                                    ../components/schemas/inquiry-included-objects.yaml
+                        - $ref: >-
+                            ../components/schemas/webhook-body-shared-attributes.yaml
+        examples:
+          Example Body:
+            $ref: ../components/examples/inquiry-approved-webhook-body.yaml
+  responses:
+    '200':
+      $ref: ../components/responses/success.yaml

@@ -1,0 +1,119 @@
+post:
+  description: >-
+    Creates a new Workflow Run.
+
+
+    Note: The payload is arbitrary and defined by the Workflow version trigger
+    schema.
+  operationId: create-a-workflow-run
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: >-
+      https://docs.withpersona.com/api-reference/workflow-runs/create-a-workflow-run
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+    - name: workflow-id
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            data:
+              properties:
+                attributes:
+                  description: >-
+                    JSON key-value pairs of field name to field value. Schema is
+                    defined by the trigger payload schema on your Workflow
+                    Version.
+                  examples:
+                    - preferred-name: Albert
+                      example-field: 123
+                  additionalProperties: true
+                  type: object
+              required:
+                - attributes
+              type: object
+              additionalProperties: false
+            meta:
+              type: object
+              properties:
+                params:
+                  description: >-
+                    JSON key-value pairs of field name to field value. Schema is
+                    defined by the trigger payload schema on your Workflow
+                    Version.
+                  examples:
+                    - preferred-name: Albert
+                      example-field: 123
+                  type: object
+                  additionalProperties: true
+              additionalProperties: false
+              x-remove-from-readme: true
+              x-remove-from-github: true
+          required:
+            - data
+          type: object
+          additionalProperties: false
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                data:
+                  type: workflow-run
+                  id: wfr_3JqAR9ddLRVZLK5z4yD8oeHB
+                  attributes:
+                    status: in_progress
+                    created-at: '2022-08-08T18:55:44.910Z'
+                    completed-at: null
+                  relationships:
+                    workflow-version:
+                      data:
+                        type: workflow-version
+                        id: wfv_DkWeGvK9wojQnubF8ABHzJRQ
+                    workflow:
+                      data:
+                        type: workflow
+                        id: wfl_3VghhbvDc7UuUNT8uZrqZjsk
+                    creator:
+                      data: null
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/workflow-run.yaml
+              included:
+                description: >-
+                  Objects that _may_ be returned if specified via the `include`
+                  query parameter in the request.
+                $ref: ../components/schemas/workflow-run-included-objects.yaml
+            type: object
+            additionalProperties: false
+      description: This endpoint returns a Workflow object.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Create a Workflow Run
+  tags:
+    - Workflows
+  x-persona-product: Workflows

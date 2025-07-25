@@ -1,0 +1,58 @@
+get:
+  description: Retrieves the details of an existing event.
+  operationId: retrieve-an-event
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/api-reference/events/retrieve-an-event
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+    - name: event-id
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                data:
+                  type: event
+                  id: evt_ABC123
+                  attributes:
+                    name: inquiry.expired
+                    payload:
+                      data:
+                        type: inquiry
+                        id: inq_ABC123
+                        attributes: {}
+                    created-at: '2023-09-23T17:14:01.918Z'
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/event.yaml
+              included:
+                $ref: ../components/schemas/empty-included-objects.yaml
+            type: object
+            additionalProperties: false
+      description: This endpoint returns an Event object.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Retrieve an Event
+  tags:
+    - Events
+  x-persona-product: Events

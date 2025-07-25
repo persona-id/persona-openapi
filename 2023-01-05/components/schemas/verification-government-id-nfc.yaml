@@ -1,0 +1,126 @@
+type: object
+additionalProperties: false
+title: Government ID NFC Verification
+description: A Government ID NFC Verification
+properties:
+  type:
+    type: string
+    description: verification/government-id-nfc
+    const: verification/government-id-nfc
+  id:
+    type: string
+    description: The token of the verification
+    example: ver_ABC123
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./verification-shared-attributes.yaml
+      - type: object
+        properties:
+          birthdate:
+            examples:
+              - '2000-01-01'
+            type:
+              - string
+              - 'null'
+          checks:
+            items:
+              properties:
+                metadata:
+                  additionalProperties: true
+                  type: object
+                name:
+                  examples:
+                    - id_nfc_expired_detection
+                  type: string
+                reasons:
+                  items:
+                    examples:
+                      - expired
+                    type: string
+                  type: array
+                status:
+                  examples:
+                    - failed
+                  type: string
+              type: object
+              additionalProperties: false
+            type: array
+          expiration-date:
+            examples:
+              - '2000-01-01'
+            type:
+              - string
+              - 'null'
+          id-class:
+            examples:
+              - dl
+            type:
+              - string
+              - 'null'
+          identification-number:
+            examples:
+              - P123456AA
+            type:
+              - string
+              - 'null'
+          name-first:
+            examples:
+              - ALEXANDER
+            type: string
+          name-last:
+            examples:
+              - SAMPLE
+            type: string
+          selfie-photo:
+            properties:
+              byte-size:
+                default: 0
+                examples:
+                  - 316802
+                type: integer
+              url:
+                examples:
+                  - https://files.withpersona.com/...
+                type: string
+            type:
+              - object
+              - 'null'
+          selfie-photo-url:
+            examples:
+              - https://files.withpersona.com/...
+            type:
+              - string
+              - 'null'
+          sex:
+            examples:
+              - M
+              - F
+              - X
+            type:
+              - string
+              - 'null'
+      - $ref: ./address-fields.yaml
+  relationships:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./verification-shared-relationships.yaml
+      - type: object
+        properties:
+          document:
+            properties:
+              data:
+                properties:
+                  id:
+                    examples:
+                      - doc_ABC123
+                    type: string
+                  type:
+                    x-polymorphic: true
+                    examples:
+                      - document/generic
+                    type: string
+                type: object
+                additionalProperties: false
+            type: object
+            additionalProperties: false

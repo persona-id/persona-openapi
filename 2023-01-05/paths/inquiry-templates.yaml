@@ -1,0 +1,65 @@
+get:
+  description: >-
+    Retrieves a list of your organization's Inquiry Templates.
+
+
+    Note: You must use a production API key to access this endpoint. For
+    security reasons, we do not expose organization-level resources like Inquiry
+    Templates in Sandbox via API. Results are returned in reverse chronological
+    order, with the most recently created objects first.
+  operationId: list-all-inquiry-templates
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: >-
+      https://docs.withpersona.com/api-reference/inquiry-templates/list-all-inquiry-templates
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/pagination-query-params.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+  responses:
+    '200':
+      description: This endpoint returns a collection of Inquiry Template objects.
+      content:
+        application/json:
+          examples:
+            Result:
+              $ref: ../components/examples/inquiry-template-list.yaml
+          schema:
+            type: object
+            additionalProperties: false
+            properties:
+              data:
+                type: array
+                description: An array of Inquiry Templates
+                items:
+                  $ref: ../components/schemas/inquiry-template.yaml
+              links:
+                type: object
+                additionalProperties: false
+                properties:
+                  prev:
+                    type:
+                      - 'null'
+                      - string
+                    examples:
+                      - /api/v1/inquiry-templates?page%5Bafter%5D=itmpl_ABC123
+                  next:
+                    type:
+                      - 'null'
+                      - string
+                    examples:
+                      - /api/v1/inquiry-templates?page%5Bafter%5D=itmpl_ABC123
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: List all Inquiry Templates
+  tags:
+    - Inquiry Templates
+  x-persona-product: Inquiries

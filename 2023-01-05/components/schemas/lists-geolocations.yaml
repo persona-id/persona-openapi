@@ -1,0 +1,28 @@
+type: object
+description: A Geolocation List object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    description: list/geolocation
+    const: list/geolocation
+  id:
+    type: string
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./lists-shared-attributes.yaml
+  relationships:
+    additionalProperties: false
+    type: object
+    properties:
+      list-items:
+        additionalProperties: false
+        type: object
+        properties:
+          data:
+            type: array
+            items:
+              additionalProperties: false
+              type: object
+              description: Geolocation List items associated with this list.

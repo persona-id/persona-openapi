@@ -1,0 +1,62 @@
+title: Document Verification
+description: A Document Verification
+additionalProperties: false
+type: object
+properties:
+  type:
+    type: string
+    description: verification/document
+    const: verification/document
+  id:
+    type: string
+    description: The token of the verification
+    example: ver_ABC123
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./verification-shared-attributes.yaml
+      - type: object
+        properties:
+          fields:
+            description: JSON key-value pairs of field name to field value.
+            additionalProperties: false
+            type: object
+          files:
+            description: The files uploaded to the associated document for processing.
+            items:
+              $ref: ./file.yaml
+            type: array
+          files-normalized:
+            items:
+              $ref: ./file.yaml
+            type: array
+          extraction-responses:
+            $ref: ./extraction-responses.yaml
+          document-type:
+            description: Document classification assignment based on document content.
+            type:
+              - string
+              - 'null'
+  relationships:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./verification-shared-relationships.yaml
+      - type: object
+        properties:
+          document:
+            properties:
+              data:
+                properties:
+                  id:
+                    examples:
+                      - doc_ABC123
+                    type: string
+                  type:
+                    x-polymorphic: true
+                    examples:
+                      - document/generic
+                    type: string
+                additionalProperties: false
+                type: object
+            additionalProperties: false
+            type: object

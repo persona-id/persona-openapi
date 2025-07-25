@@ -1,0 +1,58 @@
+title: eCBSV Database Verification
+description: An eCBSV Database Verification
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    description: verification/database-ecbsv
+    const: verification/database-ecbsv
+  id:
+    type: string
+    description: The token of the verification
+    example: ver_ABC123
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./verification-shared-attributes.yaml
+      - type: object
+        properties:
+          name-first:
+            description: First name of the individual.
+            type:
+              - string
+              - 'null'
+          name-last:
+            description: Last name of the individual.
+            type:
+              - string
+              - 'null'
+          birthdate:
+            description: Birthdate of the individual
+            format: date
+            type:
+              - string
+              - 'null'
+          email-address:
+            description: Email address of the individual.
+            type:
+              - string
+              - 'null'
+          identification-number:
+            description: Social Security Number of the individual.
+            type:
+              - string
+              - 'null'
+          signature-timestamp:
+            description: Timestamp of the signature
+            type:
+              - string
+              - 'null'
+            format: date-time
+          signature-ip:
+            description: IP address of the individual
+            type:
+              - string
+              - 'null'
+  relationships:
+    $ref: ./verification-shared-relationships.yaml

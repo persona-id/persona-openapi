@@ -1,0 +1,65 @@
+title: Profile Non-Authoritative Report
+description: Fields required to create a Profile Non-Authoritative Report
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: report/profile-non-authoritative
+    description: report/profile-non-authoritative
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./report-shared-request-attributes.yaml
+      - type: object
+        properties:
+          query:
+            type: object
+            additionalProperties: false
+            description: >-
+              Requires `phone-number`, or `email-address`, or all of
+              `name-first`, `name-last`, `address-city`, and
+              `address-subdivision`.
+            properties:
+              name-first:
+                type:
+                  - string
+                  - 'null'
+                description: The first name of the individual to search.
+                example: Jane
+              name-last:
+                type:
+                  - string
+                  - 'null'
+                description: The last name of the individual to search.
+                example: Doe
+              phone-number:
+                type:
+                  - string
+                  - 'null'
+                description: Phone number of the individual to search.
+                example: '+14169671111'
+              email-address:
+                description: Email address of the individual to search.
+                type:
+                  - string
+                  - 'null'
+                example: address@domain.com
+              address-city:
+                type:
+                  - string
+                  - 'null'
+                description: City
+                example: Funkyville
+              address-subdivision:
+                type:
+                  - string
+                  - 'null'
+                description: >-
+                  Subnational division (such as a state or province) of the
+                  country of residence.
+                example: Wisconsin
+        required:
+          - query
+required:
+  - attributes

@@ -1,0 +1,155 @@
+type: object
+additionalProperties: false
+description: A Document Government ID object
+properties:
+  id:
+    examples:
+      - doc_8HfuATwEZbXT532wv6pzWMTN
+    type: string
+  type:
+    type: string
+    const: document/government-id
+    description: document/government-id
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./document-shared-attributes.yaml
+      - type: object
+        properties:
+          front-photo:
+            $ref: ./file.yaml
+          back-photo:
+            $ref: ./file.yaml
+          selfie-photo:
+            $ref: ./file.yaml
+          id-class:
+            type:
+              - 'null'
+              - string
+            examples:
+              - dl
+              - pp
+          name-first:
+            description: Given or first name.
+            examples:
+              - Jane
+            type:
+              - string
+              - 'null'
+          name-middle:
+            description: Middle name.
+            examples:
+              - Marie
+            type:
+              - string
+              - 'null'
+          name-last:
+            description: Family or last name.
+            examples:
+              - Doe
+            type:
+              - string
+              - 'null'
+          name-suffix:
+            examples:
+              - III
+              - Jr.
+            type:
+              - string
+              - 'null'
+          birthdate:
+            format: date
+            examples:
+              - '1994-04-12'
+            type:
+              - string
+              - 'null'
+          issuing-authority:
+            type:
+              - string
+              - 'null'
+          issuing-subdivision:
+            type:
+              - string
+              - 'null'
+          nationality:
+            type:
+              - string
+              - 'null'
+          document-number:
+            type:
+              - string
+              - 'null'
+          visa-status:
+            type:
+              - string
+              - 'null'
+          issue-date:
+            format: date
+            examples:
+              - '2022-06-01'
+            type:
+              - string
+              - 'null'
+          expiration-date:
+            format: date
+            examples:
+              - '2025-02-20'
+            type:
+              - string
+              - 'null'
+          designations:
+            type:
+              - array
+              - 'null'
+            items:
+              type: string
+              description: |-
+                Possible values:
+                - commercial
+                - global_entry
+                - learners
+                - limited_term
+                - nexus
+                - permanent_resident
+                - provisional
+                - real_id
+                - restricted
+                - temporary
+                - veteran
+                - work_not_permitted
+
+                Do not assume this is a static enumeration; Persona may add new
+                values in the future without a versioned update.
+          birthplace:
+            type:
+              - string
+              - 'null'
+          height:
+            type:
+              - string
+              - 'null'
+          sex:
+            type:
+              - string
+              - 'null'
+          endorsements:
+            type:
+              - string
+              - 'null'
+          restrictions:
+            type:
+              - string
+              - 'null'
+          vehicle-class:
+            type:
+              - string
+              - 'null'
+          identification-number:
+            type:
+              - string
+              - 'null'
+      - $ref: ./address-fields.yaml
+    type: object
+  relationships:
+    $ref: ./document-shared-relationships.yaml

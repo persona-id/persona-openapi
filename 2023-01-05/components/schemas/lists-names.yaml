@@ -1,0 +1,32 @@
+type: object
+description: A Name List object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    description: list/name
+    const: list/name
+  id:
+    type: string
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./lists-shared-attributes.yaml
+      - type: object
+        properties:
+          allow-fuzzy-name-first:
+            type: boolean
+  relationships:
+    additionalProperties: false
+    type: object
+    properties:
+      list-items:
+        additionalProperties: false
+        type: object
+        properties:
+          data:
+            type: array
+            items:
+              additionalProperties: false
+              type: object
+              description: Name List items associated with this list.

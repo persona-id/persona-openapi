@@ -1,0 +1,102 @@
+get:
+  description: >-
+    Returns a list of your organization's events. Results are returned in
+    reverse chronological order, with the most recently created objects first.
+  operationId: list-all-events
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/api-reference/events/list-all-events
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/pagination-query-params.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+    - in: query
+      name: filter
+      style: deepObject
+      explode: true
+      schema:
+        type: object
+        additionalProperties: false
+        properties:
+          name:
+            description: Comma separated list of event names
+            type: string
+          object-id:
+            description: Comma separated list of object ids
+            type: string
+          id:
+            description: Comma separated list of event ids
+            type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                data:
+                  - type: event
+                    id: evt_ABC123
+                    attributes:
+                      name: inquiry.expired
+                      payload:
+                        data:
+                          type: inquiry
+                          id: inq_ABC123
+                          attributes: {}
+                      created-at: '2023-09-23T17:14:01.918Z'
+                  - type: event
+                    id: evt_ABC123
+                    attributes:
+                      name: account.tag-added
+                      payload:
+                        data:
+                          type: account
+                          id: act_ABC123
+                          attributes: {}
+                      created-at: '2023-09-23T00:46:41.877Z'
+                links:
+                  prev: null
+                  next: null
+          schema:
+            properties:
+              data:
+                type: array
+                description: An array of Events
+                items:
+                  $ref: ../components/schemas/event.yaml
+              links:
+                type: object
+                additionalProperties: false
+                properties:
+                  prev:
+                    type:
+                      - string
+                      - 'null'
+                    examples:
+                      - /api/v1/events?page%5Bbefore%5D=evt_ABC123
+                  next:
+                    type:
+                      - string
+                      - 'null'
+                    examples:
+                      - /api/v1/events?page%5Bafter%5D=evt_ABC123
+              included:
+                $ref: ../components/schemas/empty-included-objects.yaml
+            type: object
+            additionalProperties: false
+      description: This endpoint returns a collection of Event objects.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: List all Events
+  tags:
+    - Events
+  x-persona-product: Events

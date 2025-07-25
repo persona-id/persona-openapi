@@ -1,0 +1,84 @@
+get:
+  description: >-
+    Returns a list of your organization's importers. Results are returned in
+    reverse chronological order, with the most recently created objects first.
+  operationId: list-all-importers
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/api-reference/importers/list-all-importers
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/pagination-query-params.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                data:
+                  - type: importer/account
+                    id: mprt_TKqquVbHaSVYqgWhxNjuYDjQ
+                    attributes:
+                      status: pending
+                      created-at: '2020-07-12T17:16:54.656Z'
+                      completed-at: null
+                      error-count: 0
+                      successful-count: 0
+                      duplicate-count: 0
+                  - type: importer/list-item/name
+                    id: mprt_N6PqYkfSqeqiQYWoeHA3GGDo
+                    attributes:
+                      status: ready
+                      created-at: '2020-07-12T17:16:54.656Z'
+                      completed-at: '2020-07-14T17:17:23.032Z'
+                      error-count: 0
+                      successful-count: 104
+                      duplicate-count: 3
+                links:
+                  prev: null
+                  next: null
+          schema:
+            properties:
+              data:
+                type: array
+                description: An array of Importers
+                items:
+                  unevaluatedProperties: false
+                  $ref: ../components/schemas/importer.yaml
+              links:
+                type: object
+                additionalProperties: false
+                properties:
+                  prev:
+                    type:
+                      - string
+                      - 'null'
+                    examples:
+                      - /api/v1/events?page%5Bbefore%5D=mprt_ABC123
+                  next:
+                    type:
+                      - string
+                      - 'null'
+                    examples:
+                      - /api/v1/events?page%5Bafter%5D=mprt_ABC123
+              included:
+                $ref: ../components/schemas/empty-included-objects.yaml
+            type: object
+            additionalProperties: false
+      description: This endpoint returns an Importer object.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: List all Importers
+  tags:
+    - Importers
+  x-persona-product: Importers

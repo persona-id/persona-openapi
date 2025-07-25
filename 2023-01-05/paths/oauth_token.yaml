@@ -1,0 +1,90 @@
+post:
+  description: Creates an access token using an authorization code.
+  operationId: create-access-token
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/api-reference/oauth/create-access-token
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+  requestBody:
+    content:
+      application/x-www-form-urlencoded:
+        schema:
+          properties:
+            code:
+              description: Authorization Code
+              type: string
+            grant-type:
+              description: Must be set to 'authorization_code'
+              type: string
+              default: authorization_code
+          type: object
+          additionalProperties: false
+          required:
+            - code
+            - grant-type
+  responses:
+    '201':
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                access-token: persona_access_token_d8b7f084-385f-4ff0-930e-1580ccefa16d
+                token-type: bearer
+                expires-in: 3599
+                scope: >-
+                  inquiry.read:inq_uX7kRTiBxsJ1sZqPLAsjdP9j
+                  inquiry.read:inq_1Uy5ruZb5yZy4zX21KesbtfK
+          schema:
+            properties:
+              access-token:
+                description: >-
+                  Access Token that can be used wherever an API Key would be
+                  used.
+                examples:
+                  - persona_access_token_d8b7f084-385f-4ff0-930e-1580ccefa16d
+                type: string
+              expires-in:
+                description: Number of seconds until the access token expires.
+                default: 0
+                examples:
+                  - 3599
+                type: integer
+              scope:
+                description: >-
+                  Space-separated list of 'permission:object' combinations (i.e.
+                  `inquiry.read:inq_uX7kRTiBxsJ1sZqPLAsjdP9j
+                  verification.read:ver_ynYuWdrjwwjiHJ2rgHfSoHeT`
+                examples:
+                  - >-
+                    inquiry.read:inq_uX7kRTiBxsJ1sZqPLAsjdP9j
+                    inquiry.read:inq_1Uy5ruZb5yZy4zX21KesbtfK
+                type: string
+              token-type:
+                examples:
+                  - bearer
+                type: string
+            type: object
+            additionalProperties: false
+      description: This endpoint returns an Access Token.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Create Access Token
+  tags:
+    - OAuth
+  x-persona-product: OAuth

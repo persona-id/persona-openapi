@@ -1,0 +1,49 @@
+get:
+  description: Retrieves the details of a Document.
+  operationId: retrieve-a-document
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/api-reference/documents/retrieve-a-document
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+    - name: document-id
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Result:
+              $ref: ../components/examples/document-generic.yaml
+          schema:
+            type: object
+            additionalProperties: false
+            properties:
+              data:
+                $ref: ../components/schemas/document.yaml
+              included:
+                $ref: ../components/schemas/document-included-objects.yaml
+      description: >-
+        This endpoint returns a Document object and (optionally) its related
+        objects in `included`.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Retrieve a Document
+  tags:
+    - Documents
+  x-persona-product: Documents
