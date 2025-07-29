@@ -28,7 +28,7 @@ get:
       content:
         application/json:
           examples:
-            Result:
+            Success:
               $ref: ../components/examples/account-list.yaml
           schema:
             properties:
@@ -240,7 +240,7 @@ post:
       content:
         application/json:
           examples:
-            Result:
+            Success:
               $ref: ../components/examples/account.yaml
           schema:
             properties:
@@ -257,12 +257,17 @@ post:
       content:
         application/json:
           examples:
-            Result:
+            Created:
               $ref: ../components/examples/account.yaml
           schema:
             properties:
               data:
                 $ref: ../components/schemas/account.yaml
+              included:
+                description: >-
+                  Objects that _may_ be returned if specified via the `include`
+                  query parameter in the request.
+                $ref: ../components/schemas/accounts-included-objects.yaml
             type: object
             additionalProperties: false
       description: >-
