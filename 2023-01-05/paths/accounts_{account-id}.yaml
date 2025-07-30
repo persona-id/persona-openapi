@@ -64,9 +64,11 @@ delete:
       content:
         application/json:
           examples:
-            Result:
-              summary: Conflict
-              $ref: ../components/examples/account.yaml
+            Conflict:
+              value:
+                errors:
+                  - title: Conflict
+                    details: Resource already exists as an active resource
           schema:
             unevaluatedProperties: false
             oneOf:
@@ -80,6 +82,7 @@ delete:
                     $ref: ../components/schemas/accounts-included-objects.yaml
                 additionalProperties: false
                 type: object
+                title: Response with full Account
               - properties:
                   errors:
                     type: array
@@ -99,6 +102,7 @@ delete:
                       additionalProperties: false
                 additionalProperties: false
                 type: object
+                title: Response with error message
     '422':
       $ref: ../components/responses/unprocessable-entity.yaml
     '429':
