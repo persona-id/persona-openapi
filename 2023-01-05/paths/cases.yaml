@@ -143,8 +143,14 @@ get:
                       - 'null'
                 type: object
                 additionalProperties: false
+                required:
+                  - next
+                  - prev
             type: object
             additionalProperties: false
+            required:
+              - data
+              - links
       description: This endpoint returns a collection of Case objects.
     '400':
       $ref: ../components/responses/bad-request.yaml
@@ -301,6 +307,8 @@ post:
                 $ref: ../components/schemas/cases-included-objects.yaml
             type: object
             additionalProperties: false
+            required:
+              - data
       description: >-
         This endpoint returns a Case object and (optionally) its related objects
         in `included`.

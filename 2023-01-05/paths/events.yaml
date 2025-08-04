@@ -83,10 +83,14 @@ get:
                       - 'null'
                     examples:
                       - /api/v1/events?page%5Bafter%5D=evt_ABC123
-              included:
-                $ref: ../components/schemas/empty-included-objects.yaml
+                required:
+                  - prev
+                  - next
             type: object
             additionalProperties: false
+            required:
+              - data
+              - links
       description: This endpoint returns a collection of Event objects.
     '400':
       $ref: ../components/responses/bad-request.yaml

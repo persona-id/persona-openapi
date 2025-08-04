@@ -142,8 +142,14 @@ paths:
                         description: 'URL pointing to the next page of data, or null if on the last page.'
                     additionalProperties: false
                     type: object
+                    required:
+                      - prev
+                      - next
                 additionalProperties: false
                 type: object
+                required:
+                  - data
+                  - links
           description: This endpoint returns a collection of Account objects.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -311,6 +317,8 @@ paths:
                     $ref: '#/components/schemas/accounts-included-objects'
                 additionalProperties: false
                 type: object
+                required:
+                  - data
         '201':
           content:
             application/json:
@@ -326,6 +334,8 @@ paths:
                     $ref: '#/components/schemas/accounts-included-objects'
                 type: object
                 additionalProperties: false
+                required:
+                  - data
           description: This endpoint returns an Account object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -382,6 +392,8 @@ paths:
                     $ref: '#/components/schemas/accounts-included-objects'
                 additionalProperties: false
                 type: object
+                required:
+                  - data
           description: This endpoint returns an Account object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -474,6 +486,8 @@ paths:
                     $ref: '#/components/schemas/accounts-included-objects'
                 additionalProperties: false
                 type: object
+                required:
+                  - data
           description: This endpoint returns an Account object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -641,6 +655,8 @@ paths:
                     $ref: '#/components/schemas/accounts-included-objects'
                 additionalProperties: false
                 type: object
+                required:
+                  - data
           description: This endpoint returns an Account object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -708,6 +724,8 @@ paths:
                     $ref: '#/components/schemas/accounts-included-objects'
                 additionalProperties: false
                 type: object
+                required:
+                  - data
               examples:
                 Success:
                   $ref: '#/components/examples/account'
@@ -786,6 +804,8 @@ paths:
                     $ref: '#/components/schemas/accounts-included-objects'
                 additionalProperties: false
                 type: object
+                required:
+                  - data
           description: This endpoint returns an Account object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -853,6 +873,8 @@ paths:
                     $ref: '#/components/schemas/accounts-included-objects'
                 additionalProperties: false
                 type: object
+                required:
+                  - data
               examples:
                 Success:
                   $ref: '#/components/examples/account'
@@ -927,6 +949,8 @@ paths:
                     $ref: '#/components/schemas/accounts-included-objects'
                 additionalProperties: false
                 type: object
+                required:
+                  - data
               examples:
                 Success:
                   $ref: '#/components/examples/account'
@@ -1001,8 +1025,14 @@ paths:
                           - 'null'
                     type: object
                     additionalProperties: false
+                    required:
+                      - next
+                      - prev
                   included:
                     $ref: '#/components/schemas/empty-included-objects'
+                required:
+                  - data
+                  - links
           description: This endpoint returns a collection of API key objects.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -1045,6 +1075,8 @@ paths:
                     $ref: '#/components/schemas/api-key-with-value'
                   included:
                     $ref: '#/components/schemas/empty-included-objects'
+                required:
+                  - data
           description: This endpoint returns an API key object.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -1096,6 +1128,8 @@ paths:
                     $ref: '#/components/schemas/api-key-with-value'
                   included:
                     $ref: '#/components/schemas/empty-included-objects'
+                required:
+                  - data
           description: This endpoint returns an API key object.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -1144,6 +1178,8 @@ paths:
                     $ref: '#/components/schemas/api-key'
                   included:
                     $ref: '#/components/schemas/empty-included-objects'
+                required:
+                  - data
           description: This endpoint returns an API key object.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -1213,6 +1249,8 @@ paths:
                     $ref: '#/components/schemas/api-key'
                   included:
                     $ref: '#/components/schemas/empty-included-objects'
+                required:
+                  - data
           description: This endpoint returns an API key object.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -1264,6 +1302,8 @@ paths:
                     $ref: '#/components/schemas/api-key-with-value'
                   included:
                     $ref: '#/components/schemas/empty-included-objects'
+                required:
+                  - data
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -1325,10 +1365,16 @@ paths:
                           - 'null'
                     type: object
                     additionalProperties: false
+                    required:
+                      - next
+                      - prev
                   included:
                     $ref: '#/components/schemas/empty-included-objects'
                 type: object
                 additionalProperties: false
+                required:
+                  - data
+                  - links
           description: This endpoint returns a collection of API log objects.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -1377,6 +1423,8 @@ paths:
                     $ref: '#/components/schemas/empty-included-objects'
                 type: object
                 additionalProperties: false
+                required:
+                  - data
           description: This endpoint returns an API log object.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -1530,8 +1578,14 @@ paths:
                           - 'null'
                     type: object
                     additionalProperties: false
+                    required:
+                      - next
+                      - prev
                 type: object
                 additionalProperties: false
+                required:
+                  - data
+                  - links
           description: This endpoint returns a collection of Case objects.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -1675,6 +1729,8 @@ paths:
                     $ref: '#/components/schemas/cases-included-objects'
                 type: object
                 additionalProperties: false
+                required:
+                  - data
           description: This endpoint returns a Case object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -1779,6 +1835,8 @@ paths:
                     $ref: '#/components/schemas/cases-included-objects'
                 type: object
                 additionalProperties: false
+                required:
+                  - data
           description: This endpoint returns a Case object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -1892,6 +1950,8 @@ paths:
                     $ref: '#/components/schemas/cases-included-objects'
                 type: object
                 additionalProperties: false
+                required:
+                  - data
           description: This endpoint returns a Case object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -2047,6 +2107,8 @@ paths:
                     $ref: '#/components/schemas/cases-included-objects'
                 type: object
                 additionalProperties: false
+                required:
+                  - data
           description: This endpoint returns a Case object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -2169,6 +2231,8 @@ paths:
                     $ref: '#/components/schemas/cases-included-objects'
                 type: object
                 additionalProperties: false
+                required:
+                  - data
           description: This endpoint returns a Case object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -2291,6 +2355,8 @@ paths:
                     $ref: '#/components/schemas/cases-included-objects'
                 type: object
                 additionalProperties: false
+                required:
+                  - data
           description: This endpoint returns a Case object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -2416,6 +2482,8 @@ paths:
                     $ref: '#/components/schemas/cases-included-objects'
                 type: object
                 additionalProperties: false
+                required:
+                  - data
           description: This endpoint returns a Case object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -2538,6 +2606,8 @@ paths:
                     $ref: '#/components/schemas/cases-included-objects'
                 type: object
                 additionalProperties: false
+                required:
+                  - data
           description: This endpoint returns a Case object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -2659,6 +2729,8 @@ paths:
                     $ref: '#/components/schemas/cases-included-objects'
                 type: object
                 additionalProperties: false
+                required:
+                  - data
           description: This endpoint returns a Case object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -2786,6 +2858,8 @@ paths:
                     $ref: '#/components/schemas/cases-included-objects'
                 type: object
                 additionalProperties: false
+                required:
+                  - data
           description: This endpoint returns a Case object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -2862,8 +2936,14 @@ paths:
                           - 'null'
                         examples:
                           - /api/v1/devices?page%5Bafter%5D=dev_ABC123
+                    required:
+                      - prev
+                      - next
                   included:
                     $ref: '#/components/schemas/empty-included-objects'
+                required:
+                  - data
+                  - links
           description: This endpoint returns a collection of Device objects.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -2911,6 +2991,8 @@ paths:
                     $ref: '#/components/schemas/empty-included-objects'
                 type: object
                 additionalProperties: false
+                required:
+                  - data
           description: This endpoint returns a Device object.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -3003,6 +3085,8 @@ paths:
                     $ref: '#/components/schemas/document-included-objects'
                 type: object
                 additionalProperties: false
+                required:
+                  - data
           description: This endpoint returns a Generic Document object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -3055,6 +3139,8 @@ paths:
                     $ref: '#/components/schemas/document-included-objects'
                 type: object
                 additionalProperties: false
+                required:
+                  - data
           description: This endpoint returns a Generic Document object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -3135,6 +3221,8 @@ paths:
                     $ref: '#/components/schemas/document-included-objects'
                 type: object
                 additionalProperties: false
+                required:
+                  - data
           description: This endpoint returns a Generic Document object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -3187,6 +3275,8 @@ paths:
                     $ref: '#/components/schemas/document-included-objects'
                 type: object
                 additionalProperties: false
+                required:
+                  - data
           description: This endpoint returns a Generic Document object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -3311,6 +3401,8 @@ paths:
                     $ref: '#/components/schemas/document-government-id'
                 type: object
                 additionalProperties: false
+                required:
+                  - data
           description: This endpoint returns a Government ID Document object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -3363,6 +3455,8 @@ paths:
                     $ref: '#/components/schemas/document-included-objects'
                 type: object
                 additionalProperties: false
+                required:
+                  - data
           description: This endpoint returns a Government ID Document object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -3481,6 +3575,8 @@ paths:
                     $ref: '#/components/schemas/document-government-id'
                 type: object
                 additionalProperties: false
+                required:
+                  - data
           description: This endpoint returns a Government ID Document object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -3531,6 +3627,8 @@ paths:
                     $ref: '#/components/schemas/document-government-id'
                 type: object
                 additionalProperties: false
+                required:
+                  - data
           description: This endpoint returns a Government ID Document object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -3583,6 +3681,8 @@ paths:
                     $ref: '#/components/schemas/document'
                   included:
                     $ref: '#/components/schemas/document-included-objects'
+                required:
+                  - data
           description: This endpoint returns a Document object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -3682,10 +3782,14 @@ paths:
                           - 'null'
                         examples:
                           - /api/v1/events?page%5Bafter%5D=evt_ABC123
-                  included:
-                    $ref: '#/components/schemas/empty-included-objects'
+                    required:
+                      - prev
+                      - next
                 type: object
                 additionalProperties: false
+                required:
+                  - data
+                  - links
           description: This endpoint returns a collection of Event objects.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -3743,6 +3847,8 @@ paths:
                     $ref: '#/components/schemas/empty-included-objects'
                 type: object
                 additionalProperties: false
+                required:
+                  - data
           description: This endpoint returns an Event object.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -3824,8 +3930,14 @@ paths:
                           - 'null'
                         examples:
                           - /api/v1/events?page%5Bafter%5D=mprt_ABC123
+                    required:
+                      - prev
+                      - next
                   included:
                     $ref: '#/components/schemas/empty-included-objects'
+                required:
+                  - data
+                  - links
                 type: object
                 additionalProperties: false
           description: This endpoint returns an Importer object.
@@ -3880,6 +3992,8 @@ paths:
               schema:
                 type: object
                 additionalProperties: false
+                required:
+                  - data
                 properties:
                   data:
                     unevaluatedProperties: false
@@ -3999,6 +4113,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/importer-account'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns an Importer object.
@@ -4061,6 +4177,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/importer-list-item-email-address'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns an Importer object.
@@ -4122,6 +4240,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/importer-list-item-geolocation'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns an Importer object.
@@ -4184,6 +4304,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/importer-list-item-government-id-number'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns an Importer object.
@@ -4245,6 +4367,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/importer-list-item-ip-address'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns an Importer object.
@@ -4305,6 +4429,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/importer-list-item-name'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns an Importer object.
@@ -4364,6 +4490,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/importer-list-item-phone-number'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns an Importer object.
@@ -4531,8 +4659,14 @@ paths:
                           - 'null'
                           - string
                         description: 'URL pointing to the next page of data, or null if on the last page.'
+                    required:
+                      - prev
+                      - next
                     additionalProperties: false
                     type: object
+                required:
+                  - data
+                  - links
                 additionalProperties: false
                 type: object
           description: This endpoint returns a collection of Inquiry objects.
@@ -4737,6 +4871,8 @@ paths:
                   included:
                     description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
                     $ref: '#/components/schemas/inquiry-included-objects'
+                required:
+                  - data
                 additionalProperties: false
                 type: object
           description: This endpoint returns an Inquiry object and (optionally) its related objects in `included`.
@@ -4793,6 +4929,8 @@ paths:
                   included:
                     description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
                     $ref: '#/components/schemas/inquiry-included-objects'
+                required:
+                  - data
                 additionalProperties: false
                 type: object
           description: This endpoint returns an Inquiry object and (optionally) its related objects in `included`.
@@ -4859,6 +4997,8 @@ paths:
 
                       Anything else must be explicitly requested with the `include` query parameter.
                     $ref: '#/components/schemas/inquiry-included-objects'
+                required:
+                  - data
                 additionalProperties: false
                 type: object
           description: This endpoint returns an Inquiry object and (optionally) its related objects in `included`.
@@ -4945,6 +5085,8 @@ paths:
                   included:
                     description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
                     $ref: '#/components/schemas/inquiry-included-objects'
+                required:
+                  - data
                 additionalProperties: false
                 type: object
           description: This endpoint returns an Inquiry object and (optionally) its related objects in `included`.
@@ -5000,6 +5142,8 @@ paths:
                   included:
                     description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
                     $ref: '#/components/schemas/inquiry-included-objects'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns an Inquiry object and (optionally) its related objects in `included`.
@@ -5060,6 +5204,8 @@ paths:
                   included:
                     description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
                     $ref: '#/components/schemas/inquiry-included-objects'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns an Inquiry object and (optionally) its related objects in `included`.
@@ -5120,6 +5266,8 @@ paths:
                   included:
                     description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
                     $ref: '#/components/schemas/inquiry-included-objects'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns an Inquiry object and (optionally) its related objects in `included`.
@@ -5179,6 +5327,8 @@ paths:
                   included:
                     description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
                     $ref: '#/components/schemas/inquiry-included-objects'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns an Inquiry object and (optionally) its related objects in `included`.
@@ -5235,6 +5385,8 @@ paths:
                   included:
                     description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
                     $ref: '#/components/schemas/inquiry-included-objects'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns an Inquiry object and (optionally) its related objects in `included`.
@@ -5316,8 +5468,14 @@ paths:
                         examples:
                           - 'https://perso.na/verify?code=ABC123'
                         type: string
+                    required:
+                      - one-time-link
+                      - one-time-link-short
                     additionalProperties: false
                     type: object
+                required:
+                  - data
+                  - meta
                 additionalProperties: false
                 type: object
           description: This endpoint returns an Inquiry object and (optionally) its related objects in `included`.
@@ -5413,6 +5571,8 @@ paths:
                   included:
                     description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
                     $ref: '#/components/schemas/inquiry-included-objects'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns an Inquiry object and (optionally) its related objects in `included`.
@@ -5476,8 +5636,13 @@ paths:
                         examples:
                           - eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpcXNlX1Q4UHJxcG9FaHdoVVYxd0hSZXVVOW9mcyIsImF1ZCI6InBlcnNvbmEtdmVyaWZ5IiwiaXNzIjoic3RhZ2luZy53aXRocGVyc29uYS5jb20iLCJpYXQiOjE1NzM4NTI2NjEsIm5iZiI6MTU3Mzg1MjY2MSwiZXhwIjoxNTczOTM5MDYxLCJqdGkiOiI5NWRlNjhkOS1hZjI4LTRiMzItOWIxYi03MjA4MTg3NTI3N2IiLCJzaWQiOiJpcXNlX1Q4UHJxcG9FaHdoVVYxd0hSZXVVOW9mcyJ9.LN6DEnfjP5cZoZ3w41RgyX5QVmutmjHja_bRHOmDjg0
                         type: string
+                    required:
+                      - session-token
                     additionalProperties: false
                     type: object
+                required:
+                  - data
+                  - meta
                 additionalProperties: false
                 type: object
           description: This endpoint returns an Inquiry object and (optionally) its related objects in `included`.
@@ -5554,6 +5719,8 @@ paths:
                   included:
                     description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
                     $ref: '#/components/schemas/inquiry-included-objects'
+                required:
+                  - data
                 additionalProperties: false
                 type: object
           description: This endpoint returns an Inquiry object and (optionally) its related objects in `included`.
@@ -5640,6 +5807,8 @@ paths:
                   included:
                     description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
                     $ref: '#/components/schemas/inquiry-included-objects'
+                required:
+                  - data
                 additionalProperties: false
                 type: object
           description: This endpoint returns an Inquiry object and (optionally) its related objects in `included`.
@@ -5736,6 +5905,9 @@ paths:
               schema:
                 type: object
                 additionalProperties: false
+                required:
+                  - data
+                  - links
                 properties:
                   data:
                     type: array
@@ -5760,6 +5932,9 @@ paths:
                           - 'null'
                         examples:
                           - /api/v1/inquiry-sessions?page%5Bafter%5D=iqse_ABC123
+                    required:
+                      - prev
+                      - next
           description: This endpoint returns a collection of Inquiry Session objects.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -5819,6 +5994,8 @@ paths:
                   included:
                     description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
                     $ref: '#/components/schemas/inquiry-sessions-included-objects'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns an Inquiry Session object and (optionally) its related objects in `included`.
@@ -5919,6 +6096,8 @@ paths:
               schema:
                 type: object
                 additionalProperties: false
+                required:
+                  - data
                 properties:
                   data:
                     type: array
@@ -5977,6 +6156,8 @@ paths:
                   included:
                     description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
                     $ref: '#/components/schemas/inquiry-sessions-included-objects'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns an Inquiry Session object and (optionally) its related objects in `included`.
@@ -6026,6 +6207,8 @@ paths:
                   included:
                     description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
                     $ref: '#/components/schemas/inquiry-sessions-included-objects'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns an Inquiry Session object and (optionally) its related objects in `included`.
@@ -6124,11 +6307,17 @@ paths:
                         type: string
                       one-time-link-short:
                         type: string
+                    required:
+                      - one-time-link
+                      - one-time-link-short
                     type: object
                     additionalProperties: false
                   included:
                     description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
                     $ref: '#/components/schemas/inquiry-sessions-included-objects'
+                required:
+                  - data
+                  - meta
                 type: object
                 additionalProperties: false
           description: This endpoint returns an Inquiry Session object and (optionally) its related objects in `included`.
@@ -6177,6 +6366,9 @@ paths:
               schema:
                 type: object
                 additionalProperties: false
+                required:
+                  - data
+                  - links
                 properties:
                   data:
                     type: array
@@ -6199,6 +6391,9 @@ paths:
                           - string
                         examples:
                           - /api/v1/inquiry-templates?page%5Bafter%5D=itmpl_ABC123
+                    required:
+                      - prev
+                      - next
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -6244,6 +6439,8 @@ paths:
               schema:
                 type: object
                 additionalProperties: false
+                required:
+                  - data
                 properties:
                   data:
                     $ref: '#/components/schemas/inquiry-template'
@@ -6306,6 +6503,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/list-item-browser-fingerprint'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns the created List Item object.
@@ -6357,6 +6556,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/list-item-browser-fingerprint'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns a List Item object.
@@ -6407,6 +6608,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/list-item-browser-fingerprint'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns a List Item object.
@@ -6473,6 +6676,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/list-item-country'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns the created List Item object.
@@ -6524,6 +6729,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/list-item-country'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns a List Item object.
@@ -6574,6 +6781,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/list-item-country'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns a List Item object.
@@ -6640,6 +6849,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/list-item-device-fingerprint'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns the created List Item object.
@@ -6691,6 +6902,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/list-item-device-fingerprint'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns a List Item object.
@@ -6741,6 +6954,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/list-item-device-fingerprint'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns a List Item object.
@@ -6810,6 +7025,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/list-item-email-address'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns the created List Item object.
@@ -6861,6 +7078,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/list-item-email-address'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns a List Item object.
@@ -6911,6 +7130,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/list-item-email-address'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns a List Item object.
@@ -6977,6 +7198,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/list-item-field'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns the created List Item object.
@@ -7028,6 +7251,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/list-item-field'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns a List Item object.
@@ -7078,6 +7303,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/list-item-field'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns a List Item object.
@@ -7153,6 +7380,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/list-item-geolocation'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns the created List Item object.
@@ -7204,6 +7433,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/list-item-geolocation'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns a List Item object.
@@ -7254,6 +7485,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/list-item-geolocation'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns a List Item object.
@@ -7323,6 +7556,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/list-item-government-id-number'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns the created List Item object.
@@ -7374,6 +7609,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/list-item-government-id-number'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns a List Item object.
@@ -7424,6 +7661,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/list-item-government-id-number'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns a List Item object.
@@ -7490,6 +7729,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/list-item-ip-address'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns the created List Item object.
@@ -7541,6 +7782,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/list-item-ip-address'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns a List Item object.
@@ -7591,6 +7834,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/list-item-ip-address'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns a List Item object.
@@ -7660,6 +7905,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/list-item-name'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns the created List Item object.
@@ -7711,6 +7958,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/list-item-name'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns a List Item object.
@@ -7761,6 +8010,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/list-item-name'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns a List Item object.
@@ -7827,6 +8078,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/list-item-phone-number'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns the created List Item object.
@@ -7878,6 +8131,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/list-item-phone-number'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns a List Item object.
@@ -7928,6 +8183,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/list-item-phone-number'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns a List Item object.
@@ -7994,6 +8251,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/list-item-string'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns the created List Item object.
@@ -8045,6 +8304,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/list-item-string'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns a List Item object.
@@ -8095,6 +8356,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/list-item-string'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns a List Item object.
@@ -8167,6 +8430,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/lists-browser-fingerprints'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
               examples:
@@ -8247,6 +8512,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/lists-countries'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
               examples:
@@ -8327,6 +8594,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/lists-email-addresses'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
               examples:
@@ -8407,6 +8676,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/lists-geolocations'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
               examples:
@@ -8487,6 +8758,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/lists-government-id-numbers'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
               examples:
@@ -8567,6 +8840,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/lists-ip-addresses'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
               examples:
@@ -8651,6 +8926,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/lists-names'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
               examples:
@@ -8731,6 +9008,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/lists-phone-numbers'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
               examples:
@@ -8798,6 +9077,9 @@ paths:
               schema:
                 type: object
                 additionalProperties: false
+                required:
+                  - data
+                  - links
                 properties:
                   data:
                     type: array
@@ -8818,6 +9100,9 @@ paths:
                           - string
                           - 'null'
                         description: 'URL pointing to the next page of data, or null if on the last page.'
+                    required:
+                      - prev
+                      - next
               examples:
                 Success:
                   value:
@@ -8879,6 +9164,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/list'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
               examples:
@@ -8941,6 +9228,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/list'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
               examples:
@@ -9022,6 +9311,9 @@ paths:
                     examples:
                       - 599
                     type: integer
+                required:
+                  - code
+                  - expires-in
                 type: object
                 additionalProperties: false
           description: This endpoint returns an Authorization Code.
@@ -9104,6 +9396,11 @@ paths:
                     examples:
                       - bearer
                     type: string
+                required:
+                  - access-token
+                  - expires-in
+                  - scope
+                  - token-type
                 type: object
                 additionalProperties: false
           description: This endpoint returns an Access Token.
@@ -9159,6 +9456,9 @@ paths:
               schema:
                 type: object
                 additionalProperties: false
+                required:
+                  - data
+                  - links
                 properties:
                   data:
                     type: array
@@ -9176,6 +9476,9 @@ paths:
                         type:
                           - string
                           - 'null'
+                    required:
+                      - prev
+                      - next
               examples:
                 Success:
                   value:
@@ -9298,6 +9601,8 @@ paths:
               schema:
                 type: object
                 additionalProperties: false
+                required:
+                  - data
                 properties:
                   data:
                     $ref: '#/components/schemas/report'
@@ -9358,6 +9663,8 @@ paths:
               schema:
                 type: object
                 additionalProperties: false
+                required:
+                  - data
                 properties:
                   data:
                     $ref: '#/components/schemas/report'
@@ -9419,6 +9726,8 @@ paths:
 
                       Anything else must be explicitly requested with the `include` query parameter.
                     $ref: '#/components/schemas/reports-included-objects'
+                required:
+                  - data
                 type: object
                 additionalProperties: false
           description: This endpoint returns a Report object and (optionally) its related objects in `included`.
@@ -9501,6 +9810,8 @@ paths:
               schema:
                 type: object
                 additionalProperties: false
+                required:
+                  - data
                 properties:
                   data:
                     $ref: '#/components/schemas/report'
@@ -9603,6 +9914,8 @@ paths:
               schema:
                 type: object
                 additionalProperties: false
+                required:
+                  - data
                 properties:
                   data:
                     $ref: '#/components/schemas/report'
@@ -9676,6 +9989,8 @@ paths:
               schema:
                 type: object
                 additionalProperties: false
+                required:
+                  - data
                 properties:
                   data:
                     $ref: '#/components/schemas/report'
@@ -9806,6 +10121,8 @@ paths:
               schema:
                 type: object
                 additionalProperties: false
+                required:
+                  - data
                 properties:
                   data:
                     $ref: '#/components/schemas/report'
@@ -9879,6 +10196,8 @@ paths:
               schema:
                 type: object
                 additionalProperties: false
+                required:
+                  - data
                 properties:
                   data:
                     $ref: '#/components/schemas/report'
@@ -9952,6 +10271,8 @@ paths:
               schema:
                 type: object
                 additionalProperties: false
+                required:
+                  - data
                 properties:
                   data:
                     $ref: '#/components/schemas/report'
@@ -10046,6 +10367,8 @@ paths:
               schema:
                 type: object
                 additionalProperties: false
+                required:
+                  - data
                 properties:
                   data:
                     $ref: '#/components/schemas/report'
@@ -10136,6 +10459,8 @@ paths:
               schema:
                 type: object
                 additionalProperties: false
+                required:
+                  - data
                 properties:
                   data:
                     $ref: '#/components/schemas/transaction'
@@ -10149,6 +10474,8 @@ paths:
               schema:
                 type: object
                 additionalProperties: false
+                required:
+                  - data
                 properties:
                   data:
                     $ref: '#/components/schemas/transaction'
@@ -10216,6 +10543,9 @@ paths:
               schema:
                 type: object
                 additionalProperties: false
+                required:
+                  - data
+                  - links
                 properties:
                   data:
                     type: array
@@ -10237,6 +10567,9 @@ paths:
                           - 'null'
                         examples:
                           - /api/v1/transactions?page%5Bafter%5D=txn_ABC123
+                    required:
+                      - prev
+                      - next
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -10315,6 +10648,8 @@ paths:
               schema:
                 type: object
                 additionalProperties: false
+                required:
+                  - data
                 properties:
                   data:
                     $ref: '#/components/schemas/transaction'
@@ -10365,6 +10700,8 @@ paths:
               schema:
                 type: object
                 additionalProperties: false
+                required:
+                  - data
                 properties:
                   data:
                     $ref: '#/components/schemas/transaction'
@@ -10382,6 +10719,9 @@ paths:
                           type: string
                       additionalProperties: true
                       type: object
+                      required:
+                        - type
+                        - id
                     type: array
         '400':
           $ref: '#/components/responses/bad-request'
@@ -10459,6 +10799,8 @@ paths:
               schema:
                 type: object
                 additionalProperties: false
+                required:
+                  - data
                 properties:
                   data:
                     $ref: '#/components/schemas/transaction'
@@ -10536,6 +10878,8 @@ paths:
               schema:
                 type: object
                 additionalProperties: false
+                required:
+                  - data
                 properties:
                   data:
                     $ref: '#/components/schemas/transaction'
@@ -10605,6 +10949,8 @@ paths:
               schema:
                 type: object
                 additionalProperties: false
+                required:
+                  - data
                 properties:
                   data:
                     $ref: '#/components/schemas/transaction'
@@ -10682,6 +11028,8 @@ paths:
               schema:
                 type: object
                 additionalProperties: false
+                required:
+                  - data
                 properties:
                   data:
                     $ref: '#/components/schemas/transaction'
@@ -10761,6 +11109,8 @@ paths:
               schema:
                 type: object
                 additionalProperties: false
+                required:
+                  - data
                 properties:
                   data:
                     $ref: '#/components/schemas/transaction'
@@ -10847,6 +11197,8 @@ paths:
               schema:
                 type: object
                 additionalProperties: false
+                required:
+                  - data
                 properties:
                   data:
                     $ref: '#/components/schemas/transaction'
@@ -10946,6 +11298,9 @@ paths:
               schema:
                 type: object
                 additionalProperties: false
+                required:
+                  - data
+                  - links
                 properties:
                   data:
                     type: array
@@ -10954,6 +11309,9 @@ paths:
                   links:
                     type: object
                     additionalProperties: false
+                    required:
+                      - prev
+                      - next
                     properties:
                       prev:
                         type:
@@ -11042,6 +11400,8 @@ paths:
                       $ref: '#/components/schemas/user'
                 type: object
                 additionalProperties: false
+                required:
+                  - data
           description: This endpoint returns a User Audit Log object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -11086,6 +11446,8 @@ paths:
               schema:
                 type: object
                 additionalProperties: false
+                required:
+                  - data
                 properties:
                   data:
                     $ref: '#/components/schemas/verification-aamva'
@@ -11133,6 +11495,8 @@ paths:
               schema:
                 type: object
                 additionalProperties: false
+                required:
+                  - data
                 properties:
                   data:
                     $ref: '#/components/schemas/verification-database-ecbsv'
@@ -11180,6 +11544,8 @@ paths:
               schema:
                 type: object
                 additionalProperties: false
+                required:
+                  - data
                 properties:
                   data:
                     $ref: '#/components/schemas/verification-database-phone-carrier'
@@ -11227,6 +11593,8 @@ paths:
               schema:
                 type: object
                 additionalProperties: false
+                required:
+                  - data
                 properties:
                   data:
                     $ref: '#/components/schemas/verification-database-serpro'
@@ -11274,6 +11642,8 @@ paths:
               schema:
                 type: object
                 additionalProperties: false
+                required:
+                  - data
                 properties:
                   data:
                     $ref: '#/components/schemas/verification-database-standard'
@@ -11321,6 +11691,8 @@ paths:
               schema:
                 type: object
                 additionalProperties: false
+                required:
+                  - data
                 properties:
                   data:
                     $ref: '#/components/schemas/verification-database-tin'
@@ -11368,6 +11740,8 @@ paths:
               schema:
                 type: object
                 additionalProperties: false
+                required:
+                  - data
                 properties:
                   data:
                     $ref: '#/components/schemas/verification-database'
@@ -11414,6 +11788,8 @@ paths:
               schema:
                 type: object
                 additionalProperties: false
+                required:
+                  - data
                 properties:
                   data:
                     $ref: '#/components/schemas/verification-document'
@@ -11461,6 +11837,8 @@ paths:
               schema:
                 type: object
                 additionalProperties: false
+                required:
+                  - data
                 properties:
                   data:
                     $ref: '#/components/schemas/verification-email-address'
@@ -11505,11 +11883,13 @@ paths:
                 Success:
                   $ref: '#/components/examples/verification-government-id-passed'
               schema:
+                type: object
+                additionalProperties: false
+                required:
+                  - data
                 properties:
                   data:
                     $ref: '#/components/schemas/verification-government-id'
-                additionalProperties: false
-                type: object
           description: This endpoint returns a Government ID Verification object and (optionally) its related objects in `included`.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -11588,6 +11968,8 @@ paths:
               schema:
                 type: object
                 additionalProperties: false
+                required:
+                  - data
                 properties:
                   data:
                     $ref: '#/components/schemas/verification-government-id-nfc'
@@ -11635,6 +12017,8 @@ paths:
               schema:
                 type: object
                 additionalProperties: false
+                required:
+                  - data
                 properties:
                   data:
                     $ref: '#/components/schemas/verification-phone-number'
@@ -11774,6 +12158,8 @@ paths:
               schema:
                 type: object
                 additionalProperties: false
+                required:
+                  - data
                 properties:
                   data:
                     $ref: '#/components/schemas/verification-selfie'
@@ -11820,6 +12206,8 @@ paths:
               schema:
                 type: object
                 additionalProperties: false
+                required:
+                  - data
                 properties:
                   data:
                     $ref: '#/components/schemas/verification'
@@ -11901,6 +12289,8 @@ paths:
               schema:
                 type: object
                 additionalProperties: false
+                required:
+                  - data
                 properties:
                   data:
                     $ref: '#/components/schemas/verification'
@@ -12040,8 +12430,14 @@ paths:
                           - 'null'
                     type: object
                     additionalProperties: false
+                    required:
+                      - next
+                      - prev
                 type: object
                 additionalProperties: false
+                required:
+                  - data
+                  - links
           description: This endpoint returns a collection of Webhook objects.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -12102,6 +12498,8 @@ paths:
                     $ref: '#/components/schemas/empty-included-objects'
                 type: object
                 additionalProperties: false
+                required:
+                  - data
           description: This endpoint returns a Webhook object.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -12153,6 +12551,8 @@ paths:
                     $ref: '#/components/schemas/empty-included-objects'
                 type: object
                 additionalProperties: false
+                required:
+                  - data
           description: This endpoint returns a Webhook object.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -12214,6 +12614,8 @@ paths:
                     $ref: '#/components/schemas/empty-included-objects'
                 type: object
                 additionalProperties: false
+                required:
+                  - data
           description: This endpoint returns a Webhook object.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -12267,6 +12669,8 @@ paths:
                     $ref: '#/components/schemas/empty-included-objects'
                 type: object
                 additionalProperties: false
+                required:
+                  - data
           description: This endpoint returns a Webhook object.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -12320,6 +12724,8 @@ paths:
                     $ref: '#/components/schemas/empty-included-objects'
                 type: object
                 additionalProperties: false
+                required:
+                  - data
           description: This endpoint returns a Webhook object.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -12373,6 +12779,8 @@ paths:
                     $ref: '#/components/schemas/empty-included-objects'
                 type: object
                 additionalProperties: false
+                required:
+                  - data
           description: This endpoint returns a Webhook object.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -12441,6 +12849,8 @@ paths:
                     $ref: '#/components/schemas/empty-included-objects'
                 type: object
                 additionalProperties: false
+                required:
+                  - data
           description: This endpoint returns a Webhook object.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -12495,6 +12905,8 @@ paths:
                     $ref: '#/components/schemas/empty-included-objects'
                 type: object
                 additionalProperties: false
+                required:
+                  - data
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -12603,6 +13015,8 @@ paths:
                     $ref: '#/components/schemas/workflow-run-included-objects'
                 type: object
                 additionalProperties: false
+                required:
+                  - data
           description: This endpoint returns a Workflow object.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -12675,6 +13089,8 @@ paths:
                     $ref: '#/components/schemas/workflow-run-included-objects'
                 type: object
                 additionalProperties: false
+                required:
+                  - data
           description: This endpoint returns a Workflow Run object.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -12778,10 +13194,16 @@ paths:
                           - 'null'
                     type: object
                     additionalProperties: false
+                    required:
+                      - next
+                      - prev
                   included:
                     $ref: '#/components/schemas/empty-included-objects'
                 type: object
                 additionalProperties: false
+                required:
+                  - data
+                  - links
           description: This endpoint returns a Workflow Run object.
         '400':
           $ref: '#/components/responses/bad-request'
@@ -12831,7 +13253,6 @@ webhooks:
                                 name:
                                   type: string
                                   const: account.created
-                                  description: account.created
                                 payload:
                                   type: object
                                   additionalProperties: false
@@ -12883,7 +13304,6 @@ webhooks:
                                 name:
                                   type: string
                                   const: account.redacted
-                                  description: account.redacted
                                 payload:
                                   type: object
                                   additionalProperties: false
@@ -12935,7 +13355,6 @@ webhooks:
                                 name:
                                   type: string
                                   const: account.archived
-                                  description: account.archived
                                 payload:
                                   type: object
                                   additionalProperties: false
@@ -12987,7 +13406,6 @@ webhooks:
                                 name:
                                   type: string
                                   const: account.restored
-                                  description: account.restored
                                 payload:
                                   type: object
                                   additionalProperties: false
@@ -13039,7 +13457,6 @@ webhooks:
                                 name:
                                   type: string
                                   const: account.consolidated
-                                  description: account.consolidated
                                 payload:
                                   type: object
                                   additionalProperties: false
@@ -13091,7 +13508,6 @@ webhooks:
                                 name:
                                   type: string
                                   const: account.tag-added
-                                  description: account.tag-added
                                 payload:
                                   type: object
                                   additionalProperties: false
@@ -13143,7 +13559,6 @@ webhooks:
                                 name:
                                   type: string
                                   const: account.tag-removed
-                                  description: account.tag-removed
                                 payload:
                                   type: object
                                   additionalProperties: false
@@ -13195,7 +13610,6 @@ webhooks:
                                 name:
                                   type: string
                                   const: inquiry.created
-                                  description: inquiry.created
                                 payload:
                                   type: object
                                   additionalProperties: false
@@ -13247,7 +13661,6 @@ webhooks:
                                 name:
                                   type: string
                                   const: inquiry.expired
-                                  description: inquiry.expired
                                 payload:
                                   type: object
                                   additionalProperties: false
@@ -13299,7 +13712,6 @@ webhooks:
                                 name:
                                   type: string
                                   const: inquiry.completed
-                                  description: inquiry.completed
                                 payload:
                                   type: object
                                   additionalProperties: false
@@ -13351,7 +13763,6 @@ webhooks:
                                 name:
                                   type: string
                                   const: inquiry.failed
-                                  description: inquiry.failed
                                 payload:
                                   type: object
                                   additionalProperties: false
@@ -13403,7 +13814,6 @@ webhooks:
                                 name:
                                   type: string
                                   const: inquiry.marked-for-review
-                                  description: inquiry.marked-for-review
                                 payload:
                                   type: object
                                   additionalProperties: false
@@ -13455,7 +13865,6 @@ webhooks:
                                 name:
                                   type: string
                                   const: inquiry.approved
-                                  description: inquiry.approved
                                 payload:
                                   type: object
                                   additionalProperties: false
@@ -13507,7 +13916,6 @@ webhooks:
                                 name:
                                   type: string
                                   const: inquiry.declined
-                                  description: inquiry.declined
                                 payload:
                                   type: object
                                   additionalProperties: false
@@ -13559,7 +13967,6 @@ webhooks:
                                 name:
                                   type: string
                                   const: inquiry.transitioned
-                                  description: inquiry.transitioned
                                 payload:
                                   type: object
                                   additionalProperties: false
@@ -13710,7 +14117,6 @@ components:
         type:
           type: string
           const: account
-          description: account
         id:
           type: string
           examples:
@@ -14008,7 +14414,6 @@ components:
                   properties:
                     type:
                       const: file
-                      description: file
                       type: string
                     value:
                       $ref: '#/components/schemas/file'
@@ -14161,7 +14566,6 @@ components:
                       type: string
                     type:
                       const: account-type
-                      description: account-type
                       type: string
     account-type:
       type: object
@@ -14170,7 +14574,6 @@ components:
       properties:
         type:
           const: account-type
-          description: account-type
           type: string
         id:
           examples:
@@ -14280,7 +14683,6 @@ components:
       properties:
         type:
           const: api-key
-          description: api-key
           type: string
         id:
           examples:
@@ -14299,7 +14701,6 @@ components:
       properties:
         type:
           const: api-key
-          description: api-key
           type: string
         id:
           examples:
@@ -14324,7 +14725,6 @@ components:
         type:
           type: string
           const: api-log
-          description: api-log
         id:
           type: string
           examples:
@@ -14465,7 +14865,6 @@ components:
       properties:
         type:
           const: case
-          description: case
           type: string
         id:
           examples:
@@ -14651,7 +15050,6 @@ components:
                         type: string
                       type:
                         const: account
-                        description: account
                         type: string
                   type: array
             case-comments:
@@ -14667,7 +15065,6 @@ components:
                         type: string
                       type:
                         const: case-comment
-                        description: case-comment
                         type: string
                   type: array
             case-template:
@@ -14684,7 +15081,6 @@ components:
                       type: string
                     type:
                       const: case-template
-                      description: case-template
                       type: string
             case-queue:
               type: object
@@ -14702,7 +15098,6 @@ components:
                       type: string
                     type:
                       const: case-queue
-                      description: case-queue
                       type: string
             inquiries:
               type: object
@@ -14719,7 +15114,6 @@ components:
                         type: string
                       type:
                         const: inquiry
-                        description: inquiry
                         type: string
                   type: array
             reports:
@@ -14773,7 +15167,6 @@ components:
                         type: string
                       type:
                         const: transaction
-                        description: transaction
                         type: string
                   type: array
               type: object
@@ -14788,7 +15181,6 @@ components:
         type:
           type: string
           const: case-comment
-          description: Case Comment
         id:
           type: string
           description: Unique identifier for the Case Comment
@@ -14833,7 +15225,6 @@ components:
         type:
           type: string
           const: case-template
-          description: Case Template
         id:
           type: string
           description: Unique identifier for the Case Template
@@ -14893,7 +15284,6 @@ components:
         type:
           type: string
           const: case-queue
-          description: Case Queue
         id:
           type: string
           description: Unique identifier for the Case Queue
@@ -14945,7 +15335,6 @@ components:
       properties:
         type:
           const: inquiry
-          description: inquiry
           type: string
         id:
           examples:
@@ -15520,6 +15909,27 @@ components:
               type:
                 - string
                 - 'null'
+          required:
+            - status
+            - reference-id
+            - note
+            - behaviors
+            - tags
+            - creator
+            - reviewer-comment
+            - created-at
+            - updated-at
+            - started-at
+            - expires-at
+            - completed-at
+            - failed-at
+            - marked-for-review-at
+            - decisioned-at
+            - expired-at
+            - redacted-at
+            - previous-step-name
+            - next-step-name
+            - fields
           additionalProperties: false
           type: object
         relationships:
@@ -15536,7 +15946,6 @@ components:
                       type: string
                     type:
                       const: account
-                      description: account
                       type: string
                   type:
                     - object
@@ -15573,7 +15982,6 @@ components:
                       type: string
                     type:
                       const: template
-                      description: template
                       type: string
                   type:
                     - object
@@ -15591,7 +15999,6 @@ components:
                       type: string
                     type:
                       const: inquiry-template
-                      description: inquiry-template
                       type: string
                   type:
                     - object
@@ -15609,7 +16016,6 @@ components:
                       type: string
                     type:
                       const: inquiry-template-version
-                      description: inquiry-template-version
                       type: string
                   type:
                     - object
@@ -15646,7 +16052,6 @@ components:
                       type: string
                     type:
                       const: transaction
-                      description: transaction
                       type: string
                   type:
                     - object
@@ -15706,7 +16111,6 @@ components:
                         type: string
                       type:
                         const: inquiry-session
-                        description: inquiry-session
                         type: string
                     additionalProperties: false
                     type: object
@@ -15732,6 +16136,11 @@ components:
                   type: array
               additionalProperties: false
               type: object
+      required:
+        - type
+        - id
+        - attributes
+        - relationships
     report-shared-attributes:
       x-inheritable: true
       type: object
@@ -15804,7 +16213,6 @@ components:
                   type: string
                 type:
                   const: inquiry
-                  description: inquiry
                   type: string
         account:
           type: object
@@ -15822,7 +16230,6 @@ components:
                   type: string
                 type:
                   const: account
-                  description: account
                   type: string
         transaction:
           type: object
@@ -15840,7 +16247,6 @@ components:
                   type: string
                 type:
                   const: transaction
-                  description: transaction
                   type: string
         report-template:
           type: object
@@ -15867,7 +16273,6 @@ components:
         type:
           type: string
           const: report/address-lookup
-          description: report/address-lookup
         id:
           type: string
           description: The ID of the report
@@ -16105,7 +16510,6 @@ components:
         type:
           type: string
           const: report/adverse-media
-          description: report/adverse-media
         id:
           type: string
           description: The ID of the report
@@ -16249,7 +16653,6 @@ components:
         type:
           type: string
           const: report/business-adverse-media
-          description: The type identifier for a Business Adverse Media Report.
         id:
           type: string
           description: A unique identifier for the report.
@@ -16415,7 +16818,6 @@ components:
         type:
           type: string
           const: report/business-associated-persons
-          description: The type identifier for a Business Associated Persons Report.
         id:
           type: string
           description: A unique identifier for the report.
@@ -16489,7 +16891,6 @@ components:
         type:
           type: string
           const: report/business-registrations-lookup
-          description: The type identifier for a Business Registrations Lookup Report.
         id:
           type: string
           description: A unique identifier for the report.
@@ -16620,7 +17021,6 @@ components:
         type:
           type: string
           const: report/business-lookup
-          description: report/business-lookup
         id:
           type: string
           description: The ID of the report
@@ -17134,7 +17534,6 @@ components:
         type:
           type: string
           const: report/business-watchlist
-          description: report/business-watchlist
         id:
           type: string
           description: The ID of the report
@@ -17206,7 +17605,6 @@ components:
         type:
           type: string
           const: report/crypto-address-watchlist
-          description: report/crypto-address-watchlist
         id:
           type: string
           description: The ID of the report
@@ -17303,7 +17701,6 @@ components:
         type:
           type: string
           const: report/email-address
-          description: report/email-address
         id:
           type: string
           description: The ID of the report
@@ -17507,7 +17904,6 @@ components:
         type:
           type: string
           const: report/phone-number
-          description: report/phone-number
         id:
           type: string
           description: The ID of the report
@@ -17600,7 +17996,6 @@ components:
         type:
           type: string
           const: report/politically-exposed-person
-          description: report/politically-exposed-person
         id:
           type: string
           description: The ID of the report
@@ -17905,7 +18300,6 @@ components:
         type:
           type: string
           const: report/profile
-          description: report/profile
         id:
           type: string
           description: The ID of the report
@@ -18095,7 +18489,6 @@ components:
         type:
           type: string
           const: report/profile-non-authoritative
-          description: report/profile-non-authoritative
         id:
           type: string
           description: The ID of the report
@@ -18354,7 +18747,6 @@ components:
         type:
           type: string
           const: report/integration/sentilink-scores
-          description: report/integration/sentilink-scores
         id:
           type: string
           description: The ID of the report
@@ -18490,7 +18882,6 @@ components:
         type:
           type: string
           const: report/social-media
-          description: report/social-media
         id:
           type: string
           description: The ID of the report
@@ -18597,7 +18988,6 @@ components:
         type:
           type: string
           const: report/synthetic
-          description: report/synthetic
         id:
           type: string
           description: The ID of the report
@@ -18701,7 +19091,6 @@ components:
         type:
           type: string
           const: report/watchlist
-          description: report/watchlist
         id:
           type: string
           description: The ID of the report
@@ -18878,7 +19267,6 @@ components:
         type:
           type: string
           const: transaction
-          description: transaction
         attributes:
           type: object
           additionalProperties: false
@@ -18955,7 +19343,6 @@ components:
                     type:
                       type: string
                       const: transaction-label
-                      description: transaction-label
                     id:
                       description: Unique identifier for this Transaction Label. Starts with `txnl_`.
                       type: string
@@ -18972,7 +19359,6 @@ components:
                     type:
                       type: string
                       const: transaction-type
-                      description: transaction-type
                     id:
                       description: Unique identifier for this Transaction Type. Starts with `txntp_`.
                       type: string
@@ -19138,7 +19524,6 @@ components:
                   type: string
                 type:
                   const: inquiry
-                  description: inquiry
                   type: string
         template:
           type: object
@@ -19152,7 +19537,6 @@ components:
                 type:
                   type: string
                   const: template
-                  description: template
                 id:
                   type: string
                   example: tmpl_ABC123
@@ -19168,7 +19552,6 @@ components:
                 type:
                   type: string
                   const: inquiry-template-version
-                  description: inquiry-template-version
                 id:
                   type: string
                   example: itmplv_ABC123
@@ -19184,7 +19567,6 @@ components:
                 type:
                   type: string
                   const: inquiry-template
-                  description: inquiry-template
                 id:
                   type: string
                   example: itmpl_ABC123
@@ -19200,7 +19582,6 @@ components:
                 type:
                   type: string
                   const: transaction
-                  description: transaction
                 id:
                   type: string
                   example: txn_ABC123
@@ -19247,7 +19628,6 @@ components:
                     type: string
                   type:
                     const: account
-                    description: account
                     type: string
                 additionalProperties: false
                 type: object
@@ -19262,7 +19642,6 @@ components:
       properties:
         type:
           type: string
-          description: verification/aamva
           const: verification/aamva
         id:
           type: string
@@ -19407,7 +19786,6 @@ components:
       properties:
         type:
           type: string
-          description: verification/database
           const: verification/database
         id:
           type: string
@@ -19493,7 +19871,6 @@ components:
       properties:
         type:
           type: string
-          description: verification/database-ecbsv
           const: verification/database-ecbsv
         id:
           type: string
@@ -19552,7 +19929,6 @@ components:
       properties:
         type:
           type: string
-          description: verification/database-phone-carrier
           const: verification/database-phone-carrier
         id:
           type: string
@@ -19604,7 +19980,6 @@ components:
       properties:
         type:
           type: string
-          description: verification/database-serpro
           const: verification/database-serpro
         id:
           type: string
@@ -19676,7 +20051,6 @@ components:
       properties:
         type:
           const: verification/database-standard
-          description: verification/database-standard
           type: string
         id:
           examples:
@@ -19719,7 +20093,6 @@ components:
       properties:
         type:
           type: string
-          description: verification/database-tin
           const: verification/database-tin
         id:
           type: string
@@ -19806,7 +20179,6 @@ components:
       properties:
         type:
           type: string
-          description: verification/document
           const: verification/document
         id:
           type: string
@@ -19869,7 +20241,6 @@ components:
       properties:
         type:
           type: string
-          description: verification/email-address
           const: verification/email-address
         id:
           type: string
@@ -19899,7 +20270,6 @@ components:
       properties:
         type:
           type: string
-          description: verification/government-id
           const: verification/government-id
         id:
           type: string
@@ -20162,7 +20532,6 @@ components:
       properties:
         type:
           type: string
-          description: verification/government-id-nfc
           const: verification/government-id-nfc
         id:
           type: string
@@ -20289,7 +20658,6 @@ components:
       properties:
         type:
           type: string
-          description: verification/phone-number
           const: verification/phone-number
         id:
           type: string
@@ -20324,7 +20692,6 @@ components:
       properties:
         type:
           type: string
-          description: verification/selfie
           const: verification/selfie
         id:
           type: string
@@ -20539,7 +20906,6 @@ components:
       properties:
         type:
           const: device
-          description: device
           type: string
         id:
           type: string
@@ -20613,7 +20979,6 @@ components:
                   type: string
                 type:
                   const: inquiry
-                  description: inquiry
                   type: string
               type:
                 - object
@@ -20631,7 +20996,6 @@ components:
                   type: string
                 type:
                   const: template
-                  description: template
                   type: string
               type:
                 - 'null'
@@ -20648,7 +21012,6 @@ components:
                   type: string
                 type:
                   const: inquiry-template-version
-                  description: inquiry-template-version
                   type: string
               type:
                 - 'null'
@@ -20665,7 +21028,6 @@ components:
                   type: string
                 type:
                   const: inquiry-template
-                  description: inquiry-template
                   type: string
               type:
                 - 'null'
@@ -20684,7 +21046,6 @@ components:
                 type:
                   type: string
                   const: transaction
-                  description: transaction
                 id:
                   type: string
                   example: txn_ABC123
@@ -20699,7 +21060,6 @@ components:
                     type: string
                   type:
                     const: document-file
-                    description: document-file
                     type: string
                 type: object
                 additionalProperties: false
@@ -20720,7 +21080,6 @@ components:
         type:
           type: string
           const: document/generic
-          description: document/generic
         attributes:
           unevaluatedProperties: false
           allOf:
@@ -20766,7 +21125,6 @@ components:
       properties:
         type:
           const: inquiry-template
-          description: inquiry-template
           type: string
         id:
           type: string
@@ -20835,7 +21193,6 @@ components:
                     type:
                       type: string
                       const: inquiry-template-version
-                      description: inquiry-template-version
                     id:
                       type: string
                       examples:
@@ -20848,7 +21205,6 @@ components:
         type:
           type: string
           const: inquiry-template-version
-          description: inquiry-template-version
         id:
           type: string
           examples:
@@ -21274,7 +21630,6 @@ components:
                     type:
                       type: string
                       const: inquiry-template
-                      description: inquiry-template
                     id:
                       type: string
                       examples:
@@ -21287,7 +21642,6 @@ components:
         type:
           type: string
           const: template
-          description: template
         id:
           examples:
             - tmpl_jGTjQgGMyei68sdf8NyCeDMh
@@ -21306,7 +21660,6 @@ components:
       properties:
         type:
           const: document-file
-          description: document-file
           type: string
         id:
           examples:
@@ -21368,7 +21721,6 @@ components:
         type:
           type: string
           const: document/government-id
-          description: document/government-id
         attributes:
           unevaluatedProperties: false
           allOf:
@@ -21524,7 +21876,6 @@ components:
         type:
           type: string
           const: document/government-id-nfc
-          description: document/government-id-nfc
         attributes:
           $ref: '#/components/schemas/document-shared-attributes'
         relationships:
@@ -21541,7 +21892,6 @@ components:
         type:
           type: string
           const: document/mobile-drivers-license
-          description: document/mobile-drivers-license
         attributes:
           $ref: '#/components/schemas/document-shared-attributes'
         relationships:
@@ -21568,7 +21918,6 @@ components:
         type:
           type: string
           const: event
-          description: event
         id:
           type: string
           examples:
@@ -21671,7 +22020,6 @@ components:
           type: string
         type:
           const: importer/account
-          description: importer/account
           type: string
         attributes:
           $ref: '#/components/schemas/importer-shared-attributes'
@@ -21688,7 +22036,6 @@ components:
           type: string
         type:
           const: importer/list-item/email-address
-          description: importer/list-item/email-address
           type: string
         attributes:
           $ref: '#/components/schemas/importer-shared-attributes'
@@ -21705,7 +22052,6 @@ components:
           type: string
         type:
           const: importer/list-item/field
-          description: importer/list-item/field
           type: string
         attributes:
           $ref: '#/components/schemas/importer-shared-attributes'
@@ -21722,7 +22068,6 @@ components:
           type: string
         type:
           const: importer/list-item/geolocation
-          description: importer/list-item/geolocation
           type: string
         attributes:
           $ref: '#/components/schemas/importer-shared-attributes'
@@ -21739,7 +22084,6 @@ components:
           type: string
         type:
           const: importer/list-item/government-id-number
-          description: importer/list-item/government-id-number
           type: string
         attributes:
           $ref: '#/components/schemas/importer-shared-attributes'
@@ -21756,7 +22100,6 @@ components:
           type: string
         type:
           const: importer/list-item/ip-address
-          description: importer/list-item/ip-address
           type: string
         attributes:
           $ref: '#/components/schemas/importer-shared-attributes'
@@ -21773,7 +22116,6 @@ components:
           type: string
         type:
           const: importer/list-item/name
-          description: importer/list-item/name
           type: string
         attributes:
           $ref: '#/components/schemas/importer-shared-attributes'
@@ -21790,7 +22132,6 @@ components:
           type: string
         type:
           const: importer/list-item/phone-number
-          description: importer/list-item/phone-number
           type: string
         attributes:
           $ref: '#/components/schemas/importer-shared-attributes'
@@ -21839,7 +22180,6 @@ components:
         type:
           type: string
           const: user
-          description: user
         id:
           type: string
           examples:
@@ -21926,7 +22266,6 @@ components:
                       type: string
                     type:
                       const: inquiry
-                      description: inquiry
                       type: string
                   type: object
                   additionalProperties: false
@@ -21939,7 +22278,6 @@ components:
         type:
           type: string
           const: inquiry-session
-          description: inquiry-session
         id:
           type: string
           examples:
@@ -22162,7 +22500,6 @@ components:
                     type:
                       type: string
                       const: inquiry
-                      description: inquiry
                     id:
                       type: string
                       examples:
@@ -22179,7 +22516,6 @@ components:
                     type:
                       type: string
                       const: device
-                      description: device
                     id:
                       type: string
                       examples:
@@ -22196,7 +22532,6 @@ components:
                     type:
                       type: string
                       const: network
-                      description: network
                     id:
                       type: string
                       examples:
@@ -22208,7 +22543,6 @@ components:
       properties:
         type:
           const: workflow-deployment
-          description: workflow-deployment
           type: string
         id:
           examples:
@@ -22268,7 +22602,6 @@ components:
       properties:
         type:
           const: workflow
-          description: workflow
           type: string
         id:
           examples:
@@ -22312,7 +22645,6 @@ components:
                   properties:
                     type:
                       const: workflow-version
-                      description: workflow version
                       type: string
                     id:
                       type: string
@@ -22333,7 +22665,6 @@ components:
       properties:
         type:
           const: workflow-run
-          description: workflow-run
           type: string
         id:
           examples:
@@ -22370,7 +22701,6 @@ components:
                     - properties:
                         type:
                           const: administrator
-                          description: administrator
                           type: string
                         id:
                           examples:
@@ -22381,7 +22711,6 @@ components:
                     - properties:
                         type:
                           const: user
-                          description: user
                           type: string
                         id:
                           examples:
@@ -22392,7 +22721,6 @@ components:
                     - properties:
                         type:
                           const: event
-                          description: event
                           type: string
                         id:
                           examples:
@@ -22408,7 +22736,6 @@ components:
                   properties:
                     type:
                       const: workflow
-                      description: workflow
                       type: string
                     id:
                       examples:
@@ -22424,7 +22751,6 @@ components:
                   properties:
                     type:
                       const: workflow-version
-                      description: workflow-version
                       type: string
                     id:
                       examples:
@@ -22656,7 +22982,6 @@ components:
           type: string
         type:
           const: list-item/browser-fingerprint
-          description: list-item/browser-fingerprint
           type: string
         attributes:
           unevaluatedProperties: false
@@ -22679,7 +23004,6 @@ components:
                     - properties:
                         type:
                           const: user
-                          description: user
                           type: string
                         id:
                           examples:
@@ -22689,7 +23013,6 @@ components:
                     - properties:
                         type:
                           const: workflow-run
-                          description: workflow-run
                           type: string
                         id:
                           examples:
@@ -22699,7 +23022,6 @@ components:
                     - properties:
                         type:
                           const: workflow-step/action
-                          description: workflow-step/action
                           type: string
                         id:
                           examples:
@@ -22709,7 +23031,6 @@ components:
                     - properties:
                         type:
                           const: api-key
-                          description: api-key
                           type: string
                         id:
                           examples:
@@ -22734,7 +23055,6 @@ components:
         type:
           type: string
           const: list-item/country
-          description: list-item/country
         attributes:
           unevaluatedProperties: false
           allOf:
@@ -22755,7 +23075,6 @@ components:
                     - properties:
                         type:
                           const: user
-                          description: user
                           type: string
                         id:
                           examples:
@@ -22765,7 +23084,6 @@ components:
                     - properties:
                         type:
                           const: workflow-run
-                          description: workflow-run
                           type: string
                         id:
                           examples:
@@ -22775,7 +23093,6 @@ components:
                     - properties:
                         type:
                           const: workflow-step/action
-                          description: workflow-step/action
                           type: string
                         id:
                           examples:
@@ -22785,7 +23102,6 @@ components:
                     - properties:
                         type:
                           const: api-key
-                          description: api-key
                           type: string
                         id:
                           examples:
@@ -22809,7 +23125,6 @@ components:
           type: string
         type:
           const: list-item/device-fingerprint
-          description: list-item/device-fingerprint
           type: string
         attributes:
           unevaluatedProperties: false
@@ -22832,7 +23147,6 @@ components:
                     - properties:
                         type:
                           const: user
-                          description: user
                           type: string
                         id:
                           examples:
@@ -22842,7 +23156,6 @@ components:
                     - properties:
                         type:
                           const: workflow-run
-                          description: workflow-run
                           type: string
                         id:
                           examples:
@@ -22852,7 +23165,6 @@ components:
                     - properties:
                         type:
                           const: workflow-step/action
-                          description: workflow-step/action
                           type: string
                         id:
                           examples:
@@ -22862,7 +23174,6 @@ components:
                     - properties:
                         type:
                           const: api-key
-                          description: api-key
                           type: string
                         id:
                           examples:
@@ -22886,7 +23197,6 @@ components:
           type: string
         type:
           const: list-item/email-address
-          description: list-item/email-address
           type: string
         attributes:
           unevaluatedProperties: false
@@ -22913,7 +23223,6 @@ components:
                     - properties:
                         type:
                           const: user
-                          description: user
                           type: string
                         id:
                           examples:
@@ -22923,7 +23232,6 @@ components:
                     - properties:
                         type:
                           const: workflow-run
-                          description: workflow-run
                           type: string
                         id:
                           examples:
@@ -22933,7 +23241,6 @@ components:
                     - properties:
                         type:
                           const: workflow-step/action
-                          description: workflow-step/action
                           type: string
                         id:
                           examples:
@@ -22943,7 +23250,6 @@ components:
                     - properties:
                         type:
                           const: api-key
-                          description: api-key
                           type: string
                         id:
                           examples:
@@ -22953,7 +23259,6 @@ components:
                     - properties:
                         type:
                           const: importer/email-address
-                          description: importer/email-address
                           type: string
                         id:
                           examples:
@@ -22978,7 +23283,6 @@ components:
         type:
           type: string
           const: list-item/field
-          description: list-item/field
         attributes:
           unevaluatedProperties: false
           allOf:
@@ -22998,7 +23302,6 @@ components:
                     - properties:
                         type:
                           const: user
-                          description: user
                           type: string
                         id:
                           examples:
@@ -23008,7 +23311,6 @@ components:
                     - properties:
                         type:
                           const: workflow-run
-                          description: workflow-run
                           type: string
                         id:
                           examples:
@@ -23018,7 +23320,6 @@ components:
                     - properties:
                         type:
                           const: workflow-step/action
-                          description: workflow-step/action
                           type: string
                         id:
                           examples:
@@ -23028,7 +23329,6 @@ components:
                     - properties:
                         type:
                           const: api-key
-                          description: api-key
                           type: string
                         id:
                           examples:
@@ -23052,7 +23352,6 @@ components:
           type: string
         type:
           const: list-item/geolocation
-          description: list-item/geolocation
           type: string
         attributes:
           unevaluatedProperties: false
@@ -23086,7 +23385,6 @@ components:
                     - properties:
                         type:
                           const: user
-                          description: user
                           type: string
                         id:
                           examples:
@@ -23096,7 +23394,6 @@ components:
                     - properties:
                         type:
                           const: workflow-run
-                          description: workflow-run
                           type: string
                         id:
                           examples:
@@ -23106,7 +23403,6 @@ components:
                     - properties:
                         type:
                           const: workflow-step/action
-                          description: workflow-step/action
                           type: string
                         id:
                           examples:
@@ -23116,7 +23412,6 @@ components:
                     - properties:
                         type:
                           const: api-key
-                          description: api-key
                           type: string
                         id:
                           examples:
@@ -23126,7 +23421,6 @@ components:
                     - properties:
                         type:
                           const: importer/geolocation
-                          description: importer/geolocation
                           type: string
                         id:
                           examples:
@@ -23150,7 +23444,6 @@ components:
           type: string
         type:
           const: list-item/government-id-number
-          description: list-item/government-id-number
           type: string
         attributes:
           unevaluatedProperties: false
@@ -23177,7 +23470,6 @@ components:
                     - properties:
                         type:
                           const: user
-                          description: user
                           type: string
                         id:
                           examples:
@@ -23187,7 +23479,6 @@ components:
                     - properties:
                         type:
                           const: workflow-run
-                          description: workflow-run
                           type: string
                         id:
                           examples:
@@ -23197,7 +23488,6 @@ components:
                     - properties:
                         type:
                           const: workflow-step/action
-                          description: workflow-step/action
                           type: string
                         id:
                           examples:
@@ -23207,7 +23497,6 @@ components:
                     - properties:
                         type:
                           const: api-key
-                          description: api-key
                           type: string
                         id:
                           examples:
@@ -23217,7 +23506,6 @@ components:
                     - properties:
                         type:
                           const: importer/government-id-number
-                          description: importer/government-id-number
                           type: string
                         id:
                           examples:
@@ -23241,7 +23529,6 @@ components:
           type: string
         type:
           const: list-item/ip-address
-          description: list-item/ip-address
           type: string
         attributes:
           unevaluatedProperties: false
@@ -23264,7 +23551,6 @@ components:
                     - properties:
                         type:
                           const: user
-                          description: user
                           type: string
                         id:
                           examples:
@@ -23274,7 +23560,6 @@ components:
                     - properties:
                         type:
                           const: workflow-run
-                          description: workflow-run
                           type: string
                         id:
                           examples:
@@ -23284,7 +23569,6 @@ components:
                     - properties:
                         type:
                           const: workflow-step/action
-                          description: workflow-step/action
                           type: string
                         id:
                           examples:
@@ -23294,7 +23578,6 @@ components:
                     - properties:
                         type:
                           const: api-key
-                          description: api-key
                           type: string
                         id:
                           examples:
@@ -23304,7 +23587,6 @@ components:
                     - properties:
                         type:
                           const: importer/ip-address
-                          description: importer/ip-address
                           type: string
                         id:
                           examples:
@@ -23328,7 +23610,6 @@ components:
           type: string
         type:
           const: list-item/name
-          description: list-item/name
           type: string
         attributes:
           unevaluatedProperties: false
@@ -23355,7 +23636,6 @@ components:
                     - properties:
                         type:
                           const: user
-                          description: user
                           type: string
                         id:
                           examples:
@@ -23365,7 +23645,6 @@ components:
                     - properties:
                         type:
                           const: workflow-run
-                          description: workflow-run
                           type: string
                         id:
                           examples:
@@ -23375,7 +23654,6 @@ components:
                     - properties:
                         type:
                           const: workflow-step/action
-                          description: workflow-step/action
                           type: string
                         id:
                           examples:
@@ -23385,7 +23663,6 @@ components:
                     - properties:
                         type:
                           const: api-key
-                          description: api-key
                           type: string
                         id:
                           examples:
@@ -23395,7 +23672,6 @@ components:
                     - properties:
                         type:
                           const: importer/name
-                          description: importer/name
                           type: string
                         id:
                           examples:
@@ -23420,7 +23696,6 @@ components:
         type:
           type: string
           const: list-item/phone-number
-          description: list-item/phone-number
         attributes:
           unevaluatedProperties: false
           allOf:
@@ -23442,7 +23717,6 @@ components:
                     - properties:
                         type:
                           const: user
-                          description: user
                           type: string
                         id:
                           examples:
@@ -23452,7 +23726,6 @@ components:
                     - properties:
                         type:
                           const: workflow-run
-                          description: workflow-run
                           type: string
                         id:
                           examples:
@@ -23462,7 +23735,6 @@ components:
                     - properties:
                         type:
                           const: workflow-step/action
-                          description: workflow-step/action
                           type: string
                         id:
                           examples:
@@ -23472,7 +23744,6 @@ components:
                     - properties:
                         type:
                           const: api-key
-                          description: api-key
                           type: string
                         id:
                           examples:
@@ -23482,7 +23753,6 @@ components:
                     - properties:
                         type:
                           const: importer/phone-number
-                          description: importer/phone-number
                           type: string
                         id:
                           examples:
@@ -23506,7 +23776,6 @@ components:
         type:
           type: string
           const: list-item/string
-          description: list-item/string
         attributes:
           unevaluatedProperties: false
           allOf:
@@ -23526,7 +23795,6 @@ components:
                     - properties:
                         type:
                           const: user
-                          description: user
                           type: string
                         id:
                           examples:
@@ -23536,7 +23804,6 @@ components:
                     - properties:
                         type:
                           const: workflow-run
-                          description: workflow-run
                           type: string
                         id:
                           examples:
@@ -23546,7 +23813,6 @@ components:
                     - properties:
                         type:
                           const: workflow-step/action
-                          description: workflow-step/action
                           type: string
                         id:
                           examples:
@@ -23556,7 +23822,6 @@ components:
                     - properties:
                         type:
                           const: api-key
-                          description: api-key
                           type: string
                         id:
                           examples:
@@ -23593,7 +23858,6 @@ components:
       properties:
         type:
           type: string
-          description: list/browser-fingerprint
           const: list/browser-fingerprint
         id:
           type: string
@@ -23622,7 +23886,6 @@ components:
       properties:
         type:
           type: string
-          description: list/country
           const: list/country
         id:
           type: string
@@ -23651,7 +23914,6 @@ components:
       properties:
         type:
           type: string
-          description: list/email-address
           const: list/email-address
         id:
           type: string
@@ -23680,7 +23942,6 @@ components:
       properties:
         type:
           type: string
-          description: list/geolocation
           const: list/geolocation
         id:
           type: string
@@ -23709,7 +23970,6 @@ components:
       properties:
         type:
           type: string
-          description: list/government-id-number
           const: list/government-id-number
         id:
           type: string
@@ -23738,7 +23998,6 @@ components:
       properties:
         type:
           type: string
-          description: list/ip-address
           const: list/ip-address
         id:
           type: string
@@ -23767,7 +24026,6 @@ components:
       properties:
         type:
           type: string
-          description: list/name
           const: list/name
         id:
           type: string
@@ -23800,7 +24058,6 @@ components:
       properties:
         type:
           type: string
-          description: list/phone-number
           const: list/phone-number
         id:
           type: string
@@ -23911,7 +24168,6 @@ components:
         type:
           type: string
           const: report/address-lookup
-          description: report/address-lookup
         attributes:
           unevaluatedProperties: false
           allOf:
@@ -23973,7 +24229,6 @@ components:
         type:
           type: string
           const: report/adverse-media
-          description: report/adverse-media
         attributes:
           unevaluatedProperties: false
           allOf:
@@ -24034,7 +24289,6 @@ components:
         type:
           type: string
           const: report/business-adverse-media
-          description: report/business-adverse-media
         attributes:
           unevaluatedProperties: false
           allOf:
@@ -24064,7 +24318,6 @@ components:
         type:
           type: string
           const: report/business-lookup
-          description: report/business-lookup
         attributes:
           unevaluatedProperties: false
           allOf:
@@ -24171,7 +24424,6 @@ components:
         type:
           type: string
           const: report/business-watchlist
-          description: report/business-watchlist
         attributes:
           unevaluatedProperties: false
           allOf:
@@ -24207,7 +24459,6 @@ components:
         type:
           type: string
           const: report/crypto-address-watchlist
-          description: report/crypto-address-watchlist
         attributes:
           unevaluatedProperties: false
           allOf:
@@ -24237,7 +24488,6 @@ components:
         type:
           type: string
           const: report/email-address
-          description: report/email-address
         attributes:
           unevaluatedProperties: false
           allOf:
@@ -24267,7 +24517,6 @@ components:
         type:
           type: string
           const: report/phone-number
-          description: report/phone-number
         attributes:
           unevaluatedProperties: false
           allOf:
@@ -24297,7 +24546,6 @@ components:
         type:
           type: string
           const: report/politically-exposed-person
-          description: report/politically-exposed-person
         attributes:
           unevaluatedProperties: false
           allOf:
@@ -24358,7 +24606,6 @@ components:
         type:
           type: string
           const: report/profile
-          description: report/profile
         attributes:
           unevaluatedProperties: false
           allOf:
@@ -24446,7 +24693,6 @@ components:
         type:
           type: string
           const: report/profile-non-authoritative
-          description: report/profile-non-authoritative
         attributes:
           unevaluatedProperties: false
           allOf:
@@ -24507,7 +24753,6 @@ components:
         type:
           type: string
           const: report/social-media
-          description: report/social-media
         attributes:
           unevaluatedProperties: false
           allOf:
@@ -24586,7 +24831,6 @@ components:
         type:
           type: string
           const: report/synthetic
-          description: report/synthetic
         attributes:
           unevaluatedProperties: false
           allOf:
@@ -24682,7 +24926,6 @@ components:
         type:
           type: string
           const: report/watchlist
-          description: report/watchlist
         attributes:
           unevaluatedProperties: false
           allOf:
@@ -24779,7 +25022,6 @@ components:
         type:
           type: string
           const: report-template/address-lookup
-          description: report-template/address-lookup
         id:
           type: string
           description: The ID of the Report Template
@@ -24799,7 +25041,6 @@ components:
         type:
           type: string
           const: report-template/adverse-media
-          description: report-template/adverse-media
         id:
           type: string
           description: The ID of the Report Template
@@ -24819,7 +25060,6 @@ components:
         type:
           type: string
           const: report-template/business-adverse-media
-          description: report-template/business-adverse-media
         id:
           type: string
           description: The ID of the Report Template
@@ -24839,7 +25079,6 @@ components:
         type:
           type: string
           const: report-template/business-lookup
-          description: report-template/business-lookup
         id:
           type: string
           description: The ID of the Report Template
@@ -24859,7 +25098,6 @@ components:
         type:
           type: string
           const: report-template/business-watchlist
-          description: report-template/business-watchlist
         id:
           type: string
           description: The ID of the Report Template
@@ -24879,7 +25117,6 @@ components:
         type:
           type: string
           const: report-template/crypto-address-watchlist
-          description: report-template/crypto-address-watchlist
         id:
           type: string
           description: The ID of the Report Template
@@ -24899,7 +25136,6 @@ components:
         type:
           type: string
           const: report-template/email-address
-          description: report-template/email-address
         id:
           type: string
           description: The ID of the Report Template
@@ -24919,7 +25155,6 @@ components:
         type:
           type: string
           const: report-template/phone-risk
-          description: report-template/phone-risk
         id:
           type: string
           description: The ID of the Report Template
@@ -24939,7 +25174,6 @@ components:
         type:
           type: string
           const: report-template/politically-exposed-person
-          description: report-template/politically-exposed-person
         id:
           type: string
           description: The ID of the Report Template
@@ -24959,7 +25193,6 @@ components:
         type:
           type: string
           const: report-template/profile
-          description: report-template/profile
         id:
           type: string
           description: The ID of the Report Template
@@ -24979,7 +25212,6 @@ components:
         type:
           type: string
           const: report-template/integration/sentilink-scores
-          description: report-template/integration/sentilink-scores
         id:
           type: string
           description: The ID of the Report Template
@@ -24999,7 +25231,6 @@ components:
         type:
           type: string
           const: report-template/social-media
-          description: report-template/social-media
         id:
           type: string
           description: The ID of the Report Template
@@ -25019,7 +25250,6 @@ components:
         type:
           type: string
           const: report-template/synthetic
-          description: report-template/synthetic
         id:
           type: string
           description: The ID of the Report Template
@@ -25039,7 +25269,6 @@ components:
         type:
           type: string
           const: report-template/watchlist
-          description: report-template/watchlist
         id:
           type: string
           description: The ID of the Report Template
@@ -25113,7 +25342,6 @@ components:
         type:
           type: string
           const: transaction-label
-          description: transaction-label
         id:
           description: Unique identifier for this Transaction Label. Starts with `txnl_`.
           type: string
@@ -25152,7 +25380,6 @@ components:
         type:
           type: string
           const: user-audit-log
-          description: user-audit-log
         id:
           type: string
           examples:
@@ -25223,7 +25450,6 @@ components:
                     type:
                       type: string
                       const: user
-                      description: user
                     id:
                       type: string
                       examples:
@@ -25239,7 +25465,6 @@ components:
                     type:
                       type: string
                       const: user-session
-                      description: user-session
                     id:
                       type: string
                       examples:
@@ -25284,7 +25509,6 @@ components:
         type:
           type: string
           const: webhook
-          description: webhook
         id:
           examples:
             - wbh_ABC123
@@ -25503,7 +25727,6 @@ components:
         type:
           type: string
           const: webhook
-          description: webhook
         id:
           examples:
             - wbh_ABC123
@@ -25600,7 +25823,6 @@ components:
       properties:
         type:
           const: workflow-version
-          description: workflow-version
           type: string
         id:
           examples:
@@ -25637,7 +25859,6 @@ components:
                   properties:
                     type:
                       const: workflow
-                      description: workflow
                       type: string
                     id:
                       examples:
@@ -25671,7 +25892,6 @@ components:
         type:
           type: string
           const: event
-          description: event
         id:
           type: string
           description: Unique identifier for this Event. Starts with `evt_`.
@@ -26254,6 +26474,7 @@ components:
               decisioned-at: null
               expired-at: null
               redacted-at: null
+              updated-at: '2023-03-30T19:07:01.000Z'
               previous-step-name: start
               next-step-name: verification_document
               fields:
@@ -26505,6 +26726,7 @@ components:
             reviewer-comment: null
             created-at: '2023-03-29T19:06:45.000Z'
             started-at: '2023-03-30T19:07:01.000Z'
+            updated-at: '2023-03-30T19:07:01.000Z'
             expires-at: '2023-03-31T19:07:01.000Z'
             completed-at: null
             failed-at: null
@@ -26683,6 +26905,7 @@ components:
             decisioned-at: null
             expired-at: null
             redacted-at: null
+            updated-at: '2023-03-30T19:07:01.000Z'
             previous-step-name: start
             next-step-name: verification_document
             fields:
@@ -26806,6 +27029,7 @@ components:
             created-at: '2023-03-29T19:06:45.000Z'
             started-at: '2023-03-30T19:07:01.000Z'
             expires-at: '2023-03-31T19:07:01.000Z'
+            updated-at: '2023-03-30T19:07:01.000Z'
             completed-at: null
             failed-at: null
             marked-for-review-at: null
@@ -29581,6 +29805,7 @@ components:
                   decisioned-at: null
                   expired-at: null
                   redacted-at: null
+                  updated-at: '2023-03-30T19:07:01.000Z'
                   previous-step-name: start
                   next-step-name: verification_document
                   fields:
@@ -29759,6 +29984,7 @@ components:
                   decisioned-at: null
                   expired-at: null
                   redacted-at: null
+                  updated-at: '2023-03-30T19:07:01.000Z'
                   previous-step-name: start
                   next-step-name: verification_document
                   fields:
@@ -29930,6 +30156,7 @@ components:
                   reviewer-comment: null
                   created-at: '2023-03-29T19:06:45.000Z'
                   started-at: '2023-03-30T19:07:01.000Z'
+                  updated-at: '2023-03-30T19:07:01.000Z'
                   expires-at: null
                   completed-at: null
                   failed-at: null
@@ -30115,6 +30342,7 @@ components:
                   decisioned-at: null
                   expired-at: null
                   redacted-at: null
+                  updated-at: '2023-03-30T19:07:01.000Z'
                   previous-step-name: start
                   next-step-name: verification_document
                   fields:
@@ -30293,6 +30521,7 @@ components:
                   decisioned-at: null
                   expired-at: null
                   redacted-at: null
+                  updated-at: '2023-03-30T19:07:01.000Z'
                   previous-step-name: start
                   next-step-name: verification_document
                   fields:
@@ -30471,6 +30700,7 @@ components:
                   decisioned-at: null
                   expired-at: null
                   redacted-at: null
+                  updated-at: '2023-03-30T19:07:01.000Z'
                   previous-step-name: start
                   next-step-name: verification_document
                   fields:
@@ -30649,6 +30879,7 @@ components:
                   decisioned-at: null
                   expired-at: null
                   redacted-at: null
+                  updated-at: '2023-03-30T19:07:01.000Z'
                   previous-step-name: start
                   next-step-name: verification_document
                   fields:
@@ -30827,6 +31058,7 @@ components:
                   decisioned-at: null
                   expired-at: null
                   redacted-at: null
+                  updated-at: '2023-03-30T19:07:01.000Z'
                   previous-step-name: start
                   next-step-name: verification_document
                   fields:

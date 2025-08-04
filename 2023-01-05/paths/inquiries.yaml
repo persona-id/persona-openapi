@@ -161,8 +161,14 @@ get:
                     description: >-
                       URL pointing to the next page of data, or null if on the
                       last page.
+                required:
+                  - prev
+                  - next
                 additionalProperties: false
                 type: object
+            required:
+              - data
+              - links
             additionalProperties: false
             type: object
       description: This endpoint returns a collection of Inquiry objects.
@@ -422,6 +428,8 @@ post:
                   Objects that _may_ be returned if specified via the `include`
                   query parameter in the request.
                 $ref: ../components/schemas/inquiry-included-objects.yaml
+            required:
+              - data
             additionalProperties: false
             type: object
       description: >-

@@ -51,8 +51,14 @@ get:
                       - 'null'
                 type: object
                 additionalProperties: false
+                required:
+                  - next
+                  - prev
               included:
                 $ref: ../components/schemas/empty-included-objects.yaml
+            required:
+              - data
+              - links
       description: This endpoint returns a collection of API key objects.
     '400':
       $ref: ../components/responses/bad-request.yaml
@@ -95,6 +101,8 @@ post:
                 $ref: ../components/schemas/api-key-with-value.yaml
               included:
                 $ref: ../components/schemas/empty-included-objects.yaml
+            required:
+              - data
       description: This endpoint returns an API key object.
     '400':
       $ref: ../components/responses/bad-request.yaml

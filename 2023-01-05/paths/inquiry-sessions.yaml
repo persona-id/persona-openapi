@@ -78,6 +78,9 @@ get:
           schema:
             type: object
             additionalProperties: false
+            required:
+              - data
+              - links
             properties:
               data:
                 type: array
@@ -104,6 +107,9 @@ get:
                       - 'null'
                     examples:
                       - /api/v1/inquiry-sessions?page%5Bafter%5D=iqse_ABC123
+                required:
+                  - prev
+                  - next
       description: This endpoint returns a collection of Inquiry Session objects.
     '400':
       $ref: ../components/responses/bad-request.yaml
@@ -168,6 +174,8 @@ post:
                   Objects that _may_ be returned if specified via the `include`
                   query parameter in the request.
                 $ref: ../components/schemas/inquiry-sessions-included-objects.yaml
+            required:
+              - data
             type: object
             additionalProperties: false
       description: >-

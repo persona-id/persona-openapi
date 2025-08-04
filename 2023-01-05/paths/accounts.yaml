@@ -59,8 +59,14 @@ get:
                       last page.
                 additionalProperties: false
                 type: object
+                required:
+                  - prev
+                  - next
             additionalProperties: false
             type: object
+            required:
+              - data
+              - links
       description: This endpoint returns a collection of Account objects.
     '400':
       $ref: ../components/responses/bad-request.yaml
@@ -253,6 +259,8 @@ post:
                 $ref: ../components/schemas/accounts-included-objects.yaml
             additionalProperties: false
             type: object
+            required:
+              - data
     '201':
       content:
         application/json:
@@ -270,6 +278,8 @@ post:
                 $ref: ../components/schemas/accounts-included-objects.yaml
             type: object
             additionalProperties: false
+            required:
+              - data
       description: >-
         This endpoint returns an Account object and (optionally) its related
         objects in `included`.
