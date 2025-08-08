@@ -108,8 +108,18 @@ paths:
             additionalProperties: false
             properties:
               reference-id:
-                description: Filter accounts by reference ID
-                type: string
+                description: Filter accounts by reference ID. Can be a single reference ID or an array of reference IDs.
+                examples:
+                  - ref_123
+                  - 'ref_123,ref_456'
+                  - - ref_123
+                    - ref_456
+                unevaluatedProperties: false
+                oneOf:
+                  - type: string
+                  - type: array
+                    items:
+                      type: string
       responses:
         '200':
           content:
