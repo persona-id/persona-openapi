@@ -12525,6 +12525,9 @@ paths:
       requestBody:
         content:
           application/json:
+            examples:
+              Created:
+                $ref: '#/components/examples/create-webhook'
             schema:
               properties:
                 data:
@@ -12648,6 +12651,9 @@ paths:
       requestBody:
         content:
           application/json:
+            examples:
+              Success:
+                $ref: '#/components/examples/create-webhook'
             schema:
               properties:
                 data:
@@ -12881,6 +12887,9 @@ paths:
       requestBody:
         content:
           application/json:
+            examples:
+              Success:
+                $ref: '#/components/examples/rotate-webhook-secret'
             schema:
               type: object
               additionalProperties: false
@@ -28866,6 +28875,15 @@ components:
               data:
                 type: verification-template-version/email-address
                 id: vtmplv_ABC123
+    create-webhook:
+      value:
+        data:
+          attributes:
+            name: Inquiry Webhook
+            url: 'https://withpersona.com'
+            enabled-events:
+              - account.created
+              - verification.created
     webhook-created:
       value:
         data:
@@ -28970,6 +28988,10 @@ components:
                     data:
                       id: itmpl_abc123def456
             created-at: '2023-08-17T23:18:13.000Z'
+    rotate-webhook-secret:
+      value:
+        meta:
+          expires-in-seconds: 15
     webhook-cloned:
       value:
         data:
