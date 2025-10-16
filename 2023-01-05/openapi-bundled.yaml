@@ -977,6 +977,96 @@ paths:
       tags:
         - Accounts
       x-persona-product: Accounts
+  '/accounts/{account-id}/run-action':
+    post:
+      summary: Run an account action
+      description: Triggers an account action for the specified account
+      operationId: runAccountAction
+      tags:
+        - Accounts
+      x-persona-product: Accounts
+      parameters:
+        - name: account-id
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: '^act_[a-zA-Z0-9]{24,28}$'
+          description: The ID of the account to run the action on
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                data:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    account-action-id:
+                      type: string
+                      description: The ID of the account action to run
+                      pattern: '^accac_[a-zA-Z0-9]{24,28}$'
+                    parameters:
+                      type: object
+                      description: Parameters required by the account action
+                      additionalProperties: true
+                  required:
+                    - account-action-id
+              required:
+                - data
+            examples:
+              basic:
+                summary: Basic account action trigger
+                value:
+                  data:
+                    account-action-id: accac_h4Ln3agRBwdpZD55Lef8fDwjuvjG
+                    parameters:
+                      status: activated
+      responses:
+        '200':
+          description: Account action executed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  data:
+                    $ref: '#/components/schemas/account'
+                  meta:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      workflow-run-id:
+                        type: string
+                        description: The ID of the workflow run created by this action
+                        examples:
+                          - wfr_abc123def456ghi789
+                    required:
+                      - workflow-run-id
+                required:
+                  - data
+                  - meta
+              examples:
+                Success:
+                  $ref: '#/components/examples/account-with-meta'
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not-found'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '422':
+          $ref: '#/components/responses/unprocessable-entity'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
   /api-keys:
     get:
       description: 'Returns a list of your organization''s API keys. Results are returned in reverse chronological order, with the most recently created objects first.'
@@ -26408,6 +26498,109 @@ components:
               data:
                 type: account-type
                 id: acttp_7X5W5w9GMtQntE6oPtKnj44c
+    account-with-meta:
+      value:
+        data:
+          type: account
+          id: act_hpNqyAbEG4HeVjZoBRNCMKkA
+          attributes:
+            reference-id: abc-123
+            account-type-name: User
+            created-at: '2023-09-22T17:13:49.000Z'
+            updated-at: '2023-09-23T00:22:19.000Z'
+            redacted-at: null
+            fields:
+              name:
+                type: hash
+                value:
+                  first:
+                    type: string
+                    value: Jane
+                  middle:
+                    type: string
+                    value: Marie
+                  last:
+                    type: string
+                    value: Doe
+              address:
+                type: hash
+                value:
+                  street_1:
+                    type: string
+                    value: 123 Main St
+                  street_2:
+                    type: string
+                    value: null
+                  subdivision:
+                    type: string
+                    value: California
+                  city:
+                    type: string
+                    value: San Francisco
+                  postal_code:
+                    type: string
+                    value: '94111'
+                  country_code:
+                    type: string
+                    value: US
+              identification_numbers:
+                type: array
+                value:
+                  - type: hash
+                    value:
+                      identification_class:
+                        type: string
+                        value: visa
+                      identification_number:
+                        type: string
+                        value: '12345678'
+                      issuing_country:
+                        type: string
+                        value: US
+                  - type: hash
+                    value:
+                      identification_class:
+                        type: string
+                        value: visa
+                      identification_number:
+                        type: string
+                        value: '87654321'
+                      issuing_country:
+                        type: string
+                        value: UK
+                  - type: hash
+                    value:
+                      identification_class:
+                        type: string
+                        value: cct
+                      identification_number:
+                        type: string
+                        value: A12345678
+                      issuing_country:
+                        type: string
+                        value: AF
+              birthdate:
+                type: date
+                value: '1994-12-30'
+              phone_number:
+                type: string
+                value: 111-222-3333
+              email_address:
+                type: string
+                value: jane@doe.com
+              selfie_photo:
+                type: file
+                value: null
+            tags:
+              - tag1
+              - tag2
+          relationships:
+            account-type:
+              data:
+                type: account-type
+                id: acttp_7X5W5w9GMtQntE6oPtKnj44c
+        meta:
+          workflow-run-id: wfr_abc123def456ghi789
     api-key-list:
       value:
         data:
