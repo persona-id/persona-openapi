@@ -1,0 +1,307 @@
+get:
+  description: >-
+    Returns a list of your organization's account(s). Results are returned in
+    reverse chronological order, with the most recently created objects first.
+  operationId: list-all-accounts
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/api-reference/accounts/list-all-accounts
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/pagination-query-params.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+    - in: query
+      name: filter
+      style: deepObject
+      explode: true
+      schema:
+        type: object
+        additionalProperties: false
+        properties:
+          reference-id:
+            description: >-
+              Filter accounts by reference ID. Can be a single reference ID or
+              an array of reference IDs.
+            examples:
+              - ref_123
+              - ref_123,ref_456
+            unevaluatedProperties: false
+            type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Success:
+              $ref: ../components/examples/account-list.yaml
+          schema:
+            properties:
+              data:
+                items:
+                  $ref: ../components/schemas/account.yaml
+                type: array
+                description: An array of Accounts
+              links:
+                properties:
+                  prev:
+                    type:
+                      - string
+                      - 'null'
+                    examples:
+                      - /api/v1/accounts?page%5Bafter%5D=act_ABC123
+                    description: >-
+                      URL pointing to the previous page of data, or null if on
+                      the first page.
+                  next:
+                    type:
+                      - string
+                      - 'null'
+                    examples:
+                      - /api/v1/accounts?page%5Bafter%5D=act_ABC123
+                    description: >-
+                      URL pointing to the next page of data, or null if on the
+                      last page.
+                additionalProperties: false
+                type: object
+                required:
+                  - prev
+                  - next
+            additionalProperties: false
+            type: object
+            required:
+              - data
+              - links
+      description: This endpoint returns a collection of Account objects.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: List all Accounts
+  tags:
+    - Accounts
+  x-persona-product: Accounts
+post:
+  description: Creates a new Account for your organization.
+  operationId: create-an-account
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/api-reference/accounts/create-an-account
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            data:
+              properties:
+                attributes:
+                  unevaluatedProperties: false
+                  allOf:
+                    - type: object
+                      properties:
+                        account-status:
+                          type: string
+                          description: >-
+                            BETA FEATURE -- Name of the status to set on this
+                            Account.
+                        reference-id:
+                          description: >-
+                            Reference ID on Account, refers to an entity in your
+                            user model
+                          type: string
+                        selfie-photo:
+                          description: Selfie photo.
+                          properties:
+                            data:
+                              description: >-
+                                Selfie photo data, must be an image. Can also be
+                                provided as an uploaded file such as with
+                                multipart/form-data requests instead of this
+                                object.
+                              properties:
+                                data:
+                                  description: Base64 encoded image
+                                  type: string
+                                filename:
+                                  description: Name of the image
+                                  type: string
+                              additionalProperties: false
+                              type: object
+                          additionalProperties: false
+                          type: object
+                        tags:
+                          description: >-
+                            A list of tag names to be associated with the
+                            Account.
+                          items:
+                            type: string
+                          type:
+                            - array
+                            - 'null'
+                        country-code:
+                          description: ISO 3166-1 alpha 2 country code.
+                          examples:
+                            - US
+                          type:
+                            - string
+                        social-security-number:
+                          description: Social security number.
+                          examples:
+                            - 123-45-6789
+                          type:
+                            - string
+                        fields:
+                          description: >-
+                            JSON key-value pairs of field name to field value.
+                            Schema is defined by your Account Type.
+                          type: object
+                          additionalProperties: true
+                        birthdate:
+                          description: Birthdate, must be in the format "YYYY-MM-DD".
+                          format: date
+                          examples:
+                            - '1994-04-12'
+                          type:
+                            - string
+                        name-first:
+                          description: Given or first name.
+                          examples:
+                            - Jane
+                          type:
+                            - string
+                        name-middle:
+                          description: Middle name.
+                          examples:
+                            - Marie
+                          type:
+                            - string
+                        name-last:
+                          description: Family or last name.
+                          examples:
+                            - Doe
+                          type:
+                            - string
+                        phone-number:
+                          description: Phone number.
+                          examples:
+                            - 415-555-1234
+                          type:
+                            - string
+                        email-address:
+                          description: Email address.
+                          examples:
+                            - jane@doe.com
+                          type:
+                            - string
+                        address-street-1:
+                          description: Street name of residence address.
+                          examples:
+                            - 123 Main St
+                          type: string
+                        address-street-2:
+                          description: >-
+                            Extension of residence address, usually apartment or
+                            suite number.
+                          examples:
+                            - Apt 1
+                          type: string
+                        address-city:
+                          description: >-
+                            City of residence address. Not all international
+                            addresses use this attribute.
+                          examples:
+                            - San Francisco
+                          type: string
+                        address-subdivision:
+                          description: >-
+                            State or subdivision of residence address. In the
+                            US, this should be the unabbreviated name. Not all
+                            international addresses use this attribute.
+                          examples:
+                            - California
+                          type: string
+                        address-postal-code:
+                          description: >-
+                            ZIP or postal code of residence address. Not all
+                            international addresses use this attribute.
+                          examples:
+                            - '94111'
+                          type: string
+              additionalProperties: false
+              type: object
+          additionalProperties: false
+          type: object
+  responses:
+    '200':
+      description: >-
+        This endpoint returns an Account object and (optionally) its related
+        objects in `included`.
+      content:
+        application/json:
+          examples:
+            Success:
+              $ref: ../components/examples/account.yaml
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/account.yaml
+              included:
+                description: >-
+                  Objects that _may_ be returned if specified via the `include`
+                  query parameter in the request.
+                $ref: ../components/schemas/accounts-included-objects.yaml
+            additionalProperties: false
+            type: object
+            required:
+              - data
+    '201':
+      content:
+        application/json:
+          examples:
+            Created:
+              $ref: ../components/examples/account.yaml
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/account.yaml
+              included:
+                description: >-
+                  Objects that _may_ be returned if specified via the `include`
+                  query parameter in the request.
+                $ref: ../components/schemas/accounts-included-objects.yaml
+            type: object
+            additionalProperties: false
+            required:
+              - data
+      description: >-
+        This endpoint returns an Account object and (optionally) its related
+        objects in `included`.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Create an Account
+  tags:
+    - Accounts
+  x-persona-product: Accounts

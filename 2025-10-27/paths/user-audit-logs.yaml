@@ -1,0 +1,141 @@
+get:
+  description: >-
+    Returns a list of your organization’s user audit logs for up to the most
+    recent 6 months.
+
+
+    Note: You must use a production API key to access this endpoint. For
+    security reasons, we do not expose organization-level resources like user
+    audit logs in Sandbox via API. Results are returned in reverse chronological
+    order, with the most recently created objects first.
+  operationId: list-all-user-audit-logs
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: >-
+      https://docs.withpersona.com/api-reference/user-audit-logs/list-all-user-audit-logs
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/pagination-query-params.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Success:
+              value:
+                data:
+                  - type: user-audit-log
+                    id: ual_ABC123ABC
+                    attributes:
+                      path: /api/v1/inquiries
+                      method: GET
+                      get-params: {}
+                      post-params: {}
+                      ip-address: 127.0.0.1
+                      user-agent: >-
+                        Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)
+                        AppleWebKit/537.36
+                      response-status: 200
+                      created-at: '2023-10-03T21:31:05.163Z'
+                      impersonator-email-address: null
+                    relationships:
+                      user:
+                        data:
+                          type: user
+                          id: user_ABC123
+                      user-session:
+                        data:
+                          type: user-session
+                          id: uses_ABC123
+                  - type: user-audit-log
+                    id: ual_ABC123XYZ
+                    attributes:
+                      path: >-
+                        /api/internal/dashboard/v1/user-sessions/uses_ABC123/expire
+                      method: GET
+                      get-params: {}
+                      post-params:
+                        data:
+                          id: uses_ABC123
+                          type: user-session
+                      ip-address: 127.0.0.1
+                      user-agent: >-
+                        Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)
+                        AppleWebKit/537.36
+                      response-status: 200
+                      created-at: '2023-10-03T21:31:05.163Z'
+                      impersonator-email-address: null
+                    relationships:
+                      user:
+                        data:
+                          type: user
+                          id: user_ABC123
+                      user-session:
+                        data:
+                          type: user-session
+                          id: uses_ABC123
+                links:
+                  next: null
+                  prev: null
+                included:
+                  - type: user
+                    id: user_ABC123
+                    attributes:
+                      email-address: jane@doe.com
+                      name-first: Jane
+                      name-last: Doe
+          schema:
+            type: object
+            additionalProperties: false
+            required:
+              - data
+              - links
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: ../components/schemas/user-audit-log.yaml
+              links:
+                type: object
+                additionalProperties: false
+                required:
+                  - prev
+                  - next
+                properties:
+                  prev:
+                    type:
+                      - string
+                      - 'null'
+                    examples:
+                      - /api/v1/user-audit-logs?page%5Bbefore%5D=ual_ABC123
+                  next:
+                    type:
+                      - string
+                      - 'null'
+                    examples:
+                      - /api/v1/user-audit-logs?page%5Bafter%5D=ual_ABC123
+              included:
+                type: array
+                description: >-
+                  Objects that will be returned by default unless otherwise
+                  specified using the `include` query parameter in the request.
+                items:
+                  $ref: ../components/schemas/user.yaml
+      description: This endpoint returns a collection of User Audit Logs objects.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: List all User Audit Logs
+  tags:
+    - User Audit Logs
+  x-persona-product: User Audit Logs

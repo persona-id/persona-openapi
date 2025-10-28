@@ -1,0 +1,337 @@
+type: object
+additionalProperties: false
+description: |-
+  An Account object.
+
+  Note that `fields` is **not** key inflected.
+properties:
+  type:
+    type: string
+    const: account
+  id:
+    type: string
+    examples:
+      - act_hpNqyAbEG4HeVjZoBRNCMKkA
+  attributes:
+    properties:
+      reference-id:
+        type:
+          - string
+          - 'null'
+        examples:
+          - abc-123
+      account-type-name:
+        type:
+          - string
+        examples:
+          - User
+      created-at:
+        format: date-time
+        examples:
+          - '2020-04-12T05:08:51.000Z'
+        type: string
+      updated-at:
+        format: date-time
+        examples:
+          - '2020-04-13T00:23:57.000Z'
+        type: string
+      redacted-at:
+        format: date-time
+        examples:
+          - '2020-04-14T00:22:43.000Z'
+        type:
+          - string
+          - 'null'
+      fields:
+        type: object
+        description: >-
+          JSON key-value pairs of field name to field value. Exact schema
+          depends on the configuration of the Account Type for this Account.
+          Keys in `fields` are **not** key inflected.
+        properties:
+          name:
+            type: object
+            additionalProperties: false
+            properties:
+              type:
+                type: string
+                examples:
+                  - hash
+              value:
+                type: object
+                additionalProperties: false
+                properties:
+                  first:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      type:
+                        type: string
+                        examples:
+                          - string
+                      value:
+                        type:
+                          - string
+                          - 'null'
+                        examples:
+                          - Jane
+                  middle:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      type:
+                        type: string
+                        examples:
+                          - string
+                      value:
+                        type:
+                          - string
+                          - 'null'
+                        examples:
+                          - Marie
+                  last:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      type:
+                        type: string
+                        examples:
+                          - string
+                      value:
+                        type:
+                          - string
+                          - 'null'
+                        examples:
+                          - Doe
+          address:
+            type: object
+            additionalProperties: false
+            properties:
+              type:
+                type: string
+                examples:
+                  - hash
+              value:
+                type: object
+                additionalProperties: false
+                properties:
+                  street_1:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      type:
+                        type: string
+                        examples:
+                          - string
+                      value:
+                        type:
+                          - string
+                          - 'null'
+                        examples:
+                          - 123 Main St
+                  street_2:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      type:
+                        type: string
+                        examples:
+                          - string
+                      value:
+                        type:
+                          - string
+                          - 'null'
+                        examples:
+                          - Apt 1
+                  subdivision:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      type:
+                        type: string
+                        examples:
+                          - string
+                      value:
+                        type:
+                          - string
+                          - 'null'
+                        examples:
+                          - California
+                  city:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      type:
+                        type: string
+                        examples:
+                          - string
+                      value:
+                        type:
+                          - string
+                          - 'null'
+                        examples:
+                          - San Francisco
+                  postal_code:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      type:
+                        type: string
+                        examples:
+                          - string
+                      value:
+                        type:
+                          - string
+                          - 'null'
+                        examples:
+                          - '94111'
+                  country_code:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      type:
+                        type: string
+                        examples:
+                          - string
+                      value:
+                        type:
+                          - string
+                          - 'null'
+                        examples:
+                          - US
+          identification_numbers:
+            type: object
+            additionalProperties: false
+            properties:
+              type:
+                type: string
+                examples:
+                  - array
+              value:
+                type: array
+                items:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    type:
+                      type: string
+                      examples:
+                        - hash
+                    value:
+                      type: object
+                      additionalProperties: false
+                      properties:
+                        identification_class:
+                          type: object
+                          additionalProperties: false
+                          properties:
+                            type:
+                              type: string
+                              examples:
+                                - string
+                            value:
+                              type: string
+                              examples:
+                                - visa
+                                - cct
+                        identification_number:
+                          type: object
+                          additionalProperties: false
+                          properties:
+                            type:
+                              type: string
+                              examples:
+                                - string
+                            value:
+                              type: string
+                              examples:
+                                - '12345678'
+                                - AB-12345678
+                        issuing_country:
+                          type: object
+                          additionalProperties: false
+                          properties:
+                            type:
+                              type: string
+                              examples:
+                                - string
+                            value:
+                              type: string
+                              examples:
+                                - US
+                                - UK
+          birthdate:
+            type: object
+            additionalProperties: false
+            properties:
+              type:
+                type: string
+                examples:
+                  - date
+              value:
+                type:
+                  - string
+                  - 'null'
+                examples:
+                  - '1994-04-12'
+          phone_number:
+            type: object
+            additionalProperties: false
+            properties:
+              type:
+                type: string
+                examples:
+                  - string
+              value:
+                type:
+                  - string
+                  - 'null'
+                examples:
+                  - 415-555-1234
+          email_address:
+            type: object
+            additionalProperties: false
+            properties:
+              type:
+                type: string
+                examples:
+                  - string
+              value:
+                type:
+                  - string
+                  - 'null'
+                examples:
+                  - jane@doe.com
+          selfie_photo:
+            type: object
+            additionalProperties: false
+            properties:
+              type:
+                const: file
+                type: string
+              value:
+                $ref: ./file.yaml
+        additionalProperties: true
+      tags:
+        type: array
+    type: object
+    additionalProperties: false
+  relationships:
+    type: object
+    additionalProperties: false
+    properties:
+      account-type:
+        type: object
+        additionalProperties: false
+        properties:
+          data:
+            type: object
+            additionalProperties: false
+            properties:
+              id:
+                examples:
+                  - acttp_7X5W5w9GMtQntE6oPtKnj44c
+                type: string
+              type:
+                const: account-type
+                type: string

@@ -1,0 +1,168 @@
+type: object
+additionalProperties: false
+properties:
+  name:
+    description: A name for remembering webhook
+    type:
+      - string
+      - 'null'
+  description:
+    description: An optional description for this webhook
+    type:
+      - string
+      - 'null'
+  url:
+    description: URL to which webhook events are forwarded.
+    type: string
+  enabled-events:
+    description: >-
+      Supported events that you want to receive webhooks for. Set `*` to enable
+      all events. Descriptions of all events can be found
+      [here](https://docs.withpersona.com/events). Retrieve Events for your
+      organization using the [Events
+      API](https://docs.withpersona.com/api-reference/events/list-all-events).
+    items:
+      type: string
+      enum:
+        - '*'
+        - account.created
+        - account.redacted
+        - account.archived
+        - account.restored
+        - account.consolidated
+        - account.tag-added
+        - account.tag-removed
+        - case.created
+        - case.assigned
+        - case.resolved
+        - case.reopened
+        - case.updated
+        - document.created
+        - document.submitted
+        - document.processed
+        - document.errored
+        - importer-pipeline-run.started
+        - importer-pipeline-run.completed
+        - importer-pipeline-run.errored
+        - importer-pipeline-run.canceled
+        - importer-pipeline-run.paused
+        - importer-pipeline-run.resumed
+        - inquiry.created
+        - inquiry.expired
+        - inquiry.completed
+        - inquiry.failed
+        - inquiry.marked-for-review
+        - inquiry.approved
+        - inquiry.declined
+        - inquiry.transitioned
+        - inquiry-session.started
+        - inquiry-session.expired
+        - inquiry-session.canceled
+        - report/address-lookup.ready
+        - report/address-lookup.errored
+        - report/adverse-media.matched
+        - report/adverse-media.ready
+        - report/adverse-media.errored
+        - report/business-adverse-media.matched
+        - report/business-adverse-media.ready
+        - report/business-adverse-media.errored
+        - report/business-watchlist.ready
+        - report/business-watchlist.matched
+        - report/business-watchlist.errored
+        - report/email-address.ready
+        - report/email-address.errored
+        - report/phone-number.ready
+        - report/phone-number.errored
+        - report/profile.ready
+        - report/profile.errored
+        - report/politically-exposed-person.matched
+        - report/politically-exposed-person.ready
+        - report/politically-exposed-person.errored
+        - report/watchlist.matched
+        - report/watchlist.ready
+        - report/watchlist.errored
+        - selfie.created
+        - selfie.submitted
+        - selfie.processed
+        - selfie.errored
+        - transaction.created
+        - transaction.labeled
+        - transaction.redacted
+        - transaction.status-updated
+        - verification.created
+        - verification.submitted
+        - verification.passed
+        - verification.failed
+        - verification.requires-retry
+        - verification.canceled
+    type: array
+  api-version:
+    description: >-
+      API version that will be used for incoming webhook requests. Defaults to
+      the API version used when making this request.
+    type: string
+    examples:
+      - '2025-10-27'
+    enum:
+      - '2025-10-27'
+      - '2023-01-05'
+      - '2022-09-01'
+      - '2021-08-18'
+      - '2021-07-05'
+      - '2021-02-21'
+      - '2020-05-18'
+  api-key-inflection:
+    description: >-
+      Default key inflection for attribute keys in incoming webhook requests.
+      For more info see the [Key Inflection
+      docs](https://docs.withpersona.com/key-inflection).
+    type: string
+    default: kebab
+    enum:
+      - camel
+      - kebab
+      - snake
+  api-attributes-blocklist:
+    description: >-
+      Attributes blocked from webhook requests. For more info see [Webhook
+      Attributes
+      Blocklist](https://docs.withpersona.com/webhook-blocklists#attribute-blocklist).
+    items:
+      type: string
+    type: array
+  file-access-token-expires-in:
+    description: >-
+      How soon any file access tokens in webhook requests expire. For more info
+      see [Downloading Files](https://docs.withpersona.com/downloading-files).
+    example: 21600
+    type: integer
+  payload-filter:
+    type: object
+    additionalProperties: false
+    description: >-
+      Filter webhook events based on payload data. Only available for enterprise
+      clients. For more info see [Webhook Event
+      Filters](https://docs.withpersona.com/webhook-event-filters).
+    properties:
+      data:
+        type: object
+        additionalProperties: true
+        format: json
+  custom-http-headers:
+    description: >-
+      Custom HTTP headers to include in webhook requests. For more info see
+      [Webhook Custom HTTP
+      Headers](https://docs.withpersona.com/webhook-custom-http-headers).
+    type: object
+    additionalProperties: true
+    properties:
+      Authorization:
+        type: string
+      Calling-Application:
+        type: string
+      CF-Access-Client-Id:
+        type: string
+      CF-Access-Client-Secret:
+        type: string
+      X-API-Key:
+        type: string

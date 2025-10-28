@@ -1,0 +1,91 @@
+title: Geolocation List Item
+description: A Geolocation List Item
+type: object
+additionalProperties: false
+properties:
+  id:
+    description: Unique identifier for this list item. Starts with `ligl_`.
+    examples:
+      - ligl_DQdchRN288UN6sn9mAmEcMu5
+    type: string
+  type:
+    const: list-item/geolocation
+    type: string
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./list-item-shared-attributes.yaml
+      - type: object
+        properties:
+          latitude:
+            default: 0
+            examples:
+              - 37.7879461
+            type: number
+          longitude:
+            default: 0
+            examples:
+              - -122.3977409
+            type: number
+          radius-meters:
+            default: 0
+            examples:
+              - 10
+            type: integer
+  relationships:
+    properties:
+      creator:
+        properties:
+          data:
+            unevaluatedProperties: false
+            oneOf:
+              - type: 'null'
+              - properties:
+                  type:
+                    const: user
+                    type: string
+                  id:
+                    examples:
+                      - user_3VghhbvDc7UuUNT8uZrqZjsk
+                    type: string
+                type: object
+              - properties:
+                  type:
+                    const: workflow-run
+                    type: string
+                  id:
+                    examples:
+                      - wfr_3VghhbvDc7UuUNT8uZrqZjsk
+                    type: string
+                type: object
+              - properties:
+                  type:
+                    const: workflow-step/action
+                    type: string
+                  id:
+                    examples:
+                      - wfs_3VghhbvDc7UuUNT8uZrqZjsk
+                    type: string
+                type: object
+              - properties:
+                  type:
+                    const: api-key
+                    type: string
+                  id:
+                    examples:
+                      - api_3VghhbvDc7UuUNT8uZrqZjsk
+                    type: string
+                type: object
+              - properties:
+                  type:
+                    const: importer/geolocation
+                    type: string
+                  id:
+                    examples:
+                      - mprt_3VghhbvDc7UuUNT8uZrqZjsk
+                    type: string
+                type: object
+        type: object
+        additionalProperties: false
+    type: object
+    additionalProperties: false

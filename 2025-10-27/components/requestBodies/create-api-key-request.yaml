@@ -1,0 +1,68 @@
+content:
+  application/json:
+    schema:
+      properties:
+        data:
+          properties:
+            attributes:
+              properties:
+                name:
+                  description: Human-readable name of the API key.
+                  type: string
+                note:
+                  description: Human readable context about the use of the API key.
+                  type: string
+                api-version:
+                  description: >-
+                    API version that will be used for requests made with this
+                    API key. Defaults to the API version used when making this
+                    request.
+                  type: string
+                  examples:
+                    - '2023-01-05'
+                  enum:
+                    - '2023-01-05'
+                    - '2022-09-01'
+                    - '2021-08-18'
+                    - '2021-07-05'
+                    - '2021-02-21'
+                    - '2020-05-18'
+                api-key-inflection:
+                  description: Default API response key inflection. Default is kebab-case.
+                  type: string
+                api-attributes-blocklist:
+                  description: Attributes blocked from API responses.
+                  items:
+                    type: string
+                  type: array
+                ip-address-allowlist:
+                  description: IP addresses permitted for use by the API key.
+                  items:
+                    type: string
+                  type: array
+                permissions:
+                  description: Abilities permitted to the API key.
+                  items:
+                    type: string
+                  type: array
+                file-access-token-expires-in:
+                  description: >-
+                    How soon any file access tokens returned in API responses
+                    expire. For more info see [Downloading
+                    Files](https://docs.withpersona.com/downloading-files).
+                  type: integer
+              type: object
+              additionalProperties: false
+              required:
+                - name
+          type: object
+          additionalProperties: false
+          required:
+            - attributes
+      type: object
+      additionalProperties: false
+      required:
+        - data
+    examples:
+      Created:
+        $ref: ../examples/create-api-key.yaml

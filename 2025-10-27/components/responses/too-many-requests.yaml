@@ -1,0 +1,38 @@
+description: >-
+  Your organization’s rate limit has been exceeded. We recommend an exponential
+  backoff on requests.
+content:
+  application/json:
+    examples:
+      Too Many Requests:
+        value:
+          errors:
+            - title: Rate limit exceeded
+              details: >-
+                You have hit your rate limit of 300 requests / min. Please reach
+                out to support@withpersona.com if you need this changed.
+    schema:
+      properties:
+        errors:
+          type: array
+          items:
+            additionalProperties: false
+            properties:
+              title:
+                type: string
+                examples:
+                  - Rate limit exceeded
+                  - Quota exceeded
+              details:
+                type: string
+                examples:
+                  - >-
+                    You have hit your rate limit of 300 requests / min. Please
+                    reach out to support@withpersona.com if you need this
+                    changed.
+                  - >-
+                    You have hit your create_verification quota limit of 300
+                    requests. Please reach out to support@withpersona.com if you
+                    need this changed.
+      type: object
+      additionalProperties: false
