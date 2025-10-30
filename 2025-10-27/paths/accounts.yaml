@@ -112,6 +112,11 @@ post:
                   allOf:
                     - type: object
                       properties:
+                        account-type-id:
+                          type: string
+                          description: >-
+                            Account Type ID to create the account for. Starts
+                            with `acttp_`.
                         account-status:
                           type: string
                           description: >-
@@ -242,6 +247,18 @@ post:
                           type: string
               additionalProperties: false
               type: object
+            meta:
+              type: object
+              additionalProperties: false
+              properties:
+                upsert-by:
+                  type:
+                    - string
+                    - 'null'
+                  description: >-
+                    The field name to use for upserting the account. This field
+                    must be unique across all accounts for the given account
+                    type.
           additionalProperties: false
           type: object
   responses:

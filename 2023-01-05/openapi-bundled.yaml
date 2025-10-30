@@ -193,6 +193,9 @@ paths:
                       allOf:
                         - type: object
                           properties:
+                            account-type-id:
+                              type: string
+                              description: Account Type ID to create the account for. Starts with `acttp_`.
                             account-status:
                               type: string
                               description: BETA FEATURE -- Name of the status to set on this Account.
@@ -302,6 +305,15 @@ paths:
                               type: string
                   additionalProperties: false
                   type: object
+                meta:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    upsert-by:
+                      type:
+                        - string
+                        - 'null'
+                      description: The field name to use for upserting the account. This field must be unique across all accounts for the given account type.
               additionalProperties: false
               type: object
       responses:
@@ -826,6 +838,107 @@ paths:
         '429':
           $ref: '#/components/responses/too-many-requests'
       summary: Consolidate Accounts
+      tags:
+        - Accounts
+      x-persona-product: Accounts
+  '/accounts/{account-id}/relations':
+    get:
+      description: Gets relations for an Account by key
+      operationId: accounts-list-all-relations
+      externalDocs:
+        description: Full documentation for this API on the Persona website.
+        url: 'https://docs.withpersona.com/api-reference/accounts/list-all-relations'
+      parameters:
+        - $ref: '#/components/parameters/key-inflection-header'
+        - $ref: '#/components/parameters/idempotency-key-header'
+        - $ref: '#/components/parameters/persona-version-header'
+        - $ref: '#/components/parameters/include-query-parameter'
+        - $ref: '#/components/parameters/fields-query-parameter'
+        - name: account-id
+          in: path
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: filter
+          style: deepObject
+          explode: true
+          required: true
+          schema:
+            type: object
+            additionalProperties: false
+            properties:
+              key:
+                type: string
+                description: Filter relations by relation key.
+              created-at-start:
+                type: string
+                description: Filter relations by creation date.
+              created-at-end:
+                type: string
+                description: Filter relations by creation date.
+            required:
+              - key
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    type: array
+                    unevaluatedProperties: false
+                    description: List of relations for the Account. The type of the returned objects is determined by the key query parameter.
+                    items:
+                      unevaluatedProperties: false
+                      oneOf:
+                        - $ref: '#/components/schemas/account'
+                        - $ref: '#/components/schemas/transaction'
+                  links:
+                    properties:
+                      prev:
+                        examples:
+                          - /api/v1/accounts/act_ABC123/relations?filter%5Bkey%5D=my_relation&page%5Bafter%5D=act_XYZ987
+                        type:
+                          - 'null'
+                          - string
+                        description: 'URL pointing to the previous page of data, or null if on the first page.'
+                      next:
+                        examples:
+                          - /api/v1/accounts/act_ABC123/relations?filter%5Bkey%5D=my_relation&page%5Bafter%5D=act_XYZ987
+                        type:
+                          - 'null'
+                          - string
+                        description: 'URL pointing to the next page of data, or null if on the last page.'
+                    additionalProperties: false
+                    type: object
+                    required:
+                      - prev
+                      - next
+                additionalProperties: false
+                type: object
+                required:
+                  - data
+                  - links
+              examples:
+                Success:
+                  $ref: '#/components/examples/account-list'
+          description: This endpoint returns a collection of Account relations.
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not-found'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '422':
+          $ref: '#/components/responses/unprocessable-entity'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+      summary: Get all relations for an Account
       tags:
         - Accounts
       x-persona-product: Accounts
@@ -14816,6 +14929,140 @@ components:
             account-type: '#/components/schemas/account-type'
         anyOf:
           - $ref: '#/components/schemas/account-type'
+    transaction:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+          description: Unique identifier for this Transaction. Starts with `txn_`.
+          examples:
+            - txn_ABC123
+        type:
+          type: string
+          const: transaction
+        attributes:
+          type: object
+          additionalProperties: false
+          properties:
+            status:
+              type: string
+              examples:
+                - approved
+                - created
+                - declined
+                - needs review
+            reference-id:
+              type:
+                - string
+                - 'null'
+              examples:
+                - abc-123
+            fields:
+              description: JSON key-value pairs of field name to field value. Exact schema depends on the configuration of the Transaction Type for this Transaction.
+              type: object
+              additionalProperties: true
+            tags:
+              type: array
+              items:
+                type: string
+            created-at:
+              type: string
+              format: date-time
+              examples:
+                - '2023-05-26T16:49:33.860Z'
+            updated-at:
+              type:
+                - string
+                - 'null'
+              format: date-time
+              examples:
+                - '2023-05-26T16:49:43.965Z'
+        relationships:
+          type: object
+          additionalProperties: false
+          properties:
+            reviewer:
+              type: object
+              additionalProperties: false
+              description: The entity that reviewed the transaction
+              properties:
+                data:
+                  type:
+                    - object
+                    - 'null'
+                  properties:
+                    type:
+                      x-polymorphic: true
+                      type: string
+                      examples:
+                        - workflow-run
+                        - workflow-step
+                        - user
+                    id:
+                      type: string
+                      examples:
+                        - wfr_ABC123
+                        - wfs_ABC123
+                        - user_ABC123
+            transaction-label:
+              type: object
+              additionalProperties: false
+              properties:
+                data:
+                  type:
+                    - object
+                    - 'null'
+                  properties:
+                    type:
+                      type: string
+                      const: transaction-label
+                    id:
+                      description: Unique identifier for this Transaction Label. Starts with `txnl_`.
+                      type: string
+                      examples:
+                        - txnl_ABC123
+            transaction-type:
+              type: object
+              additionalProperties: false
+              properties:
+                data:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    type:
+                      type: string
+                      const: transaction-type
+                    id:
+                      description: Unique identifier for this Transaction Type. Starts with `txntp_`.
+                      type: string
+                      examples:
+                        - txntp_ABC123
+            related-objects:
+              type: object
+              additionalProperties: false
+              description: Objects involved in this Transaction's related Workflow runs.
+              properties:
+                data:
+                  type: array
+                  items:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      type:
+                        x-polymorphic: true
+                        type: string
+                        examples:
+                          - account
+                          - inquiry
+                          - verification/government-id
+                      id:
+                        type: string
+                        description: Unique identifier for this object.
+                        examples:
+                          - act_ABC123
+                          - inq_ABC123
+                          - ver_ABC123
     api-key-shared-attributes:
       x-inheritable: true
       type: object
@@ -19540,140 +19787,6 @@ components:
                         example: false positive
         relationships:
           $ref: '#/components/schemas/report-shared-relationships'
-    transaction:
-      type: object
-      additionalProperties: false
-      properties:
-        id:
-          type: string
-          description: Unique identifier for this Transaction. Starts with `txn_`.
-          examples:
-            - txn_ABC123
-        type:
-          type: string
-          const: transaction
-        attributes:
-          type: object
-          additionalProperties: false
-          properties:
-            status:
-              type: string
-              examples:
-                - approved
-                - created
-                - declined
-                - needs review
-            reference-id:
-              type:
-                - string
-                - 'null'
-              examples:
-                - abc-123
-            fields:
-              description: JSON key-value pairs of field name to field value. Exact schema depends on the configuration of the Transaction Type for this Transaction.
-              type: object
-              additionalProperties: true
-            tags:
-              type: array
-              items:
-                type: string
-            created-at:
-              type: string
-              format: date-time
-              examples:
-                - '2023-05-26T16:49:33.860Z'
-            updated-at:
-              type:
-                - string
-                - 'null'
-              format: date-time
-              examples:
-                - '2023-05-26T16:49:43.965Z'
-        relationships:
-          type: object
-          additionalProperties: false
-          properties:
-            reviewer:
-              type: object
-              additionalProperties: false
-              description: The entity that reviewed the transaction
-              properties:
-                data:
-                  type:
-                    - object
-                    - 'null'
-                  properties:
-                    type:
-                      x-polymorphic: true
-                      type: string
-                      examples:
-                        - workflow-run
-                        - workflow-step
-                        - user
-                    id:
-                      type: string
-                      examples:
-                        - wfr_ABC123
-                        - wfs_ABC123
-                        - user_ABC123
-            transaction-label:
-              type: object
-              additionalProperties: false
-              properties:
-                data:
-                  type:
-                    - object
-                    - 'null'
-                  properties:
-                    type:
-                      type: string
-                      const: transaction-label
-                    id:
-                      description: Unique identifier for this Transaction Label. Starts with `txnl_`.
-                      type: string
-                      examples:
-                        - txnl_ABC123
-            transaction-type:
-              type: object
-              additionalProperties: false
-              properties:
-                data:
-                  type: object
-                  additionalProperties: false
-                  properties:
-                    type:
-                      type: string
-                      const: transaction-type
-                    id:
-                      description: Unique identifier for this Transaction Type. Starts with `txntp_`.
-                      type: string
-                      examples:
-                        - txntp_ABC123
-            related-objects:
-              type: object
-              additionalProperties: false
-              description: Objects involved in this Transaction's related Workflow runs.
-              properties:
-                data:
-                  type: array
-                  items:
-                    type: object
-                    additionalProperties: false
-                    properties:
-                      type:
-                        x-polymorphic: true
-                        type: string
-                        examples:
-                          - account
-                          - inquiry
-                          - verification/government-id
-                      id:
-                        type: string
-                        description: Unique identifier for this object.
-                        examples:
-                          - act_ABC123
-                          - inq_ABC123
-                          - ver_ABC123
     verification-shared-attributes:
       x-inheritable: true
       type: object
