@@ -14252,10 +14252,7 @@ components:
       name: Persona-Version
       in: header
       schema:
-        type: string
-        enum:
-          - '2023-01-05'
-        default: '2023-01-05'
+        $ref: '#/components/schemas/api-version'
     pagination-query-params:
       in: query
       name: page
@@ -14329,6 +14326,19 @@ components:
         examples:
           - 1527811200
   schemas:
+    api-version:
+      type: string
+      description: 'Server API version. More info on versioning can be found [here](https://docs.withpersona.com/versioning).'
+      examples:
+        - '2025-10-27'
+      enum:
+        - '2025-10-27'
+        - '2023-01-05'
+        - '2022-09-01'
+        - '2021-08-18'
+        - '2021-07-05'
+        - '2021-02-21'
+        - '2020-05-18'
     file:
       type:
         - 'null'
@@ -14871,10 +14881,7 @@ components:
             - string
             - 'null'
         api-version:
-          type: string
-          format: date
-          examples:
-            - '2023-01-05'
+          $ref: '#/components/schemas/api-version'
         api-key-inflection:
           type: string
           examples:
@@ -25730,10 +25737,7 @@ components:
               examples:
                 - Webhook for testing
             api-version:
-              type: string
-              format: date
-              examples:
-                - '2023-01-05'
+              $ref: '#/components/schemas/api-version'
             api-key-inflection:
               type: string
               examples:
@@ -25866,17 +25870,7 @@ components:
           type: array
         api-version:
           description: API version that will be used for incoming webhook requests. Defaults to the API version used when making this request.
-          type: string
-          examples:
-            - '2025-10-27'
-          enum:
-            - '2025-10-27'
-            - '2023-01-05'
-            - '2022-09-01'
-            - '2021-08-18'
-            - '2021-07-05'
-            - '2021-02-21'
-            - '2020-05-18'
+          $ref: '#/components/schemas/api-version'
         api-key-inflection:
           description: 'Default key inflection for attribute keys in incoming webhook requests. For more info see the [Key Inflection docs](https://docs.withpersona.com/key-inflection).'
           type: string
@@ -25975,10 +25969,7 @@ components:
                       - 'null'
                     format: date-time
             api-version:
-              type: string
-              format: date
-              examples:
-                - '2023-01-05'
+              $ref: '#/components/schemas/api-version'
             api-key-inflection:
               type: string
               examples:
@@ -31373,16 +31364,7 @@ components:
                         type: string
                       api-version:
                         description: API version that will be used for requests made with this API key. Defaults to the API version used when making this request.
-                        type: string
-                        examples:
-                          - '2023-01-05'
-                        enum:
-                          - '2023-01-05'
-                          - '2022-09-01'
-                          - '2021-08-18'
-                          - '2021-07-05'
-                          - '2021-02-21'
-                          - '2020-05-18'
+                        $ref: '#/components/schemas/api-version'
                       api-key-inflection:
                         description: Default API response key inflection. Default is kebab-case.
                         type: string
@@ -31436,17 +31418,7 @@ components:
                         type: string
                       api-version:
                         description: API version that will be used for requests made with this API key. Defaults to the API version used when making this request.
-                        type: string
-                        examples:
-                          - '2025-10-27'
-                        enum:
-                          - '2025-10-27'
-                          - '2023-01-05'
-                          - '2022-09-01'
-                          - '2021-08-18'
-                          - '2021-07-05'
-                          - '2021-02-21'
-                          - '2020-05-18'
+                        $ref: '#/components/schemas/api-version'
                       api-key-inflection:
                         description: Default API response key inflection. Default is kebab-case.
                         type: string
