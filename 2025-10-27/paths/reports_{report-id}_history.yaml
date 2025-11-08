@@ -1,0 +1,100 @@
+get:
+  description: >-
+    Retrieves the history of an existing Report, including runs and actions. See
+    [Pagination](https://docs.withpersona.com/pagination) for more details about
+    handling the response. Results are returned in reverse chronological order,
+    with the most recently created objects first.
+  operationId: list-report-history
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/api-reference/reports/list-report-history
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/pagination-query-params.yaml
+    - name: report-id
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Success:
+              value:
+                data:
+                  - type: run
+                    id: rpr_5HCmTnQMtLgRyarbyFDFNy8k
+                    run-type: scheduled
+                    scheduled-date: '2025-10-22'
+                    completed-at: '2025-10-22T05:07:10.000+00:00'
+                    matches: 30
+                  - type: dismiss
+                    id: ract_nXmT51zEhQnwRYPCJmQ73Rq5
+                    created-at: '2025-10-22T05:09:22.065+00:00'
+                    creator-name: John Doe
+                  - type: review
+                    id: ract_zbzaG66ZnxeRxnSrumQGU8kF
+                    created-at: '2025-10-22T04:30:03.000+00:00'
+                    creator-name: John Doe
+                  - type: pause
+                    id: ract_xxSK46C5xQ8pCqcg3wKUyX5F
+                    created-at: '2025-10-22T04:30:03.000+00:00'
+                    creator-name: John Doe
+                  - type: resume
+                    id: ract_L6JdsScaRjdzfKhESXRELyMg
+                    created-at: '2025-10-22T04:30:03.000+00:00'
+                    creator-name: John Doe
+                links:
+                  next: >-
+                    /api/v1/reports/report-id/history?page%5Bafter%5D=rpr_VydFpmA58EyEYnWLprvtMNau
+                  prev: null
+          schema:
+            type: object
+            additionalProperties: false
+            required:
+              - data
+              - links
+            properties:
+              data:
+                $ref: ../components/schemas/report-history.yaml
+              links:
+                type:
+                  - object
+                  - 'null'
+                additionalProperties: false
+                description: Pagination links for navigating through the history
+                required:
+                  - prev
+                  - next
+                properties:
+                  prev:
+                    type:
+                      - string
+                      - 'null'
+                    description: URL to the previous page of results
+                  next:
+                    type:
+                      - string
+                      - 'null'
+                    description: URL to the next page of results
+      description: >-
+        This endpoint returns a history array containing report runs and
+        actions.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: List Report history
+  tags:
+    - Reports
+  x-persona-product: Reports
