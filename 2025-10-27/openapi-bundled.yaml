@@ -1836,6 +1836,9 @@ paths:
                 - data
               type: object
               additionalProperties: false
+            examples:
+              Created:
+                $ref: '#/components/examples/create-case'
       responses:
         '201':
           content:
@@ -2319,6 +2322,9 @@ paths:
                   additionalProperties: false
               type: object
               additionalProperties: false
+            examples:
+              Success:
+                $ref: '#/components/examples/add-objects'
       responses:
         '200':
           content:
@@ -2443,6 +2449,9 @@ paths:
                 - meta
               type: object
               additionalProperties: false
+            examples:
+              Success:
+                $ref: '#/components/examples/assign-case'
       responses:
         '200':
           content:
@@ -2553,10 +2562,8 @@ paths:
         content:
           application/json:
             examples:
-              Request Example:
-                value:
-                  meta:
-                    status: Approved
+              Success:
+                $ref: '#/components/examples/set-status'
             schema:
               properties:
                 meta:
@@ -2693,6 +2700,9 @@ paths:
                   additionalProperties: false
               type: object
               additionalProperties: false
+            examples:
+              Success:
+                $ref: '#/components/examples/set-tag'
       responses:
         '200':
           content:
@@ -2817,6 +2827,9 @@ paths:
                   additionalProperties: false
               type: object
               additionalProperties: false
+            examples:
+              Success:
+                $ref: '#/components/examples/set-tag'
       responses:
         '200':
           content:
@@ -2944,6 +2957,9 @@ paths:
                   additionalProperties: false
               type: object
               additionalProperties: false
+            examples:
+              Success:
+                $ref: '#/components/examples/set-tags'
       responses:
         '200':
           content:
@@ -26835,6 +26851,35 @@ components:
                 Content-Type: application/json; charset=utf-8
                 Vary: Accept
             created-at: '2023-09-20T20:20:03.485+00:00'
+    create-case:
+      value:
+        data:
+          attributes:
+            case-template-id: ctmpl_Jumm3K4zHwaLBBdyLUCnHbBC
+    add-objects:
+      value:
+        meta:
+          object-ids:
+            - inq_eGK41TM6GjcZgdcoox7x8Hh0
+            - rep_PN3xspEwWCWWRp1eGpedaSNj
+    assign-case:
+      value:
+        meta:
+          user-email-address: name@domain.com
+    set-status:
+      value:
+        meta:
+          status: Approved
+    set-tag:
+      value:
+        meta:
+          tag-name: Apple
+    set-tags:
+      value:
+        meta:
+          tag-name:
+            - Apple
+            - Orange
     device-list:
       value:
         data:
@@ -27375,10 +27420,6 @@ components:
                 data:
                   type: inquiry-template-version
                   id: itmplv_ABC123
-    set-tag:
-      value:
-        meta:
-          tag-name: Apple
     inquiry-one-time-link:
       value:
         data:
@@ -27608,12 +27649,6 @@ components:
               data: []
         meta:
           session-token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpcXNlX1Q4UHJxcG9FaHdoVVYxd0hSZXVVOW9mcyIsImF1ZCI6InBlcnNvbmEtdmVyaWZ5IiwiaXNzIjoic3RhZ2luZy53aXRocGVyc29uYS5jb20iLCJpYXQiOjE1NzM4NTI2NjEsIm5iZiI6MTU3Mzg1MjY2MSwiZXhwIjoxNTczOTM5MDYxLCJqdGkiOiI5NWRlNjhkOS1hZjI4LTRiMzItOWIxYi03MjA4MTg3NTI3N2IiLCJzaWQiOiJpcXNlX1Q4UHJxcG9FaHdoVVYxd0hSZXVVOW9mcyJ9.LN6DEnfjP5cZoZ3w41RgyX5QVmutmjHja_bRHOmDjg0
-    set-tags:
-      value:
-        meta:
-          tag-name:
-            - Apple
-            - Orange
     inquiry-session:
       value:
         data:
