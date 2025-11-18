@@ -1153,7 +1153,15 @@
                   }
                 },
                 "type": "object",
-                "additionalProperties": false
+                "additionalProperties": false,
+                "required": [
+                  "meta"
+                ]
+              },
+              "examples": {
+                "Success": {
+                  "$ref": "#/components/examples/set-tag"
+                }
               }
             }
           }
@@ -1256,6 +1264,9 @@
               "schema": {
                 "properties": {
                   "meta": {
+                    "required": [
+                      "source-account-ids"
+                    ],
                     "properties": {
                       "source-account-ids": {
                         "description": "A list of Account IDs that need to be consolidated into the destination Account.",
@@ -1269,8 +1280,16 @@
                     "type": "object"
                   }
                 },
+                "required": [
+                  "meta"
+                ],
                 "additionalProperties": false,
                 "type": "object"
+              },
+              "examples": {
+                "Accepted": {
+                  "$ref": "#/components/examples/consolidate-accounts"
+                }
               }
             }
           }
@@ -1546,7 +1565,15 @@
                   }
                 },
                 "additionalProperties": false,
-                "type": "object"
+                "type": "object",
+                "required": [
+                  "meta"
+                ]
+              },
+              "examples": {
+                "Success": {
+                  "$ref": "#/components/examples/set-tag"
+                }
               }
             }
           }
@@ -1669,7 +1696,15 @@
                   }
                 },
                 "additionalProperties": false,
-                "type": "object"
+                "type": "object",
+                "required": [
+                  "meta"
+                ]
+              },
+              "examples": {
+                "Success": {
+                  "$ref": "#/components/examples/set-tags"
+                }
               }
             }
           }
@@ -1786,16 +1821,8 @@
                 ]
               },
               "examples": {
-                "basic": {
-                  "summary": "Basic account action trigger",
-                  "value": {
-                    "data": {
-                      "account-action-id": "accac_h4Ln3agRBwdpZD55Lef8fDwjuvjG",
-                      "parameters": {
-                        "status": "activated"
-                      }
-                    }
-                  }
+                "Success": {
+                  "$ref": "#/components/examples/run-account-action"
                 }
               }
             }
@@ -40731,6 +40758,44 @@
           }
         }
       },
+      "set-tag": {
+        "value": {
+          "meta": {
+            "tag-name": "Apple"
+          }
+        }
+      },
+      "consolidate-accounts": {
+        "value": {
+          "meta": {
+            "source-account-ids": [
+              "act_1fVnCte2V9joRjYQ82QX8mPzKYzD",
+              "act_zWHTCWmYbjFL4fCQSDF6NqztWXDT"
+            ]
+          }
+        }
+      },
+      "set-tags": {
+        "value": {
+          "meta": {
+            "tag-name": [
+              "Apple",
+              "Orange"
+            ]
+          }
+        }
+      },
+      "run-account-action": {
+        "summary": "Basic account action trigger",
+        "value": {
+          "data": {
+            "account-action-id": "accac_h4Ln3agRBwdpZD55Lef8fDwjuvjG",
+            "parameters": {
+              "status": "activated"
+            }
+          }
+        }
+      },
       "account-with-meta": {
         "value": {
           "data": {
@@ -41111,23 +41176,6 @@
         "value": {
           "meta": {
             "status": "Approved"
-          }
-        }
-      },
-      "set-tag": {
-        "value": {
-          "meta": {
-            "tag-name": "Apple"
-          }
-        }
-      },
-      "set-tags": {
-        "value": {
-          "meta": {
-            "tag-name": [
-              "Apple",
-              "Orange"
-            ]
           }
         }
       },

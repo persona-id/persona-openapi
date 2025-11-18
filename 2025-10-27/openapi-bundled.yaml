@@ -687,6 +687,11 @@ paths:
                   additionalProperties: false
               type: object
               additionalProperties: false
+              required:
+                - meta
+            examples:
+              Success:
+                $ref: '#/components/examples/set-tag'
       responses:
         '200':
           content:
@@ -754,6 +759,8 @@ paths:
             schema:
               properties:
                 meta:
+                  required:
+                    - source-account-ids
                   properties:
                     source-account-ids:
                       description: A list of Account IDs that need to be consolidated into the destination Account.
@@ -762,8 +769,13 @@ paths:
                       type: array
                   additionalProperties: false
                   type: object
+              required:
+                - meta
               additionalProperties: false
               type: object
+            examples:
+              Accepted:
+                $ref: '#/components/examples/consolidate-accounts'
       responses:
         '202':
           content:
@@ -937,6 +949,11 @@ paths:
                   type: object
               additionalProperties: false
               type: object
+              required:
+                - meta
+            examples:
+              Success:
+                $ref: '#/components/examples/set-tag'
       responses:
         '200':
           content:
@@ -1013,6 +1030,11 @@ paths:
                   type: object
               additionalProperties: false
               type: object
+              required:
+                - meta
+            examples:
+              Success:
+                $ref: '#/components/examples/set-tags'
       responses:
         '200':
           content:
@@ -1091,13 +1113,8 @@ paths:
               required:
                 - data
             examples:
-              basic:
-                summary: Basic account action trigger
-                value:
-                  data:
-                    account-action-id: accac_h4Ln3agRBwdpZD55Lef8fDwjuvjG
-                    parameters:
-                      status: activated
+              Success:
+                $ref: '#/components/examples/run-account-action'
       responses:
         '200':
           description: Account action executed successfully
@@ -26598,6 +26615,29 @@ components:
               data:
                 type: account-type
                 id: acttp_7X5W5w9GMtQntE6oPtKnj44c
+    set-tag:
+      value:
+        meta:
+          tag-name: Apple
+    consolidate-accounts:
+      value:
+        meta:
+          source-account-ids:
+            - act_1fVnCte2V9joRjYQ82QX8mPzKYzD
+            - act_zWHTCWmYbjFL4fCQSDF6NqztWXDT
+    set-tags:
+      value:
+        meta:
+          tag-name:
+            - Apple
+            - Orange
+    run-account-action:
+      summary: Basic account action trigger
+      value:
+        data:
+          account-action-id: accac_h4Ln3agRBwdpZD55Lef8fDwjuvjG
+          parameters:
+            status: activated
     account-with-meta:
       value:
         data:
@@ -26870,16 +26910,6 @@ components:
       value:
         meta:
           status: Approved
-    set-tag:
-      value:
-        meta:
-          tag-name: Apple
-    set-tags:
-      value:
-        meta:
-          tag-name:
-            - Apple
-            - Orange
     device-list:
       value:
         data:

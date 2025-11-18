@@ -36,6 +36,8 @@ post:
         schema:
           properties:
             meta:
+              required:
+                - source-account-ids
               properties:
                 source-account-ids:
                   description: >-
@@ -46,8 +48,13 @@ post:
                   type: array
               additionalProperties: false
               type: object
+          required:
+            - meta
           additionalProperties: false
           type: object
+        examples:
+          Accepted:
+            $ref: ../components/examples/consolidate-accounts.yaml
   responses:
     '202':
       content:
