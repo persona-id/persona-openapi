@@ -1161,7 +1161,7 @@
     },
     "/accounts/{account-id}/consolidate": {
       "post": {
-        "description": "Consolidates several source Accounts' information into one target Account. Any Persona resource associated with the source Account will be transferred over to the destination Account. However, the Account's attributes will **not** be transferred. After consolidation, you can update the destination Account's attributes using the [Account update endpoint](https://docs.withpersona.com/api-reference/accounts/update-an-account).\n\nThis endpoint can be used to clean up duplicate Accounts.\n\nNote: A source account can only be consolidated once. Afterwards, the source account will be archived.",
+        "description": "Consolidates several source Accounts' information into one target Account. Any Persona resource associated with the source Account will be transferred over to the destination Account. However, the Account's attributes will **not** be transferred. After consolidation, you can update the destination Account's attributes using the [Account update endpoint](https://docs.withpersona.com/api-reference/accounts/update-an-account).\n\nThis endpoint can be used to clean up duplicate Accounts.\n\nNote: A source account can only be consolidated once. Afterwards, the source account will be archived and unable to be used moving forward - any attempts to create an inquiry attached to the source account will fail.",
         "operationId": "consolidate-into-an-account",
         "externalDocs": {
           "description": "Full documentation for this API on the Persona website.",
@@ -4786,6 +4786,408 @@
           }
         },
         "summary": "Set tags on a Case",
+        "tags": [
+          "Cases"
+        ],
+        "x-persona-product": "Cases"
+      }
+    },
+    "/cases/search": {
+      "post": {
+        "description": "Search for cases using a flexible query language.\n",
+        "operationId": "search-cases",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/api-reference/cases/search-cases"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/fields-query-parameter"
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "style": "deepObject",
+            "explode": true,
+            "schema": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "after": {
+                  "description": "Cursor for forward pagination. Use the value from `links.next` in the previous response.",
+                  "type": "string",
+                  "examples": [
+                    "case_ABC123"
+                  ]
+                },
+                "before": {
+                  "description": "Cursor for backward pagination. Use the value from `links.prev` in the previous response.",
+                  "type": "string",
+                  "examples": [
+                    "case_XYZ789"
+                  ]
+                },
+                "size": {
+                  "description": "Number of results to return per page.",
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 100,
+                  "default": 10,
+                  "examples": [
+                    10
+                  ]
+                }
+              }
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "query": {
+                    "description": "Search query using boolean logic (AND/OR/NOT) and comparison operators.\nSupports predicates with operators: eq (equal), gt (greater than), gte (greater than or equal),\nlt (less than), lte (less than or equal).\n",
+                    "unevaluatedProperties": false,
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "x-inheritable": true,
+                        "description": "Boolean AND clause",
+                        "properties": {
+                          "and": {
+                            "type": "array",
+                            "items": {
+                              "$ref": "#/components/schemas/search-query-clause"
+                            }
+                          }
+                        },
+                        "required": [
+                          "and"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "x-inheritable": true,
+                        "description": "Boolean OR clause",
+                        "properties": {
+                          "or": {
+                            "type": "array",
+                            "items": {
+                              "$ref": "#/components/schemas/search-query-clause"
+                            }
+                          }
+                        },
+                        "required": [
+                          "or"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "x-inheritable": true,
+                        "description": "Boolean NOT clause",
+                        "properties": {
+                          "not": {
+                            "$ref": "#/components/schemas/search-query-clause"
+                          }
+                        },
+                        "required": [
+                          "not"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "x-inheritable": true,
+                        "description": "Attribute predicate",
+                        "properties": {
+                          "attribute": {
+                            "type": "string",
+                            "description": "The attribute name to filter on (e.g., 'created_at', 'template', 'status', 'fields.priority')",
+                            "examples": [
+                              "created_at",
+                              "template",
+                              "status",
+                              "fields.priority"
+                            ]
+                          },
+                          "operator": {
+                            "type": "string",
+                            "description": "Comparison operator. Possible values: eq (equal), gt (greater than), gte (greater than or equal), lt (less than), lte (less than or equal)."
+                          },
+                          "value": {
+                            "description": "Value to compare against",
+                            "x-inheritable": true,
+                            "unevaluatedProperties": false,
+                            "oneOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "number"
+                              },
+                              {
+                                "type": "boolean"
+                              }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "attribute",
+                          "operator",
+                          "value"
+                        ]
+                      }
+                    ],
+                    "examples": [
+                      {
+                        "attribute": "created_at",
+                        "operator": "gte",
+                        "value": "2025-01-01"
+                      },
+                      {
+                        "and": [
+                          {
+                            "attribute": "template",
+                            "operator": "eq",
+                            "value": "ctmpl_ABC123"
+                          },
+                          {
+                            "attribute": "created_at",
+                            "operator": "gte",
+                            "value": "2025-01-01"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "sort": {
+                    "description": "Sort configuration for results",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "attribute": {
+                        "type": "string",
+                        "description": "The attribute name to sort by",
+                        "examples": [
+                          "created_at",
+                          "updated_at",
+                          "resolved_at",
+                          "fields.priority"
+                        ]
+                      },
+                      "direction": {
+                        "type": "string",
+                        "default": "desc",
+                        "description": "Sort direction. Possible values: asc (ascending), desc (descending)."
+                      }
+                    },
+                    "required": [
+                      "attribute",
+                      "direction"
+                    ]
+                  },
+                  "page": {
+                    "description": "Pagination parameters",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "after": {
+                        "description": "Cursor for forward pagination",
+                        "type": "string",
+                        "examples": [
+                          "case_ABC123"
+                        ]
+                      },
+                      "before": {
+                        "description": "Cursor for backward pagination",
+                        "type": "string",
+                        "examples": [
+                          "case_XYZ789"
+                        ]
+                      },
+                      "size": {
+                        "description": "Number of results to return per page",
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 100,
+                        "default": 10,
+                        "examples": [
+                          10
+                        ]
+                      }
+                    }
+                  }
+                },
+                "additionalProperties": false,
+                "type": "object"
+              },
+              "examples": {
+                "Simple query": {
+                  "value": {
+                    "query": {
+                      "attribute": "created_at",
+                      "operator": "gte",
+                      "value": "2025-01-01"
+                    },
+                    "sort": {
+                      "attribute": "created_at",
+                      "direction": "asc"
+                    },
+                    "page": {
+                      "size": 10
+                    }
+                  }
+                },
+                "Complex boolean query": {
+                  "value": {
+                    "query": {
+                      "and": [
+                        {
+                          "attribute": "template",
+                          "operator": "eq",
+                          "value": "ctmpl_ABC123"
+                        },
+                        {
+                          "or": [
+                            {
+                              "attribute": "status",
+                              "operator": "eq",
+                              "value": "open"
+                            },
+                            {
+                              "attribute": "status",
+                              "operator": "eq",
+                              "value": "pending"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "sort": {
+                      "attribute": "created_at",
+                      "direction": "desc"
+                    },
+                    "page": {
+                      "size": 25
+                    }
+                  }
+                },
+                "Custom field query": {
+                  "value": {
+                    "query": {
+                      "attribute": "fields.priority",
+                      "operator": "eq",
+                      "value": "high"
+                    },
+                    "sort": {
+                      "attribute": "fields.priority",
+                      "direction": "asc"
+                    }
+                  }
+                },
+                "Empty query (all cases)": {
+                  "value": {
+                    "page": {
+                      "size": 10
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Success": {
+                    "$ref": "#/components/examples/case-list-search"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/case"
+                      },
+                      "type": "array",
+                      "description": "An array of Cases matching the search criteria"
+                    },
+                    "links": {
+                      "properties": {
+                        "prev": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "examples": [
+                            "/api/v1/cases/search?page%5Bbefore%5D=case_ABC123&page%5Bsize%5D=10"
+                          ],
+                          "description": "URL pointing to the previous page of data, or null if on the first page. Must be used with POST request and original request body."
+                        },
+                        "next": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "examples": [
+                            "/api/v1/cases/search?page%5Bafter%5D=case_ABC123&page%5Bsize%5D=10"
+                          ],
+                          "description": "URL pointing to the next page of data, or null if on the last page. Must be used with POST request and original request body."
+                        }
+                      },
+                      "additionalProperties": false,
+                      "type": "object",
+                      "required": [
+                        "prev",
+                        "next"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false,
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "links"
+                  ]
+                }
+              }
+            },
+            "description": "This endpoint returns a collection of Case objects matching the search criteria."
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "409": {
+            "$ref": "#/components/responses/conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessable-entity"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        },
+        "summary": "Search Cases",
         "tags": [
           "Cases"
         ],
@@ -23041,9 +23443,10 @@
         "type": "string",
         "description": "Server API version. More info on versioning can be found [here](https://docs.withpersona.com/versioning).",
         "examples": [
-          "2025-10-27"
+          "2025-12-08"
         ],
         "enum": [
+          "2025-12-08",
           "2025-10-27",
           "2023-01-05",
           "2022-09-01",
@@ -27548,48 +27951,6 @@
           }
         }
       },
-      "report-run-history": {
-        "type": "array",
-        "title": "Report Run History",
-        "description": "A history of the report runs",
-        "items": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "scheduled-at": {
-              "type": [
-                "string",
-                "null"
-              ],
-              "format": "date-time",
-              "example": "2023-08-11T20:36:04.291Z"
-            },
-            "completed-at": {
-              "type": [
-                "string",
-                "null"
-              ],
-              "format": "date-time",
-              "example": "2023-08-11T20:36:04.291Z"
-            },
-            "type": {
-              "type": [
-                "string",
-                "null"
-              ],
-              "description": "The type of report run\n\nPossible values:\n- scheduled\n- manual\n\n  Do not assume this is a static enumeration; Persona may add new values in the future without a versioned update.",
-              "example": "scheduled"
-            },
-            "report-template-version-id": {
-              "type": [
-                "integer",
-                "null"
-              ],
-              "deprecated": true
-            }
-          }
-        }
-      },
       "report-business-watchlist": {
         "title": "Business Watchlist Report",
         "description": "A Business Watchlist Report",
@@ -27681,7 +28042,46 @@
                     }
                   },
                   "run-history": {
-                    "$ref": "#/components/schemas/report-run-history"
+                    "type": "array",
+                    "title": "Report Run History",
+                    "description": "A history of the report runs",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "scheduled-at": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "format": "date-time",
+                          "example": "2023-08-11T20:36:04.291Z"
+                        },
+                        "completed-at": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "format": "date-time",
+                          "example": "2023-08-11T20:36:04.291Z"
+                        },
+                        "type": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "description": "The type of report run\n\nPossible values:\n- scheduled\n- manual\n\n  Do not assume this is a static enumeration; Persona may add new values in the future without a versioned update.",
+                          "example": "scheduled"
+                        },
+                        "report-template-version-id": {
+                          "type": [
+                            "integer",
+                            "null"
+                          ],
+                          "deprecated": true
+                        }
+                      }
+                    }
                   }
                 }
               }
@@ -28390,9 +28790,6 @@
                       }
                     }
                   },
-                  "run-history": {
-                    "$ref": "#/components/schemas/report-run-history"
-                  },
                   "ignore-list": {
                     "type": "array",
                     "items": {
@@ -28576,6 +28973,48 @@
                         "is-internal": {
                           "type": "boolean",
                           "description": "Indicates if the ignore list entry is internal."
+                        }
+                      }
+                    }
+                  },
+                  "run-history": {
+                    "type": "array",
+                    "title": "Report Run History",
+                    "description": "A history of the report runs",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "scheduled-at": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "format": "date-time",
+                          "example": "2023-08-11T20:36:04.291Z"
+                        },
+                        "completed-at": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "format": "date-time",
+                          "example": "2023-08-11T20:36:04.291Z"
+                        },
+                        "type": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "description": "The type of report run\n\nPossible values:\n- scheduled\n- manual\n\n  Do not assume this is a static enumeration; Persona may add new values in the future without a versioned update.",
+                          "example": "scheduled"
+                        },
+                        "report-template-version-id": {
+                          "type": [
+                            "integer",
+                            "null"
+                          ],
+                          "deprecated": true
                         }
                       }
                     }
@@ -29957,9 +30396,6 @@
                       }
                     }
                   },
-                  "run-history": {
-                    "$ref": "#/components/schemas/report-run-history"
-                  },
                   "ignore-list": {
                     "type": "array",
                     "items": {
@@ -30064,6 +30500,48 @@
                         "ignore-reason": {
                           "type": "string",
                           "example": "false positive"
+                        }
+                      }
+                    }
+                  },
+                  "run-history": {
+                    "type": "array",
+                    "title": "Report Run History",
+                    "description": "A history of the report runs",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "scheduled-at": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "format": "date-time",
+                          "example": "2023-08-11T20:36:04.291Z"
+                        },
+                        "completed-at": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "format": "date-time",
+                          "example": "2023-08-11T20:36:04.291Z"
+                        },
+                        "type": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "description": "The type of report run\n\nPossible values:\n- scheduled\n- manual\n\n  Do not assume this is a static enumeration; Persona may add new values in the future without a versioned update.",
+                          "example": "scheduled"
+                        },
+                        "report-template-version-id": {
+                          "type": [
+                            "integer",
+                            "null"
+                          ],
+                          "deprecated": true
                         }
                       }
                     }
@@ -32318,6 +32796,93 @@
             }
           ]
         }
+      },
+      "search-query-clause": {
+        "description": "Recursive reference for nested query clauses",
+        "unevaluatedProperties": false,
+        "oneOf": [
+          {
+            "type": "object",
+            "x-inheritable": true,
+            "description": "Boolean AND clause",
+            "properties": {
+              "and": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/search-query-clause"
+                }
+              }
+            },
+            "required": [
+              "and"
+            ]
+          },
+          {
+            "type": "object",
+            "x-inheritable": true,
+            "description": "Boolean OR clause",
+            "properties": {
+              "or": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/search-query-clause"
+                }
+              }
+            },
+            "required": [
+              "or"
+            ]
+          },
+          {
+            "type": "object",
+            "x-inheritable": true,
+            "description": "Boolean NOT clause",
+            "properties": {
+              "not": {
+                "$ref": "#/components/schemas/search-query-clause"
+              }
+            },
+            "required": [
+              "not"
+            ]
+          },
+          {
+            "type": "object",
+            "x-inheritable": true,
+            "description": "Attribute predicate",
+            "properties": {
+              "attribute": {
+                "type": "string",
+                "description": "The attribute name to filter on"
+              },
+              "operator": {
+                "type": "string",
+                "description": "Comparison operator. Possible values: eq (equal), gt (greater than), gte (greater than or equal), lt (less than), lte (less than or equal)."
+              },
+              "value": {
+                "description": "Value to compare against",
+                "x-inheritable": true,
+                "unevaluatedProperties": false,
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "attribute",
+              "operator",
+              "value"
+            ]
+          }
+        ]
       },
       "device": {
         "type": "object",
@@ -40736,6 +41301,148 @@
           }
         }
       },
+      "case-list-search": {
+        "value": {
+          "data": [
+            {
+              "type": "case",
+              "id": "case_ABC123",
+              "attributes": {
+                "status": "open",
+                "name": "KCAS-1",
+                "resolution": null,
+                "created-at": "2025-01-15T10:30:00.000Z",
+                "updated-at": "2025-01-15T14:22:00.000Z",
+                "assigned-at": "2025-01-15T10:35:00.000Z",
+                "resolved-at": null,
+                "redacted-at": null,
+                "sla-expires-at": "2025-01-20T10:30:00.000Z",
+                "creator-id": "case_creator@withpersona.com",
+                "creator-type": "user",
+                "assignee-id": "case_assignee@withpersona.com",
+                "assigner-id": "manager@withpersona.com",
+                "assigner-type": "user",
+                "resolver-id": null,
+                "resolver-type": null,
+                "updater-id": "case_updater@withpersona.com",
+                "updater-type": "user",
+                "tags": [
+                  "urgent",
+                  "review-needed"
+                ],
+                "fields": {
+                  "priority": {
+                    "type": "string",
+                    "value": "high"
+                  },
+                  "amount": {
+                    "type": "number",
+                    "value": 1000
+                  }
+                },
+                "attachments": []
+              },
+              "relationships": {
+                "case-template": {
+                  "data": {
+                    "type": "case-template",
+                    "id": "ctmpl_ABC123"
+                  }
+                },
+                "case-queue": {
+                  "data": {
+                    "type": "case-queue",
+                    "id": "cqueue_XYZ789"
+                  }
+                },
+                "case-comments": {
+                  "data": []
+                },
+                "accounts": {
+                  "data": []
+                },
+                "inquiries": {
+                  "data": []
+                },
+                "reports": {
+                  "data": []
+                },
+                "verifications": {
+                  "data": []
+                },
+                "txns": {
+                  "data": []
+                }
+              }
+            },
+            {
+              "type": "case",
+              "id": "case_DEF456",
+              "attributes": {
+                "status": "pending",
+                "name": "KCAS-2",
+                "resolution": null,
+                "created-at": "2025-01-14T15:20:00.000Z",
+                "updated-at": "2025-01-14T16:10:00.000Z",
+                "assigned-at": null,
+                "resolved-at": null,
+                "redacted-at": null,
+                "sla-expires-at": null,
+                "creator-id": "api_key_123",
+                "creator-type": "api-key",
+                "assignee-id": null,
+                "assigner-id": null,
+                "assigner-type": null,
+                "resolver-id": null,
+                "resolver-type": null,
+                "updater-id": "api_key_123",
+                "updater-type": "api-key",
+                "tags": [],
+                "fields": {
+                  "priority": {
+                    "type": "string",
+                    "value": "medium"
+                  }
+                },
+                "attachments": []
+              },
+              "relationships": {
+                "case-template": {
+                  "data": {
+                    "type": "case-template",
+                    "id": "ctmpl_ABC123"
+                  }
+                },
+                "case-queue": {
+                  "data": null
+                },
+                "case-comments": {
+                  "data": []
+                },
+                "accounts": {
+                  "data": []
+                },
+                "inquiries": {
+                  "data": []
+                },
+                "reports": {
+                  "data": []
+                },
+                "verifications": {
+                  "data": []
+                },
+                "txns": {
+                  "data": []
+                }
+              }
+            }
+          ],
+          "links": {
+            "prev": null,
+            "next": "/api/v1/cases/search?page%5Bafter%5D=case_DEF456&page%5Bsize%5D=10"
+          }
+        }
+      },
       "device-list": {
         "value": {
           "data": [
@@ -42394,13 +43101,6 @@
               "birthdate": null,
               "country-code": null,
               "matched-lists": [],
-              "run-history": [
-                {
-                  "scheduled-at": "2023-06-07T14:12:16.473Z",
-                  "completed-at": "2023-06-07T14:12:16.473Z",
-                  "type": "scheduled"
-                }
-              ],
               "ignore-list": []
             },
             "relationships": {

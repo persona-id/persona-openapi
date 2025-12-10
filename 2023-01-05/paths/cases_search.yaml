@@ -1,0 +1,289 @@
+post:
+  description: |
+    Search for cases using a flexible query language.
+  operationId: search-cases
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/api-reference/cases/search-cases
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+    - in: query
+      name: page
+      style: deepObject
+      explode: true
+      schema:
+        type: object
+        additionalProperties: false
+        properties:
+          after:
+            description: >-
+              Cursor for forward pagination. Use the value from `links.next` in
+              the previous response.
+            type: string
+            examples:
+              - case_ABC123
+          before:
+            description: >-
+              Cursor for backward pagination. Use the value from `links.prev` in
+              the previous response.
+            type: string
+            examples:
+              - case_XYZ789
+          size:
+            description: Number of results to return per page.
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+            examples:
+              - 10
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            query:
+              description: >
+                Search query using boolean logic (AND/OR/NOT) and comparison
+                operators.
+
+                Supports predicates with operators: eq (equal), gt (greater
+                than), gte (greater than or equal),
+
+                lt (less than), lte (less than or equal).
+              unevaluatedProperties: false
+              oneOf:
+                - type: object
+                  x-inheritable: true
+                  description: Boolean AND clause
+                  properties:
+                    and:
+                      type: array
+                      items:
+                        $ref: ../components/schemas/search-query-clause.yaml
+                  required:
+                    - and
+                - type: object
+                  x-inheritable: true
+                  description: Boolean OR clause
+                  properties:
+                    or:
+                      type: array
+                      items:
+                        $ref: ../components/schemas/search-query-clause.yaml
+                  required:
+                    - or
+                - type: object
+                  x-inheritable: true
+                  description: Boolean NOT clause
+                  properties:
+                    not:
+                      $ref: ../components/schemas/search-query-clause.yaml
+                  required:
+                    - not
+                - type: object
+                  x-inheritable: true
+                  description: Attribute predicate
+                  properties:
+                    attribute:
+                      type: string
+                      description: >-
+                        The attribute name to filter on (e.g., 'created_at',
+                        'template', 'status', 'fields.priority')
+                      examples:
+                        - created_at
+                        - template
+                        - status
+                        - fields.priority
+                    operator:
+                      type: string
+                      description: >-
+                        Comparison operator. Possible values: eq (equal), gt
+                        (greater than), gte (greater than or equal), lt (less
+                        than), lte (less than or equal).
+                    value:
+                      description: Value to compare against
+                      x-inheritable: true
+                      unevaluatedProperties: false
+                      oneOf:
+                        - type: string
+                        - type: number
+                        - type: boolean
+                  required:
+                    - attribute
+                    - operator
+                    - value
+              examples:
+                - attribute: created_at
+                  operator: gte
+                  value: '2025-01-01'
+                - and:
+                    - attribute: template
+                      operator: eq
+                      value: ctmpl_ABC123
+                    - attribute: created_at
+                      operator: gte
+                      value: '2025-01-01'
+            sort:
+              description: Sort configuration for results
+              type: object
+              additionalProperties: false
+              properties:
+                attribute:
+                  type: string
+                  description: The attribute name to sort by
+                  examples:
+                    - created_at
+                    - updated_at
+                    - resolved_at
+                    - fields.priority
+                direction:
+                  type: string
+                  default: desc
+                  description: >-
+                    Sort direction. Possible values: asc (ascending), desc
+                    (descending).
+              required:
+                - attribute
+                - direction
+            page:
+              description: Pagination parameters
+              type: object
+              additionalProperties: false
+              properties:
+                after:
+                  description: Cursor for forward pagination
+                  type: string
+                  examples:
+                    - case_ABC123
+                before:
+                  description: Cursor for backward pagination
+                  type: string
+                  examples:
+                    - case_XYZ789
+                size:
+                  description: Number of results to return per page
+                  type: integer
+                  minimum: 1
+                  maximum: 100
+                  default: 10
+                  examples:
+                    - 10
+          additionalProperties: false
+          type: object
+        examples:
+          Simple query:
+            value:
+              query:
+                attribute: created_at
+                operator: gte
+                value: '2025-01-01'
+              sort:
+                attribute: created_at
+                direction: asc
+              page:
+                size: 10
+          Complex boolean query:
+            value:
+              query:
+                and:
+                  - attribute: template
+                    operator: eq
+                    value: ctmpl_ABC123
+                  - or:
+                      - attribute: status
+                        operator: eq
+                        value: open
+                      - attribute: status
+                        operator: eq
+                        value: pending
+              sort:
+                attribute: created_at
+                direction: desc
+              page:
+                size: 25
+          Custom field query:
+            value:
+              query:
+                attribute: fields.priority
+                operator: eq
+                value: high
+              sort:
+                attribute: fields.priority
+                direction: asc
+          Empty query (all cases):
+            value:
+              page:
+                size: 10
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Success:
+              $ref: ../components/examples/case-list-search.yaml
+          schema:
+            properties:
+              data:
+                items:
+                  $ref: ../components/schemas/case.yaml
+                type: array
+                description: An array of Cases matching the search criteria
+              links:
+                properties:
+                  prev:
+                    type:
+                      - string
+                      - 'null'
+                    examples:
+                      - >-
+                        /api/v1/cases/search?page%5Bbefore%5D=case_ABC123&page%5Bsize%5D=10
+                    description: >-
+                      URL pointing to the previous page of data, or null if on
+                      the first page. Must be used with POST request and
+                      original request body.
+                  next:
+                    type:
+                      - string
+                      - 'null'
+                    examples:
+                      - >-
+                        /api/v1/cases/search?page%5Bafter%5D=case_ABC123&page%5Bsize%5D=10
+                    description: >-
+                      URL pointing to the next page of data, or null if on the
+                      last page. Must be used with POST request and original
+                      request body.
+                additionalProperties: false
+                type: object
+                required:
+                  - prev
+                  - next
+            additionalProperties: false
+            type: object
+            required:
+              - data
+              - links
+      description: >-
+        This endpoint returns a collection of Case objects matching the search
+        criteria.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Search Cases
+  tags:
+    - Cases
+  x-persona-product: Cases
