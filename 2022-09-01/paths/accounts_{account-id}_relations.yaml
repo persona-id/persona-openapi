@@ -1,0 +1,108 @@
+get:
+  description: Gets relations for an Account by key
+  operationId: accounts-list-all-relations
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/api-reference/accounts/list-all-relations
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+    - name: account-id
+      in: path
+      required: true
+      schema:
+        type: string
+    - in: query
+      name: filter
+      style: deepObject
+      explode: true
+      required: true
+      schema:
+        type: object
+        additionalProperties: false
+        properties:
+          key:
+            type: string
+            description: Filter relations by relation key.
+          created-at-start:
+            type: string
+            description: Filter relations by creation date.
+          created-at-end:
+            type: string
+            description: Filter relations by creation date.
+        required:
+          - key
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            properties:
+              data:
+                type: array
+                unevaluatedProperties: false
+                description: >-
+                  List of relations for the Account. The type of the returned
+                  objects is determined by the key query parameter.
+                items:
+                  unevaluatedProperties: false
+                  oneOf:
+                    - $ref: ../components/schemas/account.yaml
+                    - $ref: ../components/schemas/transaction.yaml
+              links:
+                properties:
+                  prev:
+                    examples:
+                      - >-
+                        /api/v1/accounts/act_ABC123/relations?filter%5Bkey%5D=my_relation&page%5Bafter%5D=act_XYZ987
+                    type:
+                      - 'null'
+                      - string
+                    description: >-
+                      URL pointing to the previous page of data, or null if on
+                      the first page.
+                  next:
+                    examples:
+                      - >-
+                        /api/v1/accounts/act_ABC123/relations?filter%5Bkey%5D=my_relation&page%5Bafter%5D=act_XYZ987
+                    type:
+                      - 'null'
+                      - string
+                    description: >-
+                      URL pointing to the next page of data, or null if on the
+                      last page.
+                additionalProperties: false
+                type: object
+                required:
+                  - prev
+                  - next
+            additionalProperties: false
+            type: object
+            required:
+              - data
+              - links
+          examples:
+            Success:
+              $ref: ../components/examples/account-list.yaml
+      description: This endpoint returns a collection of Account relations.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Get all relations for an Account
+  tags:
+    - Accounts
+  x-persona-product: Accounts

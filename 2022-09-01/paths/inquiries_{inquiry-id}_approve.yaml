@@ -1,0 +1,65 @@
+post:
+  description: |-
+    Approves an Inquiry.
+
+    Note that this action will trigger any associated workflows and webhooks.
+
+    Approving an inquiry will prevent further progress on the inquiry.
+  operationId: approve-an-inquiry
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/api-reference/inquiries/approve-an-inquiry
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+    - name: inquiry-id
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    $ref: ../components/requestBodies/inquiries-review-request.yaml
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Success:
+              $ref: ../components/examples/inquiry.yaml
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/inquiry.yaml
+              included:
+                description: >-
+                  Objects that _may_ be returned if specified via the `include`
+                  query parameter in the request.
+                $ref: ../components/schemas/inquiry-included-objects.yaml
+            required:
+              - data
+            type: object
+            additionalProperties: false
+      description: >-
+        This endpoint returns an Inquiry object and (optionally) its related
+        objects in `included`.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Approve an Inquiry
+  tags:
+    - Inquiries
+  x-persona-product: Inquiries

@@ -1,0 +1,413 @@
+openapi: 3.1.0
+info:
+  title: Persona API Reference
+  version: '2020-05-18'
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  contact:
+    name: Persona Support
+    url: https://help.withpersona.com/
+    email: support@withpersona.com
+servers:
+  - url: https://api.withpersona.com/api/v1
+security:
+  - bearerAuth: []
+tags:
+  - name: Accounts
+    description: Interact with Persona Account objects
+  - name: API Keys
+    description: Interact with your organization's API keys
+  - name: API Logs
+    description: View your organization's API logs
+  - name: Cases
+    description: Interact with Persona Case objects
+  - name: Devices
+    description: Interact with Persona Device objects
+  - name: Documents
+    description: Interact with Persona Document objects
+  - name: Events
+    description: Endpoints for viewing your organization's events
+  - name: Importers
+    description: Import external data as corresponding objects within Persona
+  - name: Inquiries
+    description: Interact with Persona Inquiry objects
+  - name: Inquiry Sessions
+    description: Interact with Persona Inquiry Session objects
+  - name: Inquiry Templates
+    description: Interact with Persona Inquiry Template objects
+  - name: List Items
+    description: Interact with Persona List Item objects
+  - name: Lists
+    description: Interact with Persona List objects
+  - name: OAuth
+    description: Share access to a Persona object with another organization
+  - name: Rate Limits
+    description: Interact with Rate Limits via API
+  - name: Reports
+    description: Interact with Persona Report objects
+  - name: Transactions
+    description: Interact with Persona Transaction objects
+  - name: User Audit Logs
+    description: View your organization's User Audit logs
+  - name: Verifications
+    description: Interact with Persona Verification objects
+  - name: AAMVA Verifications
+    description: Interact with AAMVA Verifications
+  - name: eCBSV Database Verifications
+    description: Interact with eCBSV Database Verifications
+  - name: Phone Carrier Database Verifications
+    description: Interact with Phone Carrier Database Verifications
+  - name: Serpro Database Verifications
+    description: Interact with Serpro Database Verifications
+  - name: TIN Database Verifications
+    description: Interact with TIN Database Verifications
+  - name: Database Verifications
+    description: Interact with Database Verifications
+  - name: Database Standard Verifications
+    description: Interact with Database Standard Verifications
+  - name: Database Business Verifications
+    description: Interact with Database Business Verifications
+  - name: Document Verifications
+    description: Interact with Document Verifications
+  - name: Email Address Verifications
+    description: Interact with Email Address Verifications
+  - name: Government ID Verifications
+    description: Interact with Government ID Verifications
+  - name: Phone Number Verifications
+    description: Interact with Phone Number Verifications
+  - name: Selfie Verifications
+    description: Interact with Selfie Verifications
+  - name: Webhooks
+    description: Interact with Webhooks via API
+  - name: Workflows
+    description: Interact with Persona Workflow objects
+externalDocs:
+  description: Full API documentation on the Persona website
+  url: https://docs.withpersona.com/api-reference/
+paths:
+  /accounts:
+    $ref: paths/accounts.yaml
+  /accounts/{account-id}:
+    $ref: paths/accounts_{account-id}.yaml
+  /accounts/{account-id}/add-tag:
+    $ref: paths/accounts_{account-id}_add-tag.yaml
+  /accounts/{account-id}/consolidate:
+    $ref: paths/accounts_{account-id}_consolidate.yaml
+  /accounts/{account-id}/relations:
+    $ref: paths/accounts_{account-id}_relations.yaml
+  /accounts/{account-id}/remove-tag:
+    $ref: paths/accounts_{account-id}_remove-tag.yaml
+  /accounts/{account-id}/set-tags:
+    $ref: paths/accounts_{account-id}_set-tags.yaml
+  /accounts/{account-id}/run-action:
+    $ref: paths/accounts_{account-id}_run-action.yaml
+  /api-keys:
+    $ref: paths/api-keys.yaml
+  /api-keys/{api-key-id}:
+    $ref: paths/api-keys_{api-key-id}.yaml
+  /api-keys/{api-key-id}/expire:
+    $ref: paths/api-keys_{api-key-id}_expire.yaml
+  /api-keys/{api-key-id}/clone:
+    $ref: paths/api-keys_{api-key-id}_clone.yaml
+  /api-logs:
+    $ref: paths/api-logs.yaml
+  /api-logs/{api-log-id}:
+    $ref: paths/api-logs_{api-log-id}.yaml
+  /cases:
+    $ref: paths/cases.yaml
+  /cases/{case-id}:
+    $ref: paths/cases_{case-id}.yaml
+  /cases/{case-id}/add-objects:
+    $ref: paths/cases_{case-id}_add-objects.yaml
+  /cases/{case-id}/assign:
+    $ref: paths/cases_{case-id}_assign.yaml
+  /cases/{case-id}/set-status:
+    $ref: paths/cases_{case-id}_set-status.yaml
+  /cases/{case-id}/add-tag:
+    $ref: paths/cases_{case-id}_add-tag.yaml
+  /cases/{case-id}/remove-tag:
+    $ref: paths/cases_{case-id}_remove-tag.yaml
+  /cases/{case-id}/set-tags:
+    $ref: paths/cases_{case-id}_set-tags.yaml
+  /cases/search:
+    $ref: paths/cases_search.yaml
+  /devices:
+    $ref: paths/devices.yaml
+  /devices/{device-id}:
+    $ref: paths/devices_{device-id}.yaml
+  /document/generics:
+    $ref: paths/document_generics.yaml
+  /document/generics/{document-id}:
+    $ref: paths/document_generics_{document-id}.yaml
+  /document/generics/{document-id}/submit:
+    $ref: paths/document_generics_{document-id}_submit.yaml
+  /document/government-ids:
+    $ref: paths/document_government-ids.yaml
+  /document/government-ids/{document-id}:
+    $ref: paths/document_government-ids_{document-id}.yaml
+  /document/government-ids/{document-id}/submit:
+    $ref: paths/document_government-ids_{document-id}_submit.yaml
+  /documents/{document-id}:
+    $ref: paths/documents_{document-id}.yaml
+  /events:
+    $ref: paths/events.yaml
+  /events/{event-id}:
+    $ref: paths/events_{event-id}.yaml
+  /importers:
+    $ref: paths/importers.yaml
+  /importers/{importer-id}:
+    $ref: paths/importers_{importer-id}.yaml
+  /importer/accounts:
+    $ref: paths/importer_accounts.yaml
+  /importer/list-item/email-addresses:
+    $ref: paths/importer_list-item_email-addresses.yaml
+  /importer/list-item/geolocations:
+    $ref: paths/importer_list-item_geolocations.yaml
+  /importer/list-item/government-id-numbers:
+    $ref: paths/importer_list-item_government-id-numbers.yaml
+  /importer/list-item/ip-addresses:
+    $ref: paths/importer_list-item_ip-addresses.yaml
+  /importer/list-item/names:
+    $ref: paths/importer_list-item_names.yaml
+  /importer/list-item/phone-numbers:
+    $ref: paths/importer_list-item_phone-numbers.yaml
+  /inquiries:
+    $ref: paths/inquiries.yaml
+  /inquiries/{inquiry-id}:
+    $ref: paths/inquiries_{inquiry-id}.yaml
+  /inquiries/{inquiry-id}/add-tag:
+    $ref: paths/inquiries_{inquiry-id}_add-tag.yaml
+  /inquiries/{inquiry-id}/approve:
+    $ref: paths/inquiries_{inquiry-id}_approve.yaml
+  /inquiries/{inquiry-id}/decline:
+    $ref: paths/inquiries_{inquiry-id}_decline.yaml
+  /inquiries/{inquiry-id}/mark-for-review:
+    $ref: paths/inquiries_{inquiry-id}_mark-for-review.yaml
+  /inquiries/{inquiry-id}/expire:
+    $ref: paths/inquiries_{inquiry-id}_expire.yaml
+  /inquiries/{inquiry-id}/generate-one-time-link:
+    $ref: paths/inquiries_{inquiry-id}_generate-one-time-link.yaml
+  /inquiries/{inquiry-id}/print:
+    $ref: paths/inquiries_{inquiry-id}_print.yaml
+  /inquiries/{inquiry-id}/remove-tag:
+    $ref: paths/inquiries_{inquiry-id}_remove-tag.yaml
+  /inquiries/{inquiry-id}/resume:
+    $ref: paths/inquiries_{inquiry-id}_resume.yaml
+  /inquiries/{inquiry-id}/set-tags:
+    $ref: paths/inquiries_{inquiry-id}_set-tags.yaml
+  /inquiries/{inquiry-id}/perform-simulate-actions:
+    $ref: paths/inquiries_{inquiry-id}_perform-simulate-actions.yaml
+  /inquiry-sessions:
+    $ref: paths/inquiry-sessions.yaml
+  /inquiry-sessions/expire-all:
+    $ref: paths/inquiry-sessions_expire-all.yaml
+  /inquiry-sessions/{inquiry-session-id}:
+    $ref: paths/inquiry-sessions_{inquiry-session-id}.yaml
+  /inquiry-sessions/{inquiry-session-id}/expire:
+    $ref: paths/inquiry-sessions_{inquiry-session-id}_expire.yaml
+  /inquiry-sessions/{inquiry-session-id}/generate-one-time-link:
+    $ref: paths/inquiry-sessions_{inquiry-session-id}_generate-one-time-link.yaml
+  /inquiry-templates:
+    $ref: paths/inquiry-templates.yaml
+  /inquiry-templates/{inquiry-template-id}:
+    $ref: paths/inquiry-templates_{inquiry-template-id}.yaml
+  /list-item/browser-fingerprints:
+    $ref: paths/list-item_browser-fingerprints.yaml
+  /list-item/browser-fingerprints/{list-item-id}:
+    $ref: paths/list-item_browser-fingerprints_{list-item-id}.yaml
+  /list-item/countries:
+    $ref: paths/list-item_countries.yaml
+  /list-item/countries/{list-item-id}:
+    $ref: paths/list-item_countries_{list-item-id}.yaml
+  /list-item/device-fingerprints:
+    $ref: paths/list-item_device-fingerprints.yaml
+  /list-item/device-fingerprints/{list-item-id}:
+    $ref: paths/list-item_device-fingerprints_{list-item-id}.yaml
+  /list-item/email-addresses:
+    $ref: paths/list-item_email-addresses.yaml
+  /list-item/email-addresses/{list-item-id}:
+    $ref: paths/list-item_email-addresses_{list-item-id}.yaml
+  /list-item/fields:
+    $ref: paths/list-item_fields.yaml
+  /list-item/fields/{list-item-id}:
+    $ref: paths/list-item_fields_{list-item-id}.yaml
+  /list-item/geolocations:
+    $ref: paths/list-item_geolocations.yaml
+  /list-item/geolocations/{list-item-id}:
+    $ref: paths/list-item_geolocations_{list-item-id}.yaml
+  /list-item/government-id-numbers:
+    $ref: paths/list-item_government-id-numbers.yaml
+  /list-item/government-id-numbers/{list-item-id}:
+    $ref: paths/list-item_government-id-numbers_{list-item-id}.yaml
+  /list-item/ip-addresses:
+    $ref: paths/list-item_ip-addresses.yaml
+  /list-item/ip-addresses/{list-item-id}:
+    $ref: paths/list-item_ip-addresses_{list-item-id}.yaml
+  /list-item/names:
+    $ref: paths/list-item_names.yaml
+  /list-item/names/{list-item-id}:
+    $ref: paths/list-item_names_{list-item-id}.yaml
+  /list-item/phone-numbers:
+    $ref: paths/list-item_phone-numbers.yaml
+  /list-item/phone-numbers/{list-item-id}:
+    $ref: paths/list-item_phone-numbers_{list-item-id}.yaml
+  /list-item/strings:
+    $ref: paths/list-item_strings.yaml
+  /list-item/strings/{list-item-id}:
+    $ref: paths/list-item_strings_{list-item-id}.yaml
+  /list/browser-fingerprints:
+    $ref: paths/list_browser-fingerprints.yaml
+  /list/countries:
+    $ref: paths/list_countries.yaml
+  /list/email-addresses:
+    $ref: paths/list_email-addresses.yaml
+  /list/geolocations:
+    $ref: paths/list_geolocations.yaml
+  /list/government-id-numbers:
+    $ref: paths/list_government-id-numbers.yaml
+  /list/ip-addresses:
+    $ref: paths/list_ip-addresses.yaml
+  /list/names:
+    $ref: paths/list_names.yaml
+  /list/phone-numbers:
+    $ref: paths/list_phone-numbers.yaml
+  /list/strings:
+    $ref: paths/list_strings.yaml
+  /lists:
+    $ref: paths/lists.yaml
+  /lists/{list-id}:
+    $ref: paths/lists_{list-id}.yaml
+  /oauth/authorize:
+    $ref: paths/oauth_authorize.yaml
+  /oauth/token:
+    $ref: paths/oauth_token.yaml
+  /rate-limits:
+    $ref: paths/rate-limits.yaml
+  /reports:
+    $ref: paths/reports.yaml
+  /reports/{report-id}:
+    $ref: paths/reports_{report-id}.yaml
+  /reports/{report-id}/add-tag:
+    $ref: paths/reports_{report-id}_add-tag.yaml
+  /reports/{report-id}/dismiss:
+    $ref: paths/reports_{report-id}_dismiss.yaml
+  /reports/{report-id}/history:
+    $ref: paths/reports_{report-id}_history.yaml
+  /reports/{report-id}/pause:
+    $ref: paths/reports_{report-id}_pause.yaml
+  /reports/{report-id}/print:
+    $ref: paths/reports_{report-id}_print.yaml
+  /reports/{report-id}/remove-tag:
+    $ref: paths/reports_{report-id}_remove-tag.yaml
+  /reports/{report-id}/resume:
+    $ref: paths/reports_{report-id}_resume.yaml
+  /reports/{report-id}/run:
+    $ref: paths/reports_{report-id}_run.yaml
+  /reports/{report-id}/set-tags:
+    $ref: paths/reports_{report-id}_set-tags.yaml
+  /transactions:
+    $ref: paths/transactions.yaml
+  /transactions/{transaction-id}:
+    $ref: paths/transactions_{transaction-id}.yaml
+  /transactions/{transaction-id}/add-tag:
+    $ref: paths/transactions_{transaction-id}_add-tag.yaml
+  /transactions/{transaction-id}/label:
+    $ref: paths/transactions_{transaction-id}_label.yaml
+  /transactions/{transaction-id}/remove-tag:
+    $ref: paths/transactions_{transaction-id}_remove-tag.yaml
+  /transactions/{transaction-id}/set-tags:
+    $ref: paths/transactions_{transaction-id}_set-tags.yaml
+  /transactions/{transaction-id}/redact-biometrics:
+    $ref: paths/transactions_{transaction-id}_redact-biometrics.yaml
+  /user-audit-logs:
+    $ref: paths/user-audit-logs.yaml
+  /user-audit-logs/{user-audit-log-id}:
+    $ref: paths/user-audit-logs_{user-audit-log-id}.yaml
+  /verification/aamvas/{verification-id}:
+    $ref: paths/verification_aamvas_{verification-id}.yaml
+  /verification/database-ecbsvs/{verification-id}:
+    $ref: paths/verification_database-ecbsvs_{verification-id}.yaml
+  /verification/database-phone-carriers/{verification-id}:
+    $ref: paths/verification_database-phone-carriers_{verification-id}.yaml
+  /verification/database-serpros/{verification-id}:
+    $ref: paths/verification_database-serpros_{verification-id}.yaml
+  /verification/database-standards/{verification-id}:
+    $ref: paths/verification_database-standards_{verification-id}.yaml
+  /verification/database-tins/{verification-id}:
+    $ref: paths/verification_database-tins_{verification-id}.yaml
+  /verification/databases/{verification-id}:
+    $ref: paths/verification_databases_{verification-id}.yaml
+  /verification/documents/{verification-id}:
+    $ref: paths/verification_documents_{verification-id}.yaml
+  /verification/email-addresses/{verification-id}:
+    $ref: paths/verification_email-addresses_{verification-id}.yaml
+  /verification/government-ids/{verification-id}:
+    $ref: paths/verification_government-ids_{verification-id}.yaml
+  /verification/government-id-nfcs/{verification-id}:
+    $ref: paths/verification_government-id-nfcs_{verification-id}.yaml
+  /verification/phone-numbers/{verification-id}:
+    $ref: paths/verification_phone-numbers_{verification-id}.yaml
+  /verification/selfies/{verification-id}:
+    $ref: paths/verification_selfies_{verification-id}.yaml
+  /verifications/{verification-id}:
+    $ref: paths/verifications_{verification-id}.yaml
+  /verifications/{verification-id}/print:
+    $ref: paths/verifications_{verification-id}_print.yaml
+  /webhooks:
+    $ref: paths/webhooks.yaml
+  /webhooks/{webhook-id}:
+    $ref: paths/webhooks_{webhook-id}.yaml
+  /webhooks/{webhook-id}/archive:
+    $ref: paths/webhooks_{webhook-id}_archive.yaml
+  /webhooks/{webhook-id}/enable:
+    $ref: paths/webhooks_{webhook-id}_enable.yaml
+  /webhooks/{webhook-id}/disable:
+    $ref: paths/webhooks_{webhook-id}_disable.yaml
+  /webhooks/{webhook-id}/rotate-secret:
+    $ref: paths/webhooks_{webhook-id}_rotate-secret.yaml
+  /webhooks/{webhook-id}/clone:
+    $ref: paths/webhooks_{webhook-id}_clone.yaml
+  /workflows/{workflow-id}/trigger:
+    $ref: paths/workflows_{workflow-id}_trigger.yaml
+  /workflow-runs/{workflow-run-id}:
+    $ref: paths/workflow-runs_{workflow-run-id}.yaml
+  /workflow-runs:
+    $ref: paths/workflow-runs.yaml
+webhooks:
+  account.created:
+    $ref: webhooks/account.created.yaml
+  account.redacted:
+    $ref: webhooks/account.redacted.yaml
+  account.archived:
+    $ref: webhooks/account.archived.yaml
+  account.restored:
+    $ref: webhooks/account.restored.yaml
+  account.consolidated:
+    $ref: webhooks/account.consolidated.yaml
+  account.tag-added:
+    $ref: webhooks/account.tag-added.yaml
+  account.tag-removed:
+    $ref: webhooks/account.tag-removed.yaml
+  inquiry.created:
+    $ref: webhooks/inquiry.created.yaml
+  inquiry.expired:
+    $ref: webhooks/inquiry.expired.yaml
+  inquiry.completed:
+    $ref: webhooks/inquiry.completed.yaml
+  inquiry.failed:
+    $ref: webhooks/inquiry.failed.yaml
+  inquiry.marked-for-review:
+    $ref: webhooks/inquiry.marked-for-review.yaml
+  inquiry.approved:
+    $ref: webhooks/inquiry.approved.yaml
+  inquiry.declined:
+    $ref: webhooks/inquiry.declined.yaml
+  inquiry.transitioned:
+    $ref: webhooks/inquiry.transitioned.yaml
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      x-bearer-format: bearer

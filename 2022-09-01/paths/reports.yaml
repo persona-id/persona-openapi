@@ -1,0 +1,226 @@
+get:
+  description: >-
+    Returns a list of all your organization's Reports. Results are returned in
+    reverse chronological order, with the most recently created objects first.
+  operationId: list-all-reports
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/api-reference/reports/list-all-reports
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/pagination-query-params.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+    - in: query
+      name: filter
+      style: deepObject
+      explode: true
+      schema:
+        type: object
+        additionalProperties: false
+        properties:
+          reference-id:
+            description: Filter reports by reference ID
+            type: string
+          account-id:
+            description: Filter reports by account ID
+            type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            type: object
+            additionalProperties: false
+            required:
+              - data
+              - links
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: ../components/schemas/report.yaml
+              links:
+                type: object
+                additionalProperties: false
+                properties:
+                  prev:
+                    type:
+                      - string
+                      - 'null'
+                  next:
+                    type:
+                      - string
+                      - 'null'
+                required:
+                  - prev
+                  - next
+          examples:
+            Success:
+              value:
+                data:
+                  - type: report/address-lookup
+                    id: rep_YcNZJLxuwEuV8jUPbykYQyXG
+                    attributes:
+                      created-at: '2019-12-19T21:42:49.000Z'
+                      completed-at: '2019-12-19T21:42:49.000Z'
+                      status: ready
+                  - type: report/adverse-media
+                    id: rep_2wM8yufwLrbMV6kUtGPBxeGS
+                    attributes:
+                      created-at: '2019-12-18T22:43:03.000Z'
+                      completed-at: '2019-12-18T22:43:03.000Z'
+                  - type: report/email-address
+                    id: rep_LatvE1PdVhfiwcJWVLj4Z25j
+                    attributes:
+                      created-at: '2019-12-13T08:34:10.000Z'
+                      completed-at: '2019-12-13T08:34:10.000Z'
+                  - type: report/phone-number
+                    id: rep_RU3JgzXaAzVV2g2NYLd7ub12
+                    attributes:
+                      created-at: '2019-12-13T08:32:49.000Z'
+                      completed-at: '2019-12-13T08:33:29.000Z'
+                  - type: report/watchlist
+                    id: rep_6LRELcKmPcx9MxYGk6mdCPJo
+                    attributes:
+                      created-at: '2019-11-19T00:10:27.000Z'
+                      completed-at: '2019-11-19T00:10:27.000Z'
+                links:
+                  prev: null
+                  next: /api/v1/reports?page%5Bafter%5D=rep_u2Dgz8U3CmxTVgqEH9qzezHi
+      description: This endpoint returns a collection of Report objects.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: List all Reports
+  tags:
+    - Reports
+  x-persona-product: Reports
+post:
+  description: Creates a new Report of any type.
+  operationId: create-a-report
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/api-reference/reports/create-a-report
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            data:
+              unevaluatedProperties: false
+              anyOf:
+                - $ref: ../components/schemas/report-address-lookup-request.yaml
+                - $ref: ../components/schemas/report-adverse-media-request.yaml
+                - $ref: >-
+                    ../components/schemas/report-business-adverse-media-request.yaml
+                - $ref: ../components/schemas/report-business-lookup-request.yaml
+                - $ref: ../components/schemas/report-business-watchlist-request.yaml
+                - $ref: >-
+                    ../components/schemas/report-crypto-address-watchlist-request.yaml
+                - $ref: ../components/schemas/report-email-address-request.yaml
+                - $ref: ../components/schemas/report-phone-risk-request.yaml
+                - $ref: >-
+                    ../components/schemas/report-politically-exposed-person-request.yaml
+                - $ref: ../components/schemas/report-profile-request.yaml
+                - $ref: >-
+                    ../components/schemas/report-profile-non-authoritative-request.yaml
+                - $ref: ../components/schemas/report-social-media-request.yaml
+                - $ref: ../components/schemas/report-synthetic-request.yaml
+                - $ref: ../components/schemas/report-watchlist-request.yaml
+            meta:
+              properties:
+                auto-create-account:
+                  description: >-
+                    If true, automatically create an Account for the user if one
+                    does not exist. Default is true.
+                  examples:
+                    - true
+                  type: boolean
+                auto-create-account-type-id:
+                  description: >-
+                    If `auto-create-account` is true, the type ID to use for the
+                    Account. If not provided, the default type ID for the
+                    organization will be used.
+                  examples:
+                    - acttp_TOKEN
+                  type: string
+                auto-create-account-reference-id:
+                  description: >-
+                    If `auto-create-account` is true, this Report will be
+                    attached to the Account with this reference ID, or a new
+                    Account will be created with this reference ID if one does
+                    not exist.
+                  examples:
+                    - my_reference_id
+                  type: string
+                processing-mode:
+                  type: string
+                  examples:
+                    - sync
+                  description: The processing mode for the report.
+                request-flags:
+                  type: array
+                  items:
+                    type: string
+                    examples:
+                      - sync
+              type: object
+              additionalProperties: false
+          type: object
+          additionalProperties: false
+  responses:
+    '201':
+      content:
+        application/json:
+          examples:
+            Created:
+              $ref: ../components/examples/report-watchlist.yaml
+          schema:
+            type: object
+            additionalProperties: false
+            required:
+              - data
+            properties:
+              data:
+                $ref: ../components/schemas/report.yaml
+              included:
+                description: >-
+                  Objects that _may_ be returned if specified via the `include`
+                  query parameter in the request.
+                $ref: ../components/schemas/reports-included-objects.yaml
+      description: >-
+        This endpoint returns a Report object and (optionally) its related
+        objects in `included`.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '408':
+      $ref: ../components/responses/request-timeout.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Create a Report
+  tags:
+    - Reports
+  x-persona-product: Reports

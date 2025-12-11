@@ -1,0 +1,70 @@
+type: object
+additionalProperties: false
+description: A Selfie object
+properties:
+  type:
+    x-polymorphic: true
+    examples:
+      - selfie/profile-and-center
+      - selfie/center-only
+      - selfie/configurable-poses
+    type: string
+    description: |-
+      Possible values:
+      - selfie/profile-and-center
+      - selfie/center-only
+      - selfie/configurable-poses
+
+      Do not assume this is a static enumeration; Persona may add new values in
+      the future without a versioned update.
+  id:
+    description: Unique identifier for this Selfie object. Starts with `self_`.
+    examples:
+      - self_5FrMN7NAGgFdGGysCDd7DaBW
+    type: string
+  attributes:
+    type: object
+    additionalProperties: false
+    properties:
+      status:
+        type: string
+        description: |-
+          Possible values:
+          - initiated
+          - submitted
+          - processed
+          - errored
+
+          Do not assume this is a static enumeration; Persona may add new values
+          in the future without a versioned update.
+        examples:
+          - processed
+      created-at:
+        type: string
+        format: date-time
+        examples:
+          - '2020-07-12T17:16:54.656Z'
+      processed-at:
+        type: string
+        format: date-time
+        examples:
+          - '2020-07-12T17:16:54.656Z'
+  relationships:
+    type: object
+    additionalProperties: false
+    properties:
+      inquiry:
+        properties:
+          data:
+            properties:
+              id:
+                examples:
+                  - inq_jdRz9RHNRzkjxUqZApHwX1ZU
+                type: string
+              type:
+                const: inquiry
+                type: string
+            type: object
+            additionalProperties: false
+        type: object
+        additionalProperties: false

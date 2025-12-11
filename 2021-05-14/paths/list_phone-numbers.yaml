@@ -1,0 +1,82 @@
+post:
+  summary: Create a Phone Number List
+  tags:
+    - Lists
+  x-persona-product: Lists
+  description: Create a new list for your organization.
+  operationId: create-a-phone-number-list
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: >-
+      https://docs.withpersona.com/api-reference/lists/create-a-phone-number-list
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            data:
+              properties:
+                attributes:
+                  properties:
+                    name:
+                      description: Name of the list
+                      type: string
+                  type: object
+                  additionalProperties: false
+              type: object
+              additionalProperties: false
+          type: object
+          additionalProperties: false
+        examples:
+          exampleRequest:
+            summary: Example Request
+            value:
+              data:
+                attributes:
+                  name: My New List
+  responses:
+    '201':
+      description: This endpoint returns the created List object.
+      content:
+        application/json:
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/lists-phone-numbers.yaml
+            required:
+              - data
+            type: object
+            additionalProperties: false
+          examples:
+            Created:
+              value:
+                data:
+                  type: list/phone-number
+                  id: lst_kRcKDJ4c8wF2AmAghggtYxboX
+                  attributes:
+                    name: My New List
+                    status: active
+                    archived-at: null
+                    created-at: '2023-08-30T20:22:07.000Z'
+                    updated-at: '2023-08-30T20:22:07.000Z'
+                  relationships:
+                    list-items:
+                      data: []
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml

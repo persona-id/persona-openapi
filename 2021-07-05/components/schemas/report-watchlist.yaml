@@ -1,0 +1,212 @@
+title: Watchlist Report
+description: A Watchlist Report
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: report/watchlist
+  id:
+    type: string
+    description: The ID of the report
+    example: rep_7WNzPaNcroBKLarNHBjYDLAp
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./report-shared-attributes.yaml
+      - type: object
+        properties:
+          name-first:
+            type:
+              - string
+              - 'null'
+            description: The input first name of the search individual
+            example: Joe
+          name-middle:
+            type:
+              - string
+              - 'null'
+            description: The input middle name of the search individual
+            example: 'N'
+          name-last:
+            type:
+              - string
+              - 'null'
+            description: The input last name of the search individual
+            example: Doe
+          term:
+            type:
+              - string
+              - 'null'
+            description: >-
+              The input combined term used for searching (first + middle + last
+              name)
+            example: Joe N Doe
+          birthdate:
+            type:
+              - string
+              - 'null'
+            description: The input DOB in YYYY-MM-DD format
+            pattern: ^\d{4}-\d{2}-\d{2}$
+            example: '1991-10-07'
+          country-code:
+            type:
+              - string
+              - 'null'
+            description: The input search country in alpha2 format
+            example: US
+          matched-lists:
+            type:
+              - array
+              - 'null'
+            description: Lists that matched from the search input
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                name:
+                  type: string
+                  example: EU - EC - Programme PRK - North Korea
+                url:
+                  type: string
+                  example: >-
+                    https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32017R1509&from=EN
+                list-type:
+                  type: string
+                  example: sanction
+                list-types:
+                  type: array
+                  items:
+                    type: string
+                    example: sanction
+                slug:
+                  type: string
+                  example: eu-ec-programme-prk
+                flag-code:
+                  type: string
+                  example: EU
+                entities:
+                  type: array
+                  description: A matched person
+                  items:
+                    $ref: ./report-watchlist-entity.yaml
+          ignore-list:
+            type: array
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                ignored-at:
+                  type: string
+                  format: date-time
+                  example: '2023-09-13T22:08:56.618Z'
+                run-history-completed-at:
+                  type: string
+                  format: date-time
+                  example: '2023-08-11T20:36:04.291Z'
+                match:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    name:
+                      type: string
+                      example: EU - EC - Programme PRK - North Korea
+                    url:
+                      type: string
+                      example: >-
+                        https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32017R1509&from=EN
+                    list-type:
+                      type: string
+                      example: sanction
+                    list-types:
+                      type: array
+                      items:
+                        type: string
+                        example: sanction
+                    slug:
+                      type: string
+                      example: eu-ec-programme-prk
+                    flag-code:
+                      type: string
+                      example: EU
+                    entities:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          name:
+                            type: string
+                            example: Won Ho Ri
+                          alias-type:
+                            type: string
+                            example: primary_name
+                          birthdates:
+                            type: array
+                            items:
+                              type: object
+                              additionalProperties: false
+                              properties:
+                                day:
+                                  type: string
+                                  example: '17'
+                                year:
+                                  type: string
+                                  format: date
+                                  example: '1964'
+                                month:
+                                  type: string
+                                  format: date-time
+                                  example: '07'
+                                granularity:
+                                  type: string
+                                  example: day
+                          group-id:
+                            type: string
+                            example: EU:110286
+                user:
+                  type: string
+                  example: John Doe
+                ignore-reason:
+                  type: string
+                  example: false positive
+          run-history:
+            type: array
+            title: Report Run History
+            description: A history of the report runs
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                scheduled-at:
+                  type:
+                    - string
+                    - 'null'
+                  format: date-time
+                  example: '2023-08-11T20:36:04.291Z'
+                completed-at:
+                  type:
+                    - string
+                    - 'null'
+                  format: date-time
+                  example: '2023-08-11T20:36:04.291Z'
+                type:
+                  type:
+                    - string
+                    - 'null'
+                  description: |-
+                    The type of report run
+
+                    Possible values:
+                    - scheduled
+                    - manual
+
+                      Do not assume this is a static enumeration; Persona may add new values in the future without a versioned update.
+                  example: scheduled
+                report-template-version-id:
+                  type:
+                    - integer
+                    - 'null'
+                  deprecated: true
+  relationships:
+    $ref: ./report-shared-relationships.yaml

@@ -1,0 +1,347 @@
+title: Politically Exposed Person Report
+description: A Politically Exposed Person Report
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: report/politically-exposed-person
+  id:
+    type: string
+    description: The ID of the report
+    example: rep_7WNzPaNcroBKLarNHBjYDLAp
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./report-shared-attributes.yaml
+      - type: object
+        properties:
+          query:
+            type: object
+            additionalProperties: false
+            properties:
+              name-first:
+                type:
+                  - string
+                  - 'null'
+                description: The input first name of the search individual
+                example: Joe
+              name-middle:
+                type:
+                  - string
+                  - 'null'
+                description: The input middle name of the search individual
+                example: 'N'
+              name-last:
+                type:
+                  - string
+                  - 'null'
+                description: The input last name of the search individual
+                example: Doe
+              term:
+                type: string
+                description: >-
+                  The input combined term used for searching (first + middle +
+                  last name). Either the name or the term fields are required.
+                example: Joe N Doe
+              birthdate:
+                type: string
+                description: The input DOB in YYYY-MM-DD format
+                example: '1991-10-07'
+              country-code:
+                type:
+                  - string
+                  - 'null'
+                description: The input search country in alpha2 format
+                example: US
+          result:
+            type:
+              - array
+              - 'null'
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                entity-id:
+                  type: string
+                  example: MV9IPWV13KYS0A9
+                name:
+                  type: string
+                  example: Joe Doe
+                birthdates:
+                  type: array
+                  items:
+                    type: string
+                    format: date
+                    example: '1942-11-20'
+                death-dates:
+                  type: array
+                  items:
+                    type:
+                      - string
+                      - 'null'
+                locations:
+                  type: array
+                  items:
+                    type:
+                      - string
+                      - 'null'
+                country:
+                  type: string
+                  example: United States
+                sex:
+                  type:
+                    - string
+                    - 'null'
+                positions:
+                  type: array
+                  items:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      pep-class:
+                        type: string
+                        example: pep-class-1
+                      source-key:
+                        type: string
+                        example: united-states-head-of-state
+                      name:
+                        type: string
+                        example: President of the United States
+                associates:
+                  type: array
+                  items:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      name:
+                        type: string
+                        description: The name of the associate.
+                      relationship:
+                        type: string
+                        description: The relationship of the associate to the individual.
+                affiliations:
+                  type: array
+                  items:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      source-key:
+                        type: string
+                        example: north-atlantic-treaty-organisation
+                      name:
+                        type: string
+                        example: >-
+                          North Atlantic Treaty Organization Member Countries
+                          Representation
+                related-urls:
+                  type: array
+                  items:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      source-key:
+                        type: string
+                        example: internal-data-source
+                      name:
+                        type: string
+                        example: https://www.example.org/
+                images:
+                  type: array
+                  items:
+                    type:
+                      - string
+                      - 'null'
+                sources:
+                  type: object
+                  additionalProperties: false
+                  description: A map of the sources that matched by entity
+                match-types:
+                  type: array
+                  items:
+                    type: string
+                    example: aka-exact
+                pep-type:
+                  type:
+                    - string
+                    - 'null'
+          ignore-list:
+            type: array
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                ignored-at:
+                  type: string
+                  format: date-time
+                  description: The datetime when the entry was ignored.
+                run-history-completed-at:
+                  type: string
+                  format: date-time
+                  description: The datetime when the run history was completed.
+                match:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    entity-id:
+                      type: string
+                      description: The entity ID of the match.
+                    name:
+                      type: string
+                      description: The name of the match.
+                    birthdates:
+                      type: array
+                      items:
+                        type: string
+                        format: date
+                      description: The birthdates associated with the match.
+                    death-dates:
+                      type: array
+                      items:
+                        type: string
+                        format: date
+                      description: >-
+                        The death dates associated with the match, if
+                        applicable.
+                    locations:
+                      type: array
+                      items:
+                        type: string
+                      description: The locations associated with the match.
+                    country:
+                      type: string
+                      description: The country associated with the match.
+                    sex:
+                      type: string
+                      description: The sex of the individual in the match.
+                    positions:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          pep-class:
+                            type: string
+                            description: The PEP class of the position.
+                          source-key:
+                            type: string
+                            description: The source key of the position.
+                          name:
+                            type: string
+                            description: The name of the position.
+                    associates:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          name:
+                            type: string
+                            description: The name of the associate.
+                          relationship:
+                            type: string
+                            description: >-
+                              The relationship of the associate to the
+                              individual.
+                    affiliations:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          source-key:
+                            type: string
+                            description: The source key of the affiliation.
+                          name:
+                            type: string
+                            description: The name of the affiliation.
+                    related-urls:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          source-key:
+                            type: string
+                            description: The source key for the URL.
+                          name:
+                            type: string
+                            format: uri
+                            description: The URL related to the match.
+                    images:
+                      type: array
+                      items:
+                        type: string
+                        format: uri
+                      description: The URLs of images associated with the match.
+                    sources:
+                      type: object
+                      additionalProperties: false
+                      properties:
+                        url:
+                          type: string
+                          format: uri
+                          description: The URL of the source.
+                        name:
+                          type: string
+                          description: The name of the source.
+                        flag-code:
+                          type: string
+                          description: The flag code of the source country.
+                    match-types:
+                      type: array
+                      items:
+                        type: string
+                      description: The types of matches found.
+                    pep-type:
+                      type: string
+                      description: The type of politically exposed person.
+                user:
+                  type: string
+                  description: The user who added the entry to the ignore list.
+                ignore-reason:
+                  type: string
+                  description: The reason why the entry was added to the ignore list.
+                is-internal:
+                  type: boolean
+                  description: Indicates if the ignore list entry is internal.
+          run-history:
+            type: array
+            title: Report Run History
+            description: A history of the report runs
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                scheduled-at:
+                  type:
+                    - string
+                    - 'null'
+                  format: date-time
+                  example: '2023-08-11T20:36:04.291Z'
+                completed-at:
+                  type:
+                    - string
+                    - 'null'
+                  format: date-time
+                  example: '2023-08-11T20:36:04.291Z'
+                type:
+                  type:
+                    - string
+                    - 'null'
+                  description: |-
+                    The type of report run
+
+                    Possible values:
+                    - scheduled
+                    - manual
+
+                      Do not assume this is a static enumeration; Persona may add new values in the future without a versioned update.
+                  example: scheduled
+                report-template-version-id:
+                  type:
+                    - integer
+                    - 'null'
+                  deprecated: true
+  relationships:
+    $ref: ./report-shared-relationships.yaml

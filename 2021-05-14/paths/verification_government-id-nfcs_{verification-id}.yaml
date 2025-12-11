@@ -1,0 +1,85 @@
+get:
+  description: Retrieve a Government ID NFC verification
+  operationId: retrieve-a-government-id-nfc-verification
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: >-
+      https://docs.withpersona.com/api-reference/verifications/government-id-nfc-verifications/retrieve-a-government-id-nfc-verification
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+    - name: verification-id
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Success:
+              value:
+                data:
+                  type: verification/government-id-nfc
+                  id: ver_Ra6LFdoQmPFJH27gonC3cChh
+                  attributes:
+                    status: passed
+                    created-at: '2022-07-28T16:55:44.000Z'
+                    created-at-ts: 1659027344
+                    submitted-at: '2022-07-28T20:47:06.000Z'
+                    submitted-at-ts: 1659041226
+                    completed-at: '2022-07-28T20:47:12.000Z'
+                    completed-at-ts: 1659041232
+                    birthdate: '1994-12-30'
+                    country-code: UT
+                    expiration-date: '2022-12-30'
+                    identification-number: L898902C3
+                    id-class: pp
+                    name-first: ANNA MARIA
+                    name-last: SAMPLE
+                    sex: F
+                    selfie-photo:
+                      url: https://files.withpersona.com/...
+                      byte-size: 1000
+                    checks:
+                      - name: id_nfc_expired_detection
+                        status: failed
+                        reasons:
+                          - expired
+                        metadata: {}
+                  relationships:
+                    inquiry:
+                      data: null
+                    document:
+                      data:
+                        type: document/government-id-nfc
+                        id: doc_QZ8M2J1fH2o76Rq57vuVWMsE
+          schema:
+            type: object
+            additionalProperties: false
+            required:
+              - data
+            properties:
+              data:
+                $ref: ../components/schemas/verification-government-id-nfc.yaml
+      description: >-
+        This endpoint returns a Government ID NFC Verification object and
+        (optionally) its related objects in `included`.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Retrieve a Government ID NFC Verification
+  tags:
+    - Government ID NFC Verifications
+  x-persona-product: Verifications

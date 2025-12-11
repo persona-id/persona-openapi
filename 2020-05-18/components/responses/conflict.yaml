@@ -1,0 +1,43 @@
+description: >-
+  The request conflicts with another request, often due to attempting to create
+  a duplicate resource.
+content:
+  application/json:
+    examples:
+      Conflict:
+        value:
+          errors:
+            - title: Conflict
+              details: Resource already exists as an active resource
+    schema:
+      properties:
+        errors:
+          type: array
+          items:
+            additionalProperties: false
+            properties:
+              title:
+                description: Conflict
+                examples:
+                  - Conflict
+                  - Record not unique
+                  - Stale object error
+                type: string
+              details:
+                type: string
+                examples:
+                  - Name already exists as an active item in list
+                  - Inquiry already redacted
+                  - Record not unique
+                  - >-
+                    Attempted to update a record that was just modified. Please
+                    try again.
+                  - >-
+                    data.attributes.inquiry_id does not require
+                    verification/email-address
+              meta:
+                type: object
+                description: Additional metadata about the error
+                additionalProperties: true
+      type: object
+      additionalProperties: false

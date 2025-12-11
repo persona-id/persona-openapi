@@ -1,0 +1,51 @@
+type: object
+title: Report History Run Entry
+description: A run entry in the report history
+additionalProperties: false
+required:
+  - type
+  - run-type
+properties:
+  id:
+    type: string
+    description: The unique identifier for this history entry
+    example: rpr_xSwbLw3ikLrcy7bwzhc5zA3ZRkpr
+  type:
+    type: string
+    const: run
+    description: The type of history entry
+    example: run
+  run-type:
+    type: string
+    description: >-
+      The type of run
+
+
+      Possible values:
+
+      - manual
+
+      - scheduled
+
+
+      Do not assume this is a static enumeration; Persona may add new values in
+      the future without a versioned update.
+    example: scheduled
+  scheduled-date:
+    type: string
+    format: date
+    description: The date the report is scheduled to run on
+    example: '2025-10-22'
+  completed-at:
+    type:
+      - string
+      - 'null'
+    format: date-time
+    description: When the run was completed
+    example: '2025-10-22T05:07:10.000+00:00'
+  matches:
+    type:
+      - integer
+      - 'null'
+    description: The number of matches found (only present if the run is completed)
+    example: 30

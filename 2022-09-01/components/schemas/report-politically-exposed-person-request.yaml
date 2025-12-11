@@ -1,0 +1,65 @@
+title: Politically Exposed Person Report
+description: Fields required to create a Politically Exposed Person Report
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: report/politically-exposed-person
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./report-shared-request-attributes.yaml
+      - type: object
+        properties:
+          query:
+            type: object
+            additionalProperties: false
+            description: >-
+              At least one of `name-first`, `name-middle`, `name-last`, or
+              `term` is required.
+            properties:
+              name-first:
+                type:
+                  - string
+                  - 'null'
+                description: The first name of the individual to search.
+                example: Joe
+              name-middle:
+                type:
+                  - string
+                  - 'null'
+                description: The middle name of the individual to search.
+                example: 'N'
+              name-last:
+                type:
+                  - string
+                  - 'null'
+                description: The last name of the individual to search.
+                example: Doe
+              term:
+                type:
+                  - string
+                  - 'null'
+                description: >-
+                  Custom search term instead of separate name parts of the
+                  individual (i.e. first + middle + last name).
+                example: Joe N Doe
+              birthdate:
+                type:
+                  - string
+                  - 'null'
+                description: >-
+                  The birthdate of the individual, formatted as YYYY-MM-DD (ISO
+                  8601).
+                example: '1991-10-07'
+              country-code:
+                type:
+                  - string
+                  - 'null'
+                description: ISO 3166-1 alpha-2 country code.
+                example: US
+        required:
+          - query
+required:
+  - attributes

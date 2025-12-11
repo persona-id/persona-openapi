@@ -1,0 +1,293 @@
+type: object
+additionalProperties: false
+title: Government ID Verification
+description: A Government ID Verification
+properties:
+  type:
+    type: string
+    const: verification/government-id
+  id:
+    type: string
+    description: The token of the verification
+    example: ver_ABC123
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./verification-shared-attributes.yaml
+      - type: object
+        properties:
+          entity-confidence-reasons:
+            items:
+              examples:
+                - generic
+              type: string
+            type: array
+          entity-confidence-score:
+            default: 0
+            examples:
+              - 100
+              - 96.1831512451172
+            type:
+              - number
+              - 'null'
+          front-photo-url:
+            examples:
+              - https://files.withpersona.com/...
+            type:
+              - string
+              - 'null'
+          back-photo-url:
+            examples:
+              - https://files.withpersona.com/...
+            type:
+              - string
+              - 'null'
+          photo-urls:
+            items:
+              properties:
+                byte-size:
+                  default: 0
+                  examples:
+                    - 316802
+                  type: integer
+                normalized-url:
+                  examples:
+                    - https://files.withpersona.com/...
+                  type: string
+                original-urls:
+                  items:
+                    examples:
+                      - https://files.withpersona.com/...
+                    type: string
+                  type: array
+                page:
+                  examples:
+                    - front
+                  type: string
+                url:
+                  examples:
+                    - https://files.withpersona.com/...
+                  type: string
+              type: object
+              additionalProperties: false
+            type:
+              - array
+              - 'null'
+          selfie-photo:
+            properties:
+              byte-size:
+                default: 0
+                examples:
+                  - 316802
+                type: integer
+              url:
+                examples:
+                  - https://files.withpersona.com/...
+                type: string
+            type:
+              - object
+              - 'null'
+          selfie-photo-url:
+            examples:
+              - https://files.withpersona.com/...
+            type:
+              - string
+              - 'null'
+          video-url:
+            type:
+              - string
+              - 'null'
+            example: https://files.withpersona.com/...
+          id-class:
+            examples:
+              - dl
+            type:
+              - string
+              - 'null'
+          capture-method:
+            examples:
+              - api
+            type:
+              - string
+              - 'null'
+          name-first:
+            examples:
+              - ALEXANDER
+            type:
+              - string
+              - 'null'
+          name-middle:
+            examples:
+              - AL
+            type:
+              - string
+              - 'null'
+          name-last:
+            examples:
+              - SAMPLE
+            type:
+              - string
+              - 'null'
+          name-suffix:
+            examples:
+              - III
+            type:
+              - string
+              - 'null'
+          native-name-first:
+            description: Native script given or first name.
+            examples:
+              - 简
+            type:
+              - string
+              - 'null'
+          native-name-middle:
+            description: Native script middle name.
+            type:
+              - string
+              - 'null'
+          native-name-last:
+            description: Native script family or last name.
+            examples:
+              - 李
+            type:
+              - string
+              - 'null'
+          native-name-title:
+            description: Native script name title or prefix.
+            type:
+              - string
+              - 'null'
+          birthdate:
+            examples:
+              - '2000-01-01'
+            type:
+              - string
+              - 'null'
+          issuing-authority:
+            examples:
+              - State Department
+            type:
+              - string
+              - 'null'
+          issuing-subdivision:
+            examples:
+              - CA
+            type:
+              - string
+              - 'null'
+          nationality:
+            examples:
+              - US
+            type:
+              - string
+              - 'null'
+          document-number:
+            examples:
+              - '123456'
+            type:
+              - string
+              - 'null'
+          visa-status:
+            examples:
+              - H1B
+            type:
+              - string
+              - 'null'
+          issue-date:
+            examples:
+              - '2010-01-01'
+            type:
+              - string
+              - 'null'
+          expiration-date:
+            examples:
+              - '2020-01-01'
+            type:
+              - string
+              - 'null'
+          designations:
+            examples:
+              - - probationary
+            type:
+              - array
+              - 'null'
+          birthplace:
+            examples:
+              - Singapore
+            type:
+              - string
+              - 'null'
+          endorsements:
+            type:
+              - string
+              - 'null'
+          height:
+            examples:
+              - 6'1"
+            type:
+              - string
+              - 'null'
+          sex:
+            examples:
+              - M
+              - F
+              - X
+            type:
+              - string
+              - 'null'
+          restrictions:
+            examples:
+              - A
+            type:
+              - string
+              - 'null'
+          vehicle-class:
+            examples:
+              - C
+            type:
+              - string
+              - 'null'
+          from-reusable-persona:
+            examples:
+              - true
+              - false
+            type: boolean
+          driver-license-number:
+            deprecated: true
+            examples:
+              - '123456'
+            type:
+              - string
+              - 'null'
+          passport-number:
+            deprecated: true
+            examples:
+              - P123456
+            type:
+              - string
+              - 'null'
+      - $ref: ./address-fields.yaml
+  relationships:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./verification-shared-relationships.yaml
+      - type: object
+        properties:
+          document:
+            properties:
+              data:
+                properties:
+                  id:
+                    examples:
+                      - doc_ABC123
+                    type: string
+                  type:
+                    x-polymorphic: true
+                    examples:
+                      - document/generic
+                    type: string
+                type: object
+                additionalProperties: false
+            type: object
+            additionalProperties: false

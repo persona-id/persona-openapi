@@ -1,0 +1,50 @@
+type:
+  - 'null'
+  - array
+description: >-
+  A list of extractions resulting from processing the uploaded documents
+  corresponding to the document's extraction configuration.
+items:
+  type: object
+  additionalProperties: false
+  properties:
+    extraction-type:
+      examples:
+        - guided
+        - unguided
+      type: string
+    field-name:
+      type: string
+    results:
+      type: array
+      description: >-
+        A list of objects containing the actual value extracted and additional
+        information relevant to the extraction result.
+      items:
+        properties:
+          value:
+            type: string
+          page:
+            description: >-
+              The page number the extraction result is detected. Page is
+              1-indexed.
+            type: integer
+          match-level:
+            description: >-
+              If extraction-type is guided, match-level describes the degree in
+              which the extracted value is similar to the source value.
+              Otherwise the match-level is full.
+            examples:
+              - none
+              - partial
+              - full
+            type: string
+          metadata:
+            description: >-
+              This is a free-form object containing potentially helpful metadata
+              on the extraction result.
+            type:
+              - object
+              - 'null'
+        type: object
+        additionalProperties: false

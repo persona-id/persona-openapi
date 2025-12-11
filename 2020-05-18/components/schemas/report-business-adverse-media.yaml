@@ -1,0 +1,171 @@
+title: Business Adverse Media Report
+description: A report detailing adverse media findings for a business entity.
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: report/business-adverse-media
+  id:
+    type: string
+    description: A unique identifier for the report.
+    examples:
+      - rep_9XxZsPaNcroBKmJNHBlYDLOp
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./report-shared-attributes.yaml
+      - type: object
+        properties:
+          term:
+            type: string
+            description: >-
+              The search term for the adverse media report, typically the name
+              of the business.
+            example: Acme Corporation
+          related-sources:
+            description: The sources that matched for the search
+            type: array
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                akas:
+                  type: array
+                  items:
+                    type: string
+                    example: Joey Doey
+                birthdates:
+                  type: array
+                  items:
+                    type:
+                      - string
+                      - 'null'
+                match_types:
+                  type: array
+                  items:
+                    type: string
+                    example: name_exact
+                media:
+                  type: array
+                  items:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      date:
+                        type: string
+                        format: date
+                        example: '2022-11-12'
+                      snippet:
+                        type: string
+                        description: Snippet from matched article
+                        example: >-
+                          Joe Doe was ordered to jail on Friday after a judge
+                          revoked his bail for alleged witness tampering.
+                      url:
+                        type: string
+                        description: URL of matched article
+                        example: https://www.example.com/
+                      title:
+                        type: string
+                        description: Title of matched article
+                        example: Joe Doe ordered to jail
+                name:
+                  type: string
+                  example: Joe Doe
+                sources:
+                  type: array
+                  items:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      country_codes:
+                        type: array
+                        items:
+                          type: string
+                          example: FR
+                      name:
+                        type: string
+                        example: Adverse Media
+                      token:
+                        type: string
+                      types:
+                        type: array
+                        items:
+                          type: string
+                          example: adverse-media-v2-other-minor
+                id:
+                  type: string
+                  example: FV933QHOUDG73V8
+          query:
+            type: object
+            additionalProperties: false
+            properties:
+              business-name:
+                type: string
+                description: The name of the business being queried.
+                examples:
+                  - Acme Corporation
+              address-street:
+                type: string
+                description: The street address of the business being queried.
+                examples:
+                  - 123 Elm Street
+              address-city:
+                type: string
+                description: The city in which the business is located.
+                examples:
+                  - Anytown
+              address-state:
+                type: string
+                description: >-
+                  Subnational division of a country (such as a state or
+                  province) where the business is located.
+                examples:
+                  - CA
+              address-country:
+                type: string
+                description: The country in which the business is located.
+                examples:
+                  - US
+              incorporation-date:
+                type: string
+                format: date
+                description: The date the business was incorporated.
+                examples:
+                  - '2001-04-15'
+          result:
+            type: object
+            additionalProperties: false
+            properties:
+              adverse-media:
+                type: array
+                description: A list of adverse media articles related to the business.
+                items:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    title:
+                      type: string
+                      description: The title of the media article.
+                      examples:
+                        - Acme Corporation Accused of Environmental Violations
+                    url:
+                      type: string
+                      format: uri
+                      description: The URL to the full media article.
+                      examples:
+                        - >-
+                          https://news.example.com/business/acme-environmental-violations
+                    date:
+                      type: string
+                      format: date
+                      description: The publication date of the media article.
+                      examples:
+                        - '2023-03-01'
+  relationships:
+    $ref: ./report-shared-relationships.yaml
+required:
+  - type
+  - id
+  - attributes

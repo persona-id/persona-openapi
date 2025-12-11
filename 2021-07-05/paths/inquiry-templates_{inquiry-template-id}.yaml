@@ -1,0 +1,55 @@
+get:
+  description: >-
+    Retrieves details of a specific Inquiry Template by ID.
+
+
+    Note: You must use a production API key to access this endpoint. For
+    security reasons, we do not expose organization-level resources like Inquiry
+    Templates in Sandbox via API.
+  operationId: retrieve-an-inquiry-template
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: >-
+      https://docs.withpersona.com/api-reference/inquiry-templates/retrieve-an-inquiry-template
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+    - description: Inquiry Template ID
+      in: path
+      name: inquiry-template-id
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: This endpoint returns an Inquiry Template object.
+      content:
+        application/json:
+          examples:
+            Success:
+              $ref: ../components/examples/inquiry-template.yaml
+          schema:
+            type: object
+            additionalProperties: false
+            required:
+              - data
+            properties:
+              data:
+                $ref: ../components/schemas/inquiry-template.yaml
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Retrieve an Inquiry Template
+  tags:
+    - Inquiry Templates
+  x-persona-product: Inquiries

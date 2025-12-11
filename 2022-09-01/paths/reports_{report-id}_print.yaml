@@ -1,0 +1,39 @@
+get:
+  description: Prints a report in PDF format.
+  operationId: print-report-pdf
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/api-reference/reports/print-report-pdf
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - name: report-id
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: This endpoint returns a PDF of a Report object.
+      content:
+        application/pdf:
+          schema:
+            type: string
+            format: binary
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Print Report PDF
+  tags:
+    - Reports
+  x-persona-product: Reports

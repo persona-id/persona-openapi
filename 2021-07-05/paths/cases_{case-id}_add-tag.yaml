@@ -1,0 +1,130 @@
+post:
+  description: Adds a new tag to a Case
+  operationId: add-tag
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/api-reference/cases/add-tag
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+    - description: ID of the case to update.
+      in: path
+      name: case-id
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            meta:
+              properties:
+                tag-name:
+                  type: string
+                  description: Name of the tag to add to the Case.
+                tag-id:
+                  type: string
+                  description: ID of the tag to add to the Case.
+              type: object
+              additionalProperties: false
+          type: object
+          additionalProperties: false
+        examples:
+          Success:
+            $ref: ../components/examples/set-tag.yaml
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Success:
+              value:
+                data:
+                  type: case
+                  id: case_3maVhdLzdGftRZCvxfqazVL1
+                  attributes:
+                    status: Open
+                    name: KYC-6
+                    resolution: null
+                    created-at: '2021-06-30T20:37:18.678Z'
+                    updated-at: '2021-08-26T18:24:19.695Z'
+                    assigned-at: '2021-08-26T18:24:19.695Z'
+                    resolved-at: null
+                    redacted-at: null
+                    sla-expires-at: null
+                    creator-id: wfl_yKynZZiuPz1R5qm9JFyBnnLB
+                    creator-type: workflow-run
+                    assignee-id: case_assignee@withpersona.com
+                    assigner-id: case_assigner@withpersona.com
+                    assigner-type: user
+                    resolver-id: null
+                    resolver-type: null
+                    updater-id: null
+                    updater-type: null
+                    tags:
+                      - FRAUD
+                    fields: {}
+                    attachments: []
+                  relationships:
+                    case-template:
+                      data:
+                        type: case-template
+                        id: ctmpl_6HheND7s14a2o7fg33iHqhg7
+                    case-queue:
+                      data:
+                        type: case-queue
+                        id: cqueue_7JRbkcdbx9fTossK98NJvRZcmk1
+                    case-comments:
+                      data: []
+                    accounts:
+                      data: []
+                    inquiries:
+                      data:
+                        - type: inquiry
+                          id: inq_29Yd6kF6xWVFgemm5WTxhxvf
+                    reports:
+                      data:
+                        - type: report/watchlist
+                          id: rep_PN3xspEwWCWWRp1eGpedaSNj
+                    verifications:
+                      data: []
+                    txns:
+                      data: []
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/case.yaml
+              included:
+                description: >-
+                  Objects that _may_ be returned if specified via the `include`
+                  query parameter in the request.
+                $ref: ../components/schemas/cases-included-objects.yaml
+            type: object
+            additionalProperties: false
+            required:
+              - data
+      description: >-
+        This endpoint returns a Case object and (optionally) its related objects
+        in `included`.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Add tag to a Case
+  tags:
+    - Cases
+  x-persona-product: Cases

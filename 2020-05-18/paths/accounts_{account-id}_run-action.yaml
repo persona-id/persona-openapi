@@ -1,0 +1,84 @@
+post:
+  summary: Run an account action
+  description: Triggers an account action for the specified account
+  operationId: runAccountAction
+  tags:
+    - Accounts
+  x-persona-product: Accounts
+  parameters:
+    - name: account-id
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: ^act_[a-zA-Z0-9]{24,28}$
+      description: The ID of the account to run the action on
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          additionalProperties: false
+          properties:
+            data:
+              type: object
+              additionalProperties: false
+              properties:
+                account-action-id:
+                  type: string
+                  description: The ID of the account action to run
+                  pattern: ^accac_[a-zA-Z0-9]{24,28}$
+                parameters:
+                  type: object
+                  description: Parameters required by the account action
+                  additionalProperties: true
+              required:
+                - account-action-id
+          required:
+            - data
+        examples:
+          Success:
+            $ref: ../components/examples/run-account-action.yaml
+  responses:
+    '200':
+      description: Account action executed successfully
+      content:
+        application/json:
+          schema:
+            type: object
+            additionalProperties: false
+            properties:
+              data:
+                $ref: ../components/schemas/account.yaml
+              meta:
+                type: object
+                additionalProperties: false
+                properties:
+                  workflow-run-id:
+                    type: string
+                    description: The ID of the workflow run created by this action
+                    examples:
+                      - wfr_abc123def456ghi789
+                required:
+                  - workflow-run-id
+            required:
+              - data
+              - meta
+          examples:
+            Success:
+              $ref: ../components/examples/account-with-meta.yaml
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml

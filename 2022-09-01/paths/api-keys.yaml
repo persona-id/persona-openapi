@@ -1,0 +1,122 @@
+get:
+  description: >-
+    Returns a list of your organization's API keys. Results are returned in
+    reverse chronological order, with the most recently created objects first.
+  operationId: list-all-api-keys
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/api-reference/api-keys/list-all-api-keys
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/pagination-query-params.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+    - in: query
+      name: filter
+      style: deepObject
+      explode: true
+      schema:
+        type: object
+        additionalProperties: false
+        properties:
+          name:
+            type: string
+            description: Filter API keys by name
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Success:
+              $ref: ../components/examples/api-key-list.yaml
+          schema:
+            type: object
+            additionalProperties: false
+            properties:
+              data:
+                items:
+                  $ref: ../components/schemas/api-key.yaml
+                type: array
+                description: An array of API Keys
+              links:
+                properties:
+                  next:
+                    type:
+                      - string
+                      - 'null'
+                  prev:
+                    type:
+                      - string
+                      - 'null'
+                type: object
+                additionalProperties: false
+                required:
+                  - next
+                  - prev
+              included:
+                $ref: ../components/schemas/empty-included-objects.yaml
+            required:
+              - data
+              - links
+      description: This endpoint returns a collection of API key objects.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: List all API keys
+  tags:
+    - API Keys
+  x-persona-product: API Keys
+post:
+  description: Creates a new API key with response defaults and permissions.
+  operationId: create-an-api-key
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/api-reference/api-keys/create-an-api-key
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+  requestBody:
+    $ref: ../components/requestBodies/create-api-key-request.yaml
+  responses:
+    '201':
+      content:
+        application/json:
+          examples:
+            Created:
+              $ref: ../components/examples/api-key-with-value.yaml
+          schema:
+            type: object
+            additionalProperties: false
+            properties:
+              data:
+                $ref: ../components/schemas/api-key-with-value.yaml
+              included:
+                $ref: ../components/schemas/empty-included-objects.yaml
+            required:
+              - data
+      description: This endpoint returns an API key object.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Create an API key
+  tags:
+    - API Keys
+  x-persona-product: API Keys

@@ -1,0 +1,79 @@
+get:
+  description: >-
+    Retrieves a list of Devices. Results are returned in reverse chronological
+    order, with the most recently created objects first.
+  operationId: list-all-devices
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/api-reference/devices/list-all-devices
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - in: query
+      name: filter
+      required: true
+      style: deepObject
+      explode: true
+      schema:
+        type: object
+        additionalProperties: false
+        properties:
+          inquiry-session-id:
+            description: Filter devices by inquiry session ID
+            type: string
+            example: iqse_ABC123
+        required:
+          - inquiry-session-id
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Success:
+              $ref: ../components/examples/device-list.yaml
+          schema:
+            type: object
+            additionalProperties: false
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: ../components/schemas/device.yaml
+              links:
+                type: object
+                additionalProperties: false
+                properties:
+                  prev:
+                    type:
+                      - string
+                      - 'null'
+                    examples:
+                      - /api/v1/devices?page%5Bbefore%5D=dev_ABC123
+                  next:
+                    type:
+                      - string
+                      - 'null'
+                    examples:
+                      - /api/v1/devices?page%5Bafter%5D=dev_ABC123
+                required:
+                  - prev
+                  - next
+              included:
+                $ref: ../components/schemas/empty-included-objects.yaml
+            required:
+              - data
+              - links
+      description: This endpoint returns a collection of Device objects.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: List all Devices
+  tags:
+    - Devices
+  x-persona-product: Devices

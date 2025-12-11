@@ -1,0 +1,111 @@
+type: object
+additionalProperties: false
+description: A Workflow Run object
+properties:
+  type:
+    const: workflow-run
+    type: string
+  id:
+    examples:
+      - wfr_3JqAR9ddLRVZLK5z4yD8oeHB
+    type: string
+  attributes:
+    properties:
+      completed-at:
+        examples:
+          - '2022-08-08T18:55:44.910Z'
+        type:
+          - string
+          - 'null'
+        format: date-time
+      created-at:
+        examples:
+          - '2022-08-08T18:55:44.910Z'
+        type: string
+        format: date-time
+      status:
+        examples:
+          - in_progress
+        type: string
+    type: object
+    additionalProperties: false
+  relationships:
+    properties:
+      creator:
+        properties:
+          data:
+            unevaluatedProperties: false
+            oneOf:
+              - type: 'null'
+              - properties:
+                  type:
+                    const: administrator
+                    type: string
+                  id:
+                    examples:
+                      - admn_3VghhbvDc7UuUNT8uZrqZjsk
+                    type: string
+                type: object
+                additionalProperties: false
+              - properties:
+                  type:
+                    const: user
+                    type: string
+                  id:
+                    examples:
+                      - user_3VghhbvDc7UuUNT8uZrqZjsk
+                    type: string
+                type: object
+                additionalProperties: false
+              - properties:
+                  type:
+                    const: event
+                    type: string
+                  id:
+                    examples:
+                      - evt_3VghhbvDc7UuUNT8uZrqZjsk
+                    type: string
+                type: object
+                additionalProperties: false
+        type: object
+        additionalProperties: false
+      workflow:
+        properties:
+          data:
+            properties:
+              type:
+                const: workflow
+                type: string
+              id:
+                examples:
+                  - wfl_3VghhbvDc7UuUNT8uZrqZjsk
+                type: string
+            type: object
+            additionalProperties: false
+        type: object
+        additionalProperties: false
+      workflow-version:
+        properties:
+          data:
+            properties:
+              type:
+                const: workflow-version
+                type: string
+              id:
+                examples:
+                  - wfv_DkWeGvK9wojQnubF8ABHzJRQ
+                type: string
+            type: object
+            additionalProperties: false
+        type: object
+        additionalProperties: false
+    type: object
+    additionalProperties: false
+  meta:
+    type: object
+    additionalProperties: false
+    properties:
+      processing-time-seconds:
+        type:
+          - number
+          - 'null'

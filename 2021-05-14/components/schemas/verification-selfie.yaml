@@ -1,0 +1,136 @@
+type: object
+additionalProperties: false
+title: Selfie Verification
+description: A Selfie Verification
+properties:
+  type:
+    type: string
+    const: verification/selfie
+  id:
+    type: string
+    description: The token of the verification
+    example: ver_ABC123
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./verification-shared-attributes.yaml
+      - type: object
+        properties:
+          capture-method:
+            type:
+              - string
+              - 'null'
+            description: |-
+              Possible values:
+              - photo
+              - video
+
+              Do not assume this is a static enumeration; Persona may add new
+              values in the future without a versioned update.
+          center-photo-face-coordinates:
+            type:
+              - object
+              - 'null'
+            properties:
+              top-left:
+                type: array
+                items:
+                  type: number
+                example:
+                  - 0.2
+                  - 0.5
+                minItems: 2
+                maxItems: 2
+              top-right:
+                type: array
+                items:
+                  type: number
+                example:
+                  - 0.5
+                  - 0.5
+                minItems: 2
+                maxItems: 2
+              bottom-left:
+                type: array
+                items:
+                  type: number
+                example:
+                  - 0.2
+                  - 0.7
+                minItems: 2
+                maxItems: 2
+              bottom-right:
+                type: array
+                items:
+                  type: number
+                example:
+                  - 0.5
+                  - 0.7
+                minItems: 2
+                maxItems: 2
+          center-photo-url:
+            type:
+              - string
+              - 'null'
+            example: https://files.withpersona.com/...
+          document-similarity-score:
+            type:
+              - number
+              - 'null'
+          entity-confidence-reasons:
+            items:
+              type: string
+            type: array
+          left-photo-url:
+            type:
+              - string
+              - 'null'
+            example: https://files.withpersona.com/...
+          from-reusable-persona:
+            examples:
+              - true
+              - false
+            type: boolean
+          photo-urls:
+            items:
+              properties:
+                byte-size:
+                  default: 0
+                  example: 316802
+                  type: integer
+                page:
+                  type: string
+                  description: |-
+                    Possible values:
+                    - left_photo
+                    - center_photo
+                    - right_photo
+
+                    Do not assume this is a static enumeration; Persona may add
+                    new values in the future without a versioned update.
+                url:
+                  example: https://files.withpersona.com/...
+                  type: string
+              additionalProperties: false
+              type: object
+            type: array
+          right-photo-url:
+            type:
+              - string
+              - 'null'
+            example: https://files.withpersona.com/...
+          selfie-similarity-score-left:
+            type:
+              - number
+              - 'null'
+          selfie-similarity-score-right:
+            type:
+              - number
+              - 'null'
+          video-url:
+            type:
+              - string
+              - 'null'
+            example: https://files.withpersona.com/...
+  relationships:
+    $ref: ./verification-shared-relationships.yaml

@@ -1,0 +1,140 @@
+type: object
+additionalProperties: false
+properties:
+  id:
+    type: string
+    description: Unique identifier for this Transaction. Starts with `txn_`.
+    examples:
+      - txn_ABC123
+  type:
+    type: string
+    const: transaction
+  attributes:
+    type: object
+    additionalProperties: false
+    properties:
+      status:
+        type: string
+        examples:
+          - approved
+          - created
+          - declined
+          - needs review
+      reference-id:
+        type:
+          - string
+          - 'null'
+        examples:
+          - abc-123
+      fields:
+        description: >-
+          JSON key-value pairs of field name to field value. Exact schema
+          depends on the configuration of the Transaction Type for this
+          Transaction.
+        type: object
+        additionalProperties: true
+      tags:
+        type: array
+        items:
+          type: string
+      created-at:
+        type: string
+        format: date-time
+        examples:
+          - '2023-05-26T16:49:33.860Z'
+      updated-at:
+        type:
+          - string
+          - 'null'
+        format: date-time
+        examples:
+          - '2023-05-26T16:49:43.965Z'
+  relationships:
+    type: object
+    additionalProperties: false
+    properties:
+      reviewer:
+        type: object
+        additionalProperties: false
+        description: The entity that reviewed the transaction
+        properties:
+          data:
+            type:
+              - object
+              - 'null'
+            properties:
+              type:
+                x-polymorphic: true
+                type: string
+                examples:
+                  - workflow-run
+                  - workflow-step
+                  - user
+              id:
+                type: string
+                examples:
+                  - wfr_ABC123
+                  - wfs_ABC123
+                  - user_ABC123
+      transaction-label:
+        type: object
+        additionalProperties: false
+        properties:
+          data:
+            type:
+              - object
+              - 'null'
+            properties:
+              type:
+                type: string
+                const: transaction-label
+              id:
+                description: >-
+                  Unique identifier for this Transaction Label. Starts with
+                  `txnl_`.
+                type: string
+                examples:
+                  - txnl_ABC123
+      transaction-type:
+        type: object
+        additionalProperties: false
+        properties:
+          data:
+            type: object
+            additionalProperties: false
+            properties:
+              type:
+                type: string
+                const: transaction-type
+              id:
+                description: >-
+                  Unique identifier for this Transaction Type. Starts with
+                  `txntp_`.
+                type: string
+                examples:
+                  - txntp_ABC123
+      related-objects:
+        type: object
+        additionalProperties: false
+        description: Objects involved in this Transaction's related Workflow runs.
+        properties:
+          data:
+            type: array
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                type:
+                  x-polymorphic: true
+                  type: string
+                  examples:
+                    - account
+                    - inquiry
+                    - verification/government-id
+                id:
+                  type: string
+                  description: Unique identifier for this object.
+                  examples:
+                    - act_ABC123
+                    - inq_ABC123
+                    - ver_ABC123

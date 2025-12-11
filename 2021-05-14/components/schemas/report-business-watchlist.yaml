@@ -1,0 +1,108 @@
+title: Business Watchlist Report
+description: A Business Watchlist Report
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: report/business-watchlist
+  id:
+    type: string
+    description: The ID of the report
+    examples:
+      - rep_8YZjQaNjXpZLKrJNHBkYDLAp
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./report-shared-attributes.yaml
+      - type: object
+        properties:
+          matched-lists:
+            type: array
+            description: A list of slugs identifying the lists on which matches were found.
+            items:
+              type: string
+          sanction-list:
+            type: array
+            description: Detailed information about matches found on sanction lists.
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                name:
+                  type: string
+                  description: The name of the sanction list.
+                url:
+                  type: string
+                  format: uri
+                  description: A URL with more information about the list.
+          fitness-probity-list:
+            type: array
+            description: >-
+              Detailed information about matches found on fitness and probity
+              lists.
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                name:
+                  type: string
+                  description: The name of the fitness and probity list.
+                url:
+                  type: string
+                  format: uri
+                  description: A URL with more information about the list.
+          warning-list:
+            type: array
+            description: Detailed information about matches found on warning lists.
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                name:
+                  type: string
+                  description: The name of the warning list.
+                url:
+                  type: string
+                  format: uri
+                  description: A URL with more information about the list.
+          run-history:
+            type: array
+            title: Report Run History
+            description: A history of the report runs
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                scheduled-at:
+                  type:
+                    - string
+                    - 'null'
+                  format: date-time
+                  example: '2023-08-11T20:36:04.291Z'
+                completed-at:
+                  type:
+                    - string
+                    - 'null'
+                  format: date-time
+                  example: '2023-08-11T20:36:04.291Z'
+                type:
+                  type:
+                    - string
+                    - 'null'
+                  description: |-
+                    The type of report run
+
+                    Possible values:
+                    - scheduled
+                    - manual
+
+                      Do not assume this is a static enumeration; Persona may add new values in the future without a versioned update.
+                  example: scheduled
+                report-template-version-id:
+                  type:
+                    - integer
+                    - 'null'
+                  deprecated: true
+  relationships:
+    $ref: ./report-shared-relationships.yaml

@@ -1,0 +1,91 @@
+title: Phone Risk Report
+description: A Phone Risk Report
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: report/phone-number
+  id:
+    type: string
+    description: The ID of the report
+    example: rep_7WNzPaNcroBKLarNHBjYDLAp
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./report-shared-attributes.yaml
+      - type: object
+        properties:
+          phone-number:
+            type: string
+            description: The input phone number of the search
+            example: '+14169671111'
+          phone-type:
+            type:
+              - string
+              - 'null'
+            description: |-
+              Possible values:
+              - FIXED_LINE
+              - MOBILE
+              - PREPAID
+              - TOLL_FREE
+              - VOIP
+              - PAGER
+              - PAYPHONE
+              - INVALID
+              - RESTRICTED_PREMIUM
+              - PERSONAL
+              - VOICEMAIL
+              - OTHER
+
+              Do not assume this is a static enumeration; Persona may add new
+              values in the future without a versioned update.
+          phone-carrier:
+            type:
+              - string
+              - 'null'
+            example: Rogers Communications Canada Inc.
+          phone-risk-level:
+            type:
+              - string
+              - 'null'
+            description: Assessment of the phone number's risk (low - high)
+            example: medium-low
+          phone-risk-recommendation:
+            type:
+              - string
+              - 'null'
+            description: |-
+              Possible values:
+              - block
+              - allow
+              - flag
+
+              Do not assume this is a static enumeration; Persona may add new
+              values in the future without a versioned update.
+          phone-risk-score:
+            type:
+              - integer
+              - 'null'
+            description: Risk score out of 1000
+            format: integer
+            example: 250
+          phone-risk-sim-swap:
+            type:
+              - string
+              - 'null'
+            description: |-
+              The risk of a fraudulent SIM swap
+
+              Possible values:
+              - very-low
+              - low
+              - medium
+              - high
+              - N/A
+
+              Do not assume this is a static enumeration; Persona may add new
+              values in the future without a versioned update.
+  relationships:
+    $ref: ./report-shared-relationships.yaml

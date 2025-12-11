@@ -1,0 +1,406 @@
+delete:
+  description: >-
+    Permanently redacts a Case and its fields. Case objects must be redacted
+    individually. **This action cannot be undone**.
+  operationId: redact-a-case
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+    - name: case-id
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Success:
+              value:
+                data:
+                  type: case
+                  id: case_KsFU1Vxv9oK3ztnwQuD7MaJo
+                  attributes:
+                    status: Approved
+                    name: KCAS-1
+                    resolution: null
+                    created-at: '2021-03-24T04:59:21.764Z'
+                    updated-at: '2021-03-24T04:59:21.764Z'
+                    assigned-at: null
+                    resolved-at: '2021-03-25T04:59:21.764Z'
+                    redacted-at: '2021-03-26T04:59:21.764Z'
+                    sla-expires-at: '2021-03-26T06:59:21.764Z'
+                    creator-id: case_creator@withpersona.com
+                    creator-type: user
+                    assignee-id: null
+                    assigner-id: null
+                    assigner-type: null
+                    resolver-id: case_resolver@withpersona.com
+                    resolver-type: user
+                    updater-id: case_updater@withpersona.com
+                    updater-type: user
+                    tags: []
+                    fields: {}
+                    attachments: []
+                  relationships:
+                    case-template:
+                      data:
+                        type: case-template
+                        id: ctmpl_336jV1uVaaY84GAqvG91oiy9
+                    case-queue:
+                      data:
+                        type: case-queue
+                        id: cqueue_7JRbkcdbx9fTossK98NJvRZcmk1
+                    case-comments:
+                      data:
+                        - type: case-comment
+                          id: cscm_yd2urRmjaCWcSSxqTSHvUcsn
+                    accounts:
+                      data:
+                        - type: account
+                          id: act_RNwaSKFUDTzxUakAEuE2xmhZ
+                    inquiries:
+                      data:
+                        - type: inquiry
+                          id: inq_b6UPkf7mNC1qBtLXnfaWyUbY
+                    reports:
+                      data: []
+                    verifications:
+                      data: []
+                    txns:
+                      data: []
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/case.yaml
+              included:
+                description: >-
+                  Objects that _may_ be returned if specified via the `include`
+                  query parameter in the request.
+                $ref: ../components/schemas/cases-included-objects.yaml
+            type: object
+            additionalProperties: false
+            required:
+              - data
+      description: >-
+        This endpoint returns a Case object and (optionally) its related objects
+        in `included`.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Redact a Case
+  tags:
+    - Cases
+  x-persona-product: Cases
+get:
+  description: Retrieves the details of an existing Case.
+  operationId: retrieve-case
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/api-reference/cases/retrieve-case
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+    - name: case-id
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Success:
+              value:
+                data:
+                  type: case
+                  id: case_KsFU1Vxv9oK3ztnwQuD7MaJo
+                  attributes:
+                    status: Approved
+                    name: KCAS-1
+                    resolution: null
+                    created-at: '2021-03-24T04:59:21.764Z'
+                    updated-at: '2021-03-24T04:59:21.764Z'
+                    assigned-at: null
+                    resolved-at: '2021-03-25T04:59:21.764Z'
+                    redacted-at: null
+                    sla-expires-at: null
+                    creator-id: case_creator@withpersona.com
+                    creator-type: user
+                    assignee-id: null
+                    assigner-id: null
+                    assigner-type: null
+                    resolver-id: case_resolver@withpersona.com
+                    resolver-type: user
+                    updater-id: case_updater@withpersona.com
+                    updater-type: user
+                    tags: []
+                    fields: {}
+                    attachments: []
+                  relationships:
+                    case-template:
+                      data:
+                        type: case-template
+                        id: ctmpl_336jV1uVaaY84GAqvG91oiy9
+                    case-queue:
+                      data:
+                        type: case-queue
+                        id: cqueue_7JRbkcdbx9fTossK98NJvRZcmk1
+                    case-comments:
+                      data:
+                        - type: case-comment
+                          id: cscm_yd2urRmjaCWcSSxqTSHvUcsn
+                    accounts:
+                      data:
+                        - type: account
+                          id: act_RNwaSKFUDTzxUakAEuE2xmhZ
+                    inquiries:
+                      data:
+                        - type: inquiry
+                          id: inq_b6UPkf7mNC1qBtLXnfaWyUbY
+                    reports:
+                      data: []
+                    verifications:
+                      data: []
+                    txns:
+                      data: []
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/case.yaml
+              included:
+                description: >-
+                  Included by default:
+
+
+                  - Accounts
+
+                  - Inquiries
+
+                  - Reports
+
+                  - Verifications
+
+                  - Case Comments
+
+
+                  Anything else must be explicitly requested with the `include`
+                  query parameter.
+                $ref: ../components/schemas/cases-included-objects.yaml
+            type: object
+            additionalProperties: false
+            required:
+              - data
+      description: >-
+        This endpoint returns a Case object and (optionally) its related objects
+        in `included`.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Retrieve a Case
+  tags:
+    - Cases
+  x-persona-product: Cases
+patch:
+  description: >-
+    Updates the fields and add attachments on a Case that has been previously
+    created.
+  operationId: update-a-case
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+    - description: ID of the case to update
+      in: path
+      name: case-id
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            data:
+              properties:
+                attributes:
+                  properties:
+                    attachments:
+                      description: List of PDF and image files to add to this case.
+                      items:
+                        properties:
+                          data:
+                            description: base 64 encoded file
+                            type: string
+                          filename:
+                            description: Name of the file
+                            type: string
+                        type: object
+                        additionalProperties: false
+                      type: array
+                    case-queue-id:
+                      description: >-
+                        ID of the case queue to put this case in. Set to null to
+                        remove case from case queue.
+                      type:
+                        - string
+                        - 'null'
+                    fields:
+                      description: >-
+                        JSON key-value pairs of field name to field value.
+                        Schema is defined by your Case Template.
+                      examples:
+                        - preferred-name: Albert
+                      additionalProperties: true
+                      type: object
+                  type: object
+                  additionalProperties: true
+              type: object
+              additionalProperties: false
+            meta:
+              properties:
+                sla-expires-in-seconds:
+                  description: >-
+                    Number of seconds from now when SLA expires (max of 90
+                    days). Set to null to clear SLA.
+                  examples:
+                    - 7200
+                    - null
+                  type:
+                    - 'null'
+                    - number
+              type: object
+              additionalProperties: false
+          type: object
+          additionalProperties: false
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Success:
+              value:
+                data:
+                  type: case
+                  id: case_3maVhdLzdGftRZCvxfqazVL1
+                  attributes:
+                    status: open
+                    name: WATC-16
+                    resolution: null
+                    created-at: '2021-06-30T20:37:18.678Z'
+                    updated-at: '2021-08-26T18:24:19.695Z'
+                    assigned-at: null
+                    resolved-at: null
+                    redacted-at: null
+                    sla-expires-at: '2021-06-30T22:37:18.678Z'
+                    creator-id: wfl_yKynZZiuPz1R5qm9JFyBnnLB
+                    creator-type: workflow-run
+                    assignee-id: foo@bar.com
+                    assigner-id: foo@bar.com
+                    assigner-type: user
+                    resolver-id: null
+                    resolver-type: null
+                    updater-id: null
+                    updater-type: null
+                    tags: []
+                    fields: {}
+                    attachments: []
+                  relationships:
+                    case-template:
+                      data:
+                        type: case-template
+                        id: ctmpl_6HheND7s14a2o7fg33iHqhg7
+                    case-queue:
+                      data:
+                        type: case-queue
+                        id: cqueue_7JRbkcdbx9fTossK98NJvRZcmk1
+                    case-comments:
+                      data: []
+                    accounts:
+                      data: []
+                    inquiries:
+                      data:
+                        - type: inquiry
+                          id: inq_29Yd6kF6xWVFgemm5WTxhxvf
+                    reports:
+                      data:
+                        - type: report/watchlist
+                          id: rep_PN3xspEwWCWWRp1eGpedaSNj
+                    verifications:
+                      data: []
+                    txns:
+                      data: []
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/case.yaml
+              included:
+                description: >-
+                  Included by default:
+
+
+                  - Accounts
+
+                  - Inquiries
+
+                  - Reports
+
+                  - Case Comments
+
+
+                  Anything else must be explicitly requested with the `include`
+                  query parameter.
+                $ref: ../components/schemas/cases-included-objects.yaml
+            type: object
+            additionalProperties: false
+            required:
+              - data
+      description: >-
+        This endpoint returns a Case object and (optionally) its related objects
+        in `included`.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Update a Case
+  tags:
+    - Cases
+  x-persona-product: Cases

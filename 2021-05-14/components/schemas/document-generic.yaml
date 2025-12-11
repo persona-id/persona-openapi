@@ -1,0 +1,117 @@
+type: object
+additionalProperties: false
+description: A Document Generic object
+properties:
+  id:
+    examples:
+      - doc_8HfuATwEZbXT532wv6pzWMTN
+    type: string
+  type:
+    type: string
+    const: document/generic
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./document-shared-attributes.yaml
+      - type: object
+        properties:
+          kind:
+            examples:
+              - document
+              - proof_of_employment
+            type: string
+          files:
+            description: The files uploaded to the document for processing.
+            items:
+              $ref: ./file.yaml
+            type: array
+          files-normalized:
+            items:
+              $ref: ./file.yaml
+            type: array
+          extraction-responses:
+            $ref: ./extraction-responses.yaml
+          document-type:
+            description: >-
+              The classification of the document if detected. If unable to be
+              detected, this will be other.
+            examples:
+              - bank_statement
+              - standard_utility_bill
+              - other
+            type:
+              - 'null'
+              - string
+          fields:
+            description: >-
+              JSON key-value pairs of field name to field value. Exact schema
+              depends on the configuration of your template.
+            type: object
+            additionalProperties: true
+          extraction-results:
+            description: >-
+              DEPRECATED: Use extraction-responses instead. Legacy extraction
+              results format. This field is only available for API versions
+              before 2021-08-18.
+            type:
+              - array
+              - 'null'
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: The name of the extraction field
+                accepts:
+                  type: array
+                  description: Accepted extraction results
+                  items:
+                    type: object
+                    properties:
+                      result:
+                        type: string
+                        description: The extracted value
+                      extraction-type:
+                        type: string
+                        description: Type of extraction performed
+                        enum:
+                          - inquiry_field
+                          - text
+                          - regex
+                          - entity
+                          - license_plate_jp_class
+                          - license_plate_jp_text
+                      similarity:
+                        type: string
+                        description: Match similarity level (for inquiry_field type)
+                      source-value:
+                        type: string
+                        description: Source value for comparison (for inquiry_field type)
+                      pattern:
+                        type: string
+                        description: Pattern used for extraction (for text/regex types)
+                      search-text:
+                        type: string
+                        description: Text searched for extraction (for text/regex types)
+                      edit-distance:
+                        type: number
+                        description: Edit distance for text matches (for text type)
+                      groups:
+                        type: array
+                        description: Regex capture groups (for regex type)
+                        items:
+                          type: string
+                      option:
+                        type: string
+                        description: Entity extraction option (for entity type)
+                      metadata:
+                        type: object
+                        description: Additional extraction metadata
+                rejects:
+                  type: array
+                  description: Rejected extraction results
+                  items:
+                    type: object
+    type: object
+  relationships:
+    $ref: ./document-shared-relationships.yaml

@@ -1,0 +1,113 @@
+post:
+  description: Expires all active Inquiry Sessions for a given set of Inquiries.
+  operationId: expire-inquiry-sessions
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: >-
+      https://docs.withpersona.com/api-reference/inquiry-sessions/expire-inquiry-sessions
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            meta:
+              properties:
+                inquiry-ids:
+                  items:
+                    type: string
+                  type: array
+              type: object
+              additionalProperties: false
+              required:
+                - inquiry-ids
+          type: object
+          additionalProperties: false
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Success:
+              value:
+                data:
+                  - type: inquiry-session
+                    id: iqse_ABC123
+                    attributes:
+                      status: expired
+                      created-at: '2023-07-25T04:15:20.000Z'
+                      started-at: '2023-07-25T05:14:50.000Z'
+                      expired-at: '2023-07-26T05:14:50.000Z'
+                      ip-address: 127.0.0.1
+                      user-agent: >-
+                        Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)
+                        AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0
+                        Safari/537.36
+                      os-name: Mac
+                      os-full-version: 10.15.7
+                      device-type: desktop
+                      device-name: null
+                      browser-name: Chrome
+                      browser-full-version: 115.0.0.0
+                      mobile-sdk-name: null
+                      mobile-sdk-full-version: null
+                      device-handoff-method: null
+                      is-proxy: false
+                      is-tor: false
+                      is-datacenter: false
+                      is-vpn: false
+                      threat-level: low
+                      country-code: US
+                      country-name: United States
+                      region-code: CA
+                      region-name: California
+                      latitude: 37.7688
+                      longitude: -122.262
+                    relationships:
+                      inquiry:
+                        data:
+                          type: inquiry
+                          id: inq_ABC123
+                      device:
+                        data:
+                          type: device
+                          id: dev_ABC123
+          schema:
+            type: object
+            additionalProperties: false
+            required:
+              - data
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: ../components/schemas/inquiry-session.yaml
+              included:
+                description: >-
+                  Objects that _may_ be returned if specified via the `include`
+                  query parameter in the request.
+                $ref: ../components/schemas/inquiry-sessions-included-objects.yaml
+      description: >-
+        This endpoint returns an Inquiry Session object and (optionally) its
+        related objects in `included`.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Expire Inquiry Sessions
+  tags:
+    - Inquiry Sessions
+  x-persona-product: Inquiries

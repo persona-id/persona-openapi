@@ -1,0 +1,95 @@
+post:
+  description: Adds a new tag to the Report
+  operationId: reports-add-tag
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/api-reference/reports/add-tag
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+    - name: report-id
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            meta:
+              properties:
+                tag-name:
+                  type: string
+                  description: Name of the tag to add to the Report.
+                tag-id:
+                  type: string
+                  description: ID of the tag to add to the Report.
+              type: object
+              additionalProperties: false
+          type: object
+          additionalProperties: false
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Success:
+              value:
+                data:
+                  type: report/watchlist
+                  id: rep_EPehAHkBaZKUxxxLEDL1gv4h
+                  attributes:
+                    status: ready
+                    created-at: '2022-01-14T23:42:01.000Z'
+                    completed-at: '2022-01-14T23:42:01.000Z'
+                    redacted-at: null
+                    report-template-version-name: v1
+                    term: Alexander Sample
+                    matched-lists: []
+                  relationships:
+                    inquiry:
+                      data: null
+                    account:
+                      data: null
+                    report-template:
+                      data:
+                        type: report-template/watchlist
+                        id: rptp_jfp2TAY28vijxxxCcn4WVqdX
+          schema:
+            type: object
+            additionalProperties: false
+            required:
+              - data
+            properties:
+              data:
+                $ref: ../components/schemas/report.yaml
+              included:
+                description: >-
+                  Objects that _may_ be returned if specified via the `include`
+                  query parameter in the request.
+                $ref: ../components/schemas/reports-included-objects.yaml
+      description: >-
+        This endpoint returns a Report object and (optionally) its related
+        objects in `included`.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Add tag to a Report
+  tags:
+    - Reports
+  x-persona-product: Reports

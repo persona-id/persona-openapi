@@ -1,0 +1,70 @@
+post:
+  description: Create a new item in a list.
+  operationId: create-a-browser-fingerprint-list-item
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: >-
+      https://docs.withpersona.com/api-reference/list-items/create-a-browser-fingerprint-list-item
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            data:
+              properties:
+                attributes:
+                  properties:
+                    list-id:
+                      description: >-
+                        ID of the list to add this item to. List must be a
+                        Browser Fingerprint List.
+                      type: string
+                    value:
+                      description: Browser fingerprint to add to list.
+                      type: string
+                  type: object
+                  additionalProperties: false
+              type: object
+              additionalProperties: false
+          type: object
+          additionalProperties: false
+  responses:
+    '201':
+      content:
+        application/json:
+          examples:
+            Created:
+              $ref: ../components/examples/list-item-browser-fingerprint.yaml
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/list-item-browser-fingerprint.yaml
+            required:
+              - data
+            type: object
+            additionalProperties: false
+      description: This endpoint returns the created List Item object.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Create a Browser Fingerprint List Item
+  tags:
+    - List Items
+  x-persona-product: Lists

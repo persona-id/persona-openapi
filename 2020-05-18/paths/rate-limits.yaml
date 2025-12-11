@@ -1,0 +1,48 @@
+get:
+  description: Returns a list of your current rate limits.
+  operationId: list-all-rate-limits
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: >-
+      https://docs.withpersona.com/api-reference/rate-limits/list-all-rate-limits
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            type: object
+            additionalProperties: false
+            properties:
+              data:
+                items:
+                  $ref: ../components/schemas/rate-limit.yaml
+                type: array
+                description: An array of Rate Limits
+            required:
+              - data
+          examples:
+            Success:
+              value:
+                data:
+                  - type: rate-limit/api
+                    attributes:
+                      limit: 3003
+                      remaining: 250
+                      seconds-to-reset: 60
+      description: This endpoint returns a collection of Rate Limit objects.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: List all Rate Limits
+  tags:
+    - Rate Limits
+  x-persona-product: Rate Limits

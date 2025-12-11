@@ -1,0 +1,170 @@
+get:
+  description: >-
+    Returns a list of your environment's webhooks. Results are returned in
+    reverse chronological order, with the most recently created objects first.
+  operationId: list-all-webhooks
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/api-reference/webhooks/list-all-webhooks
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/pagination-query-params.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Success:
+              value:
+                data:
+                  - type: webhook
+                    id: wbh_ABC123
+                    attributes:
+                      status: disabled
+                      url: https://withpersona.com
+                      api-version: '2023-01-05'
+                      api-key-inflection: kebab
+                      api-attributes-blocklist:
+                        - address-*
+                        - name-last
+                        - /data/attributes/fields/*-number
+                      file-access-token-expires-in: 21600
+                      enabled-events:
+                        - account.created
+                        - verification.created
+                      payload-filter:
+                        data:
+                          relationships:
+                            inquiry-template:
+                              data:
+                                id: itmpl_abc123def456
+                      created-at: '2023-08-17T23:18:13.000Z'
+                  - type: webhook
+                    id: wbh_ABC123
+                    attributes:
+                      status: disabled
+                      url: https://withpersona.com
+                      api-version: '2023-01-05'
+                      api-key-inflection: camel
+                      api-attributes-blocklist:
+                        - /data/attributes/fields/*-number
+                      file-access-token-expires-in: 600
+                      enabled-events:
+                        - '*'
+                      payload-filter: {}
+                      created-at: '2023-09-18T23:18:13.000Z'
+                links:
+                  prev: null
+                  next: null
+          schema:
+            properties:
+              data:
+                items:
+                  $ref: ../components/schemas/webhook.yaml
+                type: array
+                description: An array of Webhooks
+              links:
+                properties:
+                  next:
+                    type:
+                      - string
+                      - 'null'
+                  prev:
+                    type:
+                      - string
+                      - 'null'
+                type: object
+                additionalProperties: false
+                required:
+                  - next
+                  - prev
+            type: object
+            additionalProperties: false
+            required:
+              - data
+              - links
+      description: This endpoint returns a collection of Webhook objects.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: List all Webhooks
+  tags:
+    - Webhooks
+  x-persona-product: Webhooks
+post:
+  description: Creates a new webhook with response defaults.
+  operationId: create-a-webhook
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/api-reference/webhooks/create-a-webhook
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+  requestBody:
+    content:
+      application/json:
+        examples:
+          Created:
+            $ref: ../components/examples/create-webhook.yaml
+        schema:
+          properties:
+            data:
+              properties:
+                attributes:
+                  $ref: ../components/schemas/webhook-request-attributes.yaml
+                  required:
+                    - url
+                    - enabled-events
+              required:
+                - attributes
+              type: object
+              additionalProperties: false
+          required:
+            - data
+          type: object
+          additionalProperties: false
+  responses:
+    '201':
+      content:
+        application/json:
+          examples:
+            Created:
+              $ref: ../components/examples/webhook-created.yaml
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/webhook-with-secret.yaml
+              included:
+                $ref: ../components/schemas/empty-included-objects.yaml
+            type: object
+            additionalProperties: false
+            required:
+              - data
+      description: This endpoint returns a Webhook object.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Create a Webhook
+  tags:
+    - Webhooks
+  x-persona-product: Webhooks

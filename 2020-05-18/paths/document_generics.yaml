@@ -1,0 +1,101 @@
+post:
+  description: Creates a new generic document.
+  operationId: create-a-document
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/api-reference/documents/create-a-document
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            data:
+              properties:
+                attributes:
+                  properties:
+                    files:
+                      description: >-
+                        Files to upload for this document. Files may be images
+                        or PDFs.
+                      items:
+                        properties:
+                          data:
+                            description: Base64 encoded file.
+                            format: binary
+                            type: string
+                          filename:
+                            description: Name of file.
+                            type: string
+                        required:
+                          - data
+                          - filename
+                        type: object
+                        additionalProperties: false
+                      type:
+                        - array
+                        - 'null'
+                    inquiry-id:
+                      examples:
+                        - inq_GC7xwqnhgNHwomz5yT3geLrT
+                      type: string
+                    account-id:
+                      examples:
+                        - act_bcTxPLyAYy5edxp29abcvpng
+                      type: string
+                    kind:
+                      description: Identifier for this document, e.g. "proof_of_employment"
+                      type: string
+                  required:
+                    - kind
+                  type: object
+                  additionalProperties: false
+              type: object
+              additionalProperties: false
+          required:
+            - data
+          type: object
+          additionalProperties: false
+  responses:
+    '201':
+      content:
+        application/json:
+          examples:
+            Created:
+              $ref: ../components/examples/document-generic.yaml
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/document-generic.yaml
+              included:
+                $ref: ../components/schemas/document-included-objects.yaml
+            type: object
+            additionalProperties: false
+            required:
+              - data
+      description: >-
+        This endpoint returns a Generic Document object and (optionally) its
+        related objects in `included`.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Create a Generic Document
+  tags:
+    - Documents
+  x-persona-product: Documents

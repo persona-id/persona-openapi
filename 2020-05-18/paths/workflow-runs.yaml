@@ -1,0 +1,113 @@
+get:
+  description: >-
+    Returns a list of your environment's workflow runs. Results are returned in
+    reverse chronological order, with the most recently created objects first.
+  operationId: list-all-workflow-runs
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: >-
+      https://docs.withpersona.com/api-reference/workflow-runs/list-all-workflow-runs
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/pagination-query-params.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+    - in: query
+      name: filter
+      style: deepObject
+      explode: true
+      schema:
+        type: object
+        additionalProperties: false
+        properties:
+          status:
+            description: Filter workflow runs by workflow id
+            type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Success:
+              value:
+                data:
+                  - type: workflow-run
+                    id: wfr_3JqAR9ddLRVZLK5z4yD8oeHB
+                    attributes:
+                      status: in_progress
+                      created-at: '2022-08-08T18:55:44.910Z'
+                      completed-at: null
+                    relationships:
+                      workflow-version:
+                        data:
+                          type: workflow-version
+                          id: wfv_DkWeGvK9wojQnubF8ABHzJRQ
+                      workflow:
+                        data:
+                          type: workflow
+                          id: wfl_3VghhbvDc7UuUNT8uZrqZjsk
+                      creator:
+                        data: null
+                  - type: workflow-run
+                    id: wfr_3JqAR9ddLRVZLK5z4yD8oeHB
+                    attributes:
+                      status: in_progress
+                      created-at: '2022-08-08T18:55:44.910Z'
+                      completed-at: null
+                    relationships:
+                      workflow-version:
+                        data:
+                          type: workflow-version
+                          id: wfv_DkWeGvK9wojQnubF8ABHzJRQ
+                      workflow:
+                        data:
+                          type: workflow
+                          id: wfl_3VghhbvDc7UuUNT8uZrqZjsk
+                      creator:
+                        data: null
+                links:
+                  prev: null
+                  next: null
+          schema:
+            properties:
+              data:
+                items:
+                  $ref: ../components/schemas/workflow-run.yaml
+                type: array
+                description: An array of Workflow Runs
+              links:
+                properties:
+                  next:
+                    type:
+                      - string
+                      - 'null'
+                  prev:
+                    type:
+                      - string
+                      - 'null'
+                type: object
+                additionalProperties: false
+                required:
+                  - next
+                  - prev
+              included:
+                $ref: ../components/schemas/empty-included-objects.yaml
+            type: object
+            additionalProperties: false
+            required:
+              - data
+              - links
+      description: This endpoint returns a Workflow Run object.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: List all Workflow Runs
+  tags:
+    - Workflows
+  x-persona-product: Workflows

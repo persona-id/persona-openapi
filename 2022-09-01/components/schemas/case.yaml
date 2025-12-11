@@ -1,0 +1,317 @@
+type: object
+additionalProperties: false
+description: A Case object
+properties:
+  type:
+    const: case
+    type: string
+  id:
+    examples:
+      - case_gqe7rH38FvxtzhGBQmDBsjkB
+    type: string
+  attributes:
+    type: object
+    additionalProperties: false
+    properties:
+      status:
+        examples:
+          - Open
+          - Pending
+          - Approved
+          - Declined
+        type: string
+      name:
+        examples:
+          - MRR-3
+        type: string
+      resolution:
+        type:
+          - string
+          - 'null'
+      created-at:
+        examples:
+          - '2021-09-28T05:18:36.200Z'
+        type: string
+      updated-at:
+        examples:
+          - '2021-09-28T05:18:36.200Z'
+        type:
+          - string
+          - 'null'
+      assigned-at:
+        examples:
+          - '2021-09-28T05:18:36.200Z'
+        type:
+          - string
+          - 'null'
+      resolved-at:
+        examples:
+          - '2021-09-28T05:18:36.200Z'
+        type:
+          - string
+          - 'null'
+      redacted-at:
+        examples:
+          - '2021-09-28T05:18:36.200Z'
+        type:
+          - string
+          - 'null'
+      sla-expires-at:
+        examples:
+          - '2021-09-28T07:18:36.200Z'
+        type:
+          - string
+          - 'null'
+      creator-id:
+        examples:
+          - case_creator@withpersona.com
+        type:
+          - string
+          - 'null'
+      creator-type:
+        description: |-
+          Possible values:
+          - user
+          - workflow-run
+
+          Do not assume this is a static enumeration; Persona may add new values
+          in the future without a versioned update.
+        type:
+          - string
+          - 'null'
+      assignee-id:
+        examples:
+          - case_assignee@withpersona.com
+        type:
+          - string
+          - 'null'
+      assigner-id:
+        examples:
+          - case_assigner@withpersona.com
+          - cap_jE2jrmjCsPQiAq6r4uBiMiMBJZEo
+          - wfr_vKcf7zTQ4fg1RN3hRUUbTnURcVKp
+        type:
+          - string
+          - 'null'
+      assigner-type:
+        description: |-
+          Possible values:
+          - case-assignment-policy
+          - user
+          - workflow-run
+
+          Do not assume this is a static enumeration; Persona may add new values
+          in the future without a versioned update.
+        type:
+          - string
+          - 'null'
+      resolver-id:
+        examples:
+          - case_resolver@withpersona.com
+        type:
+          - string
+          - 'null'
+      resolver-type:
+        description: |-
+          Possible values:
+          - user
+          - workflow-run
+
+          Do not assume this is a static enumeration; Persona may add new values
+          in the future without a versioned update.
+        type:
+          - string
+          - 'null'
+      updater-id:
+        examples:
+          - case_updater@withpersona.com
+        type:
+          - string
+          - 'null'
+      updater-type:
+        description: |-
+          Possible values:
+          - case-assignment-policy
+          - user
+          - workflow-run
+
+          Do not assume this is a static enumeration; Persona may add new values
+          in the future without a versioned update.
+        type:
+          - string
+          - 'null'
+      tags:
+        examples:
+          - - apple
+            - banana
+            - orange
+        type: array
+      fields:
+        description: >-
+          JSON key-value pairs of field name to field value. Exact schema
+          depends on the configuration of the Case template for this Case.
+        examples:
+          - external-integration-id: ind_123
+        type: object
+        additionalProperties: true
+      attachments:
+        type: array
+        items:
+          type: object
+          additionalProperties: false
+          properties:
+            filename:
+              examples:
+                - filename.pdf
+                - id.png
+                - abc123.JPEG
+              type: string
+            url:
+              examples:
+                - >-
+                  https://files.withpersona.com/abc123.JPEG?access_token=ACCESS_TOKEN
+              type: string
+            byte-size:
+              examples:
+                - 124917
+              type: integer
+  relationships:
+    properties:
+      accounts:
+        type: object
+        additionalProperties: false
+        properties:
+          data:
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                id:
+                  examples:
+                    - act_9e3yoAUApTRMjgNoPAC7TNtz
+                  type: string
+                type:
+                  const: account
+                  type: string
+            type: array
+      case-comments:
+        type: object
+        additionalProperties: false
+        properties:
+          data:
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                id:
+                  type: string
+                type:
+                  const: case-comment
+                  type: string
+            type: array
+      case-template:
+        type: object
+        additionalProperties: false
+        properties:
+          data:
+            type: object
+            additionalProperties: false
+            properties:
+              id:
+                examples:
+                  - ctmpl_Jumm3K4zHwaLBBdyLUCnHbBC
+                type: string
+              type:
+                const: case-template
+                type: string
+      case-queue:
+        type: object
+        additionalProperties: false
+        properties:
+          data:
+            type:
+              - object
+              - 'null'
+            additionalProperties: false
+            properties:
+              id:
+                examples:
+                  - cqueue_7JRbkcdbx9fTossK98NJvRZcmk1
+                type: string
+              type:
+                const: case-queue
+                type: string
+      inquiries:
+        type: object
+        additionalProperties: false
+        properties:
+          data:
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                id:
+                  examples:
+                    - inq_KHK4MJCE4QvfocWB2intQ3YE
+                  type: string
+                type:
+                  const: inquiry
+                  type: string
+            type: array
+      reports:
+        properties:
+          data:
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                id:
+                  examples:
+                    - rep_7anCsX1R1We3BqRKfsJXsMaw
+                  type: string
+                type:
+                  x-polymorphic: true
+                  examples:
+                    - report/watchlist
+                  type: string
+            type: array
+        type: object
+        additionalProperties: false
+      verifications:
+        properties:
+          data:
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                id:
+                  examples:
+                    - ver_tVJF12ggSgzquQUkxtSVwssA
+                  type: string
+                type:
+                  x-polymorphic: true
+                  examples:
+                    - verification/document
+                  type: string
+            type: array
+        type: object
+        additionalProperties: false
+      txns:
+        properties:
+          data:
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                id:
+                  examples:
+                    - txn_0GKUnDBJi6RJpZhmKdYsM5me
+                  type: string
+                type:
+                  const: transaction
+                  type: string
+            type: array
+        type: object
+        additionalProperties: false
+    type: object
+    additionalProperties: false

@@ -1,0 +1,254 @@
+delete:
+  description: >-
+    Permanently deletes personally identifiable information (PII) for an Inquiry
+    and all associated Verifications, Reports, or other Persona resources. The
+    response indicates a successful redaction of the Inquiry. Redaction of the
+    Inquiry's associated child objects are done asynchronously and may take some
+    time before all associated child objects are fully redacted. **This action
+    cannot be undone**.
+
+
+    This endpoint can be used to comply with privacy regulations such as GDPR /
+    CCPA or to enforce data privacy.
+  operationId: redact-an-inquiry
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/api-reference/inquiries/redact-an-inquiry
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+    - name: inquiry-id
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Success:
+              $ref: ../components/examples/inquiry.yaml
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/inquiry.yaml
+              included:
+                description: >-
+                  Objects that _may_ be returned if specified via the `include`
+                  query parameter in the request.
+                $ref: ../components/schemas/inquiry-included-objects.yaml
+            required:
+              - data
+            additionalProperties: false
+            type: object
+      description: >-
+        This endpoint returns an Inquiry object and (optionally) its related
+        objects in `included`.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Redact an Inquiry
+  tags:
+    - Inquiries
+  x-persona-product: Inquiries
+get:
+  description: >-
+    Retrieves the details of an existing Inquiry.
+
+
+    In the [Embedded Flow](https://docs.withpersona.com/embedded-flow), the
+    `inquiry-id` is the first parameter of the onStart callback. In the [Hosted
+    Flow](https://docs.withpersona.com/hosted-flow), the `inquiry-id` is a query
+    parameter in the onComplete callback.
+
+
+    Template information will be found in `data.relationships.inquiry-template`
+    if the inquiry is a Dynamic Flow inquiry, and in
+    `data.relationships.template` if the inquiry is a Legacy 2.0 inquiry. For
+    more information, see [Dynamic Flow vs. Legacy
+    Templates](https://docs.withpersona.com/inquiry-templates#dynamic-flow-vs-legacy-templates).
+  operationId: retrieve-an-inquiry
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/api-reference/inquiries/retrieve-an-inquiry
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+    - name: inquiry-id
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Success:
+              $ref: ../components/examples/inquiry-retrieve.yaml
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/inquiry.yaml
+              included:
+                description: >-
+                  Included by default:
+
+
+                  - Reports
+
+                  - Verifications
+
+                  - Inquiry Sessions
+
+                  - Documents
+
+                  - Inquiry Template
+
+
+                  Anything else must be explicitly requested with the `include`
+                  query parameter.
+                $ref: ../components/schemas/inquiry-included-objects.yaml
+            required:
+              - data
+            additionalProperties: false
+            type: object
+      description: >-
+        This endpoint returns an Inquiry object and (optionally) its related
+        objects in `included`.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Retrieve an Inquiry
+  tags:
+    - Inquiries
+  x-persona-product: Inquiries
+patch:
+  description: >-
+    Updates an existing Inquiry.
+
+
+    Note that if you use webhooks, updates to inquiries that are not in progress
+    can result in data getting out of sync. For example, updating a completed
+    Inquiry will not cause your Inquiry completed webhook to retrigger.
+
+
+    Inquiries represent a snapshot of data collected from an individual, so we
+    generally do not recommend updating an Inquiry's data after the Inquiry has
+    been finalized.
+  operationId: update-an-inquiry
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/api-reference/inquiries/update-an-inquiry
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+    - name: inquiry-id
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            data:
+              properties:
+                attributes:
+                  properties:
+                    note:
+                      description: Unstructured field for your custom use
+                      examples:
+                        - A note about this inquiry
+                      type:
+                        - string
+                        - 'null'
+                    fields:
+                      description: >-
+                        JSON key-value pairs of field name to field value.
+                        Schema is defined by your Inquiry Template.
+                      unevaluatedProperties: false
+                      oneOf:
+                        - type: 'null'
+                        - $ref: ../components/schemas/inquiry-fields.yaml
+                    tags:
+                      description: A list of tag names to be associated with the Inquiry.
+                      items:
+                        type: string
+                      type: array
+                  additionalProperties: true
+                  type: object
+              additionalProperties: false
+              type: object
+          additionalProperties: false
+          type: object
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Success:
+              $ref: ../components/examples/inquiry.yaml
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/inquiry.yaml
+              included:
+                description: >-
+                  Objects that _may_ be returned if specified via the `include`
+                  query parameter in the request.
+                $ref: ../components/schemas/inquiry-included-objects.yaml
+            required:
+              - data
+            additionalProperties: false
+            type: object
+      description: >-
+        This endpoint returns an Inquiry object and (optionally) its related
+        objects in `included`.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Update an Inquiry
+  tags:
+    - Inquiries
+  x-persona-product: Inquiries

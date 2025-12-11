@@ -1,0 +1,120 @@
+get:
+  description: Retrieves the details of an existing webhook, including its secret.
+  operationId: retrieve-a-webhook
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/api-reference/webhooks/retrieve-a-webhook
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+    - description: Webhook's ID (starts with "wbh_")
+      in: path
+      name: webhook-id
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Success:
+              $ref: ../components/examples/webhook-created.yaml
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/webhook-with-secret.yaml
+              included:
+                $ref: ../components/schemas/empty-included-objects.yaml
+            type: object
+            additionalProperties: false
+            required:
+              - data
+      description: This endpoint returns a Webhook object.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Retrieve a Webhook
+  tags:
+    - Webhooks
+  x-persona-product: Webhooks
+patch:
+  description: Updates an existing Webhook.
+  operationId: update-a-webhook
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/api-reference/webhooks/update-a-webhook
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+    - description: Webhook's ID (starts with "wbh_")
+      in: path
+      name: webhook-id
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        examples:
+          Success:
+            $ref: ../components/examples/create-webhook.yaml
+        schema:
+          properties:
+            data:
+              properties:
+                attributes:
+                  $ref: ../components/schemas/webhook-request-attributes.yaml
+              type: object
+              additionalProperties: false
+          type: object
+          additionalProperties: false
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Success:
+              $ref: ../components/examples/webhook-disabled.yaml
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/webhook.yaml
+              included:
+                $ref: ../components/schemas/empty-included-objects.yaml
+            type: object
+            additionalProperties: false
+            required:
+              - data
+      description: This endpoint returns a Webhook object.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Update a Webhook
+  tags:
+    - Webhooks
+  x-persona-product: Webhooks

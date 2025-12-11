@@ -1,0 +1,378 @@
+value:
+  data:
+    type: transaction
+    id: txn_ABC123
+    attributes:
+      status: declined
+      reference-id: null
+      fields:
+        country:
+          type: string
+          value: US
+        name-first:
+          type: string
+          value: LeBron
+        name-last:
+          type: string
+          value: James
+        selected-id-class:
+          type: string
+          value: dl
+        front-photo:
+          type: file
+          value:
+            filename: image.png
+            byte-size: 237011
+            mime-type: image/png
+            url: https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
+        back-photo:
+          type: file
+          value:
+            filename: image.png
+            byte-size: 237011
+            mime-type: image/png
+            url: https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
+      tags: []
+      created-at: '2023-05-26T16:49:33.860Z'
+      updated-at: '2023-05-26T16:49:43.965Z'
+    relationships:
+      reviewer:
+        data:
+          type: workflow-run
+          id: wfr_ABC123
+      transaction-label:
+        data: null
+      transaction-type:
+        data:
+          type: transaction-type
+          id: txntp_ABC123
+      related-objects:
+        data:
+          - type: account
+            id: act_ABC123
+          - type: verification/government-id
+            id: ver_ABC123
+  included:
+    - type: account
+      id: act_ABC123
+      attributes:
+        reference-id: null
+        created-at: '2023-05-26T16:49:35.000Z'
+        updated-at: '2023-05-26T16:49:35.000Z'
+        redacted-at: null
+        fields:
+          name:
+            type: hash
+            value:
+              first:
+                type: string
+                value: null
+              middle:
+                type: string
+                value: null
+              last:
+                type: string
+                value: null
+          address:
+            type: hash
+            value:
+              street-1:
+                type: string
+                value: null
+              street-2:
+                type: string
+                value: null
+              subdivision:
+                type: string
+                value: null
+              city:
+                type: string
+                value: null
+              postal-code:
+                type: string
+                value: null
+              country-code:
+                type: string
+                value: null
+          identification-numbers:
+            type: array
+            value: []
+          birthdate:
+            type: date
+            value: null
+          phone-number:
+            type: string
+            value: null
+          email-address:
+            type: string
+            value: null
+          selfie-photo:
+            type: file
+            value: null
+        country-code: null
+        tags: []
+    - type: verification/government-id
+      id: ver_ABC123
+      attributes:
+        status: failed
+        created-at: '2023-05-26T16:49:43.000Z'
+        created-at-ts: 1685119783
+        submitted-at: '2023-05-26T16:49:43.000Z'
+        submitted-at-ts: 1685119783
+        completed-at: '2023-05-26T16:49:43.000Z'
+        completed-at-ts: 1685119783
+        country-code: null
+        entity-confidence-score: 0
+        entity-confidence-reasons:
+          - generic
+        front-photo-url: https://files.withpersona.com/image.jpg?access_token=ACCESS_ABC123
+        back-photo-url: https://files.withpersona.com/image.jpg?access_token=ACCESS_ABC123
+        photo-urls:
+          - page: front
+            url: https://files.withpersona.com/image.jpg?access_token=ACCESS_ABC123
+            normalized-url: https://files.withpersona.com/image.jpg?access_token=ACCESS_ABC123
+            original-urls:
+              - >-
+                https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
+            byte-size: 62347
+          - page: back
+            url: https://files.withpersona.com/image.jpg?access_token=ACCESS_ABC123
+            normalized-url: https://files.withpersona.com/image.jpg?access_token=ACCESS_ABC123
+            original-urls:
+              - >-
+                https://files.withpersona.com/image.png?access_token=ACCESS_ABC123
+            byte-size: 62347
+        selfie-photo: null
+        selfie-photo-url: null
+        video-url: null
+        id-class: null
+        capture-method: api
+        expiration-date: null
+        endorsements: null
+        restrictions: null
+        vehicle-class: null
+        checks:
+          - name: id_aamva_database_lookup
+            status: not_applicable
+            reasons:
+              - disabled
+            requirement: not_required
+            metadata: {}
+          - name: id_account_comparison
+            status: not_applicable
+            reasons:
+              - no_account
+            requirement: not_required
+            metadata: {}
+          - name: id_age_comparison
+            status: not_applicable
+            reasons:
+              - missing_birthdate
+            requirement: not_required
+            metadata: {}
+          - name: id_barcode_detection
+            status: failed
+            reasons:
+              - barcode_not_decoded
+            requirement: not_required
+            metadata: {}
+          - name: id_barcode_inconsistency_detection
+            status: not_applicable
+            reasons:
+              - barcode_not_decoded
+            requirement: not_required
+            metadata: {}
+          - name: id_blur_detection
+            status: passed
+            reasons: []
+            requirement: not_required
+            metadata: {}
+          - name: id_color_inconsistency_detection
+            status: passed
+            reasons: []
+            requirement: not_required
+            metadata: {}
+          - name: id_disallowed_country_detection
+            status: not_applicable
+            reasons:
+              - no_country
+            requirement: required
+            metadata: {}
+          - name: id_disallowed_type_detection
+            status: failed
+            reasons:
+              - type_not_detected
+            requirement: required
+            metadata:
+              country-code: null
+              detected-id-designations: []
+              disallowed-id-designations: []
+          - name: id_double_side_detection
+            status: failed
+            reasons:
+              - side_submitted_twice
+            requirement: not_required
+            metadata: {}
+          - name: id_electronic_replica_detection
+            status: failed
+            reasons:
+              - replica_detected
+            requirement: not_required
+            metadata: {}
+          - name: id_entity_detection
+            status: failed
+            reasons:
+              - cannot_verify_id
+            requirement: required
+            metadata: {}
+          - name: id_expired_detection
+            status: not_applicable
+            reasons:
+              - no_expiration_date
+            requirement: required
+            metadata: {}
+          - name: id_extraction_inconsistency_detection
+            status: not_applicable
+            reasons:
+              - missing_properties
+            requirement: not_required
+            metadata:
+              check-requirements: []
+          - name: id_extracted_properties_detection
+            status: not_applicable
+            reasons:
+              - no_required_properties
+            requirement: not_required
+            metadata: {}
+          - name: id_fabrication_detection
+            status: passed
+            reasons: []
+            requirement: not_required
+            metadata: {}
+          - name: id_glare_detection
+            status: failed
+            reasons:
+              - too_much_glare
+            requirement: not_required
+            metadata: {}
+          - name: id_handwriting_detection
+            status: passed
+            reasons: []
+            requirement: not_required
+            metadata: {}
+          - name: id_inquiry_comparison
+            status: not_applicable
+            reasons:
+              - no_inquiry
+            requirement: not_required
+            metadata: {}
+          - name: id_mrz_detection
+            status: not_applicable
+            reasons: []
+            requirement: required
+            metadata: {}
+          - name: id_mrz_inconsistency_detection
+            status: not_applicable
+            reasons:
+              - mrz_not_found
+            requirement: not_required
+            metadata: {}
+          - name: id_number_format_inconsistency_detection
+            status: not_applicable
+            reasons:
+              - invalid_country
+            requirement: not_required
+            metadata: {}
+          - name: id_po_box_detection
+            status: not_applicable
+            reasons:
+              - missing_address
+            requirement: not_required
+            metadata: {}
+          - name: id_portrait_clarity_detection
+            status: not_applicable
+            reasons: []
+            requirement: required
+            metadata: {}
+          - name: id_portrait_detection
+            status: failed
+            reasons:
+              - portrait_not_found
+            requirement: required
+            metadata: {}
+          - name: id_real_id_detection
+            status: not_applicable
+            reasons:
+              - disabled
+            requirement: not_required
+            metadata: {}
+          - name: id_tamper_detection
+            status: passed
+            reasons: []
+            requirement: not_required
+            metadata: {}
+          - name: id_unprocessable_submission_detection
+            status: passed
+            reasons: []
+            requirement: not_required
+            metadata: {}
+          - name: id_valid_dates_detection
+            status: not_applicable
+            reasons: []
+            requirement: not_required
+            metadata: {}
+          - name: id_age_inconsistency_detection
+            status: not_applicable
+            reasons:
+              - disabled
+            requirement: not_required
+            metadata: {}
+          - name: id_compromised_detection
+            status: passed
+            reasons: []
+            requirement: required
+            metadata: {}
+          - name: id_inconsistent_repeat_detection
+            status: not_applicable
+            reasons:
+              - not_enabled
+            requirement: not_required
+            metadata: {}
+          - name: id_public_figure_detection
+            status: passed
+            reasons: []
+            requirement: not_required
+            metadata: {}
+          - name: id_repeat_detection
+            status: not_applicable
+            reasons:
+              - not_enabled
+            requirement: not_required
+            metadata: {}
+          - name: id_selfie_comparison
+            status: not_applicable
+            reasons:
+              - no_selfie
+            requirement: required
+            metadata: {}
+      relationships:
+        inquiry:
+          data: null
+        template:
+          data: null
+        inquiry-template-version:
+          data: null
+        inquiry-template:
+          data: null
+        verification-template:
+          data:
+            type: verification-template/government-id
+            id: vtmpl_ABC123
+        verification-template-version:
+          data:
+            type: verification-template-version/government-id
+            id: vtmplv_ABC123
+        document:
+          data:
+            type: document/government-id
+            id: doc_ABC123

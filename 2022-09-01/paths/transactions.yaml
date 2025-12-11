@@ -1,0 +1,204 @@
+post:
+  summary: Create a Transaction
+  tags:
+    - Transactions
+  x-persona-product: Transactions
+  description: >-
+    Creates a new Transaction for a specific transaction type in your
+    organization.
+  operationId: create-a-transaction
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: >-
+      https://docs.withpersona.com/api-reference/transactions/create-a-transaction
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          additionalProperties: false
+          properties:
+            data:
+              type: object
+              additionalProperties: false
+              properties:
+                attributes:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    transaction-type-id:
+                      type: string
+                      description: Transaction type ID to create the transaction for.
+                    fields:
+                      description: >-
+                        JSON key-value pairs of field name to field value.
+                        Schema is defined by your transaction type.
+                      examples:
+                        - external-integration-id: ind_123
+                      type: object
+                      additionalProperties: true
+                    reference-id:
+                      type: string
+                      description: >-
+                        Reference ID on Account, refers to an entity in your
+                        user model.
+                    tags:
+                      description: >-
+                        A list of tag names to be associated with the
+                        Transaction.
+                      items:
+                        type: string
+                      type:
+                        - array
+                        - 'null'
+            meta:
+              type: object
+              additionalProperties: false
+  responses:
+    '200':
+      description: >-
+        This endpoint returns a Transaction object and (optionally) its related
+        objects in `included`.
+      content:
+        application/json:
+          examples:
+            Success:
+              $ref: ../components/examples/transaction.yaml
+          schema:
+            type: object
+            additionalProperties: false
+            required:
+              - data
+            properties:
+              data:
+                $ref: ../components/schemas/transaction.yaml
+    '201':
+      description: >-
+        This endpoint returns a Transaction object and (optionally) its related
+        objects in `included`.
+      content:
+        application/json:
+          examples:
+            Created:
+              $ref: ../components/examples/transaction.yaml
+          schema:
+            type: object
+            additionalProperties: false
+            required:
+              - data
+            properties:
+              data:
+                $ref: ../components/schemas/transaction.yaml
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+get:
+  summary: List all Transactions
+  tags:
+    - Transactions
+  x-persona-product: Transactions
+  description: >-
+    Returns a list of your organization's transactions. Note that this endpoint
+    aggregates transactions across all transaction type(s). See
+    [Pagination](https://docs.withpersona.com/pagination) for more details about
+    handling the response. Results are returned in reverse chronological order,
+    with the most recently created objects first.
+  operationId: list-all-transactions
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: >-
+      https://docs.withpersona.com/api-reference/transactions/list-all-transactions
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/pagination-query-params.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+    - in: query
+      name: filter
+      style: deepObject
+      explode: true
+      schema:
+        type: object
+        additionalProperties: false
+        properties:
+          reference-id:
+            description: Filter transactions by reference ID.
+            type: string
+          transaction-type-id:
+            description: Filter transactions by Transaction Type ID.
+            type: string
+          identifier:
+            type: object
+            description: Filter transactions by Identifier Key and Value
+            additionalProperties: false
+            properties:
+              key:
+                type: string
+              value:
+                type: string
+  responses:
+    '200':
+      description: This endpoint returns a collection of Transaction objects.
+      content:
+        application/json:
+          examples:
+            Success:
+              $ref: ../components/examples/transaction-list.yaml
+          schema:
+            type: object
+            additionalProperties: false
+            required:
+              - data
+              - links
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: ../components/schemas/transaction.yaml
+              links:
+                type: object
+                additionalProperties: false
+                properties:
+                  prev:
+                    type:
+                      - string
+                      - 'null'
+                    examples:
+                      - /api/v1/transactions?page%before%5D=txn_ABC123
+                  next:
+                    type:
+                      - string
+                      - 'null'
+                    examples:
+                      - /api/v1/transactions?page%5Bafter%5D=txn_ABC123
+                required:
+                  - prev
+                  - next
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
