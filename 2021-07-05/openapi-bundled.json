@@ -1894,6 +1894,408 @@
         }
       }
     },
+    "/accounts/search": {
+      "post": {
+        "description": "Search for accounts using a flexible query language.\n",
+        "operationId": "search-accounts",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/api-reference/accounts/search-accounts"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/fields-query-parameter"
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "style": "deepObject",
+            "explode": true,
+            "schema": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "after": {
+                  "description": "Cursor for forward pagination. Use the value from `links.next` in the previous response.",
+                  "type": "string",
+                  "examples": [
+                    "act_ABC123"
+                  ]
+                },
+                "before": {
+                  "description": "Cursor for backward pagination. Use the value from `links.prev` in the previous response.",
+                  "type": "string",
+                  "examples": [
+                    "act_XYZ789"
+                  ]
+                },
+                "size": {
+                  "description": "Number of results to return per page.",
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 100,
+                  "default": 10,
+                  "examples": [
+                    10
+                  ]
+                }
+              }
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "query": {
+                    "description": "Search query using boolean logic (AND/OR/NOT) and comparison operators.\nSupports predicates with operators: eq (equal), gt (greater than), gte (greater than or equal),\nlt (less than), lte (less than or equal).\n",
+                    "unevaluatedProperties": false,
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "x-inheritable": true,
+                        "description": "Boolean AND clause",
+                        "properties": {
+                          "and": {
+                            "type": "array",
+                            "items": {
+                              "$ref": "#/components/schemas/search-query-clause"
+                            }
+                          }
+                        },
+                        "required": [
+                          "and"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "x-inheritable": true,
+                        "description": "Boolean OR clause",
+                        "properties": {
+                          "or": {
+                            "type": "array",
+                            "items": {
+                              "$ref": "#/components/schemas/search-query-clause"
+                            }
+                          }
+                        },
+                        "required": [
+                          "or"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "x-inheritable": true,
+                        "description": "Boolean NOT clause",
+                        "properties": {
+                          "not": {
+                            "$ref": "#/components/schemas/search-query-clause"
+                          }
+                        },
+                        "required": [
+                          "not"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "x-inheritable": true,
+                        "description": "Attribute predicate",
+                        "properties": {
+                          "attribute": {
+                            "type": "string",
+                            "description": "The attribute name to filter on (e.g., 'created_at', 'type', 'status', 'fields.age')",
+                            "examples": [
+                              "created_at",
+                              "type",
+                              "status",
+                              "fields.age"
+                            ]
+                          },
+                          "operator": {
+                            "type": "string",
+                            "description": "Comparison operator. Possible values: eq (equal), gt (greater than), gte (greater than or equal), lt (less than), lte (less than or equal)."
+                          },
+                          "value": {
+                            "description": "Value to compare against",
+                            "x-inheritable": true,
+                            "unevaluatedProperties": false,
+                            "oneOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "number"
+                              },
+                              {
+                                "type": "boolean"
+                              }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "attribute",
+                          "operator",
+                          "value"
+                        ]
+                      }
+                    ],
+                    "examples": [
+                      {
+                        "attribute": "created_at",
+                        "operator": "gte",
+                        "value": "2025-01-01"
+                      },
+                      {
+                        "and": [
+                          {
+                            "attribute": "type",
+                            "operator": "eq",
+                            "value": "acttp_ABC123"
+                          },
+                          {
+                            "attribute": "created_at",
+                            "operator": "gte",
+                            "value": "2025-01-01"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "sort": {
+                    "description": "Sort configuration for results",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "attribute": {
+                        "type": "string",
+                        "description": "The attribute name to sort by",
+                        "examples": [
+                          "created_at",
+                          "updated_at",
+                          "type",
+                          "fields.age"
+                        ]
+                      },
+                      "direction": {
+                        "type": "string",
+                        "default": "desc",
+                        "description": "Sort direction. Possible values: asc (ascending), desc (descending)."
+                      }
+                    },
+                    "required": [
+                      "attribute",
+                      "direction"
+                    ]
+                  },
+                  "page": {
+                    "description": "Pagination parameters",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "after": {
+                        "description": "Cursor for forward pagination",
+                        "type": "string",
+                        "examples": [
+                          "act_ABC123"
+                        ]
+                      },
+                      "before": {
+                        "description": "Cursor for backward pagination",
+                        "type": "string",
+                        "examples": [
+                          "act_XYZ789"
+                        ]
+                      },
+                      "size": {
+                        "description": "Number of results to return per page",
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 100,
+                        "default": 10,
+                        "examples": [
+                          10
+                        ]
+                      }
+                    }
+                  }
+                },
+                "additionalProperties": false,
+                "type": "object"
+              },
+              "examples": {
+                "Simple query": {
+                  "value": {
+                    "query": {
+                      "attribute": "created_at",
+                      "operator": "gte",
+                      "value": "2025-01-01"
+                    },
+                    "sort": {
+                      "attribute": "created_at",
+                      "direction": "asc"
+                    },
+                    "page": {
+                      "size": 10
+                    }
+                  }
+                },
+                "Complex boolean query": {
+                  "value": {
+                    "query": {
+                      "and": [
+                        {
+                          "attribute": "type",
+                          "operator": "eq",
+                          "value": "acttp_ABC123"
+                        },
+                        {
+                          "or": [
+                            {
+                              "attribute": "status",
+                              "operator": "eq",
+                              "value": "actst_active"
+                            },
+                            {
+                              "attribute": "status",
+                              "operator": "eq",
+                              "value": "actst_pending"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "sort": {
+                      "attribute": "created_at",
+                      "direction": "desc"
+                    },
+                    "page": {
+                      "size": 25
+                    }
+                  }
+                },
+                "Custom field query": {
+                  "value": {
+                    "query": {
+                      "attribute": "fields.age",
+                      "operator": "gte",
+                      "value": 18
+                    },
+                    "sort": {
+                      "attribute": "fields.age",
+                      "direction": "asc"
+                    }
+                  }
+                },
+                "Empty query (all accounts)": {
+                  "value": {
+                    "page": {
+                      "size": 10
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Success": {
+                    "$ref": "#/components/examples/account-list-search"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/account"
+                      },
+                      "type": "array",
+                      "description": "An array of Accounts matching the search criteria"
+                    },
+                    "links": {
+                      "properties": {
+                        "prev": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "examples": [
+                            "/api/v1/accounts/search?page%5Bbefore%5D=act_ABC123&page%5Bsize%5D=10"
+                          ],
+                          "description": "URL pointing to the previous page of data, or null if on the first page. Must be used with POST request and original request body."
+                        },
+                        "next": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "examples": [
+                            "/api/v1/accounts/search?page%5Bafter%5D=act_ABC123&page%5Bsize%5D=10"
+                          ],
+                          "description": "URL pointing to the next page of data, or null if on the last page. Must be used with POST request and original request body."
+                        }
+                      },
+                      "additionalProperties": false,
+                      "type": "object",
+                      "required": [
+                        "prev",
+                        "next"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false,
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "links"
+                  ]
+                }
+              }
+            },
+            "description": "This endpoint returns a collection of Account objects matching the search criteria."
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "409": {
+            "$ref": "#/components/responses/conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessable-entity"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        },
+        "summary": "Search Accounts",
+        "tags": [
+          "Accounts"
+        ],
+        "x-persona-product": "Accounts"
+      }
+    },
     "/api-keys": {
       "get": {
         "description": "Returns a list of your organization's API keys. Results are returned in reverse chronological order, with the most recently created objects first.",
@@ -24472,6 +24874,93 @@
           }
         }
       },
+      "search-query-clause": {
+        "description": "Recursive reference for nested query clauses",
+        "unevaluatedProperties": false,
+        "oneOf": [
+          {
+            "type": "object",
+            "x-inheritable": true,
+            "description": "Boolean AND clause",
+            "properties": {
+              "and": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/search-query-clause"
+                }
+              }
+            },
+            "required": [
+              "and"
+            ]
+          },
+          {
+            "type": "object",
+            "x-inheritable": true,
+            "description": "Boolean OR clause",
+            "properties": {
+              "or": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/search-query-clause"
+                }
+              }
+            },
+            "required": [
+              "or"
+            ]
+          },
+          {
+            "type": "object",
+            "x-inheritable": true,
+            "description": "Boolean NOT clause",
+            "properties": {
+              "not": {
+                "$ref": "#/components/schemas/search-query-clause"
+              }
+            },
+            "required": [
+              "not"
+            ]
+          },
+          {
+            "type": "object",
+            "x-inheritable": true,
+            "description": "Attribute predicate",
+            "properties": {
+              "attribute": {
+                "type": "string",
+                "description": "The attribute name to filter on"
+              },
+              "operator": {
+                "type": "string",
+                "description": "Comparison operator. Possible values: eq (equal), gt (greater than), gte (greater than or equal), lt (less than), lte (less than or equal)."
+              },
+              "value": {
+                "description": "Value to compare against",
+                "x-inheritable": true,
+                "unevaluatedProperties": false,
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "attribute",
+              "operator",
+              "value"
+            ]
+          }
+        ]
+      },
       "api-key-shared-attributes": {
         "x-inheritable": true,
         "type": "object",
@@ -33195,93 +33684,6 @@
           ]
         }
       },
-      "search-query-clause": {
-        "description": "Recursive reference for nested query clauses",
-        "unevaluatedProperties": false,
-        "oneOf": [
-          {
-            "type": "object",
-            "x-inheritable": true,
-            "description": "Boolean AND clause",
-            "properties": {
-              "and": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/search-query-clause"
-                }
-              }
-            },
-            "required": [
-              "and"
-            ]
-          },
-          {
-            "type": "object",
-            "x-inheritable": true,
-            "description": "Boolean OR clause",
-            "properties": {
-              "or": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/search-query-clause"
-                }
-              }
-            },
-            "required": [
-              "or"
-            ]
-          },
-          {
-            "type": "object",
-            "x-inheritable": true,
-            "description": "Boolean NOT clause",
-            "properties": {
-              "not": {
-                "$ref": "#/components/schemas/search-query-clause"
-              }
-            },
-            "required": [
-              "not"
-            ]
-          },
-          {
-            "type": "object",
-            "x-inheritable": true,
-            "description": "Attribute predicate",
-            "properties": {
-              "attribute": {
-                "type": "string",
-                "description": "The attribute name to filter on"
-              },
-              "operator": {
-                "type": "string",
-                "description": "Comparison operator. Possible values: eq (equal), gt (greater than), gte (greater than or equal), lt (less than), lte (less than or equal)."
-              },
-              "value": {
-                "description": "Value to compare against",
-                "x-inheritable": true,
-                "unevaluatedProperties": false,
-                "oneOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "type": "number"
-                  },
-                  {
-                    "type": "boolean"
-                  }
-                ]
-              }
-            },
-            "required": [
-              "attribute",
-              "operator",
-              "value"
-            ]
-          }
-        ]
-      },
       "device": {
         "type": "object",
         "additionalProperties": false,
@@ -41602,6 +42004,159 @@
           },
           "meta": {
             "workflow-run-id": "wfr_abc123def456ghi789"
+          }
+        }
+      },
+      "account-list-search": {
+        "value": {
+          "data": [
+            {
+              "type": "account",
+              "id": "act_ABC123",
+              "attributes": {
+                "reference-id": "abc-123",
+                "account-type-name": "User",
+                "created-at": "2023-09-22T17:13:49.000Z",
+                "updated-at": "2023-09-23T00:22:19.000Z",
+                "redacted-at": null,
+                "fields": {
+                  "name": {
+                    "type": "hash",
+                    "value": {
+                      "first": {
+                        "type": "string",
+                        "value": "Jane"
+                      },
+                      "middle": {
+                        "type": "string",
+                        "value": "Marie"
+                      },
+                      "last": {
+                        "type": "string",
+                        "value": "Doe"
+                      }
+                    }
+                  },
+                  "address": {
+                    "type": "hash",
+                    "value": {
+                      "street_1": {
+                        "type": "string",
+                        "value": "123 Main St"
+                      },
+                      "street_2": {
+                        "type": "string",
+                        "value": null
+                      },
+                      "subdivision": {
+                        "type": "string",
+                        "value": "California"
+                      },
+                      "city": {
+                        "type": "string",
+                        "value": "San Francisco"
+                      },
+                      "postal_code": {
+                        "type": "string",
+                        "value": "94111"
+                      },
+                      "country_code": {
+                        "type": "string",
+                        "value": "US"
+                      }
+                    }
+                  },
+                  "identification_numbers": {
+                    "type": "array",
+                    "value": [
+                      {
+                        "type": "hash",
+                        "value": {
+                          "identification_class": {
+                            "type": "string",
+                            "value": "visa"
+                          },
+                          "identification_number": {
+                            "type": "string",
+                            "value": "12345678"
+                          },
+                          "issuing_country": {
+                            "type": "string",
+                            "value": "US"
+                          }
+                        }
+                      },
+                      {
+                        "type": "hash",
+                        "value": {
+                          "identification_class": {
+                            "type": "string",
+                            "value": "visa"
+                          },
+                          "identification_number": {
+                            "type": "string",
+                            "value": "87654321"
+                          },
+                          "issuing_country": {
+                            "type": "string",
+                            "value": "UK"
+                          }
+                        }
+                      },
+                      {
+                        "type": "hash",
+                        "value": {
+                          "identification_class": {
+                            "type": "string",
+                            "value": "cct"
+                          },
+                          "identification_number": {
+                            "type": "string",
+                            "value": "A12345678"
+                          },
+                          "issuing_country": {
+                            "type": "string",
+                            "value": "AF"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "birthdate": {
+                    "type": "date",
+                    "value": "1994-12-30"
+                  },
+                  "phone_number": {
+                    "type": "string",
+                    "value": "111-222-3333"
+                  },
+                  "email_address": {
+                    "type": "string",
+                    "value": "jane@doe.com"
+                  },
+                  "selfie_photo": {
+                    "type": "file",
+                    "value": null
+                  }
+                },
+                "tags": [
+                  "tag1",
+                  "tag2"
+                ]
+              },
+              "relationships": {
+                "account-type": {
+                  "data": {
+                    "type": "account-type",
+                    "id": "acttp_7X5W5w9GMtQntE6oPtKnj44c"
+                  }
+                }
+              }
+            }
+          ],
+          "links": {
+            "prev": null,
+            "next": "/api/v1/accounts/search?page%5Bafter%5D=act_ABC123&page%5Bsize%5D=10"
           }
         }
       },
