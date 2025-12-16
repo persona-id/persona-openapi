@@ -1896,7 +1896,7 @@
     },
     "/accounts/search": {
       "post": {
-        "description": "Search for accounts using a flexible query language.\n",
+        "description": "Search for accounts using a flexible query language.\n\n## Searchable Attributes\n\nThe following attributes can be used in query predicates:\n\n| Attribute | Description |\n|-----------|-------------|\n| `type` | Account type (e.g., `acttp_ABC123`) |\n| `status` | Account status (e.g., `actst_ABC123`) |\n| `created_at` | Account creation timestamp |\n| `updated_at` | Account last updated timestamp |\n| `identifiers.*` | Custom identifier (e.g., `identifiers.user_id`) |\n| `fields.*` | Custom account field (e.g., `fields.age`) |\n\n**Note:** Custom fields (`fields.*`) must be configured as searchable on the Account Type to be queryable.\n",
         "operationId": "search-accounts",
         "externalDocs": {
           "description": "Full documentation for this API on the Persona website.",
@@ -1964,12 +1964,13 @@
                       {
                         "type": "object",
                         "x-inheritable": true,
-                        "description": "Boolean AND clause",
+                        "description": "Boolean AND clause - combines multiple conditions where ALL must be true.\n\nThis clause is recursive: each item in the `and` array can be another AND, OR, NOT clause, or a leaf predicate, enabling complex nested queries.\n\nMaximum nesting depth: 2 levels, Maximum clauses per AND: 20\n",
                         "properties": {
                           "and": {
                             "type": "array",
                             "items": {
-                              "$ref": "#/components/schemas/search-query-clause"
+                              "type": "object",
+                              "additionalProperties": true
                             }
                           }
                         },
@@ -1980,12 +1981,13 @@
                       {
                         "type": "object",
                         "x-inheritable": true,
-                        "description": "Boolean OR clause",
+                        "description": "Boolean OR clause - combines multiple conditions where AT LEAST ONE must be true.\n\nThis clause is recursive: each item in the `or` array can be another AND, OR, NOT clause, or a leaf predicate, enabling complex nested queries.\n\nMaximum nesting depth: 2 levels, Maximum clauses per OR: 20\n",
                         "properties": {
                           "or": {
                             "type": "array",
                             "items": {
-                              "$ref": "#/components/schemas/search-query-clause"
+                              "type": "object",
+                              "additionalProperties": true
                             }
                           }
                         },
@@ -1996,10 +1998,11 @@
                       {
                         "type": "object",
                         "x-inheritable": true,
-                        "description": "Boolean NOT clause",
+                        "description": "Boolean NOT clause - negates a single condition.\n\nThis clause is recursive: the `not` value can be another AND, OR, NOT clause, or a leaf predicate, enabling complex nested queries.\n\nMaximum nesting depth: 2 levels\n",
                         "properties": {
                           "not": {
-                            "$ref": "#/components/schemas/search-query-clause"
+                            "type": "object",
+                            "additionalProperties": true
                           }
                         },
                         "required": [
@@ -5251,7 +5254,7 @@
     },
     "/cases/search": {
       "post": {
-        "description": "Search for cases using a flexible query language.\n",
+        "description": "Search for cases using a flexible query language.\n\n## Searchable Attributes\n\nThe following attributes can be used in query predicates:\n\n| Attribute | Description |\n|-----------|-------------|\n| `template` | Case template (e.g., `ctmpl_ABC123`) |\n| `status` | Case status (e.g., `open`, `pending`, `resolved`) |\n| `state` | Case state |\n| `created_at` | Case creation timestamp |\n| `updated_at` | Case last updated timestamp |\n| `resolved_at` | Case resolution timestamp |\n| `sla_expires_at` | SLA expiration timestamp |\n| `assignee` | Assigned user (e.g., `user_ABC123`) |\n| `case_queue` | Case queue (e.g., `cqueue_ABC123`) |\n| `resolver` | Resolver user |\n| `fields.*` | Custom case field (e.g., `fields.priority`) |\n\n**Note:** Custom fields (`fields.*`) must be configured as searchable on the Case Template to be queryable.\n",
         "operationId": "search-cases",
         "externalDocs": {
           "description": "Full documentation for this API on the Persona website.",
@@ -5319,12 +5322,13 @@
                       {
                         "type": "object",
                         "x-inheritable": true,
-                        "description": "Boolean AND clause",
+                        "description": "Boolean AND clause - combines multiple conditions where ALL must be true.\n\nThis clause is recursive: each item in the `and` array can be another AND, OR, NOT clause, or a leaf predicate, enabling complex nested queries.\n\nMaximum nesting depth: 2 levels, Maximum clauses per AND: 20\n",
                         "properties": {
                           "and": {
                             "type": "array",
                             "items": {
-                              "$ref": "#/components/schemas/search-query-clause"
+                              "type": "object",
+                              "additionalProperties": true
                             }
                           }
                         },
@@ -5335,12 +5339,13 @@
                       {
                         "type": "object",
                         "x-inheritable": true,
-                        "description": "Boolean OR clause",
+                        "description": "Boolean OR clause - combines multiple conditions where AT LEAST ONE must be true.\n\nThis clause is recursive: each item in the `or` array can be another AND, OR, NOT clause, or a leaf predicate, enabling complex nested queries.\n\nMaximum nesting depth: 2 levels, Maximum clauses per OR: 20\n",
                         "properties": {
                           "or": {
                             "type": "array",
                             "items": {
-                              "$ref": "#/components/schemas/search-query-clause"
+                              "type": "object",
+                              "additionalProperties": true
                             }
                           }
                         },
@@ -5351,10 +5356,11 @@
                       {
                         "type": "object",
                         "x-inheritable": true,
-                        "description": "Boolean NOT clause",
+                        "description": "Boolean NOT clause - negates a single condition.\n\nThis clause is recursive: the `not` value can be another AND, OR, NOT clause, or a leaf predicate, enabling complex nested queries.\n\nMaximum nesting depth: 2 levels\n",
                         "properties": {
                           "not": {
-                            "$ref": "#/components/schemas/search-query-clause"
+                            "type": "object",
+                            "additionalProperties": true
                           }
                         },
                         "required": [
@@ -24873,93 +24879,6 @@
             }
           }
         }
-      },
-      "search-query-clause": {
-        "description": "Recursive reference for nested query clauses",
-        "unevaluatedProperties": false,
-        "oneOf": [
-          {
-            "type": "object",
-            "x-inheritable": true,
-            "description": "Boolean AND clause",
-            "properties": {
-              "and": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/search-query-clause"
-                }
-              }
-            },
-            "required": [
-              "and"
-            ]
-          },
-          {
-            "type": "object",
-            "x-inheritable": true,
-            "description": "Boolean OR clause",
-            "properties": {
-              "or": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/search-query-clause"
-                }
-              }
-            },
-            "required": [
-              "or"
-            ]
-          },
-          {
-            "type": "object",
-            "x-inheritable": true,
-            "description": "Boolean NOT clause",
-            "properties": {
-              "not": {
-                "$ref": "#/components/schemas/search-query-clause"
-              }
-            },
-            "required": [
-              "not"
-            ]
-          },
-          {
-            "type": "object",
-            "x-inheritable": true,
-            "description": "Attribute predicate",
-            "properties": {
-              "attribute": {
-                "type": "string",
-                "description": "The attribute name to filter on"
-              },
-              "operator": {
-                "type": "string",
-                "description": "Comparison operator. Possible values: eq (equal), gt (greater than), gte (greater than or equal), lt (less than), lte (less than or equal)."
-              },
-              "value": {
-                "description": "Value to compare against",
-                "x-inheritable": true,
-                "unevaluatedProperties": false,
-                "oneOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "type": "number"
-                  },
-                  {
-                    "type": "boolean"
-                  }
-                ]
-              }
-            },
-            "required": [
-              "attribute",
-              "operator",
-              "value"
-            ]
-          }
-        ]
       },
       "api-key-shared-attributes": {
         "x-inheritable": true,

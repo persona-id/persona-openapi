@@ -1,6 +1,43 @@
 post:
-  description: |
+  description: >
     Search for cases using a flexible query language.
+
+
+    ## Searchable Attributes
+
+
+    The following attributes can be used in query predicates:
+
+
+    | Attribute | Description |
+
+    |-----------|-------------|
+
+    | `template` | Case template (e.g., `ctmpl_ABC123`) |
+
+    | `status` | Case status (e.g., `open`, `pending`, `resolved`) |
+
+    | `state` | Case state |
+
+    | `created_at` | Case creation timestamp |
+
+    | `updated_at` | Case last updated timestamp |
+
+    | `resolved_at` | Case resolution timestamp |
+
+    | `sla_expires_at` | SLA expiration timestamp |
+
+    | `assignee` | Assigned user (e.g., `user_ABC123`) |
+
+    | `case_queue` | Case queue (e.g., `cqueue_ABC123`) |
+
+    | `resolver` | Resolver user |
+
+    | `fields.*` | Custom case field (e.g., `fields.priority`) |
+
+
+    **Note:** Custom fields (`fields.*`) must be configured as searchable on the
+    Case Template to be queryable.
   operationId: search-cases
   externalDocs:
     description: Full documentation for this API on the Persona website.
@@ -58,30 +95,62 @@ post:
               oneOf:
                 - type: object
                   x-inheritable: true
-                  description: Boolean AND clause
+                  description: >
+                    Boolean AND clause - combines multiple conditions where ALL
+                    must be true.
+
+
+                    This clause is recursive: each item in the `and` array can
+                    be another AND, OR, NOT clause, or a leaf predicate,
+                    enabling complex nested queries.
+
+
+                    Maximum nesting depth: 2 levels, Maximum clauses per AND: 20
                   properties:
                     and:
                       type: array
                       items:
-                        $ref: ../components/schemas/search-query-clause.yaml
+                        type: object
+                        additionalProperties: true
                   required:
                     - and
                 - type: object
                   x-inheritable: true
-                  description: Boolean OR clause
+                  description: >
+                    Boolean OR clause - combines multiple conditions where AT
+                    LEAST ONE must be true.
+
+
+                    This clause is recursive: each item in the `or` array can be
+                    another AND, OR, NOT clause, or a leaf predicate, enabling
+                    complex nested queries.
+
+
+                    Maximum nesting depth: 2 levels, Maximum clauses per OR: 20
                   properties:
                     or:
                       type: array
                       items:
-                        $ref: ../components/schemas/search-query-clause.yaml
+                        type: object
+                        additionalProperties: true
                   required:
                     - or
                 - type: object
                   x-inheritable: true
-                  description: Boolean NOT clause
+                  description: >
+                    Boolean NOT clause - negates a single condition.
+
+
+                    This clause is recursive: the `not` value can be another
+                    AND, OR, NOT clause, or a leaf predicate, enabling complex
+                    nested queries.
+
+
+                    Maximum nesting depth: 2 levels
                   properties:
                     not:
-                      $ref: ../components/schemas/search-query-clause.yaml
+                      type: object
+                      additionalProperties: true
                   required:
                     - not
                 - type: object
