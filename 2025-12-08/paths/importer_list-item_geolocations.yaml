@@ -1,0 +1,65 @@
+post:
+  description: >-
+    Bulk import geolocation List Items by uploading a CSV file.
+
+
+    Each row should be the details for a new List Item. The columns we allow
+    are:
+      - latitude
+      - longitude
+      - radius_meters
+  operationId: import-geolocation-lists
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: >-
+      https://docs.withpersona.com/api-reference/importers/import-geolocation-lists
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+  requestBody:
+    $ref: ../components/requestBodies/list-item-importer-csv-request.yaml
+  responses:
+    '201':
+      content:
+        application/json:
+          examples:
+            Created:
+              value:
+                data:
+                  type: importer/list-item/geolocation
+                  id: mprt_TKqquVbHaSVYqgWhxNjuYDjQ
+                  attributes:
+                    status: pending
+                    created-at: '2020-07-12T17:16:54.656Z'
+                    completed-at: null
+                    error-count: 0
+                    successful-count: 0
+                    duplicate-count: 0
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/importer-list-item-geolocation.yaml
+            required:
+              - data
+            type: object
+            additionalProperties: false
+      description: This endpoint returns an Importer object.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Import Geolocation Lists
+  tags:
+    - Importers
+  x-persona-product: Importers

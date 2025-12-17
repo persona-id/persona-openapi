@@ -1,0 +1,26 @@
+type: object
+description: A Phone Number List object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: list/phone-number
+  id:
+    type: string
+  attributes:
+    unevaluatedProperties: false
+    $ref: ./lists-shared-attributes.yaml
+  relationships:
+    additionalProperties: false
+    type: object
+    properties:
+      list-items:
+        additionalProperties: false
+        type: object
+        properties:
+          data:
+            type: array
+            items:
+              additionalProperties: false
+              type: object
+              description: Phone Number List items associated with this list.

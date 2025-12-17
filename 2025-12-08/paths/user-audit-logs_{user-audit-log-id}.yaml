@@ -1,0 +1,80 @@
+get:
+  description: >-
+    Retrieves the details of an existing user audit logs for up to the most
+    recent 6 months.
+
+
+    Note: You must use a production API key to access this endpoint. For
+    security reasons, we do not expose organization-level resources like user
+    audit logs in Sandbox via API.
+  operationId: retrieve-a-user-audit-log
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: >-
+      https://docs.withpersona.com/api-reference/user-audit-logs/retrieve-an-user-audit-log
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+    - name: user-audit-log-id
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Success:
+              value:
+                data:
+                  type: user-audit-log
+                  id: ual_ABC123
+                  attributes:
+                    path: /api/v1/inquiries
+                    method: GET
+                    get-params: {}
+                    post-params: {}
+                    ip-address: 127.0.0.1
+                    created-at: '2023-10-03T21:31:05.163Z'
+                    impersonator-email-address: null
+                  relationships:
+                    user:
+                      data:
+                        type: user
+                        id: user_ABC123
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/user-audit-log.yaml
+              included:
+                type: array
+                description: >-
+                  Objects that _may_ be returned if specified via the `include`
+                  query parameter in the request.
+                items:
+                  $ref: ../components/schemas/user.yaml
+            type: object
+            additionalProperties: false
+            required:
+              - data
+      description: >-
+        This endpoint returns a User Audit Log object and (optionally) its
+        related objects in `included`.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Retrieve a User Audit Log
+  tags:
+    - User Audit Logs
+  x-persona-product: User Audit Logs

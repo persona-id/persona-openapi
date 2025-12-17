@@ -1,0 +1,43 @@
+type: object
+additionalProperties: false
+description: Comment on a Case object
+properties:
+  type:
+    type: string
+    const: case-comment
+  id:
+    type: string
+    description: Unique identifier for the Case Comment
+    examples:
+      - cscm_yd2urRmjaCWcSSxqTSHvUcsn
+  attributes:
+    type: object
+    additionalProperties: false
+    properties:
+      message:
+        type: string
+        description: The comment message
+        examples:
+          - This is a case comment
+      created-at:
+        type: string
+        format: date-time
+        description: The time the comment was created
+        examples:
+          - '2021-03-25T07:04:16.667Z'
+      updated-at:
+        type: string
+        format: date-time
+        description: The time the comment was last updated
+        examples:
+          - '2021-03-25T07:04:16.667Z'
+      commenter-id:
+        type: string
+        description: The ID of the user who made the comment
+        examples:
+          - admin@acme.com
+      commenter-type:
+        type: string
+        description: The type of the commenter
+        examples:
+          - user
