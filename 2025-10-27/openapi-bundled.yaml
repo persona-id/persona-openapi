@@ -1162,7 +1162,22 @@ paths:
       description: |
         Search for accounts using a flexible query language.
 
-        ## Searchable Attributes
+        ## Search vs. List Endpoints
+
+        The Search and List endpoints serve different purposes and have distinct performance characteristics.
+
+        Use the **Search** endpoint (`POST /accounts/search`) when you need to perform complex queries with boolean logic (AND/OR/NOT), filter by custom fields or identifiers, or apply multiple conditions simultaneously. Search is optimized for flexible querying and is faster than paginating through all resources when looking for specific records.
+
+        Use the **List** endpoint (`GET /accounts`) for simple listing with basic filters like reference ID.
+
+        ## Data Freshness
+
+        Do not use search for read-after-write flows because the data will not be immediately available to search.
+        Under normal operating conditions, data is searchable within approximately 1 minute of creation or modification.
+        Propagation of new or updated data could be delayed during an outage.
+        For workflows that require immediate data availability after creating or updating an account, use the List Accounts endpoint instead.
+
+        ### Searchable Attributes
 
         The following attributes can be used in query predicates:
 
@@ -1225,6 +1240,7 @@ paths:
                   oneOf:
                     - type: object
                       x-inheritable: true
+                      additionalProperties: false
                       description: |
                         Boolean AND clause - combines multiple conditions where ALL must be true.
 
@@ -1241,6 +1257,7 @@ paths:
                         - and
                     - type: object
                       x-inheritable: true
+                      additionalProperties: false
                       description: |
                         Boolean OR clause - combines multiple conditions where AT LEAST ONE must be true.
 
@@ -1257,6 +1274,7 @@ paths:
                         - or
                     - type: object
                       x-inheritable: true
+                      additionalProperties: false
                       description: |
                         Boolean NOT clause - negates a single condition.
 
@@ -1271,6 +1289,7 @@ paths:
                         - not
                     - type: object
                       x-inheritable: true
+                      additionalProperties: false
                       description: Attribute predicate
                       properties:
                         attribute:
@@ -1356,14 +1375,15 @@ paths:
               Simple query:
                 value:
                   query:
-                    attribute: created_at
-                    operator: gte
-                    value: '2025-01-01'
+                    not:
+                      attribute: status
+                      operator: eq
+                      value: actst_ABC123
                   sort:
                     attribute: created_at
                     direction: asc
                   page:
-                    size: 10
+                    size: 15
               Complex boolean query:
                 value:
                   query:
@@ -1374,28 +1394,19 @@ paths:
                       - or:
                           - attribute: status
                             operator: eq
-                            value: actst_active
+                            value: actst_ABC123
                           - attribute: status
                             operator: eq
-                            value: actst_pending
+                            value: actst_ABC456
                   sort:
                     attribute: created_at
                     direction: desc
                   page:
-                    size: 25
-              Custom field query:
-                value:
-                  query:
-                    attribute: fields.age
-                    operator: gte
-                    value: 18
-                  sort:
-                    attribute: fields.age
-                    direction: asc
+                    size: 15
               Empty query (all accounts):
                 value:
                   page:
-                    size: 10
+                    size: 15
       responses:
         '200':
           content:
@@ -3369,7 +3380,22 @@ paths:
       description: |
         Search for cases using a flexible query language.
 
-        ## Searchable Attributes
+        ## Search vs. List Endpoints
+
+        The Search and List endpoints serve different purposes and have distinct performance characteristics.
+
+        Use the **Search** endpoint (`POST /cases/search`) when you need to perform complex queries with boolean logic (AND/OR/NOT), filter by custom fields, assignee, case queue, or SLA expiration, or apply multiple conditions simultaneously. Search is optimized for flexible querying and is faster than paginating through all resources when looking for specific records.
+
+        Use the **List** endpoint (`GET /cases`) for simple listing with basic filters like status, case template, account, inquiry, or report.
+
+        ## Data Freshness
+
+        Do not use search for read-after-write flows because the data will not be immediately available to search.
+        Under normal operating conditions, data is searchable within approximately 1 minute of creation or modification.
+        Propagation of new or updated data could be delayed during an outage.
+        For workflows that require immediate data availability after creating or updating a case, use the List Cases endpoint instead.
+
+        ### Searchable Attributes
 
         The following attributes can be used in query predicates:
 
@@ -3437,6 +3463,7 @@ paths:
                   oneOf:
                     - type: object
                       x-inheritable: true
+                      additionalProperties: false
                       description: |
                         Boolean AND clause - combines multiple conditions where ALL must be true.
 
@@ -3453,6 +3480,7 @@ paths:
                         - and
                     - type: object
                       x-inheritable: true
+                      additionalProperties: false
                       description: |
                         Boolean OR clause - combines multiple conditions where AT LEAST ONE must be true.
 
@@ -3469,6 +3497,7 @@ paths:
                         - or
                     - type: object
                       x-inheritable: true
+                      additionalProperties: false
                       description: |
                         Boolean NOT clause - negates a single condition.
 
@@ -3483,6 +3512,7 @@ paths:
                         - not
                     - type: object
                       x-inheritable: true
+                      additionalProperties: false
                       description: Attribute predicate
                       properties:
                         attribute:
@@ -3568,14 +3598,15 @@ paths:
               Simple query:
                 value:
                   query:
-                    attribute: created_at
-                    operator: gte
-                    value: '2025-01-01'
+                    not:
+                      attribute: status
+                      operator: eq
+                      value: resolved
                   sort:
                     attribute: created_at
                     direction: asc
                   page:
-                    size: 10
+                    size: 15
               Complex boolean query:
                 value:
                   query:
@@ -3594,20 +3625,11 @@ paths:
                     attribute: created_at
                     direction: desc
                   page:
-                    size: 25
-              Custom field query:
-                value:
-                  query:
-                    attribute: fields.priority
-                    operator: eq
-                    value: high
-                  sort:
-                    attribute: fields.priority
-                    direction: asc
+                    size: 15
               Empty query (all cases):
                 value:
                   page:
-                    size: 10
+                    size: 15
       responses:
         '200':
           content:
