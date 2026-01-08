@@ -41,6 +41,12 @@ properties:
         - document.submitted
         - document.processed
         - document.errored
+        - importer-pipeline-run.started
+        - importer-pipeline-run.completed
+        - importer-pipeline-run.errored
+        - importer-pipeline-run.canceled
+        - importer-pipeline-run.paused
+        - importer-pipeline-run.resumed
         - inquiry.created
         - inquiry.expired
         - inquiry.completed
@@ -94,16 +100,7 @@ properties:
     description: >-
       API version that will be used for incoming webhook requests. Defaults to
       the API version used when making this request.
-    type: string
-    examples:
-      - '2023-01-05'
-    enum:
-      - '2023-01-05'
-      - '2022-09-01'
-      - '2021-08-18'
-      - '2021-07-05'
-      - '2021-02-21'
-      - '2020-05-18'
+    $ref: ./api-version.yaml
   api-key-inflection:
     description: >-
       Default key inflection for attribute keys in incoming webhook requests.

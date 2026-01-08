@@ -4,7 +4,6 @@ properties:
   type:
     type: string
     const: user-audit-log
-    description: user-audit-log
   id:
     type: string
     examples:
@@ -64,6 +63,21 @@ properties:
           - 'null'
         examples:
           - user@withpersona.com
+      context:
+        type: object
+        properties:
+          inquiry-id:
+            type: string
+            description: >-
+              ID of the inquiry created -- this property is only present when
+              path is /api/internal/dashboard/v1/inquiries and method is POST
+            examples:
+              - inq_ABC123
+        additionalProperties: true
+        description: >-
+          Context of the audit log. Currently, this property is only present for
+          dashboard inquiry creation audit logs -- when path is
+          /api/internal/dashboard/v1/inquiries and method is POST.
   relationships:
     type: object
     additionalProperties: false
@@ -79,7 +93,6 @@ properties:
               type:
                 type: string
                 const: user
-                description: user
               id:
                 type: string
                 examples:
@@ -95,7 +108,6 @@ properties:
               type:
                 type: string
                 const: user-session
-                description: user-session
               id:
                 type: string
                 examples:

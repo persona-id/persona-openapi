@@ -4,7 +4,6 @@ description: An Inquiry object
 properties:
   type:
     const: inquiry
-    description: inquiry
     type: string
   id:
     examples:
@@ -608,6 +607,27 @@ properties:
         type:
           - string
           - 'null'
+    required:
+      - status
+      - reference-id
+      - note
+      - behaviors
+      - tags
+      - creator
+      - reviewer-comment
+      - created-at
+      - updated-at
+      - started-at
+      - expires-at
+      - completed-at
+      - failed-at
+      - marked-for-review-at
+      - decisioned-at
+      - expired-at
+      - redacted-at
+      - previous-step-name
+      - next-step-name
+      - fields
     additionalProperties: false
     type: object
   relationships:
@@ -624,7 +644,6 @@ properties:
                 type: string
               type:
                 const: account
-                description: account
                 type: string
             type:
               - object
@@ -661,7 +680,6 @@ properties:
                 type: string
               type:
                 const: template
-                description: template
                 type: string
             type:
               - object
@@ -679,7 +697,6 @@ properties:
                 type: string
               type:
                 const: inquiry-template
-                description: inquiry-template
                 type: string
             type:
               - object
@@ -697,7 +714,6 @@ properties:
                 type: string
               type:
                 const: inquiry-template-version
-                description: inquiry-template-version
                 type: string
             type:
               - object
@@ -734,7 +750,6 @@ properties:
                 type: string
               type:
                 const: transaction
-                description: transaction
                 type: string
             type:
               - object
@@ -794,7 +809,6 @@ properties:
                   type: string
                 type:
                   const: inquiry-session
-                  description: inquiry-session
                   type: string
               additionalProperties: false
               type: object
@@ -820,3 +834,8 @@ properties:
             type: array
         additionalProperties: false
         type: object
+required:
+  - type
+  - id
+  - attributes
+  - relationships
