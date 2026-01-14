@@ -337,6 +337,20 @@ post:
                   examples:
                     - my_reference_id
                   type: string
+                auto-create-inquiry-session:
+                  description: >-
+                    If true, automatically create an Inquiry Session token for
+                    the Inquiry.
+                  examples:
+                    - true
+                  type: boolean
+                auto-create-one-time-link:
+                  description: >-
+                    If true, automatically create a One-Time Link URL for the
+                    Inquiry.
+                  examples:
+                    - true
+                  type: boolean
                 expiration-after-create-interval-seconds:
                   description: >-
                     Time interval from inquiry creation after which an Inquiry
@@ -391,7 +405,7 @@ post:
         application/json:
           examples:
             Created:
-              $ref: ../components/examples/inquiry.yaml
+              $ref: ../components/examples/inquiry-created.yaml
           schema:
             properties:
               data:
@@ -401,8 +415,38 @@ post:
                   Objects that _may_ be returned if specified via the `include`
                   query parameter in the request.
                 $ref: ../components/schemas/inquiry-included-objects.yaml
+              meta:
+                properties:
+                  session-token:
+                    description: >-
+                      The token for the Inquiry Session. Only present when
+                      `meta.auto-create-inquiry-session` is true.
+                    type:
+                      - string
+                      - 'null'
+                  one-time-link:
+                    description: >-
+                      The URL for the One-Time Link. Only present when
+                      `meta.auto-create-one-time-link` is true.
+                    type:
+                      - string
+                      - 'null'
+                  one-time-link-short:
+                    description: >-
+                      The short URL for the One-Time Link. Only present when
+                      `meta.auto-create-one-time-link` is true.
+                    type:
+                      - string
+                      - 'null'
+                required:
+                  - session-token
+                  - one-time-link
+                  - one-time-link-short
+                additionalProperties: false
+                type: object
             required:
               - data
+              - meta
             additionalProperties: false
             type: object
       description: >-

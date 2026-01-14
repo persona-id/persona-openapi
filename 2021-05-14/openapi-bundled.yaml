@@ -5661,6 +5661,16 @@ paths:
                       examples:
                         - my_reference_id
                       type: string
+                    auto-create-inquiry-session:
+                      description: 'If true, automatically create an Inquiry Session token for the Inquiry.'
+                      examples:
+                        - true
+                      type: boolean
+                    auto-create-one-time-link:
+                      description: 'If true, automatically create a One-Time Link URL for the Inquiry.'
+                      examples:
+                        - true
+                      type: boolean
                     expiration-after-create-interval-seconds:
                       description: Time interval from inquiry creation after which an Inquiry expires and the flow can no longer be accessed. Overrides value set at the template level.
                       examples:
@@ -5704,7 +5714,7 @@ paths:
             application/json:
               examples:
                 Created:
-                  $ref: '#/components/examples/inquiry'
+                  $ref: '#/components/examples/inquiry-created'
               schema:
                 properties:
                   data:
@@ -5712,8 +5722,32 @@ paths:
                   included:
                     description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
                     $ref: '#/components/schemas/inquiry-included-objects'
+                  meta:
+                    properties:
+                      session-token:
+                        description: The token for the Inquiry Session. Only present when `meta.auto-create-inquiry-session` is true.
+                        type:
+                          - string
+                          - 'null'
+                      one-time-link:
+                        description: The URL for the One-Time Link. Only present when `meta.auto-create-one-time-link` is true.
+                        type:
+                          - string
+                          - 'null'
+                      one-time-link-short:
+                        description: The short URL for the One-Time Link. Only present when `meta.auto-create-one-time-link` is true.
+                        type:
+                          - string
+                          - 'null'
+                    required:
+                      - session-token
+                      - one-time-link
+                      - one-time-link-short
+                    additionalProperties: false
+                    type: object
                 required:
                   - data
+                  - meta
                 additionalProperties: false
                 type: object
           description: This endpoint returns an Inquiry object and (optionally) its related objects in `included`.
@@ -28620,7 +28654,7 @@ components:
         data:
           attributes:
             inquiry-template-id: itmpl_p8ANAJy9iqadm2buF2xcVgqH
-    inquiry:
+    inquiry-created:
       value:
         data:
           type: inquiry
@@ -28703,23 +28737,8 @@ components:
               identification-number:
                 type: string
                 value: null
-            name-first: Jane
-            name-middle: Marie
-            name-last: Doe
-            birthdate: '1995-09-08'
-            address-street-1: 123 Main St
-            address-street-2: null
-            address-city: San Francisco
-            address-subdivision: California
-            address-subdivision-abbr: CA
-            address-postal-code: '94111'
-            address-postal-code-abbr: '94111'
-            social-security-number: null
-            identification-number: null
-            email-address: jane@doe.com
-            phone-number: null
-            reviewer: reviewer@example.com
-            reviewer-type: user
+            reviewer: null
+            reviewer-type: null
           relationships:
             account:
               data:
@@ -28749,6 +28768,10 @@ components:
               data: []
             selfies:
               data: []
+        meta:
+          session-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.example
+          one-time-link: 'https://withpersona.com/verify?code=ABC123'
+          one-time-link-short: 'https://go.perso.na/ABC123'
     inquiry-retrieve:
       value:
         data:
@@ -28921,6 +28944,135 @@ components:
                 data:
                   type: inquiry-template-version
                   id: itmplv_ABC123
+    inquiry:
+      value:
+        data:
+          type: inquiry
+          id: inq_zEx4jL84ShbUyuwX6AzPSqt6
+          attributes:
+            status: pending
+            reference-id: abc-123
+            note: null
+            behaviors:
+              mobile-sdk-version-less-than-minimum-count: 0
+              api-version-less-than-minimum-count: 0
+              bot-score: 70
+              request-spoof-attempts: 0
+              user-agent-spoof-attempts: 0
+              distraction-events: 0
+              hesitation-baseline: 29677
+              hesitation-count: 3
+              hesitation-time: 28752
+              shortcut-copies: 0
+              shortcut-pastes: 0
+              autofill-cancels: 0
+              autofill-starts: 0
+              devtools-open: false
+              debugger-attached: false
+              completion-time: 40.172463903
+              hesitation-percentage: 96.88310813087575
+              behavior-threat-level: low
+            tags: []
+            creator: creator@withpersona.com
+            reviewer-comment: null
+            created-at: '2023-03-29T19:06:45.000Z'
+            updated-at: '2023-03-29T20:08:47.000Z'
+            started-at: '2023-03-30T19:07:01.000Z'
+            expires-at: '2023-03-31T19:07:01.000Z'
+            completed-at: null
+            failed-at: null
+            marked-for-review-at: null
+            decisioned-at: null
+            expired-at: null
+            redacted-at: null
+            previous-step-name: start
+            next-step-name: verification_document
+            fields:
+              name-first:
+                type: string
+                value: Jane
+              name-middle:
+                type: string
+                value: Marie
+              name-last:
+                type: string
+                value: Doe
+              address-street-1:
+                type: string
+                value: 123 Main St
+              address-street-2:
+                type: string
+                value: null
+              address-city:
+                type: string
+                value: San Francisco
+              address-subdivision:
+                type: string
+                value: California
+              address-postal-code:
+                type: string
+                value: '94111'
+              address-country-code:
+                type: string
+                value: US
+              birthdate:
+                type: date
+                value: '1995-09-08'
+              email-address:
+                type: string
+                value: jane@doe.com
+              phone-number:
+                type: string
+                value: null
+              identification-number:
+                type: string
+                value: null
+            name-first: Jane
+            name-middle: Marie
+            name-last: Doe
+            birthdate: '1995-09-08'
+            address-street-1: 123 Main St
+            address-street-2: null
+            address-city: San Francisco
+            address-subdivision: California
+            address-subdivision-abbr: CA
+            address-postal-code: '94111'
+            address-postal-code-abbr: '94111'
+            social-security-number: null
+            identification-number: null
+            email-address: jane@doe.com
+            phone-number: null
+            reviewer: reviewer@example.com
+            reviewer-type: user
+          relationships:
+            account:
+              data:
+                type: account
+                id: act_n2uq9eKMboaCQzu9ALWYcVdN
+            template:
+              data: {}
+            inquiry-template:
+              data:
+                type: inquiry-template
+                id: itmpl_p8ANAJy9iqadm2buF2xcVgqH
+            inquiry-template-version:
+              data:
+                type: inquiry-template-version
+                id: itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo
+            transaction:
+              data: null
+            reports:
+              data: []
+            verifications:
+              data:
+                - type: verification/database
+                  id: ver_uHDiwtcx3htjajvEaeMjPQcE
+            sessions:
+              data: []
+            documents:
+              data: []
+            selfies:
+              data: []
     inquiry-one-time-link:
       value:
         data:
