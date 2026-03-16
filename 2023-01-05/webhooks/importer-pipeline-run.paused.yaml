@@ -1,0 +1,59 @@
+post:
+  operationId: webhook-importer-pipeline-run-paused
+  summary: Importer pipeline run paused
+  description: >-
+    Webhook for the `importer-pipeline-run.paused` event. For more info see
+    [Webhooks Overview](https://docs.withpersona.com/webhooks).
+  tags:
+    - 'Webhooks: Importer pipeline run events'
+  x-persona-product: Importers
+  parameters:
+    - $ref: ../components/parameters/persona-signature-header.yaml
+    - $ref: ../components/parameters/persona-webhook-attempts-made.yaml
+    - $ref: ../components/parameters/persona-webhook-attempts-left.yaml
+    - $ref: ../components/parameters/persona-webhook-first-attempted-at.yaml
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          additionalProperties: false
+          properties:
+            data:
+              type: object
+              unevaluatedProperties: false
+              allOf:
+                - $ref: ../components/schemas/webhook-body-shared-data.yaml
+                - type: object
+                  properties:
+                    attributes:
+                      unevaluatedProperties: false
+                      allOf:
+                        - type: object
+                          properties:
+                            name:
+                              type: string
+                              const: importer-pipeline-run.paused
+                            payload:
+                              type: object
+                              additionalProperties: false
+                              properties:
+                                data:
+                                  $ref: >-
+                                    ../components/schemas/importer-pipeline-run.yaml
+                                included:
+                                  description: >-
+                                    All objects that are present in
+                                    `data.attributes.relationships` will be
+                                    provided in `included`.
+                                  $ref: >-
+                                    ../components/schemas/importer-pipeline-runs-included-objects.yaml
+                        - $ref: >-
+                            ../components/schemas/webhook-body-shared-attributes.yaml
+        examples:
+          Example Body:
+            $ref: >-
+              ../components/examples/importer-pipeline-run-paused-webhook-body.yaml
+  responses:
+    '200':
+      $ref: ../components/responses/success.yaml

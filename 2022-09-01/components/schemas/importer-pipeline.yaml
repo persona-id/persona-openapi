@@ -1,0 +1,112 @@
+type: object
+additionalProperties: false
+description: An Importer Pipeline object.
+properties:
+  type:
+    type: string
+    const: importer-pipeline
+  id:
+    type: string
+    examples:
+      - mprtp_ABC123DEF456
+  attributes:
+    type: object
+    additionalProperties: false
+    properties:
+      name:
+        type: string
+        description: Name of the importer pipeline
+        examples:
+          - Customer Data Import
+      status:
+        type: string
+        description: >-
+          Current status of the importer pipeline. Possible values include
+          `active` and `inactive`.
+        examples:
+          - active
+      run-type:
+        type:
+          - string
+          - 'null'
+        description: >-
+          Type of run schedule. Possible values include `manual` and
+          `recurring`.
+        examples:
+          - recurring
+      destination:
+        type:
+          - string
+          - 'null'
+        description: Destination model type for imported data
+        examples:
+          - account
+      next-run-at:
+        format: date-time
+        type:
+          - string
+          - 'null'
+        description: When the next run is scheduled
+        examples:
+          - '2020-04-12T05:08:51.000Z'
+      created-at:
+        format: date-time
+        type: string
+        description: When the pipeline was created
+        examples:
+          - '2020-04-12T05:08:51.000Z'
+      updated-at:
+        format: date-time
+        type: string
+        description: When the pipeline was last updated
+        examples:
+          - '2020-04-13T00:23:57.000Z'
+      archived-at:
+        format: date-time
+        type:
+          - string
+          - 'null'
+        description: When the pipeline was archived
+        examples:
+          - '2020-04-14T00:22:43.000Z'
+      pipeline-config:
+        type: object
+        description: Configuration settings for the pipeline
+        properties:
+          destination:
+            type:
+              - string
+              - 'null'
+            description: Target destination for imported data
+          sync-mode:
+            type:
+              - string
+              - 'null'
+            description: >-
+              How data should be synced. Possible values include `upsert`,
+              `insert`, and `update`.
+          archive-after-completion:
+            type:
+              - boolean
+              - 'null'
+            description: Whether to archive the pipeline after completion
+        additionalProperties: true
+  relationships:
+    type: object
+    additionalProperties: false
+    properties:
+      environment:
+        type: object
+        additionalProperties: false
+        properties:
+          data:
+            type: object
+            additionalProperties: false
+            properties:
+              id:
+                type: string
+                examples:
+                  - env_ABC123
+              type:
+                const: environment
+                type: string
