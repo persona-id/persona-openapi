@@ -23753,6 +23753,279 @@
         }
       }
     },
+    "inquiry-session.started": {
+      "post": {
+        "operationId": "webhook-inquiry-session-started",
+        "summary": "Inquiry session started",
+        "description": "Webhook for the `inquiry-session.started` event. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).",
+        "tags": [
+          "Webhooks: Inquiry session events"
+        ],
+        "x-persona-product": "Inquiries",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "unevaluatedProperties": false,
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/webhook-body-shared-data"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "attributes": {
+                            "unevaluatedProperties": false,
+                            "allOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "const": "inquiry-session.started"
+                                  },
+                                  "payload": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "data": {
+                                        "$ref": "#/components/schemas/inquiry-session"
+                                      },
+                                      "included": {
+                                        "description": "All objects that are present in `data.attributes.relationships` will be provided in `included`.",
+                                        "$ref": "#/components/schemas/inquiry-sessions-included-objects"
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "$ref": "#/components/schemas/webhook-body-shared-attributes"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Example Body": {
+                  "$ref": "#/components/examples/inquiry-session-started-webhook-body"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/success"
+          }
+        }
+      }
+    },
+    "inquiry-session.expired": {
+      "post": {
+        "operationId": "webhook-inquiry-session-expired",
+        "summary": "Inquiry session expired",
+        "description": "Webhook for the `inquiry-session.expired` event. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).",
+        "tags": [
+          "Webhooks: Inquiry session events"
+        ],
+        "x-persona-product": "Inquiries",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "unevaluatedProperties": false,
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/webhook-body-shared-data"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "attributes": {
+                            "unevaluatedProperties": false,
+                            "allOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "const": "inquiry-session.expired"
+                                  },
+                                  "payload": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "data": {
+                                        "$ref": "#/components/schemas/inquiry-session"
+                                      },
+                                      "included": {
+                                        "description": "All objects that are present in `data.attributes.relationships` will be provided in `included`.",
+                                        "$ref": "#/components/schemas/inquiry-sessions-included-objects"
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "$ref": "#/components/schemas/webhook-body-shared-attributes"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Example Body": {
+                  "$ref": "#/components/examples/inquiry-session-expired-webhook-body"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/success"
+          }
+        }
+      }
+    },
+    "inquiry-session.canceled": {
+      "post": {
+        "operationId": "webhook-inquiry-session-canceled",
+        "summary": "Inquiry session canceled",
+        "description": "Webhook for the `inquiry-session.canceled` event. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).",
+        "tags": [
+          "Webhooks: Inquiry session events"
+        ],
+        "x-persona-product": "Inquiries",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "unevaluatedProperties": false,
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/webhook-body-shared-data"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "attributes": {
+                            "unevaluatedProperties": false,
+                            "allOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "const": "inquiry-session.canceled"
+                                  },
+                                  "payload": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "data": {
+                                        "$ref": "#/components/schemas/inquiry-session"
+                                      },
+                                      "included": {
+                                        "description": "All objects that are present in `data.attributes.relationships` will be provided in `included`.",
+                                        "$ref": "#/components/schemas/inquiry-sessions-included-objects"
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "$ref": "#/components/schemas/webhook-body-shared-attributes"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Example Body": {
+                  "$ref": "#/components/examples/inquiry-session-canceled-webhook-body"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/success"
+          }
+        }
+      }
+    },
     "importer-pipeline-run.canceled": {
       "post": {
         "operationId": "webhook-importer-pipeline-run-canceled",
@@ -49155,6 +49428,513 @@
                           "type": "inquiry-template-version",
                           "id": "itmplv_ABC123"
                         }
+                      }
+                    }
+                  }
+                ]
+              },
+              "created-at": "2024-02-15T23:48:17.732Z"
+            }
+          }
+        }
+      },
+      "inquiry-session-started-webhook-body": {
+        "value": {
+          "data": {
+            "type": "event",
+            "id": "evt_7KqH4xVnR2bPmYwL9sTgD3cE",
+            "attributes": {
+              "name": "inquiry-session.started",
+              "payload": {
+                "data": {
+                  "type": "inquiry-session",
+                  "id": "iqse_mN5pQ8rJkX2vHsYw4tBcFdGa",
+                  "attributes": {
+                    "status": "active",
+                    "created-at": "2023-07-25T04:15:20.000Z",
+                    "started-at": "2023-07-25T05:14:50.000Z",
+                    "expired-at": null,
+                    "ip-address": "127.0.0.1",
+                    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36",
+                    "os-name": "Mac",
+                    "os-full-version": "10.15.7",
+                    "device-type": "desktop",
+                    "device-name": null,
+                    "browser-name": "Chrome",
+                    "browser-full-version": "115.0.0.0",
+                    "mobile-sdk-name": null,
+                    "mobile-sdk-full-version": null,
+                    "device-handoff-method": null,
+                    "is-proxy": false,
+                    "is-tor": false,
+                    "is-datacenter": false,
+                    "is-vpn": false,
+                    "threat-level": "low",
+                    "country-code": "US",
+                    "country-name": "United States",
+                    "region-code": "CA",
+                    "region-name": "California",
+                    "latitude": 37.7688,
+                    "longitude": -122.262,
+                    "gps-latitude": null,
+                    "gps-longitude": null,
+                    "gps-precision": null,
+                    "ip-connection-type": "residential",
+                    "ip-isp": "Comcast Cable Communications",
+                    "network-organization": "Comcast Cable Communications"
+                  },
+                  "relationships": {
+                    "inquiry": {
+                      "data": {
+                        "type": "inquiry",
+                        "id": "inq_zEx4jL84ShbUyuwX6AzPSqt6"
+                      }
+                    },
+                    "device": {
+                      "data": {
+                        "type": "device",
+                        "id": "dev_kR7nP3mQvX9sHtYw2cBdFgJa"
+                      }
+                    },
+                    "network": {
+                      "data": {
+                        "type": "network",
+                        "id": "net_wL5xQ8rJkM2vHsYn4tBcFdGa"
+                      }
+                    }
+                  }
+                },
+                "included": [
+                  {
+                    "type": "device",
+                    "id": "dev_kR7nP3mQvX9sHtYw2cBdFgJa",
+                    "attributes": {
+                      "device-vendor-id": null,
+                      "device-fingerprint": null,
+                      "browser-fingerprint": null
+                    }
+                  },
+                  {
+                    "type": "inquiry",
+                    "id": "inq_zEx4jL84ShbUyuwX6AzPSqt6",
+                    "attributes": {
+                      "status": "pending",
+                      "reference-id": null,
+                      "note": null,
+                      "behaviors": {
+                        "bot-score": 0,
+                        "request-spoof-attempts": 0,
+                        "mobile-sdk-version-less-than-minimum-count": 0,
+                        "api-version-less-than-minimum-count": 0,
+                        "user-agent-spoof-attempts": 0,
+                        "distraction-events": 0,
+                        "hesitation-baseline": null,
+                        "hesitation-count": 0,
+                        "hesitation-time": 0,
+                        "shortcut-copies": 0,
+                        "shortcut-pastes": 0,
+                        "autofill-cancels": 0,
+                        "autofill-starts": 0,
+                        "devtools-open": false,
+                        "debugger-attached": false,
+                        "completion-time": null,
+                        "hesitation-percentage": null,
+                        "behavior-threat-level": null
+                      },
+                      "tags": [],
+                      "creator": "jane@doe.com",
+                      "reviewer-comment": null,
+                      "created-at": "2023-07-25T04:15:20.000Z",
+                      "updated-at": "2023-07-25T05:14:50.000Z",
+                      "started-at": "2023-07-25T05:14:50.000Z",
+                      "expires-at": null,
+                      "completed-at": null,
+                      "failed-at": null,
+                      "marked-for-review-at": null,
+                      "decisioned-at": null,
+                      "expired-at": null,
+                      "redacted-at": null,
+                      "previous-step-name": "start",
+                      "next-step-name": "verification_document",
+                      "fields": {}
+                    },
+                    "relationships": {
+                      "account": {
+                        "data": {
+                          "type": "account",
+                          "id": "act_n2uq9eKMboaCQzu9ALWYcVdN"
+                        }
+                      },
+                      "template": {
+                        "data": {}
+                      },
+                      "inquiry-template": {
+                        "data": {
+                          "type": "inquiry-template",
+                          "id": "itmpl_p8ANAJy9iqadm2buF2xcVgqH"
+                        }
+                      },
+                      "inquiry-template-version": {
+                        "data": {
+                          "type": "inquiry-template-version",
+                          "id": "itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo"
+                        }
+                      },
+                      "reviewer": {
+                        "data": {}
+                      },
+                      "reports": {
+                        "data": []
+                      },
+                      "verifications": {
+                        "data": []
+                      },
+                      "sessions": {
+                        "data": []
+                      },
+                      "documents": {
+                        "data": []
+                      },
+                      "selfies": {
+                        "data": []
+                      }
+                    }
+                  }
+                ]
+              },
+              "created-at": "2024-02-15T23:48:17.732Z"
+            }
+          }
+        }
+      },
+      "inquiry-session-expired-webhook-body": {
+        "value": {
+          "data": {
+            "type": "event",
+            "id": "evt_7KqH4xVnR2bPmYwL9sTgD3cE",
+            "attributes": {
+              "name": "inquiry-session.expired",
+              "payload": {
+                "data": {
+                  "type": "inquiry-session",
+                  "id": "iqse_mN5pQ8rJkX2vHsYw4tBcFdGa",
+                  "attributes": {
+                    "status": "expired",
+                    "created-at": "2023-07-25T04:15:20.000Z",
+                    "started-at": "2023-07-25T05:14:50.000Z",
+                    "expired-at": "2023-07-26T05:14:50.000Z",
+                    "ip-address": "127.0.0.1",
+                    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36",
+                    "os-name": "Mac",
+                    "os-full-version": "10.15.7",
+                    "device-type": "desktop",
+                    "device-name": null,
+                    "browser-name": "Chrome",
+                    "browser-full-version": "115.0.0.0",
+                    "mobile-sdk-name": null,
+                    "mobile-sdk-full-version": null,
+                    "device-handoff-method": null,
+                    "is-proxy": false,
+                    "is-tor": false,
+                    "is-datacenter": false,
+                    "is-vpn": false,
+                    "threat-level": "low",
+                    "country-code": "US",
+                    "country-name": "United States",
+                    "region-code": "CA",
+                    "region-name": "California",
+                    "latitude": 37.7688,
+                    "longitude": -122.262,
+                    "gps-latitude": null,
+                    "gps-longitude": null,
+                    "gps-precision": null,
+                    "ip-connection-type": "residential",
+                    "ip-isp": "Comcast Cable Communications",
+                    "network-organization": "Comcast Cable Communications"
+                  },
+                  "relationships": {
+                    "inquiry": {
+                      "data": {
+                        "type": "inquiry",
+                        "id": "inq_zEx4jL84ShbUyuwX6AzPSqt6"
+                      }
+                    },
+                    "device": {
+                      "data": {
+                        "type": "device",
+                        "id": "dev_kR7nP3mQvX9sHtYw2cBdFgJa"
+                      }
+                    },
+                    "network": {
+                      "data": {
+                        "type": "network",
+                        "id": "net_wL5xQ8rJkM2vHsYn4tBcFdGa"
+                      }
+                    }
+                  }
+                },
+                "included": [
+                  {
+                    "type": "device",
+                    "id": "dev_kR7nP3mQvX9sHtYw2cBdFgJa",
+                    "attributes": {
+                      "device-vendor-id": null,
+                      "device-fingerprint": null,
+                      "browser-fingerprint": null
+                    }
+                  },
+                  {
+                    "type": "inquiry",
+                    "id": "inq_zEx4jL84ShbUyuwX6AzPSqt6",
+                    "attributes": {
+                      "status": "expired",
+                      "reference-id": null,
+                      "note": null,
+                      "behaviors": {
+                        "bot-score": 70,
+                        "request-spoof-attempts": 0,
+                        "mobile-sdk-version-less-than-minimum-count": 0,
+                        "api-version-less-than-minimum-count": 0,
+                        "user-agent-spoof-attempts": 0,
+                        "distraction-events": 0,
+                        "hesitation-baseline": 29677,
+                        "hesitation-count": 3,
+                        "hesitation-time": 28752,
+                        "shortcut-copies": 0,
+                        "shortcut-pastes": 0,
+                        "autofill-cancels": 0,
+                        "autofill-starts": 0,
+                        "devtools-open": false,
+                        "debugger-attached": false,
+                        "completion-time": 40.172463903,
+                        "hesitation-percentage": 96.88310813087575,
+                        "behavior-threat-level": "low"
+                      },
+                      "tags": [],
+                      "creator": "jane@doe.com",
+                      "reviewer-comment": null,
+                      "created-at": "2023-07-25T04:15:20.000Z",
+                      "updated-at": "2023-07-26T05:14:50.000Z",
+                      "started-at": "2023-07-25T05:14:50.000Z",
+                      "expires-at": null,
+                      "completed-at": null,
+                      "failed-at": null,
+                      "marked-for-review-at": null,
+                      "decisioned-at": null,
+                      "expired-at": "2023-07-26T05:14:50.000Z",
+                      "redacted-at": null,
+                      "previous-step-name": "start",
+                      "next-step-name": "verification_document",
+                      "fields": {}
+                    },
+                    "relationships": {
+                      "account": {
+                        "data": {
+                          "type": "account",
+                          "id": "act_n2uq9eKMboaCQzu9ALWYcVdN"
+                        }
+                      },
+                      "template": {
+                        "data": {}
+                      },
+                      "inquiry-template": {
+                        "data": {
+                          "type": "inquiry-template",
+                          "id": "itmpl_p8ANAJy9iqadm2buF2xcVgqH"
+                        }
+                      },
+                      "inquiry-template-version": {
+                        "data": {
+                          "type": "inquiry-template-version",
+                          "id": "itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo"
+                        }
+                      },
+                      "reviewer": {
+                        "data": {}
+                      },
+                      "reports": {
+                        "data": []
+                      },
+                      "verifications": {
+                        "data": []
+                      },
+                      "sessions": {
+                        "data": []
+                      },
+                      "documents": {
+                        "data": []
+                      },
+                      "selfies": {
+                        "data": []
+                      }
+                    }
+                  }
+                ]
+              },
+              "created-at": "2024-02-15T23:48:17.732Z"
+            }
+          }
+        }
+      },
+      "inquiry-session-canceled-webhook-body": {
+        "value": {
+          "data": {
+            "type": "event",
+            "id": "evt_7KqH4xVnR2bPmYwL9sTgD3cE",
+            "attributes": {
+              "name": "inquiry-session.canceled",
+              "payload": {
+                "data": {
+                  "type": "inquiry-session",
+                  "id": "iqse_mN5pQ8rJkX2vHsYw4tBcFdGa",
+                  "attributes": {
+                    "status": "expired",
+                    "created-at": "2023-07-25T04:15:20.000Z",
+                    "started-at": "2023-07-25T05:14:50.000Z",
+                    "expired-at": "2023-07-26T05:14:50.000Z",
+                    "ip-address": "127.0.0.1",
+                    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36",
+                    "os-name": "Mac",
+                    "os-full-version": "10.15.7",
+                    "device-type": "desktop",
+                    "device-name": null,
+                    "browser-name": "Chrome",
+                    "browser-full-version": "115.0.0.0",
+                    "mobile-sdk-name": null,
+                    "mobile-sdk-full-version": null,
+                    "device-handoff-method": null,
+                    "is-proxy": false,
+                    "is-tor": false,
+                    "is-datacenter": false,
+                    "is-vpn": false,
+                    "threat-level": "low",
+                    "country-code": "US",
+                    "country-name": "United States",
+                    "region-code": "CA",
+                    "region-name": "California",
+                    "latitude": 37.7688,
+                    "longitude": -122.262,
+                    "gps-latitude": null,
+                    "gps-longitude": null,
+                    "gps-precision": null,
+                    "ip-connection-type": "residential",
+                    "ip-isp": "Comcast Cable Communications",
+                    "network-organization": "Comcast Cable Communications"
+                  },
+                  "relationships": {
+                    "inquiry": {
+                      "data": {
+                        "type": "inquiry",
+                        "id": "inq_zEx4jL84ShbUyuwX6AzPSqt6"
+                      }
+                    },
+                    "device": {
+                      "data": {
+                        "type": "device",
+                        "id": "dev_kR7nP3mQvX9sHtYw2cBdFgJa"
+                      }
+                    },
+                    "network": {
+                      "data": {
+                        "type": "network",
+                        "id": "net_wL5xQ8rJkM2vHsYn4tBcFdGa"
+                      }
+                    }
+                  }
+                },
+                "included": [
+                  {
+                    "type": "device",
+                    "id": "dev_kR7nP3mQvX9sHtYw2cBdFgJa",
+                    "attributes": {
+                      "device-vendor-id": null,
+                      "device-fingerprint": null,
+                      "browser-fingerprint": null
+                    }
+                  },
+                  {
+                    "type": "inquiry",
+                    "id": "inq_zEx4jL84ShbUyuwX6AzPSqt6",
+                    "attributes": {
+                      "status": "expired",
+                      "reference-id": null,
+                      "note": null,
+                      "behaviors": {
+                        "bot-score": 70,
+                        "request-spoof-attempts": 0,
+                        "mobile-sdk-version-less-than-minimum-count": 0,
+                        "api-version-less-than-minimum-count": 0,
+                        "user-agent-spoof-attempts": 0,
+                        "distraction-events": 0,
+                        "hesitation-baseline": 29677,
+                        "hesitation-count": 3,
+                        "hesitation-time": 28752,
+                        "shortcut-copies": 0,
+                        "shortcut-pastes": 0,
+                        "autofill-cancels": 0,
+                        "autofill-starts": 0,
+                        "devtools-open": false,
+                        "debugger-attached": false,
+                        "completion-time": 40.172463903,
+                        "hesitation-percentage": 96.88310813087575,
+                        "behavior-threat-level": "low"
+                      },
+                      "tags": [],
+                      "creator": "jane@doe.com",
+                      "reviewer-comment": null,
+                      "created-at": "2023-07-25T04:15:20.000Z",
+                      "updated-at": "2023-07-26T05:14:50.000Z",
+                      "started-at": "2023-07-25T05:14:50.000Z",
+                      "expires-at": null,
+                      "completed-at": null,
+                      "failed-at": null,
+                      "marked-for-review-at": null,
+                      "decisioned-at": null,
+                      "expired-at": "2023-07-26T05:14:50.000Z",
+                      "redacted-at": null,
+                      "previous-step-name": "start",
+                      "next-step-name": "verification_document",
+                      "fields": {}
+                    },
+                    "relationships": {
+                      "account": {
+                        "data": {
+                          "type": "account",
+                          "id": "act_n2uq9eKMboaCQzu9ALWYcVdN"
+                        }
+                      },
+                      "template": {
+                        "data": {}
+                      },
+                      "inquiry-template": {
+                        "data": {
+                          "type": "inquiry-template",
+                          "id": "itmpl_p8ANAJy9iqadm2buF2xcVgqH"
+                        }
+                      },
+                      "inquiry-template-version": {
+                        "data": {
+                          "type": "inquiry-template-version",
+                          "id": "itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo"
+                        }
+                      },
+                      "reviewer": {
+                        "data": {}
+                      },
+                      "reports": {
+                        "data": []
+                      },
+                      "verifications": {
+                        "data": []
+                      },
+                      "sessions": {
+                        "data": []
+                      },
+                      "documents": {
+                        "data": []
+                      },
+                      "selfies": {
+                        "data": []
                       }
                     }
                   }
