@@ -1,0 +1,172 @@
+get:
+  description: >-
+    Returns a list of your organization's connect connections. Results are
+    returned in reverse chronological order, with the most recently created
+    objects first.
+  operationId: list-all-connect-connections
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: >-
+      https://docs.withpersona.com/api-reference/connect/connections/list-all-connect-connections
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/pagination-query-params.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+    - in: query
+      name: filter
+      style: deepObject
+      explode: true
+      schema:
+        type: object
+        additionalProperties: false
+        properties:
+          status:
+            description: Filter connections by status
+            type: string
+          destination-organization-id:
+            description: Filter connections by authorized organization ID
+            type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Success:
+              $ref: ../components/examples/connect-connection-list.yaml
+          schema:
+            properties:
+              data:
+                items:
+                  $ref: ../components/schemas/connect-connection.yaml
+                type: array
+                description: An array of Connections
+              links:
+                properties:
+                  prev:
+                    type:
+                      - string
+                      - 'null'
+                    examples:
+                      - /api/v1/connect/connections?page%5Bafter%5D=cxn_ABC123
+                    description: >-
+                      URL pointing to the previous page of data, or null if on
+                      the first page.
+                  next:
+                    type:
+                      - string
+                      - 'null'
+                    examples:
+                      - /api/v1/connect/connections?page%5Bafter%5D=cxn_ABC123
+                    description: >-
+                      URL pointing to the next page of data, or null if on the
+                      last page.
+                additionalProperties: false
+                type: object
+                required:
+                  - prev
+                  - next
+            additionalProperties: false
+            type: object
+            required:
+              - data
+              - links
+      description: This endpoint returns a collection of Connections.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: List all Connections
+  tags:
+    - Connect
+  x-persona-product: Connect
+post:
+  description: Creates a new Connection for your organization.
+  operationId: create-a-connect-connection
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: >-
+      https://docs.withpersona.com/api-reference/connect/connections/create-a-connect-connection
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+  requestBody:
+    content:
+      application/json:
+        examples:
+          Success:
+            $ref: ../components/examples/create-connection.yaml
+        schema:
+          properties:
+            data:
+              properties:
+                attributes:
+                  unevaluatedProperties: false
+                  allOf:
+                    - type: object
+                      properties:
+                        destination-organization-id:
+                          description: >-
+                            The organization ID that will be authorized to
+                            access objects through this connection
+                          type: string
+                          examples:
+                            - org_XYZ789
+                        scopes:
+                          description: >-
+                            Array of scopes that define what access is granted
+                            through this connection. If not provided, defaults
+                            to ["inquiry.read", "account.read"].
+                          type: array
+                          items:
+                            type: string
+                          examples:
+                            - - inquiry.read
+                              - account.read
+                      required:
+                        - destination-organization-id
+              additionalProperties: false
+              type: object
+          additionalProperties: false
+          type: object
+  responses:
+    '201':
+      content:
+        application/json:
+          examples:
+            Success:
+              $ref: ../components/examples/connect-connection.yaml
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/connect-connection.yaml
+            type: object
+            additionalProperties: false
+            required:
+              - data
+      description: This endpoint returns a Connection.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Create a Connection
+  tags:
+    - Connect
+  x-persona-product: Connect

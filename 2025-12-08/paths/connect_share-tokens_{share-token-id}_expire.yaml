@@ -1,0 +1,53 @@
+post:
+  tags:
+    - Connect
+  summary: Expire a Share Token
+  description: >-
+    Expires a Share Token, setting its status to expired and preventing further
+    use.
+  operationId: expire-share-token
+  x-persona-product: Connect
+  parameters:
+    - in: path
+      name: share-token-id
+      required: true
+      schema:
+        type: string
+      description: The token/ID of the Share Token to be expired.
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+  responses:
+    '200':
+      description: This endpoint returns a Share Token resource.
+      content:
+        application/json:
+          examples:
+            Success:
+              $ref: ../components/examples/connect-share-token-expired.yaml
+          schema:
+            type: object
+            additionalProperties: false
+            properties:
+              data:
+                $ref: ../components/schemas/connect-share-token.yaml
+              included:
+                $ref: ../components/schemas/empty-included-objects.yaml
+            required:
+              - data
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml

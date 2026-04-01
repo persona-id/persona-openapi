@@ -1,0 +1,104 @@
+type: object
+additionalProperties: false
+description: >-
+  A Connect Connection object.
+
+
+  This object represents a connection between organizations for sharing access
+  to Persona objects.
+properties:
+  type:
+    type: string
+    const: connect/connection
+  id:
+    type: string
+    examples:
+      - cxn_ABC123
+  attributes:
+    additionalProperties: false
+    properties:
+      token:
+        type: string
+        examples:
+          - cxn_ABC123
+        description: The unique token for this connect connection
+      status:
+        type: string
+        examples:
+          - pending
+          - active
+          - inactive
+        description: The current status of the connection
+      organization-id:
+        type: string
+        examples:
+          - org_ABC123
+        description: The organization that owns this connection
+      destination-organization-id:
+        type: string
+        examples:
+          - org_XYZ789
+        description: >-
+          The organization that is authorized to access objects through this
+          connection
+      scopes:
+        type: array
+        items:
+          type: string
+        examples:
+          - - inquiry.read
+            - account.read
+        description: The scopes that define what access is granted through this connection
+      creator-id:
+        type: string
+        examples:
+          - api_ABC123
+        description: The ID of the entity that created this connection
+      creator-type:
+        type: string
+        examples:
+          - api-key
+          - user
+        description: The type of entity that created this connection
+      created-at:
+        format: date-time
+        examples:
+          - '2018-06-01T00:00:00.000Z'
+        type: string
+        description: The date and time when this connection was created
+      updated-at:
+        format: date-time
+        examples:
+          - '2018-06-01T00:00:00.000Z'
+        type: string
+        description: The date and time when this connection was last updated
+    type: object
+  relationships:
+    type: object
+    additionalProperties: false
+    properties:
+      creator:
+        type: object
+        additionalProperties: false
+        properties:
+          data:
+            type: object
+            additionalProperties: false
+            properties:
+              id:
+                examples:
+                  - user_ABC123
+                  - api_ABC123
+                type: string
+              type:
+                x-polymorphic: true
+                type: string
+                examples:
+                  - user
+                  - api-key
+                description: The type of the creator entity
+            required:
+              - id
+              - type
+        required:
+          - data

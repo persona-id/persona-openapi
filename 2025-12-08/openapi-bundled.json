@@ -41,6 +41,10 @@
       "description": "Interact with Persona Case objects"
     },
     {
+      "name": "Connect",
+      "description": "Interact with Persona Connect objects"
+    },
+    {
       "name": "Devices",
       "description": "Interact with Persona Device objects"
     },
@@ -2806,6 +2810,1215 @@
           "API Keys"
         ],
         "x-persona-product": "API Keys"
+      }
+    },
+    "/connect/connections": {
+      "get": {
+        "description": "Returns a list of your organization's connect connections. Results are returned in reverse chronological order, with the most recently created objects first.",
+        "operationId": "list-all-connect-connections",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/api-reference/connect/connections/list-all-connect-connections"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/pagination-query-params"
+          },
+          {
+            "$ref": "#/components/parameters/fields-query-parameter"
+          },
+          {
+            "in": "query",
+            "name": "filter",
+            "style": "deepObject",
+            "explode": true,
+            "schema": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "status": {
+                  "description": "Filter connections by status",
+                  "type": "string"
+                },
+                "destination-organization-id": {
+                  "description": "Filter connections by authorized organization ID",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Success": {
+                    "$ref": "#/components/examples/connect-connection-list"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/connect-connection"
+                      },
+                      "type": "array",
+                      "description": "An array of Connections"
+                    },
+                    "links": {
+                      "properties": {
+                        "prev": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "examples": [
+                            "/api/v1/connect/connections?page%5Bafter%5D=cxn_ABC123"
+                          ],
+                          "description": "URL pointing to the previous page of data, or null if on the first page."
+                        },
+                        "next": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "examples": [
+                            "/api/v1/connect/connections?page%5Bafter%5D=cxn_ABC123"
+                          ],
+                          "description": "URL pointing to the next page of data, or null if on the last page."
+                        }
+                      },
+                      "additionalProperties": false,
+                      "type": "object",
+                      "required": [
+                        "prev",
+                        "next"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false,
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "links"
+                  ]
+                }
+              }
+            },
+            "description": "This endpoint returns a collection of Connections."
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        },
+        "summary": "List all Connections",
+        "tags": [
+          "Connect"
+        ],
+        "x-persona-product": "Connect"
+      },
+      "post": {
+        "description": "Creates a new Connection for your organization.",
+        "operationId": "create-a-connect-connection",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/api-reference/connect/connections/create-a-connect-connection"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/fields-query-parameter"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "examples": {
+                "Success": {
+                  "$ref": "#/components/examples/create-connection"
+                }
+              },
+              "schema": {
+                "properties": {
+                  "data": {
+                    "properties": {
+                      "attributes": {
+                        "unevaluatedProperties": false,
+                        "allOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "destination-organization-id": {
+                                "description": "The organization ID that will be authorized to access objects through this connection",
+                                "type": "string",
+                                "examples": [
+                                  "org_XYZ789"
+                                ]
+                              },
+                              "scopes": {
+                                "description": "Array of scopes that define what access is granted through this connection. If not provided, defaults to [\"inquiry.read\", \"account.read\"].",
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                },
+                                "examples": [
+                                  [
+                                    "inquiry.read",
+                                    "account.read"
+                                  ]
+                                ]
+                              }
+                            },
+                            "required": [
+                              "destination-organization-id"
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "additionalProperties": false,
+                    "type": "object"
+                  }
+                },
+                "additionalProperties": false,
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Success": {
+                    "$ref": "#/components/examples/connect-connection"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/connect-connection"
+                    }
+                  },
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            },
+            "description": "This endpoint returns a Connection."
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessable-entity"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        },
+        "summary": "Create a Connection",
+        "tags": [
+          "Connect"
+        ],
+        "x-persona-product": "Connect"
+      }
+    },
+    "/connect/connections/{connection-id}": {
+      "get": {
+        "description": "Retrieves the details of an existing Connect Connection.",
+        "operationId": "retrieve-a-connect-connection",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/api-reference/connect/connections/retrieve-a-connect-connection"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/fields-query-parameter"
+          },
+          {
+            "name": "connection-id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Token of the connect connection",
+            "examples": {
+              "connection-id": {
+                "value": "connection-id"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Success": {
+                    "$ref": "#/components/examples/connect-connection"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/connect-connection"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "type": "object",
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            },
+            "description": "This endpoint returns a Connect Connection."
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "409": {
+            "$ref": "#/components/responses/conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessable-entity"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        },
+        "summary": "Retrieve a Connect Connection",
+        "tags": [
+          "Connect"
+        ],
+        "x-persona-product": "Connect"
+      },
+      "patch": {
+        "description": "Updates an existing Connect Connection.",
+        "operationId": "update-a-connect-connection",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/api-reference/connect/connections/update-a-connect-connection"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/fields-query-parameter"
+          },
+          {
+            "name": "connection-id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Token of the connect connection",
+            "examples": {
+              "connection-id": {
+                "value": "connection-id"
+              }
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "examples": {
+                "Success": {
+                  "$ref": "#/components/examples/update-connection"
+                }
+              },
+              "schema": {
+                "properties": {
+                  "data": {
+                    "properties": {
+                      "attributes": {
+                        "unevaluatedProperties": false,
+                        "allOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "scopes": {
+                                "description": "Array of scopes that define what access is granted through this connection.",
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                },
+                                "examples": [
+                                  [
+                                    "inquiry.read",
+                                    "account.read"
+                                  ]
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    "additionalProperties": false,
+                    "type": "object"
+                  }
+                },
+                "additionalProperties": false,
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Success": {
+                    "$ref": "#/components/examples/connect-connection"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/connect-connection"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "type": "object",
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            },
+            "description": "This endpoint returns a Connect Connection."
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "409": {
+            "$ref": "#/components/responses/conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessable-entity"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        },
+        "summary": "Update a Connect Connection",
+        "tags": [
+          "Connect"
+        ],
+        "x-persona-product": "Connect"
+      }
+    },
+    "/connect/connections/{connection-id}/deactivate": {
+      "post": {
+        "description": "Deactivates an active Connect Connection. This action prevents further access through the connection but maintains the connection record. Only active connections can be deactivated.",
+        "operationId": "deactivate-a-connect-connection",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/api-reference/connect/connections/deactivate-a-connect-connection"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "name": "connection-id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the connect connection",
+            "examples": {
+              "connection-id": {
+                "value": "connection-id"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Success": {
+                    "$ref": "#/components/examples/connect-connection-inactive"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/connect-connection"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "type": "object",
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            },
+            "description": "This endpoint returns a Connect Connection."
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "409": {
+            "$ref": "#/components/responses/conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessable-entity"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        },
+        "summary": "Deactivate a Connect Connection",
+        "tags": [
+          "Connect"
+        ],
+        "x-persona-product": "Connect"
+      }
+    },
+    "/connect/connections/{connection-id}/reactivate": {
+      "post": {
+        "description": "Reactivates an inactive Connection. This action restores access through the connection. Only inactive connections can be reactivated.",
+        "operationId": "reactivate-a-connect-connection",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/api-reference/connect/connections/reactivate-a-connect-connection"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "name": "connection-id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the connect connection",
+            "examples": {
+              "connection-id": {
+                "value": "connection-id"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Success": {
+                    "$ref": "#/components/examples/connect-connection"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/connect-connection"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "type": "object",
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            },
+            "description": "This endpoint returns a Connection."
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "409": {
+            "$ref": "#/components/responses/conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessable-entity"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        },
+        "summary": "Reactivate a Connection",
+        "tags": [
+          "Connect"
+        ],
+        "x-persona-product": "Connect"
+      }
+    },
+    "/connect/share-tokens": {
+      "get": {
+        "tags": [
+          "Connect"
+        ],
+        "summary": "List all Share Tokens",
+        "description": "Returns a list of your organization's Share Tokens. Results are returned in reverse chronological order, with the most recently created objects first.",
+        "operationId": "list-all-share-tokens",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/api-reference/share-tokens/list-all-share-tokens"
+        },
+        "x-persona-product": "Connect",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/pagination-query-params"
+          },
+          {
+            "$ref": "#/components/parameters/fields-query-parameter"
+          },
+          {
+            "in": "query",
+            "name": "filter",
+            "style": "deepObject",
+            "explode": true,
+            "schema": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "connection-id": {
+                  "description": "Filter Share Tokens by connect connection ID",
+                  "type": "string",
+                  "examples": [
+                    "cxn_ABC123"
+                  ]
+                },
+                "status": {
+                  "description": "Filter Share Tokens by status",
+                  "type": "string",
+                  "examples": [
+                    "new",
+                    "pending",
+                    "completed",
+                    "expired"
+                  ]
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Success": {
+                    "$ref": "#/components/examples/connect-share-token-list"
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/connect-share-token"
+                      },
+                      "type": "array",
+                      "description": "An array of Share Tokens"
+                    },
+                    "links": {
+                      "properties": {
+                        "next": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "prev": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "next",
+                        "prev"
+                      ]
+                    },
+                    "included": {
+                      "$ref": "#/components/schemas/empty-included-objects"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "links"
+                  ]
+                }
+              }
+            },
+            "description": "This endpoint returns a collection of Share Token resources."
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Connect"
+        ],
+        "summary": "Create a Share Token",
+        "description": "Creates a new Share Token with the specified connection and source.",
+        "operationId": "create-a-share-token",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/api-reference/share-tokens/create-a-share-token"
+        },
+        "x-persona-product": "Connect",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/include-query-parameter"
+          },
+          {
+            "$ref": "#/components/parameters/fields-query-parameter"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "examples": {
+                "Success": {
+                  "$ref": "#/components/examples/create-share-token"
+                }
+              },
+              "schema": {
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "required": [
+                      "attributes"
+                    ],
+                    "properties": {
+                      "attributes": {
+                        "required": [
+                          "connection-id",
+                          "source-id"
+                        ],
+                        "properties": {
+                          "connection-id": {
+                            "type": "string",
+                            "description": "The ID of the connect connection",
+                            "examples": [
+                              "cxn_ABC123"
+                            ]
+                          },
+                          "source-id": {
+                            "type": "string",
+                            "description": "The ID of the source resource (Account or Inquiry)",
+                            "examples": [
+                              "act_ABC123",
+                              "inq_DEF456"
+                            ]
+                          },
+                          "expires-in-seconds": {
+                            "type": "integer",
+                            "description": "The number of seconds until the share token expires",
+                            "minimum": 0,
+                            "examples": [
+                              86400,
+                              3600
+                            ]
+                          }
+                        },
+                        "type": "object",
+                        "additionalProperties": false
+                      }
+                    },
+                    "type": "object",
+                    "additionalProperties": false
+                  }
+                },
+                "type": "object",
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Success": {
+                    "$ref": "#/components/examples/connect-share-token"
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/connect-share-token"
+                    },
+                    "included": {
+                      "$ref": "#/components/schemas/empty-included-objects"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            },
+            "description": "This endpoint returns a Share Token resource."
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessable-entity"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        }
+      }
+    },
+    "/connect/share-tokens/{share-token-id}": {
+      "get": {
+        "tags": [
+          "Connect"
+        ],
+        "summary": "Retrieve a Share Token",
+        "description": "Retrieve the information for an existing Share Token.",
+        "operationId": "retrieve-a-share-token",
+        "x-persona-product": "Connect",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/include-query-parameter"
+          },
+          {
+            "$ref": "#/components/parameters/fields-query-parameter"
+          },
+          {
+            "name": "share-token-id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The ID of the Share Token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "This endpoint returns a Share Token resource.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Success": {
+                    "$ref": "#/components/examples/connect-share-token-no-relationships"
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/connect-share-token"
+                    },
+                    "included": {
+                      "$ref": "#/components/schemas/empty-included-objects"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        }
+      }
+    },
+    "/connect/share-tokens/{share-token-id}/expire": {
+      "post": {
+        "tags": [
+          "Connect"
+        ],
+        "summary": "Expire a Share Token",
+        "description": "Expires a Share Token, setting its status to expired and preventing further use.",
+        "operationId": "expire-share-token",
+        "x-persona-product": "Connect",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "share-token-id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The token/ID of the Share Token to be expired."
+          },
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/include-query-parameter"
+          },
+          {
+            "$ref": "#/components/parameters/fields-query-parameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "This endpoint returns a Share Token resource.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Success": {
+                    "$ref": "#/components/examples/connect-share-token-expired"
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/connect-share-token"
+                    },
+                    "included": {
+                      "$ref": "#/components/schemas/empty-included-objects"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "409": {
+            "$ref": "#/components/responses/conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessable-entity"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        }
+      }
+    },
+    "/connect/share-tokens/{share-token-id}/redeem": {
+      "post": {
+        "tags": [
+          "Connect"
+        ],
+        "summary": "Redeem a Share Token",
+        "description": "Redeems a Share Token by importing the source data into the specified destination. The destination must be in a valid state to accept the imported data.",
+        "operationId": "redeem-share-token",
+        "x-persona-product": "Connect",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "share-token-id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The token/ID of the Share Token to be redeemed."
+          },
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/include-query-parameter"
+          },
+          {
+            "$ref": "#/components/parameters/fields-query-parameter"
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "examples": {
+                "Success": {
+                  "$ref": "#/components/examples/redeem-share-token"
+                }
+              },
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "attributes": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "destination-id": {
+                            "type": "string",
+                            "description": "The ID/token of the destination object to import the data into.\nOptional for Verification cloning - when omitted, a new verification is created.\n",
+                            "example": "inq_DEF456"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Share Token has been successfully redeemed.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Success": {
+                    "$ref": "#/components/examples/connect-share-token-redeemed"
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/connect-share-token"
+                    },
+                    "included": {
+                      "$ref": "#/components/schemas/empty-included-objects"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "409": {
+            "$ref": "#/components/responses/conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessable-entity"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        }
       }
     },
     "/api-logs": {
@@ -25669,6 +26882,370 @@
           }
         }
       },
+      "connect-connection": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "A Connect Connection object.\n\nThis object represents a connection between organizations for sharing access to Persona objects.",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "connect/connection"
+          },
+          "id": {
+            "type": "string",
+            "examples": [
+              "cxn_ABC123"
+            ]
+          },
+          "attributes": {
+            "additionalProperties": false,
+            "properties": {
+              "token": {
+                "type": "string",
+                "examples": [
+                  "cxn_ABC123"
+                ],
+                "description": "The unique token for this connect connection"
+              },
+              "status": {
+                "type": "string",
+                "examples": [
+                  "pending",
+                  "active",
+                  "inactive"
+                ],
+                "description": "The current status of the connection"
+              },
+              "organization-id": {
+                "type": "string",
+                "examples": [
+                  "org_ABC123"
+                ],
+                "description": "The organization that owns this connection"
+              },
+              "destination-organization-id": {
+                "type": "string",
+                "examples": [
+                  "org_XYZ789"
+                ],
+                "description": "The organization that is authorized to access objects through this connection"
+              },
+              "scopes": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "examples": [
+                  [
+                    "inquiry.read",
+                    "account.read"
+                  ]
+                ],
+                "description": "The scopes that define what access is granted through this connection"
+              },
+              "creator-id": {
+                "type": "string",
+                "examples": [
+                  "api_ABC123"
+                ],
+                "description": "The ID of the entity that created this connection"
+              },
+              "creator-type": {
+                "type": "string",
+                "examples": [
+                  "api-key",
+                  "user"
+                ],
+                "description": "The type of entity that created this connection"
+              },
+              "created-at": {
+                "format": "date-time",
+                "examples": [
+                  "2018-06-01T00:00:00.000Z"
+                ],
+                "type": "string",
+                "description": "The date and time when this connection was created"
+              },
+              "updated-at": {
+                "format": "date-time",
+                "examples": [
+                  "2018-06-01T00:00:00.000Z"
+                ],
+                "type": "string",
+                "description": "The date and time when this connection was last updated"
+              }
+            },
+            "type": "object"
+          },
+          "relationships": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "creator": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "id": {
+                        "examples": [
+                          "user_ABC123",
+                          "api_ABC123"
+                        ],
+                        "type": "string"
+                      },
+                      "type": {
+                        "x-polymorphic": true,
+                        "type": "string",
+                        "examples": [
+                          "user",
+                          "api-key"
+                        ],
+                        "description": "The type of the creator entity"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "type"
+                    ]
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "connect-share-token": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "A Share Token resource. The specific attributes and relationships included may vary based on the requesting organization's context.",
+        "properties": {
+          "type": {
+            "const": "connect/share-token",
+            "type": "string"
+          },
+          "id": {
+            "examples": [
+              "cnst_ABC123"
+            ],
+            "type": "string"
+          },
+          "attributes": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "status": {
+                "type": "string",
+                "description": "The status of the share token",
+                "examples": [
+                  "created",
+                  "pending",
+                  "redeemed",
+                  "expired"
+                ]
+              },
+              "source-id": {
+                "type": "string",
+                "description": "The ID of the source resource being shared (Account or Inquiry)",
+                "examples": [
+                  "act_ABC123",
+                  "inq_DEF456"
+                ]
+              },
+              "destination-id": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "The ID of the destination resource where the data was imported (when redeemed)",
+                "examples": [
+                  "inq_DEF456",
+                  null
+                ]
+              },
+              "created-at": {
+                "type": "string",
+                "format": "date-time",
+                "description": "When this share token was created",
+                "examples": [
+                  "2023-09-21T18:29:40.000Z"
+                ]
+              },
+              "updated-at": {
+                "type": "string",
+                "format": "date-time",
+                "description": "When this share token was last updated",
+                "examples": [
+                  "2023-09-21T18:29:40.000Z"
+                ]
+              },
+              "pending-at": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time",
+                "description": "When this share token started processing",
+                "examples": [
+                  "2023-09-21T18:35:20.000Z",
+                  null
+                ]
+              },
+              "redeemed-at": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time",
+                "description": "When this share token was redeemed",
+                "examples": [
+                  "2023-09-21T18:30:15.000Z",
+                  null
+                ]
+              },
+              "expires-at": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time",
+                "description": "When this share token expires",
+                "examples": [
+                  "2023-09-22T18:29:40.000Z",
+                  null
+                ]
+              },
+              "expired-at": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time",
+                "description": "When this share token expired",
+                "examples": [
+                  "2023-09-22T18:29:40.000Z",
+                  null
+                ]
+              }
+            }
+          },
+          "relationships": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "connection": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "const": "connect/connection"
+                      },
+                      "id": {
+                        "type": "string",
+                        "examples": [
+                          "cxn_ABC123"
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "creator": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "x-polymorphic": true,
+                        "examples": [
+                          "user",
+                          "api-key"
+                        ]
+                      },
+                      "id": {
+                        "type": "string",
+                        "examples": [
+                          "user_ABC123",
+                          "api_DEF456"
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "source": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "x-polymorphic": true,
+                        "examples": [
+                          "account",
+                          "inquiry"
+                        ]
+                      },
+                      "id": {
+                        "type": "string",
+                        "examples": [
+                          "act_ABC123",
+                          "inq_DEF456"
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "destination": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "x-polymorphic": true,
+                        "examples": [
+                          "inquiry"
+                        ]
+                      },
+                      "id": {
+                        "type": "string",
+                        "examples": [
+                          "inq_DEF456"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "api-log": {
         "type": "object",
         "additionalProperties": false,
@@ -42823,6 +44400,252 @@
         "value": {
           "meta": {
             "expires-in-seconds": 10
+          }
+        }
+      },
+      "connect-connection-list": {
+        "value": {
+          "data": [
+            {
+              "type": "connect/connection",
+              "id": "cxn_ABC123",
+              "attributes": {
+                "status": "pending",
+                "destination-organization-id": "org_ABC123",
+                "scopes": [
+                  "inquiry.read",
+                  "account.read"
+                ],
+                "created-at": "2018-06-01T00:00:00.000Z",
+                "updated-at": "2018-06-01T00:00:00.000Z"
+              }
+            },
+            {
+              "type": "connect/connection",
+              "id": "cxn_XYZ789",
+              "attributes": {
+                "status": "active",
+                "destination-organization-id": "org_XYZ789",
+                "scopes": [
+                  "inquiry.read",
+                  "account.read"
+                ],
+                "created-at": "2018-06-01T00:00:00.000Z",
+                "updated-at": "2018-06-01T00:00:00.000Z"
+              }
+            }
+          ],
+          "links": {
+            "prev": null,
+            "next": "/api/v1/connect/connections?page%5Bafter%5D=cxn_XYZ789"
+          }
+        }
+      },
+      "create-connection": {
+        "value": {
+          "data": {
+            "attributes": {
+              "destination-organization-id": "org_ABC123"
+            }
+          }
+        }
+      },
+      "connect-connection": {
+        "value": {
+          "data": {
+            "type": "connect/connection",
+            "id": "cxn_ABC123",
+            "attributes": {
+              "status": "pending",
+              "destination-organization-id": "org_ABC123",
+              "scopes": [
+                "inquiry.read",
+                "account.read"
+              ],
+              "created-at": "2018-06-01T00:00:00.000Z",
+              "updated-at": "2018-06-01T00:00:00.000Z"
+            }
+          }
+        }
+      },
+      "update-connection": {
+        "value": {
+          "data": {
+            "attributes": {
+              "scopes": [
+                "inquiry.read",
+                "account.read"
+              ]
+            }
+          }
+        }
+      },
+      "connect-connection-inactive": {
+        "value": {
+          "data": {
+            "type": "connect/connection",
+            "id": "cxn_ABC123",
+            "attributes": {
+              "status": "inactive",
+              "destination-organization-id": "org_ABC123",
+              "scopes": [
+                "inquiry.read",
+                "account.read"
+              ],
+              "created-at": "2018-06-01T00:00:00.000Z",
+              "updated-at": "2018-06-01T00:00:00.000Z"
+            }
+          }
+        }
+      },
+      "connect-share-token-list": {
+        "value": {
+          "data": [
+            {
+              "type": "connect/share-token",
+              "id": "cnst_ABC123",
+              "attributes": {
+                "status": "created",
+                "created-at": "2023-08-17T23:18:13.000Z",
+                "updated-at": "2023-08-17T23:18:13.000Z",
+                "pending-at": null,
+                "redeemed-at": null,
+                "expires-at": null
+              }
+            },
+            {
+              "type": "connect/share-token",
+              "id": "cnst_ABC456",
+              "attributes": {
+                "status": "redeemed",
+                "created-at": "2023-08-17T23:18:13.000Z",
+                "updated-at": "2023-08-17T23:18:13.000Z",
+                "pending-at": "2023-08-17T23:18:13.000Z",
+                "redeemed-at": "2023-08-17T23:18:13.000Z",
+                "expires-at": null
+              }
+            }
+          ],
+          "links": {
+            "prev": null,
+            "next": "/api/v1/connect/share-tokens?page%5Bafter%5D=cnst_ABC456"
+          }
+        }
+      },
+      "create-share-token": {
+        "value": {
+          "data": {
+            "attributes": {
+              "connection-id": "cxn_ABC123",
+              "source-id": "inq_ABC123"
+            }
+          }
+        }
+      },
+      "connect-share-token": {
+        "value": {
+          "data": {
+            "type": "connect/share-token",
+            "id": "cnst_ABC123",
+            "attributes": {
+              "status": "created",
+              "created-at": "2023-08-17T23:18:13.000Z",
+              "updated-at": "2023-08-17T23:18:13.000Z",
+              "pending-at": null,
+              "redeemed-at": null,
+              "expires-at": null
+            },
+            "relationships": {
+              "creator": {
+                "data": {
+                  "type": "user",
+                  "id": "user_ABC123"
+                }
+              },
+              "source": {
+                "data": {
+                  "type": "inquiry",
+                  "id": "inq_ABC123"
+                }
+              },
+              "connection": {
+                "data": {
+                  "type": "connect/connection",
+                  "id": "cxn_ABC123"
+                }
+              }
+            }
+          }
+        }
+      },
+      "connect-share-token-no-relationships": {
+        "value": {
+          "data": {
+            "type": "connect/share-token",
+            "id": "cnst_ABC123",
+            "attributes": {
+              "status": "redeemed",
+              "created-at": "2023-08-17T23:18:13.000Z",
+              "updated-at": "2023-08-17T23:18:13.000Z",
+              "pending-at": "2023-08-17T23:18:13.000Z",
+              "redeemed-at": "2023-08-17T23:18:13.000Z",
+              "expires-at": null
+            }
+          }
+        }
+      },
+      "connect-share-token-expired": {
+        "value": {
+          "data": {
+            "type": "connect/share-token",
+            "id": "cnst_ABC123",
+            "attributes": {
+              "status": "expired",
+              "created-at": "2023-08-17T23:18:13.000Z",
+              "updated-at": "2023-08-17T23:18:13.000Z",
+              "pending-at": null,
+              "redeemed-at": null,
+              "expires-at": "2023-08-17T23:18:13.000Z"
+            }
+          }
+        }
+      },
+      "redeem-share-token": {
+        "value": {
+          "data": {
+            "attributes": {
+              "destination-id": "inq_XYZ789"
+            }
+          }
+        }
+      },
+      "connect-share-token-redeemed": {
+        "value": {
+          "data": {
+            "type": "connect/share-token",
+            "id": "cnst_ABC123",
+            "attributes": {
+              "status": "redeemed",
+              "created-at": "2023-08-17T23:18:13.000Z",
+              "updated-at": "2023-08-17T23:18:13.000Z",
+              "pending-at": "2023-08-17T23:18:13.000Z",
+              "redeemed-at": "2023-08-17T23:18:13.000Z",
+              "expires-at": null
+            },
+            "relationships": {
+              "destination": {
+                "data": {
+                  "type": "inquiry",
+                  "id": "inq_XYZ789"
+                }
+              },
+              "connection": {
+                "data": {
+                  "type": "connect/connection",
+                  "id": "cxn_ABC123"
+                }
+              }
+            }
           }
         }
       },
