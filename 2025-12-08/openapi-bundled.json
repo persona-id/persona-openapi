@@ -8372,6 +8372,272 @@
         "x-persona-product": "Events"
       }
     },
+    "/graph-queries": {
+      "post": {
+        "description": "Create a Graph Query",
+        "operationId": "create-a-graph-query",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/api-reference/graph/create-a-graph-query"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/include-query-parameter"
+          },
+          {
+            "$ref": "#/components/parameters/fields-query-parameter"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "data": {
+                    "properties": {
+                      "attributes": {
+                        "properties": {
+                          "graph-query-template-id": {
+                            "type": "string"
+                          },
+                          "parameter-map": {
+                            "type": "object",
+                            "additionalProperties": true,
+                            "description": "Required. JSON key-value pairs of parameter name to value. Schema is defined by your Graph Query Template.",
+                            "examples": [
+                              {
+                                "example-key-1": "example-value-1",
+                                "example-key-2": "example-value-2"
+                              }
+                            ]
+                          },
+                          "variable-map": {
+                            "type": "object",
+                            "additionalProperties": true,
+                            "deprecated": true,
+                            "description": "Deprecated, use parameter-map instead.\n\nJSON key-value pairs of variable name to value. Schema is defined by your Graph Query Template.",
+                            "examples": [
+                              {
+                                "example-key-1": "example-value-1",
+                                "example-key-2": "example-value-2"
+                              }
+                            ]
+                          },
+                          "timeout-in-seconds": {
+                            "description": "Number of seconds from now to timeout the graph query. Must be greater than 0 and less than 60.",
+                            "type": "integer"
+                          }
+                        },
+                        "required": [
+                          "graph-query-template-id"
+                        ],
+                        "type": "object",
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "attributes"
+                    ],
+                    "type": "object",
+                    "additionalProperties": false
+                  },
+                  "meta": {
+                    "properties": {
+                      "run-sync": {
+                        "type": "boolean",
+                        "description": "If true, the query will run synchronously and results will be returned in the response. If false, the query will run asynchronously and you will have to poll for results.",
+                        "default": false
+                      }
+                    },
+                    "type": "object",
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "type": "object",
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/graph-query"
+                    },
+                    "included": {
+                      "description": "Optional included resources, requested via the `include` query parameter.",
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/account"
+                      }
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                },
+                "examples": {
+                  "Created": {
+                    "value": {
+                      "data": {
+                        "type": "graph-query",
+                        "id": "grphq_prM3gdSL6ciwGjSjj4aXgKJT",
+                        "attributes": {
+                          "status": "submitted",
+                          "params": {
+                            "<query-key>": "<query params>"
+                          },
+                          "created-at": "2023-09-1T06:30:44.000Z",
+                          "updated-at": null,
+                          "errored-at": null,
+                          "completed-at": null,
+                          "redacted-at": null,
+                          "stats": {},
+                          "explorer-url": "https://withpersona.com/dashboard/explorer?queryId=grphq_prM3gdSL6ciwGjSjj4aXgKJT",
+                          "node-limit-reached": false,
+                          "nodes": []
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description": "This endpoint returns a Graph Query object and (optionally) its related objects in `included`."
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "409": {
+            "$ref": "#/components/responses/conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessable-entity"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        },
+        "summary": "Create a Graph Query",
+        "tags": [
+          "Graph"
+        ],
+        "x-persona-product": "Graph"
+      }
+    },
+    "/graph-queries/{graph-query-id}": {
+      "get": {
+        "description": "Retrieve a Graph Query",
+        "operationId": "retrieve-a-graph-query",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/api-reference/graph/retrieve-a-graph-query"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/include-query-parameter"
+          },
+          {
+            "$ref": "#/components/parameters/fields-query-parameter"
+          },
+          {
+            "in": "path",
+            "name": "graph-query-id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/graph-query"
+                    },
+                    "included": {
+                      "$ref": "#/components/schemas/empty-included-objects"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                },
+                "examples": {
+                  "Success": {
+                    "value": {
+                      "data": {
+                        "type": "graph-query",
+                        "id": "grphq_prM3gdSL6ciwGjSjj4aXgKJT",
+                        "attributes": {
+                          "status": "completed",
+                          "params": {
+                            "<query-key>": "<query params>"
+                          },
+                          "created-at": "2023-09-1T06:30:44.000Z",
+                          "updated-at": "2023-09-2T07:31:47.000Z",
+                          "errored-at": null,
+                          "completed-at": "2023-09-4T09:33:03.000Z",
+                          "redacted-at": null,
+                          "stats": {},
+                          "explorer-url": "https://withpersona.com/dashboard/explorer?queryId=grphq_prM3gdSL6ciwGjSjj4aXgKJT",
+                          "node-limit-reached": false,
+                          "nodes": []
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description": "This endpoint returns a Graph Query object."
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        },
+        "summary": "Retrieve a Graph Query",
+        "tags": [
+          "Graph"
+        ],
+        "x-persona-product": "Graph"
+      }
+    },
     "/importers": {
       "get": {
         "description": "Returns a list of your organization's importers. Results are returned in reverse chronological order, with the most recently created objects first.",
@@ -26900,13 +27166,6 @@
           "attributes": {
             "additionalProperties": false,
             "properties": {
-              "token": {
-                "type": "string",
-                "examples": [
-                  "cxn_ABC123"
-                ],
-                "description": "The unique token for this connect connection"
-              },
               "status": {
                 "type": "string",
                 "examples": [
@@ -26915,13 +27174,6 @@
                   "inactive"
                 ],
                 "description": "The current status of the connection"
-              },
-              "organization-id": {
-                "type": "string",
-                "examples": [
-                  "org_ABC123"
-                ],
-                "description": "The organization that owns this connection"
               },
               "destination-organization-id": {
                 "type": "string",
@@ -26942,21 +27194,6 @@
                   ]
                 ],
                 "description": "The scopes that define what access is granted through this connection"
-              },
-              "creator-id": {
-                "type": "string",
-                "examples": [
-                  "api_ABC123"
-                ],
-                "description": "The ID of the entity that created this connection"
-              },
-              "creator-type": {
-                "type": "string",
-                "examples": [
-                  "api-key",
-                  "user"
-                ],
-                "description": "The type of entity that created this connection"
               },
               "created-at": {
                 "format": "date-time",
@@ -27049,25 +27286,6 @@
                   "expired"
                 ]
               },
-              "source-id": {
-                "type": "string",
-                "description": "The ID of the source resource being shared (Account or Inquiry)",
-                "examples": [
-                  "act_ABC123",
-                  "inq_DEF456"
-                ]
-              },
-              "destination-id": {
-                "type": [
-                  "string",
-                  "null"
-                ],
-                "description": "The ID of the destination resource where the data was imported (when redeemed)",
-                "examples": [
-                  "inq_DEF456",
-                  null
-                ]
-              },
               "created-at": {
                 "type": "string",
                 "format": "date-time",
@@ -27115,18 +27333,6 @@
                 ],
                 "format": "date-time",
                 "description": "When this share token expires",
-                "examples": [
-                  "2023-09-22T18:29:40.000Z",
-                  null
-                ]
-              },
-              "expired-at": {
-                "type": [
-                  "string",
-                  "null"
-                ],
-                "format": "date-time",
-                "description": "When this share token expired",
                 "examples": [
                   "2023-09-22T18:29:40.000Z",
                   null
@@ -31500,6 +31706,14 @@
                             "null"
                           ]
                         },
+                        "topics": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "example": "PEP"
+                          },
+                          "description": "The applicable categories of the PEP."
+                        },
                         "positions": {
                           "type": "array",
                           "items": {
@@ -31557,6 +31771,14 @@
                               "relationship": {
                                 "type": "string",
                                 "description": "The relationship of the associate to the individual."
+                              },
+                              "topics": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string",
+                                  "example": "Close associate"
+                                },
+                                "description": "The applicable categories of the associate."
                               }
                             }
                           }
@@ -37144,6 +37366,151 @@
                 "additionalProperties": true
               }
             }
+          }
+        }
+      },
+      "graph-query": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "A Graph Query object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "graph-query"
+          },
+          "id": {
+            "type": "string",
+            "examples": [
+              "grphq_prM3gdSL6ciwGjSjj4aXgKJT"
+            ]
+          },
+          "attributes": {
+            "additionalProperties": false,
+            "type": "object",
+            "properties": {
+              "status": {
+                "description": "Possible values:\n- submitted\n- completed\n- errored\n- cancelled\n- timed_out\n\nDo not assume this is a static enumeration; Persona may add new values in\nthe future without a versioned update.",
+                "type": "string"
+              },
+              "params": {
+                "type": "object",
+                "description": "Dynamic query parameters",
+                "additionalProperties": true
+              },
+              "created-at": {
+                "type": "string",
+                "format": "date-time",
+                "examples": [
+                  "2023-09-26T06:31:43.000Z"
+                ]
+              },
+              "updated-at": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time",
+                "examples": [
+                  "2023-09-26T06:31:43.000Z"
+                ]
+              },
+              "errored-at": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time",
+                "examples": [
+                  "2023-09-26T06:31:43.000Z"
+                ]
+              },
+              "completed-at": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time",
+                "examples": [
+                  "2023-09-26T06:31:43.000Z"
+                ]
+              },
+              "redacted-at": {
+                "description": "This will be set to the time when the graph query results were redacted.\nIn this case, nodes will also be an empty array.",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time",
+                "examples": [
+                  "2023-09-26T06:31:43.000Z"
+                ]
+              },
+              "stats": {
+                "additionalProperties": false,
+                "type": "object"
+              },
+              "explorer-url": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "examples": [
+                  "https://withpersona.com/dashboard/explorer?queryId=grphq_prM3gdSL6ciwGjSjj4aXgKJT"
+                ]
+              },
+              "node-limit-reached": {
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
+              "nodes": {
+                "items": {
+                  "additionalProperties": false,
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "value": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "type": "array"
+              }
+            }
+          },
+          "relationships": {
+            "properties": {
+              "accounts": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "id": {
+                          "examples": [
+                            "act_9e3yoAUApTRMjgNoPAC7TNtz"
+                          ],
+                          "type": "string"
+                        },
+                        "type": {
+                          "const": "account",
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "type": "array"
+                  }
+                }
+              }
+            },
+            "type": "object",
+            "additionalProperties": false
           }
         }
       },
