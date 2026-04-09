@@ -1824,7 +1824,7 @@ paths:
       x-persona-product: API Keys
   /connect/connections:
     get:
-      description: 'Returns a list of your organization''s connect connections. Results are returned in reverse chronological order, with the most recently created objects first.'
+      description: 'Returns a list of connect connections associated with your organization, including both outbound connections your organization created and inbound connections where your organization is the destination. Results are returned in reverse chronological order, with the most recently created objects first.'
       operationId: list-all-connect-connections
       externalDocs:
         description: Full documentation for this API on the Persona website.
@@ -16678,7 +16678,12 @@ components:
               type: string
               examples:
                 - org_XYZ789
-              description: The organization that is authorized to access objects through this connection
+              description: The organization authorized to access objects through this connection.
+            source-organization-id:
+              type: string
+              examples:
+                - org_ABC123
+              description: The organization that created and owns this connection.
             scopes:
               type: array
               items:
@@ -25195,6 +25200,123 @@ components:
       required:
         - type
         - data
+    network:
+      type: object
+      additionalProperties: false
+      properties:
+        type:
+          const: network
+          type: string
+        id:
+          type: string
+          description: Unique identifier for this Network. Starts with `net_`.
+          examples:
+            - net_ABC123
+        attributes:
+          type: object
+          additionalProperties: false
+          properties:
+            created-at:
+              type: string
+              format: date-time
+              examples:
+                - '2023-09-22T17:13:50.000Z'
+            ip-address:
+              type:
+                - string
+                - 'null'
+              examples:
+                - 139.178.128.13
+            service-provider:
+              type:
+                - string
+                - 'null'
+              examples:
+                - Comcast Cable Communications
+            service-type:
+              description: |-
+                Possible values:
+                - residential
+                - mobile
+                - datacenter
+                - corporate
+                - education
+
+                Do not assume this is a static enumeration; Persona may add new values
+                in the future without a versioned update.
+              type:
+                - string
+                - 'null'
+              examples:
+                - residential
+            proxy-type:
+              description: |-
+                Possible values:
+                - residential
+                - mobile
+                - corporate
+                - vpn
+                - unknown
+                - tor
+
+                Do not assume this is a static enumeration; Persona may add new values
+                in the future without a versioned update.
+              type:
+                - string
+                - 'null'
+              examples:
+                - vpn
+            threat-level:
+              description: |-
+                Possible values:
+                - unknown
+                - low
+                - medium
+                - high
+
+                Do not assume this is a static enumeration; Persona may add new values
+                in the future without a versioned update.
+              type:
+                - string
+                - 'null'
+              examples:
+                - low
+            country-code:
+              type:
+                - string
+                - 'null'
+              examples:
+                - US
+            country-name:
+              type:
+                - string
+                - 'null'
+              examples:
+                - United States of America
+            region-code:
+              type:
+                - string
+                - 'null'
+              examples:
+                - CA
+            region-name:
+              type:
+                - string
+                - 'null'
+              examples:
+                - California
+            latitude:
+              type:
+                - number
+                - 'null'
+              examples:
+                - 37.32300186
+            longitude:
+              type:
+                - number
+                - 'null'
+              examples:
+                - -122.03218079
     inquiry-sessions-included-objects:
       type: array
       items:
@@ -25203,9 +25325,11 @@ components:
           mapping:
             device: '#/components/schemas/device'
             inquiry: '#/components/schemas/inquiry'
+            network: '#/components/schemas/network'
         anyOf:
           - $ref: '#/components/schemas/device'
           - $ref: '#/components/schemas/inquiry'
+          - $ref: '#/components/schemas/network'
     list-item-shared-attributes:
       x-inheritable: true
       type: object
@@ -25541,7 +25665,7 @@ components:
                       type: object
                     - properties:
                         type:
-                          const: importer/email-address
+                          const: importer/list-item/email-address
                           type: string
                         id:
                           examples:
@@ -25703,7 +25827,7 @@ components:
                       type: object
                     - properties:
                         type:
-                          const: importer/geolocation
+                          const: importer/list-item/geolocation
                           type: string
                         id:
                           examples:
@@ -25788,7 +25912,7 @@ components:
                       type: object
                     - properties:
                         type:
-                          const: importer/government-id-number
+                          const: importer/list-item/government-id-number
                           type: string
                         id:
                           examples:
@@ -25869,7 +25993,7 @@ components:
                       type: object
                     - properties:
                         type:
-                          const: importer/ip-address
+                          const: importer/list-item/ip-address
                           type: string
                         id:
                           examples:
@@ -25954,7 +26078,7 @@ components:
                       type: object
                     - properties:
                         type:
-                          const: importer/name
+                          const: importer/list-item/name
                           type: string
                         id:
                           examples:
@@ -26035,7 +26159,7 @@ components:
                       type: object
                     - properties:
                         type:
-                          const: importer/phone-number
+                          const: importer/list-item/phone-number
                           type: string
                         id:
                           examples:
@@ -29379,8 +29503,9 @@ components:
           - type: connect/connection
             id: cxn_ABC123
             attributes:
-              status: pending
-              destination-organization-id: org_ABC123
+              status: active
+              source-organization-id: org_ABC123
+              destination-organization-id: org_XYZ789
               scopes:
                 - inquiry.read
                 - account.read
@@ -29389,8 +29514,9 @@ components:
           - type: connect/connection
             id: cxn_XYZ789
             attributes:
-              status: active
-              destination-organization-id: org_XYZ789
+              status: pending
+              source-organization-id: org_XYZ789
+              destination-organization-id: org_ABC123
               scopes:
                 - inquiry.read
                 - account.read
@@ -29411,7 +29537,8 @@ components:
           id: cxn_ABC123
           attributes:
             status: pending
-            destination-organization-id: org_ABC123
+            source-organization-id: org_ABC123
+            destination-organization-id: org_XYZ789
             scopes:
               - inquiry.read
               - account.read
@@ -29431,7 +29558,8 @@ components:
           id: cxn_ABC123
           attributes:
             status: inactive
-            destination-organization-id: org_ABC123
+            source-organization-id: org_ABC123
+            destination-organization-id: org_XYZ789
             scopes:
               - inquiry.read
               - account.read
