@@ -3967,6 +3967,30 @@
                             "type": "string",
                             "description": "The ID/token of the destination object to import the data into.\nOptional for Verification cloning - when omitted, a new verification is created.\n",
                             "example": "inq_DEF456"
+                          },
+                          "field-mappings": {
+                            "type": "array",
+                            "description": "Optional list of field mappings to apply when importing source data.\nIf a source field name matches the destination field name, it is copied\ndirectly. These mappings are applied for fields not already matched by name.\n",
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "required": [
+                                "source-field-name",
+                                "destination-field-name"
+                              ],
+                              "properties": {
+                                "source-field-name": {
+                                  "type": "string",
+                                  "description": "The name of the field in the source object.",
+                                  "example": "address_street_1"
+                                },
+                                "destination-field-name": {
+                                  "type": "string",
+                                  "description": "The name of the field in the destination object.",
+                                  "example": "street_address"
+                                }
+                              }
+                            }
                           }
                         }
                       }
