@@ -23,6 +23,7 @@ properties:
           - pending
           - redeemed
           - expired
+          - failed
       direction:
         type: string
         description: >-
@@ -69,6 +70,26 @@ properties:
         description: When this share token expires
         examples:
           - '2023-09-22T18:29:40.000Z'
+          - null
+      failed-at:
+        type:
+          - string
+          - 'null'
+        format: date-time
+        description: When this share token failed
+        examples:
+          - '2023-09-21T18:35:20.000Z'
+          - null
+      failure-reason:
+        type:
+          - string
+          - 'null'
+        description: >-
+          The reason the share token failed. Possible values include
+          source_not_found, source_redacted, import_failed, and
+          unrecoverable_error.
+        examples:
+          - source_not_found
           - null
   relationships:
     type: object
