@@ -48,32 +48,36 @@ post:
                         Optional for Verification cloning - when omitted, a new
                         verification is created.
                       example: inq_DEF456
-                    field-mappings:
-                      type: array
-                      description: >
-                        Optional list of field mappings to apply when importing
-                        source data.
+            meta:
+              type: object
+              additionalProperties: false
+              properties:
+                field-mappings:
+                  type: array
+                  description: >
+                    Optional list of field mappings to apply when importing
+                    source data.
 
-                        If a source field name matches the destination field
-                        name, it is copied
+                    If a source field name matches the destination field name,
+                    it is copied
 
-                        directly. These mappings are applied for fields not
-                        already matched by name.
-                      items:
-                        type: object
-                        additionalProperties: false
-                        required:
-                          - source-field-name
-                          - destination-field-name
-                        properties:
-                          source-field-name:
-                            type: string
-                            description: The name of the field in the source object.
-                            example: address_street_1
-                          destination-field-name:
-                            type: string
-                            description: The name of the field in the destination object.
-                            example: street_address
+                    directly. These mappings are applied for fields not already
+                    matched by name.
+                  items:
+                    type: object
+                    additionalProperties: false
+                    required:
+                      - source-field-name
+                      - destination-field-name
+                    properties:
+                      source-field-name:
+                        type: string
+                        description: The name of the field in the source object.
+                        example: address_street_1
+                      destination-field-name:
+                        type: string
+                        description: The name of the field in the destination object.
+                        example: street_address
   responses:
     '202':
       description: Share Token has been successfully redeemed.
