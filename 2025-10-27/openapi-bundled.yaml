@@ -2545,7 +2545,8 @@ paths:
                           type: string
                           description: |
                             The ID/token of the destination object to import the data into.
-                            Optional for Verification cloning - when omitted, a new verification is created.
+                            Optional for Verification cloning and Account redemption — when omitted,
+                            a new destination object is created.
                           example: inq_DEF456
                 meta:
                   type: object
@@ -2572,6 +2573,14 @@ paths:
                             type: string
                             description: The name of the field in the destination object.
                             example: street_address
+                    account-type-id:
+                      type: string
+                      description: |
+                        The ID/token of the Account Type to use when creating a new Account
+                        during redemption. Only applicable when the source is an Account and
+                        no destination-id is provided. If omitted, the destination organization's
+                        default account type is used.
+                      example: acttp_ABC123
       responses:
         '202':
           description: Share Token has been successfully redeemed.
