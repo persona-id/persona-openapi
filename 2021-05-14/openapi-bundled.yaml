@@ -1976,13 +1976,14 @@ paths:
                               examples:
                                 - org_XYZ789
                             scopes:
-                              description: 'Array of scopes that define what access is granted through this connection. If not provided, defaults to ["inquiry.read", "account.read"].'
+                              description: 'Array of scopes that define what access is granted through this connection. If not provided, defaults to ["account.read", "inquiry.read", "verification.read"].'
                               type: array
                               items:
                                 type: string
                               examples:
-                                - - inquiry.read
-                                  - account.read
+                                - - account.read
+                                  - inquiry.read
+                                  - verification.read
                           required:
                             - destination-organization-id
                   additionalProperties: false
@@ -2117,8 +2118,9 @@ paths:
                               items:
                                 type: string
                               examples:
-                                - - inquiry.read
-                                  - account.read
+                                - - account.read
+                                  - inquiry.read
+                                  - verification.read
                   additionalProperties: false
                   type: object
               additionalProperties: false
@@ -17220,8 +17222,9 @@ components:
               items:
                 type: string
               examples:
-                - - inquiry.read
-                  - account.read
+                - - account.read
+                  - inquiry.read
+                  - verification.read
               description: The scopes that define what access is granted through this connection
             created-at:
               format: date-time
@@ -30279,8 +30282,9 @@ components:
               source-organization-id: org_ABC123
               destination-organization-id: org_XYZ789
               scopes:
-                - inquiry.read
                 - account.read
+                - inquiry.read
+                - verification.read
               created-at: '2018-06-01T00:00:00.000Z'
               updated-at: '2018-06-01T00:00:00.000Z'
           - type: connect/connection
@@ -30290,8 +30294,9 @@ components:
               source-organization-id: org_XYZ789
               destination-organization-id: org_ABC123
               scopes:
-                - inquiry.read
                 - account.read
+                - inquiry.read
+                - verification.read
               created-at: '2018-06-01T00:00:00.000Z'
               updated-at: '2018-06-01T00:00:00.000Z'
         links:
@@ -30301,7 +30306,7 @@ components:
       value:
         data:
           attributes:
-            destination-organization-id: org_ABC123
+            destination-organization-id: org_XYZ789
     connect-connection:
       value:
         data:
@@ -30312,8 +30317,9 @@ components:
             source-organization-id: org_ABC123
             destination-organization-id: org_XYZ789
             scopes:
-              - inquiry.read
               - account.read
+              - inquiry.read
+              - verification.read
             created-at: '2018-06-01T00:00:00.000Z'
             updated-at: '2018-06-01T00:00:00.000Z'
     update-connection:
@@ -30321,8 +30327,9 @@ components:
         data:
           attributes:
             scopes:
-              - inquiry.read
               - account.read
+              - inquiry.read
+              - verification.read
     connect-connection-inactive:
       value:
         data:
@@ -30333,8 +30340,9 @@ components:
             source-organization-id: org_ABC123
             destination-organization-id: org_XYZ789
             scopes:
-              - inquiry.read
               - account.read
+              - inquiry.read
+              - verification.read
             created-at: '2018-06-01T00:00:00.000Z'
             updated-at: '2018-06-01T00:00:00.000Z'
     connect-share-token-list:
