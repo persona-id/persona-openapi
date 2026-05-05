@@ -3295,7 +3295,7 @@
     },
     "/connect/connections/{connection-id}/deactivate": {
       "post": {
-        "description": "Deactivates an active Connect Connection. This action prevents further access through the connection but maintains the connection record. Only active connections can be deactivated.",
+        "description": "Deactivates a Connect Connection. Either the source or destination organization may deactivate a connection that is currently `pending` or `active`. Deactivation prevents further access through the connection but maintains the connection record. Connections that are already `inactive` cannot be deactivated again.",
         "operationId": "deactivate-a-connect-connection",
         "externalDocs": {
           "description": "Full documentation for this API on the Persona website.",
@@ -3382,7 +3382,7 @@
     },
     "/connect/connections/{connection-id}/reactivate": {
       "post": {
-        "description": "Reactivates an inactive Connection. This action restores access through the connection. Only inactive connections can be reactivated.",
+        "description": "Reactivates an inactive Connection, returning it to the `pending` state. Only the source organization can reactivate a connection. Once reactivated, the destination organization must accept the connection again before it returns to the `active` state. Only inactive connections can be reactivated.",
         "operationId": "reactivate-a-connect-connection",
         "externalDocs": {
           "description": "Full documentation for this API on the Persona website.",
@@ -28122,206 +28122,12 @@
                 ]
               },
               "behaviors": {
-                "properties": {
-                  "api-version-less-than-minimum-count": {
-                    "description": "Number of requests from restricted API versions",
-                    "default": 0,
-                    "examples": [
-                      0
-                    ],
-                    "type": [
-                      "integer",
-                      "null"
-                    ]
-                  },
-                  "autofill-cancels": {
-                    "default": 0,
-                    "examples": [
-                      29
-                    ],
-                    "type": [
-                      "integer",
-                      "null"
-                    ]
-                  },
-                  "autofill-starts": {
-                    "description": "Number of times the user autofilled a form field.",
-                    "default": 0,
-                    "examples": [
-                      0
-                    ],
-                    "type": [
-                      "integer",
-                      "null"
-                    ]
-                  },
-                  "behavior-threat-level": {
-                    "description": "A predictive, proprietary score you can use to assess fraud risk. This score is created by Persona and based on a combination of behavioral signals.",
-                    "examples": [
-                      "low"
-                    ],
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "bot-score": {
-                    "description": "A score between 0 and 100 that indicates the likelihood that the user is a bot.",
-                    "default": 0,
-                    "examples": [
-                      1,
-                      70,
-                      99
-                    ],
-                    "type": [
-                      "integer",
-                      "null"
-                    ]
-                  },
-                  "completion-time": {
-                    "description": "Time duration of user interaction.",
-                    "default": 0,
-                    "examples": [
-                      28.62633237
-                    ],
-                    "type": [
-                      "number",
-                      "null"
-                    ]
-                  },
-                  "devtools-open": {
-                    "default": true,
-                    "examples": [
-                      false
-                    ],
-                    "type": [
-                      "boolean",
-                      "null"
-                    ]
-                  },
-                  "debugger-attached": {
-                    "description": "A debugger was detected within a mobile integration flow.",
-                    "default": false,
-                    "examples": [
-                      false
-                    ],
-                    "type": [
-                      "boolean",
-                      "null"
-                    ]
-                  },
-                  "distraction-events": {
-                    "description": "Number of times the user switched focus from the flow for browser-based integrations.",
-                    "default": 0,
-                    "examples": [
-                      0
-                    ],
-                    "type": [
-                      "integer",
-                      "null"
-                    ]
-                  },
-                  "hesitation-baseline": {
-                    "default": 0,
-                    "examples": [
-                      19860
-                    ],
-                    "type": [
-                      "integer",
-                      "null"
-                    ]
-                  },
-                  "hesitation-count": {
-                    "description": "Number of periods where the user made no inputs.",
-                    "default": 0,
-                    "examples": [
-                      1
-                    ],
-                    "type": [
-                      "integer",
-                      "null"
-                    ]
-                  },
-                  "hesitation-percentage": {
-                    "description": "Percentage of time in the flow where the user made no inputs.",
-                    "default": 0,
-                    "examples": [
-                      65.33232628398792
-                    ],
-                    "type": [
-                      "number",
-                      "null"
-                    ]
-                  },
-                  "hesitation-time": {
-                    "description": "Total time where the user made no inputs.",
-                    "default": 0,
-                    "examples": [
-                      12975
-                    ],
-                    "type": [
-                      "integer",
-                      "null"
-                    ]
-                  },
-                  "mobile-sdk-version-less-than-minimum-count": {
-                    "description": "Number of requests from restricted mobile SDK versions",
-                    "default": 0,
-                    "examples": [
-                      0
-                    ],
-                    "type": [
-                      "integer",
-                      "null"
-                    ]
-                  },
-                  "request-spoof-attempts": {
-                    "description": "Number of requests that were likely spoofed.",
-                    "default": 0,
-                    "examples": [
-                      0
-                    ],
-                    "type": [
-                      "integer",
-                      "null"
-                    ]
-                  },
-                  "shortcut-copies": {
-                    "description": "Number of times the user used a keyboard shortcut to copy information.",
-                    "default": 0,
-                    "examples": [
-                      0
-                    ],
-                    "type": [
-                      "integer",
-                      "null"
-                    ]
-                  },
-                  "shortcut-pastes": {
-                    "description": "Number of times the user used a keyboard shortcut to paste information.",
-                    "default": 0,
-                    "examples": [
-                      0
-                    ],
-                    "type": [
-                      "integer",
-                      "null"
-                    ]
-                  },
-                  "user-agent-spoof-attempts": {
-                    "description": "Number of user agent headers that were likely spoofed on seen devices",
-                    "default": 0,
-                    "examples": [
-                      0
-                    ],
-                    "type": [
-                      "integer",
-                      "null"
-                    ]
-                  }
-                },
-                "additionalProperties": false,
-                "type": "object"
+                "description": "Risk signals surfaced to enterprise customers. Specific keys are not\nenumerated in the public spec and may be added or removed over time.\nContact your Persona account team for more information.",
+                "additionalProperties": true,
+                "type": [
+                  "object",
+                  "null"
+                ]
               },
               "tags": {
                 "type": "array",
@@ -45727,26 +45533,7 @@
                 "status": "pending",
                 "reference-id": "abc-123",
                 "note": null,
-                "behaviors": {
-                  "bot-score": 70,
-                  "request-spoof-attempts": 0,
-                  "mobile-sdk-version-less-than-minimum-count": 0,
-                  "api-version-less-than-minimum-count": 0,
-                  "user-agent-spoof-attempts": 0,
-                  "distraction-events": 0,
-                  "hesitation-baseline": 29677,
-                  "hesitation-count": 3,
-                  "hesitation-time": 28752,
-                  "shortcut-copies": 0,
-                  "shortcut-pastes": 0,
-                  "autofill-cancels": 0,
-                  "autofill-starts": 0,
-                  "devtools-open": false,
-                  "debugger-attached": false,
-                  "completion-time": 40.172463903,
-                  "hesitation-percentage": 96.88310813087575,
-                  "behavior-threat-level": "low"
-                },
+                "behaviors": {},
                 "tags": [],
                 "creator": "creator@withpersona.com",
                 "reviewer-comment": null,
@@ -45889,26 +45676,7 @@
               "status": "pending",
               "reference-id": "abc-123",
               "note": null,
-              "behaviors": {
-                "mobile-sdk-version-less-than-minimum-count": 0,
-                "api-version-less-than-minimum-count": 0,
-                "bot-score": 70,
-                "request-spoof-attempts": 0,
-                "user-agent-spoof-attempts": 0,
-                "distraction-events": 0,
-                "hesitation-baseline": 29677,
-                "hesitation-count": 3,
-                "hesitation-time": 28752,
-                "shortcut-copies": 0,
-                "shortcut-pastes": 0,
-                "autofill-cancels": 0,
-                "autofill-starts": 0,
-                "devtools-open": false,
-                "debugger-attached": false,
-                "completion-time": 40.172463903,
-                "hesitation-percentage": 96.88310813087575,
-                "behavior-threat-level": "low"
-              },
+              "behaviors": {},
               "tags": [],
               "creator": "creator@withpersona.com",
               "reviewer-comment": null,
@@ -46045,26 +45813,7 @@
               "status": "pending",
               "reference-id": "abc-123",
               "note": null,
-              "behaviors": {
-                "bot-score": 70,
-                "request-spoof-attempts": 0,
-                "mobile-sdk-version-less-than-minimum-count": 0,
-                "api-version-less-than-minimum-count": 0,
-                "user-agent-spoof-attempts": 0,
-                "distraction-events": 0,
-                "hesitation-baseline": 29677,
-                "hesitation-count": 3,
-                "hesitation-time": 28752,
-                "shortcut-copies": 0,
-                "shortcut-pastes": 0,
-                "autofill-cancels": 0,
-                "autofill-starts": 0,
-                "devtools-open": false,
-                "debugger-attached": false,
-                "completion-time": 40.172463903,
-                "hesitation-percentage": 96.88310813087575,
-                "behavior-threat-level": "low"
-              },
+              "behaviors": {},
               "tags": [],
               "creator": "creator@withpersona.com",
               "reviewer-comment": null,
@@ -46251,26 +46000,7 @@
               "status": "pending",
               "reference-id": "abc-123",
               "note": null,
-              "behaviors": {
-                "mobile-sdk-version-less-than-minimum-count": 0,
-                "api-version-less-than-minimum-count": 0,
-                "bot-score": 70,
-                "request-spoof-attempts": 0,
-                "user-agent-spoof-attempts": 0,
-                "distraction-events": 0,
-                "hesitation-baseline": 29677,
-                "hesitation-count": 3,
-                "hesitation-time": 28752,
-                "shortcut-copies": 0,
-                "shortcut-pastes": 0,
-                "autofill-cancels": 0,
-                "autofill-starts": 0,
-                "devtools-open": false,
-                "debugger-attached": false,
-                "completion-time": 40.172463903,
-                "hesitation-percentage": 96.88310813087575,
-                "behavior-threat-level": "low"
-              },
+              "behaviors": {},
               "tags": [],
               "creator": "creator@withpersona.com",
               "reviewer-comment": null,
@@ -46402,26 +46132,7 @@
               "status": "pending",
               "reference-id": "abc-123",
               "note": null,
-              "behaviors": {
-                "bot-score": 70,
-                "request-spoof-attempts": 0,
-                "mobile-sdk-version-less-than-minimum-count": 0,
-                "api-version-less-than-minimum-count": 0,
-                "user-agent-spoof-attempts": 0,
-                "distraction-events": 0,
-                "hesitation-baseline": 29677,
-                "hesitation-count": 3,
-                "hesitation-time": 28752,
-                "shortcut-copies": 0,
-                "shortcut-pastes": 0,
-                "autofill-cancels": 0,
-                "autofill-starts": 0,
-                "devtools-open": false,
-                "debugger-attached": false,
-                "completion-time": 40.172463903,
-                "hesitation-percentage": 96.88310813087575,
-                "behavior-threat-level": "low"
-              },
+              "behaviors": {},
               "tags": [],
               "creator": "creator@withpersona.com",
               "reviewer-comment": null,
@@ -46554,26 +46265,7 @@
               "status": "pending",
               "reference-id": "abc-123",
               "note": null,
-              "behaviors": {
-                "bot-score": 70,
-                "request-spoof-attempts": 0,
-                "mobile-sdk-version-less-than-minimum-count": 0,
-                "api-version-less-than-minimum-count": 0,
-                "user-agent-spoof-attempts": 0,
-                "distraction-events": 0,
-                "hesitation-baseline": 29677,
-                "hesitation-count": 3,
-                "hesitation-time": 28752,
-                "shortcut-copies": 0,
-                "shortcut-pastes": 0,
-                "autofill-cancels": 0,
-                "autofill-starts": 0,
-                "devtools-open": false,
-                "debugger-attached": false,
-                "completion-time": 40.172463903,
-                "hesitation-percentage": 96.88310813087575,
-                "behavior-threat-level": "low"
-              },
+              "behaviors": {},
               "tags": [],
               "creator": "creator@withpersona.com",
               "reviewer-comment": null,
@@ -50187,26 +49879,7 @@
                       "status": "pending",
                       "reference-id": null,
                       "note": null,
-                      "behaviors": {
-                        "bot-score": 0,
-                        "request-spoof-attempts": 0,
-                        "mobile-sdk-version-less-than-minimum-count": 0,
-                        "api-version-less-than-minimum-count": 0,
-                        "user-agent-spoof-attempts": 0,
-                        "distraction-events": 0,
-                        "hesitation-baseline": null,
-                        "hesitation-count": 0,
-                        "hesitation-time": 0,
-                        "shortcut-copies": 0,
-                        "shortcut-pastes": 0,
-                        "autofill-cancels": 0,
-                        "autofill-starts": 0,
-                        "devtools-open": false,
-                        "debugger-attached": false,
-                        "completion-time": null,
-                        "hesitation-percentage": null,
-                        "behavior-threat-level": null
-                      },
+                      "behaviors": {},
                       "tags": [],
                       "creator": "jane@doe.com",
                       "reviewer-comment": null,
@@ -50340,26 +50013,7 @@
                       "status": "pending",
                       "reference-id": null,
                       "note": null,
-                      "behaviors": {
-                        "bot-score": 0,
-                        "request-spoof-attempts": 0,
-                        "mobile-sdk-version-less-than-minimum-count": 0,
-                        "api-version-less-than-minimum-count": 0,
-                        "user-agent-spoof-attempts": 0,
-                        "distraction-events": 0,
-                        "hesitation-baseline": null,
-                        "hesitation-count": 0,
-                        "hesitation-time": 0,
-                        "shortcut-copies": 0,
-                        "shortcut-pastes": 0,
-                        "autofill-cancels": 0,
-                        "autofill-starts": 0,
-                        "devtools-open": false,
-                        "debugger-attached": false,
-                        "completion-time": null,
-                        "hesitation-percentage": null,
-                        "behavior-threat-level": null
-                      },
+                      "behaviors": {},
                       "tags": [],
                       "creator": "jane@doe.com",
                       "reviewer-comment": null,
@@ -50493,26 +50147,7 @@
                       "status": "pending",
                       "reference-id": null,
                       "note": null,
-                      "behaviors": {
-                        "bot-score": 0,
-                        "request-spoof-attempts": 0,
-                        "mobile-sdk-version-less-than-minimum-count": 0,
-                        "api-version-less-than-minimum-count": 0,
-                        "user-agent-spoof-attempts": 0,
-                        "distraction-events": 0,
-                        "hesitation-baseline": null,
-                        "hesitation-count": 0,
-                        "hesitation-time": 0,
-                        "shortcut-copies": 0,
-                        "shortcut-pastes": 0,
-                        "autofill-cancels": 0,
-                        "autofill-starts": 0,
-                        "devtools-open": false,
-                        "debugger-attached": false,
-                        "completion-time": null,
-                        "hesitation-percentage": null,
-                        "behavior-threat-level": null
-                      },
+                      "behaviors": {},
                       "tags": [],
                       "creator": "jane@doe.com",
                       "reviewer-comment": null,
@@ -50677,26 +50312,7 @@
                       "status": "pending",
                       "reference-id": null,
                       "note": null,
-                      "behaviors": {
-                        "bot-score": 0,
-                        "request-spoof-attempts": 0,
-                        "mobile-sdk-version-less-than-minimum-count": 0,
-                        "api-version-less-than-minimum-count": 0,
-                        "user-agent-spoof-attempts": 0,
-                        "distraction-events": 0,
-                        "hesitation-baseline": null,
-                        "hesitation-count": 0,
-                        "hesitation-time": 0,
-                        "shortcut-copies": 0,
-                        "shortcut-pastes": 0,
-                        "autofill-cancels": 0,
-                        "autofill-starts": 0,
-                        "devtools-open": false,
-                        "debugger-attached": false,
-                        "completion-time": null,
-                        "hesitation-percentage": null,
-                        "behavior-threat-level": null
-                      },
+                      "behaviors": {},
                       "tags": [],
                       "creator": "jane@doe.com",
                       "reviewer-comment": null,
@@ -50830,26 +50446,7 @@
                       "status": "pending",
                       "reference-id": null,
                       "note": null,
-                      "behaviors": {
-                        "bot-score": 0,
-                        "request-spoof-attempts": 0,
-                        "mobile-sdk-version-less-than-minimum-count": 0,
-                        "api-version-less-than-minimum-count": 0,
-                        "user-agent-spoof-attempts": 0,
-                        "distraction-events": 0,
-                        "hesitation-baseline": null,
-                        "hesitation-count": 0,
-                        "hesitation-time": 0,
-                        "shortcut-copies": 0,
-                        "shortcut-pastes": 0,
-                        "autofill-cancels": 0,
-                        "autofill-starts": 0,
-                        "devtools-open": false,
-                        "debugger-attached": false,
-                        "completion-time": null,
-                        "hesitation-percentage": null,
-                        "behavior-threat-level": null
-                      },
+                      "behaviors": {},
                       "tags": [],
                       "creator": "jane@doe.com",
                       "reviewer-comment": null,
@@ -51014,26 +50611,7 @@
                       "status": "pending",
                       "reference-id": null,
                       "note": null,
-                      "behaviors": {
-                        "bot-score": 0,
-                        "request-spoof-attempts": 0,
-                        "mobile-sdk-version-less-than-minimum-count": 0,
-                        "api-version-less-than-minimum-count": 0,
-                        "user-agent-spoof-attempts": 0,
-                        "distraction-events": 0,
-                        "hesitation-baseline": null,
-                        "hesitation-count": 0,
-                        "hesitation-time": 0,
-                        "shortcut-copies": 0,
-                        "shortcut-pastes": 0,
-                        "autofill-cancels": 0,
-                        "autofill-starts": 0,
-                        "devtools-open": false,
-                        "debugger-attached": false,
-                        "completion-time": null,
-                        "hesitation-percentage": null,
-                        "behavior-threat-level": null
-                      },
+                      "behaviors": {},
                       "tags": [],
                       "creator": "jane@doe.com",
                       "reviewer-comment": null,
@@ -51167,26 +50745,7 @@
                       "status": "pending",
                       "reference-id": null,
                       "note": null,
-                      "behaviors": {
-                        "bot-score": 0,
-                        "request-spoof-attempts": 0,
-                        "mobile-sdk-version-less-than-minimum-count": 0,
-                        "api-version-less-than-minimum-count": 0,
-                        "user-agent-spoof-attempts": 0,
-                        "distraction-events": 0,
-                        "hesitation-baseline": null,
-                        "hesitation-count": 0,
-                        "hesitation-time": 0,
-                        "shortcut-copies": 0,
-                        "shortcut-pastes": 0,
-                        "autofill-cancels": 0,
-                        "autofill-starts": 0,
-                        "devtools-open": false,
-                        "debugger-attached": false,
-                        "completion-time": null,
-                        "hesitation-percentage": null,
-                        "behavior-threat-level": null
-                      },
+                      "behaviors": {},
                       "tags": [],
                       "creator": "jane@doe.com",
                       "reviewer-comment": null,
@@ -51277,26 +50836,7 @@
                     "status": "created",
                     "reference-id": "abc-123",
                     "note": null,
-                    "behaviors": {
-                      "bot-score": 70,
-                      "request-spoof-attempts": 0,
-                      "mobile-sdk-version-less-than-minimum-count": 0,
-                      "api-version-less-than-minimum-count": 0,
-                      "user-agent-spoof-attempts": 0,
-                      "distraction-events": 0,
-                      "hesitation-baseline": 29677,
-                      "hesitation-count": 3,
-                      "hesitation-time": 28752,
-                      "shortcut-copies": 0,
-                      "shortcut-pastes": 0,
-                      "autofill-cancels": 0,
-                      "autofill-starts": 0,
-                      "devtools-open": false,
-                      "debugger-attached": false,
-                      "completion-time": 40.172463903,
-                      "hesitation-percentage": 96.88310813087575,
-                      "behavior-threat-level": "low"
-                    },
+                    "behaviors": {},
                     "tags": [],
                     "creator": "creator@withpersona.com",
                     "reviewer-comment": null,
@@ -51493,26 +51033,7 @@
                     "status": "expired",
                     "reference-id": "abc-123",
                     "note": null,
-                    "behaviors": {
-                      "bot-score": 70,
-                      "request-spoof-attempts": 0,
-                      "mobile-sdk-version-less-than-minimum-count": 0,
-                      "api-version-less-than-minimum-count": 0,
-                      "user-agent-spoof-attempts": 0,
-                      "distraction-events": 0,
-                      "hesitation-baseline": 29677,
-                      "hesitation-count": 3,
-                      "hesitation-time": 28752,
-                      "shortcut-copies": 0,
-                      "shortcut-pastes": 0,
-                      "autofill-cancels": 0,
-                      "autofill-starts": 0,
-                      "devtools-open": false,
-                      "debugger-attached": false,
-                      "completion-time": 40.172463903,
-                      "hesitation-percentage": 96.88310813087575,
-                      "behavior-threat-level": "low"
-                    },
+                    "behaviors": {},
                     "tags": [],
                     "creator": "creator@withpersona.com",
                     "reviewer-comment": null,
@@ -51709,26 +51230,7 @@
                     "status": "completed",
                     "reference-id": "abc-123",
                     "note": null,
-                    "behaviors": {
-                      "bot-score": 70,
-                      "request-spoof-attempts": 0,
-                      "mobile-sdk-version-less-than-minimum-count": 0,
-                      "api-version-less-than-minimum-count": 0,
-                      "user-agent-spoof-attempts": 0,
-                      "distraction-events": 0,
-                      "hesitation-baseline": 29677,
-                      "hesitation-count": 3,
-                      "hesitation-time": 28752,
-                      "shortcut-copies": 0,
-                      "shortcut-pastes": 0,
-                      "autofill-cancels": 0,
-                      "autofill-starts": 0,
-                      "devtools-open": false,
-                      "debugger-attached": false,
-                      "completion-time": 40.172463903,
-                      "hesitation-percentage": 96.88310813087575,
-                      "behavior-threat-level": "low"
-                    },
+                    "behaviors": {},
                     "tags": [],
                     "creator": "creator@withpersona.com",
                     "reviewer-comment": null,
@@ -51925,26 +51427,7 @@
                     "status": "failed",
                     "reference-id": "abc-123",
                     "note": null,
-                    "behaviors": {
-                      "bot-score": 70,
-                      "request-spoof-attempts": 0,
-                      "mobile-sdk-version-less-than-minimum-count": 0,
-                      "api-version-less-than-minimum-count": 0,
-                      "user-agent-spoof-attempts": 0,
-                      "distraction-events": 0,
-                      "hesitation-baseline": 29677,
-                      "hesitation-count": 3,
-                      "hesitation-time": 28752,
-                      "shortcut-copies": 0,
-                      "shortcut-pastes": 0,
-                      "autofill-cancels": 0,
-                      "autofill-starts": 0,
-                      "devtools-open": false,
-                      "debugger-attached": false,
-                      "completion-time": 40.172463903,
-                      "hesitation-percentage": 96.88310813087575,
-                      "behavior-threat-level": "low"
-                    },
+                    "behaviors": {},
                     "tags": [],
                     "creator": "creator@withpersona.com",
                     "reviewer-comment": null,
@@ -52141,26 +51624,7 @@
                     "status": "needs_review",
                     "reference-id": "abc-123",
                     "note": null,
-                    "behaviors": {
-                      "bot-score": 70,
-                      "request-spoof-attempts": 0,
-                      "mobile-sdk-version-less-than-minimum-count": 0,
-                      "api-version-less-than-minimum-count": 0,
-                      "user-agent-spoof-attempts": 0,
-                      "distraction-events": 0,
-                      "hesitation-baseline": 29677,
-                      "hesitation-count": 3,
-                      "hesitation-time": 28752,
-                      "shortcut-copies": 0,
-                      "shortcut-pastes": 0,
-                      "autofill-cancels": 0,
-                      "autofill-starts": 0,
-                      "devtools-open": false,
-                      "debugger-attached": false,
-                      "completion-time": 40.172463903,
-                      "hesitation-percentage": 96.88310813087575,
-                      "behavior-threat-level": "low"
-                    },
+                    "behaviors": {},
                     "tags": [],
                     "creator": "creator@withpersona.com",
                     "reviewer-comment": null,
@@ -52357,26 +51821,7 @@
                     "status": "approved",
                     "reference-id": "abc-123",
                     "note": null,
-                    "behaviors": {
-                      "bot-score": 70,
-                      "request-spoof-attempts": 0,
-                      "mobile-sdk-version-less-than-minimum-count": 0,
-                      "api-version-less-than-minimum-count": 0,
-                      "user-agent-spoof-attempts": 0,
-                      "distraction-events": 0,
-                      "hesitation-baseline": 29677,
-                      "hesitation-count": 3,
-                      "hesitation-time": 28752,
-                      "shortcut-copies": 0,
-                      "shortcut-pastes": 0,
-                      "autofill-cancels": 0,
-                      "autofill-starts": 0,
-                      "devtools-open": false,
-                      "debugger-attached": false,
-                      "completion-time": 40.172463903,
-                      "hesitation-percentage": 96.88310813087575,
-                      "behavior-threat-level": "low"
-                    },
+                    "behaviors": {},
                     "tags": [],
                     "creator": "creator@withpersona.com",
                     "reviewer-comment": null,
@@ -52573,26 +52018,7 @@
                     "status": "declined",
                     "reference-id": "abc-123",
                     "note": null,
-                    "behaviors": {
-                      "bot-score": 70,
-                      "request-spoof-attempts": 0,
-                      "mobile-sdk-version-less-than-minimum-count": 0,
-                      "api-version-less-than-minimum-count": 0,
-                      "user-agent-spoof-attempts": 0,
-                      "distraction-events": 0,
-                      "hesitation-baseline": 29677,
-                      "hesitation-count": 3,
-                      "hesitation-time": 28752,
-                      "shortcut-copies": 0,
-                      "shortcut-pastes": 0,
-                      "autofill-cancels": 0,
-                      "autofill-starts": 0,
-                      "devtools-open": false,
-                      "debugger-attached": false,
-                      "completion-time": 40.172463903,
-                      "hesitation-percentage": 96.88310813087575,
-                      "behavior-threat-level": "low"
-                    },
+                    "behaviors": {},
                     "tags": [],
                     "creator": "creator@withpersona.com",
                     "reviewer-comment": null,
@@ -52789,26 +52215,7 @@
                     "status": "pending",
                     "reference-id": "abc-123",
                     "note": null,
-                    "behaviors": {
-                      "bot-score": 70,
-                      "request-spoof-attempts": 0,
-                      "mobile-sdk-version-less-than-minimum-count": 0,
-                      "api-version-less-than-minimum-count": 0,
-                      "user-agent-spoof-attempts": 0,
-                      "distraction-events": 0,
-                      "hesitation-baseline": 29677,
-                      "hesitation-count": 3,
-                      "hesitation-time": 28752,
-                      "shortcut-copies": 0,
-                      "shortcut-pastes": 0,
-                      "autofill-cancels": 0,
-                      "autofill-starts": 0,
-                      "devtools-open": false,
-                      "debugger-attached": false,
-                      "completion-time": 40.172463903,
-                      "hesitation-percentage": 96.88310813087575,
-                      "behavior-threat-level": "low"
-                    },
+                    "behaviors": {},
                     "tags": [],
                     "creator": "creator@withpersona.com",
                     "reviewer-comment": null,
@@ -53073,26 +52480,7 @@
                       "status": "pending",
                       "reference-id": null,
                       "note": null,
-                      "behaviors": {
-                        "bot-score": 0,
-                        "request-spoof-attempts": 0,
-                        "mobile-sdk-version-less-than-minimum-count": 0,
-                        "api-version-less-than-minimum-count": 0,
-                        "user-agent-spoof-attempts": 0,
-                        "distraction-events": 0,
-                        "hesitation-baseline": null,
-                        "hesitation-count": 0,
-                        "hesitation-time": 0,
-                        "shortcut-copies": 0,
-                        "shortcut-pastes": 0,
-                        "autofill-cancels": 0,
-                        "autofill-starts": 0,
-                        "devtools-open": false,
-                        "debugger-attached": false,
-                        "completion-time": null,
-                        "hesitation-percentage": null,
-                        "behavior-threat-level": null
-                      },
+                      "behaviors": {},
                       "tags": [],
                       "creator": "jane@doe.com",
                       "reviewer-comment": null,
@@ -53242,26 +52630,7 @@
                       "status": "expired",
                       "reference-id": null,
                       "note": null,
-                      "behaviors": {
-                        "bot-score": 70,
-                        "request-spoof-attempts": 0,
-                        "mobile-sdk-version-less-than-minimum-count": 0,
-                        "api-version-less-than-minimum-count": 0,
-                        "user-agent-spoof-attempts": 0,
-                        "distraction-events": 0,
-                        "hesitation-baseline": 29677,
-                        "hesitation-count": 3,
-                        "hesitation-time": 28752,
-                        "shortcut-copies": 0,
-                        "shortcut-pastes": 0,
-                        "autofill-cancels": 0,
-                        "autofill-starts": 0,
-                        "devtools-open": false,
-                        "debugger-attached": false,
-                        "completion-time": 40.172463903,
-                        "hesitation-percentage": 96.88310813087575,
-                        "behavior-threat-level": "low"
-                      },
+                      "behaviors": {},
                       "tags": [],
                       "creator": "jane@doe.com",
                       "reviewer-comment": null,
@@ -53411,26 +52780,7 @@
                       "status": "expired",
                       "reference-id": null,
                       "note": null,
-                      "behaviors": {
-                        "bot-score": 70,
-                        "request-spoof-attempts": 0,
-                        "mobile-sdk-version-less-than-minimum-count": 0,
-                        "api-version-less-than-minimum-count": 0,
-                        "user-agent-spoof-attempts": 0,
-                        "distraction-events": 0,
-                        "hesitation-baseline": 29677,
-                        "hesitation-count": 3,
-                        "hesitation-time": 28752,
-                        "shortcut-copies": 0,
-                        "shortcut-pastes": 0,
-                        "autofill-cancels": 0,
-                        "autofill-starts": 0,
-                        "devtools-open": false,
-                        "debugger-attached": false,
-                        "completion-time": 40.172463903,
-                        "hesitation-percentage": 96.88310813087575,
-                        "behavior-threat-level": "low"
-                      },
+                      "behaviors": {},
                       "tags": [],
                       "creator": "jane@doe.com",
                       "reviewer-comment": null,
