@@ -15041,6 +15041,567 @@ webhooks:
       responses:
         '200':
           $ref: '#/components/responses/success'
+  case.assigned:
+    post:
+      operationId: webhook-case-assigned
+      summary: Case assigned
+      description: 'Webhook for the `case.assigned` event. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).'
+      tags:
+        - 'Webhooks: Case events'
+      x-persona-product: Cases
+      parameters:
+        - $ref: '#/components/parameters/persona-signature-header'
+        - $ref: '#/components/parameters/persona-webhook-attempts-made'
+        - $ref: '#/components/parameters/persona-webhook-attempts-left'
+        - $ref: '#/components/parameters/persona-webhook-first-attempted-at'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                data:
+                  type: object
+                  unevaluatedProperties: false
+                  allOf:
+                    - $ref: '#/components/schemas/webhook-body-shared-data'
+                    - type: object
+                      properties:
+                        attributes:
+                          unevaluatedProperties: false
+                          allOf:
+                            - type: object
+                              properties:
+                                name:
+                                  type: string
+                                  const: case.assigned
+                                payload:
+                                  type: object
+                                  additionalProperties: false
+                                  properties:
+                                    data:
+                                      $ref: '#/components/schemas/case'
+                                    included:
+                                      description: All objects that are present in `data.attributes.relationships` will be provided in `included`.
+                                      $ref: '#/components/schemas/cases-included-objects'
+                            - $ref: '#/components/schemas/webhook-body-shared-attributes'
+            examples:
+              Example Body:
+                $ref: '#/components/examples/case-assigned-webhook-body'
+      responses:
+        '200':
+          $ref: '#/components/responses/success'
+  case.created:
+    post:
+      operationId: webhook-case-created
+      summary: Case created
+      description: 'Webhook for the `case.created` event. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).'
+      tags:
+        - 'Webhooks: Case events'
+      x-persona-product: Cases
+      parameters:
+        - $ref: '#/components/parameters/persona-signature-header'
+        - $ref: '#/components/parameters/persona-webhook-attempts-made'
+        - $ref: '#/components/parameters/persona-webhook-attempts-left'
+        - $ref: '#/components/parameters/persona-webhook-first-attempted-at'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                data:
+                  type: object
+                  unevaluatedProperties: false
+                  allOf:
+                    - $ref: '#/components/schemas/webhook-body-shared-data'
+                    - type: object
+                      properties:
+                        attributes:
+                          unevaluatedProperties: false
+                          allOf:
+                            - type: object
+                              properties:
+                                name:
+                                  type: string
+                                  const: case.created
+                                payload:
+                                  type: object
+                                  additionalProperties: false
+                                  properties:
+                                    data:
+                                      $ref: '#/components/schemas/case'
+                                    included:
+                                      description: All objects that are present in `data.attributes.relationships` will be provided in `included`.
+                                      $ref: '#/components/schemas/cases-included-objects'
+                            - $ref: '#/components/schemas/webhook-body-shared-attributes'
+            examples:
+              Example Body:
+                $ref: '#/components/examples/case-created-webhook-body'
+      responses:
+        '200':
+          $ref: '#/components/responses/success'
+  case.exported:
+    post:
+      operationId: webhook-case-exported
+      summary: Case exported
+      description: 'Webhook for the `case.exported` event. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).'
+      tags:
+        - 'Webhooks: Case events'
+      x-persona-product: Cases
+      parameters:
+        - $ref: '#/components/parameters/persona-signature-header'
+        - $ref: '#/components/parameters/persona-webhook-attempts-made'
+        - $ref: '#/components/parameters/persona-webhook-attempts-left'
+        - $ref: '#/components/parameters/persona-webhook-first-attempted-at'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                data:
+                  type: object
+                  unevaluatedProperties: false
+                  allOf:
+                    - $ref: '#/components/schemas/webhook-body-shared-data'
+                    - type: object
+                      properties:
+                        attributes:
+                          unevaluatedProperties: false
+                          allOf:
+                            - type: object
+                              properties:
+                                name:
+                                  type: string
+                                  const: case.exported
+                                payload:
+                                  type: object
+                                  additionalProperties: false
+                                  properties:
+                                    data:
+                                      $ref: '#/components/schemas/case'
+                                    included:
+                                      description: All objects that are present in `data.attributes.relationships` will be provided in `included`.
+                                      $ref: '#/components/schemas/cases-included-objects'
+                            - $ref: '#/components/schemas/webhook-body-shared-attributes'
+            examples:
+              Example Body:
+                $ref: '#/components/examples/case-exported-webhook-body'
+      responses:
+        '200':
+          $ref: '#/components/responses/success'
+  case.queue-updated:
+    post:
+      operationId: webhook-case-queue-updated
+      summary: Case queue updated
+      description: 'Webhook for the `case.queue-updated` event. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).'
+      tags:
+        - 'Webhooks: Case events'
+      x-persona-product: Cases
+      parameters:
+        - $ref: '#/components/parameters/persona-signature-header'
+        - $ref: '#/components/parameters/persona-webhook-attempts-made'
+        - $ref: '#/components/parameters/persona-webhook-attempts-left'
+        - $ref: '#/components/parameters/persona-webhook-first-attempted-at'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                data:
+                  type: object
+                  unevaluatedProperties: false
+                  allOf:
+                    - $ref: '#/components/schemas/webhook-body-shared-data'
+                    - type: object
+                      properties:
+                        attributes:
+                          unevaluatedProperties: false
+                          allOf:
+                            - type: object
+                              properties:
+                                name:
+                                  type: string
+                                  const: case.queue-updated
+                                payload:
+                                  type: object
+                                  additionalProperties: false
+                                  properties:
+                                    data:
+                                      $ref: '#/components/schemas/case'
+                                    included:
+                                      description: All objects that are present in `data.attributes.relationships` will be provided in `included`.
+                                      $ref: '#/components/schemas/cases-included-objects'
+                            - $ref: '#/components/schemas/webhook-body-shared-attributes'
+            examples:
+              Example Body:
+                $ref: '#/components/examples/case-queue-updated-webhook-body'
+      responses:
+        '200':
+          $ref: '#/components/responses/success'
+  case.redacted:
+    post:
+      operationId: webhook-case-redacted
+      summary: Case redacted
+      description: 'Webhook for the `case.redacted` event. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).'
+      tags:
+        - 'Webhooks: Case events'
+      x-persona-product: Cases
+      parameters:
+        - $ref: '#/components/parameters/persona-signature-header'
+        - $ref: '#/components/parameters/persona-webhook-attempts-made'
+        - $ref: '#/components/parameters/persona-webhook-attempts-left'
+        - $ref: '#/components/parameters/persona-webhook-first-attempted-at'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                data:
+                  type: object
+                  unevaluatedProperties: false
+                  allOf:
+                    - $ref: '#/components/schemas/webhook-body-shared-data'
+                    - type: object
+                      properties:
+                        attributes:
+                          unevaluatedProperties: false
+                          allOf:
+                            - type: object
+                              properties:
+                                name:
+                                  type: string
+                                  const: case.redacted
+                                payload:
+                                  type: object
+                                  additionalProperties: false
+                                  properties:
+                                    data:
+                                      $ref: '#/components/schemas/case'
+                                    included:
+                                      description: All objects that are present in `data.attributes.relationships` will be provided in `included`.
+                                      $ref: '#/components/schemas/cases-included-objects'
+                            - $ref: '#/components/schemas/webhook-body-shared-attributes'
+            examples:
+              Example Body:
+                $ref: '#/components/examples/case-redacted-webhook-body'
+      responses:
+        '200':
+          $ref: '#/components/responses/success'
+  case.reopened:
+    post:
+      operationId: webhook-case-reopened
+      summary: Case reopened
+      description: 'Webhook for the `case.reopened` event. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).'
+      tags:
+        - 'Webhooks: Case events'
+      x-persona-product: Cases
+      parameters:
+        - $ref: '#/components/parameters/persona-signature-header'
+        - $ref: '#/components/parameters/persona-webhook-attempts-made'
+        - $ref: '#/components/parameters/persona-webhook-attempts-left'
+        - $ref: '#/components/parameters/persona-webhook-first-attempted-at'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                data:
+                  type: object
+                  unevaluatedProperties: false
+                  allOf:
+                    - $ref: '#/components/schemas/webhook-body-shared-data'
+                    - type: object
+                      properties:
+                        attributes:
+                          unevaluatedProperties: false
+                          allOf:
+                            - type: object
+                              properties:
+                                name:
+                                  type: string
+                                  const: case.reopened
+                                payload:
+                                  type: object
+                                  additionalProperties: false
+                                  properties:
+                                    data:
+                                      $ref: '#/components/schemas/case'
+                                    included:
+                                      description: All objects that are present in `data.attributes.relationships` will be provided in `included`.
+                                      $ref: '#/components/schemas/cases-included-objects'
+                            - $ref: '#/components/schemas/webhook-body-shared-attributes'
+            examples:
+              Example Body:
+                $ref: '#/components/examples/case-reopened-webhook-body'
+      responses:
+        '200':
+          $ref: '#/components/responses/success'
+  case.resolved:
+    post:
+      operationId: webhook-case-resolved
+      summary: Case resolved
+      description: 'Webhook for the `case.resolved` event. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).'
+      tags:
+        - 'Webhooks: Case events'
+      x-persona-product: Cases
+      parameters:
+        - $ref: '#/components/parameters/persona-signature-header'
+        - $ref: '#/components/parameters/persona-webhook-attempts-made'
+        - $ref: '#/components/parameters/persona-webhook-attempts-left'
+        - $ref: '#/components/parameters/persona-webhook-first-attempted-at'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                data:
+                  type: object
+                  unevaluatedProperties: false
+                  allOf:
+                    - $ref: '#/components/schemas/webhook-body-shared-data'
+                    - type: object
+                      properties:
+                        attributes:
+                          unevaluatedProperties: false
+                          allOf:
+                            - type: object
+                              properties:
+                                name:
+                                  type: string
+                                  const: case.resolved
+                                payload:
+                                  type: object
+                                  additionalProperties: false
+                                  properties:
+                                    data:
+                                      $ref: '#/components/schemas/case'
+                                    included:
+                                      description: All objects that are present in `data.attributes.relationships` will be provided in `included`.
+                                      $ref: '#/components/schemas/cases-included-objects'
+                            - $ref: '#/components/schemas/webhook-body-shared-attributes'
+            examples:
+              Example Body:
+                $ref: '#/components/examples/case-resolved-webhook-body'
+      responses:
+        '200':
+          $ref: '#/components/responses/success'
+  case.sla-expired:
+    post:
+      operationId: webhook-case-sla-expired
+      summary: Case SLA expired
+      description: 'Webhook for the `case.sla-expired` event. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).'
+      tags:
+        - 'Webhooks: Case events'
+      x-persona-product: Cases
+      parameters:
+        - $ref: '#/components/parameters/persona-signature-header'
+        - $ref: '#/components/parameters/persona-webhook-attempts-made'
+        - $ref: '#/components/parameters/persona-webhook-attempts-left'
+        - $ref: '#/components/parameters/persona-webhook-first-attempted-at'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                data:
+                  type: object
+                  unevaluatedProperties: false
+                  allOf:
+                    - $ref: '#/components/schemas/webhook-body-shared-data'
+                    - type: object
+                      properties:
+                        attributes:
+                          unevaluatedProperties: false
+                          allOf:
+                            - type: object
+                              properties:
+                                name:
+                                  type: string
+                                  const: case.sla-expired
+                                payload:
+                                  type: object
+                                  additionalProperties: false
+                                  properties:
+                                    data:
+                                      $ref: '#/components/schemas/case'
+                                    included:
+                                      description: All objects that are present in `data.attributes.relationships` will be provided in `included`.
+                                      $ref: '#/components/schemas/cases-included-objects'
+                            - $ref: '#/components/schemas/webhook-body-shared-attributes'
+            examples:
+              Example Body:
+                $ref: '#/components/examples/case-sla-expired-webhook-body'
+      responses:
+        '200':
+          $ref: '#/components/responses/success'
+  case.status-updated:
+    post:
+      operationId: webhook-case-status-updated
+      summary: Case status updated
+      description: 'Webhook for the `case.status-updated` event. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).'
+      tags:
+        - 'Webhooks: Case events'
+      x-persona-product: Cases
+      parameters:
+        - $ref: '#/components/parameters/persona-signature-header'
+        - $ref: '#/components/parameters/persona-webhook-attempts-made'
+        - $ref: '#/components/parameters/persona-webhook-attempts-left'
+        - $ref: '#/components/parameters/persona-webhook-first-attempted-at'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                data:
+                  type: object
+                  unevaluatedProperties: false
+                  allOf:
+                    - $ref: '#/components/schemas/webhook-body-shared-data'
+                    - type: object
+                      properties:
+                        attributes:
+                          unevaluatedProperties: false
+                          allOf:
+                            - type: object
+                              properties:
+                                name:
+                                  type: string
+                                  const: case.status-updated
+                                payload:
+                                  type: object
+                                  additionalProperties: false
+                                  properties:
+                                    data:
+                                      $ref: '#/components/schemas/case'
+                                    included:
+                                      description: All objects that are present in `data.attributes.relationships` will be provided in `included`.
+                                      $ref: '#/components/schemas/cases-included-objects'
+                            - $ref: '#/components/schemas/webhook-body-shared-attributes'
+            examples:
+              Example Body:
+                $ref: '#/components/examples/case-status-updated-webhook-body'
+      responses:
+        '200':
+          $ref: '#/components/responses/success'
+  case.updated-fields:
+    post:
+      operationId: webhook-case-updated-fields
+      summary: Case updated fields
+      description: 'Webhook for the `case.updated-fields` event. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).'
+      tags:
+        - 'Webhooks: Case events'
+      x-persona-product: Cases
+      parameters:
+        - $ref: '#/components/parameters/persona-signature-header'
+        - $ref: '#/components/parameters/persona-webhook-attempts-made'
+        - $ref: '#/components/parameters/persona-webhook-attempts-left'
+        - $ref: '#/components/parameters/persona-webhook-first-attempted-at'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                data:
+                  type: object
+                  unevaluatedProperties: false
+                  allOf:
+                    - $ref: '#/components/schemas/webhook-body-shared-data'
+                    - type: object
+                      properties:
+                        attributes:
+                          unevaluatedProperties: false
+                          allOf:
+                            - type: object
+                              properties:
+                                name:
+                                  type: string
+                                  const: case.updated-fields
+                                payload:
+                                  type: object
+                                  additionalProperties: false
+                                  properties:
+                                    data:
+                                      $ref: '#/components/schemas/case'
+                                    included:
+                                      description: All objects that are present in `data.attributes.relationships` will be provided in `included`.
+                                      $ref: '#/components/schemas/cases-included-objects'
+                            - $ref: '#/components/schemas/webhook-body-shared-attributes'
+            examples:
+              Example Body:
+                $ref: '#/components/examples/case-updated-fields-webhook-body'
+      responses:
+        '200':
+          $ref: '#/components/responses/success'
+  case.updated-tags:
+    post:
+      operationId: webhook-case-updated-tags
+      summary: Case updated tags
+      description: 'Webhook for the `case.updated-tags` event. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).'
+      tags:
+        - 'Webhooks: Case events'
+      x-persona-product: Cases
+      parameters:
+        - $ref: '#/components/parameters/persona-signature-header'
+        - $ref: '#/components/parameters/persona-webhook-attempts-made'
+        - $ref: '#/components/parameters/persona-webhook-attempts-left'
+        - $ref: '#/components/parameters/persona-webhook-first-attempted-at'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                data:
+                  type: object
+                  unevaluatedProperties: false
+                  allOf:
+                    - $ref: '#/components/schemas/webhook-body-shared-data'
+                    - type: object
+                      properties:
+                        attributes:
+                          unevaluatedProperties: false
+                          allOf:
+                            - type: object
+                              properties:
+                                name:
+                                  type: string
+                                  const: case.updated-tags
+                                payload:
+                                  type: object
+                                  additionalProperties: false
+                                  properties:
+                                    data:
+                                      $ref: '#/components/schemas/case'
+                                    included:
+                                      description: All objects that are present in `data.attributes.relationships` will be provided in `included`.
+                                      $ref: '#/components/schemas/cases-included-objects'
+                            - $ref: '#/components/schemas/webhook-body-shared-attributes'
+            examples:
+              Example Body:
+                $ref: '#/components/examples/case-updated-tags-webhook-body'
+      responses:
+        '200':
+          $ref: '#/components/responses/success'
   document.created:
     post:
       operationId: webhook-document-created
@@ -33277,6 +33838,2301 @@ components:
                     - tag1
                     - tag2
             created-at: '2024-02-15T23:48:17.732Z'
+    case-assigned-webhook-body:
+      value:
+        data:
+          type: event
+          id: evt_8LrJ5yWoS3cQnZxM0tUhE4dF
+          attributes:
+            name: case.assigned
+            payload:
+              data:
+                type: case
+                id: case_gqe7rH38FvxtzhGBQmDBsjkB
+                attributes:
+                  status: Open
+                  name: MRR-3
+                  resolution: null
+                  created-at: '2024-01-15T08:12:03.000Z'
+                  updated-at: '2024-01-16T14:05:21.000Z'
+                  assigned-at: '2024-01-16T14:05:21.000Z'
+                  resolved-at: null
+                  redacted-at: null
+                  sla-expires-at: '2024-02-16T14:05:21.000Z'
+                  creator-id: case_creator@withpersona.com
+                  creator-type: user
+                  assignee-id: case_assignee@withpersona.com
+                  assigner-id: case_assigner@withpersona.com
+                  assigner-type: user
+                  resolver-id: null
+                  resolver-type: null
+                  updater-id: case_assigner@withpersona.com
+                  updater-type: user
+                  tags:
+                    - high-priority
+                    - manual-review
+                  fields:
+                    external-integration-id: ind_123
+                    risk-level: medium
+                  attachments: []
+                relationships:
+                  accounts:
+                    data:
+                      - type: account
+                        id: act_9e3yoAUApTRMjgNoPAC7TNtz
+                  case-comments:
+                    data: []
+                  case-template:
+                    data:
+                      type: case-template
+                      id: ctmpl_Jumm3K4zHwaLBBdyLUCnHbBC
+                  case-queue:
+                    data:
+                      type: case-queue
+                      id: cqueue_7JRbkcdbx9fTossK98NJvRZcmk1
+                  inquiries:
+                    data:
+                      - type: inquiry
+                        id: inq_KHK4MJCE4QvfocWB2intQ3YE
+                  reports:
+                    data: []
+                  verifications:
+                    data:
+                      - type: verification/government-id
+                        id: ver_govid7Hw3XjPbN8f2Lq9kWtZmYrAdEC
+                      - type: verification/selfie
+                        id: ver_self2VkP9bRcMqLnXtZjAhYdEgKfBN
+                  txns:
+                    data: []
+              included:
+                - type: account
+                  id: act_9e3yoAUApTRMjgNoPAC7TNtz
+                  attributes:
+                    reference-id: abc-123
+                    created-at: '2023-09-22T17:13:49.000Z'
+                    updated-at: '2023-09-23T00:22:19.000Z'
+                    redacted-at: null
+                    fields:
+                      name:
+                        type: hash
+                        value:
+                          first:
+                            type: string
+                            value: Jane
+                          middle:
+                            type: string
+                            value: Marie
+                          last:
+                            type: string
+                            value: Doe
+                      email_address:
+                        type: string
+                        value: jane@doe.com
+                    tags: []
+                - type: case-template
+                  id: ctmpl_Jumm3K4zHwaLBBdyLUCnHbBC
+                  attributes:
+                    status: active
+                    name: Manual Review Cases
+                    resolutions:
+                      - Approved
+                      - Declined
+                    created-at: '2023-03-25T07:04:16.667Z'
+                    updated-at: '2023-06-01T12:00:00.000Z'
+                    archived-at: null
+                - type: case-queue
+                  id: cqueue_7JRbkcdbx9fTossK98NJvRZcmk1
+                  attributes:
+                    status: active
+                    name: High Priority Queue
+                    created-at: '2023-03-25T07:04:16.667Z'
+                    updated-at: '2023-06-01T12:00:00.000Z'
+                    archived-at: null
+                - type: inquiry
+                  id: inq_KHK4MJCE4QvfocWB2intQ3YE
+                  attributes:
+                    status: needs_review
+                    reference-id: abc-123
+                    note: null
+                    behaviors: {}
+                    tags:
+                      - manual-review
+                    creator: API
+                    reviewer-comment: null
+                    created-at: '2024-01-15T08:00:00.000Z'
+                    started-at: '2024-01-15T08:01:00.000Z'
+                    expires-at: null
+                    completed-at: '2024-01-15T08:11:00.000Z'
+                    failed-at: null
+                    marked-for-review-at: '2024-01-15T08:11:30.000Z'
+                    decisioned-at: null
+                    expired-at: null
+                    redacted-at: null
+                    updated-at: '2024-01-15T08:11:30.000Z'
+                    previous-step-name: verification_selfie
+                    next-step-name: success
+                    fields: {}
+                  relationships:
+                    account:
+                      data:
+                        type: account
+                        id: act_9e3yoAUApTRMjgNoPAC7TNtz
+                    template:
+                      data: {}
+                    inquiry-template:
+                      data:
+                        type: inquiry-template
+                        id: itmpl_p8ANAJy9iqadm2buF2xcVgqH
+                    inquiry-template-version:
+                      data:
+                        type: inquiry-template-version
+                        id: itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo
+                    reports:
+                      data: []
+                    verifications:
+                      data:
+                        - type: verification/government-id
+                          id: ver_govid7Hw3XjPbN8f2Lq9kWtZmYrAdEC
+                        - type: verification/selfie
+                          id: ver_self2VkP9bRcMqLnXtZjAhYdEgKfBN
+                    sessions:
+                      data: []
+                    documents:
+                      data: []
+                    selfies:
+                      data: []
+                - type: verification/government-id
+                  id: ver_govid7Hw3XjPbN8f2Lq9kWtZmYrAdEC
+                  attributes:
+                    status: passed
+                    created-at: '2024-01-15T08:03:24.000Z'
+                    submitted-at: '2024-01-15T08:03:24.000Z'
+                    completed-at: '2024-01-15T08:03:31.000Z'
+                    country-code: US
+                    checks:
+                      - name: id_unprocessable_submission_detection
+                        status: passed
+                        reasons: []
+                        requirement: required
+                      - name: id_compromised_detection
+                        status: passed
+                        reasons: []
+                        requirement: required
+                      - name: id_disallowed_country_detection
+                        status: passed
+                        reasons: []
+                        requirement: required
+                  relationships:
+                    inquiry:
+                      data:
+                        type: inquiry
+                        id: inq_KHK4MJCE4QvfocWB2intQ3YE
+                - type: verification/selfie
+                  id: ver_self2VkP9bRcMqLnXtZjAhYdEgKfBN
+                  attributes:
+                    status: passed
+                    created-at: '2024-01-15T08:08:10.000Z'
+                    submitted-at: '2024-01-15T08:08:30.000Z'
+                    completed-at: '2024-01-15T08:08:40.000Z'
+                    checks:
+                      - name: selfie_id_comparison
+                        status: passed
+                        reasons: []
+                        requirement: required
+                      - name: selfie_pose_detection
+                        status: passed
+                        reasons: []
+                        requirement: required
+                      - name: selfie_liveness_detection
+                        status: passed
+                        reasons: []
+                        requirement: not_required
+                  relationships:
+                    inquiry:
+                      data:
+                        type: inquiry
+                        id: inq_KHK4MJCE4QvfocWB2intQ3YE
+            created-at: '2024-01-16T14:05:21.000Z'
+    case-created-webhook-body:
+      value:
+        data:
+          type: event
+          id: evt_9MsK6zXpT4dRoAyN1uViF5eG
+          attributes:
+            name: case.created
+            payload:
+              data:
+                type: case
+                id: case_gqe7rH38FvxtzhGBQmDBsjkB
+                attributes:
+                  status: Open
+                  name: MRR-3
+                  resolution: null
+                  created-at: '2024-01-15T08:12:03.000Z'
+                  updated-at: '2024-01-15T08:12:03.000Z'
+                  assigned-at: null
+                  resolved-at: null
+                  redacted-at: null
+                  sla-expires-at: '2024-02-16T14:05:21.000Z'
+                  creator-id: case_creator@withpersona.com
+                  creator-type: user
+                  assignee-id: null
+                  assigner-id: null
+                  assigner-type: null
+                  resolver-id: null
+                  resolver-type: null
+                  updater-id: null
+                  updater-type: null
+                  tags: []
+                  fields:
+                    external-integration-id: ind_123
+                  attachments: []
+                relationships:
+                  accounts:
+                    data:
+                      - type: account
+                        id: act_9e3yoAUApTRMjgNoPAC7TNtz
+                  case-comments:
+                    data: []
+                  case-template:
+                    data:
+                      type: case-template
+                      id: ctmpl_Jumm3K4zHwaLBBdyLUCnHbBC
+                  case-queue:
+                    data:
+                      type: case-queue
+                      id: cqueue_7JRbkcdbx9fTossK98NJvRZcmk1
+                  inquiries:
+                    data:
+                      - type: inquiry
+                        id: inq_KHK4MJCE4QvfocWB2intQ3YE
+                  reports:
+                    data: []
+                  verifications:
+                    data:
+                      - type: verification/government-id
+                        id: ver_govid7Hw3XjPbN8f2Lq9kWtZmYrAdEC
+                      - type: verification/selfie
+                        id: ver_self2VkP9bRcMqLnXtZjAhYdEgKfBN
+                  txns:
+                    data: []
+              included:
+                - type: account
+                  id: act_9e3yoAUApTRMjgNoPAC7TNtz
+                  attributes:
+                    reference-id: abc-123
+                    created-at: '2023-09-22T17:13:49.000Z'
+                    updated-at: '2023-09-23T00:22:19.000Z'
+                    redacted-at: null
+                    fields:
+                      name:
+                        type: hash
+                        value:
+                          first:
+                            type: string
+                            value: Jane
+                          middle:
+                            type: string
+                            value: Marie
+                          last:
+                            type: string
+                            value: Doe
+                      email_address:
+                        type: string
+                        value: jane@doe.com
+                    tags: []
+                - type: case-template
+                  id: ctmpl_Jumm3K4zHwaLBBdyLUCnHbBC
+                  attributes:
+                    status: active
+                    name: Manual Review Cases
+                    resolutions:
+                      - Approved
+                      - Declined
+                    created-at: '2023-03-25T07:04:16.667Z'
+                    updated-at: '2023-06-01T12:00:00.000Z'
+                    archived-at: null
+                - type: case-queue
+                  id: cqueue_7JRbkcdbx9fTossK98NJvRZcmk1
+                  attributes:
+                    status: active
+                    name: High Priority Queue
+                    created-at: '2023-03-25T07:04:16.667Z'
+                    updated-at: '2023-06-01T12:00:00.000Z'
+                    archived-at: null
+                - type: inquiry
+                  id: inq_KHK4MJCE4QvfocWB2intQ3YE
+                  attributes:
+                    status: needs_review
+                    reference-id: abc-123
+                    note: null
+                    behaviors: {}
+                    tags:
+                      - manual-review
+                    creator: API
+                    reviewer-comment: null
+                    created-at: '2024-01-15T08:00:00.000Z'
+                    started-at: '2024-01-15T08:01:00.000Z'
+                    expires-at: null
+                    completed-at: '2024-01-15T08:11:00.000Z'
+                    failed-at: null
+                    marked-for-review-at: '2024-01-15T08:11:30.000Z'
+                    decisioned-at: null
+                    expired-at: null
+                    redacted-at: null
+                    updated-at: '2024-01-15T08:11:30.000Z'
+                    previous-step-name: verification_selfie
+                    next-step-name: success
+                    fields: {}
+                  relationships:
+                    account:
+                      data:
+                        type: account
+                        id: act_9e3yoAUApTRMjgNoPAC7TNtz
+                    template:
+                      data: {}
+                    inquiry-template:
+                      data:
+                        type: inquiry-template
+                        id: itmpl_p8ANAJy9iqadm2buF2xcVgqH
+                    inquiry-template-version:
+                      data:
+                        type: inquiry-template-version
+                        id: itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo
+                    reports:
+                      data: []
+                    verifications:
+                      data:
+                        - type: verification/government-id
+                          id: ver_govid7Hw3XjPbN8f2Lq9kWtZmYrAdEC
+                        - type: verification/selfie
+                          id: ver_self2VkP9bRcMqLnXtZjAhYdEgKfBN
+                    sessions:
+                      data: []
+                    documents:
+                      data: []
+                    selfies:
+                      data: []
+                - type: verification/government-id
+                  id: ver_govid7Hw3XjPbN8f2Lq9kWtZmYrAdEC
+                  attributes:
+                    status: passed
+                    created-at: '2024-01-15T08:03:24.000Z'
+                    submitted-at: '2024-01-15T08:03:24.000Z'
+                    completed-at: '2024-01-15T08:03:31.000Z'
+                    country-code: US
+                    checks:
+                      - name: id_unprocessable_submission_detection
+                        status: passed
+                        reasons: []
+                        requirement: required
+                      - name: id_compromised_detection
+                        status: passed
+                        reasons: []
+                        requirement: required
+                      - name: id_disallowed_country_detection
+                        status: passed
+                        reasons: []
+                        requirement: required
+                  relationships:
+                    inquiry:
+                      data:
+                        type: inquiry
+                        id: inq_KHK4MJCE4QvfocWB2intQ3YE
+                - type: verification/selfie
+                  id: ver_self2VkP9bRcMqLnXtZjAhYdEgKfBN
+                  attributes:
+                    status: passed
+                    created-at: '2024-01-15T08:08:10.000Z'
+                    submitted-at: '2024-01-15T08:08:30.000Z'
+                    completed-at: '2024-01-15T08:08:40.000Z'
+                    checks:
+                      - name: selfie_id_comparison
+                        status: passed
+                        reasons: []
+                        requirement: required
+                      - name: selfie_pose_detection
+                        status: passed
+                        reasons: []
+                        requirement: required
+                      - name: selfie_liveness_detection
+                        status: passed
+                        reasons: []
+                        requirement: not_required
+                  relationships:
+                    inquiry:
+                      data:
+                        type: inquiry
+                        id: inq_KHK4MJCE4QvfocWB2intQ3YE
+            created-at: '2024-01-15T08:12:03.000Z'
+    case-exported-webhook-body:
+      value:
+        data:
+          type: event
+          id: evt_AnTL7aYqU5eSpBzO2vWjG6fH
+          attributes:
+            name: case.exported
+            payload:
+              data:
+                type: case
+                id: case_gqe7rH38FvxtzhGBQmDBsjkB
+                attributes:
+                  status: Approved
+                  name: MRR-3
+                  resolution: Approved
+                  created-at: '2024-01-15T08:12:03.000Z'
+                  updated-at: '2024-02-15T23:48:17.732Z'
+                  assigned-at: '2024-01-16T14:05:21.000Z'
+                  resolved-at: '2024-02-15T23:48:17.732Z'
+                  redacted-at: null
+                  sla-expires-at: '2024-02-16T14:05:21.000Z'
+                  creator-id: case_creator@withpersona.com
+                  creator-type: user
+                  assignee-id: case_assignee@withpersona.com
+                  assigner-id: case_assigner@withpersona.com
+                  assigner-type: user
+                  resolver-id: case_resolver@withpersona.com
+                  resolver-type: user
+                  updater-id: case_resolver@withpersona.com
+                  updater-type: user
+                  tags:
+                    - high-priority
+                    - manual-review
+                  fields:
+                    external-integration-id: ind_123
+                    risk-level: medium
+                  attachments: []
+                relationships:
+                  accounts:
+                    data:
+                      - type: account
+                        id: act_9e3yoAUApTRMjgNoPAC7TNtz
+                  case-comments:
+                    data: []
+                  case-template:
+                    data:
+                      type: case-template
+                      id: ctmpl_Jumm3K4zHwaLBBdyLUCnHbBC
+                  case-queue:
+                    data:
+                      type: case-queue
+                      id: cqueue_7JRbkcdbx9fTossK98NJvRZcmk1
+                  inquiries:
+                    data:
+                      - type: inquiry
+                        id: inq_KHK4MJCE4QvfocWB2intQ3YE
+                  reports:
+                    data: []
+                  verifications:
+                    data:
+                      - type: verification/government-id
+                        id: ver_govid7Hw3XjPbN8f2Lq9kWtZmYrAdEC
+                      - type: verification/selfie
+                        id: ver_self2VkP9bRcMqLnXtZjAhYdEgKfBN
+                  txns:
+                    data: []
+              included:
+                - type: account
+                  id: act_9e3yoAUApTRMjgNoPAC7TNtz
+                  attributes:
+                    reference-id: abc-123
+                    created-at: '2023-09-22T17:13:49.000Z'
+                    updated-at: '2023-09-23T00:22:19.000Z'
+                    redacted-at: null
+                    fields:
+                      name:
+                        type: hash
+                        value:
+                          first:
+                            type: string
+                            value: Jane
+                          middle:
+                            type: string
+                            value: Marie
+                          last:
+                            type: string
+                            value: Doe
+                      email_address:
+                        type: string
+                        value: jane@doe.com
+                    tags: []
+                - type: case-template
+                  id: ctmpl_Jumm3K4zHwaLBBdyLUCnHbBC
+                  attributes:
+                    status: active
+                    name: Manual Review Cases
+                    resolutions:
+                      - Approved
+                      - Declined
+                    created-at: '2023-03-25T07:04:16.667Z'
+                    updated-at: '2023-06-01T12:00:00.000Z'
+                    archived-at: null
+                - type: case-queue
+                  id: cqueue_7JRbkcdbx9fTossK98NJvRZcmk1
+                  attributes:
+                    status: active
+                    name: High Priority Queue
+                    created-at: '2023-03-25T07:04:16.667Z'
+                    updated-at: '2023-06-01T12:00:00.000Z'
+                    archived-at: null
+                - type: inquiry
+                  id: inq_KHK4MJCE4QvfocWB2intQ3YE
+                  attributes:
+                    status: needs_review
+                    reference-id: abc-123
+                    note: null
+                    behaviors: {}
+                    tags:
+                      - manual-review
+                    creator: API
+                    reviewer-comment: null
+                    created-at: '2024-01-15T08:00:00.000Z'
+                    started-at: '2024-01-15T08:01:00.000Z'
+                    expires-at: null
+                    completed-at: '2024-01-15T08:11:00.000Z'
+                    failed-at: null
+                    marked-for-review-at: '2024-01-15T08:11:30.000Z'
+                    decisioned-at: null
+                    expired-at: null
+                    redacted-at: null
+                    updated-at: '2024-01-15T08:11:30.000Z'
+                    previous-step-name: verification_selfie
+                    next-step-name: success
+                    fields: {}
+                  relationships:
+                    account:
+                      data:
+                        type: account
+                        id: act_9e3yoAUApTRMjgNoPAC7TNtz
+                    template:
+                      data: {}
+                    inquiry-template:
+                      data:
+                        type: inquiry-template
+                        id: itmpl_p8ANAJy9iqadm2buF2xcVgqH
+                    inquiry-template-version:
+                      data:
+                        type: inquiry-template-version
+                        id: itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo
+                    reports:
+                      data: []
+                    verifications:
+                      data:
+                        - type: verification/government-id
+                          id: ver_govid7Hw3XjPbN8f2Lq9kWtZmYrAdEC
+                        - type: verification/selfie
+                          id: ver_self2VkP9bRcMqLnXtZjAhYdEgKfBN
+                    sessions:
+                      data: []
+                    documents:
+                      data: []
+                    selfies:
+                      data: []
+                - type: verification/government-id
+                  id: ver_govid7Hw3XjPbN8f2Lq9kWtZmYrAdEC
+                  attributes:
+                    status: passed
+                    created-at: '2024-01-15T08:03:24.000Z'
+                    submitted-at: '2024-01-15T08:03:24.000Z'
+                    completed-at: '2024-01-15T08:03:31.000Z'
+                    country-code: US
+                    checks:
+                      - name: id_unprocessable_submission_detection
+                        status: passed
+                        reasons: []
+                        requirement: required
+                      - name: id_compromised_detection
+                        status: passed
+                        reasons: []
+                        requirement: required
+                      - name: id_disallowed_country_detection
+                        status: passed
+                        reasons: []
+                        requirement: required
+                  relationships:
+                    inquiry:
+                      data:
+                        type: inquiry
+                        id: inq_KHK4MJCE4QvfocWB2intQ3YE
+                - type: verification/selfie
+                  id: ver_self2VkP9bRcMqLnXtZjAhYdEgKfBN
+                  attributes:
+                    status: passed
+                    created-at: '2024-01-15T08:08:10.000Z'
+                    submitted-at: '2024-01-15T08:08:30.000Z'
+                    completed-at: '2024-01-15T08:08:40.000Z'
+                    checks:
+                      - name: selfie_id_comparison
+                        status: passed
+                        reasons: []
+                        requirement: required
+                      - name: selfie_pose_detection
+                        status: passed
+                        reasons: []
+                        requirement: required
+                      - name: selfie_liveness_detection
+                        status: passed
+                        reasons: []
+                        requirement: not_required
+                  relationships:
+                    inquiry:
+                      data:
+                        type: inquiry
+                        id: inq_KHK4MJCE4QvfocWB2intQ3YE
+            created-at: '2024-02-16T10:30:00.000Z'
+    case-queue-updated-webhook-body:
+      value:
+        data:
+          type: event
+          id: evt_CpVN9caSW7gUrDBQ4xYlI8hJ
+          attributes:
+            name: case.queue-updated
+            payload:
+              data:
+                type: case
+                id: case_gqe7rH38FvxtzhGBQmDBsjkB
+                attributes:
+                  status: Open
+                  name: MRR-3
+                  resolution: null
+                  created-at: '2024-01-15T08:12:03.000Z'
+                  updated-at: '2024-01-17T09:22:11.000Z'
+                  assigned-at: '2024-01-16T14:05:21.000Z'
+                  resolved-at: null
+                  redacted-at: null
+                  sla-expires-at: '2024-02-16T14:05:21.000Z'
+                  creator-id: case_creator@withpersona.com
+                  creator-type: user
+                  assignee-id: case_assignee@withpersona.com
+                  assigner-id: case_assigner@withpersona.com
+                  assigner-type: user
+                  resolver-id: null
+                  resolver-type: null
+                  updater-id: case_updater@withpersona.com
+                  updater-type: user
+                  tags:
+                    - high-priority
+                  fields:
+                    external-integration-id: ind_123
+                    risk-level: medium
+                  attachments: []
+                relationships:
+                  accounts:
+                    data:
+                      - type: account
+                        id: act_9e3yoAUApTRMjgNoPAC7TNtz
+                  case-comments:
+                    data: []
+                  case-template:
+                    data:
+                      type: case-template
+                      id: ctmpl_Jumm3K4zHwaLBBdyLUCnHbBC
+                  case-queue:
+                    data:
+                      type: case-queue
+                      id: cqueue_2HNbpdebw1gQhpttL97KvSScpk2
+                  inquiries:
+                    data:
+                      - type: inquiry
+                        id: inq_KHK4MJCE4QvfocWB2intQ3YE
+                  reports:
+                    data: []
+                  verifications:
+                    data:
+                      - type: verification/government-id
+                        id: ver_govid7Hw3XjPbN8f2Lq9kWtZmYrAdEC
+                      - type: verification/selfie
+                        id: ver_self2VkP9bRcMqLnXtZjAhYdEgKfBN
+                  txns:
+                    data: []
+              included:
+                - type: account
+                  id: act_9e3yoAUApTRMjgNoPAC7TNtz
+                  attributes:
+                    reference-id: abc-123
+                    created-at: '2023-09-22T17:13:49.000Z'
+                    updated-at: '2023-09-23T00:22:19.000Z'
+                    redacted-at: null
+                    fields:
+                      name:
+                        type: hash
+                        value:
+                          first:
+                            type: string
+                            value: Jane
+                          middle:
+                            type: string
+                            value: Marie
+                          last:
+                            type: string
+                            value: Doe
+                      email_address:
+                        type: string
+                        value: jane@doe.com
+                    tags: []
+                - type: case-template
+                  id: ctmpl_Jumm3K4zHwaLBBdyLUCnHbBC
+                  attributes:
+                    status: active
+                    name: Manual Review Cases
+                    resolutions:
+                      - Approved
+                      - Declined
+                    created-at: '2023-03-25T07:04:16.667Z'
+                    updated-at: '2023-06-01T12:00:00.000Z'
+                    archived-at: null
+                - type: case-queue
+                  id: cqueue_2HNbpdebw1gQhpttL97KvSScpk2
+                  attributes:
+                    status: active
+                    name: Escalations Queue
+                    created-at: '2023-04-12T11:18:33.000Z'
+                    updated-at: '2023-07-15T08:30:00.000Z'
+                    archived-at: null
+                - type: inquiry
+                  id: inq_KHK4MJCE4QvfocWB2intQ3YE
+                  attributes:
+                    status: needs_review
+                    reference-id: abc-123
+                    note: null
+                    behaviors: {}
+                    tags:
+                      - manual-review
+                    creator: API
+                    reviewer-comment: null
+                    created-at: '2024-01-15T08:00:00.000Z'
+                    started-at: '2024-01-15T08:01:00.000Z'
+                    expires-at: null
+                    completed-at: '2024-01-15T08:11:00.000Z'
+                    failed-at: null
+                    marked-for-review-at: '2024-01-15T08:11:30.000Z'
+                    decisioned-at: null
+                    expired-at: null
+                    redacted-at: null
+                    updated-at: '2024-01-15T08:11:30.000Z'
+                    previous-step-name: verification_selfie
+                    next-step-name: success
+                    fields: {}
+                  relationships:
+                    account:
+                      data:
+                        type: account
+                        id: act_9e3yoAUApTRMjgNoPAC7TNtz
+                    template:
+                      data: {}
+                    inquiry-template:
+                      data:
+                        type: inquiry-template
+                        id: itmpl_p8ANAJy9iqadm2buF2xcVgqH
+                    inquiry-template-version:
+                      data:
+                        type: inquiry-template-version
+                        id: itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo
+                    reports:
+                      data: []
+                    verifications:
+                      data:
+                        - type: verification/government-id
+                          id: ver_govid7Hw3XjPbN8f2Lq9kWtZmYrAdEC
+                        - type: verification/selfie
+                          id: ver_self2VkP9bRcMqLnXtZjAhYdEgKfBN
+                    sessions:
+                      data: []
+                    documents:
+                      data: []
+                    selfies:
+                      data: []
+                - type: verification/government-id
+                  id: ver_govid7Hw3XjPbN8f2Lq9kWtZmYrAdEC
+                  attributes:
+                    status: passed
+                    created-at: '2024-01-15T08:03:24.000Z'
+                    submitted-at: '2024-01-15T08:03:24.000Z'
+                    completed-at: '2024-01-15T08:03:31.000Z'
+                    country-code: US
+                    checks:
+                      - name: id_unprocessable_submission_detection
+                        status: passed
+                        reasons: []
+                        requirement: required
+                      - name: id_compromised_detection
+                        status: passed
+                        reasons: []
+                        requirement: required
+                      - name: id_disallowed_country_detection
+                        status: passed
+                        reasons: []
+                        requirement: required
+                  relationships:
+                    inquiry:
+                      data:
+                        type: inquiry
+                        id: inq_KHK4MJCE4QvfocWB2intQ3YE
+                - type: verification/selfie
+                  id: ver_self2VkP9bRcMqLnXtZjAhYdEgKfBN
+                  attributes:
+                    status: passed
+                    created-at: '2024-01-15T08:08:10.000Z'
+                    submitted-at: '2024-01-15T08:08:30.000Z'
+                    completed-at: '2024-01-15T08:08:40.000Z'
+                    checks:
+                      - name: selfie_id_comparison
+                        status: passed
+                        reasons: []
+                        requirement: required
+                      - name: selfie_pose_detection
+                        status: passed
+                        reasons: []
+                        requirement: required
+                      - name: selfie_liveness_detection
+                        status: passed
+                        reasons: []
+                        requirement: not_required
+                  relationships:
+                    inquiry:
+                      data:
+                        type: inquiry
+                        id: inq_KHK4MJCE4QvfocWB2intQ3YE
+            created-at: '2024-01-17T09:22:11.000Z'
+    case-redacted-webhook-body:
+      value:
+        data:
+          type: event
+          id: evt_DqWO0dbTX8hVsECR5yZmJ9iK
+          attributes:
+            name: case.redacted
+            payload:
+              data:
+                type: case
+                id: case_gqe7rH38FvxtzhGBQmDBsjkB
+                attributes:
+                  status: Approved
+                  name: MRR-3
+                  resolution: Approved
+                  created-at: '2024-01-15T08:12:03.000Z'
+                  updated-at: '2024-04-20T10:00:00.000Z'
+                  assigned-at: '2024-01-16T14:05:21.000Z'
+                  resolved-at: '2024-02-15T23:48:17.732Z'
+                  redacted-at: '2024-04-20T10:00:00.000Z'
+                  sla-expires-at: '2024-02-16T14:05:21.000Z'
+                  creator-id: null
+                  creator-type: null
+                  assignee-id: null
+                  assigner-id: null
+                  assigner-type: null
+                  resolver-id: null
+                  resolver-type: null
+                  updater-id: null
+                  updater-type: null
+                  tags: []
+                  fields: {}
+                  attachments: []
+                relationships:
+                  accounts:
+                    data:
+                      - type: account
+                        id: act_9e3yoAUApTRMjgNoPAC7TNtz
+                  case-comments:
+                    data: []
+                  case-template:
+                    data:
+                      type: case-template
+                      id: ctmpl_Jumm3K4zHwaLBBdyLUCnHbBC
+                  case-queue:
+                    data:
+                      type: case-queue
+                      id: cqueue_7JRbkcdbx9fTossK98NJvRZcmk1
+                  inquiries:
+                    data:
+                      - type: inquiry
+                        id: inq_KHK4MJCE4QvfocWB2intQ3YE
+                  reports:
+                    data: []
+                  verifications:
+                    data: []
+                  txns:
+                    data: []
+              included:
+                - type: account
+                  id: act_9e3yoAUApTRMjgNoPAC7TNtz
+                  attributes:
+                    reference-id: abc-123
+                    created-at: '2023-09-22T17:13:49.000Z'
+                    updated-at: '2024-04-20T10:00:00.000Z'
+                    redacted-at: '2024-04-20T10:00:00.000Z'
+                    fields: {}
+                    tags: []
+                - type: case-template
+                  id: ctmpl_Jumm3K4zHwaLBBdyLUCnHbBC
+                  attributes:
+                    status: active
+                    name: Manual Review Cases
+                    resolutions:
+                      - Approved
+                      - Declined
+                    created-at: '2023-03-25T07:04:16.667Z'
+                    updated-at: '2023-06-01T12:00:00.000Z'
+                    archived-at: null
+                - type: case-queue
+                  id: cqueue_7JRbkcdbx9fTossK98NJvRZcmk1
+                  attributes:
+                    status: active
+                    name: High Priority Queue
+                    created-at: '2023-03-25T07:04:16.667Z'
+                    updated-at: '2023-06-01T12:00:00.000Z'
+                    archived-at: null
+                - type: inquiry
+                  id: inq_KHK4MJCE4QvfocWB2intQ3YE
+                  attributes:
+                    status: needs_review
+                    reference-id: abc-123
+                    note: null
+                    behaviors: {}
+                    tags:
+                      - manual-review
+                    creator: API
+                    reviewer-comment: null
+                    created-at: '2024-01-15T08:00:00.000Z'
+                    started-at: '2024-01-15T08:01:00.000Z'
+                    expires-at: null
+                    completed-at: '2024-01-15T08:11:00.000Z'
+                    failed-at: null
+                    marked-for-review-at: '2024-01-15T08:11:30.000Z'
+                    decisioned-at: null
+                    expired-at: null
+                    redacted-at: null
+                    updated-at: '2024-01-15T08:11:30.000Z'
+                    previous-step-name: verification_selfie
+                    next-step-name: success
+                    fields: {}
+                  relationships:
+                    account:
+                      data:
+                        type: account
+                        id: act_9e3yoAUApTRMjgNoPAC7TNtz
+                    template:
+                      data: {}
+                    inquiry-template:
+                      data:
+                        type: inquiry-template
+                        id: itmpl_p8ANAJy9iqadm2buF2xcVgqH
+                    inquiry-template-version:
+                      data:
+                        type: inquiry-template-version
+                        id: itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo
+                    reports:
+                      data: []
+                    verifications:
+                      data: []
+                    sessions:
+                      data: []
+                    documents:
+                      data: []
+                    selfies:
+                      data: []
+            created-at: '2024-04-20T10:00:00.000Z'
+    case-reopened-webhook-body:
+      value:
+        data:
+          type: event
+          id: evt_ErXP1ecUY9iWtFDS6zAnK0jL
+          attributes:
+            name: case.reopened
+            payload:
+              data:
+                type: case
+                id: case_gqe7rH38FvxtzhGBQmDBsjkB
+                attributes:
+                  status: Open
+                  name: MRR-3
+                  resolution: null
+                  created-at: '2024-01-15T08:12:03.000Z'
+                  updated-at: '2024-03-05T16:42:55.000Z'
+                  assigned-at: '2024-01-16T14:05:21.000Z'
+                  resolved-at: null
+                  redacted-at: null
+                  sla-expires-at: '2024-04-05T16:42:55.000Z'
+                  creator-id: case_creator@withpersona.com
+                  creator-type: user
+                  assignee-id: case_assignee@withpersona.com
+                  assigner-id: case_assigner@withpersona.com
+                  assigner-type: user
+                  resolver-id: null
+                  resolver-type: null
+                  updater-id: case_reviewer@withpersona.com
+                  updater-type: user
+                  tags:
+                    - high-priority
+                    - manual-review
+                    - reopened
+                  fields:
+                    external-integration-id: ind_123
+                    risk-level: medium
+                    reviewer-notes: Reopened after additional documentation received.
+                  attachments:
+                    - filename: supporting_doc.pdf
+                      url: 'https://files.withpersona.com/abc123.pdf?access_token=ACCESS_TOKEN'
+                      byte-size: 124917
+                relationships:
+                  accounts:
+                    data:
+                      - type: account
+                        id: act_9e3yoAUApTRMjgNoPAC7TNtz
+                  case-comments:
+                    data: []
+                  case-template:
+                    data:
+                      type: case-template
+                      id: ctmpl_Jumm3K4zHwaLBBdyLUCnHbBC
+                  case-queue:
+                    data:
+                      type: case-queue
+                      id: cqueue_7JRbkcdbx9fTossK98NJvRZcmk1
+                  inquiries:
+                    data:
+                      - type: inquiry
+                        id: inq_KHK4MJCE4QvfocWB2intQ3YE
+                  reports:
+                    data: []
+                  verifications:
+                    data:
+                      - type: verification/government-id
+                        id: ver_govid7Hw3XjPbN8f2Lq9kWtZmYrAdEC
+                      - type: verification/selfie
+                        id: ver_self2VkP9bRcMqLnXtZjAhYdEgKfBN
+                  txns:
+                    data: []
+              included:
+                - type: account
+                  id: act_9e3yoAUApTRMjgNoPAC7TNtz
+                  attributes:
+                    reference-id: abc-123
+                    created-at: '2023-09-22T17:13:49.000Z'
+                    updated-at: '2023-09-23T00:22:19.000Z'
+                    redacted-at: null
+                    fields:
+                      name:
+                        type: hash
+                        value:
+                          first:
+                            type: string
+                            value: Jane
+                          middle:
+                            type: string
+                            value: Marie
+                          last:
+                            type: string
+                            value: Doe
+                      email_address:
+                        type: string
+                        value: jane@doe.com
+                    tags: []
+                - type: case-template
+                  id: ctmpl_Jumm3K4zHwaLBBdyLUCnHbBC
+                  attributes:
+                    status: active
+                    name: Manual Review Cases
+                    resolutions:
+                      - Approved
+                      - Declined
+                    created-at: '2023-03-25T07:04:16.667Z'
+                    updated-at: '2023-06-01T12:00:00.000Z'
+                    archived-at: null
+                - type: case-queue
+                  id: cqueue_7JRbkcdbx9fTossK98NJvRZcmk1
+                  attributes:
+                    status: active
+                    name: High Priority Queue
+                    created-at: '2023-03-25T07:04:16.667Z'
+                    updated-at: '2023-06-01T12:00:00.000Z'
+                    archived-at: null
+                - type: inquiry
+                  id: inq_KHK4MJCE4QvfocWB2intQ3YE
+                  attributes:
+                    status: needs_review
+                    reference-id: abc-123
+                    note: null
+                    behaviors: {}
+                    tags:
+                      - manual-review
+                    creator: API
+                    reviewer-comment: null
+                    created-at: '2024-01-15T08:00:00.000Z'
+                    started-at: '2024-01-15T08:01:00.000Z'
+                    expires-at: null
+                    completed-at: '2024-01-15T08:11:00.000Z'
+                    failed-at: null
+                    marked-for-review-at: '2024-01-15T08:11:30.000Z'
+                    decisioned-at: null
+                    expired-at: null
+                    redacted-at: null
+                    updated-at: '2024-01-15T08:11:30.000Z'
+                    previous-step-name: verification_selfie
+                    next-step-name: success
+                    fields: {}
+                  relationships:
+                    account:
+                      data:
+                        type: account
+                        id: act_9e3yoAUApTRMjgNoPAC7TNtz
+                    template:
+                      data: {}
+                    inquiry-template:
+                      data:
+                        type: inquiry-template
+                        id: itmpl_p8ANAJy9iqadm2buF2xcVgqH
+                    inquiry-template-version:
+                      data:
+                        type: inquiry-template-version
+                        id: itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo
+                    reports:
+                      data: []
+                    verifications:
+                      data:
+                        - type: verification/government-id
+                          id: ver_govid7Hw3XjPbN8f2Lq9kWtZmYrAdEC
+                        - type: verification/selfie
+                          id: ver_self2VkP9bRcMqLnXtZjAhYdEgKfBN
+                    sessions:
+                      data: []
+                    documents:
+                      data: []
+                    selfies:
+                      data: []
+                - type: verification/government-id
+                  id: ver_govid7Hw3XjPbN8f2Lq9kWtZmYrAdEC
+                  attributes:
+                    status: passed
+                    created-at: '2024-01-15T08:03:24.000Z'
+                    submitted-at: '2024-01-15T08:03:24.000Z'
+                    completed-at: '2024-01-15T08:03:31.000Z'
+                    country-code: US
+                    checks:
+                      - name: id_unprocessable_submission_detection
+                        status: passed
+                        reasons: []
+                        requirement: required
+                      - name: id_compromised_detection
+                        status: passed
+                        reasons: []
+                        requirement: required
+                      - name: id_disallowed_country_detection
+                        status: passed
+                        reasons: []
+                        requirement: required
+                  relationships:
+                    inquiry:
+                      data:
+                        type: inquiry
+                        id: inq_KHK4MJCE4QvfocWB2intQ3YE
+                - type: verification/selfie
+                  id: ver_self2VkP9bRcMqLnXtZjAhYdEgKfBN
+                  attributes:
+                    status: passed
+                    created-at: '2024-01-15T08:08:10.000Z'
+                    submitted-at: '2024-01-15T08:08:30.000Z'
+                    completed-at: '2024-01-15T08:08:40.000Z'
+                    checks:
+                      - name: selfie_id_comparison
+                        status: passed
+                        reasons: []
+                        requirement: required
+                      - name: selfie_pose_detection
+                        status: passed
+                        reasons: []
+                        requirement: required
+                      - name: selfie_liveness_detection
+                        status: passed
+                        reasons: []
+                        requirement: not_required
+                  relationships:
+                    inquiry:
+                      data:
+                        type: inquiry
+                        id: inq_KHK4MJCE4QvfocWB2intQ3YE
+            created-at: '2024-03-05T16:42:55.000Z'
+    case-resolved-webhook-body:
+      value:
+        data:
+          type: event
+          id: evt_FsYQ2fdVZ0jXuGET7aBoL1kM
+          attributes:
+            name: case.resolved
+            payload:
+              data:
+                type: case
+                id: case_gqe7rH38FvxtzhGBQmDBsjkB
+                attributes:
+                  status: Approved
+                  name: MRR-3
+                  resolution: Approved
+                  created-at: '2024-01-15T08:12:03.000Z'
+                  updated-at: '2024-02-15T23:48:17.732Z'
+                  assigned-at: '2024-01-16T14:05:21.000Z'
+                  resolved-at: '2024-02-15T23:48:17.732Z'
+                  redacted-at: null
+                  sla-expires-at: '2024-02-16T14:05:21.000Z'
+                  creator-id: case_creator@withpersona.com
+                  creator-type: user
+                  assignee-id: case_assignee@withpersona.com
+                  assigner-id: case_assigner@withpersona.com
+                  assigner-type: user
+                  resolver-id: case_resolver@withpersona.com
+                  resolver-type: user
+                  updater-id: case_resolver@withpersona.com
+                  updater-type: user
+                  tags:
+                    - high-priority
+                    - manual-review
+                  fields:
+                    external-integration-id: ind_123
+                    risk-level: medium
+                    reviewer-notes: All required documentation verified.
+                  attachments: []
+                relationships:
+                  accounts:
+                    data:
+                      - type: account
+                        id: act_9e3yoAUApTRMjgNoPAC7TNtz
+                  case-comments:
+                    data: []
+                  case-template:
+                    data:
+                      type: case-template
+                      id: ctmpl_Jumm3K4zHwaLBBdyLUCnHbBC
+                  case-queue:
+                    data:
+                      type: case-queue
+                      id: cqueue_7JRbkcdbx9fTossK98NJvRZcmk1
+                  inquiries:
+                    data:
+                      - type: inquiry
+                        id: inq_KHK4MJCE4QvfocWB2intQ3YE
+                  reports:
+                    data: []
+                  verifications:
+                    data:
+                      - type: verification/government-id
+                        id: ver_govid7Hw3XjPbN8f2Lq9kWtZmYrAdEC
+                      - type: verification/selfie
+                        id: ver_self2VkP9bRcMqLnXtZjAhYdEgKfBN
+                  txns:
+                    data: []
+              included:
+                - type: account
+                  id: act_9e3yoAUApTRMjgNoPAC7TNtz
+                  attributes:
+                    reference-id: abc-123
+                    created-at: '2023-09-22T17:13:49.000Z'
+                    updated-at: '2023-09-23T00:22:19.000Z'
+                    redacted-at: null
+                    fields:
+                      name:
+                        type: hash
+                        value:
+                          first:
+                            type: string
+                            value: Jane
+                          middle:
+                            type: string
+                            value: Marie
+                          last:
+                            type: string
+                            value: Doe
+                      email_address:
+                        type: string
+                        value: jane@doe.com
+                    tags: []
+                - type: case-template
+                  id: ctmpl_Jumm3K4zHwaLBBdyLUCnHbBC
+                  attributes:
+                    status: active
+                    name: Manual Review Cases
+                    resolutions:
+                      - Approved
+                      - Declined
+                    created-at: '2023-03-25T07:04:16.667Z'
+                    updated-at: '2023-06-01T12:00:00.000Z'
+                    archived-at: null
+                - type: case-queue
+                  id: cqueue_7JRbkcdbx9fTossK98NJvRZcmk1
+                  attributes:
+                    status: active
+                    name: High Priority Queue
+                    created-at: '2023-03-25T07:04:16.667Z'
+                    updated-at: '2023-06-01T12:00:00.000Z'
+                    archived-at: null
+                - type: inquiry
+                  id: inq_KHK4MJCE4QvfocWB2intQ3YE
+                  attributes:
+                    status: needs_review
+                    reference-id: abc-123
+                    note: null
+                    behaviors: {}
+                    tags:
+                      - manual-review
+                    creator: API
+                    reviewer-comment: null
+                    created-at: '2024-01-15T08:00:00.000Z'
+                    started-at: '2024-01-15T08:01:00.000Z'
+                    expires-at: null
+                    completed-at: '2024-01-15T08:11:00.000Z'
+                    failed-at: null
+                    marked-for-review-at: '2024-01-15T08:11:30.000Z'
+                    decisioned-at: null
+                    expired-at: null
+                    redacted-at: null
+                    updated-at: '2024-01-15T08:11:30.000Z'
+                    previous-step-name: verification_selfie
+                    next-step-name: success
+                    fields: {}
+                  relationships:
+                    account:
+                      data:
+                        type: account
+                        id: act_9e3yoAUApTRMjgNoPAC7TNtz
+                    template:
+                      data: {}
+                    inquiry-template:
+                      data:
+                        type: inquiry-template
+                        id: itmpl_p8ANAJy9iqadm2buF2xcVgqH
+                    inquiry-template-version:
+                      data:
+                        type: inquiry-template-version
+                        id: itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo
+                    reports:
+                      data: []
+                    verifications:
+                      data:
+                        - type: verification/government-id
+                          id: ver_govid7Hw3XjPbN8f2Lq9kWtZmYrAdEC
+                        - type: verification/selfie
+                          id: ver_self2VkP9bRcMqLnXtZjAhYdEgKfBN
+                    sessions:
+                      data: []
+                    documents:
+                      data: []
+                    selfies:
+                      data: []
+                - type: verification/government-id
+                  id: ver_govid7Hw3XjPbN8f2Lq9kWtZmYrAdEC
+                  attributes:
+                    status: passed
+                    created-at: '2024-01-15T08:03:24.000Z'
+                    submitted-at: '2024-01-15T08:03:24.000Z'
+                    completed-at: '2024-01-15T08:03:31.000Z'
+                    country-code: US
+                    checks:
+                      - name: id_unprocessable_submission_detection
+                        status: passed
+                        reasons: []
+                        requirement: required
+                      - name: id_compromised_detection
+                        status: passed
+                        reasons: []
+                        requirement: required
+                      - name: id_disallowed_country_detection
+                        status: passed
+                        reasons: []
+                        requirement: required
+                  relationships:
+                    inquiry:
+                      data:
+                        type: inquiry
+                        id: inq_KHK4MJCE4QvfocWB2intQ3YE
+                - type: verification/selfie
+                  id: ver_self2VkP9bRcMqLnXtZjAhYdEgKfBN
+                  attributes:
+                    status: passed
+                    created-at: '2024-01-15T08:08:10.000Z'
+                    submitted-at: '2024-01-15T08:08:30.000Z'
+                    completed-at: '2024-01-15T08:08:40.000Z'
+                    checks:
+                      - name: selfie_id_comparison
+                        status: passed
+                        reasons: []
+                        requirement: required
+                      - name: selfie_pose_detection
+                        status: passed
+                        reasons: []
+                        requirement: required
+                      - name: selfie_liveness_detection
+                        status: passed
+                        reasons: []
+                        requirement: not_required
+                  relationships:
+                    inquiry:
+                      data:
+                        type: inquiry
+                        id: inq_KHK4MJCE4QvfocWB2intQ3YE
+            created-at: '2024-02-15T23:48:17.732Z'
+    case-sla-expired-webhook-body:
+      value:
+        data:
+          type: event
+          id: evt_GtZR3geWa1kYvHFU8bCpM2lN
+          attributes:
+            name: case.sla-expired
+            payload:
+              data:
+                type: case
+                id: case_gqe7rH38FvxtzhGBQmDBsjkB
+                attributes:
+                  status: Open
+                  name: MRR-3
+                  resolution: null
+                  created-at: '2024-01-15T08:12:03.000Z'
+                  updated-at: '2024-02-16T14:05:21.000Z'
+                  assigned-at: '2024-01-16T14:05:21.000Z'
+                  resolved-at: null
+                  redacted-at: null
+                  sla-expires-at: '2024-02-16T14:05:21.000Z'
+                  creator-id: case_creator@withpersona.com
+                  creator-type: user
+                  assignee-id: case_assignee@withpersona.com
+                  assigner-id: case_assigner@withpersona.com
+                  assigner-type: user
+                  resolver-id: null
+                  resolver-type: null
+                  updater-id: case_assigner@withpersona.com
+                  updater-type: user
+                  tags:
+                    - high-priority
+                    - manual-review
+                    - sla-overdue
+                  fields:
+                    external-integration-id: ind_123
+                    risk-level: medium
+                  attachments: []
+                relationships:
+                  accounts:
+                    data:
+                      - type: account
+                        id: act_9e3yoAUApTRMjgNoPAC7TNtz
+                  case-comments:
+                    data: []
+                  case-template:
+                    data:
+                      type: case-template
+                      id: ctmpl_Jumm3K4zHwaLBBdyLUCnHbBC
+                  case-queue:
+                    data:
+                      type: case-queue
+                      id: cqueue_7JRbkcdbx9fTossK98NJvRZcmk1
+                  inquiries:
+                    data:
+                      - type: inquiry
+                        id: inq_KHK4MJCE4QvfocWB2intQ3YE
+                  reports:
+                    data: []
+                  verifications:
+                    data:
+                      - type: verification/government-id
+                        id: ver_govid7Hw3XjPbN8f2Lq9kWtZmYrAdEC
+                      - type: verification/selfie
+                        id: ver_self2VkP9bRcMqLnXtZjAhYdEgKfBN
+                  txns:
+                    data: []
+              included:
+                - type: account
+                  id: act_9e3yoAUApTRMjgNoPAC7TNtz
+                  attributes:
+                    reference-id: abc-123
+                    created-at: '2023-09-22T17:13:49.000Z'
+                    updated-at: '2023-09-23T00:22:19.000Z'
+                    redacted-at: null
+                    fields:
+                      name:
+                        type: hash
+                        value:
+                          first:
+                            type: string
+                            value: Jane
+                          middle:
+                            type: string
+                            value: Marie
+                          last:
+                            type: string
+                            value: Doe
+                      email_address:
+                        type: string
+                        value: jane@doe.com
+                    tags: []
+                - type: case-template
+                  id: ctmpl_Jumm3K4zHwaLBBdyLUCnHbBC
+                  attributes:
+                    status: active
+                    name: Manual Review Cases
+                    resolutions:
+                      - Approved
+                      - Declined
+                    created-at: '2023-03-25T07:04:16.667Z'
+                    updated-at: '2023-06-01T12:00:00.000Z'
+                    archived-at: null
+                - type: case-queue
+                  id: cqueue_7JRbkcdbx9fTossK98NJvRZcmk1
+                  attributes:
+                    status: active
+                    name: High Priority Queue
+                    created-at: '2023-03-25T07:04:16.667Z'
+                    updated-at: '2023-06-01T12:00:00.000Z'
+                    archived-at: null
+                - type: inquiry
+                  id: inq_KHK4MJCE4QvfocWB2intQ3YE
+                  attributes:
+                    status: needs_review
+                    reference-id: abc-123
+                    note: null
+                    behaviors: {}
+                    tags:
+                      - manual-review
+                    creator: API
+                    reviewer-comment: null
+                    created-at: '2024-01-15T08:00:00.000Z'
+                    started-at: '2024-01-15T08:01:00.000Z'
+                    expires-at: null
+                    completed-at: '2024-01-15T08:11:00.000Z'
+                    failed-at: null
+                    marked-for-review-at: '2024-01-15T08:11:30.000Z'
+                    decisioned-at: null
+                    expired-at: null
+                    redacted-at: null
+                    updated-at: '2024-01-15T08:11:30.000Z'
+                    previous-step-name: verification_selfie
+                    next-step-name: success
+                    fields: {}
+                  relationships:
+                    account:
+                      data:
+                        type: account
+                        id: act_9e3yoAUApTRMjgNoPAC7TNtz
+                    template:
+                      data: {}
+                    inquiry-template:
+                      data:
+                        type: inquiry-template
+                        id: itmpl_p8ANAJy9iqadm2buF2xcVgqH
+                    inquiry-template-version:
+                      data:
+                        type: inquiry-template-version
+                        id: itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo
+                    reports:
+                      data: []
+                    verifications:
+                      data:
+                        - type: verification/government-id
+                          id: ver_govid7Hw3XjPbN8f2Lq9kWtZmYrAdEC
+                        - type: verification/selfie
+                          id: ver_self2VkP9bRcMqLnXtZjAhYdEgKfBN
+                    sessions:
+                      data: []
+                    documents:
+                      data: []
+                    selfies:
+                      data: []
+                - type: verification/government-id
+                  id: ver_govid7Hw3XjPbN8f2Lq9kWtZmYrAdEC
+                  attributes:
+                    status: passed
+                    created-at: '2024-01-15T08:03:24.000Z'
+                    submitted-at: '2024-01-15T08:03:24.000Z'
+                    completed-at: '2024-01-15T08:03:31.000Z'
+                    country-code: US
+                    checks:
+                      - name: id_unprocessable_submission_detection
+                        status: passed
+                        reasons: []
+                        requirement: required
+                      - name: id_compromised_detection
+                        status: passed
+                        reasons: []
+                        requirement: required
+                      - name: id_disallowed_country_detection
+                        status: passed
+                        reasons: []
+                        requirement: required
+                  relationships:
+                    inquiry:
+                      data:
+                        type: inquiry
+                        id: inq_KHK4MJCE4QvfocWB2intQ3YE
+                - type: verification/selfie
+                  id: ver_self2VkP9bRcMqLnXtZjAhYdEgKfBN
+                  attributes:
+                    status: passed
+                    created-at: '2024-01-15T08:08:10.000Z'
+                    submitted-at: '2024-01-15T08:08:30.000Z'
+                    completed-at: '2024-01-15T08:08:40.000Z'
+                    checks:
+                      - name: selfie_id_comparison
+                        status: passed
+                        reasons: []
+                        requirement: required
+                      - name: selfie_pose_detection
+                        status: passed
+                        reasons: []
+                        requirement: required
+                      - name: selfie_liveness_detection
+                        status: passed
+                        reasons: []
+                        requirement: not_required
+                  relationships:
+                    inquiry:
+                      data:
+                        type: inquiry
+                        id: inq_KHK4MJCE4QvfocWB2intQ3YE
+            created-at: '2024-02-16T14:05:22.000Z'
+    case-status-updated-webhook-body:
+      value:
+        data:
+          type: event
+          id: evt_HuAS4hfXb2lZwIGV9cDqN3mO
+          attributes:
+            name: case.status-updated
+            payload:
+              data:
+                type: case
+                id: case_gqe7rH38FvxtzhGBQmDBsjkB
+                attributes:
+                  status: Pending
+                  name: MRR-3
+                  resolution: null
+                  created-at: '2024-01-15T08:12:03.000Z'
+                  updated-at: '2024-01-18T11:30:42.000Z'
+                  assigned-at: '2024-01-16T14:05:21.000Z'
+                  resolved-at: null
+                  redacted-at: null
+                  sla-expires-at: '2024-02-16T14:05:21.000Z'
+                  creator-id: case_creator@withpersona.com
+                  creator-type: user
+                  assignee-id: case_assignee@withpersona.com
+                  assigner-id: case_assigner@withpersona.com
+                  assigner-type: user
+                  resolver-id: null
+                  resolver-type: null
+                  updater-id: case_assignee@withpersona.com
+                  updater-type: user
+                  tags:
+                    - high-priority
+                    - manual-review
+                  fields:
+                    external-integration-id: ind_123
+                    risk-level: medium
+                  attachments: []
+                relationships:
+                  accounts:
+                    data:
+                      - type: account
+                        id: act_9e3yoAUApTRMjgNoPAC7TNtz
+                  case-comments:
+                    data: []
+                  case-template:
+                    data:
+                      type: case-template
+                      id: ctmpl_Jumm3K4zHwaLBBdyLUCnHbBC
+                  case-queue:
+                    data:
+                      type: case-queue
+                      id: cqueue_7JRbkcdbx9fTossK98NJvRZcmk1
+                  inquiries:
+                    data:
+                      - type: inquiry
+                        id: inq_KHK4MJCE4QvfocWB2intQ3YE
+                  reports:
+                    data: []
+                  verifications:
+                    data:
+                      - type: verification/government-id
+                        id: ver_govid7Hw3XjPbN8f2Lq9kWtZmYrAdEC
+                      - type: verification/selfie
+                        id: ver_self2VkP9bRcMqLnXtZjAhYdEgKfBN
+                  txns:
+                    data: []
+              included:
+                - type: account
+                  id: act_9e3yoAUApTRMjgNoPAC7TNtz
+                  attributes:
+                    reference-id: abc-123
+                    created-at: '2023-09-22T17:13:49.000Z'
+                    updated-at: '2023-09-23T00:22:19.000Z'
+                    redacted-at: null
+                    fields:
+                      name:
+                        type: hash
+                        value:
+                          first:
+                            type: string
+                            value: Jane
+                          middle:
+                            type: string
+                            value: Marie
+                          last:
+                            type: string
+                            value: Doe
+                      email_address:
+                        type: string
+                        value: jane@doe.com
+                    tags: []
+                - type: case-template
+                  id: ctmpl_Jumm3K4zHwaLBBdyLUCnHbBC
+                  attributes:
+                    status: active
+                    name: Manual Review Cases
+                    resolutions:
+                      - Approved
+                      - Declined
+                    created-at: '2023-03-25T07:04:16.667Z'
+                    updated-at: '2023-06-01T12:00:00.000Z'
+                    archived-at: null
+                - type: case-queue
+                  id: cqueue_7JRbkcdbx9fTossK98NJvRZcmk1
+                  attributes:
+                    status: active
+                    name: High Priority Queue
+                    created-at: '2023-03-25T07:04:16.667Z'
+                    updated-at: '2023-06-01T12:00:00.000Z'
+                    archived-at: null
+                - type: inquiry
+                  id: inq_KHK4MJCE4QvfocWB2intQ3YE
+                  attributes:
+                    status: needs_review
+                    reference-id: abc-123
+                    note: null
+                    behaviors: {}
+                    tags:
+                      - manual-review
+                    creator: API
+                    reviewer-comment: null
+                    created-at: '2024-01-15T08:00:00.000Z'
+                    started-at: '2024-01-15T08:01:00.000Z'
+                    expires-at: null
+                    completed-at: '2024-01-15T08:11:00.000Z'
+                    failed-at: null
+                    marked-for-review-at: '2024-01-15T08:11:30.000Z'
+                    decisioned-at: null
+                    expired-at: null
+                    redacted-at: null
+                    updated-at: '2024-01-15T08:11:30.000Z'
+                    previous-step-name: verification_selfie
+                    next-step-name: success
+                    fields: {}
+                  relationships:
+                    account:
+                      data:
+                        type: account
+                        id: act_9e3yoAUApTRMjgNoPAC7TNtz
+                    template:
+                      data: {}
+                    inquiry-template:
+                      data:
+                        type: inquiry-template
+                        id: itmpl_p8ANAJy9iqadm2buF2xcVgqH
+                    inquiry-template-version:
+                      data:
+                        type: inquiry-template-version
+                        id: itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo
+                    reports:
+                      data: []
+                    verifications:
+                      data:
+                        - type: verification/government-id
+                          id: ver_govid7Hw3XjPbN8f2Lq9kWtZmYrAdEC
+                        - type: verification/selfie
+                          id: ver_self2VkP9bRcMqLnXtZjAhYdEgKfBN
+                    sessions:
+                      data: []
+                    documents:
+                      data: []
+                    selfies:
+                      data: []
+                - type: verification/government-id
+                  id: ver_govid7Hw3XjPbN8f2Lq9kWtZmYrAdEC
+                  attributes:
+                    status: passed
+                    created-at: '2024-01-15T08:03:24.000Z'
+                    submitted-at: '2024-01-15T08:03:24.000Z'
+                    completed-at: '2024-01-15T08:03:31.000Z'
+                    country-code: US
+                    checks:
+                      - name: id_unprocessable_submission_detection
+                        status: passed
+                        reasons: []
+                        requirement: required
+                      - name: id_compromised_detection
+                        status: passed
+                        reasons: []
+                        requirement: required
+                      - name: id_disallowed_country_detection
+                        status: passed
+                        reasons: []
+                        requirement: required
+                  relationships:
+                    inquiry:
+                      data:
+                        type: inquiry
+                        id: inq_KHK4MJCE4QvfocWB2intQ3YE
+                - type: verification/selfie
+                  id: ver_self2VkP9bRcMqLnXtZjAhYdEgKfBN
+                  attributes:
+                    status: passed
+                    created-at: '2024-01-15T08:08:10.000Z'
+                    submitted-at: '2024-01-15T08:08:30.000Z'
+                    completed-at: '2024-01-15T08:08:40.000Z'
+                    checks:
+                      - name: selfie_id_comparison
+                        status: passed
+                        reasons: []
+                        requirement: required
+                      - name: selfie_pose_detection
+                        status: passed
+                        reasons: []
+                        requirement: required
+                      - name: selfie_liveness_detection
+                        status: passed
+                        reasons: []
+                        requirement: not_required
+                  relationships:
+                    inquiry:
+                      data:
+                        type: inquiry
+                        id: inq_KHK4MJCE4QvfocWB2intQ3YE
+            created-at: '2024-01-18T11:30:42.000Z'
+    case-updated-fields-webhook-body:
+      value:
+        data:
+          type: event
+          id: evt_7KqH4xVnR2bPmYwL9sTgD3cE
+          attributes:
+            name: case.updated-fields
+            payload:
+              data:
+                type: case
+                id: case_gqe7rH38FvxtzhGBQmDBsjkB
+                attributes:
+                  status: Open
+                  name: MRR-3
+                  resolution: null
+                  created-at: '2024-01-15T08:12:03.000Z'
+                  updated-at: '2024-02-15T23:48:17.732Z'
+                  assigned-at: '2024-01-16T14:05:21.000Z'
+                  resolved-at: null
+                  redacted-at: null
+                  sla-expires-at: '2024-02-16T14:05:21.000Z'
+                  creator-id: case_creator@withpersona.com
+                  creator-type: user
+                  assignee-id: case_assignee@withpersona.com
+                  assigner-id: case_assigner@withpersona.com
+                  assigner-type: user
+                  resolver-id: null
+                  resolver-type: null
+                  updater-id: case_updater@withpersona.com
+                  updater-type: user
+                  tags:
+                    - high-priority
+                    - manual-review
+                  fields:
+                    external-integration-id: ind_123
+                    risk-level: medium
+                    reviewer-notes: Updated after additional documentation received.
+                  attachments:
+                    - filename: supporting_doc.pdf
+                      url: 'https://files.withpersona.com/abc123.pdf?access_token=ACCESS_TOKEN'
+                      byte-size: 124917
+                relationships:
+                  accounts:
+                    data:
+                      - type: account
+                        id: act_9e3yoAUApTRMjgNoPAC7TNtz
+                  case-comments:
+                    data: []
+                  case-template:
+                    data:
+                      type: case-template
+                      id: ctmpl_Jumm3K4zHwaLBBdyLUCnHbBC
+                  case-queue:
+                    data:
+                      type: case-queue
+                      id: cqueue_7JRbkcdbx9fTossK98NJvRZcmk1
+                  inquiries:
+                    data:
+                      - type: inquiry
+                        id: inq_KHK4MJCE4QvfocWB2intQ3YE
+                  reports:
+                    data: []
+                  verifications:
+                    data:
+                      - type: verification/government-id
+                        id: ver_govid7Hw3XjPbN8f2Lq9kWtZmYrAdEC
+                      - type: verification/selfie
+                        id: ver_self2VkP9bRcMqLnXtZjAhYdEgKfBN
+                  txns:
+                    data: []
+              included:
+                - type: account
+                  id: act_9e3yoAUApTRMjgNoPAC7TNtz
+                  attributes:
+                    reference-id: abc-123
+                    created-at: '2023-09-22T17:13:49.000Z'
+                    updated-at: '2023-09-23T00:22:19.000Z'
+                    redacted-at: null
+                    fields:
+                      name:
+                        type: hash
+                        value:
+                          first:
+                            type: string
+                            value: Jane
+                          middle:
+                            type: string
+                            value: Marie
+                          last:
+                            type: string
+                            value: Doe
+                      email_address:
+                        type: string
+                        value: jane@doe.com
+                    tags: []
+                - type: case-template
+                  id: ctmpl_Jumm3K4zHwaLBBdyLUCnHbBC
+                  attributes:
+                    status: active
+                    name: Manual Review Cases
+                    resolutions:
+                      - Approved
+                      - Declined
+                    created-at: '2023-03-25T07:04:16.667Z'
+                    updated-at: '2023-06-01T12:00:00.000Z'
+                    archived-at: null
+                - type: case-queue
+                  id: cqueue_7JRbkcdbx9fTossK98NJvRZcmk1
+                  attributes:
+                    status: active
+                    name: High Priority Queue
+                    created-at: '2023-03-25T07:04:16.667Z'
+                    updated-at: '2023-06-01T12:00:00.000Z'
+                    archived-at: null
+                - type: inquiry
+                  id: inq_KHK4MJCE4QvfocWB2intQ3YE
+                  attributes:
+                    status: needs_review
+                    reference-id: abc-123
+                    note: null
+                    behaviors: {}
+                    tags:
+                      - manual-review
+                    creator: API
+                    reviewer-comment: null
+                    created-at: '2024-01-15T08:00:00.000Z'
+                    started-at: '2024-01-15T08:01:00.000Z'
+                    expires-at: null
+                    completed-at: '2024-01-15T08:11:00.000Z'
+                    failed-at: null
+                    marked-for-review-at: '2024-01-15T08:11:30.000Z'
+                    decisioned-at: null
+                    expired-at: null
+                    redacted-at: null
+                    updated-at: '2024-01-15T08:11:30.000Z'
+                    previous-step-name: verification_selfie
+                    next-step-name: success
+                    fields: {}
+                  relationships:
+                    account:
+                      data:
+                        type: account
+                        id: act_9e3yoAUApTRMjgNoPAC7TNtz
+                    template:
+                      data: {}
+                    inquiry-template:
+                      data:
+                        type: inquiry-template
+                        id: itmpl_p8ANAJy9iqadm2buF2xcVgqH
+                    inquiry-template-version:
+                      data:
+                        type: inquiry-template-version
+                        id: itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo
+                    reports:
+                      data: []
+                    verifications:
+                      data:
+                        - type: verification/government-id
+                          id: ver_govid7Hw3XjPbN8f2Lq9kWtZmYrAdEC
+                        - type: verification/selfie
+                          id: ver_self2VkP9bRcMqLnXtZjAhYdEgKfBN
+                    sessions:
+                      data: []
+                    documents:
+                      data: []
+                    selfies:
+                      data: []
+                - type: verification/government-id
+                  id: ver_govid7Hw3XjPbN8f2Lq9kWtZmYrAdEC
+                  attributes:
+                    status: passed
+                    created-at: '2024-01-15T08:03:24.000Z'
+                    submitted-at: '2024-01-15T08:03:24.000Z'
+                    completed-at: '2024-01-15T08:03:31.000Z'
+                    country-code: US
+                    checks:
+                      - name: id_unprocessable_submission_detection
+                        status: passed
+                        reasons: []
+                        requirement: required
+                      - name: id_compromised_detection
+                        status: passed
+                        reasons: []
+                        requirement: required
+                      - name: id_disallowed_country_detection
+                        status: passed
+                        reasons: []
+                        requirement: required
+                  relationships:
+                    inquiry:
+                      data:
+                        type: inquiry
+                        id: inq_KHK4MJCE4QvfocWB2intQ3YE
+                - type: verification/selfie
+                  id: ver_self2VkP9bRcMqLnXtZjAhYdEgKfBN
+                  attributes:
+                    status: passed
+                    created-at: '2024-01-15T08:08:10.000Z'
+                    submitted-at: '2024-01-15T08:08:30.000Z'
+                    completed-at: '2024-01-15T08:08:40.000Z'
+                    checks:
+                      - name: selfie_id_comparison
+                        status: passed
+                        reasons: []
+                        requirement: required
+                      - name: selfie_pose_detection
+                        status: passed
+                        reasons: []
+                        requirement: required
+                      - name: selfie_liveness_detection
+                        status: passed
+                        reasons: []
+                        requirement: not_required
+                  relationships:
+                    inquiry:
+                      data:
+                        type: inquiry
+                        id: inq_KHK4MJCE4QvfocWB2intQ3YE
+            created-at: '2024-02-15T23:48:17.732Z'
+    case-updated-tags-webhook-body:
+      value:
+        data:
+          type: event
+          id: evt_IvBT5igYc3maxJHW0dErO4nP
+          attributes:
+            name: case.updated-tags
+            payload:
+              data:
+                type: case
+                id: case_gqe7rH38FvxtzhGBQmDBsjkB
+                attributes:
+                  status: Open
+                  name: MRR-3
+                  resolution: null
+                  created-at: '2024-01-15T08:12:03.000Z'
+                  updated-at: '2024-01-19T13:15:08.000Z'
+                  assigned-at: '2024-01-16T14:05:21.000Z'
+                  resolved-at: null
+                  redacted-at: null
+                  sla-expires-at: '2024-02-16T14:05:21.000Z'
+                  creator-id: case_creator@withpersona.com
+                  creator-type: user
+                  assignee-id: case_assignee@withpersona.com
+                  assigner-id: case_assigner@withpersona.com
+                  assigner-type: user
+                  resolver-id: null
+                  resolver-type: null
+                  updater-id: case_assignee@withpersona.com
+                  updater-type: user
+                  tags:
+                    - high-priority
+                    - manual-review
+                    - escalated
+                  fields:
+                    external-integration-id: ind_123
+                    risk-level: medium
+                  attachments: []
+                relationships:
+                  accounts:
+                    data:
+                      - type: account
+                        id: act_9e3yoAUApTRMjgNoPAC7TNtz
+                  case-comments:
+                    data: []
+                  case-template:
+                    data:
+                      type: case-template
+                      id: ctmpl_Jumm3K4zHwaLBBdyLUCnHbBC
+                  case-queue:
+                    data:
+                      type: case-queue
+                      id: cqueue_7JRbkcdbx9fTossK98NJvRZcmk1
+                  inquiries:
+                    data:
+                      - type: inquiry
+                        id: inq_KHK4MJCE4QvfocWB2intQ3YE
+                  reports:
+                    data: []
+                  verifications:
+                    data:
+                      - type: verification/government-id
+                        id: ver_govid7Hw3XjPbN8f2Lq9kWtZmYrAdEC
+                      - type: verification/selfie
+                        id: ver_self2VkP9bRcMqLnXtZjAhYdEgKfBN
+                  txns:
+                    data: []
+              included:
+                - type: account
+                  id: act_9e3yoAUApTRMjgNoPAC7TNtz
+                  attributes:
+                    reference-id: abc-123
+                    created-at: '2023-09-22T17:13:49.000Z'
+                    updated-at: '2023-09-23T00:22:19.000Z'
+                    redacted-at: null
+                    fields:
+                      name:
+                        type: hash
+                        value:
+                          first:
+                            type: string
+                            value: Jane
+                          middle:
+                            type: string
+                            value: Marie
+                          last:
+                            type: string
+                            value: Doe
+                      email_address:
+                        type: string
+                        value: jane@doe.com
+                    tags: []
+                - type: case-template
+                  id: ctmpl_Jumm3K4zHwaLBBdyLUCnHbBC
+                  attributes:
+                    status: active
+                    name: Manual Review Cases
+                    resolutions:
+                      - Approved
+                      - Declined
+                    created-at: '2023-03-25T07:04:16.667Z'
+                    updated-at: '2023-06-01T12:00:00.000Z'
+                    archived-at: null
+                - type: case-queue
+                  id: cqueue_7JRbkcdbx9fTossK98NJvRZcmk1
+                  attributes:
+                    status: active
+                    name: High Priority Queue
+                    created-at: '2023-03-25T07:04:16.667Z'
+                    updated-at: '2023-06-01T12:00:00.000Z'
+                    archived-at: null
+                - type: inquiry
+                  id: inq_KHK4MJCE4QvfocWB2intQ3YE
+                  attributes:
+                    status: needs_review
+                    reference-id: abc-123
+                    note: null
+                    behaviors: {}
+                    tags:
+                      - manual-review
+                    creator: API
+                    reviewer-comment: null
+                    created-at: '2024-01-15T08:00:00.000Z'
+                    started-at: '2024-01-15T08:01:00.000Z'
+                    expires-at: null
+                    completed-at: '2024-01-15T08:11:00.000Z'
+                    failed-at: null
+                    marked-for-review-at: '2024-01-15T08:11:30.000Z'
+                    decisioned-at: null
+                    expired-at: null
+                    redacted-at: null
+                    updated-at: '2024-01-15T08:11:30.000Z'
+                    previous-step-name: verification_selfie
+                    next-step-name: success
+                    fields: {}
+                  relationships:
+                    account:
+                      data:
+                        type: account
+                        id: act_9e3yoAUApTRMjgNoPAC7TNtz
+                    template:
+                      data: {}
+                    inquiry-template:
+                      data:
+                        type: inquiry-template
+                        id: itmpl_p8ANAJy9iqadm2buF2xcVgqH
+                    inquiry-template-version:
+                      data:
+                        type: inquiry-template-version
+                        id: itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo
+                    reports:
+                      data: []
+                    verifications:
+                      data:
+                        - type: verification/government-id
+                          id: ver_govid7Hw3XjPbN8f2Lq9kWtZmYrAdEC
+                        - type: verification/selfie
+                          id: ver_self2VkP9bRcMqLnXtZjAhYdEgKfBN
+                    sessions:
+                      data: []
+                    documents:
+                      data: []
+                    selfies:
+                      data: []
+                - type: verification/government-id
+                  id: ver_govid7Hw3XjPbN8f2Lq9kWtZmYrAdEC
+                  attributes:
+                    status: passed
+                    created-at: '2024-01-15T08:03:24.000Z'
+                    submitted-at: '2024-01-15T08:03:24.000Z'
+                    completed-at: '2024-01-15T08:03:31.000Z'
+                    country-code: US
+                    checks:
+                      - name: id_unprocessable_submission_detection
+                        status: passed
+                        reasons: []
+                        requirement: required
+                      - name: id_compromised_detection
+                        status: passed
+                        reasons: []
+                        requirement: required
+                      - name: id_disallowed_country_detection
+                        status: passed
+                        reasons: []
+                        requirement: required
+                  relationships:
+                    inquiry:
+                      data:
+                        type: inquiry
+                        id: inq_KHK4MJCE4QvfocWB2intQ3YE
+                - type: verification/selfie
+                  id: ver_self2VkP9bRcMqLnXtZjAhYdEgKfBN
+                  attributes:
+                    status: passed
+                    created-at: '2024-01-15T08:08:10.000Z'
+                    submitted-at: '2024-01-15T08:08:30.000Z'
+                    completed-at: '2024-01-15T08:08:40.000Z'
+                    checks:
+                      - name: selfie_id_comparison
+                        status: passed
+                        reasons: []
+                        requirement: required
+                      - name: selfie_pose_detection
+                        status: passed
+                        reasons: []
+                        requirement: required
+                      - name: selfie_liveness_detection
+                        status: passed
+                        reasons: []
+                        requirement: not_required
+                  relationships:
+                    inquiry:
+                      data:
+                        type: inquiry
+                        id: inq_KHK4MJCE4QvfocWB2intQ3YE
+            created-at: '2024-01-19T13:15:08.000Z'
     document-created-webhook-body:
       value:
         data:
