@@ -10831,6 +10831,437 @@
         "x-persona-product": "Inquiries"
       }
     },
+    "/inquiries/search": {
+      "post": {
+        "description": "Search for inquiries using a flexible query language.\n\n## Search vs. List Endpoints\n\nThe Search and List endpoints serve different purposes and have distinct performance characteristics.\n\nUse the **Search** endpoint (`POST /inquiries/search`) when you need to perform complex queries with boolean logic (AND/OR/NOT), filter on multiple statuses simultaneously, or apply multiple conditions at once. Search is optimized for flexible querying and is faster than paginating through all resources when looking for specific records.\n\nUse the **List** endpoint (`GET /inquiries`) for simple listing with basic filters like reference ID.\n\n## Data Freshness\n\nDo not use search for read-after-write flows because the data will not be immediately available to search.\nUnder normal operating conditions, data is searchable within approximately 1 minute of creation or modification.\nPropagation of new or updated data could be delayed during an outage.\nFor workflows that require immediate data availability after creating or updating an inquiry, use the List Inquiries endpoint instead.\n\n### Searchable Attributes\n\nThe following attributes can be used in query predicates:\n\n| Attribute | Description |\n|-----------|-------------|\n| `status` | Inquiry status (e.g., `pending`, `completed`, `approved`, `declined`) |\n| `created_at` | Inquiry creation timestamp |\n| `updated_at` | Inquiry last updated timestamp |\n| `reference_id` | Reference ID associated with the inquiry's account |\n| `inquiry_template_id` | Inquiry template ID (e.g., `itmpl_ABC123`) |\n",
+        "operationId": "search-inquiries",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/api-reference/inquiries/search-inquiries"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/fields-query-parameter"
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "style": "deepObject",
+            "explode": true,
+            "schema": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "after": {
+                  "description": "Cursor for forward pagination. Use the value from `links.next` in the previous response.",
+                  "type": "string",
+                  "examples": [
+                    "inq_ABC123"
+                  ]
+                },
+                "before": {
+                  "description": "Cursor for backward pagination. Use the value from `links.prev` in the previous response.",
+                  "type": "string",
+                  "examples": [
+                    "inq_XYZ789"
+                  ]
+                },
+                "size": {
+                  "description": "Number of results to return per page.",
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 100,
+                  "default": 10,
+                  "examples": [
+                    10
+                  ]
+                }
+              }
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "query": {
+                    "description": "Search query using boolean logic (AND/OR/NOT) and comparison operators.\nSupports predicates with operators: eq (equal), gt (greater than), gte (greater than or equal),\nlt (less than), lte (less than or equal).\n",
+                    "unevaluatedProperties": false,
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "x-inheritable": true,
+                        "additionalProperties": false,
+                        "description": "Boolean AND clause - combines multiple conditions where ALL must be true.\n\nThis clause is recursive: each item in the `and` array can be another AND, OR, NOT clause, or a leaf predicate, enabling complex nested queries.\n\nMaximum nesting depth: 2 levels, Maximum clauses per AND: 20\n",
+                        "properties": {
+                          "and": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": true
+                            }
+                          }
+                        },
+                        "required": [
+                          "and"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "x-inheritable": true,
+                        "additionalProperties": false,
+                        "description": "Boolean OR clause - combines multiple conditions where AT LEAST ONE must be true.\n\nThis clause is recursive: each item in the `or` array can be another AND, OR, NOT clause, or a leaf predicate, enabling complex nested queries.\n\nMaximum nesting depth: 2 levels, Maximum clauses per OR: 20\n",
+                        "properties": {
+                          "or": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": true
+                            }
+                          }
+                        },
+                        "required": [
+                          "or"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "x-inheritable": true,
+                        "additionalProperties": false,
+                        "description": "Boolean NOT clause - negates a single condition.\n\nThis clause is recursive: the `not` value can be another AND, OR, NOT clause, or a leaf predicate, enabling complex nested queries.\n\nMaximum nesting depth: 2 levels\n",
+                        "properties": {
+                          "not": {
+                            "type": "object",
+                            "additionalProperties": true
+                          }
+                        },
+                        "required": [
+                          "not"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "x-inheritable": true,
+                        "additionalProperties": false,
+                        "description": "Attribute predicate",
+                        "properties": {
+                          "attribute": {
+                            "type": "string",
+                            "description": "The attribute name to filter on (e.g., 'status', 'created_at', 'reference_id', 'inquiry_template_id')",
+                            "examples": [
+                              "status",
+                              "created_at",
+                              "updated_at",
+                              "reference_id",
+                              "inquiry_template_id"
+                            ]
+                          },
+                          "operator": {
+                            "type": "string",
+                            "description": "Comparison operator. Possible values: eq (equal), gt (greater than), gte (greater than or equal), lt (less than), lte (less than or equal)."
+                          },
+                          "value": {
+                            "description": "Value to compare against",
+                            "x-inheritable": true,
+                            "unevaluatedProperties": false,
+                            "oneOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "number"
+                              },
+                              {
+                                "type": "boolean"
+                              }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "attribute",
+                          "operator",
+                          "value"
+                        ]
+                      }
+                    ],
+                    "examples": [
+                      {
+                        "attribute": "created_at",
+                        "operator": "gte",
+                        "value": "2025-01-01"
+                      },
+                      {
+                        "or": [
+                          {
+                            "attribute": "status",
+                            "operator": "eq",
+                            "value": "pending"
+                          },
+                          {
+                            "attribute": "status",
+                            "operator": "eq",
+                            "value": "completed"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "sort": {
+                    "description": "Sort configuration for results",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "attribute": {
+                        "type": "string",
+                        "description": "The attribute name to sort by",
+                        "examples": [
+                          "created_at",
+                          "updated_at",
+                          "status"
+                        ]
+                      },
+                      "direction": {
+                        "type": "string",
+                        "default": "desc",
+                        "description": "Sort direction. Possible values: asc (ascending), desc (descending)."
+                      }
+                    },
+                    "required": [
+                      "attribute",
+                      "direction"
+                    ]
+                  },
+                  "page": {
+                    "description": "Pagination parameters",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "after": {
+                        "description": "Cursor for forward pagination",
+                        "type": "string",
+                        "examples": [
+                          "inq_ABC123"
+                        ]
+                      },
+                      "before": {
+                        "description": "Cursor for backward pagination",
+                        "type": "string",
+                        "examples": [
+                          "inq_XYZ789"
+                        ]
+                      },
+                      "size": {
+                        "description": "Number of results to return per page",
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 100,
+                        "default": 10,
+                        "examples": [
+                          10
+                        ]
+                      }
+                    }
+                  }
+                },
+                "additionalProperties": false,
+                "type": "object"
+              },
+              "examples": {
+                "Simple query": {
+                  "value": {
+                    "query": {
+                      "attribute": "status",
+                      "operator": "eq",
+                      "value": "completed"
+                    },
+                    "sort": {
+                      "attribute": "created_at",
+                      "direction": "asc"
+                    },
+                    "page": {
+                      "size": 15
+                    }
+                  }
+                },
+                "Multi-status query": {
+                  "value": {
+                    "query": {
+                      "or": [
+                        {
+                          "attribute": "status",
+                          "operator": "eq",
+                          "value": "pending"
+                        },
+                        {
+                          "attribute": "status",
+                          "operator": "eq",
+                          "value": "completed"
+                        },
+                        {
+                          "attribute": "status",
+                          "operator": "eq",
+                          "value": "approved"
+                        }
+                      ]
+                    },
+                    "sort": {
+                      "attribute": "created_at",
+                      "direction": "desc"
+                    },
+                    "page": {
+                      "size": 15
+                    }
+                  }
+                },
+                "Complex boolean query": {
+                  "value": {
+                    "query": {
+                      "and": [
+                        {
+                          "attribute": "inquiry_template_id",
+                          "operator": "eq",
+                          "value": "itmpl_ABC123"
+                        },
+                        {
+                          "or": [
+                            {
+                              "attribute": "status",
+                              "operator": "eq",
+                              "value": "completed"
+                            },
+                            {
+                              "attribute": "status",
+                              "operator": "eq",
+                              "value": "approved"
+                            }
+                          ]
+                        },
+                        {
+                          "attribute": "created_at",
+                          "operator": "gte",
+                          "value": "2025-01-01"
+                        }
+                      ]
+                    },
+                    "sort": {
+                      "attribute": "created_at",
+                      "direction": "desc"
+                    },
+                    "page": {
+                      "size": 15
+                    }
+                  }
+                },
+                "Empty query (all inquiries)": {
+                  "value": {
+                    "page": {
+                      "size": 15
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Success": {
+                    "$ref": "#/components/examples/inquiry-list-search"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/inquiry"
+                      },
+                      "type": "array",
+                      "description": "An array of Inquiries matching the search criteria"
+                    },
+                    "links": {
+                      "properties": {
+                        "prev": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "examples": [
+                            "/api/v1/inquiries/search?page%5Bbefore%5D=inq_ABC123&page%5Bsize%5D=10"
+                          ],
+                          "description": "URL pointing to the previous page of data, or null if on the first page. Must be used with POST request and original request body."
+                        },
+                        "next": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "examples": [
+                            "/api/v1/inquiries/search?page%5Bafter%5D=inq_ABC123&page%5Bsize%5D=10"
+                          ],
+                          "description": "URL pointing to the next page of data, or null if on the last page. Must be used with POST request and original request body."
+                        }
+                      },
+                      "additionalProperties": false,
+                      "type": "object",
+                      "required": [
+                        "prev",
+                        "next"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false,
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "links"
+                  ]
+                }
+              }
+            },
+            "description": "This endpoint returns a collection of Inquiry objects matching the search criteria."
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "409": {
+            "$ref": "#/components/responses/conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessable-entity"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        },
+        "summary": "Search Inquiries",
+        "tags": [
+          "Inquiries"
+        ],
+        "x-persona-product": "Inquiries"
+      }
+    },
     "/inquiry-sessions": {
       "get": {
         "description": "Retrieves a list of Inquiry Sessions. Results are returned in reverse chronological order, with the most recently created objects first.",
@@ -47258,6 +47689,144 @@
           },
           "meta": {
             "session-token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpcXNlX1Q4UHJxcG9FaHdoVVYxd0hSZXVVOW9mcyIsImF1ZCI6InBlcnNvbmEtdmVyaWZ5IiwiaXNzIjoic3RhZ2luZy53aXRocGVyc29uYS5jb20iLCJpYXQiOjE1NzM4NTI2NjEsIm5iZiI6MTU3Mzg1MjY2MSwiZXhwIjoxNTczOTM5MDYxLCJqdGkiOiI5NWRlNjhkOS1hZjI4LTRiMzItOWIxYi03MjA4MTg3NTI3N2IiLCJzaWQiOiJpcXNlX1Q4UHJxcG9FaHdoVVYxd0hSZXVVOW9mcyJ9.LN6DEnfjP5cZoZ3w41RgyX5QVmutmjHja_bRHOmDjg0"
+          }
+        }
+      },
+      "inquiry-list-search": {
+        "value": {
+          "data": [
+            {
+              "type": "inquiry",
+              "id": "inq_zEx4jL84ShbUyuwX6AzPSqt6",
+              "attributes": {
+                "status": "pending",
+                "reference-id": "abc-123",
+                "note": null,
+                "behaviors": {},
+                "tags": [
+                  "tag1",
+                  "tag2"
+                ],
+                "creator": "creator@example.com",
+                "reviewer-comment": null,
+                "created-at": "2023-03-29T19:06:45.000Z",
+                "started-at": "2023-03-30T19:07:01.000Z",
+                "expires-at": "2023-03-31T19:07:01.000Z",
+                "completed-at": null,
+                "failed-at": null,
+                "marked-for-review-at": null,
+                "decisioned-at": null,
+                "expired-at": null,
+                "redacted-at": null,
+                "updated-at": "2023-03-30T19:07:01.000Z",
+                "previous-step-name": "start",
+                "next-step-name": "verification_document",
+                "fields": {
+                  "name_first": {
+                    "type": "string",
+                    "value": "Jane"
+                  },
+                  "name_middle": {
+                    "type": "string",
+                    "value": "Marie"
+                  },
+                  "name_last": {
+                    "type": "string",
+                    "value": "Doe"
+                  },
+                  "address_street_1": {
+                    "type": "string",
+                    "value": "123 Main St"
+                  },
+                  "address_street_2": {
+                    "type": "string",
+                    "value": null
+                  },
+                  "address_city": {
+                    "type": "string",
+                    "value": "San Francisco"
+                  },
+                  "address_subdivision": {
+                    "type": "string",
+                    "value": "California"
+                  },
+                  "address_postal_code": {
+                    "type": "string",
+                    "value": "94111"
+                  },
+                  "address_country_code": {
+                    "type": "string",
+                    "value": "US"
+                  },
+                  "birthdate": {
+                    "type": "date",
+                    "value": "1995-09-08"
+                  },
+                  "email_address": {
+                    "type": "string",
+                    "value": "jane@doe.com"
+                  },
+                  "phone_number": {
+                    "type": "string",
+                    "value": null
+                  },
+                  "identification_number": {
+                    "type": "string",
+                    "value": null
+                  }
+                }
+              },
+              "relationships": {
+                "account": {
+                  "data": {
+                    "type": "account",
+                    "id": "act_n2uq9eKMboaCQzu9ALWYcVdN"
+                  }
+                },
+                "template": {
+                  "data": {}
+                },
+                "inquiry-template": {
+                  "data": {
+                    "type": "inquiry-template",
+                    "id": "itmpl_p8ANAJy9iqadm2buF2xcVgqH"
+                  }
+                },
+                "inquiry-template-version": {
+                  "data": {
+                    "type": "inquiry-template-version",
+                    "id": "itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo"
+                  }
+                },
+                "reviewer": {
+                  "data": {}
+                },
+                "reports": {
+                  "data": []
+                },
+                "verifications": {
+                  "data": [
+                    {
+                      "type": "verification/database",
+                      "id": "ver_uHDiwtcx3htjajvEaeMjPQcE"
+                    }
+                  ]
+                },
+                "sessions": {
+                  "data": []
+                },
+                "documents": {
+                  "data": []
+                },
+                "selfies": {
+                  "data": []
+                }
+              }
+            }
+          ],
+          "links": {
+            "prev": null,
+            "next": "/api/v1/inquiries/search?page%5Bafter%5D=inq_ByBdXDqUrguLAHjGZMuDZLCx&page%5Bsize%5D=10"
           }
         }
       },
