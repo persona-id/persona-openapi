@@ -1,0 +1,53 @@
+get:
+  summary: Retrieve an Account Type
+  tags:
+    - Account Types
+  x-persona-product: Accounts
+  description: >-
+    Retrieves the details of an existing Account Type, including its configured
+    field schemas.
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: >-
+      https://docs.withpersona.com/api-reference/account-types/retrieve-an-account-type
+  operationId: retrieve-an-account-type
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+    - name: account-type-id
+      in: path
+      description: ID of the Account Type to retrieve.
+      schema:
+        type: string
+      required: true
+  responses:
+    '200':
+      description: This endpoint returns an Account Type object.
+      content:
+        application/json:
+          examples:
+            Success:
+              $ref: ../components/examples/account-type.yaml
+          schema:
+            type: object
+            additionalProperties: false
+            required:
+              - data
+            properties:
+              data:
+                $ref: ../components/schemas/account-type.yaml
+              included:
+                $ref: ../components/schemas/empty-included-objects.yaml
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml

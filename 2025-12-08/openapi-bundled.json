@@ -29,6 +29,10 @@
       "description": "Interact with Persona Account objects"
     },
     {
+      "name": "Account Types",
+      "description": "Interact with Persona Account Type objects"
+    },
+    {
       "name": "API Keys",
       "description": "Interact with your organization's API keys"
     },
@@ -39,6 +43,10 @@
     {
       "name": "Cases",
       "description": "Interact with Persona Case objects"
+    },
+    {
+      "name": "Case Templates",
+      "description": "Interact with Persona Case Template objects"
     },
     {
       "name": "Connect",
@@ -170,6 +178,91 @@
     "url": "https://docs.withpersona.com/api-reference/"
   },
   "paths": {
+    "/account-types/{account-type-id}": {
+      "get": {
+        "summary": "Retrieve an Account Type",
+        "tags": [
+          "Account Types"
+        ],
+        "x-persona-product": "Accounts",
+        "description": "Retrieves the details of an existing Account Type, including its configured field schemas.",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/api-reference/account-types/retrieve-an-account-type"
+        },
+        "operationId": "retrieve-an-account-type",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/include-query-parameter"
+          },
+          {
+            "$ref": "#/components/parameters/fields-query-parameter"
+          },
+          {
+            "name": "account-type-id",
+            "in": "path",
+            "description": "ID of the Account Type to retrieve.",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "This endpoint returns an Account Type object.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Success": {
+                    "$ref": "#/components/examples/account-type"
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "data"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/account-type"
+                    },
+                    "included": {
+                      "$ref": "#/components/schemas/empty-included-objects"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        }
+      }
+    },
     "/accounts": {
       "get": {
         "description": "Returns a list of your organization's account(s). Results are returned in reverse chronological order, with the most recently created objects first.",
@@ -4252,6 +4345,91 @@
           "API Logs"
         ],
         "x-persona-product": "API Logs"
+      }
+    },
+    "/case-templates/{case-template-id}": {
+      "get": {
+        "summary": "Retrieve a Case Template",
+        "tags": [
+          "Case Templates"
+        ],
+        "x-persona-product": "Cases",
+        "description": "Retrieves the details of an existing Case Template, including its configured field schemas.",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/api-reference/case-templates/retrieve-a-case-template"
+        },
+        "operationId": "retrieve-a-case-template",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/include-query-parameter"
+          },
+          {
+            "$ref": "#/components/parameters/fields-query-parameter"
+          },
+          {
+            "name": "case-template-id",
+            "in": "path",
+            "description": "ID of the Case Template to retrieve.",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "This endpoint returns a Case Template object.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Success": {
+                    "$ref": "#/components/examples/case-template"
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "data"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/case-template"
+                    },
+                    "included": {
+                      "$ref": "#/components/schemas/empty-included-objects"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        }
       }
     },
     "/cases": {
@@ -27260,6 +27438,27 @@
           "$ref": "#/components/schemas/api-version"
         }
       },
+      "include-query-parameter": {
+        "in": "query",
+        "name": "include",
+        "description": "A comma-separated list of relationship paths. This can be used to customize which related resources will be fully serialized in the `included` key in the response. See [Serialization](https://docs.withpersona.com/serialization#inclusion-of-related-resources) for more details.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "fields-query-parameter": {
+        "in": "query",
+        "name": "fields",
+        "style": "deepObject",
+        "explode": true,
+        "description": "Comma-separated list(s) of attributes to include in the response. This can be used to customize which attributes will be serialized in the response. See [Serialization](https://docs.withpersona.com/serialization#sparse-fieldsets) for more details.",
+        "schema": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
       "pagination-query-params": {
         "in": "query",
         "name": "page",
@@ -27291,27 +27490,6 @@
               "type": "number"
             }
           }
-        }
-      },
-      "fields-query-parameter": {
-        "in": "query",
-        "name": "fields",
-        "style": "deepObject",
-        "explode": true,
-        "description": "Comma-separated list(s) of attributes to include in the response. This can be used to customize which attributes will be serialized in the response. See [Serialization](https://docs.withpersona.com/serialization#sparse-fieldsets) for more details.",
-        "schema": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          }
-        }
-      },
-      "include-query-parameter": {
-        "in": "query",
-        "name": "include",
-        "description": "A comma-separated list of relationship paths. This can be used to customize which related resources will be fully serialized in the `included` key in the response. See [Serialization](https://docs.withpersona.com/serialization#inclusion-of-related-resources) for more details.",
-        "schema": {
-          "type": "string"
         }
       },
       "persona-signature-header": {
@@ -27376,6 +27554,898 @@
           "2021-02-21",
           "2020-05-18"
         ]
+      },
+      "field-schema-default-config": {
+        "x-inheritable": true,
+        "type": "object",
+        "properties": {
+          "required": {
+            "type": "boolean"
+          },
+          "archived-at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time",
+            "examples": [
+              "2023-06-29T23:54:35.293Z"
+            ]
+          },
+          "deactivated-at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time",
+            "examples": [
+              "2023-06-29T23:54:35.293Z"
+            ]
+          },
+          "source-key-path": {
+            "description": "When the field schema is an alias, the dotted key path of the source field; absent for non-alias schemas.",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "field-schema": {
+        "discriminator": {
+          "propertyName": "type",
+          "mapping": {
+            "array": "#/components/schemas/field-schema-array",
+            "boolean": "#/components/schemas/field-schema-boolean",
+            "choices": "#/components/schemas/field-schema-choices",
+            "date": "#/components/schemas/field-schema-date",
+            "datetime": "#/components/schemas/field-schema-datetime",
+            "email-address": "#/components/schemas/field-schema-email-address",
+            "file": "#/components/schemas/field-schema-file",
+            "hash": "#/components/schemas/field-schema-hash",
+            "integer": "#/components/schemas/field-schema-integer",
+            "multi-choices": "#/components/schemas/field-schema-multi-choices",
+            "number": "#/components/schemas/field-schema-number",
+            "string": "#/components/schemas/field-schema-string",
+            "Field::Relation::Document::Generic": "#/components/schemas/field-schema-relation-document-generic",
+            "Field::Relation::Document::GovernmentId": "#/components/schemas/field-schema-relation-document-government-id",
+            "Field::Relation::Document::GovernmentIdNfc": "#/components/schemas/field-schema-relation-document-government-id-nfc",
+            "Field::Relation::Document::Mdoc": "#/components/schemas/field-schema-relation-document-mdoc",
+            "Field::Relation::Document::QrCode": "#/components/schemas/field-schema-relation-document-qr-code",
+            "Field::Relation::Selfie": "#/components/schemas/field-schema-relation-selfie"
+          }
+        },
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/field-schema-array"
+          },
+          {
+            "$ref": "#/components/schemas/field-schema-boolean"
+          },
+          {
+            "$ref": "#/components/schemas/field-schema-choices"
+          },
+          {
+            "$ref": "#/components/schemas/field-schema-date"
+          },
+          {
+            "$ref": "#/components/schemas/field-schema-datetime"
+          },
+          {
+            "$ref": "#/components/schemas/field-schema-email-address"
+          },
+          {
+            "$ref": "#/components/schemas/field-schema-file"
+          },
+          {
+            "$ref": "#/components/schemas/field-schema-hash"
+          },
+          {
+            "$ref": "#/components/schemas/field-schema-integer"
+          },
+          {
+            "$ref": "#/components/schemas/field-schema-multi-choices"
+          },
+          {
+            "$ref": "#/components/schemas/field-schema-number"
+          },
+          {
+            "$ref": "#/components/schemas/field-schema-string"
+          },
+          {
+            "$ref": "#/components/schemas/field-schema-relation-document-generic"
+          },
+          {
+            "$ref": "#/components/schemas/field-schema-relation-document-government-id"
+          },
+          {
+            "$ref": "#/components/schemas/field-schema-relation-document-government-id-nfc"
+          },
+          {
+            "$ref": "#/components/schemas/field-schema-relation-document-mdoc"
+          },
+          {
+            "$ref": "#/components/schemas/field-schema-relation-document-qr-code"
+          },
+          {
+            "$ref": "#/components/schemas/field-schema-relation-selfie"
+          }
+        ]
+      },
+      "field-schema-array": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "array"
+          },
+          "key": {
+            "type": "string"
+          },
+          "label": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "config": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/field-schema-default-config"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "item-schema": {
+                    "$ref": "#/components/schemas/field-schema"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "field-schema-boolean": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "boolean"
+          },
+          "key": {
+            "type": "string"
+          },
+          "label": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "config": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/field-schema-default-config"
+              },
+              {
+                "type": "object",
+                "properties": {}
+              }
+            ]
+          }
+        }
+      },
+      "field-schema-choices": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "choices"
+          },
+          "key": {
+            "type": "string"
+          },
+          "label": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "config": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/field-schema-default-config"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "allow-empty": {
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "options": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "field-schema-date": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "date"
+          },
+          "key": {
+            "type": "string"
+          },
+          "label": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "config": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/field-schema-default-config"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "min-date": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "format": "date",
+                    "examples": [
+                      "2023-06-29"
+                    ]
+                  },
+                  "max-date": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "format": "date",
+                    "examples": [
+                      "2023-06-29"
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "field-schema-datetime": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "datetime"
+          },
+          "key": {
+            "type": "string"
+          },
+          "label": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "config": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/field-schema-default-config"
+              },
+              {
+                "type": "object",
+                "properties": {}
+              }
+            ]
+          }
+        }
+      },
+      "field-schema-email-address": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "email-address"
+          },
+          "key": {
+            "type": "string"
+          },
+          "label": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "config": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/field-schema-default-config"
+              },
+              {
+                "type": "object",
+                "properties": {}
+              }
+            ]
+          }
+        }
+      },
+      "field-schema-file": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "file"
+          },
+          "key": {
+            "type": "string"
+          },
+          "label": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "config": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/field-schema-default-config"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "max-file-size-bytes": {
+                    "type": "integer",
+                    "default": 10000000
+                  },
+                  "min-file-size-bytes": {
+                    "type": "integer",
+                    "default": 1
+                  },
+                  "supported-mime-types": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "default": [
+                      "image/jpg image/jpeg image/png image/heic image/heif image/tif image/tiff image/gif image/svg+xml application/pdf text/plain text/csv video/mp4 video/webm video/quicktime"
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "field-schema-hash": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "hash"
+          },
+          "key": {
+            "type": "string"
+          },
+          "label": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "config": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/field-schema-default-config"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "ignore-unknown-keys": {
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "item-schemas": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/field-schema"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "field-schema-integer": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "integer"
+          },
+          "key": {
+            "type": "string"
+          },
+          "label": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "config": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/field-schema-default-config"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "min": {
+                    "type": "number"
+                  },
+                  "max": {
+                    "type": "number"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "field-schema-multi-choices": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "multi-choices"
+          },
+          "key": {
+            "type": "string"
+          },
+          "label": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "config": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/field-schema-default-config"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "allow-empty": {
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "options": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "field-schema-number": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "number"
+          },
+          "key": {
+            "type": "string"
+          },
+          "label": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "config": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/field-schema-default-config"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "min": {
+                    "type": "number"
+                  },
+                  "max": {
+                    "type": "number"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "field-schema-string": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "string"
+          },
+          "key": {
+            "type": "string"
+          },
+          "label": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "config": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/field-schema-default-config"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "max-char-length": {
+                    "type": "integer",
+                    "default": 255,
+                    "maximum": 1024
+                  },
+                  "sanitize": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "default": [],
+                      "description": "Possible values:\n- html\n\nDo not assume this is a static enumeration; Persona may add new values in\nthe future without a versioned update."
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "field-schema-relation-document-generic": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "Field::Relation::Document::Generic"
+          },
+          "key": {
+            "type": "string"
+          },
+          "label": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "config": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/field-schema-default-config"
+              },
+              {
+                "type": "object",
+                "properties": {}
+              }
+            ]
+          }
+        }
+      },
+      "field-schema-relation-document-government-id": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "Field::Relation::Document::GovernmentId"
+          },
+          "key": {
+            "type": "string"
+          },
+          "label": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "config": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/field-schema-default-config"
+              },
+              {
+                "type": "object",
+                "properties": {}
+              }
+            ]
+          }
+        }
+      },
+      "field-schema-relation-document-government-id-nfc": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "Field::Relation::Document::GovernmentIdNfc"
+          },
+          "key": {
+            "type": "string"
+          },
+          "label": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "config": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/field-schema-default-config"
+              },
+              {
+                "type": "object",
+                "properties": {}
+              }
+            ]
+          }
+        }
+      },
+      "field-schema-relation-document-mdoc": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "Field::Relation::Document::Mdoc"
+          },
+          "key": {
+            "type": "string"
+          },
+          "label": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "config": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/field-schema-default-config"
+              },
+              {
+                "type": "object",
+                "properties": {}
+              }
+            ]
+          }
+        }
+      },
+      "field-schema-relation-document-qr-code": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "Field::Relation::Document::QrCode"
+          },
+          "key": {
+            "type": "string"
+          },
+          "label": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "config": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/field-schema-default-config"
+              },
+              {
+                "type": "object",
+                "properties": {}
+              }
+            ]
+          }
+        }
+      },
+      "field-schema-relation-selfie": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "Field::Relation::Selfie"
+          },
+          "key": {
+            "type": "string"
+          },
+          "label": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "config": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/field-schema-default-config"
+              },
+              {
+                "type": "object",
+                "properties": {}
+              }
+            ]
+          }
+        }
+      },
+      "account-type": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "An Account Type object",
+        "properties": {
+          "type": {
+            "const": "account-type",
+            "type": "string"
+          },
+          "id": {
+            "examples": [
+              "acttp_7X5W5w9GMtQntE6oPtKnj44c"
+            ],
+            "type": "string"
+          },
+          "attributes": {
+            "additionalProperties": false,
+            "type": "object",
+            "properties": {
+              "name": {
+                "examples": [
+                  "User"
+                ],
+                "type": "string"
+              },
+              "created-at": {
+                "type": "string",
+                "format": "date-time",
+                "examples": [
+                  "2022-11-09T00:22:59.828Z"
+                ]
+              },
+              "updated-at": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time",
+                "examples": [
+                  "2023-02-15T23:15:06.034Z"
+                ]
+              },
+              "field-schemas": {
+                "type": "array",
+                "items": {
+                  "unevaluatedProperties": false,
+                  "$ref": "#/components/schemas/field-schema"
+                }
+              }
+            }
+          },
+          "relationships": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "account-statuses": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "const": "account-status"
+                        },
+                        "id": {
+                          "type": "string",
+                          "examples": [
+                            "actst_ya9zKuezKLTfrc4WMB3vqVx4xTVP"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "default-account-status": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "const": "account-status"
+                      },
+                      "id": {
+                        "type": "string",
+                        "examples": [
+                          "actst_ya9zKuezKLTfrc4WMB3vqVx4xTVP"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "empty-included-objects": {
+        "type": "array",
+        "description": "Excluded from the response by default. Will be an empty array when the `include` query parameter in the request was explicitly set to empty."
       },
       "file": {
         "type": [
@@ -27926,52 +28996,6 @@
           }
         }
       },
-      "account-type": {
-        "type": "object",
-        "additionalProperties": false,
-        "description": "An Account Type object",
-        "properties": {
-          "type": {
-            "const": "account-type",
-            "type": "string"
-          },
-          "id": {
-            "examples": [
-              "acttp_7X5W5w9GMtQntE6oPtKnj44c"
-            ],
-            "type": "string"
-          },
-          "attributes": {
-            "additionalProperties": false,
-            "type": "object",
-            "properties": {
-              "name": {
-                "examples": [
-                  "User"
-                ],
-                "type": "string"
-              },
-              "created-at": {
-                "type": "string",
-                "format": "date-time",
-                "examples": [
-                  "2022-11-09T00:22:59.828Z"
-                ]
-              },
-              "updated-at": {
-                "type": [
-                  "string",
-                  "null"
-                ],
-                "format": "date-time",
-                "examples": [
-                  "2023-02-15T23:15:06.034Z"
-                ]
-              }
-            }
-          }
-        }
-      },
       "accounts-included-objects": {
         "type": "array",
         "items": {
@@ -28299,10 +29323,6 @@
             "$ref": "#/components/schemas/api-key-shared-attributes"
           }
         }
-      },
-      "empty-included-objects": {
-        "type": "array",
-        "description": "Excluded from the response by default. Will be an empty array when the `include` query parameter in the request was explicitly set to empty."
       },
       "api-key-with-value": {
         "type": "object",
@@ -28889,6 +29909,89 @@
           }
         }
       },
+      "case-template": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "A Case Template object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "case-template"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the Case Template",
+            "examples": [
+              "ctmpl_yd2urRmjaCWcSSxqTSHvUcsn"
+            ]
+          },
+          "attributes": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "status": {
+                "description": "Possible values:\n- active\n- archived\n\nDo not assume this is a static enumeration; Persona may add new values\nin the future without a versioned update.",
+                "examples": [
+                  "active"
+                ],
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "resolutions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "examples": [
+                  [
+                    "Approved",
+                    "Declined"
+                  ]
+                ]
+              },
+              "created-at": {
+                "type": "string",
+                "format": "date-time",
+                "description": "The time the template was created",
+                "examples": [
+                  "2021-03-25T07:04:16.667Z"
+                ]
+              },
+              "updated-at": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time",
+                "description": "The time the template was last updated",
+                "examples": [
+                  "2021-03-25T07:04:16.667Z"
+                ]
+              },
+              "archived-at": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time",
+                "description": "The time the template was archived",
+                "examples": [
+                  "2021-03-25T07:04:16.667Z"
+                ]
+              },
+              "field-schemas": {
+                "type": "array",
+                "items": {
+                  "unevaluatedProperties": false,
+                  "$ref": "#/components/schemas/field-schema"
+                }
+              }
+            }
+          }
+        }
+      },
       "case": {
         "type": "object",
         "additionalProperties": false,
@@ -29369,82 +30472,6 @@
                 "description": "The type of the commenter",
                 "examples": [
                   "user"
-                ]
-              }
-            }
-          }
-        }
-      },
-      "case-template": {
-        "type": "object",
-        "additionalProperties": false,
-        "description": "A Case Template object",
-        "properties": {
-          "type": {
-            "type": "string",
-            "const": "case-template"
-          },
-          "id": {
-            "type": "string",
-            "description": "Unique identifier for the Case Template",
-            "examples": [
-              "ctmpl_yd2urRmjaCWcSSxqTSHvUcsn"
-            ]
-          },
-          "attributes": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "status": {
-                "description": "Possible values:\n- active\n- archived\n\nDo not assume this is a static enumeration; Persona may add new values\nin the future without a versioned update.",
-                "examples": [
-                  "active"
-                ],
-                "type": "string"
-              },
-              "name": {
-                "type": "string"
-              },
-              "resolutions": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                },
-                "examples": [
-                  [
-                    "Approved",
-                    "Declined"
-                  ]
-                ]
-              },
-              "created-at": {
-                "type": "string",
-                "format": "date-time",
-                "description": "The time the template was created",
-                "examples": [
-                  "2021-03-25T07:04:16.667Z"
-                ]
-              },
-              "updated-at": {
-                "type": [
-                  "string",
-                  "null"
-                ],
-                "format": "date-time",
-                "description": "The time the template was last updated",
-                "examples": [
-                  "2021-03-25T07:04:16.667Z"
-                ]
-              },
-              "archived-at": {
-                "type": [
-                  "string",
-                  "null"
-                ],
-                "format": "date-time",
-                "description": "The time the template was archived",
-                "examples": [
-                  "2021-03-25T07:04:16.667Z"
                 ]
               }
             }
@@ -45339,6 +46366,58 @@
       }
     },
     "examples": {
+      "account-type": {
+        "value": {
+          "data": {
+            "type": "account-type",
+            "id": "acttp_7X5W5w9GMtQntE6oPtKnj44c",
+            "attributes": {
+              "name": "User",
+              "created-at": "2022-11-09T00:22:59.828Z",
+              "updated-at": "2023-02-15T23:15:06.034Z",
+              "field-schemas": [
+                {
+                  "type": "string",
+                  "key": "name_first",
+                  "label": "Name First",
+                  "config": {
+                    "required": false,
+                    "archived-at": null,
+                    "deactivated-at": null,
+                    "max-char-length": 255,
+                    "sanitize": []
+                  }
+                },
+                {
+                  "type": "string",
+                  "key": "name_last",
+                  "label": "Name Last",
+                  "config": {
+                    "required": false,
+                    "archived-at": null,
+                    "deactivated-at": null,
+                    "max-char-length": 255,
+                    "sanitize": []
+                  }
+                },
+                {
+                  "type": "date",
+                  "key": "birthdate",
+                  "label": "Birthdate",
+                  "config": {
+                    "required": false,
+                    "archived-at": null,
+                    "deactivated-at": null,
+                    "min-date": null,
+                    "max-date": null
+                  }
+                }
+              ]
+            }
+          },
+          "included": []
+        }
+      },
       "account-list": {
         "value": {
           "data": [
@@ -46437,6 +47516,56 @@
               "created-at": "2023-09-20T20:20:03.485+00:00"
             }
           }
+        }
+      },
+      "case-template": {
+        "value": {
+          "data": {
+            "type": "case-template",
+            "id": "ctmpl_yd2urRmjaCWcSSxqTSHvUcsn",
+            "attributes": {
+              "status": "active",
+              "name": "Standard Review",
+              "resolutions": [
+                "Approved",
+                "Declined"
+              ],
+              "created-at": "2021-03-25T07:04:16.667Z",
+              "updated-at": "2021-03-25T07:04:16.667Z",
+              "archived-at": null,
+              "field-schemas": [
+                {
+                  "type": "string",
+                  "key": "notes",
+                  "label": "Reviewer Notes",
+                  "config": {
+                    "required": false,
+                    "archived-at": null,
+                    "deactivated-at": null,
+                    "max-char-length": 255,
+                    "sanitize": []
+                  }
+                },
+                {
+                  "type": "multi-choices",
+                  "key": "risk_tags",
+                  "label": "Risk Tags",
+                  "config": {
+                    "required": false,
+                    "archived-at": null,
+                    "deactivated-at": null,
+                    "allow-empty": true,
+                    "options": [
+                      "high_risk",
+                      "medium_risk",
+                      "low_risk"
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          "included": []
         }
       },
       "create-case": {
