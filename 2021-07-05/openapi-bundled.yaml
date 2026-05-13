@@ -8111,6 +8111,9 @@ paths:
                     description: An array of Inquiry Templates
                     items:
                       $ref: '#/components/schemas/inquiry-template'
+                  included:
+                    description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
+                    $ref: '#/components/schemas/inquiry-template-included-objects'
                   links:
                     type: object
                     additionalProperties: false
@@ -8180,6 +8183,9 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/inquiry-template'
+                  included:
+                    description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
+                    $ref: '#/components/schemas/inquiry-template-included-objects'
         '400':
           $ref: '#/components/responses/bad-request'
         '401':
@@ -17436,12 +17442,7 @@ components:
           multi-choices: '#/components/schemas/field-schema-multi-choices'
           number: '#/components/schemas/field-schema-number'
           string: '#/components/schemas/field-schema-string'
-          'Field::Relation::Document::Generic': '#/components/schemas/field-schema-relation-document-generic'
-          'Field::Relation::Document::GovernmentId': '#/components/schemas/field-schema-relation-document-government-id'
-          'Field::Relation::Document::GovernmentIdNfc': '#/components/schemas/field-schema-relation-document-government-id-nfc'
-          'Field::Relation::Document::Mdoc': '#/components/schemas/field-schema-relation-document-mdoc'
-          'Field::Relation::Document::QrCode': '#/components/schemas/field-schema-relation-document-qr-code'
-          'Field::Relation::Selfie': '#/components/schemas/field-schema-relation-selfie'
+          relation-schema: '#/components/schemas/field-schema-relation'
       anyOf:
         - $ref: '#/components/schemas/field-schema-array'
         - $ref: '#/components/schemas/field-schema-boolean'
@@ -17455,12 +17456,7 @@ components:
         - $ref: '#/components/schemas/field-schema-multi-choices'
         - $ref: '#/components/schemas/field-schema-number'
         - $ref: '#/components/schemas/field-schema-string'
-        - $ref: '#/components/schemas/field-schema-relation-document-generic'
-        - $ref: '#/components/schemas/field-schema-relation-document-government-id'
-        - $ref: '#/components/schemas/field-schema-relation-document-government-id-nfc'
-        - $ref: '#/components/schemas/field-schema-relation-document-mdoc'
-        - $ref: '#/components/schemas/field-schema-relation-document-qr-code'
-        - $ref: '#/components/schemas/field-schema-relation-selfie'
+        - $ref: '#/components/schemas/field-schema-relation'
     field-schema-array:
       type: object
       additionalProperties: false
@@ -17761,13 +17757,13 @@ components:
 
                       Do not assume this is a static enumeration; Persona may add new values in
                       the future without a versioned update.
-    field-schema-relation-document-generic:
+    field-schema-relation:
       type: object
       additionalProperties: false
       properties:
         type:
           type: string
-          const: 'Field::Relation::Document::Generic'
+          const: relation-schema
         key:
           type: string
         label:
@@ -17779,102 +17775,10 @@ components:
           allOf:
             - $ref: '#/components/schemas/field-schema-default-config'
             - type: object
-              properties: {}
-    field-schema-relation-document-government-id:
-      type: object
-      additionalProperties: false
-      properties:
-        type:
-          type: string
-          const: 'Field::Relation::Document::GovernmentId'
-        key:
-          type: string
-        label:
-          type:
-            - string
-            - 'null'
-        config:
-          unevaluatedProperties: false
-          allOf:
-            - $ref: '#/components/schemas/field-schema-default-config'
-            - type: object
-              properties: {}
-    field-schema-relation-document-government-id-nfc:
-      type: object
-      additionalProperties: false
-      properties:
-        type:
-          type: string
-          const: 'Field::Relation::Document::GovernmentIdNfc'
-        key:
-          type: string
-        label:
-          type:
-            - string
-            - 'null'
-        config:
-          unevaluatedProperties: false
-          allOf:
-            - $ref: '#/components/schemas/field-schema-default-config'
-            - type: object
-              properties: {}
-    field-schema-relation-document-mdoc:
-      type: object
-      additionalProperties: false
-      properties:
-        type:
-          type: string
-          const: 'Field::Relation::Document::Mdoc'
-        key:
-          type: string
-        label:
-          type:
-            - string
-            - 'null'
-        config:
-          unevaluatedProperties: false
-          allOf:
-            - $ref: '#/components/schemas/field-schema-default-config'
-            - type: object
-              properties: {}
-    field-schema-relation-document-qr-code:
-      type: object
-      additionalProperties: false
-      properties:
-        type:
-          type: string
-          const: 'Field::Relation::Document::QrCode'
-        key:
-          type: string
-        label:
-          type:
-            - string
-            - 'null'
-        config:
-          unevaluatedProperties: false
-          allOf:
-            - $ref: '#/components/schemas/field-schema-default-config'
-            - type: object
-              properties: {}
-    field-schema-relation-selfie:
-      type: object
-      additionalProperties: false
-      properties:
-        type:
-          type: string
-          const: 'Field::Relation::Selfie'
-        key:
-          type: string
-        label:
-          type:
-            - string
-            - 'null'
-        config:
-          unevaluatedProperties: false
-          allOf:
-            - $ref: '#/components/schemas/field-schema-default-config'
-            - type: object
-              properties: {}
+              properties:
+                target:
+                  description: 'Customer-facing identifier for the specific Relation subtype this field points to — `document-generic`, `document-government-id`, `document-government-id-nfc`, `document-mdoc`, `document-qr-code`, or `selfie`. Use this on a future write API to specify which relation kind to create.'
+                  type: string
     account-type:
       type: object
       additionalProperties: false
@@ -25432,6 +25336,11 @@ components:
               examples:
                 - - https
                   - http
+            field-schemas:
+              type: array
+              items:
+                unevaluatedProperties: false
+                $ref: '#/components/schemas/field-schema'
         relationships:
           type: object
           additionalProperties: false
@@ -27420,6 +27329,15 @@ components:
           - $ref: '#/components/schemas/device'
           - $ref: '#/components/schemas/inquiry'
           - $ref: '#/components/schemas/network'
+    inquiry-template-included-objects:
+      type: array
+      items:
+        discriminator:
+          propertyName: type
+          mapping:
+            inquiry-template-version: '#/components/schemas/inquiry-template-version'
+        anyOf:
+          - $ref: '#/components/schemas/inquiry-template-version'
     list-item-shared-attributes:
       x-inheritable: true
       type: object
@@ -33117,6 +33035,25 @@ components:
             hosted-flow-redirect-uri-schemes:
               - https
               - http
+            field-schemas:
+              - type: string
+                key: name_first
+                label: First Name
+                config:
+                  required: false
+                  archived-at: null
+                  deactivated-at: null
+                  max-char-length: 255
+                  sanitize: []
+              - type: date
+                key: birthdate
+                label: Birthdate
+                config:
+                  required: false
+                  archived-at: null
+                  deactivated-at: null
+                  min-date: null
+                  max-date: null
           relationships:
             latest-published-version:
               data:

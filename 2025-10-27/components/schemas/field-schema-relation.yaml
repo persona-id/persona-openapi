@@ -1,0 +1,26 @@
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: relation-schema
+  key:
+    type: string
+  label:
+    type:
+      - string
+      - 'null'
+  config:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./field-schema-default-config.yaml
+      - type: object
+        properties:
+          target:
+            description: >-
+              Customer-facing identifier for the specific Relation subtype this
+              field points to — `document-generic`, `document-government-id`,
+              `document-government-id-nfc`, `document-mdoc`, `document-qr-code`,
+              or `selfie`. Use this on a future write API to specify which
+              relation kind to create.
+            type: string
