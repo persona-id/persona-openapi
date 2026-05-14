@@ -3142,20 +3142,6 @@
                                 "examples": [
                                   "org_XYZ789"
                                 ]
-                              },
-                              "scopes": {
-                                "description": "Array of scopes that define what access is granted through this connection. If not provided, defaults to [\"account.read\", \"inquiry.read\", \"verification.read\"].",
-                                "type": "array",
-                                "items": {
-                                  "type": "string"
-                                },
-                                "examples": [
-                                  [
-                                    "account.read",
-                                    "inquiry.read",
-                                    "verification.read"
-                                  ]
-                                ]
                               }
                             },
                             "required": [
@@ -3310,141 +3296,6 @@
           }
         },
         "summary": "Retrieve a Connect Connection",
-        "tags": [
-          "Connect"
-        ],
-        "x-persona-product": "Connect"
-      },
-      "patch": {
-        "description": "Updates an existing Connect Connection.",
-        "operationId": "update-a-connect-connection",
-        "externalDocs": {
-          "description": "Full documentation for this API on the Persona website.",
-          "url": "https://docs.withpersona.com/api-reference/connect/connections/update-a-connect-connection"
-        },
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/key-inflection-header"
-          },
-          {
-            "$ref": "#/components/parameters/idempotency-key-header"
-          },
-          {
-            "$ref": "#/components/parameters/persona-version-header"
-          },
-          {
-            "$ref": "#/components/parameters/fields-query-parameter"
-          },
-          {
-            "name": "connection-id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "Token of the connect connection",
-            "examples": {
-              "connection-id": {
-                "value": "connection-id"
-              }
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "examples": {
-                "Success": {
-                  "$ref": "#/components/examples/update-connection"
-                }
-              },
-              "schema": {
-                "properties": {
-                  "data": {
-                    "properties": {
-                      "attributes": {
-                        "unevaluatedProperties": false,
-                        "allOf": [
-                          {
-                            "type": "object",
-                            "properties": {
-                              "scopes": {
-                                "description": "Array of scopes that define what access is granted through this connection.",
-                                "type": "array",
-                                "items": {
-                                  "type": "string"
-                                },
-                                "examples": [
-                                  [
-                                    "account.read",
-                                    "inquiry.read",
-                                    "verification.read"
-                                  ]
-                                ]
-                              }
-                            }
-                          }
-                        ]
-                      }
-                    },
-                    "additionalProperties": false,
-                    "type": "object"
-                  }
-                },
-                "additionalProperties": false,
-                "type": "object"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "examples": {
-                  "Success": {
-                    "$ref": "#/components/examples/connect-connection"
-                  }
-                },
-                "schema": {
-                  "properties": {
-                    "data": {
-                      "$ref": "#/components/schemas/connect-connection"
-                    }
-                  },
-                  "additionalProperties": false,
-                  "type": "object",
-                  "required": [
-                    "data"
-                  ]
-                }
-              }
-            },
-            "description": "This endpoint returns a Connect Connection."
-          },
-          "400": {
-            "$ref": "#/components/responses/bad-request"
-          },
-          "401": {
-            "$ref": "#/components/responses/unauthorized"
-          },
-          "403": {
-            "$ref": "#/components/responses/forbidden"
-          },
-          "404": {
-            "$ref": "#/components/responses/not-found"
-          },
-          "409": {
-            "$ref": "#/components/responses/conflict"
-          },
-          "422": {
-            "$ref": "#/components/responses/unprocessable-entity"
-          },
-          "429": {
-            "$ref": "#/components/responses/too-many-requests"
-          }
-        },
-        "summary": "Update a Connect Connection",
         "tags": [
           "Connect"
         ],
@@ -29475,20 +29326,6 @@
                 ],
                 "description": "The organization that created and owns this connection."
               },
-              "scopes": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                },
-                "examples": [
-                  [
-                    "account.read",
-                    "inquiry.read",
-                    "verification.read"
-                  ]
-                ],
-                "description": "The scopes that define what access is granted through this connection"
-              },
               "created-at": {
                 "format": "date-time",
                 "examples": [
@@ -47575,11 +47412,6 @@
                 "status": "active",
                 "source-organization-id": "org_ABC123",
                 "destination-organization-id": "org_XYZ789",
-                "scopes": [
-                  "account.read",
-                  "inquiry.read",
-                  "verification.read"
-                ],
                 "created-at": "2018-06-01T00:00:00.000Z",
                 "updated-at": "2018-06-01T00:00:00.000Z"
               }
@@ -47591,11 +47423,6 @@
                 "status": "pending",
                 "source-organization-id": "org_XYZ789",
                 "destination-organization-id": "org_ABC123",
-                "scopes": [
-                  "account.read",
-                  "inquiry.read",
-                  "verification.read"
-                ],
                 "created-at": "2018-06-01T00:00:00.000Z",
                 "updated-at": "2018-06-01T00:00:00.000Z"
               }
@@ -47625,26 +47452,8 @@
               "status": "pending",
               "source-organization-id": "org_ABC123",
               "destination-organization-id": "org_XYZ789",
-              "scopes": [
-                "account.read",
-                "inquiry.read",
-                "verification.read"
-              ],
               "created-at": "2018-06-01T00:00:00.000Z",
               "updated-at": "2018-06-01T00:00:00.000Z"
-            }
-          }
-        }
-      },
-      "update-connection": {
-        "value": {
-          "data": {
-            "attributes": {
-              "scopes": [
-                "account.read",
-                "inquiry.read",
-                "verification.read"
-              ]
             }
           }
         }
@@ -47658,11 +47467,6 @@
               "status": "inactive",
               "source-organization-id": "org_ABC123",
               "destination-organization-id": "org_XYZ789",
-              "scopes": [
-                "account.read",
-                "inquiry.read",
-                "verification.read"
-              ],
               "created-at": "2018-06-01T00:00:00.000Z",
               "updated-at": "2018-06-01T00:00:00.000Z"
             }
