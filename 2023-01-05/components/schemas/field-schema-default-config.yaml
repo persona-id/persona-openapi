@@ -24,3 +24,27 @@ properties:
     type:
       - string
       - 'null'
+  redaction-policy:
+    type: string
+    default: none
+    description: |-
+      Whether the field's value may be redacted on request.
+
+      Possible values:
+      - `none` — value is redactable
+      - `never` — value is never redacted
+
+      Do not assume this is a static enumeration; Persona may add new values in
+      the future without a versioned update.
+  write-policy:
+    type: string
+    default: none
+    description: |-
+      Whether the field's value may be overwritten after it is first set.
+
+      Possible values:
+      - `none` — value may be overwritten on subsequent writes
+      - `write_once` — subsequent writes are rejected once a value is set
+
+      Do not assume this is a static enumeration; Persona may add new values in
+      the future without a versioned update.
