@@ -20309,6 +20309,87 @@
         }
       }
     },
+    "/transaction-types/{transaction-type-id}": {
+      "get": {
+        "summary": "Retrieve a Transaction Type",
+        "tags": [
+          "Transaction Types"
+        ],
+        "x-persona-product": "Transactions",
+        "description": "Retrieves the details of an existing Transaction Type.",
+        "operationId": "retrieve-a-transaction-type",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/include-query-parameter"
+          },
+          {
+            "$ref": "#/components/parameters/fields-query-parameter"
+          },
+          {
+            "name": "transaction-type-id",
+            "in": "path",
+            "description": "ID of the Transaction Type to retrieve.",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "This endpoint returns a Transaction Type object.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Success": {
+                    "$ref": "#/components/examples/transaction-type"
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "data"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/transaction-type"
+                    },
+                    "included": {
+                      "$ref": "#/components/schemas/empty-included-objects"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        }
+      }
+    },
     "/user-audit-logs": {
       "get": {
         "description": "Returns a list of your organization’s user audit logs for up to the most recent 6 months.\n\nNote: You must use a production API key to access this endpoint. For security reasons, we do not expose organization-level resources like user audit logs in Sandbox via API. Results are returned in reverse chronological order, with the most recently created objects first.",
@@ -27473,6 +27554,7 @@
             "file": "#/components/schemas/field-schema-file",
             "hash": "#/components/schemas/field-schema-hash",
             "integer": "#/components/schemas/field-schema-integer",
+            "json": "#/components/schemas/field-schema-json",
             "multi-choices": "#/components/schemas/field-schema-multi-choices",
             "number": "#/components/schemas/field-schema-number",
             "string": "#/components/schemas/field-schema-string",
@@ -27506,6 +27588,9 @@
           },
           {
             "$ref": "#/components/schemas/field-schema-integer"
+          },
+          {
+            "$ref": "#/components/schemas/field-schema-json"
           },
           {
             "$ref": "#/components/schemas/field-schema-multi-choices"
@@ -27910,6 +27995,47 @@
                   },
                   "max": {
                     "type": "number"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "field-schema-json": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "json"
+          },
+          "key": {
+            "type": "string"
+          },
+          "label": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "default-value": {
+            "description": "JSON-typed fields don't expose a default-value through this API (the\nstored value is a free-form JSON document; the default is `null`).",
+            "type": "null"
+          },
+          "config": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/field-schema-default-config"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "json-schema": {
+                    "description": "A JSON Schema document (Draft 7 syntax) describing the shape of values\nstored in this field. Synthesized server-side by some verification\ntypes (e.g. `government-id` writes a map of national identification\nnumbers); the schema is informational and may evolve without a\nversioned update.",
+                    "type": "object",
+                    "additionalProperties": true
                   }
                 }
               }
@@ -44883,6 +45009,56 @@
           }
         }
       },
+      "transaction-type": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "transaction-type"
+          },
+          "id": {
+            "description": "Unique identifier for this Transaction Type. Starts with `txntp_`.",
+            "type": "string",
+            "examples": [
+              "txntp_ABC123"
+            ]
+          },
+          "attributes": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "created-at": {
+                "type": "string",
+                "format": "date-time",
+                "examples": [
+                  "2023-06-29T23:54:35.293Z"
+                ]
+              },
+              "updated-at": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time",
+                "examples": [
+                  "2023-06-29T23:54:35.293Z"
+                ]
+              },
+              "field-schemas": {
+                "type": "array",
+                "items": {
+                  "unevaluatedProperties": false,
+                  "$ref": "#/components/schemas/field-schema"
+                }
+              }
+            }
+          }
+        }
+      },
       "user-audit-log": {
         "type": "object",
         "additionalProperties": false,
@@ -50174,6 +50350,224 @@
               }
             }
           ]
+        }
+      },
+      "transaction-type": {
+        "value": {
+          "data": {
+            "type": "transaction-type",
+            "id": "txntp_5jr7hePm1772FBVG28vpBghC",
+            "attributes": {
+              "name": "Transaction Type A",
+              "created-at": "2023-05-09T21:49:02.514Z",
+              "updated-at": "2024-01-12T23:17:50.627Z",
+              "field-schemas": [
+                {
+                  "type": "string",
+                  "key": "name_first",
+                  "label": "Name First",
+                  "config": {
+                    "required": false,
+                    "archived-at": null,
+                    "deactivated-at": null,
+                    "max-char-length": 255,
+                    "sanitize": []
+                  }
+                },
+                {
+                  "type": "string",
+                  "key": "name_middle",
+                  "label": "Name Middle",
+                  "config": {
+                    "required": false,
+                    "archived-at": null,
+                    "deactivated-at": null,
+                    "max-char-length": 255,
+                    "sanitize": []
+                  }
+                },
+                {
+                  "type": "string",
+                  "key": "name_last",
+                  "label": "Name Last",
+                  "config": {
+                    "required": false,
+                    "archived-at": null,
+                    "deactivated-at": null,
+                    "max-char-length": 255,
+                    "sanitize": []
+                  }
+                },
+                {
+                  "type": "string",
+                  "key": "address_street_1",
+                  "label": "Address Street 1",
+                  "config": {
+                    "required": false,
+                    "archived-at": null,
+                    "deactivated-at": null,
+                    "max-char-length": 255,
+                    "sanitize": []
+                  }
+                },
+                {
+                  "type": "string",
+                  "key": "address_street_2",
+                  "label": "Address Street 2",
+                  "config": {
+                    "required": false,
+                    "archived-at": null,
+                    "deactivated-at": null,
+                    "max-char-length": 255,
+                    "sanitize": []
+                  }
+                },
+                {
+                  "type": "string",
+                  "key": "address_city",
+                  "label": "Address City",
+                  "config": {
+                    "required": false,
+                    "archived-at": null,
+                    "deactivated-at": null,
+                    "max-char-length": 255,
+                    "sanitize": []
+                  }
+                },
+                {
+                  "type": "string",
+                  "key": "address_subdivision",
+                  "label": "Address Subdivision",
+                  "config": {
+                    "required": false,
+                    "archived-at": null,
+                    "deactivated-at": null,
+                    "max-char-length": 255,
+                    "sanitize": []
+                  }
+                },
+                {
+                  "type": "string",
+                  "key": "address_postal_code",
+                  "label": "Address Postal Code",
+                  "config": {
+                    "required": false,
+                    "archived-at": null,
+                    "deactivated-at": null,
+                    "max-char-length": 255,
+                    "sanitize": []
+                  }
+                },
+                {
+                  "type": "string",
+                  "key": "address_country_code",
+                  "label": "Address Country Code",
+                  "config": {
+                    "required": false,
+                    "archived-at": null,
+                    "deactivated-at": null,
+                    "max-char-length": 255,
+                    "sanitize": []
+                  }
+                },
+                {
+                  "type": "date",
+                  "key": "birthdate",
+                  "label": "Birthdate",
+                  "config": {
+                    "required": false,
+                    "archived-at": null,
+                    "deactivated-at": null,
+                    "min-date": null,
+                    "max-date": null
+                  }
+                },
+                {
+                  "type": "string",
+                  "key": "email_address",
+                  "label": "Email Address",
+                  "config": {
+                    "required": false,
+                    "archived-at": null,
+                    "deactivated-at": null,
+                    "max-char-length": 255,
+                    "sanitize": []
+                  }
+                },
+                {
+                  "type": "string",
+                  "key": "phone_number",
+                  "label": "Phone Number",
+                  "config": {
+                    "required": false,
+                    "archived-at": null,
+                    "deactivated-at": null,
+                    "max-char-length": 255,
+                    "sanitize": []
+                  }
+                },
+                {
+                  "type": "string",
+                  "key": "identification_number",
+                  "label": "Identification Number",
+                  "config": {
+                    "required": false,
+                    "archived-at": null,
+                    "deactivated-at": null,
+                    "max-char-length": 255,
+                    "sanitize": []
+                  }
+                },
+                {
+                  "type": "string",
+                  "key": "identification_class",
+                  "label": "Identification Class",
+                  "config": {
+                    "required": false,
+                    "archived-at": null,
+                    "deactivated-at": null,
+                    "max-char-length": 255,
+                    "sanitize": []
+                  }
+                },
+                {
+                  "type": "string",
+                  "key": "selected_country_code",
+                  "label": "Selected Country Code",
+                  "config": {
+                    "required": false,
+                    "archived-at": null,
+                    "deactivated-at": null,
+                    "max-char-length": 255,
+                    "sanitize": []
+                  }
+                },
+                {
+                  "type": "string",
+                  "key": "selected_id_class",
+                  "label": "Selected ID class",
+                  "config": {
+                    "required": false,
+                    "archived-at": null,
+                    "deactivated-at": null,
+                    "max-char-length": 255,
+                    "sanitize": []
+                  }
+                },
+                {
+                  "type": "relation-schema",
+                  "key": "current_government_id",
+                  "label": "Current Government ID",
+                  "config": {
+                    "required": false,
+                    "archived-at": null,
+                    "deactivated-at": null,
+                    "target": "document-government-id"
+                  }
+                }
+              ]
+            }
+          }
         }
       },
       "verification-aamva": {
