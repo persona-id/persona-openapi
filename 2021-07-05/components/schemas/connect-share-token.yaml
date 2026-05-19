@@ -17,7 +17,9 @@ properties:
     properties:
       status:
         type: string
-        description: The status of the share token
+        description: >-
+          The status of the share token. One of `created`, `pending`,
+          `redeemed`, `expired`, or `failed`.
         examples:
           - created
           - pending
@@ -28,8 +30,9 @@ properties:
         type: string
         description: >-
           Whether this share token is outbound (your organization is the source)
-          or inbound (your organization is the destination)
-        enum:
+          or inbound (your organization is the destination). One of `outbound`
+          or `inbound`.
+        examples:
           - outbound
           - inbound
       created-at:
@@ -85,12 +88,22 @@ properties:
           - string
           - 'null'
         description: >-
-          The reason the share token failed. Possible values include
-          source_not_found, source_redacted, import_failed, and
-          unrecoverable_error.
+          The reason the share token failed, if applicable. One of
+          `source_not_found`, `source_redacted`, `import_failed`, or
+          `unrecoverable_error`.
         examples:
           - source_not_found
           - null
+      source-data:
+        description: |
+          PII-filtered snapshot of the share token's source object.
+          Present only when `peek-source-data=true` was passed on the
+          show endpoint, the caller is the destination organization, and
+          the destination organization has access to the source data
+          peek capability. Omitted from list responses.
+        unevaluatedProperties: false
+        allOf:
+          - $ref: ./source-data.yaml
   relationships:
     type: object
     additionalProperties: false
@@ -143,11 +156,13 @@ properties:
                 examples:
                   - account
                   - inquiry
+                  - txn
               id:
                 type: string
                 examples:
                   - act_ABC123
                   - inq_DEF456
+                  - txn_GHI789
       destination:
         type: object
         additionalProperties: false
@@ -162,8 +177,12 @@ properties:
                 type: string
                 x-polymorphic: true
                 examples:
+                  - account
                   - inquiry
+                  - txn
               id:
                 type: string
                 examples:
+                  - act_ABC123
                   - inq_DEF456
+                  - txn_GHI789

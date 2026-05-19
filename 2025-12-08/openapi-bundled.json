@@ -105,6 +105,10 @@
       "description": "Interact with Persona Transaction objects"
     },
     {
+      "name": "Transaction Types",
+      "description": "Interact with Persona Transaction Type objects"
+    },
+    {
       "name": "User Audit Logs",
       "description": "View your organization's User Audit logs"
     },
@@ -2943,7 +2947,7 @@
                   "type": "string"
                 },
                 "destination-organization-id": {
-                  "description": "Filter connections by authorized organization ID",
+                  "description": "Filter connections by destination organization ID — the organization authorized to access data through the connection.",
                   "type": "string"
                 }
               }
@@ -3033,7 +3037,7 @@
         "x-persona-product": "Connect"
       },
       "post": {
-        "description": "Creates a new Connection for your organization.",
+        "description": "Creates a new Connection from your organization to a destination organization in the `pending` state. The destination organization must accept the connection before it transitions to `active`; share tokens cannot be redeemed through the connection until then. Connections cannot be deleted, but they can be deactivated and later reactivated to control access.",
         "operationId": "create-a-connect-connection",
         "externalDocs": {
           "description": "Full documentation for this API on the Persona website.",
@@ -3149,7 +3153,7 @@
     },
     "/connect/connections/{connection-id}": {
       "get": {
-        "description": "Retrieves the details of an existing Connect Connection.",
+        "description": "Retrieves the details of an existing Connection.",
         "operationId": "retrieve-a-connect-connection",
         "externalDocs": {
           "description": "Full documentation for this API on the Persona website.",
@@ -3206,7 +3210,7 @@
                 }
               }
             },
-            "description": "This endpoint returns a Connect Connection."
+            "description": "This endpoint returns a Connection."
           },
           "400": {
             "$ref": "#/components/responses/bad-request"
@@ -3230,7 +3234,7 @@
             "$ref": "#/components/responses/too-many-requests"
           }
         },
-        "summary": "Retrieve a Connect Connection",
+        "summary": "Retrieve a Connection",
         "tags": [
           "Connect"
         ],
@@ -3239,7 +3243,7 @@
     },
     "/connect/connections/{connection-id}/deactivate": {
       "post": {
-        "description": "Deactivates a Connect Connection. Either the source or destination organization may deactivate a connection that is currently `pending` or `active`. Deactivation prevents further access through the connection but maintains the connection record. Connections that are already `inactive` cannot be deactivated again.",
+        "description": "Deactivates a Connection. Either the source or destination organization may deactivate a connection that is currently `pending` or `active`. Deactivation prevents further access through the connection but maintains the connection record. Connections that are already `inactive` cannot be deactivated again.",
         "operationId": "deactivate-a-connect-connection",
         "externalDocs": {
           "description": "Full documentation for this API on the Persona website.",
@@ -3293,7 +3297,7 @@
                 }
               }
             },
-            "description": "This endpoint returns a Connect Connection."
+            "description": "This endpoint returns a Connection."
           },
           "400": {
             "$ref": "#/components/responses/bad-request"
@@ -3317,7 +3321,7 @@
             "$ref": "#/components/responses/too-many-requests"
           }
         },
-        "summary": "Deactivate a Connect Connection",
+        "summary": "Deactivate a Connection",
         "tags": [
           "Connect"
         ],
@@ -3457,19 +3461,20 @@
                   ]
                 },
                 "status": {
-                  "description": "Filter Share Tokens by status",
+                  "description": "Filter Share Tokens by status. One of `created`, `pending`, `redeemed`, `expired`, or `failed`.",
                   "type": "string",
                   "examples": [
-                    "new",
+                    "created",
                     "pending",
-                    "completed",
-                    "expired"
+                    "redeemed",
+                    "expired",
+                    "failed"
                   ]
                 },
                 "direction": {
-                  "description": "Filter Share Tokens by direction. Defaults to returning both inbound and outbound.",
+                  "description": "Filter Share Tokens by direction. Defaults to returning both inbound and outbound. One of `inbound` or `outbound`.",
                   "type": "string",
-                  "enum": [
+                  "examples": [
                     "inbound",
                     "outbound"
                   ]
@@ -3617,8 +3622,7 @@
                           },
                           "expires-in-seconds": {
                             "type": "integer",
-                            "description": "The number of seconds until the share token expires",
-                            "minimum": 0,
+                            "description": "The number of seconds from now until the share token expires. Must be between `60` (1 minute) and `1814400` (21 days). If omitted, defaults to 14 days.",
                             "examples": [
                               86400,
                               3600
@@ -3727,7 +3731,10 @@
               "application/json": {
                 "examples": {
                   "Success": {
-                    "$ref": "#/components/examples/connect-share-token-no-relationships"
+                    "$ref": "#/components/examples/connect-share-token-redeemed"
+                  },
+                  "Failed": {
+                    "$ref": "#/components/examples/connect-share-token-failed"
                   }
                 },
                 "schema": {
@@ -29273,12 +29280,12 @@
             "properties": {
               "status": {
                 "type": "string",
+                "description": "The current status of the connection. One of `pending`, `active`, or `inactive`.",
                 "examples": [
                   "pending",
                   "active",
                   "inactive"
-                ],
-                "description": "The current status of the connection"
+                ]
               },
               "destination-organization-id": {
                 "type": "string",
@@ -29356,6 +29363,425 @@
           }
         }
       },
+      "source-data-base": {
+        "x-inheritable": true,
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "x-polymorphic": true,
+            "description": "Discriminator for the source-object type. Subtypes constrain this to a specific value via `const`."
+          },
+          "id": {
+            "type": "string",
+            "description": "The underlying source object's token."
+          },
+          "peekable-attributes": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Bag of source-object attributes exposed to the destination organization per the source\norganization's PII-share configuration. Each scalar entry (e.g. `status`, `country-code`,\n`id-class`) is a `{visibility, value}` wrapper; see `source-data-peekable-attribute.yaml`.\nInquiry, Account, and Txn subtypes additionally expose a nested `fields` sub-bucket\ncontaining standard and custom user-space fields (e.g. `name-first`, `birthdate`, org-defined\nfields); verification subtypes do not. The source object's `status` (when applicable to the\nsubtype) appears here as a peekable attribute, not as a top-level scalar. Entries stripped\nentirely by the configuration are omitted from the bag. The concrete shape — including\nwhich subtypes expose `fields` — is declared per-subtype.\n"
+          }
+        },
+        "required": [
+          "type",
+          "id",
+          "peekable-attributes"
+        ]
+      },
+      "source-data-peekable-attribute": {
+        "type": "object",
+        "description": "Wrapper for a single peekable attribute. `visibility` discriminates between two cases:\n  - `full`: the source organization's PII-share configuration exposes the attribute's value;\n    `value` holds the raw value (any JSON type).\n  - `presence`: the source organization exposes only the attribute's presence; `value` is a\n    boolean indicating whether the underlying field has a non-null value on the source.\nIntegrators should branch on `visibility` first, then read `value` accordingly.\n",
+        "unevaluatedProperties": false,
+        "oneOf": [
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "visibility": {
+                "type": "string",
+                "const": "full"
+              },
+              "value": {
+                "description": "Raw attribute value as exposed by the source organization. Any JSON type.",
+                "additionalProperties": true
+              }
+            },
+            "required": [
+              "visibility",
+              "value"
+            ]
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "visibility": {
+                "type": "string",
+                "const": "presence"
+              },
+              "value": {
+                "type": "boolean",
+                "description": "True if the underlying field on the source has a non-null value; false if it is null."
+              }
+            },
+            "required": [
+              "visibility",
+              "value"
+            ]
+          }
+        ]
+      },
+      "source-data-verification-database": {
+        "title": "Database Verification Source Data",
+        "description": "PII-filtered snapshot of a Database verification. The `peekable-attributes` bag carries\nwhichever PII-filtered scalar attributes the source organization's configuration allows —\nsee `Verification::Database` in the share-token PII filter for the current allowlist.\nVerification subtypes do not expose a nested `fields` sub-bucket.\n",
+        "unevaluatedProperties": false,
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/source-data-base"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "connect/source-data/verification/database"
+              },
+              "id": {
+                "type": "string",
+                "examples": [
+                  "ver_ABC123"
+                ]
+              },
+              "peekable-attributes": {
+                "type": "object",
+                "additionalProperties": {
+                  "$ref": "#/components/schemas/source-data-peekable-attribute"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "source-data-verification-phone-number": {
+        "title": "Phone Number Verification Source Data",
+        "description": "PII-filtered snapshot of a Phone Number verification. The `peekable-attributes` bag carries\nwhichever PII-filtered scalar attributes the source organization's configuration allows —\nsee `Verification::PhoneNumber` in the share-token PII filter for the current allowlist.\nVerification subtypes do not expose a nested `fields` sub-bucket.\n",
+        "unevaluatedProperties": false,
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/source-data-base"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "connect/source-data/verification/phone-number"
+              },
+              "id": {
+                "type": "string",
+                "examples": [
+                  "ver_ABC123"
+                ]
+              },
+              "peekable-attributes": {
+                "type": "object",
+                "additionalProperties": {
+                  "$ref": "#/components/schemas/source-data-peekable-attribute"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "source-data-verification-email-address": {
+        "title": "Email Address Verification Source Data",
+        "description": "PII-filtered snapshot of an Email Address verification. The `peekable-attributes` bag carries\nwhichever PII-filtered scalar attributes the source organization's configuration allows —\nsee `Verification::EmailAddress` in the share-token PII filter for the current allowlist.\nVerification subtypes do not expose a nested `fields` sub-bucket.\n",
+        "unevaluatedProperties": false,
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/source-data-base"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "connect/source-data/verification/email-address"
+              },
+              "id": {
+                "type": "string",
+                "examples": [
+                  "ver_ABC123"
+                ]
+              },
+              "peekable-attributes": {
+                "type": "object",
+                "additionalProperties": {
+                  "$ref": "#/components/schemas/source-data-peekable-attribute"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "source-data-verification-government-id": {
+        "title": "Government ID Verification Source Data",
+        "description": "PII-filtered snapshot of a Government ID verification. The `peekable-attributes` bag carries\nwhichever PII-filtered scalar attributes the source organization's configuration allows.\nVerification subtypes do not expose a nested `fields` sub-bucket.\n",
+        "unevaluatedProperties": false,
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/source-data-base"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "connect/source-data/verification/government-id"
+              },
+              "id": {
+                "type": "string",
+                "examples": [
+                  "ver_ABC123"
+                ]
+              },
+              "peekable-attributes": {
+                "type": "object",
+                "additionalProperties": {
+                  "$ref": "#/components/schemas/source-data-peekable-attribute"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "source-data-verification-selfie": {
+        "title": "Selfie Verification Source Data",
+        "description": "PII-filtered snapshot of a Selfie verification. The `peekable-attributes` bag carries\nwhichever PII-filtered scalar attributes the source organization's configuration allows.\nVerification subtypes do not expose a nested `fields` sub-bucket.\n",
+        "unevaluatedProperties": false,
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/source-data-base"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "connect/source-data/verification/selfie"
+              },
+              "id": {
+                "type": "string",
+                "examples": [
+                  "ver_ABC123"
+                ]
+              },
+              "peekable-attributes": {
+                "type": "object",
+                "additionalProperties": {
+                  "$ref": "#/components/schemas/source-data-peekable-attribute"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "source-data-account": {
+        "title": "Account Source Data",
+        "description": "PII-filtered snapshot of an Account source object. Carries the account's filtered scalar\nattributes under `peekable-attributes`, and the account's standard and custom user-space\nfields under `peekable-attributes.fields`.\n",
+        "unevaluatedProperties": false,
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/source-data-base"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "connect/source-data/account"
+              },
+              "id": {
+                "type": "string",
+                "examples": [
+                  "act_ABC123"
+                ]
+              },
+              "peekable-attributes": {
+                "type": "object",
+                "properties": {
+                  "fields": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "$ref": "#/components/schemas/source-data-peekable-attribute"
+                    },
+                    "description": "Nested bag of standard and custom user-space fields (e.g. `name-first`,\n`name-last`, org-defined fields). Each entry is a `{visibility, value}` wrapper.\nThe set of keys varies by the account type and by the source organization's\nPII-share configuration; clients should handle unknown keys defensively.\n"
+                  }
+                },
+                "additionalProperties": {
+                  "$ref": "#/components/schemas/source-data-peekable-attribute"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "source-data-related-object": {
+        "type": "object",
+        "discriminator": {
+          "propertyName": "type",
+          "mapping": {
+            "connect/source-data/verification/database": "#/components/schemas/source-data-verification-database",
+            "connect/source-data/verification/phone-number": "#/components/schemas/source-data-verification-phone-number",
+            "connect/source-data/verification/email-address": "#/components/schemas/source-data-verification-email-address",
+            "connect/source-data/verification/government-id": "#/components/schemas/source-data-verification-government-id",
+            "connect/source-data/verification/selfie": "#/components/schemas/source-data-verification-selfie",
+            "connect/source-data/account": "#/components/schemas/source-data-account"
+          }
+        },
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/source-data-verification-database"
+          },
+          {
+            "$ref": "#/components/schemas/source-data-verification-phone-number"
+          },
+          {
+            "$ref": "#/components/schemas/source-data-verification-email-address"
+          },
+          {
+            "$ref": "#/components/schemas/source-data-verification-government-id"
+          },
+          {
+            "$ref": "#/components/schemas/source-data-verification-selfie"
+          },
+          {
+            "$ref": "#/components/schemas/source-data-account"
+          }
+        ]
+      },
+      "source-data-inquiry": {
+        "title": "Inquiry Source Data",
+        "description": "PII-filtered snapshot of an Inquiry source object. Carries the inquiry's filtered scalar\nattributes under `peekable-attributes`, the inquiry's standard and custom user-space fields\nunder `peekable-attributes.fields`, and filtered snapshots of related source objects\n(verifications, accounts, etc.) inline under `related-objects`.\n",
+        "unevaluatedProperties": false,
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/source-data-base"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "connect/source-data/inquiry"
+              },
+              "id": {
+                "type": "string",
+                "examples": [
+                  "inq_ABC123"
+                ]
+              },
+              "peekable-attributes": {
+                "type": "object",
+                "properties": {
+                  "fields": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "$ref": "#/components/schemas/source-data-peekable-attribute"
+                    },
+                    "description": "Nested bag of standard and custom user-space fields (e.g. `name-first`,\n`birthdate`, org-defined fields). Each entry is a `{visibility, value}` wrapper.\nThe set of keys varies by the inquiry template and by the source organization's\nPII-share configuration; clients should handle unknown keys defensively.\n"
+                  }
+                },
+                "additionalProperties": {
+                  "$ref": "#/components/schemas/source-data-peekable-attribute"
+                }
+              },
+              "related-objects": {
+                "type": "array",
+                "description": "Filtered snapshots of source objects related to this inquiry (e.g. attached\nverifications, the linked account). Each entry is itself a source-data envelope\ndiscriminated by its specific subtype.\n",
+                "items": {
+                  "$ref": "#/components/schemas/source-data-related-object"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "source-data-txn": {
+        "title": "Txn Source Data",
+        "description": "PII-filtered snapshot of a Txn source object. Carries the txn's filtered scalar attributes\nunder `peekable-attributes`, and the txn's standard and custom user-space fields under\n`peekable-attributes.fields`.\n",
+        "unevaluatedProperties": false,
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/source-data-base"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "connect/source-data/txn"
+              },
+              "id": {
+                "type": "string",
+                "examples": [
+                  "txn_ABC123"
+                ]
+              },
+              "peekable-attributes": {
+                "type": "object",
+                "properties": {
+                  "fields": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "$ref": "#/components/schemas/source-data-peekable-attribute"
+                    },
+                    "description": "Nested bag of standard and custom user-space fields (e.g. `amount`,\norg-defined fields). Each entry is a `{visibility, value}` wrapper. The set of\nkeys varies by the txn type and by the source organization's PII-share\nconfiguration; clients should handle unknown keys defensively.\n"
+                  }
+                },
+                "additionalProperties": {
+                  "$ref": "#/components/schemas/source-data-peekable-attribute"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "source-data": {
+        "type": "object",
+        "description": "A PII-filtered snapshot of a Share Token's source object. `type` discriminates the underlying source-object type and dispatches to the matching per-subclass schema; see each subschema for shape details.",
+        "discriminator": {
+          "propertyName": "type",
+          "mapping": {
+            "connect/source-data/inquiry": "#/components/schemas/source-data-inquiry",
+            "connect/source-data/verification/database": "#/components/schemas/source-data-verification-database",
+            "connect/source-data/verification/phone-number": "#/components/schemas/source-data-verification-phone-number",
+            "connect/source-data/verification/email-address": "#/components/schemas/source-data-verification-email-address",
+            "connect/source-data/account": "#/components/schemas/source-data-account",
+            "connect/source-data/txn": "#/components/schemas/source-data-txn"
+          }
+        },
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/source-data-inquiry"
+          },
+          {
+            "$ref": "#/components/schemas/source-data-verification-database"
+          },
+          {
+            "$ref": "#/components/schemas/source-data-verification-phone-number"
+          },
+          {
+            "$ref": "#/components/schemas/source-data-verification-email-address"
+          },
+          {
+            "$ref": "#/components/schemas/source-data-account"
+          },
+          {
+            "$ref": "#/components/schemas/source-data-txn"
+          }
+        ]
+      },
       "connect-share-token": {
         "type": "object",
         "additionalProperties": false,
@@ -29377,7 +29803,7 @@
             "properties": {
               "status": {
                 "type": "string",
-                "description": "The status of the share token",
+                "description": "The status of the share token. One of `created`, `pending`, `redeemed`, `expired`, or `failed`.",
                 "examples": [
                   "created",
                   "pending",
@@ -29388,8 +29814,8 @@
               },
               "direction": {
                 "type": "string",
-                "description": "Whether this share token is outbound (your organization is the source) or inbound (your organization is the destination)",
-                "enum": [
+                "description": "Whether this share token is outbound (your organization is the source) or inbound (your organization is the destination). One of `outbound` or `inbound`.",
+                "examples": [
                   "outbound",
                   "inbound"
                 ]
@@ -29463,10 +29889,19 @@
                   "string",
                   "null"
                 ],
-                "description": "The reason the share token failed. Possible values include source_not_found, source_redacted, import_failed, and unrecoverable_error.",
+                "description": "The reason the share token failed, if applicable. One of `source_not_found`, `source_redacted`, `import_failed`, or `unrecoverable_error`.",
                 "examples": [
                   "source_not_found",
                   null
+                ]
+              },
+              "source-data": {
+                "description": "PII-filtered snapshot of the share token's source object.\nPresent only when `peek-source-data=true` was passed on the\nshow endpoint, the caller is the destination organization, and\nthe destination organization has access to the source data\npeek capability. Omitted from list responses.\n",
+                "unevaluatedProperties": false,
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/source-data"
+                  }
                 ]
               }
             }
@@ -29537,14 +29972,16 @@
                         "x-polymorphic": true,
                         "examples": [
                           "account",
-                          "inquiry"
+                          "inquiry",
+                          "txn"
                         ]
                       },
                       "id": {
                         "type": "string",
                         "examples": [
                           "act_ABC123",
-                          "inq_DEF456"
+                          "inq_DEF456",
+                          "txn_GHI789"
                         ]
                       }
                     }
@@ -29566,13 +30003,17 @@
                         "type": "string",
                         "x-polymorphic": true,
                         "examples": [
-                          "inquiry"
+                          "account",
+                          "inquiry",
+                          "txn"
                         ]
                       },
                       "id": {
                         "type": "string",
                         "examples": [
-                          "inq_DEF456"
+                          "act_ABC123",
+                          "inq_DEF456",
+                          "txn_GHI789"
                         ]
                       }
                     }
@@ -47210,7 +47651,29 @@
                 "updated-at": "2023-08-17T23:18:13.000Z",
                 "pending-at": null,
                 "redeemed-at": null,
-                "expires-at": null
+                "expires-at": null,
+                "failed-at": null,
+                "failure-reason": null
+              },
+              "relationships": {
+                "creator": {
+                  "data": {
+                    "type": "api-key",
+                    "id": "api_ABC123"
+                  }
+                },
+                "source": {
+                  "data": {
+                    "type": "inquiry",
+                    "id": "inq_ABC123"
+                  }
+                },
+                "connection": {
+                  "data": {
+                    "type": "connect/connection",
+                    "id": "cxn_ABC123"
+                  }
+                }
               }
             },
             {
@@ -47220,10 +47683,26 @@
                 "status": "redeemed",
                 "direction": "inbound",
                 "created-at": "2023-08-17T23:18:13.000Z",
-                "updated-at": "2023-08-17T23:18:13.000Z",
-                "pending-at": "2023-08-17T23:18:13.000Z",
-                "redeemed-at": "2023-08-17T23:18:13.000Z",
-                "expires-at": null
+                "updated-at": "2023-08-17T23:30:15.000Z",
+                "pending-at": "2023-08-17T23:25:00.000Z",
+                "redeemed-at": "2023-08-17T23:30:15.000Z",
+                "expires-at": null,
+                "failed-at": null,
+                "failure-reason": null
+              },
+              "relationships": {
+                "destination": {
+                  "data": {
+                    "type": "inquiry",
+                    "id": "inq_XYZ789"
+                  }
+                },
+                "connection": {
+                  "data": {
+                    "type": "connect/connection",
+                    "id": "cxn_ABC123"
+                  }
+                }
               }
             }
           ],
@@ -47255,7 +47734,9 @@
               "updated-at": "2023-08-17T23:18:13.000Z",
               "pending-at": null,
               "redeemed-at": null,
-              "expires-at": null
+              "expires-at": null,
+              "failed-at": null,
+              "failure-reason": null
             },
             "relationships": {
               "creator": {
@@ -47280,47 +47761,6 @@
           }
         }
       },
-      "connect-share-token-no-relationships": {
-        "value": {
-          "data": {
-            "type": "connect/share-token",
-            "id": "cnst_ABC123",
-            "attributes": {
-              "status": "redeemed",
-              "created-at": "2023-08-17T23:18:13.000Z",
-              "updated-at": "2023-08-17T23:18:13.000Z",
-              "pending-at": "2023-08-17T23:18:13.000Z",
-              "redeemed-at": "2023-08-17T23:18:13.000Z",
-              "expires-at": null
-            }
-          }
-        }
-      },
-      "connect-share-token-expired": {
-        "value": {
-          "data": {
-            "type": "connect/share-token",
-            "id": "cnst_ABC123",
-            "attributes": {
-              "status": "expired",
-              "created-at": "2023-08-17T23:18:13.000Z",
-              "updated-at": "2023-08-17T23:18:13.000Z",
-              "pending-at": null,
-              "redeemed-at": null,
-              "expires-at": "2023-08-17T23:18:13.000Z"
-            }
-          }
-        }
-      },
-      "redeem-share-token": {
-        "value": {
-          "data": {
-            "attributes": {
-              "destination-id": "inq_XYZ789"
-            }
-          }
-        }
-      },
       "connect-share-token-redeemed": {
         "value": {
           "data": {
@@ -47330,10 +47770,12 @@
               "status": "redeemed",
               "direction": "inbound",
               "created-at": "2023-08-17T23:18:13.000Z",
-              "updated-at": "2023-08-17T23:18:13.000Z",
-              "pending-at": "2023-08-17T23:18:13.000Z",
-              "redeemed-at": "2023-08-17T23:18:13.000Z",
-              "expires-at": null
+              "updated-at": "2023-08-17T23:30:15.000Z",
+              "pending-at": "2023-08-17T23:25:00.000Z",
+              "redeemed-at": "2023-08-17T23:30:15.000Z",
+              "expires-at": null,
+              "failed-at": null,
+              "failure-reason": null
             },
             "relationships": {
               "destination": {
@@ -47348,6 +47790,87 @@
                   "id": "cxn_ABC123"
                 }
               }
+            }
+          }
+        }
+      },
+      "connect-share-token-failed": {
+        "value": {
+          "data": {
+            "type": "connect/share-token",
+            "id": "cnst_ABC123",
+            "attributes": {
+              "status": "failed",
+              "direction": "inbound",
+              "created-at": "2023-08-17T23:18:13.000Z",
+              "updated-at": "2023-08-17T23:35:20.000Z",
+              "pending-at": "2023-08-17T23:30:15.000Z",
+              "redeemed-at": null,
+              "expires-at": null,
+              "failed-at": "2023-08-17T23:35:20.000Z",
+              "failure-reason": "import_failed"
+            },
+            "relationships": {
+              "destination": {
+                "data": {
+                  "type": "inquiry",
+                  "id": "inq_XYZ789"
+                }
+              },
+              "connection": {
+                "data": {
+                  "type": "connect/connection",
+                  "id": "cxn_ABC123"
+                }
+              }
+            }
+          }
+        }
+      },
+      "connect-share-token-expired": {
+        "value": {
+          "data": {
+            "type": "connect/share-token",
+            "id": "cnst_ABC123",
+            "attributes": {
+              "status": "expired",
+              "direction": "outbound",
+              "created-at": "2023-08-17T23:18:13.000Z",
+              "updated-at": "2023-08-18T23:18:13.000Z",
+              "pending-at": null,
+              "redeemed-at": null,
+              "expires-at": "2023-08-18T23:18:13.000Z",
+              "failed-at": null,
+              "failure-reason": null
+            },
+            "relationships": {
+              "creator": {
+                "data": {
+                  "type": "api-key",
+                  "id": "api_ABC123"
+                }
+              },
+              "source": {
+                "data": {
+                  "type": "inquiry",
+                  "id": "inq_ABC123"
+                }
+              },
+              "connection": {
+                "data": {
+                  "type": "connect/connection",
+                  "id": "cxn_ABC123"
+                }
+              }
+            }
+          }
+        }
+      },
+      "redeem-share-token": {
+        "value": {
+          "data": {
+            "attributes": {
+              "destination-id": "inq_XYZ789"
             }
           }
         }

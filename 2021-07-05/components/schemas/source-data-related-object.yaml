@@ -1,0 +1,17 @@
+type: object
+discriminator:
+  propertyName: type
+  mapping:
+    connect/source-data/verification/database: ./source-data-verification-database.yaml
+    connect/source-data/verification/phone-number: ./source-data-verification-phone-number.yaml
+    connect/source-data/verification/email-address: ./source-data-verification-email-address.yaml
+    connect/source-data/verification/government-id: ./source-data-verification-government-id.yaml
+    connect/source-data/verification/selfie: ./source-data-verification-selfie.yaml
+    connect/source-data/account: ./source-data-account.yaml
+oneOf:
+  - $ref: ./source-data-verification-database.yaml
+  - $ref: ./source-data-verification-phone-number.yaml
+  - $ref: ./source-data-verification-email-address.yaml
+  - $ref: ./source-data-verification-government-id.yaml
+  - $ref: ./source-data-verification-selfie.yaml
+  - $ref: ./source-data-account.yaml

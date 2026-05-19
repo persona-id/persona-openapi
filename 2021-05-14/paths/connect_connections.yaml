@@ -28,7 +28,9 @@ get:
             description: Filter connections by status
             type: string
           destination-organization-id:
-            description: Filter connections by authorized organization ID
+            description: >-
+              Filter connections by destination organization ID — the
+              organization authorized to access data through the connection.
             type: string
   responses:
     '200':
@@ -90,7 +92,13 @@ get:
     - Connect
   x-persona-product: Connect
 post:
-  description: Creates a new Connection for your organization.
+  description: >-
+    Creates a new Connection from your organization to a destination
+    organization in the `pending` state. The destination organization must
+    accept the connection before it transitions to `active`; share tokens cannot
+    be redeemed through the connection until then. Connections cannot be
+    deleted, but they can be deactivated and later reactivated to control
+    access.
   operationId: create-a-connect-connection
   externalDocs:
     description: Full documentation for this API on the Persona website.

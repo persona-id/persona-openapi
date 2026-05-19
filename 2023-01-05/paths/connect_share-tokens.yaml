@@ -31,19 +31,22 @@ get:
             examples:
               - cxn_ABC123
           status:
-            description: Filter Share Tokens by status
+            description: >-
+              Filter Share Tokens by status. One of `created`, `pending`,
+              `redeemed`, `expired`, or `failed`.
             type: string
             examples:
-              - new
+              - created
               - pending
-              - completed
+              - redeemed
               - expired
+              - failed
           direction:
             description: >-
               Filter Share Tokens by direction. Defaults to returning both
-              inbound and outbound.
+              inbound and outbound. One of `inbound` or `outbound`.
             type: string
-            enum:
+            examples:
               - inbound
               - outbound
   responses:
@@ -140,8 +143,10 @@ post:
                         - inq_DEF456
                     expires-in-seconds:
                       type: integer
-                      description: The number of seconds until the share token expires
-                      minimum: 0
+                      description: >-
+                        The number of seconds from now until the share token
+                        expires. Must be between `60` (1 minute) and `1814400`
+                        (21 days). If omitted, defaults to 14 days.
                       examples:
                         - 86400
                         - 3600

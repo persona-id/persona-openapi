@@ -1,0 +1,40 @@
+type: object
+description: >
+  Wrapper for a single peekable attribute. `visibility` discriminates between
+  two cases:
+    - `full`: the source organization's PII-share configuration exposes the attribute's value;
+      `value` holds the raw value (any JSON type).
+    - `presence`: the source organization exposes only the attribute's presence; `value` is a
+      boolean indicating whether the underlying field has a non-null value on the source.
+  Integrators should branch on `visibility` first, then read `value`
+  accordingly.
+unevaluatedProperties: false
+oneOf:
+  - type: object
+    additionalProperties: false
+    properties:
+      visibility:
+        type: string
+        const: full
+      value:
+        description: >-
+          Raw attribute value as exposed by the source organization. Any JSON
+          type.
+        additionalProperties: true
+    required:
+      - visibility
+      - value
+  - type: object
+    additionalProperties: false
+    properties:
+      visibility:
+        type: string
+        const: presence
+      value:
+        type: boolean
+        description: >-
+          True if the underlying field on the source has a non-null value; false
+          if it is null.
+    required:
+      - visibility
+      - value

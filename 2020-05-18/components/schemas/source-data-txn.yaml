@@ -1,0 +1,41 @@
+title: Txn Source Data
+description: >
+  PII-filtered snapshot of a Txn source object. Carries the txn's filtered
+  scalar attributes
+
+  under `peekable-attributes`, and the txn's standard and custom user-space
+  fields under
+
+  `peekable-attributes.fields`.
+unevaluatedProperties: false
+allOf:
+  - $ref: ./source-data-base.yaml
+  - type: object
+    properties:
+      type:
+        type: string
+        const: connect/source-data/txn
+      id:
+        type: string
+        examples:
+          - txn_ABC123
+      peekable-attributes:
+        type: object
+        properties:
+          fields:
+            type: object
+            additionalProperties:
+              $ref: ./source-data-peekable-attribute.yaml
+            description: >
+              Nested bag of standard and custom user-space fields (e.g.
+              `amount`,
+
+              org-defined fields). Each entry is a `{visibility, value}`
+              wrapper. The set of
+
+              keys varies by the txn type and by the source organization's
+              PII-share
+
+              configuration; clients should handle unknown keys defensively.
+        additionalProperties:
+          $ref: ./source-data-peekable-attribute.yaml

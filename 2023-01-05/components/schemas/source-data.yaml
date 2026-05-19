@@ -1,0 +1,21 @@
+type: object
+description: >-
+  A PII-filtered snapshot of a Share Token's source object. `type` discriminates
+  the underlying source-object type and dispatches to the matching per-subclass
+  schema; see each subschema for shape details.
+discriminator:
+  propertyName: type
+  mapping:
+    connect/source-data/inquiry: ./source-data-inquiry.yaml
+    connect/source-data/verification/database: ./source-data-verification-database.yaml
+    connect/source-data/verification/phone-number: ./source-data-verification-phone-number.yaml
+    connect/source-data/verification/email-address: ./source-data-verification-email-address.yaml
+    connect/source-data/account: ./source-data-account.yaml
+    connect/source-data/txn: ./source-data-txn.yaml
+oneOf:
+  - $ref: ./source-data-inquiry.yaml
+  - $ref: ./source-data-verification-database.yaml
+  - $ref: ./source-data-verification-phone-number.yaml
+  - $ref: ./source-data-verification-email-address.yaml
+  - $ref: ./source-data-account.yaml
+  - $ref: ./source-data-txn.yaml
