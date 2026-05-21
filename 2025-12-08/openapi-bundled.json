@@ -3614,10 +3614,11 @@
                           },
                           "source-id": {
                             "type": "string",
-                            "description": "The ID of the source resource (Account or Inquiry)",
+                            "description": "The ID of the source object. Sources can be Accounts, Inquiries, or Transactions.",
                             "examples": [
                               "act_ABC123",
-                              "inq_DEF456"
+                              "inq_DEF456",
+                              "txn_GHI789"
                             ]
                           },
                           "expires-in-seconds": {
@@ -3918,7 +3919,7 @@
                         "properties": {
                           "destination-id": {
                             "type": "string",
-                            "description": "The ID/token of the destination object to import the data into.\nOptional for Verification cloning and Account redemption — when omitted,\na new destination object is created.\n",
+                            "description": "The ID of the destination object. Destinations can be Accounts, Inquiries, or Transactions.\n",
                             "example": "inq_DEF456"
                           }
                         }
@@ -29962,6 +29963,7 @@
               "source": {
                 "type": "object",
                 "additionalProperties": false,
+                "description": "The source object the data is shared from. Sources can be Accounts, Inquiries, or Transactions.",
                 "properties": {
                   "data": {
                     "type": "object",
@@ -29991,6 +29993,7 @@
               "destination": {
                 "type": "object",
                 "additionalProperties": false,
+                "description": "The destination object the data was imported into. Destinations can be Accounts, Inquiries, or Transactions. `null` until the Share Token is redeemed.",
                 "properties": {
                   "data": {
                     "type": [

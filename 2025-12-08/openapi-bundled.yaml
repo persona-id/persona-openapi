@@ -2325,10 +2325,11 @@ paths:
                             - cxn_ABC123
                         source-id:
                           type: string
-                          description: The ID of the source resource (Account or Inquiry)
+                          description: 'The ID of the source object. Sources can be Accounts, Inquiries, or Transactions.'
                           examples:
                             - act_ABC123
                             - inq_DEF456
+                            - txn_GHI789
                         expires-in-seconds:
                           type: integer
                           description: 'The number of seconds from now until the share token expires. Must be between `60` (1 minute) and `1814400` (21 days). If omitted, defaults to 14 days.'
@@ -2514,9 +2515,7 @@ paths:
                         destination-id:
                           type: string
                           description: |
-                            The ID/token of the destination object to import the data into.
-                            Optional for Verification cloning and Account redemption — when omitted,
-                            a new destination object is created.
+                            The ID of the destination object. Destinations can be Accounts, Inquiries, or Transactions.
                           example: inq_DEF456
                 meta:
                   type: object
@@ -19005,6 +19004,7 @@ components:
             source:
               type: object
               additionalProperties: false
+              description: 'The source object the data is shared from. Sources can be Accounts, Inquiries, or Transactions.'
               properties:
                 data:
                   type: object
@@ -19026,6 +19026,7 @@ components:
             destination:
               type: object
               additionalProperties: false
+              description: 'The destination object the data was imported into. Destinations can be Accounts, Inquiries, or Transactions. `null` until the Share Token is redeemed.'
               properties:
                 data:
                   type:
