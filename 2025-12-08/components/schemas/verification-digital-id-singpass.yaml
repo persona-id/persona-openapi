@@ -1,0 +1,133 @@
+title: Singpass Digital ID Verification
+description: >-
+  A Digital ID Verification using Singpass / Myinfo (Singapore). Attributes
+  reflect the Myinfo scopes requested by the verification template; fields
+  that were not requested or not returned for the individual will be `null`.
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: verification/digital-id-singpass
+  id:
+    type: string
+    description: The token of the verification
+    example: ver_ABC123
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./verification-shared-attributes.yaml
+      - type: object
+        properties:
+          identity-number:
+            description: NRIC or FIN of the verified individual (Myinfo `uinfin` scope).
+            type:
+              - string
+              - 'null'
+          identity-coi:
+            description: Country of issuance for the identity number.
+            type:
+              - string
+              - 'null'
+          name:
+            description: Registered legal name of the verified individual.
+            type:
+              - string
+              - 'null'
+          alias-name:
+            description: Registered alias name of the verified individual.
+            type:
+              - string
+              - 'null'
+          hanyu-pinyin-name:
+            description: Hanyu Pinyin transliteration of the registered name.
+            type:
+              - string
+              - 'null'
+          hanyu-pinyin-alias-name:
+            description: Hanyu Pinyin transliteration of the alias name.
+            type:
+              - string
+              - 'null'
+          married-name:
+            description: Married name of the verified individual, if registered.
+            type:
+              - string
+              - 'null'
+          birthdate:
+            description: Birthdate of the individual (Myinfo `dob` scope).
+            format: date
+            type:
+              - string
+              - 'null'
+          sex:
+            description: Sex of the individual (Myinfo `sex` scope).
+            type:
+              - string
+              - 'null'
+          race:
+            description: Race of the individual (Myinfo `race` scope).
+            type:
+              - string
+              - 'null'
+          secondary-race:
+            description: Secondary race of the individual, if registered.
+            type:
+              - string
+              - 'null'
+          nationality:
+            description: Nationality of the individual.
+            type:
+              - string
+              - 'null'
+          birth-country:
+            description: Country of birth of the individual.
+            type:
+              - string
+              - 'null'
+          residential-status:
+            description: >-
+              Residential status of the individual (for example: `Citizen`,
+              `PR`, `Foreigner`).
+            type:
+              - string
+              - 'null'
+          pass-type:
+            description: >-
+              Type of immigration pass held by the individual (foreigners only).
+            type:
+              - string
+              - 'null'
+          pass-status:
+            description: Status of the immigration pass (foreigners only).
+            type:
+              - string
+              - 'null'
+          pass-expiry-date:
+            description: Expiration date of the immigration pass (foreigners only).
+            format: date
+            type:
+              - string
+              - 'null'
+          address-street-1:
+            description: First line of the registered postal address.
+            type:
+              - string
+              - 'null'
+          address-street-2:
+            description: Second line of the registered postal address.
+            type:
+              - string
+              - 'null'
+          address-postal-code:
+            description: Postal code of the registered postal address.
+            type:
+              - string
+              - 'null'
+          address-country-code:
+            description: ISO 3166-1 alpha 2 country code of the registered postal address.
+            type:
+              - string
+              - 'null'
+  relationships:
+    $ref: ./verification-shared-relationships.yaml

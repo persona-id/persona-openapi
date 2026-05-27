@@ -1,0 +1,73 @@
+title: PhilSys Digital ID Verification
+description: >-
+  A Digital ID Verification using PhilSys (Philippine Identification System).
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: verification/digital-id-philsys
+  id:
+    type: string
+    description: The token of the verification
+    example: ver_ABC123
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./verification-shared-attributes.yaml
+      - type: object
+        properties:
+          issue-date:
+            description: Issue date of the PhilSys credential.
+            format: date
+            type:
+              - string
+              - 'null'
+          issuer:
+            description: Issuing authority of the PhilSys credential.
+            type:
+              - string
+              - 'null'
+          name-first:
+            description: First name of the individual as returned by PhilSys.
+            type:
+              - string
+              - 'null'
+          name-middle:
+            description: Middle name of the individual as returned by PhilSys.
+            type:
+              - string
+              - 'null'
+          name-last:
+            description: Last name of the individual as returned by PhilSys.
+            type:
+              - string
+              - 'null'
+          suffix:
+            description: Name suffix of the individual as returned by PhilSys.
+            type:
+              - string
+              - 'null'
+          sex:
+            description: Sex of the individual as returned by PhilSys.
+            type:
+              - string
+              - 'null'
+          birthdate:
+            description: Birthdate of the individual as returned by PhilSys.
+            format: date
+            type:
+              - string
+              - 'null'
+          place-of-birth:
+            description: Place of birth of the individual as returned by PhilSys.
+            type:
+              - string
+              - 'null'
+          pcn:
+            description: PhilSys Card Number (PCN) of the verified individual.
+            type:
+              - string
+              - 'null'
+  relationships:
+    $ref: ./verification-shared-relationships.yaml

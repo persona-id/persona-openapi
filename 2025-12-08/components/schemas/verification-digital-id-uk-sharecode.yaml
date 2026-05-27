@@ -1,0 +1,67 @@
+title: UK Sharecode Digital ID Verification
+description: >-
+  A Digital ID Verification using a UK Home Office sharecode. Supports both
+  Right to Work / Right to Rent sharecodes (prefixed with `W` or `R`) and
+  Immigration Status sharecodes (prefixed with `S`).
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: verification/digital-id-uk-sharecode
+  id:
+    type: string
+    description: The token of the verification
+    example: ver_ABC123
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./verification-shared-attributes.yaml
+      - type: object
+        properties:
+          sharecode:
+            description: The UK Home Office sharecode submitted by the end user.
+            type:
+              - string
+              - 'null'
+          birthdate:
+            description: Birthdate submitted by the end user to look up the sharecode.
+            format: date
+            type:
+              - string
+              - 'null'
+          name-full:
+            description: >-
+              Full name of the individual returned by the UK Home Office for
+              the sharecode.
+            type:
+              - string
+              - 'null'
+          reference-number:
+            description: >-
+              Reference number returned by the UK Home Office Right to Work /
+              Right to Rent service.
+            type:
+              - string
+              - 'null'
+          immigration-status:
+            description: >-
+              Immigration status returned by the UK Home Office for an
+              immigration sharecode. One of `valid`, `settled`, or `not valid`.
+            type:
+              - string
+              - 'null'
+          valid-from-date:
+            description: Date from which the immigration status is valid.
+            format: date
+            type:
+              - string
+              - 'null'
+          valid-until-date:
+            description: Date until which the immigration status is valid.
+            format: date
+            type:
+              - string
+              - 'null'
+  relationships:
+    $ref: ./verification-shared-relationships.yaml

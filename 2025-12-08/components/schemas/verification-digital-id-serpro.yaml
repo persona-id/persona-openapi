@@ -1,0 +1,104 @@
+title: Serpro Digital ID Verification
+description: >-
+  A Digital ID Verification using Serpro's Brazilian Digital ID (CNH Digital /
+  ID Brasil).
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: verification/digital-id-serpro
+  id:
+    type: string
+    description: The token of the verification
+    example: ver_ABC123
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./verification-shared-attributes.yaml
+      - type: object
+        properties:
+          qr-code-attachment:
+            description: >-
+              The QR code submitted by the end user. Only populated when the
+              flow was completed through a QR code upload.
+            type:
+              - object
+              - 'null'
+            additionalProperties: false
+            properties:
+              filename:
+                type: string
+                example: serpro-qr-code.png
+              url:
+                type: string
+                example: https://files.withpersona.com/...
+              byte-size:
+                type: integer
+                example: 31415
+          selfie-compare-image-url:
+            description: >-
+              URL of the selfie image returned by Serpro for face comparison.
+            example: https://files.withpersona.com/...
+            type:
+              - string
+              - 'null'
+          cpf:
+            description: The Cadastro de Pessoas Físicas (CPF) of the verified individual.
+            type:
+              - string
+              - 'null'
+          name:
+            description: Full name of the individual as returned by Serpro.
+            type:
+              - string
+              - 'null'
+          birthdate:
+            description: Birthdate of the individual as returned by Serpro.
+            format: date
+            type:
+              - string
+              - 'null'
+          identification-number:
+            description: Identification number of the document returned by Serpro.
+            type:
+              - string
+              - 'null'
+          expiration-date:
+            description: Expiration date of the underlying document returned by Serpro.
+            format: date
+            type:
+              - string
+              - 'null'
+          issue-date:
+            description: Issue date of the underlying document returned by Serpro.
+            format: date
+            type:
+              - string
+              - 'null'
+          selfie-comparison-error-code:
+            description: Error code returned by Serpro for the selfie comparison, if any.
+            type:
+              - string
+              - 'null'
+          serpro-selfie-available:
+            description: >-
+              Whether Serpro returned a comparable selfie for the underlying
+              document.
+            type:
+              - boolean
+              - 'null'
+          selfie-confidence-level:
+            description: Confidence level reported by Serpro for the selfie comparison.
+            type:
+              - string
+              - 'null'
+          selfie-similarity-score:
+            description: >-
+              Similarity score (0-100) returned by Serpro comparing the
+              submitted selfie against the document portrait.
+            type:
+              - number
+              - 'null'
+  relationships:
+    $ref: ./verification-shared-relationships.yaml

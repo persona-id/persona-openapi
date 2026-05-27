@@ -1,0 +1,52 @@
+title: iDIN Digital ID Verification
+description: A Digital ID Verification using iDIN (Netherlands).
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: verification/digital-id-idin
+  id:
+    type: string
+    description: The token of the verification
+    example: ver_ABC123
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./verification-shared-attributes.yaml
+      - type: object
+        properties:
+          name-first:
+            description: First name of the individual as returned by the provider.
+            type:
+              - string
+              - 'null'
+          name-last:
+            description: Last name of the individual as returned by the provider.
+            type:
+              - string
+              - 'null'
+          identification-number:
+            description: National identification number returned by the provider.
+            type:
+              - string
+              - 'null'
+          birthdate:
+            description: Birthdate of the individual as returned by the provider.
+            format: date
+            type:
+              - string
+              - 'null'
+          response-country:
+            description: ISO 3166-1 alpha 2 country code of the provider response.
+            example: NL
+            type:
+              - string
+              - 'null'
+          response-status:
+            description: Raw status of the digital ID flow returned by the provider.
+            type:
+              - string
+              - 'null'
+  relationships:
+    $ref: ./verification-shared-relationships.yaml
