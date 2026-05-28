@@ -1,0 +1,25 @@
+title: Business Website Verification
+description: A Business Website Verification
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: verification/business-website
+  id:
+    type: string
+    description: The token of the verification
+    example: ver_ABC123
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./verification-shared-attributes.yaml
+      - type: object
+        properties:
+          website-url:
+            description: The website URL being verified.
+            type:
+              - string
+              - 'null'
+  relationships:
+    $ref: ./verification-shared-relationships.yaml

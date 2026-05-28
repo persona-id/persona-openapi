@@ -1,0 +1,45 @@
+title: Certificate Korea Verification
+description: A Certificate Korea Verification
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: verification/certificate-korea
+  id:
+    type: string
+    description: The token of the verification
+    example: ver_ABC123
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./verification-shared-attributes.yaml
+      - type: object
+        properties:
+          name-first:
+            description: Given or first name.
+            type:
+              - string
+              - 'null'
+          name-last:
+            description: Family or last name.
+            type:
+              - string
+              - 'null'
+          identification-number:
+            type:
+              - string
+              - 'null'
+          birthdate:
+            description: Birthdate in YYYY-MM-DD format.
+            type:
+              - string
+              - 'null'
+            format: date
+          certificate-type:
+            description: The type of certificate used for verification.
+            type:
+              - string
+              - 'null'
+  relationships:
+    $ref: ./verification-shared-relationships.yaml

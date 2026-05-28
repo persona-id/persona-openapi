@@ -1,0 +1,108 @@
+title: Digital ID Singpass Verification
+description: A Digital ID Singpass Verification
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: verification/digital-id-singpass
+  id:
+    type: string
+    description: The token of the verification
+    example: ver_ABC123
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./verification-shared-attributes.yaml
+      - type: object
+        properties:
+          identity-number:
+            type:
+              - string
+              - 'null'
+          identity-coi:
+            description: Country of issue for the identity document.
+            type:
+              - string
+              - 'null'
+          name:
+            type:
+              - string
+              - 'null'
+          alias-name:
+            type:
+              - string
+              - 'null'
+          hanyu-pinyin-name:
+            type:
+              - string
+              - 'null'
+          hanyu-pinyin-alias-name:
+            type:
+              - string
+              - 'null'
+          married-name:
+            type:
+              - string
+              - 'null'
+          birthdate:
+            type:
+              - string
+              - 'null'
+            format: date
+          sex:
+            type:
+              - string
+              - 'null'
+          race:
+            type:
+              - string
+              - 'null'
+          secondary-race:
+            type:
+              - string
+              - 'null'
+          nationality:
+            type:
+              - string
+              - 'null'
+          birth-country:
+            type:
+              - string
+              - 'null'
+          residential-status:
+            type:
+              - string
+              - 'null'
+          pass-type:
+            description: Pass type for foreign residents.
+            type:
+              - string
+              - 'null'
+          pass-status:
+            type:
+              - string
+              - 'null'
+          pass-expiry-date:
+            type:
+              - string
+              - 'null'
+            format: date
+          address-street-1:
+            type:
+              - string
+              - 'null'
+          address-street-2:
+            type:
+              - string
+              - 'null'
+          address-postal-code:
+            type:
+              - string
+              - 'null'
+          address-country-code:
+            type:
+              - string
+              - 'null'
+  relationships:
+    $ref: ./verification-shared-relationships.yaml

@@ -1,0 +1,69 @@
+post:
+  operationId: webhook-verification-tentatively-failed
+  summary: Verification tentatively failed
+  description: >-
+    Webhook for the `verification.tentatively-failed` event. For more info see
+    [Webhooks Overview](https://docs.withpersona.com/webhooks).
+
+
+    **Most integrations don't need verification events.** Verifications are
+    internal building blocks of an inquiry — to learn the outcome of an end
+    user's flow, listen to `inquiry.approved`, `inquiry.marked-for-review`, and
+    `inquiry.declined`, and inspect the inquiry's `tags` (which surface
+    fraudulent activity and risk signals). Subscribe to verification events only
+    when you have a specific need to react to per-verification state
+    transitions.
+  tags:
+    - Verification events
+  x-persona-product: Verifications
+  parameters:
+    - $ref: ../components/parameters/persona-signature-header.yaml
+    - $ref: ../components/parameters/persona-webhook-attempts-made.yaml
+    - $ref: ../components/parameters/persona-webhook-attempts-left.yaml
+    - $ref: ../components/parameters/persona-webhook-first-attempted-at.yaml
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          additionalProperties: false
+          properties:
+            data:
+              type: object
+              unevaluatedProperties: false
+              allOf:
+                - $ref: ../components/schemas/webhook-body-shared-data.yaml
+                - type: object
+                  properties:
+                    attributes:
+                      unevaluatedProperties: false
+                      allOf:
+                        - type: object
+                          properties:
+                            name:
+                              type: string
+                              const: verification.tentatively-failed
+                            payload:
+                              type: object
+                              additionalProperties: false
+                              properties:
+                                data:
+                                  $ref: ../components/schemas/verification.yaml
+                                included:
+                                  description: >-
+                                    Objects referenced by
+                                    `data.attributes.relationships` may be
+                                    provided in `included` when related-object
+                                    inclusion is enabled for the webhook. By
+                                    default, `included` is empty.
+                                  $ref: >-
+                                    ../components/schemas/verification-included-objects.yaml
+                        - $ref: >-
+                            ../components/schemas/webhook-body-shared-attributes.yaml
+        examples:
+          Example Body:
+            $ref: >-
+              ../components/examples/verification-tentatively-failed-webhook-body.yaml
+  responses:
+    '200':
+      $ref: ../components/responses/success.yaml

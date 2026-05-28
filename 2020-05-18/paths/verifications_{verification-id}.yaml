@@ -22,7 +22,7 @@ get:
         application/json:
           examples:
             Success:
-              $ref: ../components/examples/verification-database.yaml
+              $ref: ../components/examples/verification-retrieve.yaml
           schema:
             type: object
             additionalProperties: false
@@ -31,6 +31,11 @@ get:
             properties:
               data:
                 $ref: ../components/schemas/verification.yaml
+              included:
+                description: >-
+                  Objects that _may_ be returned if specified via the `include`
+                  query parameter in the request.
+                $ref: ../components/schemas/verification-included-objects.yaml
       description: >-
         This endpoint returns a Verification object and (optionally) its related
         objects in `included`.

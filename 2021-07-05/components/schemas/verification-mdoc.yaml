@@ -1,0 +1,30 @@
+title: mDoc Verification
+description: An mDoc (mobile document) Verification
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: verification/mdoc
+  id:
+    type: string
+    description: The token of the verification
+    example: ver_ABC123
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./verification-shared-attributes.yaml
+      - type: object
+        properties:
+          name-first:
+            description: Given or first name.
+            type:
+              - string
+              - 'null'
+          name-last:
+            description: Family or last name.
+            type:
+              - string
+              - 'null'
+  relationships:
+    $ref: ./verification-shared-relationships.yaml

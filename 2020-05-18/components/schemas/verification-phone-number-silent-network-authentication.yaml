@@ -1,0 +1,30 @@
+title: Phone Number Silent Network Authentication Verification
+description: A Phone Number Silent Network Authentication Verification
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: verification/phone-number-silent-network-authentication
+  id:
+    type: string
+    description: The token of the verification
+    example: ver_ABC123
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./verification-shared-attributes.yaml
+      - type: object
+        properties:
+          phone-number:
+            description: The phone number being verified.
+            type:
+              - string
+              - 'null'
+          code:
+            description: The verification code or token returned by the provider.
+            type:
+              - string
+              - 'null'
+  relationships:
+    $ref: ./verification-shared-relationships.yaml

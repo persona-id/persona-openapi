@@ -1,0 +1,50 @@
+title: Digital ID One ID Verification
+description: A Digital ID One ID Verification
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: verification/digital-id-one-id
+  id:
+    type: string
+    description: The token of the verification
+    example: ver_ABC123
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./verification-shared-attributes.yaml
+      - type: object
+        properties:
+          name-first:
+            description: Given or first name.
+            type:
+              - string
+              - 'null'
+          name-last:
+            description: Family or last name.
+            type:
+              - string
+              - 'null'
+          identification-number:
+            type:
+              - string
+              - 'null'
+          birthdate:
+            description: Birthdate in YYYY-MM-DD format.
+            type:
+              - string
+              - 'null'
+            format: date
+          response-country:
+            description: ISO 3166-1 alpha 2 country code returned by the provider.
+            type:
+              - string
+              - 'null'
+          response-status:
+            description: Provider-reported status of the verification.
+            type:
+              - string
+              - 'null'
+  relationships:
+    $ref: ./verification-shared-relationships.yaml

@@ -1,0 +1,60 @@
+title: JP My Number NFC Scan Verification
+description: A Japanese My Number Card NFC Scan Verification
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: verification/jp-my-number-nfc-scan
+  id:
+    type: string
+    description: The token of the verification
+    example: ver_ABC123
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./verification-shared-attributes.yaml
+      - type: object
+        properties:
+          operation:
+            description: The operation performed against the NFC card.
+            type:
+              - string
+              - 'null'
+          address:
+            type:
+              - string
+              - 'null'
+          birthdate:
+            type:
+              - string
+              - 'null'
+            format: date
+          expiration-date:
+            type:
+              - string
+              - 'null'
+            format: date
+          face-image:
+            description: Face image extracted from the NFC card, when present.
+            type:
+              - object
+              - 'null'
+          gender:
+            type:
+              - string
+              - 'null'
+          kana-name:
+            type:
+              - string
+              - 'null'
+          license-number:
+            type:
+              - string
+              - 'null'
+          name-full:
+            type:
+              - string
+              - 'null'
+  relationships:
+    $ref: ./verification-shared-relationships.yaml

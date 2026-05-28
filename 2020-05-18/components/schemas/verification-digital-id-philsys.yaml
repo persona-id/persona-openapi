@@ -1,0 +1,63 @@
+title: Digital ID PhilSys Verification
+description: A Digital ID PhilSys Verification
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: verification/digital-id-philsys
+  id:
+    type: string
+    description: The token of the verification
+    example: ver_ABC123
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./verification-shared-attributes.yaml
+      - type: object
+        properties:
+          issue-date:
+            type:
+              - string
+              - 'null'
+            format: date
+          issuer:
+            type:
+              - string
+              - 'null'
+          name-first:
+            type:
+              - string
+              - 'null'
+          name-middle:
+            type:
+              - string
+              - 'null'
+          name-last:
+            type:
+              - string
+              - 'null'
+          suffix:
+            type:
+              - string
+              - 'null'
+          sex:
+            type:
+              - string
+              - 'null'
+          birthdate:
+            type:
+              - string
+              - 'null'
+            format: date
+          place-of-birth:
+            type:
+              - string
+              - 'null'
+          pcn:
+            description: PhilSys Card Number.
+            type:
+              - string
+              - 'null'
+  relationships:
+    $ref: ./verification-shared-relationships.yaml

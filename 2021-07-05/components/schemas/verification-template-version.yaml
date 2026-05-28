@@ -1,0 +1,21 @@
+title: Verification Template Version
+description: >-
+  A reference to a Verification Template Version. The external API exposes
+  Verification Template Versions as opaque pointers — only `type` and `id` are
+  returned. The `type` is namespaced by the underlying verification subtype (for
+  example `verification-template-version/government-id`).
+type: object
+additionalProperties: false
+required:
+  - type
+  - id
+properties:
+  type:
+    x-polymorphic: true
+    type: string
+    pattern: ^verification-template-version/[a-z0-9-]+$
+    example: verification-template-version/government-id
+  id:
+    type: string
+    description: The token of the Verification Template Version.
+    example: vtmplv_ABC123

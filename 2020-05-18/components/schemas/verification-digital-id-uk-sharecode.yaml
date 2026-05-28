@@ -1,0 +1,55 @@
+title: Digital ID UK Sharecode Verification
+description: A Digital ID UK Sharecode Verification
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: verification/digital-id-uk-sharecode
+  id:
+    type: string
+    description: The token of the verification
+    example: ver_ABC123
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./verification-shared-attributes.yaml
+      - type: object
+        properties:
+          sharecode:
+            description: The UK share code used for verification.
+            type:
+              - string
+              - 'null'
+          birthdate:
+            type:
+              - string
+              - 'null'
+            format: date
+          name-full:
+            description: Full name returned by the provider.
+            type:
+              - string
+              - 'null'
+          reference-number:
+            type:
+              - string
+              - 'null'
+          immigration-status:
+            type:
+              - string
+              - 'null'
+          valid-from-date:
+            description: Date from which the immigration status is valid.
+            type:
+              - string
+              - 'null'
+            format: date
+          valid-until-date:
+            description: Date until which the immigration status is valid.
+            type:
+              - string
+              - 'null'
+            format: date
+  relationships:
+    $ref: ./verification-shared-relationships.yaml

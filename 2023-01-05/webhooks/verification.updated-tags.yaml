@@ -1,0 +1,68 @@
+post:
+  operationId: webhook-verification-updated-tags
+  summary: Verification tags updated
+  description: >-
+    Webhook for the `verification.updated-tags` event, which fires when tags are
+    added to or removed from a Verification. For more info see [Webhooks
+    Overview](https://docs.withpersona.com/webhooks).
+
+
+    **Most integrations don't need verification tag events.** Verifications are
+    internal building blocks of an inquiry — for tag changes that summarize risk
+    or fraud signals across the end user's flow, listen to
+    `inquiry.updated-tags` and inspect the inquiry's `tags`. Subscribe to
+    `verification.updated-tags` only when you have a specific need to react to
+    tag changes on individual verifications.
+  tags:
+    - Verification events
+  x-persona-product: Verifications
+  parameters:
+    - $ref: ../components/parameters/persona-signature-header.yaml
+    - $ref: ../components/parameters/persona-webhook-attempts-made.yaml
+    - $ref: ../components/parameters/persona-webhook-attempts-left.yaml
+    - $ref: ../components/parameters/persona-webhook-first-attempted-at.yaml
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          additionalProperties: false
+          properties:
+            data:
+              type: object
+              unevaluatedProperties: false
+              allOf:
+                - $ref: ../components/schemas/webhook-body-shared-data.yaml
+                - type: object
+                  properties:
+                    attributes:
+                      unevaluatedProperties: false
+                      allOf:
+                        - type: object
+                          properties:
+                            name:
+                              type: string
+                              const: verification.updated-tags
+                            payload:
+                              type: object
+                              additionalProperties: false
+                              properties:
+                                data:
+                                  $ref: ../components/schemas/verification.yaml
+                                included:
+                                  description: >-
+                                    Objects referenced by
+                                    `data.attributes.relationships` may be
+                                    provided in `included` when related-object
+                                    inclusion is enabled for the webhook. By
+                                    default, `included` is empty.
+                                  $ref: >-
+                                    ../components/schemas/verification-included-objects.yaml
+                        - $ref: >-
+                            ../components/schemas/webhook-body-shared-attributes.yaml
+        examples:
+          Example Body:
+            $ref: ../components/examples/verification-updated-tags-webhook-body.yaml
+  responses:
+    '200':
+      $ref: ../components/responses/success.yaml

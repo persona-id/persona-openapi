@@ -1,0 +1,48 @@
+title: Digital ID KCB Credit Card Verification
+description: A Digital ID KCB Credit Card Verification
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: verification/digital-id-kcb-credit-card
+  id:
+    type: string
+    description: The token of the verification
+    example: ver_ABC123
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./verification-shared-attributes.yaml
+      - type: object
+        properties:
+          name-full:
+            description: Full name returned by the provider.
+            type:
+              - string
+              - 'null'
+          birthdate:
+            type:
+              - string
+              - 'null'
+            format: date
+          sex:
+            type:
+              - string
+              - 'null'
+          native-foreigner-code:
+            type:
+              - string
+              - 'null'
+          ci:
+            description: Connecting Information (Korean unique identifier).
+            type:
+              - string
+              - 'null'
+          di:
+            description: Duplication Information (Korean per-service identifier).
+            type:
+              - string
+              - 'null'
+  relationships:
+    $ref: ./verification-shared-relationships.yaml

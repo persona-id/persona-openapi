@@ -3,19 +3,38 @@ type: object
 properties:
   status:
     type: string
-    description: |-
+    description: >-
       The status of the verification
 
+
       Possible values:
+
       - initiated
+
       - submitted
+
+      - tentatively_passed (only for `verification/document` and
+      `verification/qes-infocert`)
+
+      - tentatively_failed (only for `verification/database-business` and
+      `verification/database-business-footprint`)
+
       - passed
+
       - failed
+
       - requires_retry
+
+      - skipped
+
       - canceled
-      - confirmed
+
+      - confirmed (only for `verification/email-address` and
+      `verification/phone-number`)
+
 
       Do not assume this is a static enumeration; Persona may add new values in
+
       the future without a versioned update.
   created-at:
     type: string

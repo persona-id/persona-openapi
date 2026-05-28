@@ -1,0 +1,21 @@
+title: Verification Template
+description: >-
+  A reference to a Verification Template. The external API exposes Verification
+  Templates as opaque pointers — only `type` and `id` are returned. The `type`
+  is namespaced by the underlying verification subtype (for example
+  `verification-template/government-id`).
+type: object
+additionalProperties: false
+required:
+  - type
+  - id
+properties:
+  type:
+    x-polymorphic: true
+    type: string
+    pattern: ^verification-template/[a-z0-9-]+$
+    example: verification-template/government-id
+  id:
+    type: string
+    description: The token of the Verification Template.
+    example: vtmpl_ABC123

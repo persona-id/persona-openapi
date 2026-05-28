@@ -1,0 +1,50 @@
+post:
+  operationId: webhook-graph-query-timed-out
+  summary: Graph Query timed out
+  description: >-
+    Webhook for the `graph-query.timed-out` event. For more info see [Webhooks
+    Overview](https://docs.withpersona.com/webhooks).
+  tags:
+    - Graph query events
+  x-persona-product: Graph
+  parameters:
+    - $ref: ../components/parameters/persona-signature-header.yaml
+    - $ref: ../components/parameters/persona-webhook-attempts-made.yaml
+    - $ref: ../components/parameters/persona-webhook-attempts-left.yaml
+    - $ref: ../components/parameters/persona-webhook-first-attempted-at.yaml
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          additionalProperties: false
+          properties:
+            data:
+              type: object
+              unevaluatedProperties: false
+              allOf:
+                - $ref: ../components/schemas/webhook-body-shared-data.yaml
+                - type: object
+                  properties:
+                    attributes:
+                      unevaluatedProperties: false
+                      allOf:
+                        - type: object
+                          properties:
+                            name:
+                              type: string
+                              const: graph-query.timed-out
+                            payload:
+                              type: object
+                              additionalProperties: false
+                              properties:
+                                data:
+                                  $ref: ../components/schemas/graph-query.yaml
+                        - $ref: >-
+                            ../components/schemas/webhook-body-shared-attributes.yaml
+        examples:
+          Example Body:
+            $ref: ../components/examples/graph-query-timed-out-webhook-body.yaml
+  responses:
+    '200':
+      $ref: ../components/responses/success.yaml
