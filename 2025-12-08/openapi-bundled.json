@@ -3723,6 +3723,16 @@
               "type": "string"
             },
             "description": "The ID of the Share Token"
+          },
+          {
+            "name": "peek-source-data",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "description": "When `true`, the caller is the destination organization, and the destination organization\nhas access to the source data peek capability, the response's\n`data.attributes.source-data` carries a PII-filtered source-data envelope. Defaults to\n`false`; omitted from list responses regardless.\n"
           }
         ],
         "responses": {
@@ -3767,6 +3777,9 @@
           },
           "404": {
             "$ref": "#/components/responses/not-found"
+          },
+          "409": {
+            "$ref": "#/components/responses/conflict"
           },
           "429": {
             "$ref": "#/components/responses/too-many-requests"
@@ -12448,6 +12461,414 @@
           }
         },
         "summary": "Retrieve an Inquiry Template",
+        "tags": [
+          "Inquiry Templates"
+        ],
+        "x-persona-product": "Inquiries"
+      }
+    },
+    "/inquiry-templates/{inquiry-template-id}/translations": {
+      "get": {
+        "description": "Retrieves the translations for an Inquiry Template as a JSON:API resource.\n\nThe export uses the latest draft version if one exists, otherwise falls back to the latest published version.\n\nNote: You must use a production API key to access this endpoint. For security reasons, we do not expose organization-level resources like Inquiry Templates in Sandbox via API.",
+        "operationId": "retrieve-inquiry-template-translations",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/api-reference/inquiry-templates/retrieve-inquiry-template-translations"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/include-query-parameter"
+          },
+          {
+            "$ref": "#/components/parameters/fields-query-parameter"
+          },
+          {
+            "description": "Inquiry Template ID",
+            "in": "path",
+            "name": "inquiry-template-id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "This endpoint returns an Inquiry Template Translations object.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "data"
+                  ],
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "type",
+                        "id",
+                        "attributes"
+                      ],
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "const": "inquiry-template-translations"
+                        },
+                        "id": {
+                          "type": "string",
+                          "description": "The token of the Inquiry Template Version the translations were retrieved from."
+                        },
+                        "attributes": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "translations"
+                          ],
+                          "properties": {
+                            "translations": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": [
+                                  "step",
+                                  "step-display-name",
+                                  "component",
+                                  "attribute-name",
+                                  "locale-values"
+                                ],
+                                "properties": {
+                                  "step": {
+                                    "type": "string"
+                                  },
+                                  "step-display-name": {
+                                    "type": "string"
+                                  },
+                                  "component": {
+                                    "type": "string"
+                                  },
+                                  "attribute-name": {
+                                    "type": "string"
+                                  },
+                                  "locale-values": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "object",
+                                      "additionalProperties": false,
+                                      "required": [
+                                        "locale",
+                                        "value"
+                                      ],
+                                      "properties": {
+                                        "locale": {
+                                          "type": "string"
+                                        },
+                                        "value": {
+                                          "type": [
+                                            "string",
+                                            "null"
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "Success": {
+                    "value": {
+                      "data": {
+                        "type": "inquiry-template-translations",
+                        "id": "itmplv_HAVumeSgCxWxhVb8tTRjaiUB",
+                        "attributes": {
+                          "translations": [
+                            {
+                              "step": "start",
+                              "step-display-name": "Start",
+                              "component": "title",
+                              "attribute-name": "text",
+                              "locale-values": [
+                                {
+                                  "locale": "en-US",
+                                  "value": "Getting started"
+                                },
+                                {
+                                  "locale": "fr",
+                                  "value": "Commencer"
+                                },
+                                {
+                                  "locale": "es-MX",
+                                  "value": "Empezar"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        },
+        "summary": "Retrieve Inquiry Template Translations",
+        "tags": [
+          "Inquiry Templates"
+        ],
+        "x-persona-product": "Inquiries"
+      },
+      "post": {
+        "description": "Imports translations for an Inquiry Template. Supports partial updates — translation rows not included in the request body are left unchanged.\n\nIf a draft version already exists, translations are applied to it. If no draft exists, a new draft is created from the latest published version before importing. The draft is never automatically published — publishing is always a manual step in the dashboard.\n\nNote: You must use a production API key to access this endpoint. For security reasons, we do not expose organization-level resources like Inquiry Templates in Sandbox via API.",
+        "operationId": "import-inquiry-template-translations",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/api-reference/inquiry-templates/import-inquiry-template-translations"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/include-query-parameter"
+          },
+          {
+            "$ref": "#/components/parameters/fields-query-parameter"
+          },
+          {
+            "description": "Inquiry Template ID",
+            "in": "path",
+            "name": "inquiry-template-id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "attributes"
+                    ],
+                    "properties": {
+                      "attributes": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "translations"
+                        ],
+                        "properties": {
+                          "translations": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "required": [
+                                "step",
+                                "component",
+                                "attribute-name",
+                                "locale-values"
+                              ],
+                              "properties": {
+                                "step": {
+                                  "type": "string"
+                                },
+                                "step-display-name": {
+                                  "type": "string"
+                                },
+                                "component": {
+                                  "type": "string"
+                                },
+                                "attribute-name": {
+                                  "type": "string"
+                                },
+                                "locale-values": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "required": [
+                                      "locale",
+                                      "value"
+                                    ],
+                                    "properties": {
+                                      "locale": {
+                                        "type": "string"
+                                      },
+                                      "value": {
+                                        "type": [
+                                          "string",
+                                          "null"
+                                        ]
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "examples": {
+                "Import translations": {
+                  "value": {
+                    "data": {
+                      "attributes": {
+                        "translations": [
+                          {
+                            "step": "start",
+                            "step-display-name": "Start",
+                            "component": "title",
+                            "attribute-name": "text",
+                            "locale-values": [
+                              {
+                                "locale": "en-US",
+                                "value": "Getting started"
+                              },
+                              {
+                                "locale": "fr",
+                                "value": "Commencer"
+                              },
+                              {
+                                "locale": "es-MX",
+                                "value": "Empezar"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "This endpoint returns the updated Inquiry Template Version object.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "data"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/inquiry-template-version"
+                    }
+                  }
+                },
+                "examples": {
+                  "Success": {
+                    "value": {
+                      "data": {
+                        "type": "inquiry-template-version",
+                        "id": "itmplv_HAVumeSgCxWxhVb8tTRjaiUB",
+                        "attributes": {
+                          "name-display": "Collect Government ID",
+                          "status": "draft",
+                          "enabled-locales": [
+                            "en-US"
+                          ],
+                          "created-at": "2023-01-05T00:00:00.000Z",
+                          "updated-at": "2023-01-05T00:00:00.000Z",
+                          "published-at": null,
+                          "theme": {}
+                        },
+                        "relationships": {
+                          "inquiry-template": {
+                            "data": {
+                              "type": "inquiry-template",
+                              "id": "itmpl_srQQ2Ui2gvNY353u65vD61gr"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "409": {
+            "$ref": "#/components/responses/conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessable-entity"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        },
+        "summary": "Import Inquiry Template Translations",
         "tags": [
           "Inquiry Templates"
         ],
@@ -26483,7 +26904,7 @@
                                         "$ref": "#/components/schemas/inquiry"
                                       },
                                       "included": {
-                                        "description": "All objects that are present in `data.attributes.relationships` will be provided in `included`.",
+                                        "description": "Objects referenced in `data.attributes.relationships` may be provided in `included` when related-object inclusion is enabled for this webhook subscription. When inclusion is not enabled, `included` will be empty.",
                                         "$ref": "#/components/schemas/inquiry-included-objects"
                                       }
                                     }
@@ -26574,7 +26995,7 @@
                                         "$ref": "#/components/schemas/inquiry"
                                       },
                                       "included": {
-                                        "description": "All objects that are present in `data.attributes.relationships` will be provided in `included`.",
+                                        "description": "Objects referenced in `data.attributes.relationships` may be provided in `included` when related-object inclusion is enabled for this webhook subscription. When inclusion is not enabled, `included` will be empty.",
                                         "$ref": "#/components/schemas/inquiry-included-objects"
                                       }
                                     }
@@ -26665,7 +27086,7 @@
                                         "$ref": "#/components/schemas/inquiry"
                                       },
                                       "included": {
-                                        "description": "All objects that are present in `data.attributes.relationships` will be provided in `included`.",
+                                        "description": "Objects referenced in `data.attributes.relationships` may be provided in `included` when related-object inclusion is enabled for this webhook subscription. When inclusion is not enabled, `included` will be empty.",
                                         "$ref": "#/components/schemas/inquiry-included-objects"
                                       }
                                     }
@@ -26756,7 +27177,7 @@
                                         "$ref": "#/components/schemas/inquiry"
                                       },
                                       "included": {
-                                        "description": "All objects that are present in `data.attributes.relationships` will be provided in `included`.",
+                                        "description": "Objects referenced in `data.attributes.relationships` may be provided in `included` when related-object inclusion is enabled for this webhook subscription. When inclusion is not enabled, `included` will be empty.",
                                         "$ref": "#/components/schemas/inquiry-included-objects"
                                       }
                                     }
@@ -26847,7 +27268,7 @@
                                         "$ref": "#/components/schemas/inquiry"
                                       },
                                       "included": {
-                                        "description": "All objects that are present in `data.attributes.relationships` will be provided in `included`.",
+                                        "description": "Objects referenced in `data.attributes.relationships` may be provided in `included` when related-object inclusion is enabled for this webhook subscription. When inclusion is not enabled, `included` will be empty.",
                                         "$ref": "#/components/schemas/inquiry-included-objects"
                                       }
                                     }
@@ -26938,7 +27359,7 @@
                                         "$ref": "#/components/schemas/inquiry"
                                       },
                                       "included": {
-                                        "description": "All objects that are present in `data.attributes.relationships` will be provided in `included`.",
+                                        "description": "Objects referenced in `data.attributes.relationships` may be provided in `included` when related-object inclusion is enabled for this webhook subscription. When inclusion is not enabled, `included` will be empty.",
                                         "$ref": "#/components/schemas/inquiry-included-objects"
                                       }
                                     }
@@ -27029,7 +27450,7 @@
                                         "$ref": "#/components/schemas/inquiry"
                                       },
                                       "included": {
-                                        "description": "All objects that are present in `data.attributes.relationships` will be provided in `included`.",
+                                        "description": "Objects referenced in `data.attributes.relationships` may be provided in `included` when related-object inclusion is enabled for this webhook subscription. When inclusion is not enabled, `included` will be empty.",
                                         "$ref": "#/components/schemas/inquiry-included-objects"
                                       }
                                     }
@@ -27120,7 +27541,7 @@
                                         "$ref": "#/components/schemas/inquiry"
                                       },
                                       "included": {
-                                        "description": "All objects that are present in `data.attributes.relationships` will be provided in `included`.",
+                                        "description": "Objects referenced in `data.attributes.relationships` may be provided in `included` when related-object inclusion is enabled for this webhook subscription. When inclusion is not enabled, `included` will be empty.",
                                         "$ref": "#/components/schemas/inquiry-included-objects"
                                       }
                                     }
@@ -27211,7 +27632,7 @@
                                         "$ref": "#/components/schemas/inquiry"
                                       },
                                       "included": {
-                                        "description": "All objects that are present in `data.attributes.relationships` will be provided in `included`.",
+                                        "description": "Objects referenced in `data.attributes.relationships` may be provided in `included` when related-object inclusion is enabled for this webhook subscription. When inclusion is not enabled, `included` will be empty.",
                                         "$ref": "#/components/schemas/inquiry-included-objects"
                                       }
                                     }
@@ -27232,6 +27653,370 @@
               "examples": {
                 "Example Body": {
                   "$ref": "#/components/examples/inquiry-transitioned-webhook-body"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/success"
+          }
+        }
+      }
+    },
+    "inquiry.redacted": {
+      "post": {
+        "operationId": "webhook-inquiry-redacted",
+        "summary": "Inquiry redacted",
+        "description": "Webhook for the `inquiry.redacted` event. An Inquiry can be redacted directly (via the dashboard or API) or as part of cascading redaction triggered by an Account redaction or an automated retention policy.\n\nA redacted Inquiry preserves its **current** `status` — which may be any value, including `created`, `pending`, or `needs_review` for inquiries redacted before finalization, in addition to the terminal states (`approved`, `declined`, `completed`, `failed`, `expired`). Operational timestamps (`created-at`, `started-at`, `decisioned-at`, etc.) are preserved. The distinguishing signal is `redacted-at`, which is non-null on this event. **Do not detect redaction from `status`** — there is no `redacted` enum value.\n\nOn the redacted payload, PII attributes are nulled out regardless of the redaction path: the deprecated top-level identity attributes (`name-first`, `name-middle`, `name-last`, `address-*`, `birthdate`, `email-address`, `phone-number`, `identification-number`, `social-security-number`) and the corresponding entries inside `fields`, plus `note`. `tags` is emptied via cascading on inquiry tags.\n\n`reference-id` is `null` **only when the parent Account is also redacted** (the cascading case). On a direct Inquiry redaction that leaves the parent Account intact, `reference-id` can remain populated. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).",
+        "tags": [
+          "Inquiry events"
+        ],
+        "x-persona-product": "Inquiries",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "unevaluatedProperties": false,
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/webhook-body-shared-data"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "attributes": {
+                            "unevaluatedProperties": false,
+                            "allOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "const": "inquiry.redacted"
+                                  },
+                                  "payload": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "data": {
+                                        "$ref": "#/components/schemas/inquiry"
+                                      },
+                                      "included": {
+                                        "description": "Objects referenced in `data.attributes.relationships` may be provided in `included` when related-object inclusion is enabled for this webhook subscription. When inclusion is not enabled, `included` will be empty.",
+                                        "$ref": "#/components/schemas/inquiry-included-objects"
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "$ref": "#/components/schemas/webhook-body-shared-attributes"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Example Body": {
+                  "$ref": "#/components/examples/inquiry-redacted-webhook-body"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/success"
+          }
+        }
+      }
+    },
+    "inquiry.reusable-persona-created": {
+      "post": {
+        "operationId": "webhook-inquiry-reusable-persona-created",
+        "summary": "Inquiry reusable-persona created",
+        "description": "Webhook for the `inquiry.reusable-persona-created` event. Fired when a reusable persona is first created from an Inquiry — i.e., the first time an end user's verified identity from this Inquiry becomes available for reuse on subsequent verifications.\n\nThe payload `data` is the Inquiry the reusable persona was created from, typically in its terminal `approved` (or `completed`) status. For more info see [Reusable Personas](https://docs.withpersona.com/reusable-personas) and [Webhooks Overview](https://docs.withpersona.com/webhooks).",
+        "tags": [
+          "Inquiry events"
+        ],
+        "x-persona-product": "Inquiries",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "unevaluatedProperties": false,
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/webhook-body-shared-data"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "attributes": {
+                            "unevaluatedProperties": false,
+                            "allOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "const": "inquiry.reusable-persona-created"
+                                  },
+                                  "payload": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "data": {
+                                        "$ref": "#/components/schemas/inquiry"
+                                      },
+                                      "included": {
+                                        "description": "Objects referenced in `data.attributes.relationships` may be provided in `included` when related-object inclusion is enabled for this webhook subscription. When inclusion is not enabled, `included` will be empty.",
+                                        "$ref": "#/components/schemas/inquiry-included-objects"
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "$ref": "#/components/schemas/webhook-body-shared-attributes"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Example Body": {
+                  "$ref": "#/components/examples/inquiry-reusable-persona-created-webhook-body"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/success"
+          }
+        }
+      }
+    },
+    "inquiry.reusable-persona-used": {
+      "post": {
+        "operationId": "webhook-inquiry-reusable-persona-used",
+        "summary": "Inquiry reusable-persona used",
+        "description": "Webhook for the `inquiry.reusable-persona-used` event. Fired when an Inquiry is verified by reusing a previously-established reusable persona rather than performing a fresh verification.\n\nThe payload `data` is the new Inquiry that used the reusable persona, in its terminal status. For more info see [Reusable Personas](https://docs.withpersona.com/reusable-personas) and [Webhooks Overview](https://docs.withpersona.com/webhooks).",
+        "tags": [
+          "Inquiry events"
+        ],
+        "x-persona-product": "Inquiries",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "unevaluatedProperties": false,
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/webhook-body-shared-data"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "attributes": {
+                            "unevaluatedProperties": false,
+                            "allOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "const": "inquiry.reusable-persona-used"
+                                  },
+                                  "payload": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "data": {
+                                        "$ref": "#/components/schemas/inquiry"
+                                      },
+                                      "included": {
+                                        "description": "Objects referenced in `data.attributes.relationships` may be provided in `included` when related-object inclusion is enabled for this webhook subscription. When inclusion is not enabled, `included` will be empty.",
+                                        "$ref": "#/components/schemas/inquiry-included-objects"
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "$ref": "#/components/schemas/webhook-body-shared-attributes"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Example Body": {
+                  "$ref": "#/components/examples/inquiry-reusable-persona-used-webhook-body"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/success"
+          }
+        }
+      }
+    },
+    "inquiry.updated-tags": {
+      "post": {
+        "operationId": "webhook-inquiry-updated-tags",
+        "summary": "Inquiry tags updated",
+        "description": "Webhook for the `inquiry.updated-tags` event. Fired when one or more tags are added to or removed from an Inquiry. The delivered payload contains the Inquiry's full attributes — including the current `tags` array reflecting the post-update state. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).",
+        "tags": [
+          "Inquiry events"
+        ],
+        "x-persona-product": "Inquiries",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "unevaluatedProperties": false,
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/webhook-body-shared-data"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "attributes": {
+                            "unevaluatedProperties": false,
+                            "allOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "const": "inquiry.updated-tags"
+                                  },
+                                  "payload": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "data": {
+                                        "$ref": "#/components/schemas/inquiry"
+                                      },
+                                      "included": {
+                                        "description": "Objects referenced in `data.attributes.relationships` may be provided in `included` when related-object inclusion is enabled for this webhook subscription. When inclusion is not enabled, `included` will be empty.",
+                                        "$ref": "#/components/schemas/inquiry-included-objects"
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "$ref": "#/components/schemas/webhook-body-shared-attributes"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Example Body": {
+                  "$ref": "#/components/examples/inquiry-updated-tags-webhook-body"
                 }
               }
             }
@@ -29052,6 +29837,294 @@
               "examples": {
                 "Example Body": {
                   "$ref": "#/components/examples/verification-updated-tags-webhook-body"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/success"
+          }
+        }
+      }
+    },
+    "workflow-run.created": {
+      "post": {
+        "operationId": "webhook-workflow-run-created",
+        "summary": "Workflow run created",
+        "description": "Webhook for the `workflow-run.created` event. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).",
+        "tags": [
+          "Workflow run events"
+        ],
+        "x-persona-product": "Workflows",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "unevaluatedProperties": false,
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/webhook-body-shared-data"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "attributes": {
+                            "unevaluatedProperties": false,
+                            "allOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "const": "workflow-run.created"
+                                  },
+                                  "payload": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "data": {
+                                        "$ref": "#/components/schemas/workflow-run"
+                                      },
+                                      "included": {
+                                        "description": "All objects that are present in `data.attributes.relationships` will be provided in `included`.",
+                                        "$ref": "#/components/schemas/workflow-run-included-objects"
+                                      }
+                                    }
+                                  },
+                                  "context": {
+                                    "type": "object",
+                                    "description": "Additional context for the event. Always `{}` for `workflow-run.created`.",
+                                    "additionalProperties": true
+                                  }
+                                }
+                              },
+                              {
+                                "$ref": "#/components/schemas/webhook-body-shared-attributes"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Example Body": {
+                  "$ref": "#/components/examples/workflow-run-created-webhook-body"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/success"
+          }
+        }
+      }
+    },
+    "workflow-run.errored": {
+      "post": {
+        "operationId": "webhook-workflow-run-errored",
+        "summary": "Workflow run errored",
+        "description": "Webhook for the `workflow-run.errored` event. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).",
+        "tags": [
+          "Workflow run events"
+        ],
+        "x-persona-product": "Workflows",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "unevaluatedProperties": false,
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/webhook-body-shared-data"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "attributes": {
+                            "unevaluatedProperties": false,
+                            "allOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "const": "workflow-run.errored"
+                                  },
+                                  "payload": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "data": {
+                                        "$ref": "#/components/schemas/workflow-run"
+                                      },
+                                      "included": {
+                                        "description": "All objects that are present in `data.attributes.relationships` will be provided in `included`.",
+                                        "$ref": "#/components/schemas/workflow-run-included-objects"
+                                      }
+                                    }
+                                  },
+                                  "context": {
+                                    "type": "object",
+                                    "description": "Additional context for the event. Always `{}` for `workflow-run.errored`.",
+                                    "additionalProperties": true
+                                  }
+                                }
+                              },
+                              {
+                                "$ref": "#/components/schemas/webhook-body-shared-attributes"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Example Body": {
+                  "$ref": "#/components/examples/workflow-run-errored-webhook-body"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/success"
+          }
+        }
+      }
+    },
+    "workflow-run.resumed": {
+      "post": {
+        "operationId": "webhook-workflow-run-resumed",
+        "summary": "Workflow run resumed",
+        "description": "Webhook for the `workflow-run.resumed` event. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).",
+        "tags": [
+          "Workflow run events"
+        ],
+        "x-persona-product": "Workflows",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "unevaluatedProperties": false,
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/webhook-body-shared-data"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "attributes": {
+                            "unevaluatedProperties": false,
+                            "allOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "const": "workflow-run.resumed"
+                                  },
+                                  "payload": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "data": {
+                                        "$ref": "#/components/schemas/workflow-run"
+                                      },
+                                      "included": {
+                                        "description": "All objects that are present in `data.attributes.relationships` will be provided in `included`.",
+                                        "$ref": "#/components/schemas/workflow-run-included-objects"
+                                      }
+                                    }
+                                  },
+                                  "context": {
+                                    "type": "object",
+                                    "description": "Additional context for the event. Always `{}` for `workflow-run.resumed`.",
+                                    "additionalProperties": true
+                                  }
+                                }
+                              },
+                              {
+                                "$ref": "#/components/schemas/webhook-body-shared-attributes"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Example Body": {
+                  "$ref": "#/components/examples/workflow-run-resumed-webhook-body"
                 }
               }
             }
@@ -32696,6 +33769,7 @@
                 "format": "date-time"
               },
               "failed-at": {
+                "description": "Set when an Inquiry transitions to `failed`. Not typically set on `declined` Inquiries — those carry `completed-at` from the transition that preceded the decision.",
                 "examples": [
                   "2023-03-28T18:35:10.000Z"
                 ],
@@ -33260,12 +34334,13 @@
                 "type": "object"
               },
               "reviewer": {
+                "description": "Actor that decisioned the Inquiry. `data` is `null` while the Inquiry has not been decisioned. Once decisioned, `data.type` and `data.id` identify the reviewer: - `user` + `user_*` — a dashboard user reviewed and decisioned the Inquiry. - `workflow` + `wfl_*` — Workflows 1.0 auto-decisioned the Inquiry. - `workflow-run` + `wfr_*` — Workflows 2.0 auto-decisioned the Inquiry\n  (the dominant case in automation-heavy organizations).",
                 "properties": {
                   "data": {
                     "properties": {
                       "id": {
                         "examples": [
-                          "user_ABC123"
+                          "wfr_M7vXNqRpL3kBzW4tYcHdJgFs"
                         ],
                         "type": "string"
                       },
@@ -33277,7 +34352,7 @@
                           "workflow-run"
                         ],
                         "type": "string",
-                        "description": "Will be either `user`, `workflow`, or `workflow-run`."
+                        "description": "One of `user`, `workflow`, or `workflow-run`."
                       }
                     },
                     "type": [
@@ -62151,82 +63226,34 @@
         "value": {
           "data": {
             "type": "event",
-            "id": "evt_o9byQRbjygu76Jbtea9wuJ1boP7a",
+            "id": "evt_aBcDeFgHiJkLmNoPqRsTuVwX",
             "attributes": {
               "name": "inquiry.created",
               "payload": {
                 "data": {
                   "type": "inquiry",
-                  "id": "inq_zEx4jL84ShbUyuwX6AzPSqt6",
+                  "id": "inq_kT4xVnR2bPmYwL9sTgD3cExZ",
                   "attributes": {
                     "status": "created",
-                    "reference-id": "abc-123",
+                    "reference-id": null,
                     "note": null,
                     "behaviors": {},
                     "tags": [],
-                    "creator": "creator@withpersona.com",
+                    "creator": "creator@example.com",
                     "reviewer-comment": null,
-                    "created-at": "2023-03-29T19:06:45.000Z",
-                    "started-at": "2023-03-30T19:07:01.000Z",
-                    "expires-at": "2023-03-31T19:07:01.000Z",
+                    "created-at": "2024-03-15T18:30:00.000Z",
+                    "updated-at": "2024-03-15T18:30:00.000Z",
+                    "started-at": null,
+                    "expires-at": "2024-03-16T18:30:00.000Z",
                     "completed-at": null,
                     "failed-at": null,
                     "marked-for-review-at": null,
                     "decisioned-at": null,
                     "expired-at": null,
                     "redacted-at": null,
-                    "updated-at": "2023-03-30T19:07:01.000Z",
-                    "previous-step-name": "start",
-                    "next-step-name": "verification_document",
+                    "previous-step-name": null,
+                    "next-step-name": "start",
                     "fields": {
-                      "name-first": {
-                        "type": "string",
-                        "value": "Jane"
-                      },
-                      "name-middle": {
-                        "type": "string",
-                        "value": "Marie"
-                      },
-                      "name-last": {
-                        "type": "string",
-                        "value": "Doe"
-                      },
-                      "address-street-1": {
-                        "type": "string",
-                        "value": "123 Main St"
-                      },
-                      "address-street-2": {
-                        "type": "string",
-                        "value": null
-                      },
-                      "address-city": {
-                        "type": "string",
-                        "value": "San Francisco"
-                      },
-                      "address-subdivision": {
-                        "type": "string",
-                        "value": "California"
-                      },
-                      "address-postal-code": {
-                        "type": "string",
-                        "value": "94111"
-                      },
-                      "address-country-code": {
-                        "type": "string",
-                        "value": "US"
-                      },
-                      "birthdate": {
-                        "type": "date",
-                        "value": "1995-09-08"
-                      },
-                      "email-address": {
-                        "type": "string",
-                        "value": "jane@doe.com"
-                      },
-                      "phone-number": {
-                        "type": "string",
-                        "value": null
-                      },
                       "identification-number": {
                         "type": "string",
                         "value": null
@@ -62235,39 +63262,34 @@
                   },
                   "relationships": {
                     "account": {
-                      "data": {
-                        "type": "account",
-                        "id": "act_n2uq9eKMboaCQzu9ALWYcVdN"
-                      }
+                      "data": null
                     },
                     "template": {
-                      "data": {}
+                      "data": null
                     },
                     "inquiry-template": {
                       "data": {
                         "type": "inquiry-template",
-                        "id": "itmpl_p8ANAJy9iqadm2buF2xcVgqH"
+                        "id": "itmpl_AbN9KvR4LmT2WqYxPdHsZgFc"
                       }
                     },
                     "inquiry-template-version": {
                       "data": {
                         "type": "inquiry-template-version",
-                        "id": "itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo"
+                        "id": "itmplv_LqX3jYwK7HnRpZmCvBdF8RtA"
                       }
                     },
+                    "transaction": {
+                      "data": null
+                    },
                     "reviewer": {
-                      "data": {}
+                      "data": null
                     },
                     "reports": {
                       "data": []
                     },
                     "verifications": {
-                      "data": [
-                        {
-                          "type": "verification/database",
-                          "id": "ver_uHDiwtcx3htjajvEaeMjPQcE"
-                        }
-                      ]
+                      "data": []
                     },
                     "sessions": {
                       "data": []
@@ -62282,64 +63304,40 @@
                 },
                 "included": [
                   {
-                    "type": "inquiry-session",
-                    "id": "iqse_ABC123",
-                    "attributes": {
-                      "status": "expired",
-                      "created-at": "2023-07-25T04:15:20.000Z",
-                      "started-at": "2023-07-25T05:14:50.000Z",
-                      "expired-at": "2023-07-26T05:14:50.000Z",
-                      "ip-address": "127.0.0.1",
-                      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36",
-                      "os-name": "Mac",
-                      "os-full-version": "10.15.7",
-                      "device-type": "desktop",
-                      "device-name": null,
-                      "browser-name": "Chrome",
-                      "browser-full-version": "115.0.0.0",
-                      "mobile-sdk-name": null,
-                      "mobile-sdk-full-version": null,
-                      "device-handoff-method": null,
-                      "is-proxy": false,
-                      "is-tor": false,
-                      "is-datacenter": false,
-                      "is-vpn": false,
-                      "threat-level": "low",
-                      "country-code": "US",
-                      "country-name": "United States",
-                      "region-code": "CA",
-                      "region-name": "California",
-                      "latitude": 37.7688,
-                      "longitude": -122.262
-                    },
-                    "relationships": {
-                      "inquiry": {
-                        "data": {
-                          "type": "inquiry",
-                          "id": "inq_ABC123"
-                        }
-                      }
-                    }
-                  },
-                  {
                     "type": "inquiry-template",
-                    "id": "itmpl_ABC123",
+                    "id": "itmpl_AbN9KvR4LmT2WqYxPdHsZgFc",
                     "attributes": {
                       "status": "active",
-                      "name": "Twilio Desktop"
+                      "name": "Example KYC Template"
                     },
                     "relationships": {
                       "latest-published-version": {
                         "data": {
                           "type": "inquiry-template-version",
-                          "id": "itmplv_ABC123"
+                          "id": "itmplv_LqX3jYwK7HnRpZmCvBdF8RtA"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "inquiry-template-version",
+                    "id": "itmplv_LqX3jYwK7HnRpZmCvBdF8RtA",
+                    "attributes": {
+                      "status": "published",
+                      "name-display": "Example KYC Flow"
+                    },
+                    "relationships": {
+                      "inquiry-template": {
+                        "data": {
+                          "type": "inquiry-template",
+                          "id": "itmpl_AbN9KvR4LmT2WqYxPdHsZgFc"
                         }
                       }
                     }
                   }
                 ]
               },
-              "created-at": "2024-02-15T23:48:17.732Z"
+              "created-at": "2024-03-15T18:30:00.000Z"
             }
           }
         }
@@ -62348,31 +63346,31 @@
         "value": {
           "data": {
             "type": "event",
-            "id": "evt_o9byQRbjygu76Jbtea9wuJ1boP7a",
+            "id": "evt_bCdEfGhIjKlMnOpQrStUvWxY",
             "attributes": {
               "name": "inquiry.started",
               "payload": {
                 "data": {
                   "type": "inquiry",
-                  "id": "inq_zEx4jL84ShbUyuwX6AzPSqt6",
+                  "id": "inq_kT4xVnR2bPmYwL9sTgD3cExZ",
                   "attributes": {
                     "status": "pending",
                     "reference-id": null,
                     "note": null,
                     "behaviors": {},
                     "tags": [],
-                    "creator": "creator@withpersona.com",
+                    "creator": "creator@example.com",
                     "reviewer-comment": null,
-                    "created-at": "2026-05-26T19:06:45.000Z",
-                    "started-at": "2026-05-26T19:07:01.000Z",
-                    "expires-at": "2026-05-27T19:07:01.000Z",
+                    "created-at": "2024-03-15T18:30:00.000Z",
+                    "updated-at": "2024-03-15T18:31:00.000Z",
+                    "started-at": "2024-03-15T18:31:00.000Z",
+                    "expires-at": "2024-03-16T18:30:00.000Z",
                     "completed-at": null,
                     "failed-at": null,
                     "marked-for-review-at": null,
                     "decisioned-at": null,
                     "expired-at": null,
                     "redacted-at": null,
-                    "updated-at": "2026-05-26T19:07:01.000Z",
                     "previous-step-name": "start",
                     "next-step-name": "verification_government_id",
                     "fields": {
@@ -62418,7 +63416,7 @@
                       },
                       "email-address": {
                         "type": "string",
-                        "value": "jane@doe.com"
+                        "value": "jane@example.com"
                       },
                       "phone-number": {
                         "type": "string",
@@ -62432,28 +63430,28 @@
                   },
                   "relationships": {
                     "account": {
-                      "data": {
-                        "type": "account",
-                        "id": "act_n2uq9eKMboaCQzu9ALWYcVdN"
-                      }
+                      "data": null
                     },
                     "template": {
-                      "data": {}
+                      "data": null
                     },
                     "inquiry-template": {
                       "data": {
                         "type": "inquiry-template",
-                        "id": "itmpl_p8ANAJy9iqadm2buF2xcVgqH"
+                        "id": "itmpl_AbN9KvR4LmT2WqYxPdHsZgFc"
                       }
                     },
                     "inquiry-template-version": {
                       "data": {
                         "type": "inquiry-template-version",
-                        "id": "itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo"
+                        "id": "itmplv_LqX3jYwK7HnRpZmCvBdF8RtA"
                       }
                     },
+                    "transaction": {
+                      "data": null
+                    },
                     "reviewer": {
-                      "data": {}
+                      "data": null
                     },
                     "reports": {
                       "data": []
@@ -62462,7 +63460,12 @@
                       "data": []
                     },
                     "sessions": {
-                      "data": []
+                      "data": [
+                        {
+                          "type": "inquiry-session",
+                          "id": "iqse_NkPwRtQv5xB8cYm2L4jZdHsF"
+                        }
+                      ]
                     },
                     "documents": {
                       "data": []
@@ -62475,23 +63478,79 @@
                 "included": [
                   {
                     "type": "inquiry-template",
-                    "id": "itmpl_p8ANAJy9iqadm2buF2xcVgqH",
+                    "id": "itmpl_AbN9KvR4LmT2WqYxPdHsZgFc",
                     "attributes": {
                       "status": "active",
-                      "name": "Government ID + Selfie"
+                      "name": "Example KYC Template"
                     },
                     "relationships": {
                       "latest-published-version": {
                         "data": {
                           "type": "inquiry-template-version",
-                          "id": "itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo"
+                          "id": "itmplv_LqX3jYwK7HnRpZmCvBdF8RtA"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "inquiry-template-version",
+                    "id": "itmplv_LqX3jYwK7HnRpZmCvBdF8RtA",
+                    "attributes": {
+                      "status": "published",
+                      "name-display": "Example KYC Flow"
+                    },
+                    "relationships": {
+                      "inquiry-template": {
+                        "data": {
+                          "type": "inquiry-template",
+                          "id": "itmpl_AbN9KvR4LmT2WqYxPdHsZgFc"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "inquiry-session",
+                    "id": "iqse_NkPwRtQv5xB8cYm2L4jZdHsF",
+                    "attributes": {
+                      "status": "active",
+                      "created-at": "2024-03-15T18:31:00.000Z",
+                      "started-at": "2024-03-15T18:31:00.000Z",
+                      "expired-at": null,
+                      "ip-address": "192.0.2.4",
+                      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36",
+                      "os-name": "Mac",
+                      "os-full-version": "10.15.7",
+                      "device-type": "desktop",
+                      "device-name": null,
+                      "browser-name": "Chrome",
+                      "browser-full-version": "115.0.0.0",
+                      "mobile-sdk-name": null,
+                      "mobile-sdk-full-version": null,
+                      "device-handoff-method": null,
+                      "is-proxy": false,
+                      "is-tor": false,
+                      "is-datacenter": false,
+                      "is-vpn": false,
+                      "threat-level": "low",
+                      "country-code": "US",
+                      "country-name": "United States",
+                      "region-code": "CA",
+                      "region-name": "California",
+                      "latitude": 37.7749,
+                      "longitude": -122.4194
+                    },
+                    "relationships": {
+                      "inquiry": {
+                        "data": {
+                          "type": "inquiry",
+                          "id": "inq_kT4xVnR2bPmYwL9sTgD3cExZ"
                         }
                       }
                     }
                   }
                 ]
               },
-              "created-at": "2026-05-26T19:07:01.732Z"
+              "created-at": "2024-03-15T18:31:00.100Z"
             }
           }
         }
@@ -62500,82 +63559,34 @@
         "value": {
           "data": {
             "type": "event",
-            "id": "evt_o9byQRbjygu76Jbtea9wuJ1boP7a",
+            "id": "evt_fGhIjKlMnOpQrStUvWxYzAbC",
             "attributes": {
               "name": "inquiry.expired",
               "payload": {
                 "data": {
                   "type": "inquiry",
-                  "id": "inq_zEx4jL84ShbUyuwX6AzPSqt6",
+                  "id": "inq_kT4xVnR2bPmYwL9sTgD3cExZ",
                   "attributes": {
                     "status": "expired",
-                    "reference-id": "abc-123",
+                    "reference-id": null,
                     "note": null,
                     "behaviors": {},
                     "tags": [],
-                    "creator": "creator@withpersona.com",
+                    "creator": "creator@example.com",
                     "reviewer-comment": null,
-                    "created-at": "2023-03-29T19:06:45.000Z",
-                    "started-at": "2023-03-30T19:07:01.000Z",
+                    "created-at": "2024-03-15T18:30:00.000Z",
+                    "updated-at": "2024-03-16T18:30:00.000Z",
+                    "started-at": null,
                     "expires-at": null,
                     "completed-at": null,
                     "failed-at": null,
                     "marked-for-review-at": null,
                     "decisioned-at": null,
-                    "expired-at": null,
+                    "expired-at": "2024-03-16T18:30:00.000Z",
                     "redacted-at": null,
-                    "updated-at": "2023-03-30T19:07:01.000Z",
-                    "previous-step-name": "start",
-                    "next-step-name": "verification_document",
+                    "previous-step-name": null,
+                    "next-step-name": "start",
                     "fields": {
-                      "name-first": {
-                        "type": "string",
-                        "value": "Jane"
-                      },
-                      "name-middle": {
-                        "type": "string",
-                        "value": "Marie"
-                      },
-                      "name-last": {
-                        "type": "string",
-                        "value": "Doe"
-                      },
-                      "address-street-1": {
-                        "type": "string",
-                        "value": "123 Main St"
-                      },
-                      "address-street-2": {
-                        "type": "string",
-                        "value": null
-                      },
-                      "address-city": {
-                        "type": "string",
-                        "value": "San Francisco"
-                      },
-                      "address-subdivision": {
-                        "type": "string",
-                        "value": "California"
-                      },
-                      "address-postal-code": {
-                        "type": "string",
-                        "value": "94111"
-                      },
-                      "address-country-code": {
-                        "type": "string",
-                        "value": "US"
-                      },
-                      "birthdate": {
-                        "type": "date",
-                        "value": "1995-09-08"
-                      },
-                      "email-address": {
-                        "type": "string",
-                        "value": "jane@doe.com"
-                      },
-                      "phone-number": {
-                        "type": "string",
-                        "value": null
-                      },
                       "identification-number": {
                         "type": "string",
                         "value": null
@@ -62584,39 +63595,34 @@
                   },
                   "relationships": {
                     "account": {
-                      "data": {
-                        "type": "account",
-                        "id": "act_n2uq9eKMboaCQzu9ALWYcVdN"
-                      }
+                      "data": null
                     },
                     "template": {
-                      "data": {}
+                      "data": null
                     },
                     "inquiry-template": {
                       "data": {
                         "type": "inquiry-template",
-                        "id": "itmpl_p8ANAJy9iqadm2buF2xcVgqH"
+                        "id": "itmpl_AbN9KvR4LmT2WqYxPdHsZgFc"
                       }
                     },
                     "inquiry-template-version": {
                       "data": {
                         "type": "inquiry-template-version",
-                        "id": "itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo"
+                        "id": "itmplv_LqX3jYwK7HnRpZmCvBdF8RtA"
                       }
                     },
+                    "transaction": {
+                      "data": null
+                    },
                     "reviewer": {
-                      "data": {}
+                      "data": null
                     },
                     "reports": {
                       "data": []
                     },
                     "verifications": {
-                      "data": [
-                        {
-                          "type": "verification/database",
-                          "id": "ver_uHDiwtcx3htjajvEaeMjPQcE"
-                        }
-                      ]
+                      "data": []
                     },
                     "sessions": {
                       "data": []
@@ -62631,64 +63637,40 @@
                 },
                 "included": [
                   {
-                    "type": "inquiry-session",
-                    "id": "iqse_ABC123",
-                    "attributes": {
-                      "status": "expired",
-                      "created-at": "2023-07-25T04:15:20.000Z",
-                      "started-at": "2023-07-25T05:14:50.000Z",
-                      "expired-at": "2023-07-26T05:14:50.000Z",
-                      "ip-address": "127.0.0.1",
-                      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36",
-                      "os-name": "Mac",
-                      "os-full-version": "10.15.7",
-                      "device-type": "desktop",
-                      "device-name": null,
-                      "browser-name": "Chrome",
-                      "browser-full-version": "115.0.0.0",
-                      "mobile-sdk-name": null,
-                      "mobile-sdk-full-version": null,
-                      "device-handoff-method": null,
-                      "is-proxy": false,
-                      "is-tor": false,
-                      "is-datacenter": false,
-                      "is-vpn": false,
-                      "threat-level": "low",
-                      "country-code": "US",
-                      "country-name": "United States",
-                      "region-code": "CA",
-                      "region-name": "California",
-                      "latitude": 37.7688,
-                      "longitude": -122.262
-                    },
-                    "relationships": {
-                      "inquiry": {
-                        "data": {
-                          "type": "inquiry",
-                          "id": "inq_ABC123"
-                        }
-                      }
-                    }
-                  },
-                  {
                     "type": "inquiry-template",
-                    "id": "itmpl_ABC123",
+                    "id": "itmpl_AbN9KvR4LmT2WqYxPdHsZgFc",
                     "attributes": {
                       "status": "active",
-                      "name": "Twilio Desktop"
+                      "name": "Example KYC Template"
                     },
                     "relationships": {
                       "latest-published-version": {
                         "data": {
                           "type": "inquiry-template-version",
-                          "id": "itmplv_ABC123"
+                          "id": "itmplv_LqX3jYwK7HnRpZmCvBdF8RtA"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "inquiry-template-version",
+                    "id": "itmplv_LqX3jYwK7HnRpZmCvBdF8RtA",
+                    "attributes": {
+                      "status": "published",
+                      "name-display": "Example KYC Flow"
+                    },
+                    "relationships": {
+                      "inquiry-template": {
+                        "data": {
+                          "type": "inquiry-template",
+                          "id": "itmpl_AbN9KvR4LmT2WqYxPdHsZgFc"
                         }
                       }
                     }
                   }
                 ]
               },
-              "created-at": "2024-02-15T23:48:17.732Z"
+              "created-at": "2024-03-16T18:30:00.100Z"
             }
           }
         }
@@ -62697,33 +63679,33 @@
         "value": {
           "data": {
             "type": "event",
-            "id": "evt_o9byQRbjygu76Jbtea9wuJ1boP7a",
+            "id": "evt_dEfGhIjKlMnOpQrStUvWxYzA",
             "attributes": {
               "name": "inquiry.completed",
               "payload": {
                 "data": {
                   "type": "inquiry",
-                  "id": "inq_zEx4jL84ShbUyuwX6AzPSqt6",
+                  "id": "inq_kT4xVnR2bPmYwL9sTgD3cExZ",
                   "attributes": {
                     "status": "completed",
-                    "reference-id": "abc-123",
+                    "reference-id": null,
                     "note": null,
                     "behaviors": {},
                     "tags": [],
-                    "creator": "creator@withpersona.com",
+                    "creator": "creator@example.com",
                     "reviewer-comment": null,
-                    "created-at": "2023-03-29T19:06:45.000Z",
-                    "started-at": "2023-03-30T19:07:01.000Z",
-                    "updated-at": "2023-03-30T19:07:01.000Z",
+                    "created-at": "2024-03-15T18:30:00.000Z",
+                    "updated-at": "2024-03-15T18:35:00.000Z",
+                    "started-at": "2024-03-15T18:31:00.000Z",
                     "expires-at": null,
-                    "completed-at": null,
+                    "completed-at": "2024-03-15T18:35:00.000Z",
                     "failed-at": null,
                     "marked-for-review-at": null,
                     "decisioned-at": null,
                     "expired-at": null,
                     "redacted-at": null,
-                    "previous-step-name": "start",
-                    "next-step-name": "verification_document",
+                    "previous-step-name": "verification_selfie",
+                    "next-step-name": "success",
                     "fields": {
                       "name-first": {
                         "type": "string",
@@ -62767,7 +63749,7 @@
                       },
                       "email-address": {
                         "type": "string",
-                        "value": "jane@doe.com"
+                        "value": "jane@example.com"
                       },
                       "phone-number": {
                         "type": "string",
@@ -62783,26 +63765,29 @@
                     "account": {
                       "data": {
                         "type": "account",
-                        "id": "act_n2uq9eKMboaCQzu9ALWYcVdN"
+                        "id": "act_fJ8mQpDLrYvNcBzWk5HsAxRy"
                       }
                     },
                     "template": {
-                      "data": {}
+                      "data": null
                     },
                     "inquiry-template": {
                       "data": {
                         "type": "inquiry-template",
-                        "id": "itmpl_p8ANAJy9iqadm2buF2xcVgqH"
+                        "id": "itmpl_AbN9KvR4LmT2WqYxPdHsZgFc"
                       }
                     },
                     "inquiry-template-version": {
                       "data": {
                         "type": "inquiry-template-version",
-                        "id": "itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo"
+                        "id": "itmplv_LqX3jYwK7HnRpZmCvBdF8RtA"
                       }
                     },
+                    "transaction": {
+                      "data": null
+                    },
                     "reviewer": {
-                      "data": {}
+                      "data": null
                     },
                     "reports": {
                       "data": []
@@ -62810,13 +63795,18 @@
                     "verifications": {
                       "data": [
                         {
-                          "type": "verification/database",
-                          "id": "ver_uHDiwtcx3htjajvEaeMjPQcE"
+                          "type": "verification/government-id",
+                          "id": "ver_X3kHmRqV9YpZ2nBwL5tGdJcE"
                         }
                       ]
                     },
                     "sessions": {
-                      "data": []
+                      "data": [
+                        {
+                          "type": "inquiry-session",
+                          "id": "iqse_NkPwRtQv5xB8cYm2L4jZdHsF"
+                        }
+                      ]
                     },
                     "documents": {
                       "data": []
@@ -62828,14 +63818,46 @@
                 },
                 "included": [
                   {
+                    "type": "inquiry-template",
+                    "id": "itmpl_AbN9KvR4LmT2WqYxPdHsZgFc",
+                    "attributes": {
+                      "status": "active",
+                      "name": "Example KYC Template"
+                    },
+                    "relationships": {
+                      "latest-published-version": {
+                        "data": {
+                          "type": "inquiry-template-version",
+                          "id": "itmplv_LqX3jYwK7HnRpZmCvBdF8RtA"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "inquiry-template-version",
+                    "id": "itmplv_LqX3jYwK7HnRpZmCvBdF8RtA",
+                    "attributes": {
+                      "status": "published",
+                      "name-display": "Example KYC Flow"
+                    },
+                    "relationships": {
+                      "inquiry-template": {
+                        "data": {
+                          "type": "inquiry-template",
+                          "id": "itmpl_AbN9KvR4LmT2WqYxPdHsZgFc"
+                        }
+                      }
+                    }
+                  },
+                  {
                     "type": "inquiry-session",
-                    "id": "iqse_ABC123",
+                    "id": "iqse_NkPwRtQv5xB8cYm2L4jZdHsF",
                     "attributes": {
                       "status": "expired",
-                      "created-at": "2023-07-25T04:15:20.000Z",
-                      "started-at": "2023-07-25T05:14:50.000Z",
-                      "expired-at": "2023-07-26T05:14:50.000Z",
-                      "ip-address": "127.0.0.1",
+                      "created-at": "2024-03-15T18:31:00.000Z",
+                      "started-at": "2024-03-15T18:31:00.000Z",
+                      "expired-at": "2024-03-15T18:35:00.000Z",
+                      "ip-address": "192.0.2.4",
                       "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36",
                       "os-name": "Mac",
                       "os-full-version": "10.15.7",
@@ -62855,37 +63877,21 @@
                       "country-name": "United States",
                       "region-code": "CA",
                       "region-name": "California",
-                      "latitude": 37.7688,
-                      "longitude": -122.262
+                      "latitude": 37.7749,
+                      "longitude": -122.4194
                     },
                     "relationships": {
                       "inquiry": {
                         "data": {
                           "type": "inquiry",
-                          "id": "inq_ABC123"
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "type": "inquiry-template",
-                    "id": "itmpl_ABC123",
-                    "attributes": {
-                      "status": "active",
-                      "name": "Twilio Desktop"
-                    },
-                    "relationships": {
-                      "latest-published-version": {
-                        "data": {
-                          "type": "inquiry-template-version",
-                          "id": "itmplv_ABC123"
+                          "id": "inq_kT4xVnR2bPmYwL9sTgD3cExZ"
                         }
                       }
                     }
                   }
                 ]
               },
-              "created-at": "2024-02-15T23:48:17.732Z"
+              "created-at": "2024-03-15T18:35:00.100Z"
             }
           }
         }
@@ -62894,33 +63900,33 @@
         "value": {
           "data": {
             "type": "event",
-            "id": "evt_o9byQRbjygu76Jbtea9wuJ1boP7a",
+            "id": "evt_eFgHiJkLmNoPqRsTuVwXyZaB",
             "attributes": {
               "name": "inquiry.failed",
               "payload": {
                 "data": {
                   "type": "inquiry",
-                  "id": "inq_zEx4jL84ShbUyuwX6AzPSqt6",
+                  "id": "inq_kT4xVnR2bPmYwL9sTgD3cExZ",
                   "attributes": {
                     "status": "failed",
-                    "reference-id": "abc-123",
+                    "reference-id": null,
                     "note": null,
                     "behaviors": {},
                     "tags": [],
-                    "creator": "creator@withpersona.com",
+                    "creator": "creator@example.com",
                     "reviewer-comment": null,
-                    "created-at": "2023-03-29T19:06:45.000Z",
-                    "started-at": "2023-03-30T19:07:01.000Z",
+                    "created-at": "2024-03-15T18:30:00.000Z",
+                    "updated-at": "2024-03-15T18:33:00.000Z",
+                    "started-at": "2024-03-15T18:31:00.000Z",
                     "expires-at": null,
                     "completed-at": null,
-                    "failed-at": null,
+                    "failed-at": "2024-03-15T18:33:00.000Z",
                     "marked-for-review-at": null,
                     "decisioned-at": null,
                     "expired-at": null,
                     "redacted-at": null,
-                    "updated-at": "2023-03-30T19:07:01.000Z",
-                    "previous-step-name": "start",
-                    "next-step-name": "verification_document",
+                    "previous-step-name": "verification_government_id",
+                    "next-step-name": "failure",
                     "fields": {
                       "name-first": {
                         "type": "string",
@@ -62964,7 +63970,7 @@
                       },
                       "email-address": {
                         "type": "string",
-                        "value": "jane@doe.com"
+                        "value": "jane@example.com"
                       },
                       "phone-number": {
                         "type": "string",
@@ -62980,26 +63986,29 @@
                     "account": {
                       "data": {
                         "type": "account",
-                        "id": "act_n2uq9eKMboaCQzu9ALWYcVdN"
+                        "id": "act_fJ8mQpDLrYvNcBzWk5HsAxRy"
                       }
                     },
                     "template": {
-                      "data": {}
+                      "data": null
                     },
                     "inquiry-template": {
                       "data": {
                         "type": "inquiry-template",
-                        "id": "itmpl_p8ANAJy9iqadm2buF2xcVgqH"
+                        "id": "itmpl_AbN9KvR4LmT2WqYxPdHsZgFc"
                       }
                     },
                     "inquiry-template-version": {
                       "data": {
                         "type": "inquiry-template-version",
-                        "id": "itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo"
+                        "id": "itmplv_LqX3jYwK7HnRpZmCvBdF8RtA"
                       }
                     },
+                    "transaction": {
+                      "data": null
+                    },
                     "reviewer": {
-                      "data": {}
+                      "data": null
                     },
                     "reports": {
                       "data": []
@@ -63007,13 +64016,18 @@
                     "verifications": {
                       "data": [
                         {
-                          "type": "verification/database",
-                          "id": "ver_uHDiwtcx3htjajvEaeMjPQcE"
+                          "type": "verification/government-id",
+                          "id": "ver_X3kHmRqV9YpZ2nBwL5tGdJcE"
                         }
                       ]
                     },
                     "sessions": {
-                      "data": []
+                      "data": [
+                        {
+                          "type": "inquiry-session",
+                          "id": "iqse_NkPwRtQv5xB8cYm2L4jZdHsF"
+                        }
+                      ]
                     },
                     "documents": {
                       "data": []
@@ -63025,14 +64039,46 @@
                 },
                 "included": [
                   {
+                    "type": "inquiry-template",
+                    "id": "itmpl_AbN9KvR4LmT2WqYxPdHsZgFc",
+                    "attributes": {
+                      "status": "active",
+                      "name": "Example KYC Template"
+                    },
+                    "relationships": {
+                      "latest-published-version": {
+                        "data": {
+                          "type": "inquiry-template-version",
+                          "id": "itmplv_LqX3jYwK7HnRpZmCvBdF8RtA"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "inquiry-template-version",
+                    "id": "itmplv_LqX3jYwK7HnRpZmCvBdF8RtA",
+                    "attributes": {
+                      "status": "published",
+                      "name-display": "Example KYC Flow"
+                    },
+                    "relationships": {
+                      "inquiry-template": {
+                        "data": {
+                          "type": "inquiry-template",
+                          "id": "itmpl_AbN9KvR4LmT2WqYxPdHsZgFc"
+                        }
+                      }
+                    }
+                  },
+                  {
                     "type": "inquiry-session",
-                    "id": "iqse_ABC123",
+                    "id": "iqse_NkPwRtQv5xB8cYm2L4jZdHsF",
                     "attributes": {
                       "status": "expired",
-                      "created-at": "2023-07-25T04:15:20.000Z",
-                      "started-at": "2023-07-25T05:14:50.000Z",
-                      "expired-at": "2023-07-26T05:14:50.000Z",
-                      "ip-address": "127.0.0.1",
+                      "created-at": "2024-03-15T18:31:00.000Z",
+                      "started-at": "2024-03-15T18:31:00.000Z",
+                      "expired-at": "2024-03-15T18:33:00.000Z",
+                      "ip-address": "192.0.2.4",
                       "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36",
                       "os-name": "Mac",
                       "os-full-version": "10.15.7",
@@ -63052,37 +64098,21 @@
                       "country-name": "United States",
                       "region-code": "CA",
                       "region-name": "California",
-                      "latitude": 37.7688,
-                      "longitude": -122.262
+                      "latitude": 37.7749,
+                      "longitude": -122.4194
                     },
                     "relationships": {
                       "inquiry": {
                         "data": {
                           "type": "inquiry",
-                          "id": "inq_ABC123"
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "type": "inquiry-template",
-                    "id": "itmpl_ABC123",
-                    "attributes": {
-                      "status": "active",
-                      "name": "Twilio Desktop"
-                    },
-                    "relationships": {
-                      "latest-published-version": {
-                        "data": {
-                          "type": "inquiry-template-version",
-                          "id": "itmplv_ABC123"
+                          "id": "inq_kT4xVnR2bPmYwL9sTgD3cExZ"
                         }
                       }
                     }
                   }
                 ]
               },
-              "created-at": "2024-02-15T23:48:17.732Z"
+              "created-at": "2024-03-15T18:33:00.100Z"
             }
           }
         }
@@ -63091,33 +64121,33 @@
         "value": {
           "data": {
             "type": "event",
-            "id": "evt_o9byQRbjygu76Jbtea9wuJ1boP7a",
+            "id": "evt_gHiJkLmNoPqRsTuVwXyZaBcD",
             "attributes": {
               "name": "inquiry.marked-for-review",
               "payload": {
                 "data": {
                   "type": "inquiry",
-                  "id": "inq_zEx4jL84ShbUyuwX6AzPSqt6",
+                  "id": "inq_kT4xVnR2bPmYwL9sTgD3cExZ",
                   "attributes": {
                     "status": "needs_review",
-                    "reference-id": "abc-123",
+                    "reference-id": null,
                     "note": null,
                     "behaviors": {},
                     "tags": [],
-                    "creator": "creator@withpersona.com",
+                    "creator": "creator@example.com",
                     "reviewer-comment": null,
-                    "created-at": "2023-03-29T19:06:45.000Z",
-                    "started-at": "2023-03-30T19:07:01.000Z",
+                    "created-at": "2024-03-15T18:30:00.000Z",
+                    "updated-at": "2024-03-15T18:34:00.000Z",
+                    "started-at": "2024-03-15T18:31:00.000Z",
                     "expires-at": null,
                     "completed-at": null,
                     "failed-at": null,
-                    "marked-for-review-at": null,
+                    "marked-for-review-at": "2024-03-15T18:34:00.000Z",
                     "decisioned-at": null,
                     "expired-at": null,
                     "redacted-at": null,
-                    "updated-at": "2023-03-30T19:07:01.000Z",
-                    "previous-step-name": "start",
-                    "next-step-name": "verification_document",
+                    "previous-step-name": "verification_government_id",
+                    "next-step-name": "review",
                     "fields": {
                       "name-first": {
                         "type": "string",
@@ -63161,7 +64191,7 @@
                       },
                       "email-address": {
                         "type": "string",
-                        "value": "jane@doe.com"
+                        "value": "jane@example.com"
                       },
                       "phone-number": {
                         "type": "string",
@@ -63177,26 +64207,29 @@
                     "account": {
                       "data": {
                         "type": "account",
-                        "id": "act_n2uq9eKMboaCQzu9ALWYcVdN"
+                        "id": "act_fJ8mQpDLrYvNcBzWk5HsAxRy"
                       }
                     },
                     "template": {
-                      "data": {}
+                      "data": null
                     },
                     "inquiry-template": {
                       "data": {
                         "type": "inquiry-template",
-                        "id": "itmpl_p8ANAJy9iqadm2buF2xcVgqH"
+                        "id": "itmpl_AbN9KvR4LmT2WqYxPdHsZgFc"
                       }
                     },
                     "inquiry-template-version": {
                       "data": {
                         "type": "inquiry-template-version",
-                        "id": "itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo"
+                        "id": "itmplv_LqX3jYwK7HnRpZmCvBdF8RtA"
                       }
                     },
+                    "transaction": {
+                      "data": null
+                    },
                     "reviewer": {
-                      "data": {}
+                      "data": null
                     },
                     "reports": {
                       "data": []
@@ -63204,13 +64237,18 @@
                     "verifications": {
                       "data": [
                         {
-                          "type": "verification/database",
-                          "id": "ver_uHDiwtcx3htjajvEaeMjPQcE"
+                          "type": "verification/government-id",
+                          "id": "ver_X3kHmRqV9YpZ2nBwL5tGdJcE"
                         }
                       ]
                     },
                     "sessions": {
-                      "data": []
+                      "data": [
+                        {
+                          "type": "inquiry-session",
+                          "id": "iqse_NkPwRtQv5xB8cYm2L4jZdHsF"
+                        }
+                      ]
                     },
                     "documents": {
                       "data": []
@@ -63222,14 +64260,46 @@
                 },
                 "included": [
                   {
+                    "type": "inquiry-template",
+                    "id": "itmpl_AbN9KvR4LmT2WqYxPdHsZgFc",
+                    "attributes": {
+                      "status": "active",
+                      "name": "Example KYC Template"
+                    },
+                    "relationships": {
+                      "latest-published-version": {
+                        "data": {
+                          "type": "inquiry-template-version",
+                          "id": "itmplv_LqX3jYwK7HnRpZmCvBdF8RtA"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "inquiry-template-version",
+                    "id": "itmplv_LqX3jYwK7HnRpZmCvBdF8RtA",
+                    "attributes": {
+                      "status": "published",
+                      "name-display": "Example KYC Flow"
+                    },
+                    "relationships": {
+                      "inquiry-template": {
+                        "data": {
+                          "type": "inquiry-template",
+                          "id": "itmpl_AbN9KvR4LmT2WqYxPdHsZgFc"
+                        }
+                      }
+                    }
+                  },
+                  {
                     "type": "inquiry-session",
-                    "id": "iqse_ABC123",
+                    "id": "iqse_NkPwRtQv5xB8cYm2L4jZdHsF",
                     "attributes": {
                       "status": "expired",
-                      "created-at": "2023-07-25T04:15:20.000Z",
-                      "started-at": "2023-07-25T05:14:50.000Z",
-                      "expired-at": "2023-07-26T05:14:50.000Z",
-                      "ip-address": "127.0.0.1",
+                      "created-at": "2024-03-15T18:31:00.000Z",
+                      "started-at": "2024-03-15T18:31:00.000Z",
+                      "expired-at": "2024-03-15T18:34:00.000Z",
+                      "ip-address": "192.0.2.4",
                       "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36",
                       "os-name": "Mac",
                       "os-full-version": "10.15.7",
@@ -63249,37 +64319,21 @@
                       "country-name": "United States",
                       "region-code": "CA",
                       "region-name": "California",
-                      "latitude": 37.7688,
-                      "longitude": -122.262
+                      "latitude": 37.7749,
+                      "longitude": -122.4194
                     },
                     "relationships": {
                       "inquiry": {
                         "data": {
                           "type": "inquiry",
-                          "id": "inq_ABC123"
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "type": "inquiry-template",
-                    "id": "itmpl_ABC123",
-                    "attributes": {
-                      "status": "active",
-                      "name": "Twilio Desktop"
-                    },
-                    "relationships": {
-                      "latest-published-version": {
-                        "data": {
-                          "type": "inquiry-template-version",
-                          "id": "itmplv_ABC123"
+                          "id": "inq_kT4xVnR2bPmYwL9sTgD3cExZ"
                         }
                       }
                     }
                   }
                 ]
               },
-              "created-at": "2024-02-15T23:48:17.732Z"
+              "created-at": "2024-03-15T18:34:00.100Z"
             }
           }
         }
@@ -63288,33 +64342,33 @@
         "value": {
           "data": {
             "type": "event",
-            "id": "evt_o9byQRbjygu76Jbtea9wuJ1boP7a",
+            "id": "evt_hIjKlMnOpQrStUvWxYzAbCdE",
             "attributes": {
               "name": "inquiry.approved",
               "payload": {
                 "data": {
                   "type": "inquiry",
-                  "id": "inq_zEx4jL84ShbUyuwX6AzPSqt6",
+                  "id": "inq_kT4xVnR2bPmYwL9sTgD3cExZ",
                   "attributes": {
                     "status": "approved",
-                    "reference-id": "abc-123",
+                    "reference-id": null,
                     "note": null,
                     "behaviors": {},
                     "tags": [],
-                    "creator": "creator@withpersona.com",
+                    "creator": "creator@example.com",
                     "reviewer-comment": null,
-                    "created-at": "2023-03-29T19:06:45.000Z",
-                    "started-at": "2023-03-30T19:07:01.000Z",
+                    "created-at": "2024-03-15T18:30:00.000Z",
+                    "updated-at": "2024-03-15T18:35:00.000Z",
+                    "started-at": "2024-03-15T18:31:00.000Z",
                     "expires-at": null,
                     "completed-at": null,
                     "failed-at": null,
                     "marked-for-review-at": null,
-                    "decisioned-at": null,
+                    "decisioned-at": "2024-03-15T18:35:00.000Z",
                     "expired-at": null,
                     "redacted-at": null,
-                    "updated-at": "2023-03-30T19:07:01.000Z",
-                    "previous-step-name": "start",
-                    "next-step-name": "verification_document",
+                    "previous-step-name": "verification_selfie",
+                    "next-step-name": "success",
                     "fields": {
                       "name-first": {
                         "type": "string",
@@ -63358,7 +64412,7 @@
                       },
                       "email-address": {
                         "type": "string",
-                        "value": "jane@doe.com"
+                        "value": "jane@example.com"
                       },
                       "phone-number": {
                         "type": "string",
@@ -63374,26 +64428,32 @@
                     "account": {
                       "data": {
                         "type": "account",
-                        "id": "act_n2uq9eKMboaCQzu9ALWYcVdN"
+                        "id": "act_fJ8mQpDLrYvNcBzWk5HsAxRy"
                       }
                     },
                     "template": {
-                      "data": {}
+                      "data": null
                     },
                     "inquiry-template": {
                       "data": {
                         "type": "inquiry-template",
-                        "id": "itmpl_p8ANAJy9iqadm2buF2xcVgqH"
+                        "id": "itmpl_AbN9KvR4LmT2WqYxPdHsZgFc"
                       }
                     },
                     "inquiry-template-version": {
                       "data": {
                         "type": "inquiry-template-version",
-                        "id": "itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo"
+                        "id": "itmplv_LqX3jYwK7HnRpZmCvBdF8RtA"
                       }
                     },
+                    "transaction": {
+                      "data": null
+                    },
                     "reviewer": {
-                      "data": {}
+                      "data": {
+                        "type": "workflow-run",
+                        "id": "wfr_M7vXNqRpL3kBzW4tYcHdJgFs"
+                      }
                     },
                     "reports": {
                       "data": []
@@ -63401,13 +64461,18 @@
                     "verifications": {
                       "data": [
                         {
-                          "type": "verification/database",
-                          "id": "ver_uHDiwtcx3htjajvEaeMjPQcE"
+                          "type": "verification/government-id",
+                          "id": "ver_X3kHmRqV9YpZ2nBwL5tGdJcE"
                         }
                       ]
                     },
                     "sessions": {
-                      "data": []
+                      "data": [
+                        {
+                          "type": "inquiry-session",
+                          "id": "iqse_NkPwRtQv5xB8cYm2L4jZdHsF"
+                        }
+                      ]
                     },
                     "documents": {
                       "data": []
@@ -63419,14 +64484,46 @@
                 },
                 "included": [
                   {
+                    "type": "inquiry-template",
+                    "id": "itmpl_AbN9KvR4LmT2WqYxPdHsZgFc",
+                    "attributes": {
+                      "status": "active",
+                      "name": "Example KYC Template"
+                    },
+                    "relationships": {
+                      "latest-published-version": {
+                        "data": {
+                          "type": "inquiry-template-version",
+                          "id": "itmplv_LqX3jYwK7HnRpZmCvBdF8RtA"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "inquiry-template-version",
+                    "id": "itmplv_LqX3jYwK7HnRpZmCvBdF8RtA",
+                    "attributes": {
+                      "status": "published",
+                      "name-display": "Example KYC Flow"
+                    },
+                    "relationships": {
+                      "inquiry-template": {
+                        "data": {
+                          "type": "inquiry-template",
+                          "id": "itmpl_AbN9KvR4LmT2WqYxPdHsZgFc"
+                        }
+                      }
+                    }
+                  },
+                  {
                     "type": "inquiry-session",
-                    "id": "iqse_ABC123",
+                    "id": "iqse_NkPwRtQv5xB8cYm2L4jZdHsF",
                     "attributes": {
                       "status": "expired",
-                      "created-at": "2023-07-25T04:15:20.000Z",
-                      "started-at": "2023-07-25T05:14:50.000Z",
-                      "expired-at": "2023-07-26T05:14:50.000Z",
-                      "ip-address": "127.0.0.1",
+                      "created-at": "2024-03-15T18:31:00.000Z",
+                      "started-at": "2024-03-15T18:31:00.000Z",
+                      "expired-at": "2024-03-15T18:35:00.000Z",
+                      "ip-address": "192.0.2.4",
                       "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36",
                       "os-name": "Mac",
                       "os-full-version": "10.15.7",
@@ -63446,37 +64543,21 @@
                       "country-name": "United States",
                       "region-code": "CA",
                       "region-name": "California",
-                      "latitude": 37.7688,
-                      "longitude": -122.262
+                      "latitude": 37.7749,
+                      "longitude": -122.4194
                     },
                     "relationships": {
                       "inquiry": {
                         "data": {
                           "type": "inquiry",
-                          "id": "inq_ABC123"
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "type": "inquiry-template",
-                    "id": "itmpl_ABC123",
-                    "attributes": {
-                      "status": "active",
-                      "name": "Twilio Desktop"
-                    },
-                    "relationships": {
-                      "latest-published-version": {
-                        "data": {
-                          "type": "inquiry-template-version",
-                          "id": "itmplv_ABC123"
+                          "id": "inq_kT4xVnR2bPmYwL9sTgD3cExZ"
                         }
                       }
                     }
                   }
                 ]
               },
-              "created-at": "2024-02-15T23:48:17.732Z"
+              "created-at": "2024-03-15T18:35:00.100Z"
             }
           }
         }
@@ -63485,33 +64566,33 @@
         "value": {
           "data": {
             "type": "event",
-            "id": "evt_o9byQRbjygu76Jbtea9wuJ1boP7a",
+            "id": "evt_iJkLmNoPqRsTuVwXyZaBcDeF",
             "attributes": {
               "name": "inquiry.declined",
               "payload": {
                 "data": {
                   "type": "inquiry",
-                  "id": "inq_zEx4jL84ShbUyuwX6AzPSqt6",
+                  "id": "inq_kT4xVnR2bPmYwL9sTgD3cExZ",
                   "attributes": {
                     "status": "declined",
-                    "reference-id": "abc-123",
+                    "reference-id": null,
                     "note": null,
                     "behaviors": {},
                     "tags": [],
-                    "creator": "creator@withpersona.com",
+                    "creator": "creator@example.com",
                     "reviewer-comment": null,
-                    "created-at": "2023-03-29T19:06:45.000Z",
-                    "started-at": "2023-03-30T19:07:01.000Z",
+                    "created-at": "2024-03-15T18:30:00.000Z",
+                    "updated-at": "2024-03-15T18:35:04.000Z",
+                    "started-at": "2024-03-15T18:31:00.000Z",
                     "expires-at": null,
-                    "completed-at": null,
+                    "completed-at": "2024-03-15T18:34:00.000Z",
                     "failed-at": null,
                     "marked-for-review-at": null,
-                    "decisioned-at": null,
+                    "decisioned-at": "2024-03-15T18:35:04.000Z",
                     "expired-at": null,
                     "redacted-at": null,
-                    "updated-at": "2023-03-30T19:07:01.000Z",
-                    "previous-step-name": "start",
-                    "next-step-name": "verification_document",
+                    "previous-step-name": "verification_government_id",
+                    "next-step-name": "failure",
                     "fields": {
                       "name-first": {
                         "type": "string",
@@ -63555,7 +64636,7 @@
                       },
                       "email-address": {
                         "type": "string",
-                        "value": "jane@doe.com"
+                        "value": "jane@example.com"
                       },
                       "phone-number": {
                         "type": "string",
@@ -63571,26 +64652,32 @@
                     "account": {
                       "data": {
                         "type": "account",
-                        "id": "act_n2uq9eKMboaCQzu9ALWYcVdN"
+                        "id": "act_fJ8mQpDLrYvNcBzWk5HsAxRy"
                       }
                     },
                     "template": {
-                      "data": {}
+                      "data": null
                     },
                     "inquiry-template": {
                       "data": {
                         "type": "inquiry-template",
-                        "id": "itmpl_p8ANAJy9iqadm2buF2xcVgqH"
+                        "id": "itmpl_AbN9KvR4LmT2WqYxPdHsZgFc"
                       }
                     },
                     "inquiry-template-version": {
                       "data": {
                         "type": "inquiry-template-version",
-                        "id": "itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo"
+                        "id": "itmplv_LqX3jYwK7HnRpZmCvBdF8RtA"
                       }
                     },
+                    "transaction": {
+                      "data": null
+                    },
                     "reviewer": {
-                      "data": {}
+                      "data": {
+                        "type": "workflow-run",
+                        "id": "wfr_M7vXNqRpL3kBzW4tYcHdJgFs"
+                      }
                     },
                     "reports": {
                       "data": []
@@ -63598,13 +64685,18 @@
                     "verifications": {
                       "data": [
                         {
-                          "type": "verification/database",
-                          "id": "ver_uHDiwtcx3htjajvEaeMjPQcE"
+                          "type": "verification/government-id",
+                          "id": "ver_X3kHmRqV9YpZ2nBwL5tGdJcE"
                         }
                       ]
                     },
                     "sessions": {
-                      "data": []
+                      "data": [
+                        {
+                          "type": "inquiry-session",
+                          "id": "iqse_NkPwRtQv5xB8cYm2L4jZdHsF"
+                        }
+                      ]
                     },
                     "documents": {
                       "data": []
@@ -63616,14 +64708,46 @@
                 },
                 "included": [
                   {
+                    "type": "inquiry-template",
+                    "id": "itmpl_AbN9KvR4LmT2WqYxPdHsZgFc",
+                    "attributes": {
+                      "status": "active",
+                      "name": "Example KYC Template"
+                    },
+                    "relationships": {
+                      "latest-published-version": {
+                        "data": {
+                          "type": "inquiry-template-version",
+                          "id": "itmplv_LqX3jYwK7HnRpZmCvBdF8RtA"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "inquiry-template-version",
+                    "id": "itmplv_LqX3jYwK7HnRpZmCvBdF8RtA",
+                    "attributes": {
+                      "status": "published",
+                      "name-display": "Example KYC Flow"
+                    },
+                    "relationships": {
+                      "inquiry-template": {
+                        "data": {
+                          "type": "inquiry-template",
+                          "id": "itmpl_AbN9KvR4LmT2WqYxPdHsZgFc"
+                        }
+                      }
+                    }
+                  },
+                  {
                     "type": "inquiry-session",
-                    "id": "iqse_ABC123",
+                    "id": "iqse_NkPwRtQv5xB8cYm2L4jZdHsF",
                     "attributes": {
                       "status": "expired",
-                      "created-at": "2023-07-25T04:15:20.000Z",
-                      "started-at": "2023-07-25T05:14:50.000Z",
-                      "expired-at": "2023-07-26T05:14:50.000Z",
-                      "ip-address": "127.0.0.1",
+                      "created-at": "2024-03-15T18:31:00.000Z",
+                      "started-at": "2024-03-15T18:31:00.000Z",
+                      "expired-at": "2024-03-15T18:35:00.000Z",
+                      "ip-address": "192.0.2.4",
                       "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36",
                       "os-name": "Mac",
                       "os-full-version": "10.15.7",
@@ -63643,37 +64767,21 @@
                       "country-name": "United States",
                       "region-code": "CA",
                       "region-name": "California",
-                      "latitude": 37.7688,
-                      "longitude": -122.262
+                      "latitude": 37.7749,
+                      "longitude": -122.4194
                     },
                     "relationships": {
                       "inquiry": {
                         "data": {
                           "type": "inquiry",
-                          "id": "inq_ABC123"
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "type": "inquiry-template",
-                    "id": "itmpl_ABC123",
-                    "attributes": {
-                      "status": "active",
-                      "name": "Twilio Desktop"
-                    },
-                    "relationships": {
-                      "latest-published-version": {
-                        "data": {
-                          "type": "inquiry-template-version",
-                          "id": "itmplv_ABC123"
+                          "id": "inq_kT4xVnR2bPmYwL9sTgD3cExZ"
                         }
                       }
                     }
                   }
                 ]
               },
-              "created-at": "2024-02-15T23:48:17.732Z"
+              "created-at": "2024-03-15T18:35:04.100Z"
             }
           }
         }
@@ -63682,33 +64790,33 @@
         "value": {
           "data": {
             "type": "event",
-            "id": "evt_o9byQRbjygu76Jbtea9wuJ1boP7a",
+            "id": "evt_cDeFgHiJkLmNoPqRsTuVwXyZ",
             "attributes": {
               "name": "inquiry.transitioned",
               "payload": {
                 "data": {
                   "type": "inquiry",
-                  "id": "inq_zEx4jL84ShbUyuwX6AzPSqt6",
+                  "id": "inq_kT4xVnR2bPmYwL9sTgD3cExZ",
                   "attributes": {
                     "status": "pending",
-                    "reference-id": "abc-123",
+                    "reference-id": null,
                     "note": null,
                     "behaviors": {},
                     "tags": [],
-                    "creator": "creator@withpersona.com",
+                    "creator": "creator@example.com",
                     "reviewer-comment": null,
-                    "created-at": "2023-03-29T19:06:45.000Z",
-                    "started-at": "2023-03-30T19:07:01.000Z",
-                    "expires-at": "2023-03-31T19:07:01.000Z",
+                    "created-at": "2024-03-15T18:30:00.000Z",
+                    "updated-at": "2024-03-15T18:32:00.000Z",
+                    "started-at": "2024-03-15T18:31:00.000Z",
+                    "expires-at": "2024-03-16T18:30:00.000Z",
                     "completed-at": null,
                     "failed-at": null,
                     "marked-for-review-at": null,
                     "decisioned-at": null,
                     "expired-at": null,
                     "redacted-at": null,
-                    "updated-at": "2023-03-30T19:07:01.000Z",
-                    "previous-step-name": "start",
-                    "next-step-name": "verification_document",
+                    "previous-step-name": "verification_government_id",
+                    "next-step-name": "verification_selfie",
                     "fields": {
                       "name-first": {
                         "type": "string",
@@ -63752,7 +64860,7 @@
                       },
                       "email-address": {
                         "type": "string",
-                        "value": "jane@doe.com"
+                        "value": "jane@example.com"
                       },
                       "phone-number": {
                         "type": "string",
@@ -63766,28 +64874,28 @@
                   },
                   "relationships": {
                     "account": {
-                      "data": {
-                        "type": "account",
-                        "id": "act_n2uq9eKMboaCQzu9ALWYcVdN"
-                      }
+                      "data": null
                     },
                     "template": {
-                      "data": {}
+                      "data": null
                     },
                     "inquiry-template": {
                       "data": {
                         "type": "inquiry-template",
-                        "id": "itmpl_p8ANAJy9iqadm2buF2xcVgqH"
+                        "id": "itmpl_AbN9KvR4LmT2WqYxPdHsZgFc"
                       }
                     },
                     "inquiry-template-version": {
                       "data": {
                         "type": "inquiry-template-version",
-                        "id": "itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo"
+                        "id": "itmplv_LqX3jYwK7HnRpZmCvBdF8RtA"
                       }
                     },
+                    "transaction": {
+                      "data": null
+                    },
                     "reviewer": {
-                      "data": {}
+                      "data": null
                     },
                     "reports": {
                       "data": []
@@ -63795,13 +64903,18 @@
                     "verifications": {
                       "data": [
                         {
-                          "type": "verification/database",
-                          "id": "ver_uHDiwtcx3htjajvEaeMjPQcE"
+                          "type": "verification/government-id",
+                          "id": "ver_X3kHmRqV9YpZ2nBwL5tGdJcE"
                         }
                       ]
                     },
                     "sessions": {
-                      "data": []
+                      "data": [
+                        {
+                          "type": "inquiry-session",
+                          "id": "iqse_NkPwRtQv5xB8cYm2L4jZdHsF"
+                        }
+                      ]
                     },
                     "documents": {
                       "data": []
@@ -63813,14 +64926,46 @@
                 },
                 "included": [
                   {
-                    "type": "inquiry-session",
-                    "id": "iqse_ABC123",
+                    "type": "inquiry-template",
+                    "id": "itmpl_AbN9KvR4LmT2WqYxPdHsZgFc",
                     "attributes": {
-                      "status": "expired",
-                      "created-at": "2023-07-25T04:15:20.000Z",
-                      "started-at": "2023-07-25T05:14:50.000Z",
-                      "expired-at": "2023-07-26T05:14:50.000Z",
-                      "ip-address": "127.0.0.1",
+                      "status": "active",
+                      "name": "Example KYC Template"
+                    },
+                    "relationships": {
+                      "latest-published-version": {
+                        "data": {
+                          "type": "inquiry-template-version",
+                          "id": "itmplv_LqX3jYwK7HnRpZmCvBdF8RtA"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "inquiry-template-version",
+                    "id": "itmplv_LqX3jYwK7HnRpZmCvBdF8RtA",
+                    "attributes": {
+                      "status": "published",
+                      "name-display": "Example KYC Flow"
+                    },
+                    "relationships": {
+                      "inquiry-template": {
+                        "data": {
+                          "type": "inquiry-template",
+                          "id": "itmpl_AbN9KvR4LmT2WqYxPdHsZgFc"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "inquiry-session",
+                    "id": "iqse_NkPwRtQv5xB8cYm2L4jZdHsF",
+                    "attributes": {
+                      "status": "active",
+                      "created-at": "2024-03-15T18:31:00.000Z",
+                      "started-at": "2024-03-15T18:31:00.000Z",
+                      "expired-at": null,
+                      "ip-address": "192.0.2.4",
                       "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36",
                       "os-name": "Mac",
                       "os-full-version": "10.15.7",
@@ -63840,37 +64985,862 @@
                       "country-name": "United States",
                       "region-code": "CA",
                       "region-name": "California",
-                      "latitude": 37.7688,
-                      "longitude": -122.262
+                      "latitude": 37.7749,
+                      "longitude": -122.4194
                     },
                     "relationships": {
                       "inquiry": {
                         "data": {
                           "type": "inquiry",
-                          "id": "inq_ABC123"
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "type": "inquiry-template",
-                    "id": "itmpl_ABC123",
-                    "attributes": {
-                      "status": "active",
-                      "name": "Twilio Desktop"
-                    },
-                    "relationships": {
-                      "latest-published-version": {
-                        "data": {
-                          "type": "inquiry-template-version",
-                          "id": "itmplv_ABC123"
+                          "id": "inq_kT4xVnR2bPmYwL9sTgD3cExZ"
                         }
                       }
                     }
                   }
                 ]
               },
-              "created-at": "2024-02-15T23:48:17.732Z"
+              "created-at": "2024-03-15T18:32:00.100Z"
+            }
+          }
+        }
+      },
+      "inquiry-redacted-webhook-body": {
+        "value": {
+          "data": {
+            "type": "event",
+            "id": "evt_jKlMnOpQrStUvWxYzAbCdEfG",
+            "attributes": {
+              "name": "inquiry.redacted",
+              "payload": {
+                "data": {
+                  "type": "inquiry",
+                  "id": "inq_kT4xVnR2bPmYwL9sTgD3cExZ",
+                  "attributes": {
+                    "status": "approved",
+                    "reference-id": null,
+                    "note": null,
+                    "behaviors": {},
+                    "tags": [],
+                    "creator": "creator@example.com",
+                    "reviewer-comment": null,
+                    "created-at": "2024-03-15T18:30:00.000Z",
+                    "updated-at": "2024-09-15T00:00:00.000Z",
+                    "started-at": "2024-03-15T18:31:00.000Z",
+                    "expires-at": null,
+                    "completed-at": null,
+                    "failed-at": null,
+                    "marked-for-review-at": null,
+                    "decisioned-at": "2024-03-15T18:35:00.000Z",
+                    "expired-at": null,
+                    "redacted-at": "2024-09-15T00:00:00.000Z",
+                    "previous-step-name": "verification_selfie",
+                    "next-step-name": "success",
+                    "fields": {
+                      "name-first": {
+                        "type": "string",
+                        "value": null
+                      },
+                      "name-last": {
+                        "type": "string",
+                        "value": null
+                      },
+                      "birthdate": {
+                        "type": "date",
+                        "value": null
+                      },
+                      "address-street-1": {
+                        "type": "string",
+                        "value": null
+                      },
+                      "address-city": {
+                        "type": "string",
+                        "value": null
+                      },
+                      "address-subdivision": {
+                        "type": "string",
+                        "value": null
+                      },
+                      "address-postal-code": {
+                        "type": "string",
+                        "value": null
+                      },
+                      "address-country-code": {
+                        "type": "string",
+                        "value": null
+                      },
+                      "email-address": {
+                        "type": "string",
+                        "value": null
+                      },
+                      "phone-number": {
+                        "type": "string",
+                        "value": null
+                      },
+                      "identification-number": {
+                        "type": "string",
+                        "value": null
+                      }
+                    }
+                  },
+                  "relationships": {
+                    "account": {
+                      "data": {
+                        "type": "account",
+                        "id": "act_fJ8mQpDLrYvNcBzWk5HsAxRy"
+                      }
+                    },
+                    "template": {
+                      "data": null
+                    },
+                    "inquiry-template": {
+                      "data": {
+                        "type": "inquiry-template",
+                        "id": "itmpl_AbN9KvR4LmT2WqYxPdHsZgFc"
+                      }
+                    },
+                    "inquiry-template-version": {
+                      "data": {
+                        "type": "inquiry-template-version",
+                        "id": "itmplv_LqX3jYwK7HnRpZmCvBdF8RtA"
+                      }
+                    },
+                    "transaction": {
+                      "data": null
+                    },
+                    "reviewer": {
+                      "data": {
+                        "type": "workflow-run",
+                        "id": "wfr_M7vXNqRpL3kBzW4tYcHdJgFs"
+                      }
+                    },
+                    "reports": {
+                      "data": []
+                    },
+                    "verifications": {
+                      "data": [
+                        {
+                          "type": "verification/government-id",
+                          "id": "ver_X3kHmRqV9YpZ2nBwL5tGdJcE"
+                        }
+                      ]
+                    },
+                    "sessions": {
+                      "data": []
+                    },
+                    "documents": {
+                      "data": []
+                    },
+                    "selfies": {
+                      "data": []
+                    }
+                  }
+                },
+                "included": [
+                  {
+                    "type": "inquiry-template",
+                    "id": "itmpl_AbN9KvR4LmT2WqYxPdHsZgFc",
+                    "attributes": {
+                      "status": "active",
+                      "name": "Example KYC Template"
+                    },
+                    "relationships": {
+                      "latest-published-version": {
+                        "data": {
+                          "type": "inquiry-template-version",
+                          "id": "itmplv_LqX3jYwK7HnRpZmCvBdF8RtA"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "inquiry-template-version",
+                    "id": "itmplv_LqX3jYwK7HnRpZmCvBdF8RtA",
+                    "attributes": {
+                      "status": "published",
+                      "name-display": "Example KYC Flow"
+                    },
+                    "relationships": {
+                      "inquiry-template": {
+                        "data": {
+                          "type": "inquiry-template",
+                          "id": "itmpl_AbN9KvR4LmT2WqYxPdHsZgFc"
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              "created-at": "2024-09-15T00:00:00.100Z"
+            }
+          }
+        }
+      },
+      "inquiry-reusable-persona-created-webhook-body": {
+        "value": {
+          "data": {
+            "type": "event",
+            "id": "evt_kLmNoPqRsTuVwXyZaBcDeFgH",
+            "attributes": {
+              "name": "inquiry.reusable-persona-created",
+              "payload": {
+                "data": {
+                  "type": "inquiry",
+                  "id": "inq_kT4xVnR2bPmYwL9sTgD3cExZ",
+                  "attributes": {
+                    "status": "approved",
+                    "reference-id": null,
+                    "note": null,
+                    "behaviors": {},
+                    "tags": [],
+                    "creator": "creator@example.com",
+                    "reviewer-comment": null,
+                    "created-at": "2024-03-15T18:30:00.000Z",
+                    "updated-at": "2024-03-15T18:35:00.000Z",
+                    "started-at": "2024-03-15T18:31:00.000Z",
+                    "expires-at": null,
+                    "completed-at": null,
+                    "failed-at": null,
+                    "marked-for-review-at": null,
+                    "decisioned-at": "2024-03-15T18:35:00.000Z",
+                    "expired-at": null,
+                    "redacted-at": null,
+                    "previous-step-name": "verification_selfie",
+                    "next-step-name": "success",
+                    "fields": {
+                      "name-first": {
+                        "type": "string",
+                        "value": "Jane"
+                      },
+                      "name-middle": {
+                        "type": "string",
+                        "value": "Marie"
+                      },
+                      "name-last": {
+                        "type": "string",
+                        "value": "Doe"
+                      },
+                      "address-street-1": {
+                        "type": "string",
+                        "value": "123 Main St"
+                      },
+                      "address-street-2": {
+                        "type": "string",
+                        "value": null
+                      },
+                      "address-city": {
+                        "type": "string",
+                        "value": "San Francisco"
+                      },
+                      "address-subdivision": {
+                        "type": "string",
+                        "value": "California"
+                      },
+                      "address-postal-code": {
+                        "type": "string",
+                        "value": "94111"
+                      },
+                      "address-country-code": {
+                        "type": "string",
+                        "value": "US"
+                      },
+                      "birthdate": {
+                        "type": "date",
+                        "value": "1995-09-08"
+                      },
+                      "email-address": {
+                        "type": "string",
+                        "value": "jane@example.com"
+                      },
+                      "phone-number": {
+                        "type": "string",
+                        "value": null
+                      },
+                      "identification-number": {
+                        "type": "string",
+                        "value": null
+                      }
+                    }
+                  },
+                  "relationships": {
+                    "account": {
+                      "data": {
+                        "type": "account",
+                        "id": "act_fJ8mQpDLrYvNcBzWk5HsAxRy"
+                      }
+                    },
+                    "template": {
+                      "data": null
+                    },
+                    "inquiry-template": {
+                      "data": {
+                        "type": "inquiry-template",
+                        "id": "itmpl_AbN9KvR4LmT2WqYxPdHsZgFc"
+                      }
+                    },
+                    "inquiry-template-version": {
+                      "data": {
+                        "type": "inquiry-template-version",
+                        "id": "itmplv_LqX3jYwK7HnRpZmCvBdF8RtA"
+                      }
+                    },
+                    "transaction": {
+                      "data": null
+                    },
+                    "reviewer": {
+                      "data": {
+                        "type": "workflow-run",
+                        "id": "wfr_M7vXNqRpL3kBzW4tYcHdJgFs"
+                      }
+                    },
+                    "reports": {
+                      "data": []
+                    },
+                    "verifications": {
+                      "data": [
+                        {
+                          "type": "verification/government-id",
+                          "id": "ver_X3kHmRqV9YpZ2nBwL5tGdJcE"
+                        }
+                      ]
+                    },
+                    "sessions": {
+                      "data": [
+                        {
+                          "type": "inquiry-session",
+                          "id": "iqse_NkPwRtQv5xB8cYm2L4jZdHsF"
+                        }
+                      ]
+                    },
+                    "documents": {
+                      "data": []
+                    },
+                    "selfies": {
+                      "data": []
+                    }
+                  }
+                },
+                "included": [
+                  {
+                    "type": "inquiry-template",
+                    "id": "itmpl_AbN9KvR4LmT2WqYxPdHsZgFc",
+                    "attributes": {
+                      "status": "active",
+                      "name": "Example KYC Template"
+                    },
+                    "relationships": {
+                      "latest-published-version": {
+                        "data": {
+                          "type": "inquiry-template-version",
+                          "id": "itmplv_LqX3jYwK7HnRpZmCvBdF8RtA"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "inquiry-template-version",
+                    "id": "itmplv_LqX3jYwK7HnRpZmCvBdF8RtA",
+                    "attributes": {
+                      "status": "published",
+                      "name-display": "Example KYC Flow"
+                    },
+                    "relationships": {
+                      "inquiry-template": {
+                        "data": {
+                          "type": "inquiry-template",
+                          "id": "itmpl_AbN9KvR4LmT2WqYxPdHsZgFc"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "inquiry-session",
+                    "id": "iqse_NkPwRtQv5xB8cYm2L4jZdHsF",
+                    "attributes": {
+                      "status": "expired",
+                      "created-at": "2024-03-15T18:31:00.000Z",
+                      "started-at": "2024-03-15T18:31:00.000Z",
+                      "expired-at": "2024-03-15T18:35:00.000Z",
+                      "ip-address": "192.0.2.4",
+                      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36",
+                      "os-name": "Mac",
+                      "os-full-version": "10.15.7",
+                      "device-type": "desktop",
+                      "device-name": null,
+                      "browser-name": "Chrome",
+                      "browser-full-version": "115.0.0.0",
+                      "mobile-sdk-name": null,
+                      "mobile-sdk-full-version": null,
+                      "device-handoff-method": null,
+                      "is-proxy": false,
+                      "is-tor": false,
+                      "is-datacenter": false,
+                      "is-vpn": false,
+                      "threat-level": "low",
+                      "country-code": "US",
+                      "country-name": "United States",
+                      "region-code": "CA",
+                      "region-name": "California",
+                      "latitude": 37.7749,
+                      "longitude": -122.4194
+                    },
+                    "relationships": {
+                      "inquiry": {
+                        "data": {
+                          "type": "inquiry",
+                          "id": "inq_kT4xVnR2bPmYwL9sTgD3cExZ"
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              "created-at": "2024-03-15T18:35:01.100Z"
+            }
+          }
+        }
+      },
+      "inquiry-reusable-persona-used-webhook-body": {
+        "value": {
+          "data": {
+            "type": "event",
+            "id": "evt_lMnOpQrStUvWxYzAbCdEfGhI",
+            "attributes": {
+              "name": "inquiry.reusable-persona-used",
+              "payload": {
+                "data": {
+                  "type": "inquiry",
+                  "id": "inq_qR5sT7vXNwJpZkLcBdFmYhGe",
+                  "attributes": {
+                    "status": "approved",
+                    "reference-id": null,
+                    "note": null,
+                    "behaviors": {},
+                    "tags": [],
+                    "creator": "creator@example.com",
+                    "reviewer-comment": null,
+                    "created-at": "2024-08-22T14:00:00.000Z",
+                    "updated-at": "2024-08-22T14:00:20.000Z",
+                    "started-at": "2024-08-22T14:00:10.000Z",
+                    "expires-at": null,
+                    "completed-at": null,
+                    "failed-at": null,
+                    "marked-for-review-at": null,
+                    "decisioned-at": "2024-08-22T14:00:20.000Z",
+                    "expired-at": null,
+                    "redacted-at": null,
+                    "previous-step-name": "reusable_persona_match",
+                    "next-step-name": "success",
+                    "fields": {
+                      "name-first": {
+                        "type": "string",
+                        "value": "Jane"
+                      },
+                      "name-middle": {
+                        "type": "string",
+                        "value": "Marie"
+                      },
+                      "name-last": {
+                        "type": "string",
+                        "value": "Doe"
+                      },
+                      "address-street-1": {
+                        "type": "string",
+                        "value": "123 Main St"
+                      },
+                      "address-street-2": {
+                        "type": "string",
+                        "value": null
+                      },
+                      "address-city": {
+                        "type": "string",
+                        "value": "San Francisco"
+                      },
+                      "address-subdivision": {
+                        "type": "string",
+                        "value": "California"
+                      },
+                      "address-postal-code": {
+                        "type": "string",
+                        "value": "94111"
+                      },
+                      "address-country-code": {
+                        "type": "string",
+                        "value": "US"
+                      },
+                      "birthdate": {
+                        "type": "date",
+                        "value": "1995-09-08"
+                      },
+                      "email-address": {
+                        "type": "string",
+                        "value": "jane@example.com"
+                      },
+                      "phone-number": {
+                        "type": "string",
+                        "value": null
+                      },
+                      "identification-number": {
+                        "type": "string",
+                        "value": null
+                      }
+                    }
+                  },
+                  "relationships": {
+                    "account": {
+                      "data": {
+                        "type": "account",
+                        "id": "act_fJ8mQpDLrYvNcBzWk5HsAxRy"
+                      }
+                    },
+                    "template": {
+                      "data": null
+                    },
+                    "inquiry-template": {
+                      "data": {
+                        "type": "inquiry-template",
+                        "id": "itmpl_AbN9KvR4LmT2WqYxPdHsZgFc"
+                      }
+                    },
+                    "inquiry-template-version": {
+                      "data": {
+                        "type": "inquiry-template-version",
+                        "id": "itmplv_LqX3jYwK7HnRpZmCvBdF8RtA"
+                      }
+                    },
+                    "transaction": {
+                      "data": null
+                    },
+                    "reviewer": {
+                      "data": {
+                        "type": "workflow-run",
+                        "id": "wfr_M7vXNqRpL3kBzW4tYcHdJgFs"
+                      }
+                    },
+                    "reports": {
+                      "data": []
+                    },
+                    "verifications": {
+                      "data": []
+                    },
+                    "sessions": {
+                      "data": [
+                        {
+                          "type": "inquiry-session",
+                          "id": "iqse_TvW9bXcKpRyZmJ4LnQsHfDvN"
+                        }
+                      ]
+                    },
+                    "documents": {
+                      "data": []
+                    },
+                    "selfies": {
+                      "data": []
+                    }
+                  }
+                },
+                "included": [
+                  {
+                    "type": "inquiry-template",
+                    "id": "itmpl_AbN9KvR4LmT2WqYxPdHsZgFc",
+                    "attributes": {
+                      "status": "active",
+                      "name": "Example KYC Template"
+                    },
+                    "relationships": {
+                      "latest-published-version": {
+                        "data": {
+                          "type": "inquiry-template-version",
+                          "id": "itmplv_LqX3jYwK7HnRpZmCvBdF8RtA"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "inquiry-template-version",
+                    "id": "itmplv_LqX3jYwK7HnRpZmCvBdF8RtA",
+                    "attributes": {
+                      "status": "published",
+                      "name-display": "Example KYC Flow"
+                    },
+                    "relationships": {
+                      "inquiry-template": {
+                        "data": {
+                          "type": "inquiry-template",
+                          "id": "itmpl_AbN9KvR4LmT2WqYxPdHsZgFc"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "inquiry-session",
+                    "id": "iqse_TvW9bXcKpRyZmJ4LnQsHfDvN",
+                    "attributes": {
+                      "status": "expired",
+                      "created-at": "2024-08-22T14:00:10.000Z",
+                      "started-at": "2024-08-22T14:00:10.000Z",
+                      "expired-at": "2024-08-22T14:00:20.000Z",
+                      "ip-address": "192.0.2.4",
+                      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36",
+                      "os-name": "Mac",
+                      "os-full-version": "10.15.7",
+                      "device-type": "desktop",
+                      "device-name": null,
+                      "browser-name": "Chrome",
+                      "browser-full-version": "115.0.0.0",
+                      "mobile-sdk-name": null,
+                      "mobile-sdk-full-version": null,
+                      "device-handoff-method": null,
+                      "is-proxy": false,
+                      "is-tor": false,
+                      "is-datacenter": false,
+                      "is-vpn": false,
+                      "threat-level": "low",
+                      "country-code": "US",
+                      "country-name": "United States",
+                      "region-code": "CA",
+                      "region-name": "California",
+                      "latitude": 37.7749,
+                      "longitude": -122.4194
+                    },
+                    "relationships": {
+                      "inquiry": {
+                        "data": {
+                          "type": "inquiry",
+                          "id": "inq_qR5sT7vXNwJpZkLcBdFmYhGe"
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              "created-at": "2024-08-22T14:00:20.100Z"
+            }
+          }
+        }
+      },
+      "inquiry-updated-tags-webhook-body": {
+        "value": {
+          "data": {
+            "type": "event",
+            "id": "evt_mNoPqRsTuVwXyZaBcDeFgHiJ",
+            "attributes": {
+              "name": "inquiry.updated-tags",
+              "payload": {
+                "data": {
+                  "type": "inquiry",
+                  "id": "inq_kT4xVnR2bPmYwL9sTgD3cExZ",
+                  "attributes": {
+                    "status": "approved",
+                    "reference-id": null,
+                    "note": null,
+                    "behaviors": {},
+                    "tags": [
+                      "high_value_customer",
+                      "manual_review_complete"
+                    ],
+                    "creator": "creator@example.com",
+                    "reviewer-comment": null,
+                    "created-at": "2024-03-15T18:30:00.000Z",
+                    "updated-at": "2024-03-16T09:15:00.000Z",
+                    "started-at": "2024-03-15T18:31:00.000Z",
+                    "expires-at": null,
+                    "completed-at": null,
+                    "failed-at": null,
+                    "marked-for-review-at": null,
+                    "decisioned-at": "2024-03-15T18:35:00.000Z",
+                    "expired-at": null,
+                    "redacted-at": null,
+                    "previous-step-name": "verification_selfie",
+                    "next-step-name": "success",
+                    "fields": {
+                      "name-first": {
+                        "type": "string",
+                        "value": "Jane"
+                      },
+                      "name-middle": {
+                        "type": "string",
+                        "value": "Marie"
+                      },
+                      "name-last": {
+                        "type": "string",
+                        "value": "Doe"
+                      },
+                      "address-street-1": {
+                        "type": "string",
+                        "value": "123 Main St"
+                      },
+                      "address-street-2": {
+                        "type": "string",
+                        "value": null
+                      },
+                      "address-city": {
+                        "type": "string",
+                        "value": "San Francisco"
+                      },
+                      "address-subdivision": {
+                        "type": "string",
+                        "value": "California"
+                      },
+                      "address-postal-code": {
+                        "type": "string",
+                        "value": "94111"
+                      },
+                      "address-country-code": {
+                        "type": "string",
+                        "value": "US"
+                      },
+                      "birthdate": {
+                        "type": "date",
+                        "value": "1995-09-08"
+                      },
+                      "email-address": {
+                        "type": "string",
+                        "value": "jane@example.com"
+                      },
+                      "phone-number": {
+                        "type": "string",
+                        "value": null
+                      },
+                      "identification-number": {
+                        "type": "string",
+                        "value": null
+                      }
+                    }
+                  },
+                  "relationships": {
+                    "account": {
+                      "data": {
+                        "type": "account",
+                        "id": "act_fJ8mQpDLrYvNcBzWk5HsAxRy"
+                      }
+                    },
+                    "template": {
+                      "data": null
+                    },
+                    "inquiry-template": {
+                      "data": {
+                        "type": "inquiry-template",
+                        "id": "itmpl_AbN9KvR4LmT2WqYxPdHsZgFc"
+                      }
+                    },
+                    "inquiry-template-version": {
+                      "data": {
+                        "type": "inquiry-template-version",
+                        "id": "itmplv_LqX3jYwK7HnRpZmCvBdF8RtA"
+                      }
+                    },
+                    "transaction": {
+                      "data": null
+                    },
+                    "reviewer": {
+                      "data": {
+                        "type": "workflow-run",
+                        "id": "wfr_M7vXNqRpL3kBzW4tYcHdJgFs"
+                      }
+                    },
+                    "reports": {
+                      "data": []
+                    },
+                    "verifications": {
+                      "data": [
+                        {
+                          "type": "verification/government-id",
+                          "id": "ver_X3kHmRqV9YpZ2nBwL5tGdJcE"
+                        }
+                      ]
+                    },
+                    "sessions": {
+                      "data": [
+                        {
+                          "type": "inquiry-session",
+                          "id": "iqse_NkPwRtQv5xB8cYm2L4jZdHsF"
+                        }
+                      ]
+                    },
+                    "documents": {
+                      "data": []
+                    },
+                    "selfies": {
+                      "data": []
+                    }
+                  }
+                },
+                "included": [
+                  {
+                    "type": "inquiry-template",
+                    "id": "itmpl_AbN9KvR4LmT2WqYxPdHsZgFc",
+                    "attributes": {
+                      "status": "active",
+                      "name": "Example KYC Template"
+                    },
+                    "relationships": {
+                      "latest-published-version": {
+                        "data": {
+                          "type": "inquiry-template-version",
+                          "id": "itmplv_LqX3jYwK7HnRpZmCvBdF8RtA"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "inquiry-template-version",
+                    "id": "itmplv_LqX3jYwK7HnRpZmCvBdF8RtA",
+                    "attributes": {
+                      "status": "published",
+                      "name-display": "Example KYC Flow"
+                    },
+                    "relationships": {
+                      "inquiry-template": {
+                        "data": {
+                          "type": "inquiry-template",
+                          "id": "itmpl_AbN9KvR4LmT2WqYxPdHsZgFc"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "inquiry-session",
+                    "id": "iqse_NkPwRtQv5xB8cYm2L4jZdHsF",
+                    "attributes": {
+                      "status": "expired",
+                      "created-at": "2024-03-15T18:31:00.000Z",
+                      "started-at": "2024-03-15T18:31:00.000Z",
+                      "expired-at": "2024-03-15T18:35:00.000Z",
+                      "ip-address": "192.0.2.4",
+                      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36",
+                      "os-name": "Mac",
+                      "os-full-version": "10.15.7",
+                      "device-type": "desktop",
+                      "device-name": null,
+                      "browser-name": "Chrome",
+                      "browser-full-version": "115.0.0.0",
+                      "mobile-sdk-name": null,
+                      "mobile-sdk-full-version": null,
+                      "device-handoff-method": null,
+                      "is-proxy": false,
+                      "is-tor": false,
+                      "is-datacenter": false,
+                      "is-vpn": false,
+                      "threat-level": "low",
+                      "country-code": "US",
+                      "country-name": "United States",
+                      "region-code": "CA",
+                      "region-name": "California",
+                      "latitude": 37.7749,
+                      "longitude": -122.4194
+                    },
+                    "relationships": {
+                      "inquiry": {
+                        "data": {
+                          "type": "inquiry",
+                          "id": "inq_kT4xVnR2bPmYwL9sTgD3cExZ"
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              "created-at": "2024-03-16T09:15:00.100Z"
             }
           }
         }
@@ -66036,6 +68006,298 @@
                 "included": []
               },
               "created-at": "2024-02-16T15:12:47.732Z"
+            }
+          }
+        }
+      },
+      "workflow-run-created-webhook-body": {
+        "value": {
+          "data": {
+            "type": "event",
+            "id": "evt_62Ax9zhSjpkngkHWdgdETqLWGV8k",
+            "attributes": {
+              "name": "workflow-run.created",
+              "payload": {
+                "data": {
+                  "type": "workflow-run",
+                  "id": "wfr_GVocwJmMpw6viz29eijVoc5rit7u",
+                  "attributes": {
+                    "status": "in_progress",
+                    "created-at": "2025-09-10T20:42:28.032Z",
+                    "completed-at": null
+                  },
+                  "relationships": {
+                    "creator": {
+                      "data": {
+                        "type": "event",
+                        "id": "evt_3VghhbvDc7UuUNT8uZrqZjsk"
+                      }
+                    },
+                    "workflow": {
+                      "data": {
+                        "type": "workflow",
+                        "id": "wfl_6DHtVFHizt77UZt8XX4yt9Hp"
+                      }
+                    },
+                    "workflow-version": {
+                      "data": {
+                        "type": "workflow-version",
+                        "id": "wfv_2mmawjLXMzWs91uz9oKhp4Wy"
+                      }
+                    }
+                  },
+                  "meta": {
+                    "processing-time-seconds": null
+                  }
+                },
+                "included": [
+                  {
+                    "type": "workflow",
+                    "id": "wfl_6DHtVFHizt77UZt8XX4yt9Hp",
+                    "attributes": {
+                      "name": "KYC Review Workflow",
+                      "status": "running",
+                      "created-at": "2023-11-01T12:00:00.000Z"
+                    },
+                    "relationships": {
+                      "latest-published-version": {
+                        "data": {
+                          "type": "workflow-version",
+                          "id": "wfv_2mmawjLXMzWs91uz9oKhp4Wy"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "workflow-version",
+                    "id": "wfv_2mmawjLXMzWs91uz9oKhp4Wy",
+                    "attributes": {
+                      "description": "Initial published version",
+                      "status": "published",
+                      "created-at": "2023-11-01T12:05:00.000Z"
+                    },
+                    "relationships": {
+                      "workflow": {
+                        "data": {
+                          "type": "workflow",
+                          "id": "wfl_6DHtVFHizt77UZt8XX4yt9Hp"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "event",
+                    "id": "evt_3VghhbvDc7UuUNT8uZrqZjsk",
+                    "attributes": {
+                      "name": "inquiry.completed",
+                      "payload": {
+                        "data": {
+                          "type": "inquiry",
+                          "id": "inq_3VghhbvDc7UuUNT8uZrqZjsk",
+                          "attributes": {},
+                          "relationships": {}
+                        }
+                      },
+                      "created-at": "2025-09-10T20:42:27.500Z",
+                      "context": {}
+                    }
+                  }
+                ]
+              },
+              "created-at": "2025-09-10T20:42:28.100Z",
+              "context": {}
+            }
+          }
+        }
+      },
+      "workflow-run-errored-webhook-body": {
+        "value": {
+          "data": {
+            "type": "event",
+            "id": "evt_b9kfWbmzixpGLSo7qZmEaWFREWiL",
+            "attributes": {
+              "name": "workflow-run.errored",
+              "payload": {
+                "data": {
+                  "type": "workflow-run",
+                  "id": "wfr_85ZjhktrgWeQx6FEb9sGfvyPNFWz",
+                  "attributes": {
+                    "status": "errored",
+                    "created-at": "2025-11-15T13:32:31.172Z",
+                    "completed-at": null
+                  },
+                  "relationships": {
+                    "creator": {
+                      "data": {
+                        "type": "event",
+                        "id": "evt_3VghhbvDc7UuUNT8uZrqZjsk"
+                      }
+                    },
+                    "workflow": {
+                      "data": {
+                        "type": "workflow",
+                        "id": "wfl_p6YpUH4NhqVf8n4ducnoPSVa"
+                      }
+                    },
+                    "workflow-version": {
+                      "data": {
+                        "type": "workflow-version",
+                        "id": "wfv_744igEoBXwB7UG2eFt994aUEcziK"
+                      }
+                    }
+                  },
+                  "meta": {
+                    "processing-time-seconds": null
+                  }
+                },
+                "included": [
+                  {
+                    "type": "workflow",
+                    "id": "wfl_p6YpUH4NhqVf8n4ducnoPSVa",
+                    "attributes": {
+                      "name": "KYC Review Workflow",
+                      "status": "running",
+                      "created-at": "2023-11-01T12:00:00.000Z"
+                    },
+                    "relationships": {
+                      "latest-published-version": {
+                        "data": {
+                          "type": "workflow-version",
+                          "id": "wfv_744igEoBXwB7UG2eFt994aUEcziK"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "workflow-version",
+                    "id": "wfv_744igEoBXwB7UG2eFt994aUEcziK",
+                    "attributes": {
+                      "description": "Initial published version",
+                      "status": "published",
+                      "created-at": "2023-11-01T12:05:00.000Z"
+                    },
+                    "relationships": {
+                      "workflow": {
+                        "data": {
+                          "type": "workflow",
+                          "id": "wfl_p6YpUH4NhqVf8n4ducnoPSVa"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "event",
+                    "id": "evt_3VghhbvDc7UuUNT8uZrqZjsk",
+                    "attributes": {
+                      "name": "inquiry.completed",
+                      "payload": {
+                        "data": {
+                          "type": "inquiry",
+                          "id": "inq_3VghhbvDc7UuUNT8uZrqZjsk",
+                          "attributes": {},
+                          "relationships": {}
+                        }
+                      },
+                      "created-at": "2025-11-15T13:32:30.500Z",
+                      "context": {}
+                    }
+                  }
+                ]
+              },
+              "created-at": "2025-11-15T13:32:35.000Z",
+              "context": {}
+            }
+          }
+        }
+      },
+      "workflow-run-resumed-webhook-body": {
+        "value": {
+          "data": {
+            "type": "event",
+            "id": "evt_9NuK6zXpT4dRoAyO1vUkF5eG",
+            "attributes": {
+              "name": "workflow-run.resumed",
+              "payload": {
+                "data": {
+                  "type": "workflow-run",
+                  "id": "wfr_85ZjhktrgWeQx6FEb9sGfvyPNFWz",
+                  "attributes": {
+                    "status": "in_progress",
+                    "created-at": "2025-11-15T13:32:31.172Z",
+                    "completed-at": null
+                  },
+                  "relationships": {
+                    "creator": {
+                      "data": {
+                        "type": "user",
+                        "id": "user_3VghhbvDc7UuUNT8uZrqZjsk"
+                      }
+                    },
+                    "workflow": {
+                      "data": {
+                        "type": "workflow",
+                        "id": "wfl_p6YpUH4NhqVf8n4ducnoPSVa"
+                      }
+                    },
+                    "workflow-version": {
+                      "data": {
+                        "type": "workflow-version",
+                        "id": "wfv_744igEoBXwB7UG2eFt994aUEcziK"
+                      }
+                    }
+                  },
+                  "meta": {
+                    "processing-time-seconds": null
+                  }
+                },
+                "included": [
+                  {
+                    "type": "workflow",
+                    "id": "wfl_p6YpUH4NhqVf8n4ducnoPSVa",
+                    "attributes": {
+                      "name": "KYC Review Workflow",
+                      "status": "running",
+                      "created-at": "2023-11-01T12:00:00.000Z"
+                    },
+                    "relationships": {
+                      "latest-published-version": {
+                        "data": {
+                          "type": "workflow-version",
+                          "id": "wfv_744igEoBXwB7UG2eFt994aUEcziK"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "workflow-version",
+                    "id": "wfv_744igEoBXwB7UG2eFt994aUEcziK",
+                    "attributes": {
+                      "description": "Initial published version",
+                      "status": "published",
+                      "created-at": "2023-11-01T12:05:00.000Z"
+                    },
+                    "relationships": {
+                      "workflow": {
+                        "data": {
+                          "type": "workflow",
+                          "id": "wfl_p6YpUH4NhqVf8n4ducnoPSVa"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "user",
+                    "id": "user_3VghhbvDc7UuUNT8uZrqZjsk",
+                    "attributes": {
+                      "email-address": "jane@example.com",
+                      "name-first": "Jane",
+                      "name-last": "Doe"
+                    }
+                  }
+                ]
+              },
+              "created-at": "2025-11-16T10:05:00.000Z",
+              "context": {}
             }
           }
         }

@@ -1,0 +1,285 @@
+get:
+  description: >-
+    Retrieves the translations for an Inquiry Template as a JSON:API resource.
+
+
+    The export uses the latest draft version if one exists, otherwise falls back
+    to the latest published version.
+
+
+    Note: You must use a production API key to access this endpoint. For
+    security reasons, we do not expose organization-level resources like Inquiry
+    Templates in Sandbox via API.
+  operationId: retrieve-inquiry-template-translations
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: >-
+      https://docs.withpersona.com/api-reference/inquiry-templates/retrieve-inquiry-template-translations
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+    - description: Inquiry Template ID
+      in: path
+      name: inquiry-template-id
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: This endpoint returns an Inquiry Template Translations object.
+      content:
+        application/json:
+          schema:
+            type: object
+            additionalProperties: false
+            required:
+              - data
+            properties:
+              data:
+                type: object
+                additionalProperties: false
+                required:
+                  - type
+                  - id
+                  - attributes
+                properties:
+                  type:
+                    type: string
+                    const: inquiry-template-translations
+                  id:
+                    type: string
+                    description: >-
+                      The token of the Inquiry Template Version the translations
+                      were retrieved from.
+                  attributes:
+                    type: object
+                    additionalProperties: false
+                    required:
+                      - translations
+                    properties:
+                      translations:
+                        type: array
+                        items:
+                          type: object
+                          additionalProperties: false
+                          required:
+                            - step
+                            - step-display-name
+                            - component
+                            - attribute-name
+                            - locale-values
+                          properties:
+                            step:
+                              type: string
+                            step-display-name:
+                              type: string
+                            component:
+                              type: string
+                            attribute-name:
+                              type: string
+                            locale-values:
+                              type: array
+                              items:
+                                type: object
+                                additionalProperties: false
+                                required:
+                                  - locale
+                                  - value
+                                properties:
+                                  locale:
+                                    type: string
+                                  value:
+                                    type:
+                                      - string
+                                      - 'null'
+          examples:
+            Success:
+              value:
+                data:
+                  type: inquiry-template-translations
+                  id: itmplv_HAVumeSgCxWxhVb8tTRjaiUB
+                  attributes:
+                    translations:
+                      - step: start
+                        step-display-name: Start
+                        component: title
+                        attribute-name: text
+                        locale-values:
+                          - locale: en-US
+                            value: Getting started
+                          - locale: fr
+                            value: Commencer
+                          - locale: es-MX
+                            value: Empezar
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Retrieve Inquiry Template Translations
+  tags:
+    - Inquiry Templates
+  x-persona-product: Inquiries
+post:
+  description: >-
+    Imports translations for an Inquiry Template. Supports partial updates —
+    translation rows not included in the request body are left unchanged.
+
+
+    If a draft version already exists, translations are applied to it. If no
+    draft exists, a new draft is created from the latest published version
+    before importing. The draft is never automatically published — publishing is
+    always a manual step in the dashboard.
+
+
+    Note: You must use a production API key to access this endpoint. For
+    security reasons, we do not expose organization-level resources like Inquiry
+    Templates in Sandbox via API.
+  operationId: import-inquiry-template-translations
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: >-
+      https://docs.withpersona.com/api-reference/inquiry-templates/import-inquiry-template-translations
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+    - description: Inquiry Template ID
+      in: path
+      name: inquiry-template-id
+      required: true
+      schema:
+        type: string
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          additionalProperties: false
+          required:
+            - data
+          properties:
+            data:
+              type: object
+              additionalProperties: false
+              required:
+                - attributes
+              properties:
+                attributes:
+                  type: object
+                  additionalProperties: false
+                  required:
+                    - translations
+                  properties:
+                    translations:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                          - step
+                          - component
+                          - attribute-name
+                          - locale-values
+                        properties:
+                          step:
+                            type: string
+                          step-display-name:
+                            type: string
+                          component:
+                            type: string
+                          attribute-name:
+                            type: string
+                          locale-values:
+                            type: array
+                            items:
+                              type: object
+                              additionalProperties: false
+                              required:
+                                - locale
+                                - value
+                              properties:
+                                locale:
+                                  type: string
+                                value:
+                                  type:
+                                    - string
+                                    - 'null'
+        examples:
+          Import translations:
+            value:
+              data:
+                attributes:
+                  translations:
+                    - step: start
+                      step-display-name: Start
+                      component: title
+                      attribute-name: text
+                      locale-values:
+                        - locale: en-US
+                          value: Getting started
+                        - locale: fr
+                          value: Commencer
+                        - locale: es-MX
+                          value: Empezar
+  responses:
+    '200':
+      description: This endpoint returns the updated Inquiry Template Version object.
+      content:
+        application/json:
+          schema:
+            type: object
+            additionalProperties: false
+            required:
+              - data
+            properties:
+              data:
+                $ref: ../components/schemas/inquiry-template-version.yaml
+          examples:
+            Success:
+              value:
+                data:
+                  type: inquiry-template-version
+                  id: itmplv_HAVumeSgCxWxhVb8tTRjaiUB
+                  attributes:
+                    name-display: Collect Government ID
+                    status: draft
+                    enabled-locales:
+                      - en-US
+                    created-at: '2023-01-05T00:00:00.000Z'
+                    updated-at: '2023-01-05T00:00:00.000Z'
+                    published-at: null
+                    theme: {}
+                  relationships:
+                    inquiry-template:
+                      data:
+                        type: inquiry-template
+                        id: itmpl_srQQ2Ui2gvNY353u65vD61gr
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Import Inquiry Template Translations
+  tags:
+    - Inquiry Templates
+  x-persona-product: Inquiries

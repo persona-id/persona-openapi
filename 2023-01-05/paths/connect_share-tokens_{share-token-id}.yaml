@@ -16,6 +16,22 @@ get:
       schema:
         type: string
       description: The ID of the Share Token
+    - name: peek-source-data
+      in: query
+      required: false
+      schema:
+        type: boolean
+        default: false
+      description: >
+        When `true`, the caller is the destination organization, and the
+        destination organization
+
+        has access to the source data peek capability, the response's
+
+        `data.attributes.source-data` carries a PII-filtered source-data
+        envelope. Defaults to
+
+        `false`; omitted from list responses regardless.
   responses:
     '200':
       description: This endpoint returns a Share Token resource.
@@ -44,5 +60,7 @@ get:
       $ref: ../components/responses/forbidden.yaml
     '404':
       $ref: ../components/responses/not-found.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
     '429':
       $ref: ../components/responses/too-many-requests.yaml

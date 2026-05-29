@@ -97,6 +97,10 @@ properties:
           - 'null'
         format: date-time
       failed-at:
+        description: >-
+          Set when an Inquiry transitions to `failed`. Not typically set on
+          `declined` Inquiries — those carry `completed-at` from the transition
+          that preceded the decision.
         examples:
           - '2023-03-28T18:35:10.000Z'
         type:
@@ -607,12 +611,20 @@ properties:
         additionalProperties: false
         type: object
       reviewer:
+        description: >-
+          Actor that decisioned the Inquiry. `data` is `null` while the Inquiry
+          has not been decisioned. Once decisioned, `data.type` and `data.id`
+          identify the reviewer: - `user` + `user_*` — a dashboard user reviewed
+          and decisioned the Inquiry. - `workflow` + `wfl_*` — Workflows 1.0
+          auto-decisioned the Inquiry. - `workflow-run` + `wfr_*` — Workflows
+          2.0 auto-decisioned the Inquiry
+            (the dominant case in automation-heavy organizations).
         properties:
           data:
             properties:
               id:
                 examples:
-                  - user_ABC123
+                  - wfr_M7vXNqRpL3kBzW4tYcHdJgFs
                 type: string
               type:
                 x-polymorphic: true
@@ -621,7 +633,7 @@ properties:
                   - workflow
                   - workflow-run
                 type: string
-                description: Will be either `user`, `workflow`, or `workflow-run`.
+                description: One of `user`, `workflow`, or `workflow-run`.
             type:
               - object
               - 'null'

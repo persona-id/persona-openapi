@@ -1,33 +1,33 @@
 value:
   data:
     type: event
-    id: evt_o9byQRbjygu76Jbtea9wuJ1boP7a
+    id: evt_iJkLmNoPqRsTuVwXyZaBcDeF
     attributes:
       name: inquiry.declined
       payload:
         data:
           type: inquiry
-          id: inq_zEx4jL84ShbUyuwX6AzPSqt6
+          id: inq_kT4xVnR2bPmYwL9sTgD3cExZ
           attributes:
             status: declined
-            reference-id: abc-123
+            reference-id: null
             note: null
             behaviors: {}
             tags: []
-            creator: creator@withpersona.com
+            creator: creator@example.com
             reviewer-comment: null
-            created-at: '2023-03-29T19:06:45.000Z'
-            started-at: '2023-03-30T19:07:01.000Z'
+            created-at: '2024-03-15T18:30:00.000Z'
+            updated-at: '2024-03-15T18:35:04.000Z'
+            started-at: '2024-03-15T18:31:00.000Z'
             expires-at: null
-            completed-at: null
+            completed-at: '2024-03-15T18:34:00.000Z'
             failed-at: null
             marked-for-review-at: null
-            decisioned-at: null
+            decisioned-at: '2024-03-15T18:35:04.000Z'
             expired-at: null
             redacted-at: null
-            updated-at: '2023-03-30T19:07:01.000Z'
-            previous-step-name: start
-            next-step-name: verification_document
+            previous-step-name: verification_government_id
+            next-step-name: failure
             fields:
               name-first:
                 type: string
@@ -61,7 +61,7 @@ value:
                 value: '1995-09-08'
               email-address:
                 type: string
-                value: jane@doe.com
+                value: jane@example.com
               phone-number:
                 type: string
                 value: null
@@ -87,40 +87,66 @@ value:
             account:
               data:
                 type: account
-                id: act_n2uq9eKMboaCQzu9ALWYcVdN
+                id: act_fJ8mQpDLrYvNcBzWk5HsAxRy
             template:
-              data: {}
+              data: null
             inquiry-template:
               data:
                 type: inquiry-template
-                id: itmpl_p8ANAJy9iqadm2buF2xcVgqH
+                id: itmpl_AbN9KvR4LmT2WqYxPdHsZgFc
             inquiry-template-version:
               data:
                 type: inquiry-template-version
-                id: itmplv_iXhqfNWqwYLAWs9G8Fm8hPfo
+                id: itmplv_LqX3jYwK7HnRpZmCvBdF8RtA
+            transaction:
+              data: null
             reviewer:
-              data: {}
+              data:
+                type: workflow-run
+                id: wfr_M7vXNqRpL3kBzW4tYcHdJgFs
             reports:
               data: []
             verifications:
               data:
-                - type: verification/database
-                  id: ver_uHDiwtcx3htjajvEaeMjPQcE
+                - type: verification/government-id
+                  id: ver_X3kHmRqV9YpZ2nBwL5tGdJcE
             sessions:
-              data: []
+              data:
+                - type: inquiry-session
+                  id: iqse_NkPwRtQv5xB8cYm2L4jZdHsF
             documents:
               data: []
             selfies:
               data: []
         included:
+          - type: inquiry-template
+            id: itmpl_AbN9KvR4LmT2WqYxPdHsZgFc
+            attributes:
+              status: active
+              name: Example KYC Template
+            relationships:
+              latest-published-version:
+                data:
+                  type: inquiry-template-version
+                  id: itmplv_LqX3jYwK7HnRpZmCvBdF8RtA
+          - type: inquiry-template-version
+            id: itmplv_LqX3jYwK7HnRpZmCvBdF8RtA
+            attributes:
+              status: published
+              name-display: Example KYC Flow
+            relationships:
+              inquiry-template:
+                data:
+                  type: inquiry-template
+                  id: itmpl_AbN9KvR4LmT2WqYxPdHsZgFc
           - type: inquiry-session
-            id: iqse_ABC123
+            id: iqse_NkPwRtQv5xB8cYm2L4jZdHsF
             attributes:
               status: expired
-              created-at: '2023-07-25T04:15:20.000Z'
-              started-at: '2023-07-25T05:14:50.000Z'
-              expired-at: '2023-07-26T05:14:50.000Z'
-              ip-address: 127.0.0.1
+              created-at: '2024-03-15T18:31:00.000Z'
+              started-at: '2024-03-15T18:31:00.000Z'
+              expired-at: '2024-03-15T18:35:00.000Z'
+              ip-address: 192.0.2.4
               user-agent: >-
                 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)
                 AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0
@@ -143,21 +169,11 @@ value:
               country-name: United States
               region-code: CA
               region-name: California
-              latitude: 37.7688
-              longitude: -122.262
+              latitude: 37.7749
+              longitude: -122.4194
             relationships:
               inquiry:
                 data:
                   type: inquiry
-                  id: inq_ABC123
-          - type: inquiry-template
-            id: itmpl_ABC123
-            attributes:
-              status: active
-              name: Twilio Desktop
-            relationships:
-              latest-published-version:
-                data:
-                  type: inquiry-template-version
-                  id: itmplv_ABC123
-      created-at: '2024-02-15T23:48:17.732Z'
+                  id: inq_kT4xVnR2bPmYwL9sTgD3cExZ
+      created-at: '2024-03-15T18:35:04.100Z'

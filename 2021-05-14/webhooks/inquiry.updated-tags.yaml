@@ -1,0 +1,63 @@
+post:
+  operationId: webhook-inquiry-updated-tags
+  summary: Inquiry tags updated
+  description: >-
+    Webhook for the `inquiry.updated-tags` event. Fired when one or more tags
+    are added to or removed from an Inquiry. The delivered payload contains the
+    Inquiry's full attributes — including the current `tags` array reflecting
+    the post-update state. For more info see [Webhooks
+    Overview](https://docs.withpersona.com/webhooks).
+  tags:
+    - Inquiry events
+  x-persona-product: Inquiries
+  parameters:
+    - $ref: ../components/parameters/persona-signature-header.yaml
+    - $ref: ../components/parameters/persona-webhook-attempts-made.yaml
+    - $ref: ../components/parameters/persona-webhook-attempts-left.yaml
+    - $ref: ../components/parameters/persona-webhook-first-attempted-at.yaml
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          additionalProperties: false
+          properties:
+            data:
+              type: object
+              unevaluatedProperties: false
+              allOf:
+                - $ref: ../components/schemas/webhook-body-shared-data.yaml
+                - type: object
+                  properties:
+                    attributes:
+                      unevaluatedProperties: false
+                      allOf:
+                        - type: object
+                          properties:
+                            name:
+                              type: string
+                              const: inquiry.updated-tags
+                            payload:
+                              type: object
+                              additionalProperties: false
+                              properties:
+                                data:
+                                  $ref: ../components/schemas/inquiry.yaml
+                                included:
+                                  description: >-
+                                    Objects referenced in
+                                    `data.attributes.relationships` may be
+                                    provided in `included` when related-object
+                                    inclusion is enabled for this webhook
+                                    subscription. When inclusion is not enabled,
+                                    `included` will be empty.
+                                  $ref: >-
+                                    ../components/schemas/inquiry-included-objects.yaml
+                        - $ref: >-
+                            ../components/schemas/webhook-body-shared-attributes.yaml
+        examples:
+          Example Body:
+            $ref: ../components/examples/inquiry-updated-tags-webhook-body.yaml
+  responses:
+    '200':
+      $ref: ../components/responses/success.yaml

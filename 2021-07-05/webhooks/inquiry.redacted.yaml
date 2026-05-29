@@ -1,0 +1,85 @@
+post:
+  operationId: webhook-inquiry-redacted
+  summary: Inquiry redacted
+  description: >-
+    Webhook for the `inquiry.redacted` event. An Inquiry can be redacted
+    directly (via the dashboard or API) or as part of cascading redaction
+    triggered by an Account redaction or an automated retention policy.
+
+
+    A redacted Inquiry preserves its **current** `status` — which may be any
+    value, including `created`, `pending`, or `needs_review` for inquiries
+    redacted before finalization, in addition to the terminal states
+    (`approved`, `declined`, `completed`, `failed`, `expired`). Operational
+    timestamps (`created-at`, `started-at`, `decisioned-at`, etc.) are
+    preserved. The distinguishing signal is `redacted-at`, which is non-null on
+    this event. **Do not detect redaction from `status`** — there is no
+    `redacted` enum value.
+
+
+    On the redacted payload, PII attributes are nulled out regardless of the
+    redaction path: the deprecated top-level identity attributes (`name-first`,
+    `name-middle`, `name-last`, `address-*`, `birthdate`, `email-address`,
+    `phone-number`, `identification-number`, `social-security-number`) and the
+    corresponding entries inside `fields`, plus `note`. `tags` is emptied via
+    cascading on inquiry tags.
+
+
+    `reference-id` is `null` **only when the parent Account is also redacted**
+    (the cascading case). On a direct Inquiry redaction that leaves the parent
+    Account intact, `reference-id` can remain populated. For more info see
+    [Webhooks Overview](https://docs.withpersona.com/webhooks).
+  tags:
+    - Inquiry events
+  x-persona-product: Inquiries
+  parameters:
+    - $ref: ../components/parameters/persona-signature-header.yaml
+    - $ref: ../components/parameters/persona-webhook-attempts-made.yaml
+    - $ref: ../components/parameters/persona-webhook-attempts-left.yaml
+    - $ref: ../components/parameters/persona-webhook-first-attempted-at.yaml
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          additionalProperties: false
+          properties:
+            data:
+              type: object
+              unevaluatedProperties: false
+              allOf:
+                - $ref: ../components/schemas/webhook-body-shared-data.yaml
+                - type: object
+                  properties:
+                    attributes:
+                      unevaluatedProperties: false
+                      allOf:
+                        - type: object
+                          properties:
+                            name:
+                              type: string
+                              const: inquiry.redacted
+                            payload:
+                              type: object
+                              additionalProperties: false
+                              properties:
+                                data:
+                                  $ref: ../components/schemas/inquiry.yaml
+                                included:
+                                  description: >-
+                                    Objects referenced in
+                                    `data.attributes.relationships` may be
+                                    provided in `included` when related-object
+                                    inclusion is enabled for this webhook
+                                    subscription. When inclusion is not enabled,
+                                    `included` will be empty.
+                                  $ref: >-
+                                    ../components/schemas/inquiry-included-objects.yaml
+                        - $ref: >-
+                            ../components/schemas/webhook-body-shared-attributes.yaml
+        examples:
+          Example Body:
+            $ref: ../components/examples/inquiry-redacted-webhook-body.yaml
+  responses:
+    '200':
+      $ref: ../components/responses/success.yaml

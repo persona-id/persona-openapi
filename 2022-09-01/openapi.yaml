@@ -242,6 +242,8 @@ paths:
     $ref: paths/inquiry-templates.yaml
   /inquiry-templates/{inquiry-template-id}:
     $ref: paths/inquiry-templates_{inquiry-template-id}.yaml
+  /inquiry-templates/{inquiry-template-id}/translations:
+    $ref: paths/inquiry-templates_{inquiry-template-id}_translations.yaml
   /list-item/browser-fingerprints:
     $ref: paths/list-item_browser-fingerprints.yaml
   /list-item/browser-fingerprints/{list-item-id}:
@@ -483,6 +485,14 @@ webhooks:
     $ref: webhooks/inquiry.declined.yaml
   inquiry.transitioned:
     $ref: webhooks/inquiry.transitioned.yaml
+  inquiry.redacted:
+    $ref: webhooks/inquiry.redacted.yaml
+  inquiry.reusable-persona-created:
+    $ref: webhooks/inquiry.reusable-persona-created.yaml
+  inquiry.reusable-persona-used:
+    $ref: webhooks/inquiry.reusable-persona-used.yaml
+  inquiry.updated-tags:
+    $ref: webhooks/inquiry.updated-tags.yaml
   inquiry-session.started:
     $ref: webhooks/inquiry-session.started.yaml
   inquiry-session.expired:
@@ -523,6 +533,12 @@ webhooks:
     $ref: webhooks/verification.tentatively-passed.yaml
   verification.updated-tags:
     $ref: webhooks/verification.updated-tags.yaml
+  workflow-run.created:
+    $ref: webhooks/workflow-run.created.yaml
+  workflow-run.errored:
+    $ref: webhooks/workflow-run.errored.yaml
+  workflow-run.resumed:
+    $ref: webhooks/workflow-run.resumed.yaml
 components:
   securitySchemes:
     bearerAuth:
