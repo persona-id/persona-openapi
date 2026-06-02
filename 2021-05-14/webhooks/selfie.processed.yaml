@@ -1,0 +1,60 @@
+post:
+  operationId: webhook-selfie-processed
+  summary: Selfie processed
+  description: >-
+    Webhook for the `selfie.processed` event. For more info see [Webhooks
+    Overview](https://docs.withpersona.com/webhooks).
+  tags:
+    - Selfie events
+  x-persona-product: Verifications
+  parameters:
+    - $ref: ../components/parameters/persona-signature-header.yaml
+    - $ref: ../components/parameters/persona-webhook-attempts-made.yaml
+    - $ref: ../components/parameters/persona-webhook-attempts-left.yaml
+    - $ref: ../components/parameters/persona-webhook-first-attempted-at.yaml
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          additionalProperties: false
+          properties:
+            data:
+              type: object
+              unevaluatedProperties: false
+              allOf:
+                - $ref: ../components/schemas/webhook-body-shared-data.yaml
+                - type: object
+                  properties:
+                    attributes:
+                      unevaluatedProperties: false
+                      allOf:
+                        - type: object
+                          properties:
+                            name:
+                              type: string
+                              const: selfie.processed
+                            payload:
+                              type: object
+                              additionalProperties: false
+                              properties:
+                                data:
+                                  $ref: ../components/schemas/selfie.yaml
+                                included:
+                                  description: >-
+                                    Objects referenced in
+                                    `payload.data.relationships` may be provided
+                                    in `included` when related-object inclusion
+                                    is enabled for this webhook subscription.
+                                    When inclusion is not enabled, the
+                                    `included` key is omitted.
+                                  $ref: >-
+                                    ../components/schemas/selfie-included-objects.yaml
+                        - $ref: >-
+                            ../components/schemas/webhook-body-shared-attributes.yaml
+        examples:
+          Example Body:
+            $ref: ../components/examples/selfie-processed-webhook-body.yaml
+  responses:
+    '200':
+      $ref: ../components/responses/success.yaml

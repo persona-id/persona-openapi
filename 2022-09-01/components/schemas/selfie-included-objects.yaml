@@ -1,0 +1,12 @@
+description: >-
+  Objects referenced in `payload.data.relationships` may be provided in
+  `included` when related-object inclusion is enabled for the webhook
+  subscription. When inclusion is not enabled, the `included` key is omitted.
+type: array
+items:
+  discriminator:
+    propertyName: type
+    mapping:
+      inquiry: ./inquiry.yaml
+  anyOf:
+    - $ref: ./inquiry.yaml

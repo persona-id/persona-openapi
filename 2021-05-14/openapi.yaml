@@ -100,12 +100,16 @@ paths:
     $ref: paths/accounts.yaml
   /accounts/{account-id}:
     $ref: paths/accounts_{account-id}.yaml
+  /accounts/{account-id}/add-relation:
+    $ref: paths/accounts_{account-id}_add-relation.yaml
   /accounts/{account-id}/add-tag:
     $ref: paths/accounts_{account-id}_add-tag.yaml
   /accounts/{account-id}/consolidate:
     $ref: paths/accounts_{account-id}_consolidate.yaml
   /accounts/{account-id}/relations:
     $ref: paths/accounts_{account-id}_relations.yaml
+  /accounts/{account-id}/remove-relation:
+    $ref: paths/accounts_{account-id}_remove-relation.yaml
   /accounts/{account-id}/remove-tag:
     $ref: paths/accounts_{account-id}_remove-tag.yaml
   /accounts/{account-id}/set-tags:
@@ -342,10 +346,14 @@ paths:
     $ref: paths/transactions.yaml
   /transactions/{transaction-id}:
     $ref: paths/transactions_{transaction-id}.yaml
+  /transactions/{transaction-id}/add-relation:
+    $ref: paths/transactions_{transaction-id}_add-relation.yaml
   /transactions/{transaction-id}/add-tag:
     $ref: paths/transactions_{transaction-id}_add-tag.yaml
   /transactions/{transaction-id}/label:
     $ref: paths/transactions_{transaction-id}_label.yaml
+  /transactions/{transaction-id}/remove-relation:
+    $ref: paths/transactions_{transaction-id}_remove-relation.yaml
   /transactions/{transaction-id}/remove-tag:
     $ref: paths/transactions_{transaction-id}_remove-tag.yaml
   /transactions/{transaction-id}/set-tags:
@@ -419,10 +427,22 @@ webhooks:
     $ref: webhooks/account.restored.yaml
   account.consolidated:
     $ref: webhooks/account.consolidated.yaml
+  account.consolidated-with:
+    $ref: webhooks/account.consolidated-with.yaml
   account.tag-added:
     $ref: webhooks/account.tag-added.yaml
   account.tag-removed:
     $ref: webhooks/account.tag-removed.yaml
+  account.added-relation:
+    $ref: webhooks/account.added-relation.yaml
+  account.removed-relation:
+    $ref: webhooks/account.removed-relation.yaml
+  account.status-updated:
+    $ref: webhooks/account.status-updated.yaml
+  account.updated-fields:
+    $ref: webhooks/account.updated-fields.yaml
+  account.updated-tags:
+    $ref: webhooks/account.updated-tags.yaml
   case.assigned:
     $ref: webhooks/case.assigned.yaml
   case.created:
@@ -511,6 +531,14 @@ webhooks:
     $ref: webhooks/importer-pipeline-run.resumed.yaml
   importer-pipeline-run.started:
     $ref: webhooks/importer-pipeline-run.started.yaml
+  selfie.created:
+    $ref: webhooks/selfie.created.yaml
+  selfie.submitted:
+    $ref: webhooks/selfie.submitted.yaml
+  selfie.processed:
+    $ref: webhooks/selfie.processed.yaml
+  selfie.errored:
+    $ref: webhooks/selfie.errored.yaml
   verification.canceled:
     $ref: webhooks/verification.canceled.yaml
   verification.created:

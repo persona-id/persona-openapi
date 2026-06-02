@@ -1135,6 +1135,135 @@
         "x-persona-product": "Accounts"
       }
     },
+    "/accounts/{account-id}/add-relation": {
+      "post": {
+        "description": "Adds a relation from an Account to a target Account or Transaction",
+        "operationId": "accounts-add-relation",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/api-reference/accounts/add-relation"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/include-query-parameter"
+          },
+          {
+            "$ref": "#/components/parameters/fields-query-parameter"
+          },
+          {
+            "name": "account-id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "meta": {
+                    "properties": {
+                      "relation-schema-key": {
+                        "type": "string",
+                        "description": "Key of the relation schema to add."
+                      },
+                      "target-object-id": {
+                        "type": "string",
+                        "description": "ID of the target Account or Transaction to relate to."
+                      }
+                    },
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "relation-schema-key",
+                      "target-object-id"
+                    ]
+                  }
+                },
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "meta"
+                ]
+              },
+              "examples": {
+                "Success": {
+                  "$ref": "#/components/examples/set-relation"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/account"
+                    },
+                    "included": {
+                      "description": "Objects that _may_ be returned if specified via the `include` query parameter in the request.",
+                      "$ref": "#/components/schemas/accounts-included-objects"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "type": "object",
+                  "required": [
+                    "data"
+                  ]
+                },
+                "examples": {
+                  "Success": {
+                    "$ref": "#/components/examples/account"
+                  }
+                }
+              }
+            },
+            "description": "This endpoint returns an Account object and (optionally) its related objects in `included`."
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "409": {
+            "$ref": "#/components/responses/conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessable-entity"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        },
+        "summary": "Add a relation to an Account",
+        "tags": [
+          "Accounts"
+        ],
+        "x-persona-product": "Accounts"
+      }
+    },
     "/accounts/{account-id}/add-tag": {
       "post": {
         "description": "Adds a new tag to an Account",
@@ -1541,6 +1670,135 @@
           }
         },
         "summary": "Get all relations for an Account",
+        "tags": [
+          "Accounts"
+        ],
+        "x-persona-product": "Accounts"
+      }
+    },
+    "/accounts/{account-id}/remove-relation": {
+      "post": {
+        "description": "Removes a relation from an Account to a target Account or Transaction.",
+        "operationId": "accounts-remove-relation",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/api-reference/accounts/remove-relation"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/include-query-parameter"
+          },
+          {
+            "$ref": "#/components/parameters/fields-query-parameter"
+          },
+          {
+            "name": "account-id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "meta": {
+                    "properties": {
+                      "relation-schema-key": {
+                        "type": "string",
+                        "description": "Key of the relation schema to remove."
+                      },
+                      "target-object-id": {
+                        "type": "string",
+                        "description": "ID of the target Account or Transaction to unrelate."
+                      }
+                    },
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "relation-schema-key",
+                      "target-object-id"
+                    ]
+                  }
+                },
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "meta"
+                ]
+              },
+              "examples": {
+                "Success": {
+                  "$ref": "#/components/examples/set-relation"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/account"
+                    },
+                    "included": {
+                      "description": "Objects that _may_ be returned if specified via the `include` query parameter in the request.",
+                      "$ref": "#/components/schemas/accounts-included-objects"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "type": "object",
+                  "required": [
+                    "data"
+                  ]
+                },
+                "examples": {
+                  "Success": {
+                    "$ref": "#/components/examples/account"
+                  }
+                }
+              }
+            },
+            "description": "This endpoint returns an Account object and (optionally) its related objects in `included`."
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "409": {
+            "$ref": "#/components/responses/conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessable-entity"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        },
+        "summary": "Remove a relation from an Account",
         "tags": [
           "Accounts"
         ],
@@ -20286,6 +20544,137 @@
         }
       }
     },
+    "/transactions/{transaction-id}/add-relation": {
+      "post": {
+        "summary": "Add relation to Transaction",
+        "tags": [
+          "Transactions"
+        ],
+        "x-persona-product": "Transactions",
+        "description": "Adds a relation between this Transaction and a target Account or Transaction using a relation schema key. No effect if the relation already exists.",
+        "operationId": "transactions-add-relation",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/api-reference/transactions/add-relation"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/include-query-parameter"
+          },
+          {
+            "$ref": "#/components/parameters/fields-query-parameter"
+          },
+          {
+            "name": "transaction-id",
+            "in": "path",
+            "description": "ID of the transaction to add the relation to.",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "meta": {
+                    "properties": {
+                      "relation-schema-key": {
+                        "type": "string",
+                        "description": "Key of the relation schema to add."
+                      },
+                      "target-object-id": {
+                        "type": "string",
+                        "description": "ID of the target Account or Transaction to relate to."
+                      }
+                    },
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "relation-schema-key",
+                      "target-object-id"
+                    ]
+                  }
+                },
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "meta"
+                ]
+              },
+              "examples": {
+                "Example": {
+                  "value": {
+                    "meta": {
+                      "relation-schema-key": "parent-of",
+                      "target-object-id": "act_ABC123"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "This endpoint returns a Transaction object and (optionally) its related objects in `included`.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Success": {
+                    "$ref": "#/components/examples/transaction"
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "data"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/transaction"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "409": {
+            "$ref": "#/components/responses/conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessable-entity"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        }
+      }
+    },
     "/transactions/{transaction-id}/add-tag": {
       "post": {
         "summary": "Add tag to Transaction",
@@ -20501,6 +20890,137 @@
                       "items": {
                         "$ref": "#/components/schemas/transaction-label"
                       }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "409": {
+            "$ref": "#/components/responses/conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessable-entity"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        }
+      }
+    },
+    "/transactions/{transaction-id}/remove-relation": {
+      "post": {
+        "summary": "Remove relation from Transaction",
+        "tags": [
+          "Transactions"
+        ],
+        "x-persona-product": "Transactions",
+        "description": "Removes a relation between this Transaction and a target Account or Transaction. No effect if the relation does not exist.",
+        "operationId": "transactions-remove-relation",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/api-reference/transactions/remove-relation"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/include-query-parameter"
+          },
+          {
+            "$ref": "#/components/parameters/fields-query-parameter"
+          },
+          {
+            "name": "transaction-id",
+            "in": "path",
+            "description": "ID of the transaction to remove the relation from.",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "meta": {
+                    "properties": {
+                      "relation-schema-key": {
+                        "type": "string",
+                        "description": "Key of the relation schema to remove."
+                      },
+                      "target-object-id": {
+                        "type": "string",
+                        "description": "ID of the target Account or Transaction to unrelate."
+                      }
+                    },
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "relation-schema-key",
+                      "target-object-id"
+                    ]
+                  }
+                },
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "meta"
+                ]
+              },
+              "examples": {
+                "Example": {
+                  "value": {
+                    "meta": {
+                      "relation-schema-key": "parent-of",
+                      "target-object-id": "act_ABC123"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "This endpoint returns a Transaction object and (optionally) its related objects in `included`.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Success": {
+                    "$ref": "#/components/examples/transaction"
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "data"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/transaction"
                     }
                   }
                 }
@@ -24679,6 +25199,97 @@
         }
       }
     },
+    "account.consolidated-with": {
+      "post": {
+        "operationId": "webhook-account-consolidated-with",
+        "summary": "Account consolidated with",
+        "description": "Webhook for the `account.consolidated-with` event. This event fires on the primary Account that receives data when another Account is consolidated into it. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).",
+        "tags": [
+          "Account events"
+        ],
+        "x-persona-product": "Accounts",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "unevaluatedProperties": false,
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/webhook-body-shared-data"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "attributes": {
+                            "unevaluatedProperties": false,
+                            "allOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "const": "account.consolidated-with"
+                                  },
+                                  "payload": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "data": {
+                                        "$ref": "#/components/schemas/account"
+                                      },
+                                      "included": {
+                                        "description": "All objects that are present in `data.attributes.relationships` will be provided in `included`.",
+                                        "$ref": "#/components/schemas/accounts-included-objects"
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "$ref": "#/components/schemas/webhook-body-shared-attributes"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Example Body": {
+                  "$ref": "#/components/examples/account-consolidated-with-webhook-body"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/success"
+          }
+        }
+      }
+    },
     "account.tag-added": {
       "post": {
         "operationId": "webhook-account-tag-added",
@@ -24849,6 +25460,529 @@
               "examples": {
                 "Example Body": {
                   "$ref": "#/components/examples/account-tag-removed-webhook-body"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/success"
+          }
+        }
+      }
+    },
+    "account.added-relation": {
+      "post": {
+        "operationId": "webhook-account-added-relation",
+        "summary": "Account added relation",
+        "description": "Webhook for the `account.added-relation` event. Fires when a relationship is added between this Account and another object (an Account or a Transaction). The related object is identified by the `context`. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).",
+        "tags": [
+          "Account events"
+        ],
+        "x-persona-product": "Accounts",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "unevaluatedProperties": false,
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/webhook-body-shared-data"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "attributes": {
+                            "unevaluatedProperties": false,
+                            "allOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "const": "account.added-relation"
+                                  },
+                                  "payload": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "data": {
+                                        "$ref": "#/components/schemas/account"
+                                      },
+                                      "included": {
+                                        "description": "All objects that are present in `data.attributes.relationships` will be provided in `included`.",
+                                        "$ref": "#/components/schemas/accounts-included-objects"
+                                      }
+                                    }
+                                  },
+                                  "context": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "description": "Identifies the relationship that was added and the related object.",
+                                    "properties": {
+                                      "relation-schema-key": {
+                                        "type": "string",
+                                        "description": "The key of the relationship schema connecting this Account to the related object.",
+                                        "examples": [
+                                          "business"
+                                        ]
+                                      },
+                                      "target-account-id": {
+                                        "type": [
+                                          "string",
+                                          "null"
+                                        ],
+                                        "description": "Token of the related Account when the related object is an Account, otherwise `null`. Starts with `act_`.",
+                                        "examples": [
+                                          "act_9yGqWZ8jK4pN2dR7sVxL3bTm"
+                                        ]
+                                      },
+                                      "target-txn-id": {
+                                        "type": [
+                                          "string",
+                                          "null"
+                                        ],
+                                        "description": "Token of the related Transaction when the related object is a Transaction, otherwise `null`. Starts with `txn_`.",
+                                        "examples": [
+                                          null
+                                        ]
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "$ref": "#/components/schemas/webhook-body-shared-attributes"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Example Body": {
+                  "$ref": "#/components/examples/account-added-relation-webhook-body"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/success"
+          }
+        }
+      }
+    },
+    "account.removed-relation": {
+      "post": {
+        "operationId": "webhook-account-removed-relation",
+        "summary": "Account removed relation",
+        "description": "Webhook for the `account.removed-relation` event. Fires when a relationship is removed between this Account and another object (an Account or a Transaction). The related object is identified by the `context`. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).",
+        "tags": [
+          "Account events"
+        ],
+        "x-persona-product": "Accounts",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "unevaluatedProperties": false,
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/webhook-body-shared-data"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "attributes": {
+                            "unevaluatedProperties": false,
+                            "allOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "const": "account.removed-relation"
+                                  },
+                                  "payload": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "data": {
+                                        "$ref": "#/components/schemas/account"
+                                      },
+                                      "included": {
+                                        "description": "All objects that are present in `data.attributes.relationships` will be provided in `included`.",
+                                        "$ref": "#/components/schemas/accounts-included-objects"
+                                      }
+                                    }
+                                  },
+                                  "context": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "description": "Identifies the relationship that was removed and the related object.",
+                                    "properties": {
+                                      "relation-schema-key": {
+                                        "type": "string",
+                                        "description": "The key of the relationship schema that connected this Account to the related object.",
+                                        "examples": [
+                                          "business"
+                                        ]
+                                      },
+                                      "target-account-id": {
+                                        "type": [
+                                          "string",
+                                          "null"
+                                        ],
+                                        "description": "Token of the related Account when the related object is an Account, otherwise `null`. Starts with `act_`.",
+                                        "examples": [
+                                          "act_9yGqWZ8jK4pN2dR7sVxL3bTm"
+                                        ]
+                                      },
+                                      "target-txn-id": {
+                                        "type": [
+                                          "string",
+                                          "null"
+                                        ],
+                                        "description": "Token of the related Transaction when the related object is a Transaction, otherwise `null`. Starts with `txn_`.",
+                                        "examples": [
+                                          null
+                                        ]
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "$ref": "#/components/schemas/webhook-body-shared-attributes"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Example Body": {
+                  "$ref": "#/components/examples/account-removed-relation-webhook-body"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/success"
+          }
+        }
+      }
+    },
+    "account.status-updated": {
+      "post": {
+        "operationId": "webhook-account-status-updated",
+        "summary": "Account status updated",
+        "description": "Webhook for the `account.status-updated` event. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).",
+        "tags": [
+          "Account events"
+        ],
+        "x-persona-product": "Accounts",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "unevaluatedProperties": false,
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/webhook-body-shared-data"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "attributes": {
+                            "unevaluatedProperties": false,
+                            "allOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "const": "account.status-updated"
+                                  },
+                                  "payload": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "data": {
+                                        "$ref": "#/components/schemas/account"
+                                      },
+                                      "included": {
+                                        "description": "All objects that are present in `data.attributes.relationships` will be provided in `included`.",
+                                        "$ref": "#/components/schemas/accounts-included-objects"
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "$ref": "#/components/schemas/webhook-body-shared-attributes"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Example Body": {
+                  "$ref": "#/components/examples/account-status-updated-webhook-body"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/success"
+          }
+        }
+      }
+    },
+    "account.updated-fields": {
+      "post": {
+        "operationId": "webhook-account-updated-fields",
+        "summary": "Account updated fields",
+        "description": "Webhook for the `account.updated-fields` event. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).",
+        "tags": [
+          "Account events"
+        ],
+        "x-persona-product": "Accounts",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "unevaluatedProperties": false,
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/webhook-body-shared-data"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "attributes": {
+                            "unevaluatedProperties": false,
+                            "allOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "const": "account.updated-fields"
+                                  },
+                                  "payload": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "data": {
+                                        "$ref": "#/components/schemas/account"
+                                      },
+                                      "included": {
+                                        "description": "All objects that are present in `data.attributes.relationships` will be provided in `included`.",
+                                        "$ref": "#/components/schemas/accounts-included-objects"
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "$ref": "#/components/schemas/webhook-body-shared-attributes"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Example Body": {
+                  "$ref": "#/components/examples/account-updated-fields-webhook-body"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/success"
+          }
+        }
+      }
+    },
+    "account.updated-tags": {
+      "post": {
+        "operationId": "webhook-account-updated-tags",
+        "summary": "Account updated tags",
+        "description": "Webhook for the `account.updated-tags` event. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).",
+        "tags": [
+          "Account events"
+        ],
+        "x-persona-product": "Accounts",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "unevaluatedProperties": false,
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/webhook-body-shared-data"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "attributes": {
+                            "unevaluatedProperties": false,
+                            "allOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "const": "account.updated-tags"
+                                  },
+                                  "payload": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "data": {
+                                        "$ref": "#/components/schemas/account"
+                                      },
+                                      "included": {
+                                        "description": "All objects that are present in `data.attributes.relationships` will be provided in `included`.",
+                                        "$ref": "#/components/schemas/accounts-included-objects"
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "$ref": "#/components/schemas/webhook-body-shared-attributes"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Example Body": {
+                  "$ref": "#/components/examples/account-updated-tags-webhook-body"
                 }
               }
             }
@@ -28848,6 +29982,370 @@
         }
       }
     },
+    "selfie.created": {
+      "post": {
+        "operationId": "webhook-selfie-created",
+        "summary": "Selfie created",
+        "description": "Webhook for the `selfie.created` event. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).",
+        "tags": [
+          "Selfie events"
+        ],
+        "x-persona-product": "Verifications",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "unevaluatedProperties": false,
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/webhook-body-shared-data"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "attributes": {
+                            "unevaluatedProperties": false,
+                            "allOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "const": "selfie.created"
+                                  },
+                                  "payload": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "data": {
+                                        "$ref": "#/components/schemas/selfie"
+                                      },
+                                      "included": {
+                                        "description": "Objects referenced in `payload.data.relationships` may be provided in `included` when related-object inclusion is enabled for this webhook subscription. When inclusion is not enabled, the `included` key is omitted.",
+                                        "$ref": "#/components/schemas/selfie-included-objects"
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "$ref": "#/components/schemas/webhook-body-shared-attributes"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Example Body": {
+                  "$ref": "#/components/examples/selfie-created-webhook-body"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/success"
+          }
+        }
+      }
+    },
+    "selfie.submitted": {
+      "post": {
+        "operationId": "webhook-selfie-submitted",
+        "summary": "Selfie submitted",
+        "description": "Webhook for the `selfie.submitted` event. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).",
+        "tags": [
+          "Selfie events"
+        ],
+        "x-persona-product": "Verifications",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "unevaluatedProperties": false,
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/webhook-body-shared-data"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "attributes": {
+                            "unevaluatedProperties": false,
+                            "allOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "const": "selfie.submitted"
+                                  },
+                                  "payload": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "data": {
+                                        "$ref": "#/components/schemas/selfie"
+                                      },
+                                      "included": {
+                                        "description": "Objects referenced in `payload.data.relationships` may be provided in `included` when related-object inclusion is enabled for this webhook subscription. When inclusion is not enabled, the `included` key is omitted.",
+                                        "$ref": "#/components/schemas/selfie-included-objects"
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "$ref": "#/components/schemas/webhook-body-shared-attributes"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Example Body": {
+                  "$ref": "#/components/examples/selfie-submitted-webhook-body"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/success"
+          }
+        }
+      }
+    },
+    "selfie.processed": {
+      "post": {
+        "operationId": "webhook-selfie-processed",
+        "summary": "Selfie processed",
+        "description": "Webhook for the `selfie.processed` event. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).",
+        "tags": [
+          "Selfie events"
+        ],
+        "x-persona-product": "Verifications",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "unevaluatedProperties": false,
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/webhook-body-shared-data"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "attributes": {
+                            "unevaluatedProperties": false,
+                            "allOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "const": "selfie.processed"
+                                  },
+                                  "payload": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "data": {
+                                        "$ref": "#/components/schemas/selfie"
+                                      },
+                                      "included": {
+                                        "description": "Objects referenced in `payload.data.relationships` may be provided in `included` when related-object inclusion is enabled for this webhook subscription. When inclusion is not enabled, the `included` key is omitted.",
+                                        "$ref": "#/components/schemas/selfie-included-objects"
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "$ref": "#/components/schemas/webhook-body-shared-attributes"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Example Body": {
+                  "$ref": "#/components/examples/selfie-processed-webhook-body"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/success"
+          }
+        }
+      }
+    },
+    "selfie.errored": {
+      "post": {
+        "operationId": "webhook-selfie-errored",
+        "summary": "Selfie errored",
+        "description": "Webhook for the `selfie.errored` event. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).",
+        "tags": [
+          "Selfie events"
+        ],
+        "x-persona-product": "Verifications",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "unevaluatedProperties": false,
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/webhook-body-shared-data"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "attributes": {
+                            "unevaluatedProperties": false,
+                            "allOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "const": "selfie.errored"
+                                  },
+                                  "payload": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "data": {
+                                        "$ref": "#/components/schemas/selfie"
+                                      },
+                                      "included": {
+                                        "description": "Objects referenced in `payload.data.relationships` may be provided in `included` when related-object inclusion is enabled for this webhook subscription. When inclusion is not enabled, the `included` key is omitted.",
+                                        "$ref": "#/components/schemas/selfie-included-objects"
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "$ref": "#/components/schemas/webhook-body-shared-attributes"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Example Body": {
+                  "$ref": "#/components/examples/selfie-errored-webhook-body"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/success"
+          }
+        }
+      }
+    },
     "verification.canceled": {
       "post": {
         "operationId": "webhook-verification-canceled",
@@ -30517,6 +32015,13 @@
                     "items": {
                       "type": "string"
                     }
+                  },
+                  "option-labels": {
+                    "description": "Display labels for each value in `options`, in the same order.",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
                   }
                 }
               }
@@ -30706,6 +32211,25 @@
                     "default": [
                       "image/jpg image/jpeg image/png image/heic image/heif image/tif image/tiff image/gif image/svg+xml application/pdf text/plain text/csv video/mp4 video/webm video/quicktime"
                     ]
+                  },
+                  "page-count-limit-enabled": {
+                    "description": "Whether the document page-count limits are enforced.",
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "page-count-min": {
+                    "description": "Minimum allowed page count when `page-count-limit-enabled` is true.",
+                    "type": [
+                      "integer",
+                      "null"
+                    ]
+                  },
+                  "page-count-max": {
+                    "description": "Maximum allowed page count when `page-count-limit-enabled` is true.",
+                    "type": [
+                      "integer",
+                      "null"
+                    ]
                   }
                 }
               }
@@ -30881,6 +32405,13 @@
                     "default": false
                   },
                   "options": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "option-labels": {
+                    "description": "Display labels for each value in `options`, in the same order.",
                     "type": "array",
                     "items": {
                       "type": "string"
@@ -43074,7 +44605,11 @@
                 ]
               },
               "processed-at": {
-                "type": "string",
+                "description": "Timestamp when the Selfie finished processing. `null` until the Selfie reaches the `processed` or `errored` status.",
+                "type": [
+                  "null",
+                  "string"
+                ],
                 "format": "date-time",
                 "examples": [
                   "2020-07-12T17:16:54.656Z"
@@ -52167,6 +53702,23 @@
             }
           ]
         }
+      },
+      "selfie-included-objects": {
+        "description": "Objects referenced in `payload.data.relationships` may be provided in `included` when related-object inclusion is enabled for the webhook subscription. When inclusion is not enabled, the `included` key is omitted.",
+        "type": "array",
+        "items": {
+          "discriminator": {
+            "propertyName": "type",
+            "mapping": {
+              "inquiry": "#/components/schemas/inquiry"
+            }
+          },
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/inquiry"
+            }
+          ]
+        }
       }
     },
     "examples": {
@@ -52519,6 +54071,14 @@
                 }
               }
             }
+          }
+        }
+      },
+      "set-relation": {
+        "value": {
+          "meta": {
+            "relation-schema-key": "beneficial_owners",
+            "target-object-id": "act_ABC123"
           }
         }
       },
@@ -58288,6 +59848,56 @@
           }
         }
       },
+      "account-consolidated-with-webhook-body": {
+        "value": {
+          "data": {
+            "type": "event",
+            "id": "evt_6vXpL9sJ2cH5dQzT8mWnK3rB",
+            "attributes": {
+              "name": "account.consolidated-with",
+              "payload": {
+                "data": {
+                  "type": "account",
+                  "id": "act_9yGqWZ8jK4pN2dR7sVxL3bTm",
+                  "attributes": {
+                    "reference-id": "customer-1090",
+                    "account-type-name": "User",
+                    "created-at": "2023-11-20T08:00:00.000Z",
+                    "updated-at": "2024-02-15T23:48:10.000Z",
+                    "redacted-at": null,
+                    "fields": {
+                      "name": {
+                        "type": "hash",
+                        "value": {
+                          "first": {
+                            "type": "string",
+                            "value": "Taylor"
+                          },
+                          "middle": {
+                            "type": "string",
+                            "value": null
+                          },
+                          "last": {
+                            "type": "string",
+                            "value": "Quinn"
+                          }
+                        }
+                      },
+                      "email_address": {
+                        "type": "string",
+                        "value": "taylor.quinn@example.com"
+                      }
+                    },
+                    "tags": [],
+                    "account-status": "Approved"
+                  }
+                }
+              },
+              "created-at": "2024-02-15T23:48:17.732Z"
+            }
+          }
+        }
+      },
       "account-tag-added-webhook-body": {
         "value": {
           "data": {
@@ -58580,6 +60190,300 @@
                 }
               },
               "created-at": "2024-02-15T23:48:17.732Z"
+            }
+          }
+        }
+      },
+      "account-added-relation-webhook-body": {
+        "value": {
+          "data": {
+            "type": "event",
+            "id": "evt_ArYe9fEGrjzDnWs3DhTZRdGi",
+            "attributes": {
+              "name": "account.added-relation",
+              "payload": {
+                "data": {
+                  "type": "account",
+                  "id": "act_ArYe9fESV7LHXdGqHDJuJPwQ",
+                  "attributes": {
+                    "reference-id": "customer-2274",
+                    "account-type-name": "Individual",
+                    "created-at": "2024-04-10T19:10:02.000Z",
+                    "updated-at": "2024-04-10T19:10:02.000Z",
+                    "redacted-at": null,
+                    "fields": {
+                      "name": {
+                        "type": "hash",
+                        "value": {
+                          "first": {
+                            "type": "string",
+                            "value": "Morgan"
+                          },
+                          "middle": {
+                            "type": "string",
+                            "value": null
+                          },
+                          "last": {
+                            "type": "string",
+                            "value": "Avery"
+                          }
+                        }
+                      },
+                      "email_address": {
+                        "type": "string",
+                        "value": "morgan.avery@example.com"
+                      }
+                    },
+                    "tags": [],
+                    "account-status": "Default"
+                  }
+                }
+              },
+              "context": {
+                "relation-schema-key": "business",
+                "target-account-id": "act_8GV2ULqZ5VHURTJtYjGjV8nU",
+                "target-txn-id": null
+              },
+              "created-at": "2024-04-10T19:10:03.089Z"
+            }
+          }
+        }
+      },
+      "account-removed-relation-webhook-body": {
+        "value": {
+          "data": {
+            "type": "event",
+            "id": "evt_AQMVkV1FLwBaCNjTzRmjoSov",
+            "attributes": {
+              "name": "account.removed-relation",
+              "payload": {
+                "data": {
+                  "type": "account",
+                  "id": "act_wbk4s6zfyboAmDYvyMpwVf6F",
+                  "attributes": {
+                    "reference-id": "customer-2274",
+                    "account-type-name": "Individual",
+                    "created-at": "2024-04-10T19:10:02.000Z",
+                    "updated-at": "2024-05-22T10:40:00.000Z",
+                    "redacted-at": null,
+                    "fields": {
+                      "name": {
+                        "type": "hash",
+                        "value": {
+                          "first": {
+                            "type": "string",
+                            "value": "Morgan"
+                          },
+                          "middle": {
+                            "type": "string",
+                            "value": null
+                          },
+                          "last": {
+                            "type": "string",
+                            "value": "Avery"
+                          }
+                        }
+                      },
+                      "email_address": {
+                        "type": "string",
+                        "value": "morgan.avery@example.com"
+                      }
+                    },
+                    "tags": [],
+                    "account-status": "Default"
+                  }
+                }
+              },
+              "context": {
+                "relation-schema-key": "business",
+                "target-account-id": "act_8GV2ULqZ5VHURTJtYjGjV8nU",
+                "target-txn-id": null
+              },
+              "created-at": "2024-05-22T10:40:13.043Z"
+            }
+          }
+        }
+      },
+      "account-status-updated-webhook-body": {
+        "value": {
+          "data": {
+            "type": "event",
+            "id": "evt_3KqH4xVnR2bPmYwL9sTgD3cE",
+            "attributes": {
+              "name": "account.status-updated",
+              "payload": {
+                "data": {
+                  "type": "account",
+                  "id": "act_7sVxL3bTm9yGqWZ8jK4pN2dR",
+                  "attributes": {
+                    "reference-id": "customer-4821",
+                    "account-type-name": "User",
+                    "created-at": "2024-02-01T10:15:30.000Z",
+                    "updated-at": "2024-02-15T23:48:10.000Z",
+                    "redacted-at": null,
+                    "fields": {
+                      "name": {
+                        "type": "hash",
+                        "value": {
+                          "first": {
+                            "type": "string",
+                            "value": "Jordan"
+                          },
+                          "middle": {
+                            "type": "string",
+                            "value": null
+                          },
+                          "last": {
+                            "type": "string",
+                            "value": "Rivera"
+                          }
+                        }
+                      },
+                      "email_address": {
+                        "type": "string",
+                        "value": "jordan.rivera@example.com"
+                      }
+                    },
+                    "tags": [
+                      "vip"
+                    ],
+                    "account-status": "Approved"
+                  }
+                }
+              },
+              "created-at": "2024-02-15T23:48:17.732Z"
+            }
+          }
+        }
+      },
+      "account-updated-fields-webhook-body": {
+        "value": {
+          "data": {
+            "type": "event",
+            "id": "evt_5dQzT8mWnK3rB6vXpL9sJ2cH",
+            "attributes": {
+              "name": "account.updated-fields",
+              "payload": {
+                "data": {
+                  "type": "account",
+                  "id": "act_2dR7sVxL3bTm9yGqWZ8jK4pN",
+                  "attributes": {
+                    "reference-id": "customer-4821",
+                    "account-type-name": "User",
+                    "created-at": "2024-02-01T10:15:30.000Z",
+                    "updated-at": "2024-03-04T18:02:55.000Z",
+                    "redacted-at": null,
+                    "fields": {
+                      "name": {
+                        "type": "hash",
+                        "value": {
+                          "first": {
+                            "type": "string",
+                            "value": "Jordan"
+                          },
+                          "middle": {
+                            "type": "string",
+                            "value": null
+                          },
+                          "last": {
+                            "type": "string",
+                            "value": "Rivera"
+                          }
+                        }
+                      },
+                      "address": {
+                        "type": "hash",
+                        "value": {
+                          "street_1": {
+                            "type": "string",
+                            "value": "500 Market St"
+                          },
+                          "street_2": {
+                            "type": "string",
+                            "value": null
+                          },
+                          "subdivision": {
+                            "type": "string",
+                            "value": "California"
+                          },
+                          "city": {
+                            "type": "string",
+                            "value": "San Francisco"
+                          },
+                          "postal_code": {
+                            "type": "string",
+                            "value": "94105"
+                          },
+                          "country_code": {
+                            "type": "string",
+                            "value": "US"
+                          }
+                        }
+                      },
+                      "email_address": {
+                        "type": "string",
+                        "value": "jordan.rivera@example.com"
+                      }
+                    },
+                    "tags": [],
+                    "account-status": "Approved"
+                  }
+                }
+              },
+              "created-at": "2024-03-04T18:03:01.118Z"
+            }
+          }
+        }
+      },
+      "account-updated-tags-webhook-body": {
+        "value": {
+          "data": {
+            "type": "event",
+            "id": "evt_8mWnK3rB6vXpL9sJ2cH5dQzT",
+            "attributes": {
+              "name": "account.updated-tags",
+              "payload": {
+                "data": {
+                  "type": "account",
+                  "id": "act_4pN2dR7sVxL3bTm9yGqWZ8jK",
+                  "attributes": {
+                    "reference-id": "customer-4821",
+                    "account-type-name": "User",
+                    "created-at": "2024-02-01T10:15:30.000Z",
+                    "updated-at": "2024-03-11T09:25:04.000Z",
+                    "redacted-at": null,
+                    "fields": {
+                      "name": {
+                        "type": "hash",
+                        "value": {
+                          "first": {
+                            "type": "string",
+                            "value": "Jordan"
+                          },
+                          "middle": {
+                            "type": "string",
+                            "value": null
+                          },
+                          "last": {
+                            "type": "string",
+                            "value": "Rivera"
+                          }
+                        }
+                      },
+                      "email_address": {
+                        "type": "string",
+                        "value": "jordan.rivera@example.com"
+                      }
+                    },
+                    "tags": [
+                      "vip",
+                      "manual-review"
+                    ],
+                    "account-status": "Approved"
+                  }
+                }
+              },
+              "created-at": "2024-03-11T09:25:04.231Z"
             }
           }
         }
@@ -66717,6 +68621,426 @@
                 ]
               },
               "created-at": "2024-01-15T10:00:00.732Z"
+            }
+          }
+        }
+      },
+      "selfie-created-webhook-body": {
+        "value": {
+          "data": {
+            "type": "event",
+            "id": "evt_3KqH4xVnR2bPmYwL9sTgD7cE",
+            "attributes": {
+              "name": "selfie.created",
+              "payload": {
+                "data": {
+                  "type": "selfie/profile-and-center",
+                  "id": "self_C8dHpYxLm3Rq7NwTzKvBgF2s",
+                  "attributes": {
+                    "status": "initiated",
+                    "created-at": "2024-02-15T23:45:01.000Z",
+                    "processed-at": null
+                  },
+                  "relationships": {
+                    "inquiry": {
+                      "data": {
+                        "type": "inquiry",
+                        "id": "inq_7HmRpYxLn4Qw9NvTzKdBgF3c"
+                      }
+                    }
+                  }
+                },
+                "included": [
+                  {
+                    "type": "inquiry",
+                    "id": "inq_7HmRpYxLn4Qw9NvTzKdBgF3c",
+                    "attributes": {
+                      "status": "pending",
+                      "reference-id": null,
+                      "note": null,
+                      "behaviors": {},
+                      "tags": [],
+                      "creator": "jane@doe.com",
+                      "reviewer-comment": null,
+                      "created-at": "2024-02-15T23:45:01.000Z",
+                      "updated-at": "2024-02-15T23:45:01.000Z",
+                      "started-at": "2024-02-15T23:45:01.000Z",
+                      "expires-at": null,
+                      "completed-at": null,
+                      "failed-at": null,
+                      "marked-for-review-at": null,
+                      "decisioned-at": null,
+                      "expired-at": null,
+                      "redacted-at": null,
+                      "previous-step-name": "start",
+                      "next-step-name": "verification_selfie",
+                      "fields": {}
+                    },
+                    "relationships": {
+                      "account": {
+                        "data": {
+                          "type": "account",
+                          "id": "act_n2uq9eKMboaCQzu9ALWYcVdN"
+                        }
+                      },
+                      "template": {
+                        "data": null
+                      },
+                      "inquiry-template": {
+                        "data": {
+                          "type": "inquiry-template",
+                          "id": "itmpl_AbN9KvR4LmT2WqYxPdHsZgFc"
+                        }
+                      },
+                      "inquiry-template-version": {
+                        "data": {
+                          "type": "inquiry-template-version",
+                          "id": "itmplv_LqX3jYwK7HnRpZmCvBdF8RtA"
+                        }
+                      },
+                      "reviewer": {
+                        "data": {}
+                      },
+                      "reports": {
+                        "data": []
+                      },
+                      "verifications": {
+                        "data": []
+                      },
+                      "sessions": {
+                        "data": []
+                      },
+                      "documents": {
+                        "data": []
+                      },
+                      "selfies": {
+                        "data": [
+                          {
+                            "type": "selfie/profile-and-center",
+                            "id": "self_C8dHpYxLm3Rq7NwTzKvBgF2s"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "created-at": "2024-02-15T23:45:01.100Z"
+            }
+          }
+        }
+      },
+      "selfie-submitted-webhook-body": {
+        "value": {
+          "data": {
+            "type": "event",
+            "id": "evt_5MpJ6zWoT4dRnZyN1vUiF9eG",
+            "attributes": {
+              "name": "selfie.submitted",
+              "payload": {
+                "data": {
+                  "type": "selfie/profile-and-center",
+                  "id": "self_C8dHpYxLm3Rq7NwTzKvBgF2s",
+                  "attributes": {
+                    "status": "submitted",
+                    "created-at": "2024-02-15T23:45:01.000Z",
+                    "processed-at": null
+                  },
+                  "relationships": {
+                    "inquiry": {
+                      "data": {
+                        "type": "inquiry",
+                        "id": "inq_7HmRpYxLn4Qw9NvTzKdBgF3c"
+                      }
+                    }
+                  }
+                },
+                "included": [
+                  {
+                    "type": "inquiry",
+                    "id": "inq_7HmRpYxLn4Qw9NvTzKdBgF3c",
+                    "attributes": {
+                      "status": "pending",
+                      "reference-id": null,
+                      "note": null,
+                      "behaviors": {},
+                      "tags": [],
+                      "creator": "jane@doe.com",
+                      "reviewer-comment": null,
+                      "created-at": "2024-02-15T23:45:01.000Z",
+                      "updated-at": "2024-02-15T23:45:02.000Z",
+                      "started-at": "2024-02-15T23:45:01.000Z",
+                      "expires-at": null,
+                      "completed-at": null,
+                      "failed-at": null,
+                      "marked-for-review-at": null,
+                      "decisioned-at": null,
+                      "expired-at": null,
+                      "redacted-at": null,
+                      "previous-step-name": "start",
+                      "next-step-name": "verification_selfie",
+                      "fields": {}
+                    },
+                    "relationships": {
+                      "account": {
+                        "data": {
+                          "type": "account",
+                          "id": "act_n2uq9eKMboaCQzu9ALWYcVdN"
+                        }
+                      },
+                      "template": {
+                        "data": null
+                      },
+                      "inquiry-template": {
+                        "data": {
+                          "type": "inquiry-template",
+                          "id": "itmpl_AbN9KvR4LmT2WqYxPdHsZgFc"
+                        }
+                      },
+                      "inquiry-template-version": {
+                        "data": {
+                          "type": "inquiry-template-version",
+                          "id": "itmplv_LqX3jYwK7HnRpZmCvBdF8RtA"
+                        }
+                      },
+                      "reviewer": {
+                        "data": {}
+                      },
+                      "reports": {
+                        "data": []
+                      },
+                      "verifications": {
+                        "data": []
+                      },
+                      "sessions": {
+                        "data": []
+                      },
+                      "documents": {
+                        "data": []
+                      },
+                      "selfies": {
+                        "data": [
+                          {
+                            "type": "selfie/profile-and-center",
+                            "id": "self_C8dHpYxLm3Rq7NwTzKvBgF2s"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "created-at": "2024-02-15T23:45:02.500Z"
+            }
+          }
+        }
+      },
+      "selfie-processed-webhook-body": {
+        "value": {
+          "data": {
+            "type": "event",
+            "id": "evt_7NrL8bYqV6fToBzP3xWkH1gI",
+            "attributes": {
+              "name": "selfie.processed",
+              "payload": {
+                "data": {
+                  "type": "selfie/profile-and-center",
+                  "id": "self_C8dHpYxLm3Rq7NwTzKvBgF2s",
+                  "attributes": {
+                    "status": "processed",
+                    "created-at": "2024-02-15T23:45:01.000Z",
+                    "processed-at": "2024-02-15T23:45:04.000Z"
+                  },
+                  "relationships": {
+                    "inquiry": {
+                      "data": {
+                        "type": "inquiry",
+                        "id": "inq_7HmRpYxLn4Qw9NvTzKdBgF3c"
+                      }
+                    }
+                  }
+                },
+                "included": [
+                  {
+                    "type": "inquiry",
+                    "id": "inq_7HmRpYxLn4Qw9NvTzKdBgF3c",
+                    "attributes": {
+                      "status": "pending",
+                      "reference-id": null,
+                      "note": null,
+                      "behaviors": {},
+                      "tags": [],
+                      "creator": "jane@doe.com",
+                      "reviewer-comment": null,
+                      "created-at": "2024-02-15T23:45:01.000Z",
+                      "updated-at": "2024-02-15T23:45:04.000Z",
+                      "started-at": "2024-02-15T23:45:01.000Z",
+                      "expires-at": null,
+                      "completed-at": null,
+                      "failed-at": null,
+                      "marked-for-review-at": null,
+                      "decisioned-at": null,
+                      "expired-at": null,
+                      "redacted-at": null,
+                      "previous-step-name": "start",
+                      "next-step-name": "verification_selfie",
+                      "fields": {}
+                    },
+                    "relationships": {
+                      "account": {
+                        "data": {
+                          "type": "account",
+                          "id": "act_n2uq9eKMboaCQzu9ALWYcVdN"
+                        }
+                      },
+                      "template": {
+                        "data": null
+                      },
+                      "inquiry-template": {
+                        "data": {
+                          "type": "inquiry-template",
+                          "id": "itmpl_AbN9KvR4LmT2WqYxPdHsZgFc"
+                        }
+                      },
+                      "inquiry-template-version": {
+                        "data": {
+                          "type": "inquiry-template-version",
+                          "id": "itmplv_LqX3jYwK7HnRpZmCvBdF8RtA"
+                        }
+                      },
+                      "reviewer": {
+                        "data": {}
+                      },
+                      "reports": {
+                        "data": []
+                      },
+                      "verifications": {
+                        "data": []
+                      },
+                      "sessions": {
+                        "data": []
+                      },
+                      "documents": {
+                        "data": []
+                      },
+                      "selfies": {
+                        "data": [
+                          {
+                            "type": "selfie/profile-and-center",
+                            "id": "self_C8dHpYxLm3Rq7NwTzKvBgF2s"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "created-at": "2024-02-15T23:45:04.100Z"
+            }
+          }
+        }
+      },
+      "selfie-errored-webhook-body": {
+        "value": {
+          "data": {
+            "type": "event",
+            "id": "evt_9PtM0dArX8hVqDcR5zYmJ3iK",
+            "attributes": {
+              "name": "selfie.errored",
+              "payload": {
+                "data": {
+                  "type": "selfie/profile-and-center",
+                  "id": "self_C8dHpYxLm3Rq7NwTzKvBgF2s",
+                  "attributes": {
+                    "status": "errored",
+                    "created-at": "2024-02-15T23:45:01.000Z",
+                    "processed-at": "2024-02-15T23:45:04.000Z"
+                  },
+                  "relationships": {
+                    "inquiry": {
+                      "data": {
+                        "type": "inquiry",
+                        "id": "inq_7HmRpYxLn4Qw9NvTzKdBgF3c"
+                      }
+                    }
+                  }
+                },
+                "included": [
+                  {
+                    "type": "inquiry",
+                    "id": "inq_7HmRpYxLn4Qw9NvTzKdBgF3c",
+                    "attributes": {
+                      "status": "pending",
+                      "reference-id": null,
+                      "note": null,
+                      "behaviors": {},
+                      "tags": [],
+                      "creator": "jane@doe.com",
+                      "reviewer-comment": null,
+                      "created-at": "2024-02-15T23:45:01.000Z",
+                      "updated-at": "2024-02-15T23:45:04.000Z",
+                      "started-at": "2024-02-15T23:45:01.000Z",
+                      "expires-at": null,
+                      "completed-at": null,
+                      "failed-at": null,
+                      "marked-for-review-at": null,
+                      "decisioned-at": null,
+                      "expired-at": null,
+                      "redacted-at": null,
+                      "previous-step-name": "start",
+                      "next-step-name": "verification_selfie",
+                      "fields": {}
+                    },
+                    "relationships": {
+                      "account": {
+                        "data": {
+                          "type": "account",
+                          "id": "act_n2uq9eKMboaCQzu9ALWYcVdN"
+                        }
+                      },
+                      "template": {
+                        "data": null
+                      },
+                      "inquiry-template": {
+                        "data": {
+                          "type": "inquiry-template",
+                          "id": "itmpl_AbN9KvR4LmT2WqYxPdHsZgFc"
+                        }
+                      },
+                      "inquiry-template-version": {
+                        "data": {
+                          "type": "inquiry-template-version",
+                          "id": "itmplv_LqX3jYwK7HnRpZmCvBdF8RtA"
+                        }
+                      },
+                      "reviewer": {
+                        "data": {}
+                      },
+                      "reports": {
+                        "data": []
+                      },
+                      "verifications": {
+                        "data": []
+                      },
+                      "sessions": {
+                        "data": []
+                      },
+                      "documents": {
+                        "data": []
+                      },
+                      "selfies": {
+                        "data": [
+                          {
+                            "type": "selfie/profile-and-center",
+                            "id": "self_C8dHpYxLm3Rq7NwTzKvBgF2s"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "created-at": "2024-02-15T23:45:04.100Z"
             }
           }
         }
