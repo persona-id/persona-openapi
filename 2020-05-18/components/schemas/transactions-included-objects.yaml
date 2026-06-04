@@ -1,0 +1,29 @@
+type: array
+description: >-
+  Full representations of the objects referenced in
+  `data.attributes.relationships` — the Transaction's Transaction Type, its
+  reviewer (a Workflow Run, Workflow Step, or User), and any related objects
+  such as Accounts, Inquiries, Verifications, Reports, or Cases. The set of
+  types that appear depends on what the Transaction is related to.
+items:
+  type: object
+  additionalProperties: true
+  required:
+    - type
+    - id
+  properties:
+    type:
+      x-polymorphic: true
+      type: string
+      description: The type of the included object.
+      examples:
+        - transaction-type
+        - account
+        - inquiry
+        - workflow-run
+        - report/watchlist
+    id:
+      type: string
+      description: Unique identifier for the included object.
+      examples:
+        - txntp_ABC123

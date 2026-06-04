@@ -1,0 +1,96 @@
+post:
+  operationId: webhook-transaction-removed-relation
+  summary: Transaction removed relation
+  description: >-
+    Webhook for the `transaction.removed-relation` event. Fires when a
+    relationship is removed between this Transaction and another object (an
+    Account or a Transaction). The related object is identified by the
+    `context`. For more info see [Webhooks
+    Overview](https://docs.withpersona.com/webhooks).
+  tags:
+    - Transaction events
+  x-persona-product: Transactions
+  parameters:
+    - $ref: ../components/parameters/persona-signature-header.yaml
+    - $ref: ../components/parameters/persona-webhook-attempts-made.yaml
+    - $ref: ../components/parameters/persona-webhook-attempts-left.yaml
+    - $ref: ../components/parameters/persona-webhook-first-attempted-at.yaml
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          additionalProperties: false
+          properties:
+            data:
+              type: object
+              unevaluatedProperties: false
+              allOf:
+                - $ref: ../components/schemas/webhook-body-shared-data.yaml
+                - type: object
+                  properties:
+                    attributes:
+                      unevaluatedProperties: false
+                      allOf:
+                        - type: object
+                          properties:
+                            name:
+                              type: string
+                              const: transaction.removed-relation
+                            payload:
+                              type: object
+                              additionalProperties: false
+                              properties:
+                                data:
+                                  $ref: ../components/schemas/transaction.yaml
+                                included:
+                                  description: >-
+                                    All objects that are present in
+                                    `data.attributes.relationships` will be
+                                    provided in `included`.
+                                  $ref: >-
+                                    ../components/schemas/transactions-included-objects.yaml
+                            context:
+                              type: object
+                              additionalProperties: false
+                              description: >-
+                                Identifies the relationship that was removed and
+                                the related object.
+                              properties:
+                                relation-schema-key:
+                                  type: string
+                                  description: >-
+                                    The key of the relationship schema that
+                                    connected this Transaction to the related
+                                    object.
+                                  examples:
+                                    - txn_account
+                                target-account-id:
+                                  type:
+                                    - string
+                                    - 'null'
+                                  description: >-
+                                    Token of the related Account when the
+                                    related object is an Account, otherwise
+                                    `null`. Starts with `act_`.
+                                  examples:
+                                    - act_9yGqWZ8jK4pN2dR7sVxL3bTm
+                                target-txn-id:
+                                  type:
+                                    - string
+                                    - 'null'
+                                  description: >-
+                                    Token of the related Transaction when the
+                                    related object is a Transaction, otherwise
+                                    `null`. Starts with `txn_`.
+                                  examples:
+                                    - null
+                        - $ref: >-
+                            ../components/schemas/webhook-body-shared-attributes.yaml
+        examples:
+          Example Body:
+            $ref: >-
+              ../components/examples/transaction-removed-relation-webhook-body.yaml
+  responses:
+    '200':
+      $ref: ../components/responses/success.yaml

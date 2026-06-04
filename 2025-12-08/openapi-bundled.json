@@ -7445,6 +7445,9 @@
           },
           "429": {
             "$ref": "#/components/responses/too-many-requests"
+          },
+          "503": {
+            "$ref": "#/components/responses/service-unavailable"
           }
         },
         "summary": "List all Devices",
@@ -7530,6 +7533,9 @@
           },
           "429": {
             "$ref": "#/components/responses/too-many-requests"
+          },
+          "503": {
+            "$ref": "#/components/responses/service-unavailable"
           }
         },
         "summary": "Retrieve a Device",
@@ -30334,6 +30340,889 @@
               "examples": {
                 "Example Body": {
                   "$ref": "#/components/examples/selfie-errored-webhook-body"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/success"
+          }
+        }
+      }
+    },
+    "transaction.created": {
+      "post": {
+        "operationId": "webhook-transaction-created",
+        "summary": "Transaction created",
+        "description": "Webhook for the `transaction.created` event. Fires when a Transaction is created. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).",
+        "tags": [
+          "Transaction events"
+        ],
+        "x-persona-product": "Transactions",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "unevaluatedProperties": false,
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/webhook-body-shared-data"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "attributes": {
+                            "unevaluatedProperties": false,
+                            "allOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "const": "transaction.created"
+                                  },
+                                  "payload": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "data": {
+                                        "$ref": "#/components/schemas/transaction"
+                                      },
+                                      "included": {
+                                        "description": "All objects that are present in `data.attributes.relationships` will be provided in `included`.",
+                                        "$ref": "#/components/schemas/transactions-included-objects"
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "$ref": "#/components/schemas/webhook-body-shared-attributes"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Example Body": {
+                  "$ref": "#/components/examples/transaction-created-webhook-body"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/success"
+          }
+        }
+      }
+    },
+    "transaction.status-updated": {
+      "post": {
+        "operationId": "webhook-transaction-status-updated",
+        "summary": "Transaction status updated",
+        "description": "Webhook for the `transaction.status-updated` event. Fires when a Transaction's status changes. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).",
+        "tags": [
+          "Transaction events"
+        ],
+        "x-persona-product": "Transactions",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "unevaluatedProperties": false,
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/webhook-body-shared-data"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "attributes": {
+                            "unevaluatedProperties": false,
+                            "allOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "const": "transaction.status-updated"
+                                  },
+                                  "payload": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "data": {
+                                        "$ref": "#/components/schemas/transaction"
+                                      },
+                                      "included": {
+                                        "description": "All objects that are present in `data.attributes.relationships` will be provided in `included`.",
+                                        "$ref": "#/components/schemas/transactions-included-objects"
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "$ref": "#/components/schemas/webhook-body-shared-attributes"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Example Body": {
+                  "$ref": "#/components/examples/transaction-status-updated-webhook-body"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/success"
+          }
+        }
+      }
+    },
+    "transaction.updated-fields": {
+      "post": {
+        "operationId": "webhook-transaction-updated-fields",
+        "summary": "Transaction updated fields",
+        "description": "Webhook for the `transaction.updated-fields` event. Fires when one or more of a Transaction's fields are updated. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).",
+        "tags": [
+          "Transaction events"
+        ],
+        "x-persona-product": "Transactions",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "unevaluatedProperties": false,
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/webhook-body-shared-data"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "attributes": {
+                            "unevaluatedProperties": false,
+                            "allOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "const": "transaction.updated-fields"
+                                  },
+                                  "payload": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "data": {
+                                        "$ref": "#/components/schemas/transaction"
+                                      },
+                                      "included": {
+                                        "description": "All objects that are present in `data.attributes.relationships` will be provided in `included`.",
+                                        "$ref": "#/components/schemas/transactions-included-objects"
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "$ref": "#/components/schemas/webhook-body-shared-attributes"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Example Body": {
+                  "$ref": "#/components/examples/transaction-updated-fields-webhook-body"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/success"
+          }
+        }
+      }
+    },
+    "transaction.labeled": {
+      "post": {
+        "operationId": "webhook-transaction-labeled",
+        "summary": "Transaction labeled",
+        "description": "Webhook for the `transaction.labeled` event. Fires when a label is applied to a Transaction. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).",
+        "tags": [
+          "Transaction events"
+        ],
+        "x-persona-product": "Transactions",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "unevaluatedProperties": false,
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/webhook-body-shared-data"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "attributes": {
+                            "unevaluatedProperties": false,
+                            "allOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "const": "transaction.labeled"
+                                  },
+                                  "payload": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "data": {
+                                        "$ref": "#/components/schemas/transaction"
+                                      },
+                                      "included": {
+                                        "description": "All objects that are present in `data.attributes.relationships` will be provided in `included`.",
+                                        "$ref": "#/components/schemas/transactions-included-objects"
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "$ref": "#/components/schemas/webhook-body-shared-attributes"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Example Body": {
+                  "$ref": "#/components/examples/transaction-labeled-webhook-body"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/success"
+          }
+        }
+      }
+    },
+    "transaction.redacted": {
+      "post": {
+        "operationId": "webhook-transaction-redacted",
+        "summary": "Transaction redacted",
+        "description": "Webhook for the `transaction.redacted` event. Fires when a Transaction's personally identifiable information (PII) is redacted. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).",
+        "tags": [
+          "Transaction events"
+        ],
+        "x-persona-product": "Transactions",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "unevaluatedProperties": false,
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/webhook-body-shared-data"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "attributes": {
+                            "unevaluatedProperties": false,
+                            "allOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "const": "transaction.redacted"
+                                  },
+                                  "payload": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "data": {
+                                        "$ref": "#/components/schemas/transaction"
+                                      },
+                                      "included": {
+                                        "description": "All objects that are present in `data.attributes.relationships` will be provided in `included`.",
+                                        "$ref": "#/components/schemas/transactions-included-objects"
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "$ref": "#/components/schemas/webhook-body-shared-attributes"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Example Body": {
+                  "$ref": "#/components/examples/transaction-redacted-webhook-body"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/success"
+          }
+        }
+      }
+    },
+    "transaction.added-relation": {
+      "post": {
+        "operationId": "webhook-transaction-added-relation",
+        "summary": "Transaction added relation",
+        "description": "Webhook for the `transaction.added-relation` event. Fires when a relationship is added between this Transaction and another object (an Account or a Transaction). The related object is identified by the `context`. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).",
+        "tags": [
+          "Transaction events"
+        ],
+        "x-persona-product": "Transactions",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "unevaluatedProperties": false,
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/webhook-body-shared-data"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "attributes": {
+                            "unevaluatedProperties": false,
+                            "allOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "const": "transaction.added-relation"
+                                  },
+                                  "payload": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "data": {
+                                        "$ref": "#/components/schemas/transaction"
+                                      },
+                                      "included": {
+                                        "description": "All objects that are present in `data.attributes.relationships` will be provided in `included`.",
+                                        "$ref": "#/components/schemas/transactions-included-objects"
+                                      }
+                                    }
+                                  },
+                                  "context": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "description": "Identifies the relationship that was added and the related object.",
+                                    "properties": {
+                                      "relation-schema-key": {
+                                        "type": "string",
+                                        "description": "The key of the relationship schema connecting this Transaction to the related object.",
+                                        "examples": [
+                                          "txn_account"
+                                        ]
+                                      },
+                                      "target-account-id": {
+                                        "type": [
+                                          "string",
+                                          "null"
+                                        ],
+                                        "description": "Token of the related Account when the related object is an Account, otherwise `null`. Starts with `act_`.",
+                                        "examples": [
+                                          "act_9yGqWZ8jK4pN2dR7sVxL3bTm"
+                                        ]
+                                      },
+                                      "target-txn-id": {
+                                        "type": [
+                                          "string",
+                                          "null"
+                                        ],
+                                        "description": "Token of the related Transaction when the related object is a Transaction, otherwise `null`. Starts with `txn_`.",
+                                        "examples": [
+                                          null
+                                        ]
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "$ref": "#/components/schemas/webhook-body-shared-attributes"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Example Body": {
+                  "$ref": "#/components/examples/transaction-added-relation-webhook-body"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/success"
+          }
+        }
+      }
+    },
+    "transaction.removed-relation": {
+      "post": {
+        "operationId": "webhook-transaction-removed-relation",
+        "summary": "Transaction removed relation",
+        "description": "Webhook for the `transaction.removed-relation` event. Fires when a relationship is removed between this Transaction and another object (an Account or a Transaction). The related object is identified by the `context`. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).",
+        "tags": [
+          "Transaction events"
+        ],
+        "x-persona-product": "Transactions",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "unevaluatedProperties": false,
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/webhook-body-shared-data"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "attributes": {
+                            "unevaluatedProperties": false,
+                            "allOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "const": "transaction.removed-relation"
+                                  },
+                                  "payload": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "data": {
+                                        "$ref": "#/components/schemas/transaction"
+                                      },
+                                      "included": {
+                                        "description": "All objects that are present in `data.attributes.relationships` will be provided in `included`.",
+                                        "$ref": "#/components/schemas/transactions-included-objects"
+                                      }
+                                    }
+                                  },
+                                  "context": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "description": "Identifies the relationship that was removed and the related object.",
+                                    "properties": {
+                                      "relation-schema-key": {
+                                        "type": "string",
+                                        "description": "The key of the relationship schema that connected this Transaction to the related object.",
+                                        "examples": [
+                                          "txn_account"
+                                        ]
+                                      },
+                                      "target-account-id": {
+                                        "type": [
+                                          "string",
+                                          "null"
+                                        ],
+                                        "description": "Token of the related Account when the related object is an Account, otherwise `null`. Starts with `act_`.",
+                                        "examples": [
+                                          "act_9yGqWZ8jK4pN2dR7sVxL3bTm"
+                                        ]
+                                      },
+                                      "target-txn-id": {
+                                        "type": [
+                                          "string",
+                                          "null"
+                                        ],
+                                        "description": "Token of the related Transaction when the related object is a Transaction, otherwise `null`. Starts with `txn_`.",
+                                        "examples": [
+                                          null
+                                        ]
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "$ref": "#/components/schemas/webhook-body-shared-attributes"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Example Body": {
+                  "$ref": "#/components/examples/transaction-removed-relation-webhook-body"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/success"
+          }
+        }
+      }
+    },
+    "transaction.sentinel-session-processed": {
+      "post": {
+        "operationId": "webhook-transaction-sentinel-session-processed",
+        "summary": "Transaction sentinel session processed",
+        "description": "Webhook for the `transaction.sentinel-session-processed` event. Fires when a Sentinel session finishes processing for a Transaction. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).",
+        "tags": [
+          "Transaction events"
+        ],
+        "x-persona-product": "Transactions",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "unevaluatedProperties": false,
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/webhook-body-shared-data"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "attributes": {
+                            "unevaluatedProperties": false,
+                            "allOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "const": "transaction.sentinel-session-processed"
+                                  },
+                                  "payload": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "data": {
+                                        "$ref": "#/components/schemas/transaction"
+                                      },
+                                      "included": {
+                                        "description": "All objects that are present in `data.attributes.relationships` will be provided in `included`.",
+                                        "$ref": "#/components/schemas/transactions-included-objects"
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "$ref": "#/components/schemas/webhook-body-shared-attributes"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Example Body": {
+                  "$ref": "#/components/examples/transaction-sentinel-session-processed-webhook-body"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/success"
+          }
+        }
+      }
+    },
+    "transaction-type.deleted-field": {
+      "post": {
+        "operationId": "webhook-transaction-type-deleted-field",
+        "summary": "Transaction type deleted field",
+        "description": "Webhook for the `transaction-type.deleted-field` event. Fires when a field is deleted from a Transaction Type. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).",
+        "tags": [
+          "Transaction type events"
+        ],
+        "x-persona-product": "Transactions",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "unevaluatedProperties": false,
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/webhook-body-shared-data"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "attributes": {
+                            "unevaluatedProperties": false,
+                            "allOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "const": "transaction-type.deleted-field"
+                                  },
+                                  "payload": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "data": {
+                                        "$ref": "#/components/schemas/transaction-type"
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "$ref": "#/components/schemas/webhook-body-shared-attributes"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Example Body": {
+                  "$ref": "#/components/examples/transaction-type-deleted-field-webhook-body"
                 }
               }
             }
@@ -53719,6 +54608,39 @@
             }
           ]
         }
+      },
+      "transactions-included-objects": {
+        "type": "array",
+        "description": "Full representations of the objects referenced in `data.attributes.relationships` — the Transaction's Transaction Type, its reviewer (a Workflow Run, Workflow Step, or User), and any related objects such as Accounts, Inquiries, Verifications, Reports, or Cases. The set of types that appear depends on what the Transaction is related to.",
+        "items": {
+          "type": "object",
+          "additionalProperties": true,
+          "required": [
+            "type",
+            "id"
+          ],
+          "properties": {
+            "type": {
+              "x-polymorphic": true,
+              "type": "string",
+              "description": "The type of the included object.",
+              "examples": [
+                "transaction-type",
+                "account",
+                "inquiry",
+                "workflow-run",
+                "report/watchlist"
+              ]
+            },
+            "id": {
+              "type": "string",
+              "description": "Unique identifier for the included object.",
+              "examples": [
+                "txntp_ABC123"
+              ]
+            }
+          }
+        }
       }
     },
     "examples": {
@@ -69041,6 +69963,622 @@
                 ]
               },
               "created-at": "2024-02-15T23:45:04.100Z"
+            }
+          }
+        }
+      },
+      "transaction-created-webhook-body": {
+        "value": {
+          "data": {
+            "type": "event",
+            "id": "evt_7KqH4xVnR2bPmYwL9sTgD3cE",
+            "attributes": {
+              "name": "transaction.created",
+              "payload": {
+                "data": {
+                  "type": "transaction",
+                  "id": "txn_26wUfNNK6Ze7qkwyK6kuj7RkZgdP",
+                  "attributes": {
+                    "status": "created",
+                    "reference-id": "order-490020245",
+                    "fields": {
+                      "name_first": {
+                        "type": "string",
+                        "value": "Daniel"
+                      },
+                      "name_middle": {
+                        "type": "string",
+                        "value": null
+                      },
+                      "name_last": {
+                        "type": "string",
+                        "value": "Webster"
+                      },
+                      "account_id": {
+                        "type": "string",
+                        "value": null
+                      }
+                    },
+                    "tags": [],
+                    "created-at": "2024-02-15T23:48:17.732Z",
+                    "updated-at": "2024-02-15T23:48:17.732Z"
+                  },
+                  "relationships": {
+                    "reviewer": {
+                      "data": null
+                    },
+                    "transaction-label": {
+                      "data": null
+                    },
+                    "transaction-type": {
+                      "data": {
+                        "type": "transaction-type",
+                        "id": "txntp_N1687FCwgERcW3M88M5U4mAt"
+                      }
+                    },
+                    "related-objects": {
+                      "data": []
+                    }
+                  }
+                },
+                "included": [
+                  {
+                    "type": "transaction-type",
+                    "id": "txntp_N1687FCwgERcW3M88M5U4mAt",
+                    "attributes": {
+                      "name": "Payment",
+                      "created-at": "2023-06-29T23:54:35.293Z",
+                      "updated-at": "2023-06-29T23:54:35.293Z",
+                      "field-schemas": []
+                    }
+                  }
+                ]
+              },
+              "created-at": "2024-02-15T23:48:17.732Z"
+            }
+          }
+        }
+      },
+      "transaction-status-updated-webhook-body": {
+        "value": {
+          "data": {
+            "type": "event",
+            "id": "evt_3KqH4xVnR2bPmYwL9sTgD3cE",
+            "attributes": {
+              "name": "transaction.status-updated",
+              "payload": {
+                "data": {
+                  "type": "transaction",
+                  "id": "txn_26wUfNNK6Ze7qkwyK6kuj7RkZgdP",
+                  "attributes": {
+                    "status": "approved",
+                    "reference-id": "order-490020245",
+                    "fields": {
+                      "name_first": {
+                        "type": "string",
+                        "value": "Daniel"
+                      },
+                      "name_last": {
+                        "type": "string",
+                        "value": "Webster"
+                      },
+                      "account_id": {
+                        "type": "string",
+                        "value": "act_9yGqWZ8jK4pN2dR7sVxL3bTm"
+                      }
+                    },
+                    "tags": [],
+                    "created-at": "2024-02-15T23:48:17.732Z",
+                    "updated-at": "2024-02-16T09:12:04.118Z"
+                  },
+                  "relationships": {
+                    "reviewer": {
+                      "data": {
+                        "type": "workflow-run",
+                        "id": "wfr_3nK7pQ2sV9mXbYwL4tRcD6eH"
+                      }
+                    },
+                    "transaction-label": {
+                      "data": null
+                    },
+                    "transaction-type": {
+                      "data": {
+                        "type": "transaction-type",
+                        "id": "txntp_N1687FCwgERcW3M88M5U4mAt"
+                      }
+                    },
+                    "related-objects": {
+                      "data": [
+                        {
+                          "type": "account",
+                          "id": "act_9yGqWZ8jK4pN2dR7sVxL3bTm"
+                        },
+                        {
+                          "type": "report/watchlist",
+                          "id": "rep_5mZ8kT3nQ7pXwYbL2vRcD9eH"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "included": [
+                  {
+                    "type": "workflow-run",
+                    "id": "wfr_3nK7pQ2sV9mXbYwL4tRcD6eH",
+                    "attributes": {
+                      "status": "completed",
+                      "created-at": "2024-02-16T09:11:58.004Z",
+                      "completed-at": "2024-02-16T09:12:04.061Z"
+                    }
+                  },
+                  {
+                    "type": "transaction-type",
+                    "id": "txntp_N1687FCwgERcW3M88M5U4mAt",
+                    "attributes": {
+                      "name": "Payment",
+                      "created-at": "2023-06-29T23:54:35.293Z",
+                      "updated-at": "2023-06-29T23:54:35.293Z",
+                      "field-schemas": []
+                    }
+                  },
+                  {
+                    "type": "account",
+                    "id": "act_9yGqWZ8jK4pN2dR7sVxL3bTm",
+                    "attributes": {
+                      "reference-id": "customer-4821",
+                      "account-type-name": "Individual",
+                      "created-at": "2024-02-01T10:15:30.000Z",
+                      "updated-at": "2024-02-16T09:12:04.000Z",
+                      "redacted-at": null,
+                      "fields": {},
+                      "tags": [],
+                      "account-status": "Approved"
+                    }
+                  },
+                  {
+                    "type": "report/watchlist",
+                    "id": "rep_5mZ8kT3nQ7pXwYbL2vRcD9eH",
+                    "attributes": {
+                      "status": "ready",
+                      "created-at": "2024-02-16T09:11:59.412Z",
+                      "completed-at": "2024-02-16T09:12:01.882Z",
+                      "has-match": false
+                    }
+                  }
+                ]
+              },
+              "created-at": "2024-02-16T09:12:04.118Z"
+            }
+          }
+        }
+      },
+      "transaction-updated-fields-webhook-body": {
+        "value": {
+          "data": {
+            "type": "event",
+            "id": "evt_9sTgD3cE7KqH4xVnR2bPmYwL",
+            "attributes": {
+              "name": "transaction.updated-fields",
+              "payload": {
+                "data": {
+                  "type": "transaction",
+                  "id": "txn_26wUfNNK6Ze7qkwyK6kuj7RkZgdP",
+                  "attributes": {
+                    "status": "created",
+                    "reference-id": "order-490020245",
+                    "fields": {
+                      "name_first": {
+                        "type": "string",
+                        "value": "Daniel"
+                      },
+                      "name_last": {
+                        "type": "string",
+                        "value": "Webster"
+                      },
+                      "account_id": {
+                        "type": "string",
+                        "value": null
+                      }
+                    },
+                    "tags": [],
+                    "created-at": "2024-02-15T23:48:17.732Z",
+                    "updated-at": "2024-02-15T23:55:02.640Z"
+                  },
+                  "relationships": {
+                    "reviewer": {
+                      "data": null
+                    },
+                    "transaction-label": {
+                      "data": null
+                    },
+                    "transaction-type": {
+                      "data": {
+                        "type": "transaction-type",
+                        "id": "txntp_N1687FCwgERcW3M88M5U4mAt"
+                      }
+                    },
+                    "related-objects": {
+                      "data": []
+                    }
+                  }
+                },
+                "included": [
+                  {
+                    "type": "transaction-type",
+                    "id": "txntp_N1687FCwgERcW3M88M5U4mAt",
+                    "attributes": {
+                      "name": "Payment",
+                      "created-at": "2023-06-29T23:54:35.293Z",
+                      "updated-at": "2023-06-29T23:54:35.293Z",
+                      "field-schemas": []
+                    }
+                  }
+                ]
+              },
+              "created-at": "2024-02-15T23:55:02.640Z"
+            }
+          }
+        }
+      },
+      "transaction-labeled-webhook-body": {
+        "value": {
+          "data": {
+            "type": "event",
+            "id": "evt_2bPmYwL9sTgD3cE7KqH4xVnR",
+            "attributes": {
+              "name": "transaction.labeled",
+              "payload": {
+                "data": {
+                  "type": "transaction",
+                  "id": "txn_26wUfNNK6Ze7qkwyK6kuj7RkZgdP",
+                  "attributes": {
+                    "status": "created",
+                    "reference-id": "order-490020245",
+                    "fields": {
+                      "name_first": {
+                        "type": "string",
+                        "value": "Daniel"
+                      },
+                      "name_last": {
+                        "type": "string",
+                        "value": "Webster"
+                      }
+                    },
+                    "tags": [],
+                    "created-at": "2024-02-15T23:48:17.732Z",
+                    "updated-at": "2024-02-15T23:48:17.732Z"
+                  },
+                  "relationships": {
+                    "reviewer": {
+                      "data": null
+                    },
+                    "transaction-label": {
+                      "data": {
+                        "type": "transaction-label",
+                        "id": "txnl_8GV2ULqZ5VHURTJtYjGjV8nU"
+                      }
+                    },
+                    "transaction-type": {
+                      "data": {
+                        "type": "transaction-type",
+                        "id": "txntp_N1687FCwgERcW3M88M5U4mAt"
+                      }
+                    },
+                    "related-objects": {
+                      "data": []
+                    }
+                  }
+                },
+                "included": [
+                  {
+                    "type": "transaction-type",
+                    "id": "txntp_N1687FCwgERcW3M88M5U4mAt",
+                    "attributes": {
+                      "name": "Payment",
+                      "created-at": "2023-06-29T23:54:35.293Z",
+                      "updated-at": "2023-06-29T23:54:35.293Z",
+                      "field-schemas": []
+                    }
+                  }
+                ]
+              },
+              "created-at": "2024-02-15T23:59:41.205Z"
+            }
+          }
+        }
+      },
+      "transaction-redacted-webhook-body": {
+        "value": {
+          "data": {
+            "type": "event",
+            "id": "evt_4xVnR2bPmYwL9sTgD3cE7KqH",
+            "attributes": {
+              "name": "transaction.redacted",
+              "payload": {
+                "data": {
+                  "type": "transaction",
+                  "id": "txn_26wUfNNK6Ze7qkwyK6kuj7RkZgdP",
+                  "attributes": {
+                    "status": "approved",
+                    "reference-id": "order-490020245",
+                    "fields": {
+                      "name_first": {
+                        "type": "string",
+                        "value": null
+                      },
+                      "name_last": {
+                        "type": "string",
+                        "value": null
+                      },
+                      "account_id": {
+                        "type": "string",
+                        "value": null
+                      }
+                    },
+                    "tags": [],
+                    "created-at": "2024-02-15T23:48:17.732Z",
+                    "updated-at": "2024-03-01T12:00:00.000Z"
+                  },
+                  "relationships": {
+                    "reviewer": {
+                      "data": {
+                        "type": "workflow-run",
+                        "id": "wfr_3nK7pQ2sV9mXbYwL4tRcD6eH"
+                      }
+                    },
+                    "transaction-label": {
+                      "data": null
+                    },
+                    "transaction-type": {
+                      "data": {
+                        "type": "transaction-type",
+                        "id": "txntp_N1687FCwgERcW3M88M5U4mAt"
+                      }
+                    },
+                    "related-objects": {
+                      "data": []
+                    }
+                  }
+                },
+                "included": [
+                  {
+                    "type": "workflow-run",
+                    "id": "wfr_3nK7pQ2sV9mXbYwL4tRcD6eH",
+                    "attributes": {
+                      "status": "completed",
+                      "created-at": "2024-02-16T09:11:58.004Z",
+                      "completed-at": "2024-02-16T09:12:04.061Z"
+                    }
+                  },
+                  {
+                    "type": "transaction-type",
+                    "id": "txntp_N1687FCwgERcW3M88M5U4mAt",
+                    "attributes": {
+                      "name": "Payment",
+                      "created-at": "2023-06-29T23:54:35.293Z",
+                      "updated-at": "2023-06-29T23:54:35.293Z",
+                      "field-schemas": []
+                    }
+                  }
+                ]
+              },
+              "created-at": "2024-03-01T12:00:00.000Z"
+            }
+          }
+        }
+      },
+      "transaction-added-relation-webhook-body": {
+        "value": {
+          "data": {
+            "type": "event",
+            "id": "evt_5VHURTJtYjGjV8nU8GV2ULqZ",
+            "attributes": {
+              "name": "transaction.added-relation",
+              "payload": {
+                "data": {
+                  "type": "transaction",
+                  "id": "txn_26wUfNNK6Ze7qkwyK6kuj7RkZgdP",
+                  "attributes": {
+                    "status": "created",
+                    "reference-id": "order-490020245",
+                    "fields": {
+                      "name_first": {
+                        "type": "string",
+                        "value": "Jane"
+                      },
+                      "name_last": {
+                        "type": "string",
+                        "value": "OConnor"
+                      }
+                    },
+                    "tags": [],
+                    "created-at": "2024-02-15T23:48:17.732Z",
+                    "updated-at": "2024-02-15T23:48:17.732Z"
+                  },
+                  "relationships": {
+                    "reviewer": {
+                      "data": null
+                    },
+                    "transaction-label": {
+                      "data": null
+                    },
+                    "transaction-type": {
+                      "data": {
+                        "type": "transaction-type",
+                        "id": "txntp_N1687FCwgERcW3M88M5U4mAt"
+                      }
+                    },
+                    "related-objects": {
+                      "data": [
+                        {
+                          "type": "account",
+                          "id": "act_9yGqWZ8jK4pN2dR7sVxL3bTm"
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              "context": {
+                "relation-schema-key": "txn_account",
+                "target-account-id": "act_9yGqWZ8jK4pN2dR7sVxL3bTm",
+                "target-txn-id": null
+              },
+              "created-at": "2024-02-15T23:50:33.089Z"
+            }
+          }
+        }
+      },
+      "transaction-removed-relation-webhook-body": {
+        "value": {
+          "data": {
+            "type": "event",
+            "id": "evt_8nU8GV2ULqZ5VHURTJtYjGjV",
+            "attributes": {
+              "name": "transaction.removed-relation",
+              "payload": {
+                "data": {
+                  "type": "transaction",
+                  "id": "txn_26wUfNNK6Ze7qkwyK6kuj7RkZgdP",
+                  "attributes": {
+                    "status": "created",
+                    "reference-id": "order-490020245",
+                    "fields": {
+                      "name_first": {
+                        "type": "string",
+                        "value": "Jane"
+                      },
+                      "name_last": {
+                        "type": "string",
+                        "value": "OConnor"
+                      }
+                    },
+                    "tags": [],
+                    "created-at": "2024-02-15T23:48:17.732Z",
+                    "updated-at": "2024-02-15T23:48:17.732Z"
+                  },
+                  "relationships": {
+                    "reviewer": {
+                      "data": null
+                    },
+                    "transaction-label": {
+                      "data": null
+                    },
+                    "transaction-type": {
+                      "data": {
+                        "type": "transaction-type",
+                        "id": "txntp_N1687FCwgERcW3M88M5U4mAt"
+                      }
+                    },
+                    "related-objects": {
+                      "data": []
+                    }
+                  }
+                }
+              },
+              "context": {
+                "relation-schema-key": "txn_account",
+                "target-account-id": "act_9yGqWZ8jK4pN2dR7sVxL3bTm",
+                "target-txn-id": null
+              },
+              "created-at": "2024-02-15T23:52:18.402Z"
+            }
+          }
+        }
+      },
+      "transaction-sentinel-session-processed-webhook-body": {
+        "value": {
+          "data": {
+            "type": "event",
+            "id": "evt_6kuj7RkZgdP26wUfNNK6Ze7q",
+            "attributes": {
+              "name": "transaction.sentinel-session-processed",
+              "payload": {
+                "data": {
+                  "type": "transaction",
+                  "id": "txn_26wUfNNK6Ze7qkwyK6kuj7RkZgdP",
+                  "attributes": {
+                    "status": "approved",
+                    "reference-id": "order-490020245",
+                    "fields": {
+                      "name_first": {
+                        "type": "string",
+                        "value": "Daniel"
+                      },
+                      "name_last": {
+                        "type": "string",
+                        "value": "Webster"
+                      },
+                      "account_id": {
+                        "type": "string",
+                        "value": "act_9yGqWZ8jK4pN2dR7sVxL3bTm"
+                      }
+                    },
+                    "tags": [],
+                    "created-at": "2024-02-15T23:48:17.732Z",
+                    "updated-at": "2024-02-16T09:12:04.118Z"
+                  },
+                  "relationships": {
+                    "reviewer": {
+                      "data": null
+                    },
+                    "transaction-label": {
+                      "data": null
+                    },
+                    "transaction-type": {
+                      "data": {
+                        "type": "transaction-type",
+                        "id": "txntp_N1687FCwgERcW3M88M5U4mAt"
+                      }
+                    },
+                    "related-objects": {
+                      "data": [
+                        {
+                          "type": "account",
+                          "id": "act_9yGqWZ8jK4pN2dR7sVxL3bTm"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "included": [
+                  {
+                    "type": "transaction-type",
+                    "id": "txntp_N1687FCwgERcW3M88M5U4mAt",
+                    "attributes": {
+                      "name": "Payment",
+                      "created-at": "2023-06-29T23:54:35.293Z",
+                      "updated-at": "2023-06-29T23:54:35.293Z",
+                      "field-schemas": []
+                    }
+                  }
+                ]
+              },
+              "created-at": "2024-02-16T09:13:10.552Z"
+            }
+          }
+        }
+      },
+      "transaction-type-deleted-field-webhook-body": {
+        "value": {
+          "data": {
+            "type": "event",
+            "id": "evt_YjGjV8nU8GV2ULqZ5VHURTJt",
+            "attributes": {
+              "name": "transaction-type.deleted-field",
+              "payload": {
+                "data": {
+                  "type": "transaction-type",
+                  "id": "txntp_N1687FCwgERcW3M88M5U4mAt",
+                  "attributes": {
+                    "name": "Payment",
+                    "created-at": "2023-06-29T23:54:35.293Z",
+                    "updated-at": "2024-02-20T17:03:55.118Z",
+                    "field-schemas": []
+                  }
+                }
+              },
+              "created-at": "2024-02-20T17:03:55.118Z"
             }
           }
         }
