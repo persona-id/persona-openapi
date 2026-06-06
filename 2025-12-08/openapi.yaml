@@ -50,6 +50,8 @@ tags:
     description: Share access to a Persona object with another organization
   - name: Rate Limits
     description: Interact with Rate Limits via API
+  - name: Relay
+    description: Interact with Persona Relay objects
   - name: Reports
     description: Interact with Persona Report objects
   - name: Transactions
@@ -318,8 +320,14 @@ paths:
     $ref: paths/oauth_authorize.yaml
   /oauth/token:
     $ref: paths/oauth_token.yaml
+  /privacy-passes:
+    $ref: paths/privacy-passes.yaml
   /rate-limits:
     $ref: paths/rate-limits.yaml
+  /relays:
+    $ref: paths/relays.yaml
+  /relays/{relay-token}/generate-claim:
+    $ref: paths/relays_{relay-token}_generate-claim.yaml
   /reports:
     $ref: paths/reports.yaml
   /reports/{report-id}:
@@ -591,3 +599,13 @@ components:
       type: http
       scheme: bearer
       x-bearer-format: bearer
+    privacyPassAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      x-fern-header:
+        name: privacyPassToken
+        prefix: PrivateToken token=
+      description: >-
+        Privacy Pass token per RFC 9577. Provide as `Authorization: PrivateToken
+        token=<privacyPassToken>`.

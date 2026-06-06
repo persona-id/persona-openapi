@@ -1,0 +1,86 @@
+post:
+  description: >-
+    Issues a Privacy Pass token by blind-signing a client-provided blinded token
+    (Blind RSA, RFC 9578). The returned blind signature is unblinded client-side
+    to produce a Privacy Pass token that can later be redeemed anonymously (for
+    example, when generating a Relay claim).
+  operationId: create-a-privacy-pass
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/api-reference/relay/create-a-privacy-pass
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            blinded-token:
+              description: >-
+                The base64url-encoded blinded token to be signed. Produced
+                client-side by blinding a token input with the issuer public key
+                identified by `key-id`.
+              type: string
+              examples:
+                - 5rT2pX9qLkV0nW3bYc7dZ1aF8gH4jK6mN2pQ5rS8tU
+            key-id:
+              description: >-
+                The hex-encoded identifier of the issuer signing key to use.
+                Must match the key the `blinded-token` was blinded against.
+              type: string
+              examples:
+                - >-
+                  a3c5f8e2d1b4079c6e5a2f8b1d3c4e5f6a7b8c9d0e1f2a3b4c5d6e7f8091a2b3c
+          additionalProperties: false
+          type: object
+          required:
+            - blinded-token
+            - key-id
+        examples:
+          Created:
+            value:
+              blinded-token: 5rT2pX9qLkV0nW3bYc7dZ1aF8gH4jK6mN2pQ5rS8tU
+              key-id: >-
+                a3c5f8e2d1b4079c6e5a2f8b1d3c4e5f6a7b8c9d0e1f2a3b4c5d6e7f8091a2b3c
+  responses:
+    '201':
+      description: Returns the blind signature for the submitted blinded token.
+      content:
+        application/json:
+          examples:
+            Created:
+              value:
+                blind-sig: kR9mP2xQ7vL0nW3bYc8dZ4aF1gH6jK5mN8pQ2rS7tU
+          schema:
+            properties:
+              blind-sig:
+                description: >-
+                  The base64url-encoded blind signature. Unblind this
+                  client-side to produce the Privacy Pass token.
+                examples:
+                  - kR9mP2xQ7vL0nW3bYc8dZ4aF1gH6jK5mN8pQ2rS7tU
+                type: string
+            additionalProperties: false
+            type: object
+            required:
+              - blind-sig
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Create a Privacy Pass
+  tags:
+    - Relay
+  x-persona-product: Relay

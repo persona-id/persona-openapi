@@ -1,0 +1,146 @@
+servers:
+  - url: https://api.withpersona.com/api/privacy/v1
+post:
+  description: Returns a relay's claim.
+  operationId: generate-a-relay-claim
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/api-reference/relay/generate-a-relay-claim
+  security:
+    - privacyPassAuth: []
+  x-fern-examples:
+    - code-samples:
+        - sdk: curl
+          code: >
+            curl -X POST
+            https://api.withpersona.com/api/privacy/v1/relays/:relay-token/generate-claim
+            \
+              -H "Authorization: PrivateToken token=<privacyPassToken>" \
+              -H "Persona-Relay-Secret: <relay-secret>"
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - name: relay-token
+      in: path
+      required: true
+      description: The public Relay token returned by `POST /relays`.
+      schema:
+        type: string
+        examples:
+          - relay_AbcDeFGhIjKlMnOpQrStUvWxYz1
+    - name: Persona-Relay-Secret
+      in: header
+      required: true
+      description: >-
+        The `relay-secret` value returned at Relay creation. Required for every
+        read of the claim payload; an incorrect secret returns 404.
+      schema:
+        type: string
+        examples:
+          - 9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d
+  responses:
+    '200':
+      description: >-
+        Returns the claim payload and whether the Privacy Pass token was
+        consumed.
+      content:
+        application/json:
+          examples:
+            Success:
+              value:
+                claim-payload: >-
+                  {"claim_type":"age_over18_germany","claim_result":"passed","methodology":[]}
+                token-consumed: true
+          schema:
+            properties:
+              claim-payload:
+                description: >-
+                  The claim payload. If an `encryption-key-pem` was provided at
+                  Relay creation, this
+
+                  is a base64-encoded RSA OAEP ciphertext that must be decrypted
+                  client-side.
+
+                  Otherwise, this is a JSON string containing `claim_type`,
+                  `claim_result`, and an
+
+                  optional `methodology` array.
+                type: string
+              token-consumed:
+                description: >-
+                  `true` if the Privacy Pass token was consumed by this request.
+                  `false` if the underlying claim did not pass and the token was
+                  refunded to the client.
+                type: boolean
+            additionalProperties: false
+            type: object
+            required:
+              - claim-payload
+              - token-consumed
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      description: >-
+        No valid Privacy Pass token was presented. The response includes a
+        `WWW-Authenticate` header carrying a fresh PrivateToken challenge (RFC
+        9577) that the client uses to obtain a token before retrying.
+      headers:
+        WWW-Authenticate:
+          description: >-
+            PrivateToken challenge per RFC 9577. `challenge` is a
+            base64url-encoded challenge object, `token-key` is the
+            base64url-encoded DER public key, and `token-key-id` is the
+            hex-encoded SHA-256 of `token-key`.
+          schema:
+            type: string
+            examples:
+              - >-
+                PrivateToken challenge="eyJ0b2tlbl90eXBlIjoyfQ",
+                token-key="MIIBIjANBgkqhkiG9w0B",
+                token-key-id="a3c5f8e2d1b4079c6e5a2f8b1d3c4e5f6a7b8c9d0e1f2a3b4c5d6e7f8091a2b3c"
+      content:
+        application/json:
+          examples:
+            Unauthorized:
+              value:
+                errors:
+                  - title: Privacy Pass token required
+                    details: Use the provided challenge to obtain a token
+          schema:
+            type: object
+            additionalProperties: false
+            required:
+              - errors
+            properties:
+              errors:
+                type: array
+                items:
+                  type: object
+                  additionalProperties: false
+                  required:
+                    - title
+                    - details
+                  properties:
+                    title:
+                      type: string
+                      examples:
+                        - Privacy Pass token required
+                    details:
+                      type: string
+                      examples:
+                        - Use the provided challenge to obtain a token
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Generate a Relay claim
+  tags:
+    - Relay
+  x-persona-product: Relay

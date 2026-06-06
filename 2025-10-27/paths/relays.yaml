@@ -1,0 +1,123 @@
+servers:
+  - url: https://api.withpersona.com/api/privacy/v1
+post:
+  description: Creates a new Relay.
+  operationId: create-a-relay
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/api-reference/relay/create-a-relay
+  security: []
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            claim-type:
+              description: >-
+                Possible values:
+
+                - live_human_presence
+
+                - age_over18_germany
+
+                - age_over18_united_kingdom
+
+                - age_over18_verified
+
+                - age_over18_france
+
+                - age_over18_italy
+
+                - age_over18_brazil
+
+                - age_over18_australia
+
+                - age_over16_australia
+
+                - age_over21_verified
+
+
+                Do not assume this is a static enumeration; Persona may add new
+                claim
+
+                types in the future without a versioned update.
+              type: string
+              examples:
+                - age_over18_germany
+            encryption-key-pem:
+              description: >-
+                Optional RSA public key (PEM-encoded, 2048-4096 bits). When
+                provided, claim payloads returned by subsequent reads will be
+                encrypted with RSA OAEP. Pass `null` to receive unencrypted
+                claim payloads.
+              type:
+                - string
+                - 'null'
+          additionalProperties: false
+          type: object
+          required:
+            - claim-type
+        examples:
+          Created:
+            value:
+              claim-type: age_over18_germany
+              encryption-key-pem: null
+  responses:
+    '201':
+      description: Returns the Relay tokens needed to redeem and read the claim.
+      content:
+        application/json:
+          examples:
+            Created:
+              value:
+                relay-token: relay_AbcDeFGhIjKlMnOpQrStUvWxYz1
+                relay-secret: 9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d
+                relay-session-access-token: eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJyZWxzZXNzX0FiYyJ9.signature
+          schema:
+            properties:
+              relay-token:
+                description: >-
+                  Public Relay identifier. Use this token in subsequent calls to
+                  `/relays/{relay-token}/generate-claim`.
+                examples:
+                  - relay_AbcDeFGhIjKlMnOpQrStUvWxYz1
+                type: string
+              relay-secret:
+                description: >-
+                  Secret value tied to this Relay. Returned only at creation and
+                  must be passed in the `Persona-Relay-Secret` header for any
+                  read of the claim payload.
+                examples:
+                  - 9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d
+                type: string
+              relay-session-access-token:
+                description: >-
+                  Encoded JWT used by Persona's client SDK to load the
+                  associated Inquiry Session in the end-user's browser or
+                  device.
+                type: string
+            additionalProperties: false
+            type: object
+            required:
+              - relay-token
+              - relay-secret
+              - relay-session-access-token
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Create a Relay
+  tags:
+    - Relay
+  x-persona-product: Relay

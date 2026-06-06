@@ -97,6 +97,10 @@
       "description": "Interact with Rate Limits via API"
     },
     {
+      "name": "Relay",
+      "description": "Interact with Persona Relay objects"
+    },
+    {
       "name": "Reports",
       "description": "Interact with Persona Report objects"
     },
@@ -18096,6 +18100,123 @@
         "x-persona-product": "OAuth"
       }
     },
+    "/privacy-passes": {
+      "post": {
+        "description": "Issues a Privacy Pass token by blind-signing a client-provided blinded token (Blind RSA, RFC 9578). The returned blind signature is unblinded client-side to produce a Privacy Pass token that can later be redeemed anonymously (for example, when generating a Relay claim).",
+        "operationId": "create-a-privacy-pass",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/api-reference/relay/create-a-privacy-pass"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "blinded-token": {
+                    "description": "The base64url-encoded blinded token to be signed. Produced client-side by blinding a token input with the issuer public key identified by `key-id`.",
+                    "type": "string",
+                    "examples": [
+                      "5rT2pX9qLkV0nW3bYc7dZ1aF8gH4jK6mN2pQ5rS8tU"
+                    ]
+                  },
+                  "key-id": {
+                    "description": "The hex-encoded identifier of the issuer signing key to use. Must match the key the `blinded-token` was blinded against.",
+                    "type": "string",
+                    "examples": [
+                      "a3c5f8e2d1b4079c6e5a2f8b1d3c4e5f6a7b8c9d0e1f2a3b4c5d6e7f8091a2b3c"
+                    ]
+                  }
+                },
+                "additionalProperties": false,
+                "type": "object",
+                "required": [
+                  "blinded-token",
+                  "key-id"
+                ]
+              },
+              "examples": {
+                "Created": {
+                  "value": {
+                    "blinded-token": "5rT2pX9qLkV0nW3bYc7dZ1aF8gH4jK6mN2pQ5rS8tU",
+                    "key-id": "a3c5f8e2d1b4079c6e5a2f8b1d3c4e5f6a7b8c9d0e1f2a3b4c5d6e7f8091a2b3c"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Returns the blind signature for the submitted blinded token.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Created": {
+                    "value": {
+                      "blind-sig": "kR9mP2xQ7vL0nW3bYc8dZ4aF1gH6jK5mN8pQ2rS7tU"
+                    }
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "blind-sig": {
+                      "description": "The base64url-encoded blind signature. Unblind this client-side to produce the Privacy Pass token.",
+                      "examples": [
+                        "kR9mP2xQ7vL0nW3bYc8dZ4aF1gH6jK5mN8pQ2rS7tU"
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "type": "object",
+                  "required": [
+                    "blind-sig"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "409": {
+            "$ref": "#/components/responses/conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessable-entity"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        },
+        "summary": "Create a Privacy Pass",
+        "tags": [
+          "Relay"
+        ],
+        "x-persona-product": "Relay"
+      }
+    },
     "/rate-limits": {
       "get": {
         "description": "Returns a list of your current rate limits.",
@@ -18173,6 +18294,324 @@
           "Rate Limits"
         ],
         "x-persona-product": "Rate Limits"
+      }
+    },
+    "/relays": {
+      "servers": [
+        {
+          "url": "https://api.withpersona.com/api/privacy/v1"
+        }
+      ],
+      "post": {
+        "description": "Creates a new Relay.",
+        "operationId": "create-a-relay",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/api-reference/relay/create-a-relay"
+        },
+        "security": [],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "claim-type": {
+                    "description": "Possible values:\n- live_human_presence\n- age_over18_germany\n- age_over18_united_kingdom\n- age_over18_verified\n- age_over18_france\n- age_over18_italy\n- age_over18_brazil\n- age_over18_australia\n- age_over16_australia\n- age_over21_verified\n\nDo not assume this is a static enumeration; Persona may add new claim\ntypes in the future without a versioned update.",
+                    "type": "string",
+                    "examples": [
+                      "age_over18_germany"
+                    ]
+                  },
+                  "encryption-key-pem": {
+                    "description": "Optional RSA public key (PEM-encoded, 2048-4096 bits). When provided, claim payloads returned by subsequent reads will be encrypted with RSA OAEP. Pass `null` to receive unencrypted claim payloads.",
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "additionalProperties": false,
+                "type": "object",
+                "required": [
+                  "claim-type"
+                ]
+              },
+              "examples": {
+                "Created": {
+                  "value": {
+                    "claim-type": "age_over18_germany",
+                    "encryption-key-pem": null
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Returns the Relay tokens needed to redeem and read the claim.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Created": {
+                    "value": {
+                      "relay-token": "relay_AbcDeFGhIjKlMnOpQrStUvWxYz1",
+                      "relay-secret": "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+                      "relay-session-access-token": "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJyZWxzZXNzX0FiYyJ9.signature"
+                    }
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "relay-token": {
+                      "description": "Public Relay identifier. Use this token in subsequent calls to `/relays/{relay-token}/generate-claim`.",
+                      "examples": [
+                        "relay_AbcDeFGhIjKlMnOpQrStUvWxYz1"
+                      ],
+                      "type": "string"
+                    },
+                    "relay-secret": {
+                      "description": "Secret value tied to this Relay. Returned only at creation and must be passed in the `Persona-Relay-Secret` header for any read of the claim payload.",
+                      "examples": [
+                        "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d"
+                      ],
+                      "type": "string"
+                    },
+                    "relay-session-access-token": {
+                      "description": "Encoded JWT used by Persona's client SDK to load the associated Inquiry Session in the end-user's browser or device.",
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "type": "object",
+                  "required": [
+                    "relay-token",
+                    "relay-secret",
+                    "relay-session-access-token"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessable-entity"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        },
+        "summary": "Create a Relay",
+        "tags": [
+          "Relay"
+        ],
+        "x-persona-product": "Relay"
+      }
+    },
+    "/relays/{relay-token}/generate-claim": {
+      "servers": [
+        {
+          "url": "https://api.withpersona.com/api/privacy/v1"
+        }
+      ],
+      "post": {
+        "description": "Returns a relay's claim.",
+        "operationId": "generate-a-relay-claim",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/api-reference/relay/generate-a-relay-claim"
+        },
+        "security": [
+          {
+            "privacyPassAuth": []
+          }
+        ],
+        "x-fern-examples": [
+          {
+            "code-samples": [
+              {
+                "sdk": "curl",
+                "code": "curl -X POST https://api.withpersona.com/api/privacy/v1/relays/:relay-token/generate-claim \\\n  -H \"Authorization: PrivateToken token=<privacyPassToken>\" \\\n  -H \"Persona-Relay-Secret: <relay-secret>\"\n"
+              }
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "name": "relay-token",
+            "in": "path",
+            "required": true,
+            "description": "The public Relay token returned by `POST /relays`.",
+            "schema": {
+              "type": "string",
+              "examples": [
+                "relay_AbcDeFGhIjKlMnOpQrStUvWxYz1"
+              ]
+            }
+          },
+          {
+            "name": "Persona-Relay-Secret",
+            "in": "header",
+            "required": true,
+            "description": "The `relay-secret` value returned at Relay creation. Required for every read of the claim payload; an incorrect secret returns 404.",
+            "schema": {
+              "type": "string",
+              "examples": [
+                "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the claim payload and whether the Privacy Pass token was consumed.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Success": {
+                    "value": {
+                      "claim-payload": "{\"claim_type\":\"age_over18_germany\",\"claim_result\":\"passed\",\"methodology\":[]}",
+                      "token-consumed": true
+                    }
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "claim-payload": {
+                      "description": "The claim payload. If an `encryption-key-pem` was provided at Relay creation, this\nis a base64-encoded RSA OAEP ciphertext that must be decrypted client-side.\nOtherwise, this is a JSON string containing `claim_type`, `claim_result`, and an\noptional `methodology` array.",
+                      "type": "string"
+                    },
+                    "token-consumed": {
+                      "description": "`true` if the Privacy Pass token was consumed by this request. `false` if the underlying claim did not pass and the token was refunded to the client.",
+                      "type": "boolean"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "type": "object",
+                  "required": [
+                    "claim-payload",
+                    "token-consumed"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "description": "No valid Privacy Pass token was presented. The response includes a `WWW-Authenticate` header carrying a fresh PrivateToken challenge (RFC 9577) that the client uses to obtain a token before retrying.",
+            "headers": {
+              "WWW-Authenticate": {
+                "description": "PrivateToken challenge per RFC 9577. `challenge` is a base64url-encoded challenge object, `token-key` is the base64url-encoded DER public key, and `token-key-id` is the hex-encoded SHA-256 of `token-key`.",
+                "schema": {
+                  "type": "string",
+                  "examples": [
+                    "PrivateToken challenge=\"eyJ0b2tlbl90eXBlIjoyfQ\", token-key=\"MIIBIjANBgkqhkiG9w0B\", token-key-id=\"a3c5f8e2d1b4079c6e5a2f8b1d3c4e5f6a7b8c9d0e1f2a3b4c5d6e7f8091a2b3c\""
+                  ]
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Unauthorized": {
+                    "value": {
+                      "errors": [
+                        {
+                          "title": "Privacy Pass token required",
+                          "details": "Use the provided challenge to obtain a token"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "errors"
+                  ],
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "title",
+                          "details"
+                        ],
+                        "properties": {
+                          "title": {
+                            "type": "string",
+                            "examples": [
+                              "Privacy Pass token required"
+                            ]
+                          },
+                          "details": {
+                            "type": "string",
+                            "examples": [
+                              "Use the provided challenge to obtain a token"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "409": {
+            "$ref": "#/components/responses/conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessable-entity"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        },
+        "summary": "Generate a Relay claim",
+        "tags": [
+          "Relay"
+        ],
+        "x-persona-product": "Relay"
       }
     },
     "/reports": {
@@ -32531,6 +32970,16 @@
         "type": "http",
         "scheme": "bearer",
         "x-bearer-format": "bearer"
+      },
+      "privacyPassAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization",
+        "x-fern-header": {
+          "name": "privacyPassToken",
+          "prefix": "PrivateToken token="
+        },
+        "description": "Privacy Pass token per RFC 9577. Provide as `Authorization: PrivateToken token=<privacyPassToken>`."
       }
     },
     "parameters": {
