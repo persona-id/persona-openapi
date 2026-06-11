@@ -1,0 +1,72 @@
+post:
+  operationId: webhook-report-crypto-address-watchlist-matched
+  summary: Crypto address watchlist report matched
+  description: >-
+    Webhook for the `report/crypto-address-watchlist.matched` event. For more
+    info see [Webhooks Overview](https://docs.withpersona.com/webhooks).
+
+
+    Sent when a crypto address watchlist report surfaces one or more matches
+    (`has-match` becomes `true`). For continuously-monitored reports this fires
+    on the run that introduces a new match.
+
+
+    The payload is the polymorphic report object. Inspect `payload.data.type`
+    (`report/crypto-address-watchlist`) to identify the report, and
+    `payload.data.attributes` for its inputs and results.
+  tags:
+    - Report events
+  x-persona-product: Reports
+  parameters:
+    - $ref: ../components/parameters/persona-signature-header.yaml
+    - $ref: ../components/parameters/persona-webhook-attempts-made.yaml
+    - $ref: ../components/parameters/persona-webhook-attempts-left.yaml
+    - $ref: ../components/parameters/persona-webhook-first-attempted-at.yaml
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          additionalProperties: false
+          properties:
+            data:
+              type: object
+              unevaluatedProperties: false
+              allOf:
+                - $ref: ../components/schemas/webhook-body-shared-data.yaml
+                - type: object
+                  properties:
+                    attributes:
+                      unevaluatedProperties: false
+                      allOf:
+                        - type: object
+                          properties:
+                            name:
+                              type: string
+                              const: report/crypto-address-watchlist.matched
+                            payload:
+                              type: object
+                              additionalProperties: false
+                              properties:
+                                data:
+                                  $ref: ../components/schemas/report.yaml
+                                included:
+                                  description: >-
+                                    Objects referenced by
+                                    `payload.data.relationships` are included
+                                    here when related-object inclusion is
+                                    enabled for the webhook. When inclusion is
+                                    off (the default), the `included` key is
+                                    omitted entirely (it is not returned as an
+                                    empty array).
+                                  $ref: >-
+                                    ../components/schemas/reports-included-objects.yaml
+                        - $ref: >-
+                            ../components/schemas/webhook-body-shared-attributes.yaml
+        examples:
+          Example Body:
+            $ref: >-
+              ../components/examples/report-crypto-address-watchlist-matched-webhook-body.yaml
+  responses:
+    '200':
+      $ref: ../components/responses/success.yaml
