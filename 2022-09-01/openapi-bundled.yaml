@@ -1782,8 +1782,6 @@ paths:
                     required:
                       - next
                       - prev
-                  included:
-                    $ref: '#/components/schemas/empty-included-objects'
                 required:
                   - data
                   - links
@@ -2471,8 +2469,6 @@ paths:
                     required:
                       - next
                       - prev
-                  included:
-                    $ref: '#/components/schemas/empty-included-objects'
                 required:
                   - data
                   - links
@@ -2835,8 +2831,6 @@ paths:
                     required:
                       - next
                       - prev
-                  included:
-                    $ref: '#/components/schemas/empty-included-objects'
                 type: object
                 additionalProperties: false
                 required:
@@ -3077,9 +3071,6 @@ paths:
                       $ref: '#/components/schemas/case'
                     type: array
                     description: An array of Cases
-                  included:
-                    description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
-                    $ref: '#/components/schemas/cases-included-objects'
                   links:
                     properties:
                       next:
@@ -4910,8 +4901,6 @@ paths:
                     required:
                       - prev
                       - next
-                  included:
-                    $ref: '#/components/schemas/empty-included-objects'
                 required:
                   - data
                   - links
@@ -5540,8 +5529,6 @@ paths:
                     required:
                       - prev
                       - next
-                  included:
-                    $ref: '#/components/schemas/empty-included-objects'
                 required:
                   - data
                   - links
@@ -7863,9 +7850,6 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/inquiry-session'
-                  included:
-                    description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
-                    $ref: '#/components/schemas/inquiry-sessions-included-objects'
                   links:
                     type: object
                     additionalProperties: false
@@ -8325,9 +8309,6 @@ paths:
                     description: An array of Inquiry Templates
                     items:
                       $ref: '#/components/schemas/inquiry-template'
-                  included:
-                    description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
-                    $ref: '#/components/schemas/inquiry-template-included-objects'
                   links:
                     type: object
                     additionalProperties: false
@@ -16162,8 +16143,6 @@ paths:
                     required:
                       - next
                       - prev
-                  included:
-                    $ref: '#/components/schemas/empty-included-objects'
                 type: object
                 additionalProperties: false
                 required:
@@ -28549,8 +28528,21 @@ components:
                             - 'null'
                       sources:
                         type: object
-                        additionalProperties: false
                         description: A map of the sources that matched by entity
+                        additionalProperties:
+                          type: object
+                          additionalProperties: false
+                          properties:
+                            url:
+                              type: string
+                              format: uri
+                              description: The URL of the source.
+                            name:
+                              type: string
+                              description: The name of the source.
+                            flag-code:
+                              type: string
+                              description: The flag code of the source country.
                       match-types:
                         type: array
                         items:

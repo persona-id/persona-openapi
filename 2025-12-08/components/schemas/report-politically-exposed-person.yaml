@@ -183,8 +183,21 @@ properties:
                       - 'null'
                 sources:
                   type: object
-                  additionalProperties: false
                   description: A map of the sources that matched by entity
+                  additionalProperties:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      url:
+                        type: string
+                        format: uri
+                        description: The URL of the source.
+                      name:
+                        type: string
+                        description: The name of the source.
+                      flag-code:
+                        type: string
+                        description: The flag code of the source country.
                 match-types:
                   type: array
                   items:
