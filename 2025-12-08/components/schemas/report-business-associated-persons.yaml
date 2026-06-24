@@ -63,9 +63,98 @@ properties:
               required:
                 - names
                 - positions
+          ownership-information:
+            type: object
+            additionalProperties: false
+            description: Ownership information for the business
+            properties:
+              owners:
+                type: array
+                description: List of owners. Empty when no ownership data is available.
+                items:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    type:
+                      type:
+                        - string
+                        - 'null'
+                      description: >-
+                        Whether the owner is a person or a business. One of
+                        `person` or `business`, or null when the source does not
+                        specify.
+                    name:
+                      type:
+                        - string
+                        - 'null'
+                      description: The owner's name
+                    birthdate:
+                      type:
+                        - string
+                        - 'null'
+                      description: >-
+                        ISO 8601 partial date (YYYY-MM-DD, YYYY-MM, or YYYY),
+                        depending on the precision the source provided
+                    address:
+                      type:
+                        - object
+                        - 'null'
+                      additionalProperties: false
+                      properties:
+                        street-1:
+                          type:
+                            - string
+                            - 'null'
+                        street-2:
+                          type:
+                            - string
+                            - 'null'
+                        city:
+                          type:
+                            - string
+                            - 'null'
+                        subdivision:
+                          type:
+                            - string
+                            - 'null'
+                        postal-code:
+                          type:
+                            - string
+                            - 'null'
+                        country-code:
+                          type:
+                            - string
+                            - 'null'
+                    roles:
+                      type: array
+                      description: The owner's roles in the business
+                      items:
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          description:
+                            type:
+                              - string
+                              - 'null'
+                            description: Human-readable description of the role
+                          data:
+                            type:
+                              - object
+                              - 'null'
+                            additionalProperties: true
+                            description: Source-specific structured details about the role
+                  required:
+                    - type
+                    - name
+                    - birthdate
+                    - address
+                    - roles
+            required:
+              - owners
         required:
           - query
           - associated-persons
+          - ownership-information
   relationships:
     $ref: ./report-shared-relationships.yaml
 required:
