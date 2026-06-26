@@ -44098,6 +44098,16 @@
                 "examples": [
                   "2023-09-26T06:31:43.909+00:00"
                 ]
+              },
+              "redacted-at": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time",
+                "examples": [
+                  "2026-05-28T18:34:17.000Z"
+                ]
               }
             }
           }
@@ -62429,6 +62439,86 @@
           ]
         }
       },
+      "included-allowlist": {
+        "description": "Controls which related objects appear in the `included` array of webhook payloads. The default is `include_none`. When `state` is `custom`, `event-types` configures which related objects to include per event type: event types you are subscribed to (via `enabled-events`) but do not list are excluded, and event types you list but are not subscribed to are dropped on save. A `custom` config whose event types are all `[\"*\"]` is equivalent to, and is normalized to, `include_all`.",
+        "unevaluatedProperties": false,
+        "oneOf": [
+          {
+            "title": "Include all",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "state"
+            ],
+            "properties": {
+              "state": {
+                "type": "string",
+                "const": "include_all",
+                "description": "Include all related objects for every subscribed event type."
+              }
+            }
+          },
+          {
+            "title": "Include none",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "state"
+            ],
+            "properties": {
+              "state": {
+                "type": "string",
+                "const": "include_none",
+                "description": "Include no related objects (the default)."
+              }
+            }
+          },
+          {
+            "title": "Custom",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "state",
+              "event-types"
+            ],
+            "properties": {
+              "state": {
+                "type": "string",
+                "const": "custom",
+                "description": "Configure included related objects per event type via `event-types`."
+              },
+              "event-types": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 200,
+                "description": "Per-event-type include configuration. At most one entry per event type.",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "event-type",
+                    "relationships"
+                  ],
+                  "properties": {
+                    "event-type": {
+                      "type": "string",
+                      "description": "Event type identifier (e.g. `inquiry`, `account`)."
+                    },
+                    "relationships": {
+                      "type": "array",
+                      "minItems": 1,
+                      "description": "Related object names to include for this event type, or `[\"*\"]` to include all related objects. `\"*\"` cannot be combined with named relationships.",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
       "webhook": {
         "type": "object",
         "additionalProperties": false,
@@ -62527,6 +62617,22 @@
                 "type": [
                   "object",
                   "null"
+                ]
+              },
+              "included-allowlist": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "$ref": "#/components/schemas/included-allowlist"
+                  }
+                ],
+                "unevaluatedProperties": false,
+                "examples": [
+                  {
+                    "state": "include_all"
+                  }
                 ]
               },
               "created-at": {
@@ -62856,6 +62962,9 @@
               }
             }
           },
+          "included-allowlist": {
+            "$ref": "#/components/schemas/included-allowlist"
+          },
           "custom-http-headers": {
             "description": "Custom HTTP headers to include in webhook requests. For more info see [Webhook Custom HTTP Headers](https://docs.withpersona.com/webhook-custom-http-headers).",
             "type": "object",
@@ -63007,6 +63116,22 @@
                 "type": [
                   "object",
                   "null"
+                ]
+              },
+              "included-allowlist": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "$ref": "#/components/schemas/included-allowlist"
+                  }
+                ],
+                "unevaluatedProperties": false,
+                "examples": [
+                  {
+                    "state": "include_all"
+                  }
                 ]
               },
               "created-at": {
@@ -64741,7 +64866,8 @@
                     "Vary": "Accept"
                   }
                 },
-                "created-at": "2023-09-20T20:20:03.485+00:00"
+                "created-at": "2023-09-20T20:20:03.485+00:00",
+                "redacted-at": null
               }
             }
           ],
@@ -64785,7 +64911,8 @@
                   "Vary": "Accept"
                 }
               },
-              "created-at": "2023-09-20T20:20:03.485+00:00"
+              "created-at": "2023-09-20T20:20:03.485+00:00",
+              "redacted-at": null
             }
           }
         }
@@ -68759,7 +68886,10 @@
               "enabled-events": [
                 "account.created",
                 "verification.created"
-              ]
+              ],
+              "included-allowlist": {
+                "state": "include_all"
+              }
             }
           }
         }
@@ -68802,6 +68932,9 @@
                   }
                 }
               },
+              "included-allowlist": {
+                "state": "include_all"
+              },
               "created-at": "2023-08-17T23:18:13.000Z"
             }
           }
@@ -68837,6 +68970,9 @@
                     }
                   }
                 }
+              },
+              "included-allowlist": {
+                "state": "include_all"
               },
               "created-at": "2023-08-17T23:18:13.000Z"
             }
