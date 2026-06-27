@@ -21178,11 +21178,11 @@
                     "description": "Possible values:\n- live_human_presence\n- age_over18_germany\n- age_over18_united_kingdom\n- age_over18_verified\n- age_over18_france\n- age_over18_italy\n- age_over18_brazil\n- age_over18_australia\n- age_over16_australia\n- age_over21_verified\n\nDo not assume this is a static enumeration; Persona may add new claim\ntypes in the future without a versioned update.",
                     "type": "string",
                     "examples": [
-                      "age_over18_germany"
+                      "live_human_presence"
                     ]
                   },
                   "encryption-key-pem": {
-                    "description": "Optional RSA public key (PEM-encoded, 2048-4096 bits). When provided, claim payloads returned by subsequent reads will be encrypted with RSA OAEP. Pass `null` to receive unencrypted claim payloads.",
+                    "description": "RSA public key (PEM-encoded, 2048-4096 bits). When non-null, claim payloads returned by subsequent reads will be encrypted with RSA OAEP. Pass `null` to receive unencrypted claim payloads.",
                     "type": [
                       "string",
                       "null"
@@ -21192,13 +21192,14 @@
                 "additionalProperties": false,
                 "type": "object",
                 "required": [
-                  "claim-type"
+                  "claim-type",
+                  "encryption-key-pem"
                 ]
               },
               "examples": {
                 "Created": {
                   "value": {
-                    "claim-type": "age_over18_germany",
+                    "claim-type": "live_human_presence",
                     "encryption-key-pem": null
                   }
                 }
@@ -21298,6 +21299,155 @@
         "x-persona-product": "Relay"
       }
     },
+    "/relays/challenge": {
+      "servers": [
+        {
+          "url": "https://api.withpersona.com/api/privacy/v1"
+        }
+      ],
+      "post": {
+        "description": "Requests a Privacy Pass challenge for a claim type. The challenge materials returned here are used to obtain a Privacy Pass token, which is then redeemable to read claims from Relays with the same claim type.",
+        "operationId": "request-a-relay-challenge",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/api-reference/relay/request-a-relay-challenge"
+        },
+        "security": [],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "claim-type": {
+                    "description": "Possible values:\n- live_human_presence\n- age_over18_germany\n- age_over18_united_kingdom\n- age_over18_verified\n- age_over18_france\n- age_over18_italy\n- age_over18_brazil\n- age_over18_australia\n- age_over16_australia\n- age_over21_verified\n\nDo not assume this is a static enumeration; Persona may add new claim\ntypes in the future without a versioned update.",
+                    "type": "string",
+                    "examples": [
+                      "live_human_presence"
+                    ]
+                  }
+                },
+                "additionalProperties": false,
+                "type": "object",
+                "required": [
+                  "claim-type"
+                ]
+              },
+              "examples": {
+                "Success": {
+                  "value": {
+                    "claim-type": "live_human_presence"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "headers": {
+              "RateLimit-Limit": {
+                "$ref": "#/components/headers/rate-limit-limit"
+              },
+              "RateLimit-Remaining": {
+                "$ref": "#/components/headers/rate-limit-remaining"
+              },
+              "RateLimit-Reset": {
+                "$ref": "#/components/headers/rate-limit-reset"
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/request-id"
+              },
+              "Persona-Environment-Id": {
+                "$ref": "#/components/headers/persona-environment-id"
+              },
+              "Persona-Organization-Id": {
+                "$ref": "#/components/headers/persona-organization-id"
+              }
+            },
+            "description": "Returns the Privacy Pass challenge materials for the requested claim type.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Success": {
+                    "value": {
+                      "challenge": "eyJ0b2tlbl90eXBlIjoyfQ",
+                      "token-key": "MIIBIjANBgkqhkiG9w0B",
+                      "token-key-id": "a3c5f8e2d1b4079c6e5a2f8b1d3c4e5f6a7b8c9d0e1f2a3b4c5d6e7f8091a2b3c"
+                    }
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "challenge": {
+                      "description": "base64url-encoded PrivateToken challenge object (RFC 9577). Pass this to the Privacy Pass issuance flow to obtain a token.",
+                      "type": "string",
+                      "examples": [
+                        "eyJ0b2tlbl90eXBlIjoyfQ"
+                      ]
+                    },
+                    "token-key": {
+                      "description": "base64url-encoded DER public key used to issue the token.",
+                      "type": "string",
+                      "examples": [
+                        "MIIBIjANBgkqhkiG9w0B"
+                      ]
+                    },
+                    "token-key-id": {
+                      "description": "hex-encoded SHA-256 of `token-key`.",
+                      "type": "string",
+                      "examples": [
+                        "a3c5f8e2d1b4079c6e5a2f8b1d3c4e5f6a7b8c9d0e1f2a3b4c5d6e7f8091a2b3c"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false,
+                  "type": "object",
+                  "required": [
+                    "challenge",
+                    "token-key",
+                    "token-key-id"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "409": {
+            "$ref": "#/components/responses/conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessable-entity"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        },
+        "summary": "Request a Relay challenge",
+        "tags": [
+          "Relay"
+        ],
+        "x-persona-product": "Relay"
+      }
+    },
     "/relays/{relay-token}/generate-claim": {
       "servers": [
         {
@@ -21389,7 +21539,7 @@
                 "examples": {
                   "Success": {
                     "value": {
-                      "claim-payload": "{\"claim_type\":\"age_over18_germany\",\"claim_result\":\"passed\",\"methodology\":[]}",
+                      "claim-payload": "{\"claim_type\":\"live_human_presence\",\"claim_result\":\"passed\",\"methodology\":[]}",
                       "token-consumed": true
                     }
                   }
@@ -21419,18 +21569,7 @@
             "$ref": "#/components/responses/bad-request"
           },
           "401": {
-            "description": "No valid Privacy Pass token was presented. The response includes a `WWW-Authenticate` header carrying a fresh PrivateToken challenge (RFC 9577) that the client uses to obtain a token before retrying.",
-            "headers": {
-              "WWW-Authenticate": {
-                "description": "PrivateToken challenge per RFC 9577. `challenge` is a base64url-encoded challenge object, `token-key` is the base64url-encoded DER public key, and `token-key-id` is the hex-encoded SHA-256 of `token-key`.",
-                "schema": {
-                  "type": "string",
-                  "examples": [
-                    "PrivateToken challenge=\"eyJ0b2tlbl90eXBlIjoyfQ\", token-key=\"MIIBIjANBgkqhkiG9w0B\", token-key-id=\"a3c5f8e2d1b4079c6e5a2f8b1d3c4e5f6a7b8c9d0e1f2a3b4c5d6e7f8091a2b3c\""
-                  ]
-                }
-              }
-            },
+            "description": "No valid Privacy Pass token was presented.",
             "content": {
               "application/json": {
                 "examples": {
@@ -21439,7 +21578,7 @@
                       "errors": [
                         {
                           "title": "Privacy Pass token required",
-                          "details": "Use the provided challenge to obtain a token"
+                          "details": "Request a challenge to obtain a token"
                         }
                       ]
                     }
@@ -21471,7 +21610,7 @@
                           "details": {
                             "type": "string",
                             "examples": [
-                              "Use the provided challenge to obtain a token"
+                              "Request a challenge to obtain a token"
                             ]
                           }
                         }

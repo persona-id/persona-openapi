@@ -1,11 +1,14 @@
 servers:
   - url: https://api.withpersona.com/api/privacy/v1
 post:
-  description: Creates a new Relay.
-  operationId: create-a-relay
+  description: >-
+    Requests a Privacy Pass challenge for a claim type. The challenge materials
+    returned here are used to obtain a Privacy Pass token, which is then
+    redeemable to read claims from Relays with the same claim type.
+  operationId: request-a-relay-challenge
   externalDocs:
     description: Full documentation for this API on the Persona website.
-    url: https://docs.withpersona.com/api-reference/relay/create-a-relay
+    url: https://docs.withpersona.com/api-reference/relay/request-a-relay-challenge
   security: []
   parameters:
     - $ref: ../components/parameters/key-inflection-header.yaml
@@ -47,27 +50,16 @@ post:
               type: string
               examples:
                 - live_human_presence
-            encryption-key-pem:
-              description: >-
-                RSA public key (PEM-encoded, 2048-4096 bits). When non-null,
-                claim payloads returned by subsequent reads will be encrypted
-                with RSA OAEP. Pass `null` to receive unencrypted claim
-                payloads.
-              type:
-                - string
-                - 'null'
           additionalProperties: false
           type: object
           required:
             - claim-type
-            - encryption-key-pem
         examples:
-          Created:
+          Success:
             value:
               claim-type: live_human_presence
-              encryption-key-pem: null
   responses:
-    '201':
+    '200':
       headers:
         RateLimit-Limit:
           $ref: ../components/headers/rate-limit-limit.yaml
@@ -81,57 +73,59 @@ post:
           $ref: ../components/headers/persona-environment-id.yaml
         Persona-Organization-Id:
           $ref: ../components/headers/persona-organization-id.yaml
-      description: Returns the Relay tokens needed to redeem and read the claim.
+      description: >-
+        Returns the Privacy Pass challenge materials for the requested claim
+        type.
       content:
         application/json:
           examples:
-            Created:
+            Success:
               value:
-                relay-token: relay_AbcDeFGhIjKlMnOpQrStUvWxYz1
-                relay-secret: 9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d
-                relay-session-access-token: eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJyZWxzZXNzX0FiYyJ9.signature
+                challenge: eyJ0b2tlbl90eXBlIjoyfQ
+                token-key: MIIBIjANBgkqhkiG9w0B
+                token-key-id: >-
+                  a3c5f8e2d1b4079c6e5a2f8b1d3c4e5f6a7b8c9d0e1f2a3b4c5d6e7f8091a2b3c
           schema:
             properties:
-              relay-token:
+              challenge:
                 description: >-
-                  Public Relay identifier. Use this token in subsequent calls to
-                  `/relays/{relay-token}/generate-claim`.
+                  base64url-encoded PrivateToken challenge object (RFC 9577).
+                  Pass this to the Privacy Pass issuance flow to obtain a token.
+                type: string
                 examples:
-                  - relay_AbcDeFGhIjKlMnOpQrStUvWxYz1
+                  - eyJ0b2tlbl90eXBlIjoyfQ
+              token-key:
+                description: base64url-encoded DER public key used to issue the token.
                 type: string
-              relay-secret:
-                description: >-
-                  Secret value tied to this Relay. Returned only at creation and
-                  must be passed in the `Persona-Relay-Secret` header for any
-                  read of the claim payload.
                 examples:
-                  - 9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d
+                  - MIIBIjANBgkqhkiG9w0B
+              token-key-id:
+                description: hex-encoded SHA-256 of `token-key`.
                 type: string
-              relay-session-access-token:
-                description: >-
-                  Encoded JWT used by Persona's client SDK to load the
-                  associated Inquiry Session in the end-user's browser or
-                  device.
-                type: string
+                examples:
+                  - >-
+                    a3c5f8e2d1b4079c6e5a2f8b1d3c4e5f6a7b8c9d0e1f2a3b4c5d6e7f8091a2b3c
             additionalProperties: false
             type: object
             required:
-              - relay-token
-              - relay-secret
-              - relay-session-access-token
+              - challenge
+              - token-key
+              - token-key-id
     '400':
       $ref: ../components/responses/bad-request.yaml
     '401':
       $ref: ../components/responses/unauthorized.yaml
     '403':
       $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
     '409':
       $ref: ../components/responses/conflict.yaml
     '422':
       $ref: ../components/responses/unprocessable-entity.yaml
     '429':
       $ref: ../components/responses/too-many-requests.yaml
-  summary: Create a Relay
+  summary: Request a Relay challenge
   tags:
     - Relay
   x-persona-product: Relay

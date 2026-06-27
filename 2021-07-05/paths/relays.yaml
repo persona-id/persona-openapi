@@ -46,13 +46,13 @@ post:
                 types in the future without a versioned update.
               type: string
               examples:
-                - age_over18_germany
+                - live_human_presence
             encryption-key-pem:
               description: >-
-                Optional RSA public key (PEM-encoded, 2048-4096 bits). When
-                provided, claim payloads returned by subsequent reads will be
-                encrypted with RSA OAEP. Pass `null` to receive unencrypted
-                claim payloads.
+                RSA public key (PEM-encoded, 2048-4096 bits). When non-null,
+                claim payloads returned by subsequent reads will be encrypted
+                with RSA OAEP. Pass `null` to receive unencrypted claim
+                payloads.
               type:
                 - string
                 - 'null'
@@ -60,10 +60,11 @@ post:
           type: object
           required:
             - claim-type
+            - encryption-key-pem
         examples:
           Created:
             value:
-              claim-type: age_over18_germany
+              claim-type: live_human_presence
               encryption-key-pem: null
   responses:
     '201':

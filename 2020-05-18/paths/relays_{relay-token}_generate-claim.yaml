@@ -63,7 +63,7 @@ post:
             Success:
               value:
                 claim-payload: >-
-                  {"claim_type":"age_over18_germany","claim_result":"passed","methodology":[]}
+                  {"claim_type":"live_human_presence","claim_result":"passed","methodology":[]}
                 token-consumed: true
           schema:
             properties:
@@ -94,24 +94,7 @@ post:
     '400':
       $ref: ../components/responses/bad-request.yaml
     '401':
-      description: >-
-        No valid Privacy Pass token was presented. The response includes a
-        `WWW-Authenticate` header carrying a fresh PrivateToken challenge (RFC
-        9577) that the client uses to obtain a token before retrying.
-      headers:
-        WWW-Authenticate:
-          description: >-
-            PrivateToken challenge per RFC 9577. `challenge` is a
-            base64url-encoded challenge object, `token-key` is the
-            base64url-encoded DER public key, and `token-key-id` is the
-            hex-encoded SHA-256 of `token-key`.
-          schema:
-            type: string
-            examples:
-              - >-
-                PrivateToken challenge="eyJ0b2tlbl90eXBlIjoyfQ",
-                token-key="MIIBIjANBgkqhkiG9w0B",
-                token-key-id="a3c5f8e2d1b4079c6e5a2f8b1d3c4e5f6a7b8c9d0e1f2a3b4c5d6e7f8091a2b3c"
+      description: No valid Privacy Pass token was presented.
       content:
         application/json:
           examples:
@@ -119,7 +102,7 @@ post:
               value:
                 errors:
                   - title: Privacy Pass token required
-                    details: Use the provided challenge to obtain a token
+                    details: Request a challenge to obtain a token
           schema:
             type: object
             additionalProperties: false
@@ -142,7 +125,7 @@ post:
                     details:
                       type: string
                       examples:
-                        - Use the provided challenge to obtain a token
+                        - Request a challenge to obtain a token
     '403':
       $ref: ../components/responses/forbidden.yaml
     '404':
