@@ -26927,7 +26927,7 @@ components:
           propertyName: type
           mapping:
             account-type: '#/components/schemas/account-type'
-        anyOf:
+        oneOf:
           - $ref: '#/components/schemas/account-type'
     transaction:
       type: object
@@ -33873,7 +33873,7 @@ components:
             verification/government-id-nfc: '#/components/schemas/verification-government-id-nfc'
             verification/phone-number: '#/components/schemas/verification-phone-number'
             verification/selfie: '#/components/schemas/verification-selfie'
-        anyOf:
+        oneOf:
           - $ref: '#/components/schemas/account'
           - $ref: '#/components/schemas/case-comment'
           - $ref: '#/components/schemas/case-template'
@@ -34717,7 +34717,7 @@ components:
             template: '#/components/schemas/template'
             transaction: '#/components/schemas/transaction'
             document-file: '#/components/schemas/document-file'
-        anyOf:
+        oneOf:
           - $ref: '#/components/schemas/inquiry'
           - $ref: '#/components/schemas/inquiry-template'
           - $ref: '#/components/schemas/inquiry-template-version'
@@ -37479,7 +37479,7 @@ components:
             verification/verifiable-credential: '#/components/schemas/verification-verifiable-credential'
             workflow: '#/components/schemas/workflow'
             workflow-run: '#/components/schemas/workflow-run'
-        anyOf:
+        oneOf:
           - $ref: '#/components/schemas/account'
           - $ref: '#/components/schemas/document-generic'
           - $ref: '#/components/schemas/document-government-id'
@@ -37722,7 +37722,7 @@ components:
             device: '#/components/schemas/device'
             inquiry: '#/components/schemas/inquiry'
             network: '#/components/schemas/network'
-        anyOf:
+        oneOf:
           - $ref: '#/components/schemas/device'
           - $ref: '#/components/schemas/inquiry'
           - $ref: '#/components/schemas/network'
@@ -37733,7 +37733,7 @@ components:
           propertyName: type
           mapping:
             inquiry-template-version: '#/components/schemas/inquiry-template-version'
-        anyOf:
+        oneOf:
           - $ref: '#/components/schemas/inquiry-template-version'
     list-item-shared-attributes:
       x-inheritable: true
@@ -40220,7 +40220,7 @@ components:
             report-template/synthetic: '#/components/schemas/report-template-synthetic'
             report-template/watchlist: '#/components/schemas/report-template-watchlist'
             transaction: '#/components/schemas/transaction'
-        anyOf:
+        oneOf:
           - $ref: '#/components/schemas/inquiry'
           - $ref: '#/components/schemas/account'
           - $ref: '#/components/schemas/case'
@@ -40833,7 +40833,7 @@ components:
             verification-template-version/qes-infocert: '#/components/schemas/verification-template-version'
             verification-template-version/selfie: '#/components/schemas/verification-template-version'
             verification-template-version/verifiable-credential: '#/components/schemas/verification-template-version'
-        anyOf:
+        oneOf:
           - $ref: '#/components/schemas/account'
           - $ref: '#/components/schemas/document-generic'
           - $ref: '#/components/schemas/document-government-id'
@@ -40902,6 +40902,30 @@ components:
                     description: 'Related object names to include for this event type, or `["*"]` to include all related objects. `"*"` cannot be combined with named relationships.'
                     items:
                       type: string
+    relationship-allowlist:
+      description: Controls whether relationships are serialized in webhook payload objects. The default is `include_all`. The object shape leaves room for future granular relationship configuration.
+      unevaluatedProperties: false
+      oneOf:
+        - title: Include all
+          type: object
+          additionalProperties: false
+          required:
+            - state
+          properties:
+            state:
+              type: string
+              const: include_all
+              description: Include relationship linkages in webhook payload objects.
+        - title: Include none
+          type: object
+          additionalProperties: false
+          required:
+            - state
+          properties:
+            state:
+              type: string
+              const: include_none
+              description: Omit relationship linkages from webhook payload objects.
     webhook:
       type: object
       additionalProperties: false
@@ -40978,6 +41002,8 @@ components:
               unevaluatedProperties: false
               examples:
                 - state: include_all
+            relationship-allowlist:
+              $ref: '#/components/schemas/relationship-allowlist'
             created-at:
               type: string
               format: date-time
@@ -41287,6 +41313,8 @@ components:
               format: json
         included-allowlist:
           $ref: '#/components/schemas/included-allowlist'
+        relationship-allowlist:
+          $ref: '#/components/schemas/relationship-allowlist'
         custom-http-headers:
           description: 'Custom HTTP headers to include in webhook requests. For more info see [Webhook Custom HTTP Headers](https://docs.withpersona.com/webhook-custom-http-headers).'
           type: object
@@ -41398,6 +41426,8 @@ components:
               unevaluatedProperties: false
               examples:
                 - state: include_all
+            relationship-allowlist:
+              $ref: '#/components/schemas/relationship-allowlist'
             created-at:
               type: string
               format: date-time
@@ -41467,7 +41497,7 @@ components:
             workflow-version: '#/components/schemas/workflow-version'
             event: '#/components/schemas/event'
             user: '#/components/schemas/user'
-        anyOf:
+        oneOf:
           - $ref: '#/components/schemas/workflow'
           - $ref: '#/components/schemas/workflow-version'
           - $ref: '#/components/schemas/event'
@@ -41724,7 +41754,7 @@ components:
           propertyName: type
           mapping:
             importer-pipeline: '#/components/schemas/importer-pipeline'
-        anyOf:
+        oneOf:
           - $ref: '#/components/schemas/importer-pipeline'
     selfie-included-objects:
       description: 'Objects referenced in `payload.data.relationships` may be provided in `included` when related-object inclusion is enabled for the webhook subscription. When inclusion is not enabled, the `included` key is omitted.'
@@ -41734,7 +41764,7 @@ components:
           propertyName: type
           mapping:
             inquiry: '#/components/schemas/inquiry'
-        anyOf:
+        oneOf:
           - $ref: '#/components/schemas/inquiry'
     transactions-included-objects:
       type: array
@@ -45514,6 +45544,8 @@ components:
               - verification.created
             included-allowlist:
               state: include_all
+            relationship-allowlist:
+              state: include_all
     webhook-created:
       value:
         data:
@@ -45544,6 +45576,8 @@ components:
                       id: itmpl_abc123def456
             included-allowlist:
               state: include_all
+            relationship-allowlist:
+              state: include_all
             created-at: '2023-08-17T23:18:13.000Z'
     webhook-disabled:
       value:
@@ -45571,6 +45605,8 @@ components:
                       id: itmpl_abc123def456
             included-allowlist:
               state: include_all
+            relationship-allowlist:
+              state: include_all
             created-at: '2023-08-17T23:18:13.000Z'
     webhook-archived:
       value:
@@ -45596,6 +45632,10 @@ components:
                   inquiry-template:
                     data:
                       id: itmpl_abc123def456
+            included-allowlist:
+              state: include_all
+            relationship-allowlist:
+              state: include_all
             created-at: '2023-08-17T23:18:13.000Z'
     webhook-enabled:
       value:
@@ -45621,6 +45661,10 @@ components:
                   inquiry-template:
                     data:
                       id: itmpl_abc123def456
+            included-allowlist:
+              state: include_all
+            relationship-allowlist:
+              state: include_all
             created-at: '2023-08-17T23:18:13.000Z'
     rotate-webhook-secret:
       value:
@@ -45656,6 +45700,10 @@ components:
                   inquiry-template:
                     data:
                       id: itmpl_abc123def456
+            included-allowlist:
+              state: include_all
+            relationship-allowlist:
+              state: include_all
             created-at: '2023-08-17T23:18:13.000Z'
     account-created-webhook-body:
       value:

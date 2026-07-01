@@ -42916,7 +42916,7 @@
               "account-type": "#/components/schemas/account-type"
             }
           },
-          "anyOf": [
+          "oneOf": [
             {
               "$ref": "#/components/schemas/account-type"
             }
@@ -52272,7 +52272,7 @@
               "verification/selfie": "#/components/schemas/verification-selfie"
             }
           },
-          "anyOf": [
+          "oneOf": [
             {
               "$ref": "#/components/schemas/account"
             },
@@ -53530,7 +53530,7 @@
               "document-file": "#/components/schemas/document-file"
             }
           },
-          "anyOf": [
+          "oneOf": [
             {
               "$ref": "#/components/schemas/inquiry"
             },
@@ -57473,7 +57473,7 @@
               "workflow-run": "#/components/schemas/workflow-run"
             }
           },
-          "anyOf": [
+          "oneOf": [
             {
               "$ref": "#/components/schemas/account"
             },
@@ -57900,7 +57900,7 @@
               "network": "#/components/schemas/network"
             }
           },
-          "anyOf": [
+          "oneOf": [
             {
               "$ref": "#/components/schemas/device"
             },
@@ -57922,7 +57922,7 @@
               "inquiry-template-version": "#/components/schemas/inquiry-template-version"
             }
           },
-          "anyOf": [
+          "oneOf": [
             {
               "$ref": "#/components/schemas/inquiry-template-version"
             }
@@ -61655,7 +61655,7 @@
               "transaction": "#/components/schemas/transaction"
             }
           },
-          "anyOf": [
+          "oneOf": [
             {
               "$ref": "#/components/schemas/inquiry"
             },
@@ -62538,7 +62538,7 @@
               "verification-template-version/verifiable-credential": "#/components/schemas/verification-template-version"
             }
           },
-          "anyOf": [
+          "oneOf": [
             {
               "$ref": "#/components/schemas/account"
             },
@@ -62653,6 +62653,42 @@
                     }
                   }
                 }
+              }
+            }
+          }
+        ]
+      },
+      "relationship-allowlist": {
+        "description": "Controls whether relationships are serialized in webhook payload objects. The default is `include_all`. The object shape leaves room for future granular relationship configuration.",
+        "unevaluatedProperties": false,
+        "oneOf": [
+          {
+            "title": "Include all",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "state"
+            ],
+            "properties": {
+              "state": {
+                "type": "string",
+                "const": "include_all",
+                "description": "Include relationship linkages in webhook payload objects."
+              }
+            }
+          },
+          {
+            "title": "Include none",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "state"
+            ],
+            "properties": {
+              "state": {
+                "type": "string",
+                "const": "include_none",
+                "description": "Omit relationship linkages from webhook payload objects."
               }
             }
           }
@@ -62773,6 +62809,9 @@
                     "state": "include_all"
                   }
                 ]
+              },
+              "relationship-allowlist": {
+                "$ref": "#/components/schemas/relationship-allowlist"
               },
               "created-at": {
                 "type": "string",
@@ -63104,6 +63143,9 @@
           "included-allowlist": {
             "$ref": "#/components/schemas/included-allowlist"
           },
+          "relationship-allowlist": {
+            "$ref": "#/components/schemas/relationship-allowlist"
+          },
           "custom-http-headers": {
             "description": "Custom HTTP headers to include in webhook requests. For more info see [Webhook Custom HTTP Headers](https://docs.withpersona.com/webhook-custom-http-headers).",
             "type": "object",
@@ -63273,6 +63315,9 @@
                   }
                 ]
               },
+              "relationship-allowlist": {
+                "$ref": "#/components/schemas/relationship-allowlist"
+              },
               "created-at": {
                 "type": "string",
                 "format": "date-time",
@@ -63361,7 +63406,7 @@
               "user": "#/components/schemas/user"
             }
           },
-          "anyOf": [
+          "oneOf": [
             {
               "$ref": "#/components/schemas/workflow"
             },
@@ -63730,7 +63775,7 @@
               "importer-pipeline": "#/components/schemas/importer-pipeline"
             }
           },
-          "anyOf": [
+          "oneOf": [
             {
               "$ref": "#/components/schemas/importer-pipeline"
             }
@@ -63747,7 +63792,7 @@
               "inquiry": "#/components/schemas/inquiry"
             }
           },
-          "anyOf": [
+          "oneOf": [
             {
               "$ref": "#/components/schemas/inquiry"
             }
@@ -69028,6 +69073,9 @@
               ],
               "included-allowlist": {
                 "state": "include_all"
+              },
+              "relationship-allowlist": {
+                "state": "include_all"
               }
             }
           }
@@ -69074,6 +69122,9 @@
               "included-allowlist": {
                 "state": "include_all"
               },
+              "relationship-allowlist": {
+                "state": "include_all"
+              },
               "created-at": "2023-08-17T23:18:13.000Z"
             }
           }
@@ -69113,6 +69164,9 @@
               "included-allowlist": {
                 "state": "include_all"
               },
+              "relationship-allowlist": {
+                "state": "include_all"
+              },
               "created-at": "2023-08-17T23:18:13.000Z"
             }
           }
@@ -69149,6 +69203,12 @@
                   }
                 }
               },
+              "included-allowlist": {
+                "state": "include_all"
+              },
+              "relationship-allowlist": {
+                "state": "include_all"
+              },
               "created-at": "2023-08-17T23:18:13.000Z"
             }
           }
@@ -69184,6 +69244,12 @@
                     }
                   }
                 }
+              },
+              "included-allowlist": {
+                "state": "include_all"
+              },
+              "relationship-allowlist": {
+                "state": "include_all"
               },
               "created-at": "2023-08-17T23:18:13.000Z"
             }
@@ -69236,6 +69302,12 @@
                     }
                   }
                 }
+              },
+              "included-allowlist": {
+                "state": "include_all"
+              },
+              "relationship-allowlist": {
+                "state": "include_all"
               },
               "created-at": "2023-08-17T23:18:13.000Z"
             }
