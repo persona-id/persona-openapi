@@ -2042,7 +2042,7 @@ paths:
       x-persona-product: API Keys
   '/api-keys/{api-key-id}':
     get:
-      description: 'Retrieves the information for an existing API key, including its value.'
+      description: Retrieves the information for an existing API key. The plaintext value is only returned when creating or cloning an API key.
       operationId: retrieve-an-api-key
       externalDocs:
         description: Full documentation for this API on the Persona website.
@@ -2078,13 +2078,13 @@ paths:
             application/json:
               examples:
                 Success:
-                  $ref: '#/components/examples/api-key-with-value'
+                  $ref: '#/components/examples/api-key'
               schema:
                 type: object
                 additionalProperties: false
                 properties:
                   data:
-                    $ref: '#/components/schemas/api-key-with-value'
+                    $ref: '#/components/schemas/api-key'
                   included:
                     $ref: '#/components/schemas/empty-included-objects'
                 required:
