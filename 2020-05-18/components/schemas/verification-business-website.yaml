@@ -21,5 +21,41 @@ properties:
             type:
               - string
               - 'null'
+          extracted-identity:
+            description: >-
+              Identity details extracted from the website. Each list is null
+              when the verification has not finished processing or has been
+              redacted.
+            type: object
+            additionalProperties: false
+            properties:
+              business-names:
+                description: Business names extracted from the website.
+                type:
+                  - array
+                  - 'null'
+                items:
+                  $ref: ./business-website-extracted-identity-record.yaml
+              addresses:
+                description: Addresses extracted from the website.
+                type:
+                  - array
+                  - 'null'
+                items:
+                  $ref: ./business-website-extracted-identity-record.yaml
+              phone-numbers:
+                description: Phone numbers extracted from the website.
+                type:
+                  - array
+                  - 'null'
+                items:
+                  $ref: ./business-website-extracted-identity-record.yaml
+              emails:
+                description: Email addresses extracted from the website.
+                type:
+                  - array
+                  - 'null'
+                items:
+                  $ref: ./business-website-extracted-identity-record.yaml
   relationships:
     $ref: ./verification-shared-relationships.yaml

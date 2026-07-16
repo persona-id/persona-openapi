@@ -27715,6 +27715,228 @@
         "x-persona-product": "Verifications"
       }
     },
+    "/verifications/{verification-id}/investigation-lock": {
+      "post": {
+        "description": "Locks a Verification from redaction while it is under investigation. While locked, redaction requests for the Verification will be rejected.",
+        "operationId": "investigation-lock-a-verification",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/api-reference/verifications/investigation-lock-a-verification"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/include-query-parameter"
+          },
+          {
+            "$ref": "#/components/parameters/fields-query-parameter"
+          },
+          {
+            "name": "verification-id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "headers": {
+              "RateLimit-Limit": {
+                "$ref": "#/components/headers/rate-limit-limit"
+              },
+              "RateLimit-Remaining": {
+                "$ref": "#/components/headers/rate-limit-remaining"
+              },
+              "RateLimit-Reset": {
+                "$ref": "#/components/headers/rate-limit-reset"
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/request-id"
+              },
+              "Persona-Environment-Id": {
+                "$ref": "#/components/headers/persona-environment-id"
+              },
+              "Persona-Organization-Id": {
+                "$ref": "#/components/headers/persona-organization-id"
+              }
+            },
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Success": {
+                    "$ref": "#/components/examples/verification-retrieve"
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "data"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/verification"
+                    },
+                    "included": {
+                      "description": "Objects that _may_ be returned if specified via the `include` query parameter in the request.",
+                      "$ref": "#/components/schemas/verification-included-objects"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "This endpoint returns a Verification object."
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "409": {
+            "$ref": "#/components/responses/conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessable-entity"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        },
+        "summary": "Investigation Lock a Verification",
+        "tags": [
+          "Verifications"
+        ],
+        "x-persona-product": "Verifications"
+      }
+    },
+    "/verifications/{verification-id}/investigation-unlock": {
+      "post": {
+        "description": "Unlocks a Verification that was previously locked from redaction during an investigation.",
+        "operationId": "investigation-unlock-a-verification",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/api-reference/verifications/investigation-unlock-a-verification"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/include-query-parameter"
+          },
+          {
+            "$ref": "#/components/parameters/fields-query-parameter"
+          },
+          {
+            "name": "verification-id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "headers": {
+              "RateLimit-Limit": {
+                "$ref": "#/components/headers/rate-limit-limit"
+              },
+              "RateLimit-Remaining": {
+                "$ref": "#/components/headers/rate-limit-remaining"
+              },
+              "RateLimit-Reset": {
+                "$ref": "#/components/headers/rate-limit-reset"
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/request-id"
+              },
+              "Persona-Environment-Id": {
+                "$ref": "#/components/headers/persona-environment-id"
+              },
+              "Persona-Organization-Id": {
+                "$ref": "#/components/headers/persona-organization-id"
+              }
+            },
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Success": {
+                    "$ref": "#/components/examples/verification-retrieve"
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "data"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/verification"
+                    },
+                    "included": {
+                      "description": "Objects that _may_ be returned if specified via the `include` query parameter in the request.",
+                      "$ref": "#/components/schemas/verification-included-objects"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "This endpoint returns a Verification object."
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "409": {
+            "$ref": "#/components/responses/conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessable-entity"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        },
+        "summary": "Investigation Unlock a Verification",
+        "tags": [
+          "Verifications"
+        ],
+        "x-persona-product": "Verifications"
+      }
+    },
     "/webhooks": {
       "get": {
         "description": "Returns a list of your environment's webhooks. Results are returned in reverse chronological order, with the most recently created objects first.",
@@ -54963,6 +55185,30 @@
           }
         }
       },
+      "business-website-extracted-identity-record": {
+        "title": "Business Website Extracted Identity Record",
+        "description": "A single identity detail extracted from the business website, with the page it was found on.",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "value": {
+            "description": "The extracted value — for example a business name, address, phone number, or email address.",
+            "example": "Example Inc",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "source": {
+            "description": "The URL of the website page the value was extracted from.",
+            "example": "https://example.com",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
       "verification-business-website": {
         "title": "Business Website Verification",
         "description": "A Business Website Verification",
@@ -54993,6 +55239,53 @@
                       "string",
                       "null"
                     ]
+                  },
+                  "extracted-identity": {
+                    "description": "Identity details extracted from the website. Each list is null when the verification has not finished processing or has been redacted.",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "business-names": {
+                        "description": "Business names extracted from the website.",
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "$ref": "#/components/schemas/business-website-extracted-identity-record"
+                        }
+                      },
+                      "addresses": {
+                        "description": "Addresses extracted from the website.",
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "$ref": "#/components/schemas/business-website-extracted-identity-record"
+                        }
+                      },
+                      "phone-numbers": {
+                        "description": "Phone numbers extracted from the website.",
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "$ref": "#/components/schemas/business-website-extracted-identity-record"
+                        }
+                      },
+                      "emails": {
+                        "description": "Email addresses extracted from the website.",
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "$ref": "#/components/schemas/business-website-extracted-identity-record"
+                        }
+                      }
+                    }
                   }
                 }
               }
