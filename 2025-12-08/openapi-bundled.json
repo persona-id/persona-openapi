@@ -27446,6 +27446,9 @@
                 "examples": {
                   "Success": {
                     "$ref": "#/components/examples/verification-retrieve"
+                  },
+                  "BusinessWebsite": {
+                    "$ref": "#/components/examples/verification-business-website"
                   }
                 },
                 "schema": {
@@ -50450,7 +50453,7 @@
                 },
                 "reasons": {
                   "type": "array",
-                  "description": "If applicable, reasons are the list of reasons explaining why the check failed or is not applicable.",
+                  "description": "If applicable, reasons are the list of reasons explaining why the check failed or is not applicable. For some checks, `reasons` is the primary signal carrying the underlying detection results. For example, `business_website_malicious_website_detection` surfaces its IPQS and Google Web Risk signals here (e.g. `malware`, `phishing`, `spam-source`) rather than in `metadata`.",
                   "items": {
                     "type": [
                       "string",
@@ -69352,6 +69355,100 @@
               "id": "vtmplv_ABC123"
             }
           ]
+        }
+      },
+      "verification-business-website": {
+        "value": {
+          "data": {
+            "type": "verification/business-website",
+            "id": "ver_ABC123",
+            "attributes": {
+              "status": "passed",
+              "created-at": "2023-11-03T17:37:06.000Z",
+              "created-at-ts": 1699033026,
+              "submitted-at": "2023-11-03T17:37:10.000Z",
+              "submitted-at-ts": 1699033030,
+              "completed-at": "2023-11-03T17:37:15.000Z",
+              "completed-at-ts": 1699033035,
+              "country-code": "US",
+              "website-url": "https://example.com",
+              "checks": [
+                {
+                  "name": "business_website_backlink_detection",
+                  "status": "passed",
+                  "reasons": [],
+                  "requirement": "not_required",
+                  "metadata": {
+                    "backlink-count": 2443,
+                    "backlink-threshold": 10
+                  }
+                },
+                {
+                  "name": "business_website_malicious_website_detection",
+                  "status": "passed",
+                  "reasons": [],
+                  "requirement": "not_required",
+                  "metadata": {}
+                },
+                {
+                  "name": "business_website_domain_age_detection",
+                  "status": "passed",
+                  "reasons": [],
+                  "requirement": "not_required",
+                  "metadata": {}
+                }
+              ],
+              "extracted-identity": {
+                "business-names": [
+                  {
+                    "value": "Example Corp",
+                    "source": "https://example.com"
+                  }
+                ],
+                "addresses": null,
+                "phone-numbers": null,
+                "emails": null
+              }
+            },
+            "relationships": {
+              "inquiry": {
+                "data": {
+                  "type": "inquiry",
+                  "id": "inq_ABC123"
+                }
+              },
+              "template": {
+                "data": null
+              },
+              "inquiry-template-version": {
+                "data": {
+                  "type": "inquiry-template-version",
+                  "id": "itmplv_ABC123"
+                }
+              },
+              "inquiry-template": {
+                "data": {
+                  "type": "inquiry-template",
+                  "id": "itmpl_ABC123"
+                }
+              },
+              "transaction": {
+                "data": null
+              },
+              "verification-template": {
+                "data": {
+                  "type": "verification-template/business-website",
+                  "id": "vtmpl_ABC123"
+                }
+              },
+              "verification-template-version": {
+                "data": {
+                  "type": "verification-template-version/business-website",
+                  "id": "vtmplv_ABC123"
+                }
+              }
+            }
+          }
         }
       },
       "create-webhook": {
