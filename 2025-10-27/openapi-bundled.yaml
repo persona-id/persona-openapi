@@ -27786,6 +27786,18 @@ components:
               examples:
                 - source_not_found
                 - null
+            redeem-mode:
+              type:
+                - string
+                - 'null'
+              description: |
+                How this share token was redeemed, set when redemption is initiated.
+                One of `clone` (destination created from source data) or `hydrate`
+                (redeemed into an existing destination). Null until redemption starts.
+              examples:
+                - clone
+                - hydrate
+                - null
             source-data:
               description: |
                 PII-filtered snapshot of the share token's source object.
@@ -37188,6 +37200,11 @@ components:
                   type:
                     - string
                     - 'null'
+                identification-number:
+                  description: Identification number on the scanned card — the driver's license number (DL operations) or residence card number (res_read).
+                  type:
+                    - string
+                    - 'null'
                 kana-name:
                   type:
                     - string
@@ -37273,11 +37290,6 @@ components:
               properties:
                 phone-number:
                   description: The phone number being verified.
-                  type:
-                    - string
-                    - 'null'
-                code:
-                  description: The verification code or token returned by the provider.
                   type:
                     - string
                     - 'null'
@@ -42648,6 +42660,7 @@ components:
               expires-at: null
               failed-at: null
               failure-reason: null
+              redeem-mode: null
             relationships:
               creator:
                 data:
@@ -42673,6 +42686,7 @@ components:
               expires-at: null
               failed-at: null
               failure-reason: null
+              redeem-mode: hydrate
             relationships:
               destination:
                 data:
@@ -42706,6 +42720,7 @@ components:
             expires-at: null
             failed-at: null
             failure-reason: null
+            redeem-mode: null
           relationships:
             creator:
               data:
@@ -42734,6 +42749,7 @@ components:
             expires-at: null
             failed-at: null
             failure-reason: null
+            redeem-mode: hydrate
           relationships:
             destination:
               data:
@@ -42758,6 +42774,7 @@ components:
             expires-at: null
             failed-at: '2023-08-17T23:35:20.000Z'
             failure-reason: import_failed
+            redeem-mode: hydrate
           relationships:
             destination:
               data:
@@ -42782,6 +42799,7 @@ components:
             expires-at: '2023-08-18T23:18:13.000Z'
             failed-at: null
             failure-reason: null
+            redeem-mode: null
           relationships:
             creator:
               data:

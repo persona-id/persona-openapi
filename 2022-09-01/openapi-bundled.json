@@ -44367,6 +44367,18 @@
                   null
                 ]
               },
+              "redeem-mode": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "How this share token was redeemed, set when redemption is initiated.\nOne of `clone` (destination created from source data) or `hydrate`\n(redeemed into an existing destination). Null until redemption starts.\n",
+                "examples": [
+                  "clone",
+                  "hydrate",
+                  null
+                ]
+              },
               "source-data": {
                 "description": "PII-filtered snapshot of the share token's source object.\nPresent only when `peek-source-data=true` was passed on the\nshow endpoint, the caller is the destination organization, and\nthe destination organization has access to the source data\npeek capability. Omitted from list responses.\n",
                 "unevaluatedProperties": false,
@@ -57591,6 +57603,13 @@
                       "null"
                     ]
                   },
+                  "identification-number": {
+                    "description": "Identification number on the scanned card — the driver's license number (DL operations) or residence card number (res_read).",
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
                   "kana-name": {
                     "type": [
                       "string",
@@ -57719,13 +57738,6 @@
                 "properties": {
                   "phone-number": {
                     "description": "The phone number being verified.",
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "code": {
-                    "description": "The verification code or token returned by the provider.",
                     "type": [
                       "string",
                       "null"
@@ -65621,7 +65633,8 @@
                 "redeemed-at": null,
                 "expires-at": null,
                 "failed-at": null,
-                "failure-reason": null
+                "failure-reason": null,
+                "redeem-mode": null
               },
               "relationships": {
                 "creator": {
@@ -65656,7 +65669,8 @@
                 "redeemed-at": "2023-08-17T23:30:15.000Z",
                 "expires-at": null,
                 "failed-at": null,
-                "failure-reason": null
+                "failure-reason": null,
+                "redeem-mode": "hydrate"
               },
               "relationships": {
                 "destination": {
@@ -65704,7 +65718,8 @@
               "redeemed-at": null,
               "expires-at": null,
               "failed-at": null,
-              "failure-reason": null
+              "failure-reason": null,
+              "redeem-mode": null
             },
             "relationships": {
               "creator": {
@@ -65743,7 +65758,8 @@
               "redeemed-at": "2023-08-17T23:30:15.000Z",
               "expires-at": null,
               "failed-at": null,
-              "failure-reason": null
+              "failure-reason": null,
+              "redeem-mode": "hydrate"
             },
             "relationships": {
               "destination": {
@@ -65776,7 +65792,8 @@
               "redeemed-at": null,
               "expires-at": null,
               "failed-at": "2023-08-17T23:35:20.000Z",
-              "failure-reason": "import_failed"
+              "failure-reason": "import_failed",
+              "redeem-mode": "hydrate"
             },
             "relationships": {
               "destination": {
@@ -65809,7 +65826,8 @@
               "redeemed-at": null,
               "expires-at": "2023-08-18T23:18:13.000Z",
               "failed-at": null,
-              "failure-reason": null
+              "failure-reason": null,
+              "redeem-mode": null
             },
             "relationships": {
               "creator": {
