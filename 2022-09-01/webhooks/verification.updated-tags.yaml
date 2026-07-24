@@ -3,7 +3,8 @@ post:
   summary: Verification tags updated
   description: >-
     Webhook for the `verification.updated-tags` event, which fires when tags are
-    added to or removed from a Verification. For more info see [Webhooks
+    added to or removed from a Verification. The `context` identifies the tags
+    added and removed by the update. For more info see [Webhooks
     Overview](https://docs.withpersona.com/webhooks).
 
 
@@ -43,6 +44,31 @@ post:
                             name:
                               type: string
                               const: verification.updated-tags
+                            context:
+                              type: object
+                              additionalProperties: false
+                              description: >-
+                                Identifies the tag names added to and removed
+                                from the Verification.
+                              properties:
+                                added-tags:
+                                  type: array
+                                  description: >-
+                                    Names of tags added by this update. Empty if
+                                    none were added.
+                                  items:
+                                    type: string
+                                  examples:
+                                    - - manual_review_complete
+                                removed-tags:
+                                  type: array
+                                  description: >-
+                                    Names of tags removed by this update. Empty
+                                    if none were removed.
+                                  items:
+                                    type: string
+                                  examples:
+                                    - - flagged_for_followup
                             payload:
                               type: object
                               additionalProperties: false

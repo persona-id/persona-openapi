@@ -3,7 +3,8 @@ post:
   summary: Inquiry tags updated
   description: >-
     Webhook for the `inquiry.updated-tags` event. Fired when one or more tags
-    are added to or removed from an Inquiry. The delivered payload contains the
+    are added to or removed from an Inquiry. The `context` identifies the tags
+    added and removed by the update. The delivered payload contains the
     Inquiry's full attributes — including the current `tags` array reflecting
     the post-update state. For more info see [Webhooks
     Overview](https://docs.withpersona.com/webhooks).
@@ -37,6 +38,31 @@ post:
                             name:
                               type: string
                               const: inquiry.updated-tags
+                            context:
+                              type: object
+                              additionalProperties: false
+                              description: >-
+                                Identifies the tag names added to and removed
+                                from the Inquiry.
+                              properties:
+                                added-tags:
+                                  type: array
+                                  description: >-
+                                    Names of tags added by this update. Empty if
+                                    none were added.
+                                  items:
+                                    type: string
+                                  examples:
+                                    - - manual_review_complete
+                                removed-tags:
+                                  type: array
+                                  description: >-
+                                    Names of tags removed by this update. Empty
+                                    if none were removed.
+                                  items:
+                                    type: string
+                                  examples:
+                                    - - pending_review
                             payload:
                               type: object
                               additionalProperties: false

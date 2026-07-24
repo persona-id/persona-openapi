@@ -2,7 +2,8 @@ post:
   operationId: webhook-case-updated-tags
   summary: Case updated tags
   description: >-
-    Webhook for the `case.updated-tags` event. For more info see [Webhooks
+    Webhook for the `case.updated-tags` event. The `context` identifies the tags
+    added and removed by the update. For more info see [Webhooks
     Overview](https://docs.withpersona.com/webhooks).
   tags:
     - Case events
@@ -34,6 +35,31 @@ post:
                             name:
                               type: string
                               const: case.updated-tags
+                            context:
+                              type: object
+                              additionalProperties: false
+                              description: >-
+                                Identifies the tag names added to and removed
+                                from the Case.
+                              properties:
+                                added-tags:
+                                  type: array
+                                  description: >-
+                                    Names of tags added by this update. Empty if
+                                    none were added.
+                                  items:
+                                    type: string
+                                  examples:
+                                    - - escalated
+                                removed-tags:
+                                  type: array
+                                  description: >-
+                                    Names of tags removed by this update. Empty
+                                    if none were removed.
+                                  items:
+                                    type: string
+                                  examples:
+                                    - - standard-priority
                             payload:
                               type: object
                               additionalProperties: false

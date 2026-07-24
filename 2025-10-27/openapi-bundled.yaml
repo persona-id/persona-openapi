@@ -19643,7 +19643,7 @@ webhooks:
     post:
       operationId: webhook-account-updated-tags
       summary: Account updated tags
-      description: 'Webhook for the `account.updated-tags` event. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).'
+      description: 'Webhook for the `account.updated-tags` event. The `context` identifies the tags added and removed by the update. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).'
       tags:
         - Account events
       x-persona-product: Accounts
@@ -19674,6 +19674,25 @@ webhooks:
                                 name:
                                   type: string
                                   const: account.updated-tags
+                                context:
+                                  type: object
+                                  additionalProperties: false
+                                  description: Identifies the tag names added to and removed from the Account.
+                                  properties:
+                                    added-tags:
+                                      type: array
+                                      description: Names of tags added by this update. Empty if none were added.
+                                      items:
+                                        type: string
+                                      examples:
+                                        - - manual-review
+                                    removed-tags:
+                                      type: array
+                                      description: Names of tags removed by this update. Empty if none were removed.
+                                      items:
+                                        type: string
+                                      examples:
+                                        - - new-customer
                                 payload:
                                   type: object
                                   additionalProperties: false
@@ -20204,7 +20223,7 @@ webhooks:
     post:
       operationId: webhook-case-updated-tags
       summary: Case updated tags
-      description: 'Webhook for the `case.updated-tags` event. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).'
+      description: 'Webhook for the `case.updated-tags` event. The `context` identifies the tags added and removed by the update. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).'
       tags:
         - Case events
       x-persona-product: Cases
@@ -20235,6 +20254,25 @@ webhooks:
                                 name:
                                   type: string
                                   const: case.updated-tags
+                                context:
+                                  type: object
+                                  additionalProperties: false
+                                  description: Identifies the tag names added to and removed from the Case.
+                                  properties:
+                                    added-tags:
+                                      type: array
+                                      description: Names of tags added by this update. Empty if none were added.
+                                      items:
+                                        type: string
+                                      examples:
+                                        - - escalated
+                                    removed-tags:
+                                      type: array
+                                      description: Names of tags removed by this update. Empty if none were removed.
+                                      items:
+                                        type: string
+                                      examples:
+                                        - - standard-priority
                                 payload:
                                   type: object
                                   additionalProperties: false
@@ -21428,7 +21466,7 @@ webhooks:
     post:
       operationId: webhook-inquiry-updated-tags
       summary: Inquiry tags updated
-      description: 'Webhook for the `inquiry.updated-tags` event. Fired when one or more tags are added to or removed from an Inquiry. The delivered payload contains the Inquiry''s full attributes — including the current `tags` array reflecting the post-update state. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).'
+      description: 'Webhook for the `inquiry.updated-tags` event. Fired when one or more tags are added to or removed from an Inquiry. The `context` identifies the tags added and removed by the update. The delivered payload contains the Inquiry''s full attributes — including the current `tags` array reflecting the post-update state. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).'
       tags:
         - Inquiry events
       x-persona-product: Inquiries
@@ -21459,6 +21497,25 @@ webhooks:
                                 name:
                                   type: string
                                   const: inquiry.updated-tags
+                                context:
+                                  type: object
+                                  additionalProperties: false
+                                  description: Identifies the tag names added to and removed from the Inquiry.
+                                  properties:
+                                    added-tags:
+                                      type: array
+                                      description: Names of tags added by this update. Empty if none were added.
+                                      items:
+                                        type: string
+                                      examples:
+                                        - - manual_review_complete
+                                    removed-tags:
+                                      type: array
+                                      description: Names of tags removed by this update. Empty if none were removed.
+                                      items:
+                                        type: string
+                                      examples:
+                                        - - pending_review
                                 payload:
                                   type: object
                                   additionalProperties: false
@@ -25763,7 +25820,7 @@ webhooks:
       operationId: webhook-verification-updated-tags
       summary: Verification tags updated
       description: |-
-        Webhook for the `verification.updated-tags` event, which fires when tags are added to or removed from a Verification. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).
+        Webhook for the `verification.updated-tags` event, which fires when tags are added to or removed from a Verification. The `context` identifies the tags added and removed by the update. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).
 
         **Most integrations don't need verification tag events.** Verifications are internal building blocks of an inquiry — for tag changes that summarize risk or fraud signals across the end user's flow, listen to `inquiry.updated-tags` and inspect the inquiry's `tags`. Subscribe to `verification.updated-tags` only when you have a specific need to react to tag changes on individual verifications.
       tags:
@@ -25796,6 +25853,25 @@ webhooks:
                                 name:
                                   type: string
                                   const: verification.updated-tags
+                                context:
+                                  type: object
+                                  additionalProperties: false
+                                  description: Identifies the tag names added to and removed from the Verification.
+                                  properties:
+                                    added-tags:
+                                      type: array
+                                      description: Names of tags added by this update. Empty if none were added.
+                                      items:
+                                        type: string
+                                      examples:
+                                        - - manual_review_complete
+                                    removed-tags:
+                                      type: array
+                                      description: Names of tags removed by this update. Empty if none were removed.
+                                      items:
+                                        type: string
+                                      examples:
+                                        - - flagged_for_followup
                                 payload:
                                   type: object
                                   additionalProperties: false
@@ -47059,6 +47135,11 @@ components:
                     - vip
                     - manual-review
                   account-status: Approved
+            context:
+              added-tags:
+                - manual-review
+              removed-tags:
+                - new-customer
             created-at: '2024-03-11T09:25:04.231Z'
     case-assigned-webhook-body:
       value:
@@ -49354,6 +49435,11 @@ components:
                       data:
                         type: inquiry
                         id: inq_KHK4MJCE4QvfocWB2intQ3YE
+            context:
+              added-tags:
+                - escalated
+              removed-tags:
+                - standard-priority
             created-at: '2024-01-19T13:15:08.000Z'
     document-created-webhook-body:
       value:
@@ -52193,6 +52279,11 @@ components:
                       data:
                         type: inquiry
                         id: inq_kT4xVnR2bPmYwL9sTgD3cExZ
+            context:
+              added-tags:
+                - manual_review_complete
+              removed-tags:
+                - pending_review
             created-at: '2024-03-16T09:15:00.100Z'
     inquiry-session-started-webhook-body:
       value:
@@ -56532,6 +56623,11 @@ components:
                   accounts:
                     data: []
               included: []
+            context:
+              added-tags:
+                - manual_review_complete
+              removed-tags:
+                - flagged_for_followup
             created-at: '2024-02-16T15:12:47.732Z'
     workflow-run-created-webhook-body:
       value:

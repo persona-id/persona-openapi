@@ -2,7 +2,8 @@ post:
   operationId: webhook-account-updated-tags
   summary: Account updated tags
   description: >-
-    Webhook for the `account.updated-tags` event. For more info see [Webhooks
+    Webhook for the `account.updated-tags` event. The `context` identifies the
+    tags added and removed by the update. For more info see [Webhooks
     Overview](https://docs.withpersona.com/webhooks).
   tags:
     - Account events
@@ -34,6 +35,31 @@ post:
                             name:
                               type: string
                               const: account.updated-tags
+                            context:
+                              type: object
+                              additionalProperties: false
+                              description: >-
+                                Identifies the tag names added to and removed
+                                from the Account.
+                              properties:
+                                added-tags:
+                                  type: array
+                                  description: >-
+                                    Names of tags added by this update. Empty if
+                                    none were added.
+                                  items:
+                                    type: string
+                                  examples:
+                                    - - manual-review
+                                removed-tags:
+                                  type: array
+                                  description: >-
+                                    Names of tags removed by this update. Empty
+                                    if none were removed.
+                                  items:
+                                    type: string
+                                  examples:
+                                    - - new-customer
                             payload:
                               type: object
                               additionalProperties: false
