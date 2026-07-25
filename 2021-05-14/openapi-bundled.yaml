@@ -27830,6 +27830,28 @@ components:
               type: object
               additionalProperties:
                 $ref: '#/components/schemas/source-data-peekable-attribute'
+    source-data-verification-document:
+      title: Document Verification Source Data
+      description: |
+        PII-filtered snapshot of a Document verification. The `peekable-attributes` bag carries
+        whichever PII-filtered scalar attributes the source organization's configuration allows.
+        Verification subtypes do not expose a nested `fields` sub-bucket.
+      unevaluatedProperties: false
+      allOf:
+        - $ref: '#/components/schemas/source-data-base'
+        - type: object
+          properties:
+            type:
+              type: string
+              const: connect/source-data/verification/document
+            id:
+              type: string
+              examples:
+                - ver_ABC123
+            peekable-attributes:
+              type: object
+              additionalProperties:
+                $ref: '#/components/schemas/source-data-peekable-attribute'
     source-data-account:
       title: Account Source Data
       description: |
@@ -27872,6 +27894,7 @@ components:
           connect/source-data/verification/email-address: '#/components/schemas/source-data-verification-email-address'
           connect/source-data/verification/government-id: '#/components/schemas/source-data-verification-government-id'
           connect/source-data/verification/selfie: '#/components/schemas/source-data-verification-selfie'
+          connect/source-data/verification/document: '#/components/schemas/source-data-verification-document'
           connect/source-data/account: '#/components/schemas/source-data-account'
       oneOf:
         - $ref: '#/components/schemas/source-data-verification-database'
@@ -27879,6 +27902,7 @@ components:
         - $ref: '#/components/schemas/source-data-verification-email-address'
         - $ref: '#/components/schemas/source-data-verification-government-id'
         - $ref: '#/components/schemas/source-data-verification-selfie'
+        - $ref: '#/components/schemas/source-data-verification-document'
         - $ref: '#/components/schemas/source-data-account'
     source-data-inquiry:
       title: Inquiry Source Data
@@ -37668,7 +37692,23 @@ components:
                     - 'null'
                   format: date
                 face-image:
-                  description: 'Face image extracted from the NFC card, when present.'
+                  description: 'Face image extracted from the NFC card, when present. Deprecated in favor of `selfie-photo`.'
+                  deprecated: true
+                  type:
+                    - object
+                    - 'null'
+                selfie-photo:
+                  description: 'Portrait photo of the bearer extracted from the NFC card, when present.'
+                  properties:
+                    byte-size:
+                      default: 0
+                      examples:
+                        - 316802
+                      type: integer
+                    url:
+                      examples:
+                        - 'https://files.withpersona.com/...'
+                      type: string
                   type:
                     - object
                     - 'null'

@@ -36,7 +36,27 @@ properties:
               - 'null'
             format: date
           face-image:
-            description: Face image extracted from the NFC card, when present.
+            description: >-
+              Face image extracted from the NFC card, when present. Deprecated
+              in favor of `selfie-photo`.
+            deprecated: true
+            type:
+              - object
+              - 'null'
+          selfie-photo:
+            description: >-
+              Portrait photo of the bearer extracted from the NFC card, when
+              present.
+            properties:
+              byte-size:
+                default: 0
+                examples:
+                  - 316802
+                type: integer
+              url:
+                examples:
+                  - https://files.withpersona.com/...
+                type: string
             type:
               - object
               - 'null'
