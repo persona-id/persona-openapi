@@ -98,10 +98,12 @@ properties:
         type:
           - string
           - 'null'
-        description: |
-          How this share token was redeemed, set when redemption is initiated.
-          One of `clone` (destination created from source data) or `hydrate`
-          (redeemed into an existing destination). Null until redemption starts.
+        description: >
+          How this Share Token was redeemed. Set to `hydrate` when
+          `destination-id` is provided
+
+          or `clone` when `destination-id` is omitted. Null until redemption is
+          initiated.
         examples:
           - clone
           - hydrate
@@ -157,9 +159,7 @@ properties:
       source:
         type: object
         additionalProperties: false
-        description: >-
-          The source object the data is shared from. Sources can be Accounts,
-          Inquiries, or Transactions.
+        description: The object from which the shared data originated.
         properties:
           data:
             type: object
@@ -172,6 +172,7 @@ properties:
                   - account
                   - inquiry
                   - txn
+                  - verification
               id:
                 type: string
                 examples:
@@ -181,10 +182,14 @@ properties:
       destination:
         type: object
         additionalProperties: false
-        description: >-
-          The destination object the data was imported into. Destinations can be
-          Accounts, Inquiries, or Transactions. `null` until the Share Token is
-          redeemed.
+        description: >
+          The destination object associated with redemption. For hydration, this
+          is the object
+
+          specified by `destination-id`. For cloning, no destination is set
+          until Persona creates
+
+          the destination object.
         properties:
           data:
             type:
@@ -199,6 +204,7 @@ properties:
                   - account
                   - inquiry
                   - txn
+                  - verification/database
               id:
                 type: string
                 examples:

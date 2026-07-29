@@ -109,7 +109,10 @@ post:
   tags:
     - Connect
   summary: Create a Share Token
-  description: Creates a new Share Token with the specified connection and source.
+  description: >-
+    Creates a new Share Token with the specified connection and source. Share
+    Tokens can be created from Accounts, Inquiries, Transactions, or
+    Verifications.
   operationId: create-a-share-token
   externalDocs:
     description: Full documentation for this API on the Persona website.
@@ -148,13 +151,12 @@ post:
                         - cxn_ABC123
                     source-id:
                       type: string
-                      description: >-
-                        The ID of the source object. Sources can be Accounts,
-                        Inquiries, or Transactions.
+                      description: The ID of the object to share.
                       examples:
                         - act_ABC123
                         - inq_DEF456
                         - txn_GHI789
+                        - ver_JKL012
                     expires-in-seconds:
                       type: integer
                       description: >-

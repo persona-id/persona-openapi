@@ -2849,7 +2849,7 @@ paths:
       tags:
         - Connect
       summary: Create a Share Token
-      description: Creates a new Share Token with the specified connection and source.
+      description: 'Creates a new Share Token with the specified connection and source. Share Tokens can be created from Accounts, Inquiries, Transactions, or Verifications.'
       operationId: create-a-share-token
       externalDocs:
         description: Full documentation for this API on the Persona website.
@@ -2887,11 +2887,12 @@ paths:
                             - cxn_ABC123
                         source-id:
                           type: string
-                          description: 'The ID of the source object. Sources can be Accounts, Inquiries, or Transactions.'
+                          description: The ID of the object to share.
                           examples:
                             - act_ABC123
                             - inq_DEF456
                             - txn_GHI789
+                            - ver_JKL012
                         expires-in-seconds:
                           type: integer
                           description: 'The number of seconds from now until the share token expires. Must be between `60` (1 minute) and `1814400` (21 days). If omitted, defaults to 14 days.'
@@ -3092,9 +3093,81 @@ paths:
       tags:
         - Connect
       summary: Redeem a Share Token
-      description: Redeems a Share Token by importing the source data into the specified destination. The destination must be in a valid state to accept the imported data.
+      description: |
+        Initiates redemption of a Share Token in one of two modes:
+
+        - **Clone:** Omit `data.attributes.destination-id` to create a new object from the source.
+          Inquiry and Verification Share Tokens can be cloned.
+        - **Hydrate:** Provide `data.attributes.destination-id` to import source data into an existing
+          object. Account, Transaction, and Inquiry Share Tokens can hydrate an existing Account,
+          Transaction, or Inquiry.
+
+        Redemption is asynchronous. A successful request returns the Share Token with a `pending`
+        status while Persona processes the import.
       operationId: redeem-share-token
       x-persona-product: Connect
+      x-fern-examples:
+        - name: Clone an object
+          path-parameters:
+            share-token-id: cnst_ABC123
+          request:
+            data:
+              attributes: {}
+          response:
+            body:
+              data:
+                type: connect/share-token
+                id: cnst_ABC123
+                attributes:
+                  status: pending
+                  direction: inbound
+                  created-at: '2023-08-17T23:18:13.000Z'
+                  updated-at: '2023-08-17T23:25:00.000Z'
+                  pending-at: '2023-08-17T23:25:00.000Z'
+                  redeemed-at: null
+                  expires-at: null
+                  failed-at: null
+                  failure-reason: null
+                  redeem-mode: clone
+                relationships:
+                  destination:
+                    data: null
+                  connection:
+                    data:
+                      type: connect/connection
+                      id: cxn_ABC123
+        - name: Hydrate an object
+          path-parameters:
+            share-token-id: cnst_DEF456
+          request:
+            data:
+              attributes:
+                destination-id: inq_XYZ789
+          response:
+            body:
+              data:
+                type: connect/share-token
+                id: cnst_DEF456
+                attributes:
+                  status: pending
+                  direction: inbound
+                  created-at: '2023-08-17T23:18:13.000Z'
+                  updated-at: '2023-08-17T23:25:00.000Z'
+                  pending-at: '2023-08-17T23:25:00.000Z'
+                  redeemed-at: null
+                  expires-at: null
+                  failed-at: null
+                  failure-reason: null
+                  redeem-mode: hydrate
+                relationships:
+                  destination:
+                    data:
+                      type: inquiry
+                      id: inq_XYZ789
+                  connection:
+                    data:
+                      type: connect/connection
+                      id: cxn_ABC123
       parameters:
         - in: path
           name: share-token-id
@@ -3112,8 +3185,12 @@ paths:
         content:
           application/json:
             examples:
-              Success:
-                $ref: '#/components/examples/redeem-share-token'
+              CloneObject:
+                x-remove-from-fern: true
+                $ref: '#/components/examples/redeem-share-token-clone-object'
+              HydrateObject:
+                x-remove-from-fern: true
+                $ref: '#/components/examples/redeem-share-token-hydrate-object'
             schema:
               type: object
               additionalProperties: false
@@ -3129,7 +3206,8 @@ paths:
                         destination-id:
                           type: string
                           description: |
-                            The ID of the destination object. Destinations can be Accounts, Inquiries, or Transactions.
+                            The ID of the existing destination object to hydrate. Omit this field, or
+                            the entire request body, to clone the source into a new destination object.
                           example: inq_DEF456
                 meta:
                   type: object
@@ -3138,9 +3216,10 @@ paths:
                     field-mappings:
                       type: array
                       description: |
-                        Optional list of field mappings to apply when importing source data.
-                        If a source field name matches the destination field name, it is copied
-                        directly. These mappings are applied for fields not already matched by name.
+                        Optional list of field mappings to apply when hydrating an existing destination.
+                        If a source field name matches the destination field name, it is copied directly.
+                        These mappings are applied for fields not already matched by name. Field mappings
+                        are not used when cloning; omit them from clone requests.
                       items:
                         type: object
                         additionalProperties: false
@@ -3171,12 +3250,16 @@ paths:
               $ref: '#/components/headers/persona-environment-id'
             Persona-Organization-Id:
               $ref: '#/components/headers/persona-organization-id'
-          description: Share Token has been successfully redeemed.
+          description: Share Token redemption has been initiated and is processing.
           content:
             application/json:
               examples:
-                Success:
-                  $ref: '#/components/examples/connect-share-token-redeemed'
+                CloneObject:
+                  x-remove-from-fern: true
+                  $ref: '#/components/examples/connect-share-token-clone-object-pending'
+                HydrateObject:
+                  x-remove-from-fern: true
+                  $ref: '#/components/examples/connect-share-token-hydrate-object-pending'
               schema:
                 type: object
                 additionalProperties: false
@@ -28088,9 +28171,8 @@ components:
                 - string
                 - 'null'
               description: |
-                How this share token was redeemed, set when redemption is initiated.
-                One of `clone` (destination created from source data) or `hydrate`
-                (redeemed into an existing destination). Null until redemption starts.
+                How this Share Token was redeemed. Set to `hydrate` when `destination-id` is provided
+                or `clone` when `destination-id` is omitted. Null until redemption is initiated.
               examples:
                 - clone
                 - hydrate
@@ -28146,7 +28228,7 @@ components:
             source:
               type: object
               additionalProperties: false
-              description: 'The source object the data is shared from. Sources can be Accounts, Inquiries, or Transactions.'
+              description: The object from which the shared data originated.
               properties:
                 data:
                   type: object
@@ -28159,6 +28241,7 @@ components:
                         - account
                         - inquiry
                         - txn
+                        - verification
                     id:
                       type: string
                       examples:
@@ -28168,7 +28251,10 @@ components:
             destination:
               type: object
               additionalProperties: false
-              description: 'The destination object the data was imported into. Destinations can be Accounts, Inquiries, or Transactions. `null` until the Share Token is redeemed.'
+              description: |
+                The destination object associated with redemption. For hydration, this is the object
+                specified by `destination-id`. For cloning, no destination is set until Persona creates
+                the destination object.
               properties:
                 data:
                   type:
@@ -28183,6 +28269,7 @@ components:
                         - account
                         - inquiry
                         - txn
+                        - verification/database
                     id:
                       type: string
                       examples:
@@ -43366,11 +43453,71 @@ components:
               data:
                 type: connect/connection
                 id: cxn_ABC123
-    redeem-share-token:
+    redeem-share-token-clone-object:
+      summary: Clone an object
+      description: Omit `destination-id` to create a new object from the Share Token source.
+      value:
+        data:
+          attributes: {}
+    redeem-share-token-hydrate-object:
+      summary: Hydrate an object
+      description: Provide `destination-id` to import data into an existing destination object.
       value:
         data:
           attributes:
             destination-id: inq_XYZ789
+    connect-share-token-clone-object-pending:
+      summary: Clone an object
+      description: The Share Token is pending while Persona creates the new object. The destination is available after cloning completes.
+      value:
+        data:
+          type: connect/share-token
+          id: cnst_ABC123
+          attributes:
+            status: pending
+            direction: inbound
+            created-at: '2023-08-17T23:18:13.000Z'
+            updated-at: '2023-08-17T23:25:00.000Z'
+            pending-at: '2023-08-17T23:25:00.000Z'
+            redeemed-at: null
+            expires-at: null
+            failed-at: null
+            failure-reason: null
+            redeem-mode: clone
+          relationships:
+            destination:
+              data: null
+            connection:
+              data:
+                type: connect/connection
+                id: cxn_ABC123
+    connect-share-token-hydrate-object-pending:
+      summary: Hydrate an object
+      description: The Share Token is pending while Persona imports the source data into an existing object. This example hydrates an Inquiry.
+      value:
+        data:
+          type: connect/share-token
+          id: cnst_DEF456
+          attributes:
+            status: pending
+            direction: inbound
+            created-at: '2023-08-17T23:18:13.000Z'
+            updated-at: '2023-08-17T23:25:00.000Z'
+            pending-at: '2023-08-17T23:25:00.000Z'
+            redeemed-at: null
+            expires-at: null
+            failed-at: null
+            failure-reason: null
+            redeem-mode: hydrate
+          relationships:
+            destination:
+              data:
+                type: inquiry
+                id: inq_XYZ789
+            connection:
+              data:
+                type: connect/connection
+                id: cxn_ABC123
     api-log-list:
       value:
         data:
