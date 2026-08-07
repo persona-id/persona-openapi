@@ -1,0 +1,98 @@
+get:
+  description: >-
+    Retrieves the published versions and current draft version of an Inquiry
+    Template.
+
+
+    Use a production API key and provide the Inquiry Template ID in
+    `filter[inquiry-template-id]`. For security reasons, Inquiry Template
+    Versions are not available in Sandbox.
+  operationId: list-all-inquiry-template-versions
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: >-
+      https://docs.withpersona.com/api-reference/inquiry-template-versions/list-all-inquiry-template-versions
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/pagination-query-params.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+    - in: query
+      name: filter
+      required: true
+      style: deepObject
+      explode: true
+      schema:
+        type: object
+        additionalProperties: false
+        required:
+          - inquiry-template-id
+        properties:
+          inquiry-template-id:
+            type: string
+            description: The Inquiry Template ID to list versions for.
+            examples:
+              - itmpl_ABC123
+  responses:
+    '200':
+      headers:
+        RateLimit-Limit:
+          $ref: ../components/headers/rate-limit-limit.yaml
+        RateLimit-Remaining:
+          $ref: ../components/headers/rate-limit-remaining.yaml
+        RateLimit-Reset:
+          $ref: ../components/headers/rate-limit-reset.yaml
+        Request-Id:
+          $ref: ../components/headers/request-id.yaml
+        Persona-Environment-Id:
+          $ref: ../components/headers/persona-environment-id.yaml
+        Persona-Organization-Id:
+          $ref: ../components/headers/persona-organization-id.yaml
+      description: This endpoint returns a collection of Inquiry Template Version objects.
+      content:
+        application/json:
+          examples:
+            Success:
+              $ref: ../components/examples/inquiry-template-version-list.yaml
+          schema:
+            type: object
+            additionalProperties: false
+            required:
+              - data
+              - links
+            properties:
+              data:
+                type: array
+                description: An array of Inquiry Template Versions
+                items:
+                  $ref: ../components/schemas/inquiry-template-version.yaml
+              links:
+                type: object
+                additionalProperties: false
+                required:
+                  - prev
+                  - next
+                properties:
+                  prev:
+                    type:
+                      - 'null'
+                      - string
+                  next:
+                    type:
+                      - 'null'
+                      - string
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: List all Inquiry Template Versions
+  tags:
+    - Inquiry Templates
+  x-persona-product: Inquiries

@@ -9513,6 +9513,100 @@ paths:
       tags:
         - Inquiry Sessions
       x-persona-product: Inquiries
+  /inquiry-template-versions:
+    get:
+      description: |-
+        Retrieves the published versions and current draft version of an Inquiry Template.
+
+        Use a production API key and provide the Inquiry Template ID in `filter[inquiry-template-id]`. For security reasons, Inquiry Template Versions are not available in Sandbox.
+      operationId: list-all-inquiry-template-versions
+      externalDocs:
+        description: Full documentation for this API on the Persona website.
+        url: 'https://docs.withpersona.com/api-reference/inquiry-template-versions/list-all-inquiry-template-versions'
+      parameters:
+        - $ref: '#/components/parameters/key-inflection-header'
+        - $ref: '#/components/parameters/idempotency-key-header'
+        - $ref: '#/components/parameters/persona-version-header'
+        - $ref: '#/components/parameters/pagination-query-params'
+        - $ref: '#/components/parameters/fields-query-parameter'
+        - in: query
+          name: filter
+          required: true
+          style: deepObject
+          explode: true
+          schema:
+            type: object
+            additionalProperties: false
+            required:
+              - inquiry-template-id
+            properties:
+              inquiry-template-id:
+                type: string
+                description: The Inquiry Template ID to list versions for.
+                examples:
+                  - itmpl_ABC123
+      responses:
+        '200':
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/rate-limit-limit'
+            RateLimit-Remaining:
+              $ref: '#/components/headers/rate-limit-remaining'
+            RateLimit-Reset:
+              $ref: '#/components/headers/rate-limit-reset'
+            Request-Id:
+              $ref: '#/components/headers/request-id'
+            Persona-Environment-Id:
+              $ref: '#/components/headers/persona-environment-id'
+            Persona-Organization-Id:
+              $ref: '#/components/headers/persona-organization-id'
+          description: This endpoint returns a collection of Inquiry Template Version objects.
+          content:
+            application/json:
+              examples:
+                Success:
+                  $ref: '#/components/examples/inquiry-template-version-list'
+              schema:
+                type: object
+                additionalProperties: false
+                required:
+                  - data
+                  - links
+                properties:
+                  data:
+                    type: array
+                    description: An array of Inquiry Template Versions
+                    items:
+                      $ref: '#/components/schemas/inquiry-template-version'
+                  links:
+                    type: object
+                    additionalProperties: false
+                    required:
+                      - prev
+                      - next
+                    properties:
+                      prev:
+                        type:
+                          - 'null'
+                          - string
+                      next:
+                        type:
+                          - 'null'
+                          - string
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not-found'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+      summary: List all Inquiry Template Versions
+      tags:
+        - Inquiry Templates
+      x-persona-product: Inquiries
   /inquiry-templates:
     get:
       description: |-
@@ -9926,7 +10020,10 @@ paths:
                       id: itmplv_HAVumeSgCxWxhVb8tTRjaiUB
                       attributes:
                         name-display: Collect Government ID
+                        description: Add Spanish translations
                         status: draft
+                        live: false
+                        last-updater: taylor@example.com
                         enabled-locales:
                           - en-US
                         created-at: '2023-01-05T00:00:00.000Z'
@@ -35002,6 +35099,13 @@ components:
               examples:
                 - Collect Government ID
                 - ''
+            description:
+              type:
+                - string
+                - 'null'
+              description: A description of the changes in this version.
+              examples:
+                - Add reusable persona support
             status:
               description: |-
                 Possible values:
@@ -35013,6 +35117,18 @@ components:
               type: string
               examples:
                 - published
+            live:
+              type: boolean
+              description: Whether this is the Inquiry Template's current live published version.
+              examples:
+                - true
+            last-updater:
+              type:
+                - string
+                - 'null'
+              description: The email address of the User who last updated this version.
+              examples:
+                - taylor@example.com
             enabled-locales:
               type: array
               items:
@@ -44908,6 +45024,69 @@ components:
               data:
                 type: device
                 id: dev_ABC123
+    inquiry-template-version-list:
+      value:
+        data:
+          - type: inquiry-template-version
+            id: itmplv_DRAFT123
+            attributes:
+              name-display: Collect Government ID
+              description: Test reusable persona support
+              status: draft
+              live: false
+              last-updater: taylor@example.com
+              enabled-locales:
+                - en-US
+              created-at: '2026-03-27T18:29:41.000Z'
+              updated-at: '2026-03-27T18:31:05.000Z'
+              published-at: null
+              theme: {}
+            relationships:
+              inquiry-template:
+                data:
+                  type: inquiry-template
+                  id: itmpl_ABC123
+          - type: inquiry-template-version
+            id: itmplv_LIVE123
+            attributes:
+              name-display: Collect Government ID
+              description: Add reusable persona support
+              status: published
+              live: true
+              last-updater: alex@example.com
+              enabled-locales:
+                - en-US
+              created-at: '2026-03-26T18:22:59.828Z'
+              updated-at: '2026-03-26T18:29:41.000Z'
+              published-at: '2026-03-26T18:29:41.000Z'
+              theme: {}
+            relationships:
+              inquiry-template:
+                data:
+                  type: inquiry-template
+                  id: itmpl_ABC123
+          - type: inquiry-template-version
+            id: itmplv_PREVIOUS123
+            attributes:
+              name-display: Collect Government ID
+              description: Initial production version
+              status: published
+              live: false
+              last-updater: null
+              enabled-locales:
+                - en-US
+              created-at: '2026-03-20T18:22:59.828Z'
+              updated-at: '2026-03-20T18:29:41.000Z'
+              published-at: '2026-03-20T18:29:41.000Z'
+              theme: {}
+            relationships:
+              inquiry-template:
+                data:
+                  type: inquiry-template
+                  id: itmpl_ABC123
+        links:
+          prev: null
+          next: null
     inquiry-template-list:
       value:
         data:
