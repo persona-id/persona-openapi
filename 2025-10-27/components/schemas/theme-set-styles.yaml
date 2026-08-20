@@ -1,0 +1,24 @@
+type: object
+additionalProperties: false
+description: >-
+  Nested theme tree. Sparse — any omitted cell falls back to the Persona default
+  cascade. `dark` mirrors the structure of `light` and is fully optional.
+properties:
+  settings:
+    type: object
+    additionalProperties: false
+    properties:
+      use-dark-theme:
+        type: boolean
+        description: Whether the dark variant is served to devices that prefer dark mode.
+      preferred-theme-variant:
+        type: string
+        description: >-
+          Variant served when no device preference applies — one of "light" or
+          "dark".
+        examples:
+          - light
+  light:
+    $ref: ./theme-set-variant.yaml
+  dark:
+    $ref: ./theme-set-variant.yaml

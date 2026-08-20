@@ -1,0 +1,167 @@
+get:
+  summary: Retrieve a Theme Set
+  tags:
+    - Theme Sets
+  x-persona-product: Inquiries
+  description: Retrieves the details of an existing theme set.
+  operationId: retrieve-a-theme-set
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/api-reference/theme-sets/retrieve-a-theme-set
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+    - description: Theme Set's ID (starts with "theset_")
+      in: path
+      name: theme-set-id
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      headers:
+        RateLimit-Limit:
+          $ref: ../components/headers/rate-limit-limit.yaml
+        RateLimit-Remaining:
+          $ref: ../components/headers/rate-limit-remaining.yaml
+        RateLimit-Reset:
+          $ref: ../components/headers/rate-limit-reset.yaml
+        Request-Id:
+          $ref: ../components/headers/request-id.yaml
+        Persona-Environment-Id:
+          $ref: ../components/headers/persona-environment-id.yaml
+        Persona-Organization-Id:
+          $ref: ../components/headers/persona-organization-id.yaml
+      content:
+        application/json:
+          examples:
+            Success:
+              value:
+                data:
+                  type: theme-set
+                  id: theset_ABC123
+                  attributes:
+                    name: Brand Default
+                    status: active
+                    styles:
+                      settings:
+                        use-dark-theme: false
+                        preferred-theme-variant: light
+                      light:
+                        inquiry:
+                          primary-color:
+                            unit: hex
+                            value: '#111111'
+                        components:
+                          button:
+                            primary:
+                              base:
+                                background-color:
+                                  unit: hex
+                                  value: '#111111'
+                                text-color:
+                                  unit: hex
+                                  value: '#FFFFFF'
+                    created-at: '2026-01-01T00:00:00.000Z'
+                    updated-at: '2026-01-01T00:00:00.000Z'
+                    archived-at: null
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/theme-set.yaml
+            type: object
+            additionalProperties: false
+            required:
+              - data
+      description: This endpoint returns a Theme Set object.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+delete:
+  summary: Archive a Theme Set
+  tags:
+    - Theme Sets
+  x-persona-product: Inquiries
+  description: >-
+    Archive an existing theme set. Archived theme sets are still retrievable,
+    but can no longer be assigned to inquiry templates.
+  operationId: archive-a-theme-set
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/api-reference/theme-sets/archive-a-theme-set
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+    - description: ID of the theme set to archive
+      in: path
+      name: theme-set-id
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      headers:
+        RateLimit-Limit:
+          $ref: ../components/headers/rate-limit-limit.yaml
+        RateLimit-Remaining:
+          $ref: ../components/headers/rate-limit-remaining.yaml
+        RateLimit-Reset:
+          $ref: ../components/headers/rate-limit-reset.yaml
+        Request-Id:
+          $ref: ../components/headers/request-id.yaml
+        Persona-Environment-Id:
+          $ref: ../components/headers/persona-environment-id.yaml
+        Persona-Organization-Id:
+          $ref: ../components/headers/persona-organization-id.yaml
+      content:
+        application/json:
+          examples:
+            Success:
+              value:
+                data:
+                  type: theme-set
+                  id: theset_ABC123
+                  attributes:
+                    name: Brand Default
+                    status: archived
+                    styles:
+                      settings:
+                        use-dark-theme: false
+                        preferred-theme-variant: light
+                    created-at: '2026-01-01T00:00:00.000Z'
+                    updated-at: '2026-01-01T00:00:00.000Z'
+                    archived-at: '2026-01-02T00:00:00.000Z'
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/theme-set.yaml
+            type: object
+            additionalProperties: false
+            required:
+              - data
+      description: This endpoint returns a Theme Set object.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml

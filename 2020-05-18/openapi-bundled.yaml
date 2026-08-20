@@ -54,6 +54,8 @@ tags:
     description: Interact with Persona Relay objects
   - name: Reports
     description: Interact with Persona Report objects
+  - name: Theme Sets
+    description: Interact with Persona Theme Set objects
   - name: Transactions
     description: Interact with Persona Transaction objects
   - name: Transaction Types
@@ -15479,6 +15481,417 @@ paths:
       tags:
         - Reports
       x-persona-product: Reports
+  /theme-sets:
+    get:
+      summary: List all Theme Sets
+      tags:
+        - Theme Sets
+      x-persona-product: Inquiries
+      description: 'Returns a list of your organization''s theme sets. Results are returned in reverse chronological order, with the most recently created objects first.'
+      operationId: list-all-theme-sets
+      externalDocs:
+        description: Full documentation for this API on the Persona website.
+        url: 'https://docs.withpersona.com/api-reference/theme-sets/list-all-theme-sets'
+      parameters:
+        - $ref: '#/components/parameters/key-inflection-header'
+        - $ref: '#/components/parameters/idempotency-key-header'
+        - $ref: '#/components/parameters/persona-version-header'
+        - $ref: '#/components/parameters/pagination-query-params'
+        - $ref: '#/components/parameters/fields-query-parameter'
+        - description: Filter theme sets by status — one of "active" or "archived".
+          in: query
+          name: 'filter[status]'
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/rate-limit-limit'
+            RateLimit-Remaining:
+              $ref: '#/components/headers/rate-limit-remaining'
+            RateLimit-Reset:
+              $ref: '#/components/headers/rate-limit-reset'
+            Request-Id:
+              $ref: '#/components/headers/request-id'
+            Persona-Environment-Id:
+              $ref: '#/components/headers/persona-environment-id'
+            Persona-Organization-Id:
+              $ref: '#/components/headers/persona-organization-id'
+          content:
+            application/json:
+              examples:
+                Success:
+                  value:
+                    data:
+                      - type: theme-set
+                        id: theset_ABC123
+                        attributes:
+                          name: Brand Default
+                          status: active
+                          styles:
+                            settings:
+                              use-dark-theme: false
+                              preferred-theme-variant: light
+                            light:
+                              inquiry:
+                                primary-color:
+                                  unit: hex
+                                  value: '#111111'
+                              components:
+                                button:
+                                  primary:
+                                    base:
+                                      background-color:
+                                        unit: hex
+                                        value: '#111111'
+                                      text-color:
+                                        unit: hex
+                                        value: '#FFFFFF'
+                          created-at: '2026-01-01T00:00:00.000Z'
+                          updated-at: '2026-01-01T00:00:00.000Z'
+                          archived-at: null
+                    links:
+                      prev: null
+                      next: null
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/theme-set'
+                    type: array
+                    description: An array of Theme Sets
+                  links:
+                    properties:
+                      next:
+                        type:
+                          - string
+                          - 'null'
+                      prev:
+                        type:
+                          - string
+                          - 'null'
+                    type: object
+                    additionalProperties: false
+                    required:
+                      - next
+                      - prev
+                type: object
+                additionalProperties: false
+                required:
+                  - data
+                  - links
+          description: This endpoint returns a collection of Theme Set objects.
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+    post:
+      summary: Create a Theme Set
+      tags:
+        - Theme Sets
+      x-persona-product: Inquiries
+      description: Creates a new theme set. The `data` attribute carries the nested theme tree (`settings` / `light` / `dark`) — the same shape as the Code-First theme-set YAML. Style cells that are not supported are ignored.
+      operationId: create-a-theme-set
+      externalDocs:
+        description: Full documentation for this API on the Persona website.
+        url: 'https://docs.withpersona.com/api-reference/theme-sets/create-a-theme-set'
+      parameters:
+        - $ref: '#/components/parameters/key-inflection-header'
+        - $ref: '#/components/parameters/idempotency-key-header'
+        - $ref: '#/components/parameters/persona-version-header'
+        - $ref: '#/components/parameters/fields-query-parameter'
+      requestBody:
+        content:
+          application/json:
+            examples:
+              Created:
+                value:
+                  data:
+                    attributes:
+                      name: Brand Default
+                      styles:
+                        settings:
+                          use-dark-theme: false
+                          preferred-theme-variant: light
+                        light:
+                          inquiry:
+                            primary-color:
+                              unit: hex
+                              value: '#111111'
+                          components:
+                            button:
+                              primary:
+                                base:
+                                  background-color:
+                                    unit: hex
+                                    value: '#111111'
+                                  text-color:
+                                    unit: hex
+                                    value: '#FFFFFF'
+            schema:
+              properties:
+                data:
+                  properties:
+                    attributes:
+                      type: object
+                      additionalProperties: false
+                      properties:
+                        name:
+                          type: string
+                          description: Display name of the theme set.
+                        styles:
+                          $ref: '#/components/schemas/theme-set-styles'
+                      required:
+                        - name
+                  required:
+                    - attributes
+                  type: object
+                  additionalProperties: false
+              required:
+                - data
+              type: object
+              additionalProperties: false
+      responses:
+        '201':
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/rate-limit-limit'
+            RateLimit-Remaining:
+              $ref: '#/components/headers/rate-limit-remaining'
+            RateLimit-Reset:
+              $ref: '#/components/headers/rate-limit-reset'
+            Request-Id:
+              $ref: '#/components/headers/request-id'
+            Persona-Environment-Id:
+              $ref: '#/components/headers/persona-environment-id'
+            Persona-Organization-Id:
+              $ref: '#/components/headers/persona-organization-id'
+          content:
+            application/json:
+              examples:
+                Created:
+                  value:
+                    data:
+                      type: theme-set
+                      id: theset_ABC123
+                      attributes:
+                        name: Brand Default
+                        status: active
+                        styles:
+                          settings:
+                            use-dark-theme: false
+                            preferred-theme-variant: light
+                          light:
+                            inquiry:
+                              primary-color:
+                                unit: hex
+                                value: '#111111'
+                            components:
+                              button:
+                                primary:
+                                  base:
+                                    background-color:
+                                      unit: hex
+                                      value: '#111111'
+                                    text-color:
+                                      unit: hex
+                                      value: '#FFFFFF'
+                        created-at: '2026-01-01T00:00:00.000Z'
+                        updated-at: '2026-01-01T00:00:00.000Z'
+                        archived-at: null
+              schema:
+                properties:
+                  data:
+                    $ref: '#/components/schemas/theme-set'
+                type: object
+                additionalProperties: false
+                required:
+                  - data
+          description: This endpoint returns a Theme Set object.
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '422':
+          $ref: '#/components/responses/unprocessable-entity'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+  '/theme-sets/{theme-set-id}':
+    get:
+      summary: Retrieve a Theme Set
+      tags:
+        - Theme Sets
+      x-persona-product: Inquiries
+      description: Retrieves the details of an existing theme set.
+      operationId: retrieve-a-theme-set
+      externalDocs:
+        description: Full documentation for this API on the Persona website.
+        url: 'https://docs.withpersona.com/api-reference/theme-sets/retrieve-a-theme-set'
+      parameters:
+        - $ref: '#/components/parameters/key-inflection-header'
+        - $ref: '#/components/parameters/idempotency-key-header'
+        - $ref: '#/components/parameters/persona-version-header'
+        - $ref: '#/components/parameters/fields-query-parameter'
+        - description: Theme Set's ID (starts with "theset_")
+          in: path
+          name: theme-set-id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/rate-limit-limit'
+            RateLimit-Remaining:
+              $ref: '#/components/headers/rate-limit-remaining'
+            RateLimit-Reset:
+              $ref: '#/components/headers/rate-limit-reset'
+            Request-Id:
+              $ref: '#/components/headers/request-id'
+            Persona-Environment-Id:
+              $ref: '#/components/headers/persona-environment-id'
+            Persona-Organization-Id:
+              $ref: '#/components/headers/persona-organization-id'
+          content:
+            application/json:
+              examples:
+                Success:
+                  value:
+                    data:
+                      type: theme-set
+                      id: theset_ABC123
+                      attributes:
+                        name: Brand Default
+                        status: active
+                        styles:
+                          settings:
+                            use-dark-theme: false
+                            preferred-theme-variant: light
+                          light:
+                            inquiry:
+                              primary-color:
+                                unit: hex
+                                value: '#111111'
+                            components:
+                              button:
+                                primary:
+                                  base:
+                                    background-color:
+                                      unit: hex
+                                      value: '#111111'
+                                    text-color:
+                                      unit: hex
+                                      value: '#FFFFFF'
+                        created-at: '2026-01-01T00:00:00.000Z'
+                        updated-at: '2026-01-01T00:00:00.000Z'
+                        archived-at: null
+              schema:
+                properties:
+                  data:
+                    $ref: '#/components/schemas/theme-set'
+                type: object
+                additionalProperties: false
+                required:
+                  - data
+          description: This endpoint returns a Theme Set object.
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not-found'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+    delete:
+      summary: Archive a Theme Set
+      tags:
+        - Theme Sets
+      x-persona-product: Inquiries
+      description: 'Archive an existing theme set. Archived theme sets are still retrievable, but can no longer be assigned to inquiry templates.'
+      operationId: archive-a-theme-set
+      externalDocs:
+        description: Full documentation for this API on the Persona website.
+        url: 'https://docs.withpersona.com/api-reference/theme-sets/archive-a-theme-set'
+      parameters:
+        - $ref: '#/components/parameters/key-inflection-header'
+        - $ref: '#/components/parameters/idempotency-key-header'
+        - $ref: '#/components/parameters/persona-version-header'
+        - $ref: '#/components/parameters/fields-query-parameter'
+        - description: ID of the theme set to archive
+          in: path
+          name: theme-set-id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/rate-limit-limit'
+            RateLimit-Remaining:
+              $ref: '#/components/headers/rate-limit-remaining'
+            RateLimit-Reset:
+              $ref: '#/components/headers/rate-limit-reset'
+            Request-Id:
+              $ref: '#/components/headers/request-id'
+            Persona-Environment-Id:
+              $ref: '#/components/headers/persona-environment-id'
+            Persona-Organization-Id:
+              $ref: '#/components/headers/persona-organization-id'
+          content:
+            application/json:
+              examples:
+                Success:
+                  value:
+                    data:
+                      type: theme-set
+                      id: theset_ABC123
+                      attributes:
+                        name: Brand Default
+                        status: archived
+                        styles:
+                          settings:
+                            use-dark-theme: false
+                            preferred-theme-variant: light
+                        created-at: '2026-01-01T00:00:00.000Z'
+                        updated-at: '2026-01-01T00:00:00.000Z'
+                        archived-at: '2026-01-02T00:00:00.000Z'
+              schema:
+                properties:
+                  data:
+                    $ref: '#/components/schemas/theme-set'
+                type: object
+                additionalProperties: false
+                required:
+                  - data
+          description: This endpoint returns a Theme Set object.
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not-found'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '422':
+          $ref: '#/components/responses/unprocessable-entity'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
   /transactions:
     post:
       summary: Create a Transaction
@@ -41677,6 +42090,88 @@ components:
           - $ref: '#/components/schemas/report-history-review'
           - $ref: '#/components/schemas/report-history-pause'
           - $ref: '#/components/schemas/report-history-resume'
+    theme-set-variant:
+      type: object
+      additionalProperties: true
+      description: 'One theme variant: `inquiry` holds flow chrome (navbar, modal, hosted flow), `components` holds the per-component style grid (component → variant → state → properties). Value leaves are typed objects such as `{ unit: hex, value: "#111111" }` (color), `{ unit: px, value: 16 }` (size), `{ x: ..., y: ... }` (dimensions) and `{ bitmask: 15 }` (corner mask). The accepted cells are exactly those of the Code-First theme-set YAML shape.'
+      properties:
+        inquiry:
+          type: object
+          additionalProperties: true
+        components:
+          type: object
+          additionalProperties: true
+        step-assets:
+          type: object
+          additionalProperties: true
+    theme-set-styles:
+      type: object
+      additionalProperties: false
+      description: Nested theme tree. Sparse — any omitted cell falls back to the Persona default cascade. `dark` mirrors the structure of `light` and is fully optional.
+      properties:
+        settings:
+          type: object
+          additionalProperties: false
+          properties:
+            use-dark-theme:
+              type: boolean
+              description: Whether the dark variant is served to devices that prefer dark mode.
+            preferred-theme-variant:
+              type: string
+              description: Variant served when no device preference applies — one of "light" or "dark".
+              examples:
+                - light
+        light:
+          $ref: '#/components/schemas/theme-set-variant'
+        dark:
+          $ref: '#/components/schemas/theme-set-variant'
+    theme-set:
+      type: object
+      additionalProperties: false
+      description: A Theme Set object
+      properties:
+        type:
+          type: string
+          const: theme-set
+        id:
+          type: string
+          description: Unique identifier of the theme set (starts with "theset_").
+          examples:
+            - theset_ABC123
+        attributes:
+          type: object
+          additionalProperties: false
+          properties:
+            name:
+              type: string
+              description: Display name of the theme set.
+              examples:
+                - Brand Default
+            status:
+              type: string
+              description: Lifecycle status — one of "active" or "archived". Archived theme sets are retained but no longer editable.
+              examples:
+                - active
+            styles:
+              $ref: '#/components/schemas/theme-set-styles'
+            created-at:
+              type: string
+              format: date-time
+              examples:
+                - '2026-01-01T00:00:00.000Z'
+            updated-at:
+              type: string
+              format: date-time
+              examples:
+                - '2026-01-01T00:00:00.000Z'
+            archived-at:
+              type:
+                - string
+                - 'null'
+              format: date-time
+              description: Set when the theme set is archived.
+              examples:
+                - '2026-01-01T00:00:00.000Z'
     transaction-label:
       type: object
       additionalProperties: false
