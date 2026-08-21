@@ -86,6 +86,131 @@ get:
       $ref: ../components/responses/not-found.yaml
     '429':
       $ref: ../components/responses/too-many-requests.yaml
+patch:
+  summary: Update a Theme Set
+  tags:
+    - Theme Sets
+  x-persona-product: Inquiries
+  description: >-
+    Updates an existing theme set. Both attributes are optional — an omitted
+    attribute is left unchanged. When `styles` is present it replaces the stored
+    styling wholesale: the tree carries the complete desired styling, and any
+    cell absent from it falls back to the Persona default cascade.
+  operationId: update-a-theme-set
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/api-reference/theme-sets/update-a-theme-set
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+    - description: ID of the theme set to update
+      in: path
+      name: theme-set-id
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        examples:
+          Updated:
+            value:
+              data:
+                attributes:
+                  name: Brand Default
+                  styles:
+                    settings:
+                      use-dark-theme: false
+                      preferred-theme-variant: light
+                    light:
+                      inquiry:
+                        primary-color:
+                          unit: hex
+                          value: '#222222'
+        schema:
+          properties:
+            data:
+              properties:
+                attributes:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    name:
+                      type: string
+                      description: Display name of the theme set.
+                    styles:
+                      $ref: ../components/schemas/theme-set-styles.yaml
+              required:
+                - attributes
+              type: object
+              additionalProperties: false
+          required:
+            - data
+          type: object
+          additionalProperties: false
+  responses:
+    '200':
+      headers:
+        RateLimit-Limit:
+          $ref: ../components/headers/rate-limit-limit.yaml
+        RateLimit-Remaining:
+          $ref: ../components/headers/rate-limit-remaining.yaml
+        RateLimit-Reset:
+          $ref: ../components/headers/rate-limit-reset.yaml
+        Request-Id:
+          $ref: ../components/headers/request-id.yaml
+        Persona-Environment-Id:
+          $ref: ../components/headers/persona-environment-id.yaml
+        Persona-Organization-Id:
+          $ref: ../components/headers/persona-organization-id.yaml
+      content:
+        application/json:
+          examples:
+            Success:
+              value:
+                data:
+                  type: theme-set
+                  id: theset_ABC123
+                  attributes:
+                    name: Brand Default
+                    status: active
+                    styles:
+                      settings:
+                        use-dark-theme: false
+                        preferred-theme-variant: light
+                      light:
+                        inquiry:
+                          primary-color:
+                            unit: hex
+                            value: '#222222'
+                    created-at: '2026-01-01T00:00:00.000Z'
+                    updated-at: '2026-01-02T00:00:00.000Z'
+                    archived-at: null
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/theme-set.yaml
+            type: object
+            additionalProperties: false
+            required:
+              - data
+      description: This endpoint returns a Theme Set object.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
 delete:
   summary: Archive a Theme Set
   tags:
@@ -93,7 +218,10 @@ delete:
   x-persona-product: Inquiries
   description: >-
     Archive an existing theme set. Archived theme sets are still retrievable,
-    but can no longer be assigned to inquiry templates.
+    but can no longer be assigned to inquiry templates. Archiving also detaches
+    the theme set from any inquiry templates it is assigned to — live flows fall
+    back to default styling. The organization's default theme set cannot be
+    archived and returns a 409.
   operationId: archive-a-theme-set
   externalDocs:
     description: Full documentation for this API on the Persona website.

@@ -3,6 +3,11 @@ additionalProperties: false
 description: >-
   Nested theme tree. Sparse — any omitted cell falls back to the Persona default
   cascade. `dark` mirrors the structure of `light` and is fully optional.
+  Requests carrying non-permitted or mistyped cells at any depth are rejected
+  with a 400 naming each offending path; values that are structurally valid but
+  cannot be reconciled into the stored theme (for example, shared button
+  properties that disagree between the primary and secondary variants) are
+  rejected with a 422.
 properties:
   settings:
     type: object

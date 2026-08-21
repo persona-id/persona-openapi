@@ -15603,7 +15603,7 @@ paths:
       tags:
         - Theme Sets
       x-persona-product: Inquiries
-      description: Creates a new theme set. The `data` attribute carries the nested theme tree (`settings` / `light` / `dark`) — the same shape as the Code-First theme-set YAML. Style cells that are not supported are ignored.
+      description: Creates a new theme set. The `data` attribute carries the nested theme tree (`settings` / `light` / `dark`) — the same shape as the Code-First theme-set YAML. Style cells that are not supported are rejected with a 400 naming each offending path.
       operationId: create-a-theme-set
       externalDocs:
         description: Full documentation for this API on the Persona website.
@@ -15822,12 +15822,133 @@ paths:
           $ref: '#/components/responses/not-found'
         '429':
           $ref: '#/components/responses/too-many-requests'
+    patch:
+      summary: Update a Theme Set
+      tags:
+        - Theme Sets
+      x-persona-product: Inquiries
+      description: 'Updates an existing theme set. Both attributes are optional — an omitted attribute is left unchanged. When `styles` is present it replaces the stored styling wholesale: the tree carries the complete desired styling, and any cell absent from it falls back to the Persona default cascade.'
+      operationId: update-a-theme-set
+      externalDocs:
+        description: Full documentation for this API on the Persona website.
+        url: 'https://docs.withpersona.com/api-reference/theme-sets/update-a-theme-set'
+      parameters:
+        - $ref: '#/components/parameters/key-inflection-header'
+        - $ref: '#/components/parameters/idempotency-key-header'
+        - $ref: '#/components/parameters/persona-version-header'
+        - $ref: '#/components/parameters/fields-query-parameter'
+        - description: ID of the theme set to update
+          in: path
+          name: theme-set-id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            examples:
+              Updated:
+                value:
+                  data:
+                    attributes:
+                      name: Brand Default
+                      styles:
+                        settings:
+                          use-dark-theme: false
+                          preferred-theme-variant: light
+                        light:
+                          inquiry:
+                            primary-color:
+                              unit: hex
+                              value: '#222222'
+            schema:
+              properties:
+                data:
+                  properties:
+                    attributes:
+                      type: object
+                      additionalProperties: false
+                      properties:
+                        name:
+                          type: string
+                          description: Display name of the theme set.
+                        styles:
+                          $ref: '#/components/schemas/theme-set-styles'
+                  required:
+                    - attributes
+                  type: object
+                  additionalProperties: false
+              required:
+                - data
+              type: object
+              additionalProperties: false
+      responses:
+        '200':
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/rate-limit-limit'
+            RateLimit-Remaining:
+              $ref: '#/components/headers/rate-limit-remaining'
+            RateLimit-Reset:
+              $ref: '#/components/headers/rate-limit-reset'
+            Request-Id:
+              $ref: '#/components/headers/request-id'
+            Persona-Environment-Id:
+              $ref: '#/components/headers/persona-environment-id'
+            Persona-Organization-Id:
+              $ref: '#/components/headers/persona-organization-id'
+          content:
+            application/json:
+              examples:
+                Success:
+                  value:
+                    data:
+                      type: theme-set
+                      id: theset_ABC123
+                      attributes:
+                        name: Brand Default
+                        status: active
+                        styles:
+                          settings:
+                            use-dark-theme: false
+                            preferred-theme-variant: light
+                          light:
+                            inquiry:
+                              primary-color:
+                                unit: hex
+                                value: '#222222'
+                        created-at: '2026-01-01T00:00:00.000Z'
+                        updated-at: '2026-01-02T00:00:00.000Z'
+                        archived-at: null
+              schema:
+                properties:
+                  data:
+                    $ref: '#/components/schemas/theme-set'
+                type: object
+                additionalProperties: false
+                required:
+                  - data
+          description: This endpoint returns a Theme Set object.
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not-found'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '422':
+          $ref: '#/components/responses/unprocessable-entity'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
     delete:
       summary: Archive a Theme Set
       tags:
         - Theme Sets
       x-persona-product: Inquiries
-      description: 'Archive an existing theme set. Archived theme sets are still retrievable, but can no longer be assigned to inquiry templates.'
+      description: 'Archive an existing theme set. Archived theme sets are still retrievable, but can no longer be assigned to inquiry templates. Archiving also detaches the theme set from any inquiry templates it is assigned to — live flows fall back to default styling. The organization''s default theme set cannot be archived and returns a 409.'
       operationId: archive-a-theme-set
       externalDocs:
         description: Full documentation for this API on the Persona website.
@@ -42007,8 +42128,8 @@ components:
           - $ref: '#/components/schemas/report-history-resume'
     theme-set-variant:
       type: object
-      additionalProperties: true
-      description: 'One theme variant: `inquiry` holds flow chrome (navbar, modal, hosted flow), `components` holds the per-component style grid (component → variant → state → properties). Value leaves are typed objects such as `{ unit: hex, value: "#111111" }` (color), `{ unit: px, value: 16 }` (size), `{ x: ..., y: ... }` (dimensions) and `{ bitmask: 15 }` (corner mask). The accepted cells are exactly those of the Code-First theme-set YAML shape.'
+      additionalProperties: false
+      description: 'One theme variant: `inquiry` holds flow chrome (navbar, modal, hosted flow), `components` holds the per-component style grid (component → variant → state → properties). Value leaves are typed objects such as `{ unit: hex, value: "#111111" }` (color), `{ unit: px, value: 16 }` (size), `{ x: ..., y: ... }` (dimensions) and `{ bitmask: 15 }` (corner mask). The accepted cells are exactly those of the Code-First theme-set YAML shape; a request containing a non-permitted or mistyped cell at any depth is rejected with a 400 naming each offending path. Values that pass the structural check but cannot be reconciled into the stored theme (for example, shared button properties that disagree between the primary and secondary variants) are rejected with a 422.'
       properties:
         inquiry:
           type: object
@@ -42022,7 +42143,7 @@ components:
     theme-set-styles:
       type: object
       additionalProperties: false
-      description: Nested theme tree. Sparse — any omitted cell falls back to the Persona default cascade. `dark` mirrors the structure of `light` and is fully optional.
+      description: 'Nested theme tree. Sparse — any omitted cell falls back to the Persona default cascade. `dark` mirrors the structure of `light` and is fully optional. Requests carrying non-permitted or mistyped cells at any depth are rejected with a 400 naming each offending path; values that are structurally valid but cannot be reconciled into the stored theme (for example, shared button properties that disagree between the primary and secondary variants) are rejected with a 422.'
       properties:
         settings:
           type: object
