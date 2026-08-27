@@ -45394,6 +45394,37 @@
           }
         ]
       },
+      "source-data-report-watchlist": {
+        "title": "Watchlist Report Source Data",
+        "description": "PII-filtered snapshot of a Watchlist report. The `peekable-attributes` bag carries\nwhichever PII-filtered scalar attributes the source organization's configuration allows.\nReport subtypes do not expose a nested `fields` sub-bucket.\n",
+        "unevaluatedProperties": false,
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/source-data-base"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "connect/source-data/report/watchlist"
+              },
+              "id": {
+                "type": "string",
+                "examples": [
+                  "rep_ABC123"
+                ]
+              },
+              "peekable-attributes": {
+                "type": "object",
+                "additionalProperties": {
+                  "$ref": "#/components/schemas/source-data-peekable-attribute"
+                }
+              }
+            }
+          }
+        ]
+      },
       "source-data": {
         "type": "object",
         "description": "A PII-filtered snapshot of a Share Token's source object. `type` discriminates the underlying source-object type and dispatches to the matching per-subclass schema; see each subschema for shape details.",
@@ -45405,7 +45436,8 @@
             "connect/source-data/verification/phone-number": "#/components/schemas/source-data-verification-phone-number",
             "connect/source-data/verification/email-address": "#/components/schemas/source-data-verification-email-address",
             "connect/source-data/account": "#/components/schemas/source-data-account",
-            "connect/source-data/txn": "#/components/schemas/source-data-txn"
+            "connect/source-data/txn": "#/components/schemas/source-data-txn",
+            "connect/source-data/report/watchlist": "#/components/schemas/source-data-report-watchlist"
           }
         },
         "oneOf": [
@@ -45426,6 +45458,9 @@
           },
           {
             "$ref": "#/components/schemas/source-data-txn"
+          },
+          {
+            "$ref": "#/components/schemas/source-data-report-watchlist"
           }
         ]
       },
