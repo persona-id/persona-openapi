@@ -42628,6 +42628,102 @@
         }
       }
     },
+    "workflow-run.completed": {
+      "post": {
+        "operationId": "webhook-workflow-run-completed",
+        "summary": "Workflow run completed",
+        "description": "Webhook for the `workflow-run.completed` event. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).",
+        "tags": [
+          "Workflow run events"
+        ],
+        "x-persona-product": "Workflows",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "unevaluatedProperties": false,
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/webhook-body-shared-data"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "attributes": {
+                            "unevaluatedProperties": false,
+                            "allOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "const": "workflow-run.completed"
+                                  },
+                                  "payload": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "data": {
+                                        "$ref": "#/components/schemas/workflow-run"
+                                      },
+                                      "included": {
+                                        "description": "All objects that are present in `data.attributes.relationships` will be provided in `included`.",
+                                        "$ref": "#/components/schemas/workflow-run-included-objects"
+                                      }
+                                    }
+                                  },
+                                  "context": {
+                                    "type": "object",
+                                    "description": "Additional context for the event. Always `{}` for `workflow-run.completed`.",
+                                    "additionalProperties": true
+                                  }
+                                }
+                              },
+                              {
+                                "$ref": "#/components/schemas/webhook-body-shared-attributes"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Example Body": {
+                  "$ref": "#/components/examples/workflow-run-completed-webhook-body"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/success"
+          }
+        }
+      }
+    },
     "workflow-run.created": {
       "post": {
         "operationId": "webhook-workflow-run-created",
@@ -65284,6 +65380,7 @@
                 "verification.tentatively-failed",
                 "verification.tentatively-passed",
                 "verification.updated-tags",
+                "workflow-run.completed",
                 "workflow-run.created",
                 "workflow-run.errored",
                 "workflow-run.resumed",
@@ -86595,6 +86692,116 @@
                 ]
               },
               "created-at": "2024-02-16T15:12:47.732Z"
+            }
+          }
+        }
+      },
+      "workflow-run-completed-webhook-body": {
+        "value": {
+          "data": {
+            "type": "event",
+            "id": "evt_r2F8kPq7wX3cVbN5mJh9dT",
+            "attributes": {
+              "name": "workflow-run.completed",
+              "payload": {
+                "data": {
+                  "type": "workflow-run",
+                  "id": "wfr_85ZjhktrgWeQx6FEb9sGfvyPNFWz",
+                  "attributes": {
+                    "status": "completed",
+                    "created-at": "2025-11-15T13:32:31.172Z",
+                    "completed-at": "2025-11-15T13:34:42.901Z"
+                  },
+                  "relationships": {
+                    "creator": {
+                      "data": {
+                        "type": "event",
+                        "id": "evt_3VghhbvDc7UuUNT8uZrqZjsk"
+                      }
+                    },
+                    "workflow": {
+                      "data": {
+                        "type": "workflow",
+                        "id": "wfl_p6YpUH4NhqVf8n4ducnoPSVa"
+                      }
+                    },
+                    "workflow-version": {
+                      "data": {
+                        "type": "workflow-version",
+                        "id": "wfv_744igEoBXwB7UG2eFt994aUEcziK"
+                      }
+                    }
+                  },
+                  "meta": {
+                    "processing-time-seconds": 131
+                  }
+                },
+                "included": [
+                  {
+                    "type": "workflow",
+                    "id": "wfl_p6YpUH4NhqVf8n4ducnoPSVa",
+                    "attributes": {
+                      "name": "KYC Review Workflow",
+                      "status": "running",
+                      "created-at": "2023-11-01T12:00:00.000Z"
+                    },
+                    "relationships": {
+                      "latest-published-version": {
+                        "data": {
+                          "type": "workflow-version",
+                          "id": "wfv_744igEoBXwB7UG2eFt994aUEcziK"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "workflow-version",
+                    "id": "wfv_744igEoBXwB7UG2eFt994aUEcziK",
+                    "attributes": {
+                      "workflow-name": "KYC Review Workflow",
+                      "description": "Initial published version",
+                      "status": "published",
+                      "trigger-type": "trigger-event",
+                      "live": true,
+                      "rollout-label": "treatment",
+                      "rollout-percentage": 100,
+                      "last-updater": null,
+                      "inputs": [],
+                      "outputs": [],
+                      "created-at": "2023-11-01T12:05:00.000Z",
+                      "updated-at": "2023-11-01T12:05:00.000Z",
+                      "published-at": "2023-11-01T12:05:00.000Z"
+                    },
+                    "relationships": {
+                      "workflow": {
+                        "data": {
+                          "type": "workflow",
+                          "id": "wfl_p6YpUH4NhqVf8n4ducnoPSVa"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "event",
+                    "id": "evt_3VghhbvDc7UuUNT8uZrqZjsk",
+                    "attributes": {
+                      "name": "inquiry.completed",
+                      "payload": {
+                        "data": {
+                          "type": "inquiry",
+                          "id": "inq_3VghhbvDc7UuUNT8uZrqZjsk",
+                          "attributes": {},
+                          "relationships": {}
+                        }
+                      },
+                      "created-at": "2025-11-15T13:32:30.500Z",
+                      "context": {}
+                    }
+                  }
+                ]
+              },
+              "created-at": "2025-11-15T13:34:45.000Z",
+              "context": {}
             }
           }
         }
