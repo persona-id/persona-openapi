@@ -181,6 +181,10 @@
       "description": "Interact with Webhooks via API"
     },
     {
+      "name": "Webhook Events",
+      "description": "Search Webhook Events via API"
+    },
+    {
       "name": "Workflows",
       "description": "Interact with Persona Workflow objects"
     }
@@ -29048,6 +29052,408 @@
         "x-persona-product": "Verifications"
       }
     },
+    "/webhook-events/search": {
+      "post": {
+        "description": "Search for webhook events using a flexible query language.\n\nWebhook events are the individual delivery records for your webhooks — one per event, per\nwebhook. Use this endpoint to find events (for example, all `failed` deliveries for a given\nwebhook in a time window) before re-running them.\n\n## Data Freshness\n\nDo not use search for read-after-write flows because the data will not be immediately available\nto search. Under normal operating conditions, data is searchable within approximately 1 minute\nof creation or modification. Propagation could be delayed during an outage.\n\n## Retention\n\nWebhook events are retained for a limited window. Searches are automatically bounded to that\nwindow, so events older than the retention period are not returned even if requested.\n\n### Searchable Attributes\n\nThe following attributes can be used in query predicates:\n\n| Attribute | Description |\n|-----------|-------------|\n| `updated_at` | Timestamp the event was last updated (i.e. last delivery attempt). Supports `eq`, `gt`, `gte`, `lt`, `lte`. |\n| `status` | Delivery status: `pending`, `completed`, `failed`, or `skipped`. |\n| `webhook_id` | Webhook token (e.g. `wbh_ABC123`). |\n| `event_id` | Event token the webhook event was created from (e.g. `evt_ABC123`). |\n| `event_name` | Event name (e.g. `inquiry.completed`). |\n| `webhook_event_id` | Webhook event token (e.g. `wbhe_ABC123`). |\n| `related_object_ids` | A related object token contained in the event payload. |\n\nAll attributes other than `updated_at` support only the `eq` operator.\n",
+        "operationId": "search-webhook-events",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/api-reference/webhook-events/search-webhook-events"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/fields-query-parameter"
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "style": "deepObject",
+            "explode": true,
+            "schema": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "after": {
+                  "description": "Cursor for forward pagination. Use the value from `links.next` in the previous response. Cursors are opaque and must not be constructed by clients.",
+                  "type": "string",
+                  "examples": [
+                    "eyJ2IjoxfQ=="
+                  ]
+                },
+                "before": {
+                  "description": "Cursor for backward pagination. Use the value from `links.prev` in the previous response. Cursors are opaque and must not be constructed by clients. Cannot be combined with `after`.",
+                  "type": "string",
+                  "examples": [
+                    "eyJ2IjoxfQ=="
+                  ]
+                },
+                "size": {
+                  "description": "Number of results to return per page.",
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 100,
+                  "default": 10,
+                  "examples": [
+                    10
+                  ]
+                }
+              }
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "query": {
+                    "description": "Search query using boolean logic (AND/OR/NOT) and comparison operators.\nSupports predicates with operators: eq (equal), gt (greater than), gte (greater than or equal),\nlt (less than), lte (less than or equal). Only `updated_at` supports the range operators;\nall other attributes support only `eq`.\n",
+                    "unevaluatedProperties": false,
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "x-inheritable": true,
+                        "additionalProperties": false,
+                        "description": "Boolean AND clause - combines multiple conditions where ALL must be true.\n\nThis clause is recursive: each item in the `and` array can be another AND, OR, NOT clause, or a leaf predicate, enabling complex nested queries.\n\nMaximum nesting depth: 2 levels, Maximum clauses per AND: 20\n",
+                        "properties": {
+                          "and": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": true
+                            }
+                          }
+                        },
+                        "required": [
+                          "and"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "x-inheritable": true,
+                        "additionalProperties": false,
+                        "description": "Boolean OR clause - combines multiple conditions where AT LEAST ONE must be true.\n\nThis clause is recursive: each item in the `or` array can be another AND, OR, NOT clause, or a leaf predicate, enabling complex nested queries.\n\nMaximum nesting depth: 2 levels, Maximum clauses per OR: 20\n",
+                        "properties": {
+                          "or": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": true
+                            }
+                          }
+                        },
+                        "required": [
+                          "or"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "x-inheritable": true,
+                        "additionalProperties": false,
+                        "description": "Boolean NOT clause - negates a single condition.\n\nThis clause is recursive: the `not` value can be another AND, OR, NOT clause, or a leaf predicate, enabling complex nested queries.\n\nMaximum nesting depth: 2 levels\n",
+                        "properties": {
+                          "not": {
+                            "type": "object",
+                            "additionalProperties": true
+                          }
+                        },
+                        "required": [
+                          "not"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "x-inheritable": true,
+                        "additionalProperties": false,
+                        "description": "Attribute predicate",
+                        "properties": {
+                          "attribute": {
+                            "type": "string",
+                            "description": "The attribute name to filter on (e.g., 'updated_at', 'status', 'webhook_id', 'event_name')",
+                            "examples": [
+                              "updated_at",
+                              "status",
+                              "webhook_id",
+                              "event_name"
+                            ]
+                          },
+                          "operator": {
+                            "type": "string",
+                            "description": "Comparison operator. Possible values: eq (equal), gt (greater than), gte (greater than or equal), lt (less than), lte (less than or equal)."
+                          },
+                          "value": {
+                            "description": "Value to compare against",
+                            "x-inheritable": true,
+                            "unevaluatedProperties": false,
+                            "oneOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "number"
+                              },
+                              {
+                                "type": "boolean"
+                              }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "attribute",
+                          "operator",
+                          "value"
+                        ]
+                      }
+                    ],
+                    "examples": [
+                      {
+                        "attribute": "status",
+                        "operator": "eq",
+                        "value": "failed"
+                      },
+                      {
+                        "and": [
+                          {
+                            "attribute": "webhook_id",
+                            "operator": "eq",
+                            "value": "wbh_1a2b3c"
+                          },
+                          {
+                            "attribute": "updated_at",
+                            "operator": "gte",
+                            "value": "2026-04-23T00:00:00Z"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "sort": {
+                    "description": "Sort configuration for results",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "attribute": {
+                        "type": "string",
+                        "description": "The attribute name to sort by. Only `updated_at` is supported.",
+                        "examples": [
+                          "updated_at"
+                        ]
+                      },
+                      "direction": {
+                        "type": "string",
+                        "default": "desc",
+                        "description": "Sort direction. Possible values: asc (ascending), desc (descending)."
+                      }
+                    },
+                    "required": [
+                      "attribute",
+                      "direction"
+                    ]
+                  },
+                  "page": {
+                    "description": "Pagination parameters",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "after": {
+                        "description": "Cursor for forward pagination. Opaque; use the value from `links.next`.",
+                        "type": "string",
+                        "examples": [
+                          "eyJ2IjoxfQ=="
+                        ]
+                      },
+                      "before": {
+                        "description": "Cursor for backward pagination. Opaque; use the value from `links.prev`. Cannot be combined with `after`.",
+                        "type": "string",
+                        "examples": [
+                          "eyJ2IjoxfQ=="
+                        ]
+                      },
+                      "size": {
+                        "description": "Number of results to return per page",
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 100,
+                        "default": 10,
+                        "examples": [
+                          10
+                        ]
+                      }
+                    }
+                  }
+                },
+                "additionalProperties": false,
+                "type": "object"
+              },
+              "examples": {
+                "Simple query": {
+                  "value": {
+                    "query": {
+                      "attribute": "status",
+                      "operator": "eq",
+                      "value": "failed"
+                    },
+                    "sort": {
+                      "attribute": "updated_at",
+                      "direction": "desc"
+                    },
+                    "page": {
+                      "size": 15
+                    }
+                  }
+                },
+                "Complex boolean query": {
+                  "value": {
+                    "query": {
+                      "and": [
+                        {
+                          "attribute": "webhook_id",
+                          "operator": "eq",
+                          "value": "wbh_1a2b3c"
+                        },
+                        {
+                          "attribute": "status",
+                          "operator": "eq",
+                          "value": "failed"
+                        },
+                        {
+                          "attribute": "updated_at",
+                          "operator": "gte",
+                          "value": "2026-04-23T00:00:00Z"
+                        }
+                      ]
+                    },
+                    "page": {
+                      "size": 15
+                    }
+                  }
+                },
+                "Empty query (all webhook events)": {
+                  "value": {
+                    "page": {
+                      "size": 15
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "headers": {
+              "RateLimit-Limit": {
+                "$ref": "#/components/headers/rate-limit-limit"
+              },
+              "RateLimit-Remaining": {
+                "$ref": "#/components/headers/rate-limit-remaining"
+              },
+              "RateLimit-Reset": {
+                "$ref": "#/components/headers/rate-limit-reset"
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/request-id"
+              },
+              "Persona-Environment-Id": {
+                "$ref": "#/components/headers/persona-environment-id"
+              },
+              "Persona-Organization-Id": {
+                "$ref": "#/components/headers/persona-organization-id"
+              }
+            },
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Success": {
+                    "$ref": "#/components/examples/webhook-event-list-search"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/webhook-event"
+                      },
+                      "type": "array",
+                      "description": "An array of Webhook Events matching the search criteria"
+                    },
+                    "links": {
+                      "properties": {
+                        "prev": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "examples": [
+                            "/api/v1/webhook-events/search?page%5Bbefore%5D=eyJ2IjoxfQ%3D%3D&page%5Bsize%5D=10"
+                          ],
+                          "description": "URL pointing to the previous page of data, or null if on the first page. Must be used with a POST request and the original request body."
+                        },
+                        "next": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "examples": [
+                            "/api/v1/webhook-events/search?page%5Bafter%5D=eyJ2IjoxfQ%3D%3D&page%5Bsize%5D=10"
+                          ],
+                          "description": "URL pointing to the next page of data, or null if on the last page. Must be used with a POST request and the original request body."
+                        }
+                      },
+                      "additionalProperties": false,
+                      "type": "object",
+                      "required": [
+                        "prev",
+                        "next"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false,
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "links"
+                  ]
+                }
+              }
+            },
+            "description": "This endpoint returns a collection of Webhook Event objects matching the search criteria."
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessable-entity"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        },
+        "summary": "Search Webhook Events",
+        "tags": [
+          "Webhook Events"
+        ],
+        "x-persona-product": "Webhooks"
+      }
+    },
     "/webhooks": {
       "get": {
         "description": "Returns a list of your environment's webhooks. Results are returned in reverse chronological order, with the most recently created objects first.",
@@ -53542,6 +53948,47 @@
                       "null"
                     ]
                   },
+                  "vehicle-classes": {
+                    "description": "Issue and expiration dates for each vehicle class extracted from a driving license (e.g. European licenses). Keys are the class identifiers exactly as they appear on the license, including national classes.",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "additionalProperties": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "issue-date": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "expiration-date": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      }
+                    },
+                    "examples": [
+                      {
+                        "AM": {
+                          "issue-date": "2020-09-27T00:00:00",
+                          "expiration-date": null
+                        },
+                        "B": {
+                          "issue-date": "2020-09-27T00:00:00",
+                          "expiration-date": null
+                        },
+                        "L": {
+                          "issue-date": "2020-09-27T00:00:00",
+                          "expiration-date": null
+                        }
+                      }
+                    ]
+                  },
                   "identification-number": {
                     "examples": [
                       "123456"
@@ -55720,13 +56167,14 @@
                 "examples": [
                   "inquiry.expired",
                   "workflow-run.created",
-                  "account.tag-added"
+                  "account.tag-added",
+                  "custom.object.processed"
                 ]
               },
               "payload": {
-                "description": "The entire serialized entity that triggered the event",
+                "description": "For a Persona-defined event, the entire serialized entity that triggered it. For a custom event, the arbitrary body you supplied when creating it, returned exactly as sent -- its keys are never re-cased.",
                 "type": "object",
-                "additionalProperties": false,
+                "additionalProperties": true,
                 "properties": {
                   "data": {
                     "type": "object",
@@ -64864,6 +65312,102 @@
           ]
         }
       },
+      "webhook-event": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "A Webhook Event object — a single delivery record for one event to one webhook.",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "webhook-event"
+          },
+          "id": {
+            "type": "string",
+            "examples": [
+              "wbhe_9f2a3cD4e5F6g7H8i9J0kLmN"
+            ]
+          },
+          "attributes": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "status": {
+                "type": "string",
+                "description": "Delivery status of the webhook event. Possible values: pending, completed, failed, skipped.",
+                "examples": [
+                  "failed"
+                ]
+              },
+              "event-name": {
+                "type": "string",
+                "description": "The name of the event that triggered this webhook delivery.",
+                "examples": [
+                  "inquiry.completed"
+                ]
+              },
+              "webhook-id": {
+                "type": "string",
+                "description": "The token of the Webhook this event was delivered to.",
+                "examples": [
+                  "wbh_1a2b3c"
+                ]
+              },
+              "event-id": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "The token of the Event this webhook event was created from, or null if unavailable.",
+                "examples": [
+                  "evt_44c1d2"
+                ]
+              },
+              "result-code": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "description": "HTTP status code returned by the destination endpoint on the most recent delivery attempt, or null if no attempt has been made yet.",
+                "examples": [
+                  503
+                ]
+              },
+              "attempts-made": {
+                "type": "integer",
+                "description": "Number of delivery attempts made so far.",
+                "examples": [
+                  8
+                ]
+              },
+              "last-attempted-at": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time",
+                "description": "Timestamp of the most recent delivery attempt, or null if no attempt has been made yet.",
+                "examples": [
+                  "2026-04-24T09:15:44.000Z"
+                ]
+              },
+              "created-at": {
+                "type": "string",
+                "format": "date-time",
+                "examples": [
+                  "2026-04-23T14:02:11.000Z"
+                ]
+              },
+              "updated-at": {
+                "type": "string",
+                "format": "date-time",
+                "examples": [
+                  "2026-04-24T09:15:44.000Z"
+                ]
+              }
+            }
+          }
+        }
+      },
       "included-allowlist": {
         "description": "Controls which related objects appear in the `included` array of webhook payloads. The default is `include_none`. When `state` is `custom`, `event-types` configures which related objects to include per event type: event types you are subscribed to (via `enabled-events`) but do not list are excluded, and event types you list but are not subscribed to are dropped on save. A `custom` config whose event types are all `[\"*\"]` is equivalent to, and is normalized to, `include_all`.",
         "unevaluatedProperties": false,
@@ -65130,261 +65674,275 @@
             "type": "string"
           },
           "enabled-events": {
-            "description": "Supported events that you want to receive webhooks for. Set `*` to enable all events. Descriptions of all events can be found [here](https://docs.withpersona.com/events). Retrieve Events for your organization using the [Events API](https://docs.withpersona.com/api-reference/events/list-all-events).",
+            "description": "Supported events that you want to receive webhooks for. Set `*` to enable all events. Descriptions of all events can be found [here](https://docs.withpersona.com/events). Retrieve Events for your organization using the [Events API](https://docs.withpersona.com/api-reference/events/list-all-events). Custom events you emit yourself may also be subscribed to by name.",
             "items": {
-              "type": "string",
-              "enum": [
-                "*",
-                "account-property.redacted",
-                "account-type.deleted-field",
-                "account.added-relation",
-                "account.archived",
-                "account.consolidated",
-                "account.consolidated-with",
-                "account.created",
-                "account.redacted",
-                "account.removed-relation",
-                "account.restored",
-                "account.status-updated",
-                "account.tag-added",
-                "account.tag-removed",
-                "account.updated-fields",
-                "account.updated-tags",
-                "agent-conversation.created",
-                "agent-conversation.errored",
-                "agent-conversation.message-added",
-                "authentication.completed",
-                "authentication.created",
-                "authentication.expired",
-                "authentication.failed",
-                "authentication.redacted",
-                "case-comment.created",
-                "case-message.received",
-                "case-message.sent",
-                "case-template.deleted-field",
-                "case.assigned",
-                "case.created",
-                "case.exported",
-                "case.print-initiated",
-                "case.queue-updated",
-                "case.redacted",
-                "case.reopened",
-                "case.resolved",
-                "case.sla-expired",
-                "case.status-updated",
-                "case.updated",
-                "case.updated-fields",
-                "case.updated-tags",
-                "checkpoint.completed",
-                "checkpoint.created",
-                "checkpoint.expired",
-                "checkpoint.failed",
-                "checkpoint.reusable-persona-used",
-                "checkpoint.started",
-                "connect/share-token.inbound-created",
-                "connect/share-token.inbound-redeemed",
-                "connect/share-token.outbound-created",
-                "connect/share-token.outbound-redeemed",
-                "document.created",
-                "document.errored",
-                "document.extracted",
-                "document.pending",
-                "document.processed",
-                "document.submitted",
-                "filing.created",
-                "filing.filed",
-                "graph-query.cancelled",
-                "graph-query.completed",
-                "graph-query.errored",
-                "graph-query.reran",
-                "graph-query.submitted",
-                "graph-query.timed-out",
-                "importer-pipeline-run.canceled",
-                "importer-pipeline-run.completed",
-                "importer-pipeline-run.errored",
-                "importer-pipeline-run.paused",
-                "importer-pipeline-run.resumed",
-                "importer-pipeline-run.started",
-                "inquiry-session.canceled",
-                "inquiry-session.expired",
-                "inquiry-session.started",
-                "inquiry-template-version.created",
-                "inquiry-template-version.published",
-                "inquiry.approved",
-                "inquiry.completed",
-                "inquiry.created",
-                "inquiry.declined",
-                "inquiry.expired",
-                "inquiry.failed",
-                "inquiry.marked-for-review",
-                "inquiry.redacted",
-                "inquiry.reusable-persona-assurance-failed",
-                "inquiry.reusable-persona-created",
-                "inquiry.reusable-persona-updated",
-                "inquiry.reusable-persona-used",
-                "inquiry.started",
-                "inquiry.transitioned",
-                "inquiry.updated-tags",
-                "integration-log.created",
-                "report/address-lookup.errored",
-                "report/address-lookup.ready",
-                "report/address-lookup.submitted",
-                "report/adverse-media.dismissed",
-                "report/adverse-media.errored",
-                "report/adverse-media.matched",
-                "report/adverse-media.ready",
-                "report/background-check.ready",
-                "report/better-business-bureau.errored",
-                "report/better-business-bureau.ready",
-                "report/business-adverse-media.dismissed",
-                "report/business-adverse-media.errored",
-                "report/business-adverse-media.matched",
-                "report/business-adverse-media.ready",
-                "report/business-associated-persons.errored",
-                "report/business-associated-persons.ready",
-                "report/business-classification.errored",
-                "report/business-classification.ready",
-                "report/business-classification.submitted",
-                "report/business-enforcement-action.errored",
-                "report/business-enforcement-action.ready",
-                "report/business-enforcement-action.submitted",
-                "report/business-industry-classification.errored",
-                "report/business-industry-classification.ready",
-                "report/business-industry-classification.submitted",
-                "report/business-liens-lookup.errored",
-                "report/business-liens-lookup.ready",
-                "report/business-lookup-eu.errored",
-                "report/business-lookup-eu.ready",
-                "report/business-lookup.errored",
-                "report/business-lookup.ready",
-                "report/business-media-coverage.errored",
-                "report/business-media-coverage.matched",
-                "report/business-media-coverage.ready",
-                "report/business-media-coverage.submitted",
-                "report/business-nonprofit.changed",
-                "report/business-nonprofit.errored",
-                "report/business-nonprofit.ready",
-                "report/business-online-presence.errored",
-                "report/business-online-presence.ready",
-                "report/business-online-presence.submitted",
-                "report/business-personnel-insights.errored",
-                "report/business-personnel-insights.ready",
-                "report/business-personnel-insights.submitted",
-                "report/business-registrations-lookup.errored",
-                "report/business-registrations-lookup.ready",
-                "report/business-social-media.errored",
-                "report/business-social-media.ready",
-                "report/business-watchlist.dismissed",
-                "report/business-watchlist.errored",
-                "report/business-watchlist.matched",
-                "report/business-watchlist.ready",
-                "report/business-website.errored",
-                "report/business-website.ready",
-                "report/chainalysis-address-screening.errored",
-                "report/chainalysis-address-screening.ready",
-                "report/clearbit-business-lookup.errored",
-                "report/clearbit-business-lookup.ready",
-                "report/coinbase-check-crypto-risk.errored",
-                "report/coinbase-check-crypto-risk.ready",
-                "report/community-safety.errored",
-                "report/community-safety.matched",
-                "report/community-safety.ready",
-                "report/comply-advantage-search.ready",
-                "report/comprehensive-profile.ready",
-                "report/crypto-address-watchlist.errored",
-                "report/crypto-address-watchlist.matched",
-                "report/crypto-address-watchlist.ready",
-                "report/crypto_address.matched",
-                "report/crypto_address.ready",
-                "report/custom-list.dismissed",
-                "report/custom-list.errored",
-                "report/custom-list.matched",
-                "report/custom-list.ready",
-                "report/email-address.errored",
-                "report/email-address.ready",
-                "report/employer-lookup.ready",
-                "report/equifax-oneview.errored",
-                "report/equifax-oneview.ready",
-                "report/finra-broker-check.errored",
-                "report/finra-broker-check.ready",
-                "report/kyckr-business-lookup.errored",
-                "report/kyckr-business-lookup.ready",
-                "report/middesk.errored",
-                "report/middesk.ready",
-                "report/middesk.submitted",
-                "report/mx-account.errored",
-                "report/mx-account.ready",
-                "report/nces.errored",
-                "report/nces.ready",
-                "report/novacredit-cash-atlas.errored",
-                "report/novacredit-cash-atlas.ready",
-                "report/novacredit-cash-atlas.submitted",
-                "report/novacredit-credit-passport.errored",
-                "report/novacredit-credit-passport.ready",
-                "report/novacredit-credit-passport.submitted",
-                "report/phone-number.errored",
-                "report/phone-number.ready",
-                "report/politically-exposed-person.dismissed",
-                "report/politically-exposed-person.errored",
-                "report/politically-exposed-person.matched",
-                "report/politically-exposed-person.ready",
-                "report/profile-non-authoritative.errored",
-                "report/profile-non-authoritative.ready",
-                "report/profile.errored",
-                "report/profile.ready",
-                "report/screening.errored",
-                "report/screening.matched",
-                "report/screening.ready",
-                "report/sec-action-lookup.errored",
-                "report/sec-action-lookup.ready",
-                "report/sentilink-application-risk.errored",
-                "report/sentilink-application-risk.ready",
-                "report/sentilink-scores.errored",
-                "report/sentilink-scores.ready",
-                "report/social-media.errored",
-                "report/social-media.ready",
-                "report/synthetic.errored",
-                "report/synthetic.ready",
-                "report/trm-wallet-screening.errored",
-                "report/trm-wallet-screening.ready",
-                "report/watchlist.dismissed",
-                "report/watchlist.errored",
-                "report/watchlist.matched",
-                "report/watchlist.ready",
-                "sar.created",
-                "sar.filed",
-                "selfie.created",
-                "selfie.errored",
-                "selfie.processed",
-                "selfie.submitted",
-                "session.created",
-                "session.expired",
-                "transaction-type.deleted-field",
-                "transaction.added-relation",
-                "transaction.created",
-                "transaction.labeled",
-                "transaction.redacted",
-                "transaction.removed-relation",
-                "transaction.sentinel-session-processed",
-                "transaction.status-updated",
-                "transaction.updated-fields",
-                "user.availability-updated",
-                "verification.canceled",
-                "verification.created",
-                "verification.escalated",
-                "verification.failed",
-                "verification.passed",
-                "verification.requires-retry",
-                "verification.skipped",
-                "verification.submitted",
-                "verification.tentatively-failed",
-                "verification.tentatively-passed",
-                "verification.updated-tags",
-                "workflow-run.completed",
-                "workflow-run.created",
-                "workflow-run.errored",
-                "workflow-run.resumed",
-                "workflow.published"
+              "unevaluatedProperties": false,
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "*",
+                    "account-property.redacted",
+                    "account-type.deleted-field",
+                    "account.added-relation",
+                    "account.archived",
+                    "account.consolidated",
+                    "account.consolidated-with",
+                    "account.created",
+                    "account.redacted",
+                    "account.removed-relation",
+                    "account.restored",
+                    "account.status-updated",
+                    "account.tag-added",
+                    "account.tag-removed",
+                    "account.updated-fields",
+                    "account.updated-tags",
+                    "agent-conversation.created",
+                    "agent-conversation.errored",
+                    "agent-conversation.message-added",
+                    "authentication.completed",
+                    "authentication.created",
+                    "authentication.expired",
+                    "authentication.failed",
+                    "authentication.redacted",
+                    "case-comment.created",
+                    "case-message.received",
+                    "case-message.sent",
+                    "case-template.deleted-field",
+                    "case.assigned",
+                    "case.created",
+                    "case.exported",
+                    "case.print-initiated",
+                    "case.queue-updated",
+                    "case.redacted",
+                    "case.reopened",
+                    "case.resolved",
+                    "case.sla-expired",
+                    "case.status-updated",
+                    "case.updated",
+                    "case.updated-fields",
+                    "case.updated-tags",
+                    "checkpoint.completed",
+                    "checkpoint.created",
+                    "checkpoint.expired",
+                    "checkpoint.failed",
+                    "checkpoint.reusable-persona-used",
+                    "checkpoint.started",
+                    "connect/share-token.inbound-created",
+                    "connect/share-token.inbound-redeemed",
+                    "connect/share-token.outbound-created",
+                    "connect/share-token.outbound-redeemed",
+                    "document.created",
+                    "document.errored",
+                    "document.extracted",
+                    "document.pending",
+                    "document.processed",
+                    "document.submitted",
+                    "filing.created",
+                    "filing.filed",
+                    "graph-query.cancelled",
+                    "graph-query.completed",
+                    "graph-query.errored",
+                    "graph-query.reran",
+                    "graph-query.submitted",
+                    "graph-query.timed-out",
+                    "importer-pipeline-run.canceled",
+                    "importer-pipeline-run.completed",
+                    "importer-pipeline-run.errored",
+                    "importer-pipeline-run.paused",
+                    "importer-pipeline-run.resumed",
+                    "importer-pipeline-run.started",
+                    "inquiry-session.canceled",
+                    "inquiry-session.expired",
+                    "inquiry-session.started",
+                    "inquiry-template-version.created",
+                    "inquiry-template-version.published",
+                    "inquiry.approved",
+                    "inquiry.completed",
+                    "inquiry.created",
+                    "inquiry.declined",
+                    "inquiry.expired",
+                    "inquiry.failed",
+                    "inquiry.marked-for-review",
+                    "inquiry.redacted",
+                    "inquiry.reusable-persona-assurance-failed",
+                    "inquiry.reusable-persona-created",
+                    "inquiry.reusable-persona-updated",
+                    "inquiry.reusable-persona-used",
+                    "inquiry.started",
+                    "inquiry.transitioned",
+                    "inquiry.updated-tags",
+                    "integration-log.created",
+                    "report/address-lookup.errored",
+                    "report/address-lookup.ready",
+                    "report/address-lookup.submitted",
+                    "report/adverse-media.dismissed",
+                    "report/adverse-media.errored",
+                    "report/adverse-media.matched",
+                    "report/adverse-media.ready",
+                    "report/background-check.ready",
+                    "report/better-business-bureau.errored",
+                    "report/better-business-bureau.ready",
+                    "report/business-adverse-media.dismissed",
+                    "report/business-adverse-media.errored",
+                    "report/business-adverse-media.matched",
+                    "report/business-adverse-media.ready",
+                    "report/business-associated-persons.errored",
+                    "report/business-associated-persons.ready",
+                    "report/business-classification.errored",
+                    "report/business-classification.ready",
+                    "report/business-classification.submitted",
+                    "report/business-enforcement-action.errored",
+                    "report/business-enforcement-action.ready",
+                    "report/business-enforcement-action.submitted",
+                    "report/business-industry-classification.errored",
+                    "report/business-industry-classification.ready",
+                    "report/business-industry-classification.submitted",
+                    "report/business-liens-lookup.errored",
+                    "report/business-liens-lookup.ready",
+                    "report/business-lookup-eu.errored",
+                    "report/business-lookup-eu.ready",
+                    "report/business-lookup.errored",
+                    "report/business-lookup.ready",
+                    "report/business-media-coverage.errored",
+                    "report/business-media-coverage.matched",
+                    "report/business-media-coverage.ready",
+                    "report/business-media-coverage.submitted",
+                    "report/business-nonprofit.changed",
+                    "report/business-nonprofit.errored",
+                    "report/business-nonprofit.ready",
+                    "report/business-online-presence.errored",
+                    "report/business-online-presence.ready",
+                    "report/business-online-presence.submitted",
+                    "report/business-personnel-insights.errored",
+                    "report/business-personnel-insights.ready",
+                    "report/business-personnel-insights.submitted",
+                    "report/business-registrations-lookup.errored",
+                    "report/business-registrations-lookup.ready",
+                    "report/business-social-media.errored",
+                    "report/business-social-media.ready",
+                    "report/business-watchlist.dismissed",
+                    "report/business-watchlist.errored",
+                    "report/business-watchlist.matched",
+                    "report/business-watchlist.ready",
+                    "report/business-website.errored",
+                    "report/business-website.ready",
+                    "report/chainalysis-address-screening.errored",
+                    "report/chainalysis-address-screening.ready",
+                    "report/clearbit-business-lookup.errored",
+                    "report/clearbit-business-lookup.ready",
+                    "report/coinbase-check-crypto-risk.errored",
+                    "report/coinbase-check-crypto-risk.ready",
+                    "report/community-safety.errored",
+                    "report/community-safety.matched",
+                    "report/community-safety.ready",
+                    "report/comply-advantage-search.ready",
+                    "report/comprehensive-profile.ready",
+                    "report/crypto-address-watchlist.errored",
+                    "report/crypto-address-watchlist.matched",
+                    "report/crypto-address-watchlist.ready",
+                    "report/crypto_address.matched",
+                    "report/crypto_address.ready",
+                    "report/custom-list.dismissed",
+                    "report/custom-list.errored",
+                    "report/custom-list.matched",
+                    "report/custom-list.ready",
+                    "report/email-address.errored",
+                    "report/email-address.ready",
+                    "report/employer-lookup.ready",
+                    "report/equifax-oneview.errored",
+                    "report/equifax-oneview.ready",
+                    "report/finra-broker-check.errored",
+                    "report/finra-broker-check.ready",
+                    "report/kyckr-business-lookup.errored",
+                    "report/kyckr-business-lookup.ready",
+                    "report/middesk.errored",
+                    "report/middesk.ready",
+                    "report/middesk.submitted",
+                    "report/mx-account.errored",
+                    "report/mx-account.ready",
+                    "report/nces.errored",
+                    "report/nces.ready",
+                    "report/novacredit-cash-atlas.errored",
+                    "report/novacredit-cash-atlas.ready",
+                    "report/novacredit-cash-atlas.submitted",
+                    "report/novacredit-credit-passport.errored",
+                    "report/novacredit-credit-passport.ready",
+                    "report/novacredit-credit-passport.submitted",
+                    "report/phone-number.errored",
+                    "report/phone-number.ready",
+                    "report/politically-exposed-person.dismissed",
+                    "report/politically-exposed-person.errored",
+                    "report/politically-exposed-person.matched",
+                    "report/politically-exposed-person.ready",
+                    "report/profile-non-authoritative.errored",
+                    "report/profile-non-authoritative.ready",
+                    "report/profile.errored",
+                    "report/profile.ready",
+                    "report/screening.errored",
+                    "report/screening.matched",
+                    "report/screening.ready",
+                    "report/sec-action-lookup.errored",
+                    "report/sec-action-lookup.ready",
+                    "report/sentilink-application-risk.errored",
+                    "report/sentilink-application-risk.ready",
+                    "report/sentilink-scores.errored",
+                    "report/sentilink-scores.ready",
+                    "report/social-media.errored",
+                    "report/social-media.ready",
+                    "report/synthetic.errored",
+                    "report/synthetic.ready",
+                    "report/trm-wallet-screening.errored",
+                    "report/trm-wallet-screening.ready",
+                    "report/watchlist.dismissed",
+                    "report/watchlist.errored",
+                    "report/watchlist.matched",
+                    "report/watchlist.ready",
+                    "sar.created",
+                    "sar.filed",
+                    "selfie.created",
+                    "selfie.errored",
+                    "selfie.processed",
+                    "selfie.submitted",
+                    "session.created",
+                    "session.expired",
+                    "transaction-type.deleted-field",
+                    "transaction.added-relation",
+                    "transaction.created",
+                    "transaction.labeled",
+                    "transaction.redacted",
+                    "transaction.removed-relation",
+                    "transaction.sentinel-session-processed",
+                    "transaction.status-updated",
+                    "transaction.updated-fields",
+                    "user.availability-updated",
+                    "verification.canceled",
+                    "verification.created",
+                    "verification.escalated",
+                    "verification.failed",
+                    "verification.passed",
+                    "verification.requires-retry",
+                    "verification.skipped",
+                    "verification.submitted",
+                    "verification.tentatively-failed",
+                    "verification.tentatively-passed",
+                    "verification.updated-tags",
+                    "workflow-run.completed",
+                    "workflow-run.created",
+                    "workflow-run.errored",
+                    "workflow-run.resumed",
+                    "workflow.published"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "description": "A custom event you emit yourself via the Events API. Names are reserved to the `custom` family so they can never collide with a Persona-defined event.",
+                  "pattern": "^custom(\\.[a-z0-9]+(-[a-z0-9]+)*){1,4}$",
+                  "maxLength": 128,
+                  "examples": [
+                    "custom.object.processed"
+                  ]
+                }
               ]
             },
             "type": "array"
@@ -71467,6 +72025,20 @@
               "sex": null,
               "restrictions": null,
               "vehicle-class": null,
+              "vehicle-classes": {
+                "AM": {
+                  "issue-date": "2020-09-27T00:00:00",
+                  "expiration-date": null
+                },
+                "B": {
+                  "issue-date": "2020-09-27T00:00:00",
+                  "expiration-date": "2035-09-27T00:00:00"
+                },
+                "L": {
+                  "issue-date": "2020-09-27T00:00:00",
+                  "expiration-date": null
+                }
+              },
               "identification-number": "Y123ABC",
               "from-reusable-persona": false
             },
@@ -71753,6 +72325,31 @@
                 }
               }
             }
+          }
+        }
+      },
+      "webhook-event-list-search": {
+        "value": {
+          "data": [
+            {
+              "type": "webhook-event",
+              "id": "wbhe_9f2a3cD4e5F6g7H8i9J0kLmN",
+              "attributes": {
+                "status": "failed",
+                "event-name": "inquiry.completed",
+                "webhook-id": "wbh_1a2b3c",
+                "event-id": "evt_44c1d2",
+                "result-code": 503,
+                "attempts-made": 8,
+                "last-attempted-at": "2026-04-24T09:15:44.000Z",
+                "created-at": "2026-04-23T14:02:11.000Z",
+                "updated-at": "2026-04-24T09:15:44.000Z"
+              }
+            }
+          ],
+          "links": {
+            "prev": null,
+            "next": "/api/v1/webhook-events/search?page%5Bafter%5D=eyJ2IjoxfQ%3D%3D&page%5Bsize%5D=10"
           }
         }
       },

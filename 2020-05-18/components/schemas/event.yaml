@@ -19,10 +19,14 @@ properties:
           - inquiry.expired
           - workflow-run.created
           - account.tag-added
+          - custom.object.processed
       payload:
-        description: The entire serialized entity that triggered the event
+        description: >-
+          For a Persona-defined event, the entire serialized entity that
+          triggered it. For a custom event, the arbitrary body you supplied when
+          creating it, returned exactly as sent -- its keys are never re-cased.
         type: object
-        additionalProperties: false
+        additionalProperties: true
         properties:
           data:
             type: object
