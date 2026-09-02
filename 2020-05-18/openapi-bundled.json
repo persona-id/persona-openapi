@@ -12784,6 +12784,154 @@
         "x-persona-product": "Inquiries"
       }
     },
+    "/inquiries/{inquiry-id}/set-step": {
+      "post": {
+        "description": "Sets the step an Inquiry's flow is currently on.",
+        "operationId": "inquiries-set-step",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/api-reference/inquiries/set-step"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/include-query-parameter"
+          },
+          {
+            "$ref": "#/components/parameters/fields-query-parameter"
+          },
+          {
+            "name": "inquiry-id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "meta": {
+                    "properties": {
+                      "next-step-name": {
+                        "description": "Name of the step to move the Inquiry to. Must be a step on the Inquiry's template version.",
+                        "type": "string",
+                        "examples": [
+                          "government_id",
+                          "selfie"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "next-step-name"
+                    ],
+                    "additionalProperties": false,
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "meta"
+                ],
+                "additionalProperties": false,
+                "type": "object"
+              },
+              "examples": {
+                "Success": {
+                  "$ref": "#/components/examples/set-step"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "headers": {
+              "RateLimit-Limit": {
+                "$ref": "#/components/headers/rate-limit-limit"
+              },
+              "RateLimit-Remaining": {
+                "$ref": "#/components/headers/rate-limit-remaining"
+              },
+              "RateLimit-Reset": {
+                "$ref": "#/components/headers/rate-limit-reset"
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/request-id"
+              },
+              "Persona-Environment-Id": {
+                "$ref": "#/components/headers/persona-environment-id"
+              },
+              "Persona-Organization-Id": {
+                "$ref": "#/components/headers/persona-organization-id"
+              }
+            },
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Success": {
+                    "$ref": "#/components/examples/inquiry"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/inquiry"
+                    },
+                    "included": {
+                      "description": "Objects that _may_ be returned if specified via the `include` query parameter in the request.",
+                      "$ref": "#/components/schemas/inquiry-included-objects"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "type": "object",
+                  "additionalProperties": false
+                }
+              }
+            },
+            "description": "This endpoint returns an Inquiry object and (optionally) its related objects in `included`."
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "409": {
+            "$ref": "#/components/responses/conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessable-entity"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        },
+        "summary": "Set the step of an Inquiry",
+        "tags": [
+          "Inquiries"
+        ],
+        "x-persona-product": "Inquiries"
+      }
+    },
     "/inquiries/{inquiry-id}/set-tags": {
       "post": {
         "description": "Sets all tags on an Inquiry. Any tags that are not provided in the request will be removed.",
@@ -28714,6 +28862,10 @@
                           "selfie-photo-url": null,
                           "id-class": null,
                           "capture-method": null,
+                          "capture-methods": {
+                            "front": null,
+                            "back": null
+                          },
                           "name-first": null,
                           "name-middle": null,
                           "name-last": null,
@@ -54350,6 +54502,34 @@
                       "null"
                     ]
                   },
+                  "capture-methods": {
+                    "description": "Capture method for each side of the ID, keyed by side.",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                      "front": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "back": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "examples": [
+                      {
+                        "front": "api",
+                        "back": null
+                      }
+                    ]
+                  },
                   "name-first": {
                     "examples": [
                       "ALEXANDER"
@@ -70322,6 +70502,13 @@
           }
         }
       },
+      "set-step": {
+        "value": {
+          "meta": {
+            "next-step-name": "government_id"
+          }
+        }
+      },
       "inquiry-list-search": {
         "value": {
           "data": [
@@ -71607,6 +71794,10 @@
                 "video-url": null,
                 "id-class": null,
                 "capture-method": "api",
+                "capture-methods": {
+                  "front": "api",
+                  "back": "api"
+                },
                 "expiration-date": null,
                 "endorsements": null,
                 "restrictions": null,
@@ -72854,6 +73045,10 @@
               "video-url": null,
               "id-class": "dl",
               "capture-method": "upload",
+              "capture-methods": {
+                "front": "upload",
+                "back": null
+              },
               "name-first": "JANE",
               "name-middle": null,
               "name-last": "DOE",
@@ -87322,6 +87517,10 @@
                     "video-url": null,
                     "id-class": null,
                     "capture-method": null,
+                    "capture-methods": {
+                      "front": null,
+                      "back": null
+                    },
                     "name-first": null,
                     "name-middle": null,
                     "name-last": null,
@@ -87457,6 +87656,10 @@
                     "video-url": null,
                     "id-class": "dl",
                     "capture-method": "api",
+                    "capture-methods": {
+                      "front": "api",
+                      "back": "api"
+                    },
                     "name-first": "Jane",
                     "name-middle": "Marie",
                     "name-last": "Doe",
@@ -87602,6 +87805,10 @@
                     "video-url": null,
                     "id-class": "dl",
                     "capture-method": "api",
+                    "capture-methods": {
+                      "front": "api",
+                      "back": "api"
+                    },
                     "name-first": "Jane",
                     "name-middle": "Marie",
                     "name-last": "Doe",
@@ -88042,6 +88249,10 @@
                     "video-url": null,
                     "id-class": "dl",
                     "capture-method": "api",
+                    "capture-methods": {
+                      "front": "api",
+                      "back": null
+                    },
                     "name-first": "Jane",
                     "name-middle": "Marie",
                     "name-last": "Doe",
