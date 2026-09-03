@@ -12737,154 +12737,6 @@
         "x-persona-product": "Inquiries"
       }
     },
-    "/inquiries/{inquiry-id}/set-step": {
-      "post": {
-        "description": "Sets the step an Inquiry's flow is currently on.",
-        "operationId": "inquiries-set-step",
-        "externalDocs": {
-          "description": "Full documentation for this API on the Persona website.",
-          "url": "https://docs.withpersona.com/api-reference/inquiries/set-step"
-        },
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/key-inflection-header"
-          },
-          {
-            "$ref": "#/components/parameters/idempotency-key-header"
-          },
-          {
-            "$ref": "#/components/parameters/persona-version-header"
-          },
-          {
-            "$ref": "#/components/parameters/include-query-parameter"
-          },
-          {
-            "$ref": "#/components/parameters/fields-query-parameter"
-          },
-          {
-            "name": "inquiry-id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "properties": {
-                  "meta": {
-                    "properties": {
-                      "next-step-name": {
-                        "description": "Name of the step to move the Inquiry to. Must be a step on the Inquiry's template version.",
-                        "type": "string",
-                        "examples": [
-                          "government_id",
-                          "selfie"
-                        ]
-                      }
-                    },
-                    "required": [
-                      "next-step-name"
-                    ],
-                    "additionalProperties": false,
-                    "type": "object"
-                  }
-                },
-                "required": [
-                  "meta"
-                ],
-                "additionalProperties": false,
-                "type": "object"
-              },
-              "examples": {
-                "Success": {
-                  "$ref": "#/components/examples/set-step"
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "headers": {
-              "RateLimit-Limit": {
-                "$ref": "#/components/headers/rate-limit-limit"
-              },
-              "RateLimit-Remaining": {
-                "$ref": "#/components/headers/rate-limit-remaining"
-              },
-              "RateLimit-Reset": {
-                "$ref": "#/components/headers/rate-limit-reset"
-              },
-              "Request-Id": {
-                "$ref": "#/components/headers/request-id"
-              },
-              "Persona-Environment-Id": {
-                "$ref": "#/components/headers/persona-environment-id"
-              },
-              "Persona-Organization-Id": {
-                "$ref": "#/components/headers/persona-organization-id"
-              }
-            },
-            "content": {
-              "application/json": {
-                "examples": {
-                  "Success": {
-                    "$ref": "#/components/examples/inquiry"
-                  }
-                },
-                "schema": {
-                  "properties": {
-                    "data": {
-                      "$ref": "#/components/schemas/inquiry"
-                    },
-                    "included": {
-                      "description": "Objects that _may_ be returned if specified via the `include` query parameter in the request.",
-                      "$ref": "#/components/schemas/inquiry-included-objects"
-                    }
-                  },
-                  "required": [
-                    "data"
-                  ],
-                  "type": "object",
-                  "additionalProperties": false
-                }
-              }
-            },
-            "description": "This endpoint returns an Inquiry object and (optionally) its related objects in `included`."
-          },
-          "400": {
-            "$ref": "#/components/responses/bad-request"
-          },
-          "401": {
-            "$ref": "#/components/responses/unauthorized"
-          },
-          "403": {
-            "$ref": "#/components/responses/forbidden"
-          },
-          "404": {
-            "$ref": "#/components/responses/not-found"
-          },
-          "409": {
-            "$ref": "#/components/responses/conflict"
-          },
-          "422": {
-            "$ref": "#/components/responses/unprocessable-entity"
-          },
-          "429": {
-            "$ref": "#/components/responses/too-many-requests"
-          }
-        },
-        "summary": "Set the step of an Inquiry",
-        "tags": [
-          "Inquiries"
-        ],
-        "x-persona-product": "Inquiries"
-      }
-    },
     "/inquiries/{inquiry-id}/set-tags": {
       "post": {
         "description": "Sets all tags on an Inquiry. Any tags that are not provided in the request will be removed.",
@@ -28709,6 +28561,9 @@
                   },
                   "BusinessWebsite": {
                     "$ref": "#/components/examples/verification-business-website"
+                  },
+                  "CryptoWallet": {
+                    "$ref": "#/components/examples/verification-crypto-wallet"
                   }
                 },
                 "schema": {
@@ -57628,6 +57483,69 @@
           }
         }
       },
+      "verification-crypto-wallet": {
+        "title": "Crypto Wallet Verification",
+        "description": "A Crypto Wallet Verification",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "verification/crypto-wallet"
+          },
+          "id": {
+            "type": "string",
+            "description": "The token of the verification",
+            "example": "ver_ABC123"
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/verification-shared-attributes"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "wallet-address": {
+                    "description": "Wallet address extracted from the signed authentication message.",
+                    "examples": [
+                      "0x90F79bf6EB2c4f870365E785982E1f101E93b906"
+                    ],
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "chain-id": {
+                    "description": "Blockchain network identifier extracted from the signed authentication message (CAIP-2, e.g. \"eip155:1\" for Ethereum mainnet).",
+                    "examples": [
+                      "eip155:1"
+                    ],
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "expected-address": {
+                    "description": "Optional address the signed wallet address is compared against.",
+                    "examples": [
+                      "0x90F79bf6EB2c4f870365E785982E1f101E93b906"
+                    ],
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          "relationships": {
+            "$ref": "#/components/schemas/verification-shared-relationships"
+          }
+        }
+      },
       "verification-database-aadhaar": {
         "title": "Database Aadhaar Verification",
         "description": "A Database Aadhaar Verification",
@@ -60234,6 +60152,7 @@
               "verification/business-website": "#/components/schemas/verification-business-website",
               "verification/certificate-korea": "#/components/schemas/verification-certificate-korea",
               "verification/credit-card": "#/components/schemas/verification-credit-card",
+              "verification/crypto-wallet": "#/components/schemas/verification-crypto-wallet",
               "verification/database": "#/components/schemas/verification-database",
               "verification/database-aadhaar": "#/components/schemas/verification-database-aadhaar",
               "verification/database-business": "#/components/schemas/verification-database-business",
@@ -60381,6 +60300,9 @@
             },
             {
               "$ref": "#/components/schemas/verification-credit-card"
+            },
+            {
+              "$ref": "#/components/schemas/verification-crypto-wallet"
             },
             {
               "$ref": "#/components/schemas/verification-database"
@@ -65125,6 +65047,7 @@
             "verification/business-website": "#/components/schemas/verification-business-website",
             "verification/certificate-korea": "#/components/schemas/verification-certificate-korea",
             "verification/credit-card": "#/components/schemas/verification-credit-card",
+            "verification/crypto-wallet": "#/components/schemas/verification-crypto-wallet",
             "verification/database": "#/components/schemas/verification-database",
             "verification/database-aadhaar": "#/components/schemas/verification-database-aadhaar",
             "verification/database-business": "#/components/schemas/verification-database-business",
@@ -65183,6 +65106,9 @@
           },
           {
             "$ref": "#/components/schemas/verification-credit-card"
+          },
+          {
+            "$ref": "#/components/schemas/verification-crypto-wallet"
           },
           {
             "$ref": "#/components/schemas/verification-database"
@@ -65368,6 +65294,7 @@
               "verification-template/business-website": "#/components/schemas/verification-template",
               "verification-template/certificate-korea": "#/components/schemas/verification-template",
               "verification-template/credit-card": "#/components/schemas/verification-template",
+              "verification-template/crypto-wallet": "#/components/schemas/verification-template",
               "verification-template/database": "#/components/schemas/verification-template",
               "verification-template/database-aadhaar": "#/components/schemas/verification-template",
               "verification-template/database-business": "#/components/schemas/verification-template",
@@ -65412,6 +65339,7 @@
               "verification-template-version/business-website": "#/components/schemas/verification-template-version",
               "verification-template-version/certificate-korea": "#/components/schemas/verification-template-version",
               "verification-template-version/credit-card": "#/components/schemas/verification-template-version",
+              "verification-template-version/crypto-wallet": "#/components/schemas/verification-template-version",
               "verification-template-version/database": "#/components/schemas/verification-template-version",
               "verification-template-version/database-aadhaar": "#/components/schemas/verification-template-version",
               "verification-template-version/database-business": "#/components/schemas/verification-template-version",
@@ -69663,13 +69591,6 @@
           }
         }
       },
-      "set-step": {
-        "value": {
-          "meta": {
-            "next-step-name": "government_id"
-          }
-        }
-      },
       "inquiry-list-search": {
         "value": {
           "data": [
@@ -72516,6 +72437,101 @@
               "verification-template-version": {
                 "data": {
                   "type": "verification-template-version/business-website",
+                  "id": "vtmplv_ABC123"
+                }
+              }
+            }
+          }
+        }
+      },
+      "verification-crypto-wallet": {
+        "value": {
+          "data": {
+            "type": "verification/crypto-wallet",
+            "id": "ver_ABC123",
+            "attributes": {
+              "status": "passed",
+              "created-at": "2023-11-03T17:37:06.000Z",
+              "created-at-ts": 1699033026,
+              "submitted-at": "2023-11-03T17:37:10.000Z",
+              "submitted-at-ts": 1699033030,
+              "completed-at": "2023-11-03T17:37:15.000Z",
+              "completed-at-ts": 1699033035,
+              "country-code": null,
+              "wallet-address": "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
+              "chain-id": "eip155:1",
+              "expected-address": null,
+              "checks": [
+                {
+                  "name": "crypto_wallet_validity_detection",
+                  "status": "passed",
+                  "reasons": [],
+                  "requirement": "required",
+                  "metadata": {}
+                },
+                {
+                  "name": "crypto_wallet_statement_comparison",
+                  "status": "not_applicable",
+                  "reasons": [
+                    "no_expected_statement"
+                  ],
+                  "requirement": "required",
+                  "metadata": {}
+                },
+                {
+                  "name": "crypto_wallet_address_comparison",
+                  "status": "not_applicable",
+                  "reasons": [
+                    "no_expected_address"
+                  ],
+                  "requirement": "required",
+                  "metadata": {}
+                },
+                {
+                  "name": "crypto_wallet_disallowed_chain_detection",
+                  "status": "not_applicable",
+                  "reasons": [
+                    "no_allowlist"
+                  ],
+                  "requirement": "required",
+                  "metadata": {}
+                }
+              ]
+            },
+            "relationships": {
+              "inquiry": {
+                "data": {
+                  "type": "inquiry",
+                  "id": "inq_ABC123"
+                }
+              },
+              "template": {
+                "data": null
+              },
+              "inquiry-template-version": {
+                "data": {
+                  "type": "inquiry-template-version",
+                  "id": "itmplv_ABC123"
+                }
+              },
+              "inquiry-template": {
+                "data": {
+                  "type": "inquiry-template",
+                  "id": "itmpl_ABC123"
+                }
+              },
+              "transaction": {
+                "data": null
+              },
+              "verification-template": {
+                "data": {
+                  "type": "verification-template/crypto-wallet",
+                  "id": "vtmpl_ABC123"
+                }
+              },
+              "verification-template-version": {
+                "data": {
+                  "type": "verification-template-version/crypto-wallet",
                   "id": "vtmplv_ABC123"
                 }
               }

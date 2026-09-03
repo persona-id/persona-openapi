@@ -1,0 +1,44 @@
+title: Crypto Wallet Verification
+description: A Crypto Wallet Verification
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: verification/crypto-wallet
+  id:
+    type: string
+    description: The token of the verification
+    example: ver_ABC123
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./verification-shared-attributes.yaml
+      - type: object
+        properties:
+          wallet-address:
+            description: Wallet address extracted from the signed authentication message.
+            examples:
+              - '0x90F79bf6EB2c4f870365E785982E1f101E93b906'
+            type:
+              - string
+              - 'null'
+          chain-id:
+            description: >-
+              Blockchain network identifier extracted from the signed
+              authentication message (CAIP-2, e.g. "eip155:1" for Ethereum
+              mainnet).
+            examples:
+              - eip155:1
+            type:
+              - string
+              - 'null'
+          expected-address:
+            description: Optional address the signed wallet address is compared against.
+            examples:
+              - '0x90F79bf6EB2c4f870365E785982E1f101E93b906'
+            type:
+              - string
+              - 'null'
+  relationships:
+    $ref: ./verification-shared-relationships.yaml
