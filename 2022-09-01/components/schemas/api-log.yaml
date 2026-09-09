@@ -148,3 +148,25 @@ properties:
         format: date-time
         examples:
           - '2026-05-28T18:34:17.000Z'
+  relationships:
+    type: object
+    additionalProperties: false
+    properties:
+      api-key:
+        type: object
+        additionalProperties: false
+        description: The API key that made this request, if any.
+        properties:
+          data:
+            type:
+              - object
+              - 'null'
+            additionalProperties: false
+            properties:
+              type:
+                type: string
+                const: api-key
+              id:
+                type: string
+                examples:
+                  - api_ABC123
