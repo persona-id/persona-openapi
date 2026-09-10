@@ -18079,6 +18079,7 @@ paths:
                           byte-size: 1000
                         checks:
                           - name: id_nfc_expired_detection
+                            category: user_action_required
                             status: failed
                             reasons:
                               - expired
@@ -18229,54 +18230,66 @@ paths:
                         selfie-similarity-score-right: 100
                         checks:
                           - name: selfie_id_comparison
+                            category: fraud
                             status: not_applicable
                             reasons:
                               - no_government_id
                             metadata: {}
                           - name: selfie_pose_detection
+                            category: fraud
                             status: passed
                             reasons: []
                             metadata: {}
                           - name: selfie_multiple_faces_detection
+                            category: fraud
                             status: passed
                             reasons: []
                             metadata: {}
                           - name: selfie_pose_repeat_detection
+                            category: fraud
                             status: passed
                             reasons: []
                             metadata: {}
                           - name: selfie_account_comparison
+                            category: fraud
                             status: not_applicable
                             reasons:
                               - no_account_selfie_present
                             metadata: {}
                           - name: selfie_suspicious_entity_detection
+                            category: fraud
                             status: passed
                             reasons: []
                             metadata: {}
                           - name: selfie_liveness_detection
+                            category: fraud
                             status: passed
                             reasons: []
                             metadata: {}
                           - name: selfie_glasses_detection
+                            category: user_action_required
                             status: passed
                             reasons: []
                             metadata: {}
                           - name: selfie_glare_detection
+                            category: user_action_required
                             status: failed
                             reasons:
                               - too_much_glare
                             metadata: {}
                           - name: selfie_public_figure_detection
+                            category: fraud
                             status: passed
                             reasons: []
                             metadata: {}
                           - name: selfie_age_comparison
+                            category: fraud
                             status: not_applicable
                             reasons:
                               - no_reference_birthdate
                             metadata: {}
                           - name: selfie_face_covering_detection
+                            category: user_action_required
                             status: passed
                             reasons: []
                             metadata: {}
@@ -33848,6 +33861,22 @@ components:
                   Do not assume this is a static enumeration; Persona may add new
                   values in the future without a versioned update.
                 type: string
+              category:
+                description: |-
+                  The category assigned to the check. Possible values include:
+                  - biometrics
+                  - fraud
+                  - user_action_required
+                  - validity
+
+                  This categorizes the check itself, not its outcome. A null category
+                  means the check is uncategorized or its category is unknown; it must
+                  not be interpreted as non-fraud. Do not assume this is a static
+                  enumeration; Persona may add new values in the future without a
+                  versioned update.
+                type:
+                  - string
+                  - 'null'
               reasons:
                 type: array
                 description: 'If applicable, reasons are the list of reasons explaining why the check failed or is not applicable. For some checks, `reasons` is the primary signal carrying the underlying detection results. For example, `business_website_malicious_website_detection` surfaces its IPQS and Google Web Risk signals here (e.g. `malware`, `phishing`, `spam-source`) rather than in `metadata`.'
@@ -35002,6 +35031,10 @@ components:
                 checks:
                   items:
                     properties:
+                      category:
+                        type:
+                          - string
+                          - 'null'
                       metadata:
                         additionalProperties: true
                         type: object
@@ -35015,6 +35048,8 @@ components:
                             - expired
                           type: string
                         type: array
+                      requirement:
+                        type: string
                       status:
                         examples:
                           - failed
@@ -46649,52 +46684,61 @@ components:
               vehicle-class: null
               checks:
                 - name: id_aamva_database_lookup
+                  category: fraud
                   status: not_applicable
                   reasons:
                     - disabled
                   requirement: not_required
                   metadata: {}
                 - name: id_account_comparison
+                  category: fraud
                   status: not_applicable
                   reasons:
                     - no_account
                   requirement: not_required
                   metadata: {}
                 - name: id_age_comparison
+                  category: user_action_required
                   status: not_applicable
                   reasons:
                     - missing_birthdate
                   requirement: not_required
                   metadata: {}
                 - name: id_barcode_detection
+                  category: user_action_required
                   status: failed
                   reasons:
                     - barcode_not_decoded
                   requirement: not_required
                   metadata: {}
                 - name: id_barcode_inconsistency_detection
+                  category: fraud
                   status: not_applicable
                   reasons:
                     - barcode_not_decoded
                   requirement: not_required
                   metadata: {}
                 - name: id_blur_detection
+                  category: user_action_required
                   status: passed
                   reasons: []
                   requirement: not_required
                   metadata: {}
                 - name: id_color_inconsistency_detection
+                  category: fraud
                   status: passed
                   reasons: []
                   requirement: not_required
                   metadata: {}
                 - name: id_disallowed_country_detection
+                  category: user_action_required
                   status: not_applicable
                   reasons:
                     - no_country
                   requirement: required
                   metadata: {}
                 - name: id_disallowed_type_detection
+                  category: user_action_required
                   status: failed
                   reasons:
                     - type_not_detected
@@ -46704,30 +46748,35 @@ components:
                     detected-id-designations: []
                     disallowed-id-designations: []
                 - name: id_double_side_detection
+                  category: user_action_required
                   status: failed
                   reasons:
                     - side_submitted_twice
                   requirement: not_required
                   metadata: {}
                 - name: id_electronic_replica_detection
+                  category: fraud
                   status: failed
                   reasons:
                     - replica_detected
                   requirement: not_required
                   metadata: {}
                 - name: id_entity_detection
+                  category: user_action_required
                   status: failed
                   reasons:
                     - cannot_verify_id
                   requirement: required
                   metadata: {}
                 - name: id_expired_detection
+                  category: user_action_required
                   status: not_applicable
                   reasons:
                     - no_expiration_date
                   requirement: required
                   metadata: {}
                 - name: id_extraction_inconsistency_detection
+                  category: fraud
                   status: not_applicable
                   reasons:
                     - missing_properties
@@ -46735,117 +46784,138 @@ components:
                   metadata:
                     check-requirements: []
                 - name: id_extracted_properties_detection
+                  category: user_action_required
                   status: not_applicable
                   reasons:
                     - no_required_properties
                   requirement: not_required
                   metadata: {}
                 - name: id_fabrication_detection
+                  category: fraud
                   status: passed
                   reasons: []
                   requirement: not_required
                   metadata: {}
                 - name: id_glare_detection
+                  category: user_action_required
                   status: failed
                   reasons:
                     - too_much_glare
                   requirement: not_required
                   metadata: {}
                 - name: id_handwriting_detection
+                  category: fraud
                   status: passed
                   reasons: []
                   requirement: not_required
                   metadata: {}
                 - name: id_inquiry_comparison
+                  category: fraud
                   status: not_applicable
                   reasons:
                     - no_inquiry
                   requirement: not_required
                   metadata: {}
                 - name: id_mrz_detection
+                  category: user_action_required
                   status: not_applicable
                   reasons: []
                   requirement: required
                   metadata: {}
                 - name: id_mrz_inconsistency_detection
+                  category: fraud
                   status: not_applicable
                   reasons:
                     - mrz_not_found
                   requirement: not_required
                   metadata: {}
                 - name: id_number_format_inconsistency_detection
+                  category: fraud
                   status: not_applicable
                   reasons:
                     - invalid_country
                   requirement: not_required
                   metadata: {}
                 - name: id_po_box_detection
+                  category: user_action_required
                   status: not_applicable
                   reasons:
                     - missing_address
                   requirement: not_required
                   metadata: {}
                 - name: id_portrait_clarity_detection
+                  category: user_action_required
                   status: not_applicable
                   reasons: []
                   requirement: required
                   metadata: {}
                 - name: id_portrait_detection
+                  category: user_action_required
                   status: failed
                   reasons:
                     - portrait_not_found
                   requirement: required
                   metadata: {}
                 - name: id_real_id_detection
+                  category: user_action_required
                   status: not_applicable
                   reasons:
                     - disabled
                   requirement: not_required
                   metadata: {}
                 - name: id_tamper_detection
+                  category: fraud
                   status: passed
                   reasons: []
                   requirement: not_required
                   metadata: {}
                 - name: id_unprocessable_submission_detection
+                  category: user_action_required
                   status: passed
                   reasons: []
                   requirement: not_required
                   metadata: {}
                 - name: id_valid_dates_detection
+                  category: fraud
                   status: not_applicable
                   reasons: []
                   requirement: not_required
                   metadata: {}
                 - name: id_age_inconsistency_detection
+                  category: fraud
                   status: not_applicable
                   reasons:
                     - disabled
                   requirement: not_required
                   metadata: {}
                 - name: id_compromised_detection
+                  category: fraud
                   status: passed
                   reasons: []
                   requirement: required
                   metadata: {}
                 - name: id_inconsistent_repeat_detection
+                  category: fraud
                   status: not_applicable
                   reasons:
                     - not_enabled
                   requirement: not_required
                   metadata: {}
                 - name: id_public_figure_detection
+                  category: fraud
                   status: passed
                   reasons: []
                   requirement: not_required
                   metadata: {}
                 - name: id_repeat_detection
+                  category: fraud
                   status: not_applicable
                   reasons:
                     - not_enabled
                   requirement: not_required
                   metadata: {}
                 - name: id_selfie_comparison
+                  category: fraud
                   status: not_applicable
                   reasons:
                     - no_selfie
@@ -47736,6 +47806,7 @@ components:
             website-url: 'https://example.com'
             checks:
               - name: business_website_backlink_detection
+                category: fraud
                 status: passed
                 reasons: []
                 requirement: not_required
@@ -47743,11 +47814,13 @@ components:
                   backlink-count: 2443
                   backlink-threshold: 10
               - name: business_website_malicious_website_detection
+                category: fraud
                 status: passed
                 reasons: []
                 requirement: not_required
                 metadata: {}
               - name: business_website_domain_age_detection
+                category: fraud
                 status: passed
                 reasons: []
                 requirement: not_required
@@ -47803,23 +47876,27 @@ components:
             expected-address: null
             checks:
               - name: crypto_wallet_validity_detection
+                category: fraud
                 status: passed
                 reasons: []
                 requirement: required
                 metadata: {}
               - name: crypto_wallet_statement_comparison
+                category: fraud
                 status: not_applicable
                 reasons:
                   - no_expected_statement
                 requirement: required
                 metadata: {}
               - name: crypto_wallet_address_comparison
+                category: fraud
                 status: not_applicable
                 reasons:
                   - no_expected_address
                 requirement: required
                 metadata: {}
               - name: crypto_wallet_disallowed_chain_detection
+                category: fraud
                 status: not_applicable
                 reasons:
                   - no_allowlist
@@ -49261,14 +49338,17 @@ components:
                     country-code: US
                     checks:
                       - name: id_unprocessable_submission_detection
+                        category: user_action_required
                         status: passed
                         reasons: []
                         requirement: required
                       - name: id_compromised_detection
+                        category: fraud
                         status: passed
                         reasons: []
                         requirement: required
                       - name: id_disallowed_country_detection
+                        category: user_action_required
                         status: passed
                         reasons: []
                         requirement: required
@@ -49286,14 +49366,17 @@ components:
                     completed-at: '2024-01-15T08:08:40.000Z'
                     checks:
                       - name: selfie_id_comparison
+                        category: fraud
                         status: passed
                         reasons: []
                         requirement: required
                       - name: selfie_pose_detection
+                        category: fraud
                         status: passed
                         reasons: []
                         requirement: required
                       - name: selfie_liveness_detection
+                        category: fraud
                         status: passed
                         reasons: []
                         requirement: not_required
@@ -49473,14 +49556,17 @@ components:
                     country-code: US
                     checks:
                       - name: id_unprocessable_submission_detection
+                        category: user_action_required
                         status: passed
                         reasons: []
                         requirement: required
                       - name: id_compromised_detection
+                        category: fraud
                         status: passed
                         reasons: []
                         requirement: required
                       - name: id_disallowed_country_detection
+                        category: user_action_required
                         status: passed
                         reasons: []
                         requirement: required
@@ -49498,14 +49584,17 @@ components:
                     completed-at: '2024-01-15T08:08:40.000Z'
                     checks:
                       - name: selfie_id_comparison
+                        category: fraud
                         status: passed
                         reasons: []
                         requirement: required
                       - name: selfie_pose_detection
+                        category: fraud
                         status: passed
                         reasons: []
                         requirement: required
                       - name: selfie_liveness_detection
+                        category: fraud
                         status: passed
                         reasons: []
                         requirement: not_required
@@ -49688,14 +49777,17 @@ components:
                     country-code: US
                     checks:
                       - name: id_unprocessable_submission_detection
+                        category: user_action_required
                         status: passed
                         reasons: []
                         requirement: required
                       - name: id_compromised_detection
+                        category: fraud
                         status: passed
                         reasons: []
                         requirement: required
                       - name: id_disallowed_country_detection
+                        category: user_action_required
                         status: passed
                         reasons: []
                         requirement: required
@@ -49713,14 +49805,17 @@ components:
                     completed-at: '2024-01-15T08:08:40.000Z'
                     checks:
                       - name: selfie_id_comparison
+                        category: fraud
                         status: passed
                         reasons: []
                         requirement: required
                       - name: selfie_pose_detection
+                        category: fraud
                         status: passed
                         reasons: []
                         requirement: required
                       - name: selfie_liveness_detection
+                        category: fraud
                         status: passed
                         reasons: []
                         requirement: not_required
@@ -49902,14 +49997,17 @@ components:
                     country-code: US
                     checks:
                       - name: id_unprocessable_submission_detection
+                        category: user_action_required
                         status: passed
                         reasons: []
                         requirement: required
                       - name: id_compromised_detection
+                        category: fraud
                         status: passed
                         reasons: []
                         requirement: required
                       - name: id_disallowed_country_detection
+                        category: user_action_required
                         status: passed
                         reasons: []
                         requirement: required
@@ -49927,14 +50025,17 @@ components:
                     completed-at: '2024-01-15T08:08:40.000Z'
                     checks:
                       - name: selfie_id_comparison
+                        category: fraud
                         status: passed
                         reasons: []
                         requirement: required
                       - name: selfie_pose_detection
+                        category: fraud
                         status: passed
                         reasons: []
                         requirement: required
                       - name: selfie_liveness_detection
+                        category: fraud
                         status: passed
                         reasons: []
                         requirement: not_required
@@ -50259,14 +50360,17 @@ components:
                     country-code: US
                     checks:
                       - name: id_unprocessable_submission_detection
+                        category: user_action_required
                         status: passed
                         reasons: []
                         requirement: required
                       - name: id_compromised_detection
+                        category: fraud
                         status: passed
                         reasons: []
                         requirement: required
                       - name: id_disallowed_country_detection
+                        category: user_action_required
                         status: passed
                         reasons: []
                         requirement: required
@@ -50284,14 +50388,17 @@ components:
                     completed-at: '2024-01-15T08:08:40.000Z'
                     checks:
                       - name: selfie_id_comparison
+                        category: fraud
                         status: passed
                         reasons: []
                         requirement: required
                       - name: selfie_pose_detection
+                        category: fraud
                         status: passed
                         reasons: []
                         requirement: required
                       - name: selfie_liveness_detection
+                        category: fraud
                         status: passed
                         reasons: []
                         requirement: not_required
@@ -50475,14 +50582,17 @@ components:
                     country-code: US
                     checks:
                       - name: id_unprocessable_submission_detection
+                        category: user_action_required
                         status: passed
                         reasons: []
                         requirement: required
                       - name: id_compromised_detection
+                        category: fraud
                         status: passed
                         reasons: []
                         requirement: required
                       - name: id_disallowed_country_detection
+                        category: user_action_required
                         status: passed
                         reasons: []
                         requirement: required
@@ -50500,14 +50610,17 @@ components:
                     completed-at: '2024-01-15T08:08:40.000Z'
                     checks:
                       - name: selfie_id_comparison
+                        category: fraud
                         status: passed
                         reasons: []
                         requirement: required
                       - name: selfie_pose_detection
+                        category: fraud
                         status: passed
                         reasons: []
                         requirement: required
                       - name: selfie_liveness_detection
+                        category: fraud
                         status: passed
                         reasons: []
                         requirement: not_required
@@ -50691,14 +50804,17 @@ components:
                     country-code: US
                     checks:
                       - name: id_unprocessable_submission_detection
+                        category: user_action_required
                         status: passed
                         reasons: []
                         requirement: required
                       - name: id_compromised_detection
+                        category: fraud
                         status: passed
                         reasons: []
                         requirement: required
                       - name: id_disallowed_country_detection
+                        category: user_action_required
                         status: passed
                         reasons: []
                         requirement: required
@@ -50716,14 +50832,17 @@ components:
                     completed-at: '2024-01-15T08:08:40.000Z'
                     checks:
                       - name: selfie_id_comparison
+                        category: fraud
                         status: passed
                         reasons: []
                         requirement: required
                       - name: selfie_pose_detection
+                        category: fraud
                         status: passed
                         reasons: []
                         requirement: required
                       - name: selfie_liveness_detection
+                        category: fraud
                         status: passed
                         reasons: []
                         requirement: not_required
@@ -50906,14 +51025,17 @@ components:
                     country-code: US
                     checks:
                       - name: id_unprocessable_submission_detection
+                        category: user_action_required
                         status: passed
                         reasons: []
                         requirement: required
                       - name: id_compromised_detection
+                        category: fraud
                         status: passed
                         reasons: []
                         requirement: required
                       - name: id_disallowed_country_detection
+                        category: user_action_required
                         status: passed
                         reasons: []
                         requirement: required
@@ -50931,14 +51053,17 @@ components:
                     completed-at: '2024-01-15T08:08:40.000Z'
                     checks:
                       - name: selfie_id_comparison
+                        category: fraud
                         status: passed
                         reasons: []
                         requirement: required
                       - name: selfie_pose_detection
+                        category: fraud
                         status: passed
                         reasons: []
                         requirement: required
                       - name: selfie_liveness_detection
+                        category: fraud
                         status: passed
                         reasons: []
                         requirement: not_required
@@ -51125,14 +51250,17 @@ components:
                     country-code: US
                     checks:
                       - name: id_unprocessable_submission_detection
+                        category: user_action_required
                         status: passed
                         reasons: []
                         requirement: required
                       - name: id_compromised_detection
+                        category: fraud
                         status: passed
                         reasons: []
                         requirement: required
                       - name: id_disallowed_country_detection
+                        category: user_action_required
                         status: passed
                         reasons: []
                         requirement: required
@@ -51150,14 +51278,17 @@ components:
                     completed-at: '2024-01-15T08:08:40.000Z'
                     checks:
                       - name: selfie_id_comparison
+                        category: fraud
                         status: passed
                         reasons: []
                         requirement: required
                       - name: selfie_pose_detection
+                        category: fraud
                         status: passed
                         reasons: []
                         requirement: required
                       - name: selfie_liveness_detection
+                        category: fraud
                         status: passed
                         reasons: []
                         requirement: not_required
@@ -51341,14 +51472,17 @@ components:
                     country-code: US
                     checks:
                       - name: id_unprocessable_submission_detection
+                        category: user_action_required
                         status: passed
                         reasons: []
                         requirement: required
                       - name: id_compromised_detection
+                        category: fraud
                         status: passed
                         reasons: []
                         requirement: required
                       - name: id_disallowed_country_detection
+                        category: user_action_required
                         status: passed
                         reasons: []
                         requirement: required
@@ -51366,14 +51500,17 @@ components:
                     completed-at: '2024-01-15T08:08:40.000Z'
                     checks:
                       - name: selfie_id_comparison
+                        category: fraud
                         status: passed
                         reasons: []
                         requirement: required
                       - name: selfie_pose_detection
+                        category: fraud
                         status: passed
                         reasons: []
                         requirement: required
                       - name: selfie_liveness_detection
+                        category: fraud
                         status: passed
                         reasons: []
                         requirement: not_required
@@ -57777,17 +57914,20 @@ components:
                   country-code: US
                   tags: []
                   checks:
-                    - name: id_type_detection
+                    - name: id_disallowed_type_detection
+                      category: user_action_required
                       status: passed
                       reasons: []
                       requirement: required
                       metadata: {}
                     - name: id_entity_detection
+                      category: user_action_required
                       status: passed
                       reasons: []
                       requirement: required
                       metadata: {}
                     - name: id_expired_detection
+                      category: user_action_required
                       status: passed
                       reasons: []
                       requirement: required
@@ -57891,18 +58031,21 @@ components:
                   country-code: US
                   tags: []
                   checks:
-                    - name: id_type_detection
+                    - name: id_disallowed_type_detection
+                      category: user_action_required
                       status: passed
                       reasons: []
                       requirement: required
                       metadata: {}
                     - name: id_entity_detection
+                      category: user_action_required
                       status: failed
                       reasons:
-                        - low_confidence_entity_match
+                        - cannot_verify_id
                       requirement: required
                       metadata: {}
                     - name: id_expired_detection
+                      category: user_action_required
                       status: not_applicable
                       reasons: []
                       requirement: required
@@ -58008,16 +58151,19 @@ components:
                   tags: []
                   checks:
                     - name: database_name_comparison
+                      category: fraud
                       status: passed
                       reasons: []
                       requirement: required
                       metadata: {}
                     - name: database_address_comparison
+                      category: fraud
                       status: passed
                       reasons: []
                       requirement: required
                       metadata: {}
                     - name: database_birthdate_comparison
+                      category: fraud
                       status: passed
                       reasons: []
                       requirement: required
@@ -58096,17 +58242,20 @@ components:
                   tags: []
                   checks:
                     - name: selfie_liveness_detection
+                      category: fraud
                       status: failed
                       reasons:
-                        - low_liveness_confidence
+                        - replica_detected
                       requirement: requires_retry
                       metadata: {}
                     - name: selfie_image_quality_detection
+                      category: user_action_required
                       status: not_applicable
                       reasons: []
                       requirement: required
                       metadata: {}
                     - name: selfie_id_comparison
+                      category: fraud
                       status: not_applicable
                       reasons: []
                       requirement: required
@@ -58349,27 +58498,32 @@ components:
                   tags: []
                   checks:
                     - name: database_business_service_available_detection
+                      category: user_action_required
                       status: passed
                       reasons: []
                       requirement: required
                       metadata: {}
                     - name: database_business_enabled_country_detection
+                      category: user_action_required
                       status: passed
                       reasons: []
                       requirement: required
                       metadata: {}
                     - name: database_business_active_business_detection
+                      category: fraud
                       status: passed
                       reasons: []
                       requirement: required
                       metadata: {}
                     - name: database_business_identity_comparison
+                      category: fraud
                       status: failed
                       reasons:
                         - low_confidence_match
                       requirement: required
                       metadata: {}
                     - name: database_business_associated_persons_comparison
+                      category: fraud
                       status: not_applicable
                       reasons: []
                       requirement: required
@@ -58435,21 +58589,25 @@ components:
                   tags: []
                   checks:
                     - name: document_type_detection
+                      category: validity
                       status: passed
                       reasons: []
                       requirement: required
                       metadata: {}
                     - name: document_extracted_properties_detection
+                      category: validity
                       status: passed
                       reasons: []
                       requirement: required
                       metadata: {}
                     - name: document_expired_detection
+                      category: validity
                       status: passed
                       reasons: []
                       requirement: required
                       metadata: {}
                     - name: document_fabrication_detection
+                      category: fraud
                       status: passed
                       reasons: []
                       requirement: required
@@ -58524,11 +58682,13 @@ components:
                     - manual_review_complete
                   checks:
                     - name: database_name_comparison
+                      category: fraud
                       status: passed
                       reasons: []
                       requirement: required
                       metadata: {}
                     - name: database_address_comparison
+                      category: fraud
                       status: passed
                       reasons: []
                       requirement: required
@@ -58930,6 +59090,13 @@ components:
                         - data.attributes.name is missing
                         - data.type must be filled
                         - meta.object_ids must be an array
+                    source:
+                      type: object
+                      description: The location of the invalid value.
+                      additionalProperties: false
+                      properties:
+                        pointer:
+                          type: string
                     meta:
                       type: object
                       description: Additional metadata about the error

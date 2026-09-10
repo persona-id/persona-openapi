@@ -28152,6 +28152,7 @@
                           "checks": [
                             {
                               "name": "id_nfc_expired_detection",
+                              "category": "user_action_required",
                               "status": "failed",
                               "reasons": [
                                 "expired"
@@ -28393,6 +28394,7 @@
                           "checks": [
                             {
                               "name": "selfie_id_comparison",
+                              "category": "fraud",
                               "status": "not_applicable",
                               "reasons": [
                                 "no_government_id"
@@ -28401,24 +28403,28 @@
                             },
                             {
                               "name": "selfie_pose_detection",
+                              "category": "fraud",
                               "status": "passed",
                               "reasons": [],
                               "metadata": {}
                             },
                             {
                               "name": "selfie_multiple_faces_detection",
+                              "category": "fraud",
                               "status": "passed",
                               "reasons": [],
                               "metadata": {}
                             },
                             {
                               "name": "selfie_pose_repeat_detection",
+                              "category": "fraud",
                               "status": "passed",
                               "reasons": [],
                               "metadata": {}
                             },
                             {
                               "name": "selfie_account_comparison",
+                              "category": "fraud",
                               "status": "not_applicable",
                               "reasons": [
                                 "no_account_selfie_present"
@@ -28427,24 +28433,28 @@
                             },
                             {
                               "name": "selfie_suspicious_entity_detection",
+                              "category": "fraud",
                               "status": "passed",
                               "reasons": [],
                               "metadata": {}
                             },
                             {
                               "name": "selfie_liveness_detection",
+                              "category": "fraud",
                               "status": "passed",
                               "reasons": [],
                               "metadata": {}
                             },
                             {
                               "name": "selfie_glasses_detection",
+                              "category": "user_action_required",
                               "status": "passed",
                               "reasons": [],
                               "metadata": {}
                             },
                             {
                               "name": "selfie_glare_detection",
+                              "category": "user_action_required",
                               "status": "failed",
                               "reasons": [
                                 "too_much_glare"
@@ -28453,12 +28463,14 @@
                             },
                             {
                               "name": "selfie_public_figure_detection",
+                              "category": "fraud",
                               "status": "passed",
                               "reasons": [],
                               "metadata": {}
                             },
                             {
                               "name": "selfie_age_comparison",
+                              "category": "fraud",
                               "status": "not_applicable",
                               "reasons": [
                                 "no_reference_birthdate"
@@ -28467,6 +28479,7 @@
                             },
                             {
                               "name": "selfie_face_covering_detection",
+                              "category": "user_action_required",
                               "status": "passed",
                               "reasons": [],
                               "metadata": {}
@@ -52984,6 +52997,13 @@
                   "description": "Possible values:\n- passed\n- failed\n- not_applicable\n\nDo not assume this is a static enumeration; Persona may add new\nvalues in the future without a versioned update.",
                   "type": "string"
                 },
+                "category": {
+                  "description": "The category assigned to the check. Possible values include:\n- biometrics\n- fraud\n- user_action_required\n- validity\n\nThis categorizes the check itself, not its outcome. A null category\nmeans the check is uncategorized or its category is unknown; it must\nnot be interpreted as non-fraud. Do not assume this is a static\nenumeration; Persona may add new values in the future without a\nversioned update.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
                 "reasons": {
                   "type": "array",
                   "description": "If applicable, reasons are the list of reasons explaining why the check failed or is not applicable. For some checks, `reasons` is the primary signal carrying the underlying detection results. For example, `business_website_malicious_website_detection` surfaces its IPQS and Google Web Risk signals here (e.g. `malware`, `phishing`, `spam-source`) rather than in `metadata`.",
@@ -54681,6 +54701,12 @@
                   "checks": {
                     "items": {
                       "properties": {
+                        "category": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
                         "metadata": {
                           "additionalProperties": true,
                           "type": "object"
@@ -54699,6 +54725,9 @@
                             "type": "string"
                           },
                           "type": "array"
+                        },
+                        "requirement": {
+                          "type": "string"
                         },
                         "status": {
                           "examples": [
@@ -71581,6 +71610,7 @@
                 "checks": [
                   {
                     "name": "id_aamva_database_lookup",
+                    "category": "fraud",
                     "status": "not_applicable",
                     "reasons": [
                       "disabled"
@@ -71590,6 +71620,7 @@
                   },
                   {
                     "name": "id_account_comparison",
+                    "category": "fraud",
                     "status": "not_applicable",
                     "reasons": [
                       "no_account"
@@ -71599,6 +71630,7 @@
                   },
                   {
                     "name": "id_age_comparison",
+                    "category": "user_action_required",
                     "status": "not_applicable",
                     "reasons": [
                       "missing_birthdate"
@@ -71608,6 +71640,7 @@
                   },
                   {
                     "name": "id_barcode_detection",
+                    "category": "user_action_required",
                     "status": "failed",
                     "reasons": [
                       "barcode_not_decoded"
@@ -71617,6 +71650,7 @@
                   },
                   {
                     "name": "id_barcode_inconsistency_detection",
+                    "category": "fraud",
                     "status": "not_applicable",
                     "reasons": [
                       "barcode_not_decoded"
@@ -71626,6 +71660,7 @@
                   },
                   {
                     "name": "id_blur_detection",
+                    "category": "user_action_required",
                     "status": "passed",
                     "reasons": [],
                     "requirement": "not_required",
@@ -71633,6 +71668,7 @@
                   },
                   {
                     "name": "id_color_inconsistency_detection",
+                    "category": "fraud",
                     "status": "passed",
                     "reasons": [],
                     "requirement": "not_required",
@@ -71640,6 +71676,7 @@
                   },
                   {
                     "name": "id_disallowed_country_detection",
+                    "category": "user_action_required",
                     "status": "not_applicable",
                     "reasons": [
                       "no_country"
@@ -71649,6 +71686,7 @@
                   },
                   {
                     "name": "id_disallowed_type_detection",
+                    "category": "user_action_required",
                     "status": "failed",
                     "reasons": [
                       "type_not_detected"
@@ -71662,6 +71700,7 @@
                   },
                   {
                     "name": "id_double_side_detection",
+                    "category": "user_action_required",
                     "status": "failed",
                     "reasons": [
                       "side_submitted_twice"
@@ -71671,6 +71710,7 @@
                   },
                   {
                     "name": "id_electronic_replica_detection",
+                    "category": "fraud",
                     "status": "failed",
                     "reasons": [
                       "replica_detected"
@@ -71680,6 +71720,7 @@
                   },
                   {
                     "name": "id_entity_detection",
+                    "category": "user_action_required",
                     "status": "failed",
                     "reasons": [
                       "cannot_verify_id"
@@ -71689,6 +71730,7 @@
                   },
                   {
                     "name": "id_expired_detection",
+                    "category": "user_action_required",
                     "status": "not_applicable",
                     "reasons": [
                       "no_expiration_date"
@@ -71698,6 +71740,7 @@
                   },
                   {
                     "name": "id_extraction_inconsistency_detection",
+                    "category": "fraud",
                     "status": "not_applicable",
                     "reasons": [
                       "missing_properties"
@@ -71709,6 +71752,7 @@
                   },
                   {
                     "name": "id_extracted_properties_detection",
+                    "category": "user_action_required",
                     "status": "not_applicable",
                     "reasons": [
                       "no_required_properties"
@@ -71718,6 +71762,7 @@
                   },
                   {
                     "name": "id_fabrication_detection",
+                    "category": "fraud",
                     "status": "passed",
                     "reasons": [],
                     "requirement": "not_required",
@@ -71725,6 +71770,7 @@
                   },
                   {
                     "name": "id_glare_detection",
+                    "category": "user_action_required",
                     "status": "failed",
                     "reasons": [
                       "too_much_glare"
@@ -71734,6 +71780,7 @@
                   },
                   {
                     "name": "id_handwriting_detection",
+                    "category": "fraud",
                     "status": "passed",
                     "reasons": [],
                     "requirement": "not_required",
@@ -71741,6 +71788,7 @@
                   },
                   {
                     "name": "id_inquiry_comparison",
+                    "category": "fraud",
                     "status": "not_applicable",
                     "reasons": [
                       "no_inquiry"
@@ -71750,6 +71798,7 @@
                   },
                   {
                     "name": "id_mrz_detection",
+                    "category": "user_action_required",
                     "status": "not_applicable",
                     "reasons": [],
                     "requirement": "required",
@@ -71757,6 +71806,7 @@
                   },
                   {
                     "name": "id_mrz_inconsistency_detection",
+                    "category": "fraud",
                     "status": "not_applicable",
                     "reasons": [
                       "mrz_not_found"
@@ -71766,6 +71816,7 @@
                   },
                   {
                     "name": "id_number_format_inconsistency_detection",
+                    "category": "fraud",
                     "status": "not_applicable",
                     "reasons": [
                       "invalid_country"
@@ -71775,6 +71826,7 @@
                   },
                   {
                     "name": "id_po_box_detection",
+                    "category": "user_action_required",
                     "status": "not_applicable",
                     "reasons": [
                       "missing_address"
@@ -71784,6 +71836,7 @@
                   },
                   {
                     "name": "id_portrait_clarity_detection",
+                    "category": "user_action_required",
                     "status": "not_applicable",
                     "reasons": [],
                     "requirement": "required",
@@ -71791,6 +71844,7 @@
                   },
                   {
                     "name": "id_portrait_detection",
+                    "category": "user_action_required",
                     "status": "failed",
                     "reasons": [
                       "portrait_not_found"
@@ -71800,6 +71854,7 @@
                   },
                   {
                     "name": "id_real_id_detection",
+                    "category": "user_action_required",
                     "status": "not_applicable",
                     "reasons": [
                       "disabled"
@@ -71809,6 +71864,7 @@
                   },
                   {
                     "name": "id_tamper_detection",
+                    "category": "fraud",
                     "status": "passed",
                     "reasons": [],
                     "requirement": "not_required",
@@ -71816,6 +71872,7 @@
                   },
                   {
                     "name": "id_unprocessable_submission_detection",
+                    "category": "user_action_required",
                     "status": "passed",
                     "reasons": [],
                     "requirement": "not_required",
@@ -71823,6 +71880,7 @@
                   },
                   {
                     "name": "id_valid_dates_detection",
+                    "category": "fraud",
                     "status": "not_applicable",
                     "reasons": [],
                     "requirement": "not_required",
@@ -71830,6 +71888,7 @@
                   },
                   {
                     "name": "id_age_inconsistency_detection",
+                    "category": "fraud",
                     "status": "not_applicable",
                     "reasons": [
                       "disabled"
@@ -71839,6 +71898,7 @@
                   },
                   {
                     "name": "id_compromised_detection",
+                    "category": "fraud",
                     "status": "passed",
                     "reasons": [],
                     "requirement": "required",
@@ -71846,6 +71906,7 @@
                   },
                   {
                     "name": "id_inconsistent_repeat_detection",
+                    "category": "fraud",
                     "status": "not_applicable",
                     "reasons": [
                       "not_enabled"
@@ -71855,6 +71916,7 @@
                   },
                   {
                     "name": "id_public_figure_detection",
+                    "category": "fraud",
                     "status": "passed",
                     "reasons": [],
                     "requirement": "not_required",
@@ -71862,6 +71924,7 @@
                   },
                   {
                     "name": "id_repeat_detection",
+                    "category": "fraud",
                     "status": "not_applicable",
                     "reasons": [
                       "not_enabled"
@@ -71871,6 +71934,7 @@
                   },
                   {
                     "name": "id_selfie_comparison",
+                    "category": "fraud",
                     "status": "not_applicable",
                     "reasons": [
                       "no_selfie"
@@ -73080,6 +73144,7 @@
               "checks": [
                 {
                   "name": "business_website_backlink_detection",
+                  "category": "fraud",
                   "status": "passed",
                   "reasons": [],
                   "requirement": "not_required",
@@ -73090,6 +73155,7 @@
                 },
                 {
                   "name": "business_website_malicious_website_detection",
+                  "category": "fraud",
                   "status": "passed",
                   "reasons": [],
                   "requirement": "not_required",
@@ -73097,6 +73163,7 @@
                 },
                 {
                   "name": "business_website_domain_age_detection",
+                  "category": "fraud",
                   "status": "passed",
                   "reasons": [],
                   "requirement": "not_required",
@@ -73176,6 +73243,7 @@
               "checks": [
                 {
                   "name": "crypto_wallet_validity_detection",
+                  "category": "fraud",
                   "status": "passed",
                   "reasons": [],
                   "requirement": "required",
@@ -73183,6 +73251,7 @@
                 },
                 {
                   "name": "crypto_wallet_statement_comparison",
+                  "category": "fraud",
                   "status": "not_applicable",
                   "reasons": [
                     "no_expected_statement"
@@ -73192,6 +73261,7 @@
                 },
                 {
                   "name": "crypto_wallet_address_comparison",
+                  "category": "fraud",
                   "status": "not_applicable",
                   "reasons": [
                     "no_expected_address"
@@ -73201,6 +73271,7 @@
                 },
                 {
                   "name": "crypto_wallet_disallowed_chain_detection",
+                  "category": "fraud",
                   "status": "not_applicable",
                   "reasons": [
                     "no_allowlist"
@@ -75558,18 +75629,21 @@
                       "checks": [
                         {
                           "name": "id_unprocessable_submission_detection",
+                          "category": "user_action_required",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
                         },
                         {
                           "name": "id_compromised_detection",
+                          "category": "fraud",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
                         },
                         {
                           "name": "id_disallowed_country_detection",
+                          "category": "user_action_required",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
@@ -75596,18 +75670,21 @@
                       "checks": [
                         {
                           "name": "selfie_id_comparison",
+                          "category": "fraud",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
                         },
                         {
                           "name": "selfie_pose_detection",
+                          "category": "fraud",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
                         },
                         {
                           "name": "selfie_liveness_detection",
+                          "category": "fraud",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "not_required"
@@ -75866,18 +75943,21 @@
                       "checks": [
                         {
                           "name": "id_unprocessable_submission_detection",
+                          "category": "user_action_required",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
                         },
                         {
                           "name": "id_compromised_detection",
+                          "category": "fraud",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
                         },
                         {
                           "name": "id_disallowed_country_detection",
+                          "category": "user_action_required",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
@@ -75904,18 +75984,21 @@
                       "checks": [
                         {
                           "name": "selfie_id_comparison",
+                          "category": "fraud",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
                         },
                         {
                           "name": "selfie_pose_detection",
+                          "category": "fraud",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
                         },
                         {
                           "name": "selfie_liveness_detection",
+                          "category": "fraud",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "not_required"
@@ -76178,18 +76261,21 @@
                       "checks": [
                         {
                           "name": "id_unprocessable_submission_detection",
+                          "category": "user_action_required",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
                         },
                         {
                           "name": "id_compromised_detection",
+                          "category": "fraud",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
                         },
                         {
                           "name": "id_disallowed_country_detection",
+                          "category": "user_action_required",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
@@ -76216,18 +76302,21 @@
                       "checks": [
                         {
                           "name": "selfie_id_comparison",
+                          "category": "fraud",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
                         },
                         {
                           "name": "selfie_pose_detection",
+                          "category": "fraud",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
                         },
                         {
                           "name": "selfie_liveness_detection",
+                          "category": "fraud",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "not_required"
@@ -76489,18 +76578,21 @@
                       "checks": [
                         {
                           "name": "id_unprocessable_submission_detection",
+                          "category": "user_action_required",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
                         },
                         {
                           "name": "id_compromised_detection",
+                          "category": "fraud",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
                         },
                         {
                           "name": "id_disallowed_country_detection",
+                          "category": "user_action_required",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
@@ -76527,18 +76619,21 @@
                       "checks": [
                         {
                           "name": "selfie_id_comparison",
+                          "category": "fraud",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
                         },
                         {
                           "name": "selfie_pose_detection",
+                          "category": "fraud",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
                         },
                         {
                           "name": "selfie_liveness_detection",
+                          "category": "fraud",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "not_required"
@@ -76998,18 +77093,21 @@
                       "checks": [
                         {
                           "name": "id_unprocessable_submission_detection",
+                          "category": "user_action_required",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
                         },
                         {
                           "name": "id_compromised_detection",
+                          "category": "fraud",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
                         },
                         {
                           "name": "id_disallowed_country_detection",
+                          "category": "user_action_required",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
@@ -77036,18 +77134,21 @@
                       "checks": [
                         {
                           "name": "selfie_id_comparison",
+                          "category": "fraud",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
                         },
                         {
                           "name": "selfie_pose_detection",
+                          "category": "fraud",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
                         },
                         {
                           "name": "selfie_liveness_detection",
+                          "category": "fraud",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "not_required"
@@ -77311,18 +77412,21 @@
                       "checks": [
                         {
                           "name": "id_unprocessable_submission_detection",
+                          "category": "user_action_required",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
                         },
                         {
                           "name": "id_compromised_detection",
+                          "category": "fraud",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
                         },
                         {
                           "name": "id_disallowed_country_detection",
+                          "category": "user_action_required",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
@@ -77349,18 +77453,21 @@
                       "checks": [
                         {
                           "name": "selfie_id_comparison",
+                          "category": "fraud",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
                         },
                         {
                           "name": "selfie_pose_detection",
+                          "category": "fraud",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
                         },
                         {
                           "name": "selfie_liveness_detection",
+                          "category": "fraud",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "not_required"
@@ -77624,18 +77731,21 @@
                       "checks": [
                         {
                           "name": "id_unprocessable_submission_detection",
+                          "category": "user_action_required",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
                         },
                         {
                           "name": "id_compromised_detection",
+                          "category": "fraud",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
                         },
                         {
                           "name": "id_disallowed_country_detection",
+                          "category": "user_action_required",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
@@ -77662,18 +77772,21 @@
                       "checks": [
                         {
                           "name": "selfie_id_comparison",
+                          "category": "fraud",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
                         },
                         {
                           "name": "selfie_pose_detection",
+                          "category": "fraud",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
                         },
                         {
                           "name": "selfie_liveness_detection",
+                          "category": "fraud",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "not_required"
@@ -77936,18 +78049,21 @@
                       "checks": [
                         {
                           "name": "id_unprocessable_submission_detection",
+                          "category": "user_action_required",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
                         },
                         {
                           "name": "id_compromised_detection",
+                          "category": "fraud",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
                         },
                         {
                           "name": "id_disallowed_country_detection",
+                          "category": "user_action_required",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
@@ -77974,18 +78090,21 @@
                       "checks": [
                         {
                           "name": "selfie_id_comparison",
+                          "category": "fraud",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
                         },
                         {
                           "name": "selfie_pose_detection",
+                          "category": "fraud",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
                         },
                         {
                           "name": "selfie_liveness_detection",
+                          "category": "fraud",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "not_required"
@@ -78255,18 +78374,21 @@
                       "checks": [
                         {
                           "name": "id_unprocessable_submission_detection",
+                          "category": "user_action_required",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
                         },
                         {
                           "name": "id_compromised_detection",
+                          "category": "fraud",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
                         },
                         {
                           "name": "id_disallowed_country_detection",
+                          "category": "user_action_required",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
@@ -78293,18 +78415,21 @@
                       "checks": [
                         {
                           "name": "selfie_id_comparison",
+                          "category": "fraud",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
                         },
                         {
                           "name": "selfie_pose_detection",
+                          "category": "fraud",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
                         },
                         {
                           "name": "selfie_liveness_detection",
+                          "category": "fraud",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "not_required"
@@ -78568,18 +78693,21 @@
                       "checks": [
                         {
                           "name": "id_unprocessable_submission_detection",
+                          "category": "user_action_required",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
                         },
                         {
                           "name": "id_compromised_detection",
+                          "category": "fraud",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
                         },
                         {
                           "name": "id_disallowed_country_detection",
+                          "category": "user_action_required",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
@@ -78606,18 +78734,21 @@
                       "checks": [
                         {
                           "name": "selfie_id_comparison",
+                          "category": "fraud",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
                         },
                         {
                           "name": "selfie_pose_detection",
+                          "category": "fraud",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "required"
                         },
                         {
                           "name": "selfie_liveness_detection",
+                          "category": "fraud",
                           "status": "passed",
                           "reasons": [],
                           "requirement": "not_required"
@@ -87569,7 +87700,8 @@
                     "tags": [],
                     "checks": [
                       {
-                        "name": "id_type_detection",
+                        "name": "id_disallowed_type_detection",
+                        "category": "user_action_required",
                         "status": "passed",
                         "reasons": [],
                         "requirement": "required",
@@ -87577,6 +87709,7 @@
                       },
                       {
                         "name": "id_entity_detection",
+                        "category": "user_action_required",
                         "status": "passed",
                         "reasons": [],
                         "requirement": "required",
@@ -87584,6 +87717,7 @@
                       },
                       {
                         "name": "id_expired_detection",
+                        "category": "user_action_required",
                         "status": "passed",
                         "reasons": [],
                         "requirement": "required",
@@ -87714,7 +87848,8 @@
                     "tags": [],
                     "checks": [
                       {
-                        "name": "id_type_detection",
+                        "name": "id_disallowed_type_detection",
+                        "category": "user_action_required",
                         "status": "passed",
                         "reasons": [],
                         "requirement": "required",
@@ -87722,15 +87857,17 @@
                       },
                       {
                         "name": "id_entity_detection",
+                        "category": "user_action_required",
                         "status": "failed",
                         "reasons": [
-                          "low_confidence_entity_match"
+                          "cannot_verify_id"
                         ],
                         "requirement": "required",
                         "metadata": {}
                       },
                       {
                         "name": "id_expired_detection",
+                        "category": "user_action_required",
                         "status": "not_applicable",
                         "reasons": [],
                         "requirement": "required",
@@ -87864,6 +88001,7 @@
                     "checks": [
                       {
                         "name": "database_name_comparison",
+                        "category": "fraud",
                         "status": "passed",
                         "reasons": [],
                         "requirement": "required",
@@ -87871,6 +88009,7 @@
                       },
                       {
                         "name": "database_address_comparison",
+                        "category": "fraud",
                         "status": "passed",
                         "reasons": [],
                         "requirement": "required",
@@ -87878,6 +88017,7 @@
                       },
                       {
                         "name": "database_birthdate_comparison",
+                        "category": "fraud",
                         "status": "passed",
                         "reasons": [],
                         "requirement": "required",
@@ -87980,15 +88120,17 @@
                     "checks": [
                       {
                         "name": "selfie_liveness_detection",
+                        "category": "fraud",
                         "status": "failed",
                         "reasons": [
-                          "low_liveness_confidence"
+                          "replica_detected"
                         ],
                         "requirement": "requires_retry",
                         "metadata": {}
                       },
                       {
                         "name": "selfie_image_quality_detection",
+                        "category": "user_action_required",
                         "status": "not_applicable",
                         "reasons": [],
                         "requirement": "required",
@@ -87996,6 +88138,7 @@
                       },
                       {
                         "name": "selfie_id_comparison",
+                        "category": "fraud",
                         "status": "not_applicable",
                         "reasons": [],
                         "requirement": "required",
@@ -88308,6 +88451,7 @@
                     "checks": [
                       {
                         "name": "database_business_service_available_detection",
+                        "category": "user_action_required",
                         "status": "passed",
                         "reasons": [],
                         "requirement": "required",
@@ -88315,6 +88459,7 @@
                       },
                       {
                         "name": "database_business_enabled_country_detection",
+                        "category": "user_action_required",
                         "status": "passed",
                         "reasons": [],
                         "requirement": "required",
@@ -88322,6 +88467,7 @@
                       },
                       {
                         "name": "database_business_active_business_detection",
+                        "category": "fraud",
                         "status": "passed",
                         "reasons": [],
                         "requirement": "required",
@@ -88329,6 +88475,7 @@
                       },
                       {
                         "name": "database_business_identity_comparison",
+                        "category": "fraud",
                         "status": "failed",
                         "reasons": [
                           "low_confidence_match"
@@ -88338,6 +88485,7 @@
                       },
                       {
                         "name": "database_business_associated_persons_comparison",
+                        "category": "fraud",
                         "status": "not_applicable",
                         "reasons": [],
                         "requirement": "required",
@@ -88427,6 +88575,7 @@
                     "checks": [
                       {
                         "name": "document_type_detection",
+                        "category": "validity",
                         "status": "passed",
                         "reasons": [],
                         "requirement": "required",
@@ -88434,6 +88583,7 @@
                       },
                       {
                         "name": "document_extracted_properties_detection",
+                        "category": "validity",
                         "status": "passed",
                         "reasons": [],
                         "requirement": "required",
@@ -88441,6 +88591,7 @@
                       },
                       {
                         "name": "document_expired_detection",
+                        "category": "validity",
                         "status": "passed",
                         "reasons": [],
                         "requirement": "required",
@@ -88448,6 +88599,7 @@
                       },
                       {
                         "name": "document_fabrication_detection",
+                        "category": "fraud",
                         "status": "passed",
                         "reasons": [],
                         "requirement": "required",
@@ -88555,6 +88707,7 @@
                     "checks": [
                       {
                         "name": "database_name_comparison",
+                        "category": "fraud",
                         "status": "passed",
                         "reasons": [],
                         "requirement": "required",
@@ -88562,6 +88715,7 @@
                       },
                       {
                         "name": "database_address_comparison",
+                        "category": "fraud",
                         "status": "passed",
                         "reasons": [],
                         "requirement": "required",
@@ -89135,6 +89289,16 @@
                           "data.type must be filled",
                           "meta.object_ids must be an array"
                         ]
+                      },
+                      "source": {
+                        "type": "object",
+                        "description": "The location of the invalid value.",
+                        "additionalProperties": false,
+                        "properties": {
+                          "pointer": {
+                            "type": "string"
+                          }
+                        }
                       },
                       "meta": {
                         "type": "object",
