@@ -48,9 +48,13 @@ post:
 
     | `template` | Case template (e.g., `ctmpl_ABC123`) |
 
+    | `case_template_id` | Case template (e.g., `ctmpl_ABC123`) |
+
     | `status` | Case status (e.g., `open`, `pending`, `resolved`) |
 
     | `state` | Case state |
+
+    | `resolution` | Case resolution |
 
     | `created_at` | Case creation timestamp |
 
@@ -64,13 +68,36 @@ post:
 
     | `case_queue` | Case queue (e.g., `cqueue_ABC123`) |
 
+    | `case_queue_id` | Case queue (e.g., `cqueue_ABC123`) |
+
     | `resolver` | Resolver user |
+
+    | `account_id` | Related account (e.g., `act_ABC123`) |
+
+    | `inquiry_id` | Related inquiry (e.g., `inq_ABC123`) |
+
+    | `tag_id` | Related tag (e.g., `tag_ABC123`) |
 
     | `fields.*` | Custom case field (e.g., `fields.priority`) |
 
 
     **Note:** Custom fields (`fields.*`) must be configured as searchable on the
     Case Template to be queryable.
+
+
+    **Note:** `account_id`, `inquiry_id`, `tag_id`, `case_template_id`,
+    `case_queue_id`, and
+
+    `resolution` cannot be used in `sort`.
+
+
+    **Note:** `account_id`, `inquiry_id`, and `tag_id` match against the 50 most
+    recently added
+
+    accounts, inquiries, and tags on a case. A case related to more than 50 of
+    one of these will not
+
+    match on the older ones.
   operationId: search-cases
   externalDocs:
     description: Full documentation for this API on the Persona website.

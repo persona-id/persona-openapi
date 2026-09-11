@@ -7979,7 +7979,7 @@
     },
     "/cases/search": {
       "post": {
-        "description": "Search for cases using a flexible query language.\n\n## Search vs. List Endpoints\n\nThe Search and List endpoints serve different purposes and have distinct performance characteristics.\n\nUse the **Search** endpoint (`POST /cases/search`) when you need to perform complex queries with boolean logic (AND/OR/NOT), filter by custom fields, assignee, case queue, or SLA expiration, or apply multiple conditions simultaneously. Search is optimized for flexible querying and is faster than paginating through all resources when looking for specific records.\n\nUse the **List** endpoint (`GET /cases`) for simple listing with basic filters like status, case template, account, inquiry, or report.\n\n## Data Freshness\n\nDo not use search for read-after-write flows because the data will not be immediately available to search.\nUnder normal operating conditions, data is searchable within approximately 1 minute of creation or modification.\nPropagation of new or updated data could be delayed during an outage.\nFor workflows that require immediate data availability after creating or updating a case, use the List Cases endpoint instead.\n\n### Searchable Attributes\n\nThe following attributes can be used in query predicates:\n\n| Attribute | Description |\n|-----------|-------------|\n| `template` | Case template (e.g., `ctmpl_ABC123`) |\n| `status` | Case status (e.g., `open`, `pending`, `resolved`) |\n| `state` | Case state |\n| `created_at` | Case creation timestamp |\n| `updated_at` | Case last updated timestamp |\n| `resolved_at` | Case resolution timestamp |\n| `sla_expires_at` | SLA expiration timestamp |\n| `assignee` | Assigned user (e.g., `user_ABC123`) |\n| `case_queue` | Case queue (e.g., `cqueue_ABC123`) |\n| `resolver` | Resolver user |\n| `fields.*` | Custom case field (e.g., `fields.priority`) |\n\n**Note:** Custom fields (`fields.*`) must be configured as searchable on the Case Template to be queryable.\n",
+        "description": "Search for cases using a flexible query language.\n\n## Search vs. List Endpoints\n\nThe Search and List endpoints serve different purposes and have distinct performance characteristics.\n\nUse the **Search** endpoint (`POST /cases/search`) when you need to perform complex queries with boolean logic (AND/OR/NOT), filter by custom fields, assignee, case queue, or SLA expiration, or apply multiple conditions simultaneously. Search is optimized for flexible querying and is faster than paginating through all resources when looking for specific records.\n\nUse the **List** endpoint (`GET /cases`) for simple listing with basic filters like status, case template, account, inquiry, or report.\n\n## Data Freshness\n\nDo not use search for read-after-write flows because the data will not be immediately available to search.\nUnder normal operating conditions, data is searchable within approximately 1 minute of creation or modification.\nPropagation of new or updated data could be delayed during an outage.\nFor workflows that require immediate data availability after creating or updating a case, use the List Cases endpoint instead.\n\n### Searchable Attributes\n\nThe following attributes can be used in query predicates:\n\n| Attribute | Description |\n|-----------|-------------|\n| `template` | Case template (e.g., `ctmpl_ABC123`) |\n| `case_template_id` | Case template (e.g., `ctmpl_ABC123`) |\n| `status` | Case status (e.g., `open`, `pending`, `resolved`) |\n| `state` | Case state |\n| `resolution` | Case resolution |\n| `created_at` | Case creation timestamp |\n| `updated_at` | Case last updated timestamp |\n| `resolved_at` | Case resolution timestamp |\n| `sla_expires_at` | SLA expiration timestamp |\n| `assignee` | Assigned user (e.g., `user_ABC123`) |\n| `case_queue` | Case queue (e.g., `cqueue_ABC123`) |\n| `case_queue_id` | Case queue (e.g., `cqueue_ABC123`) |\n| `resolver` | Resolver user |\n| `account_id` | Related account (e.g., `act_ABC123`) |\n| `inquiry_id` | Related inquiry (e.g., `inq_ABC123`) |\n| `tag_id` | Related tag (e.g., `tag_ABC123`) |\n| `fields.*` | Custom case field (e.g., `fields.priority`) |\n\n**Note:** Custom fields (`fields.*`) must be configured as searchable on the Case Template to be queryable.\n\n**Note:** `account_id`, `inquiry_id`, `tag_id`, `case_template_id`, `case_queue_id`, and\n`resolution` cannot be used in `sort`.\n\n**Note:** `account_id`, `inquiry_id`, and `tag_id` match against the 50 most recently added\naccounts, inquiries, and tags on a case. A case related to more than 50 of one of these will not\nmatch on the older ones.\n",
         "operationId": "search-cases",
         "externalDocs": {
           "description": "Full documentation for this API on the Persona website.",
@@ -11024,7 +11024,7 @@
                             ]
                           },
                           "theme-set-id": {
-                            "description": "BETA FEATURE -- Theme Set ID for styling. Only available for Dynamic Flow Inquiries.",
+                            "description": "Theme Set ID for styling. Only available for Dynamic Flow Inquiries.",
                             "examples": [
                               "theset_ABC123"
                             ],
@@ -45229,6 +45229,33 @@
                     }
                   }
                 }
+              },
+              "sentinel-sessions": {
+                "type": "object",
+                "additionalProperties": false,
+                "description": "The Sentinel sessions that collected device and network data for this Transaction. Present on every Transaction; `data` is empty unless the Transaction has one or more Sentinel sessions.",
+                "properties": {
+                  "data": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "const": "sentinel-session"
+                        },
+                        "id": {
+                          "description": "Unique identifier for this Sentinel Session. Starts with `snts_`.",
+                          "type": "string",
+                          "examples": [
+                            "snts_ABC123"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
               }
             }
           }
@@ -59247,6 +59274,24 @@
                       "null"
                     ],
                     "format": "date"
+                  },
+                  "right-to-work-start-date": {
+                    "description": "Date from which the person may work in the UK.",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "format": "date",
+                    "example": "2023-02-15"
+                  },
+                  "right-to-work-end-date": {
+                    "description": "Date until which the person may work in the UK.",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "format": "date",
+                    "example": "2025-02-15"
                   }
                 }
               }
@@ -66953,7 +66998,7 @@
       },
       "transactions-included-objects": {
         "type": "array",
-        "description": "Full representations of the objects referenced in `data.attributes.relationships` — the Transaction's Transaction Type, its reviewer (a Workflow Run, Workflow Step, or User), and any related objects such as Accounts, Inquiries, Verifications, Reports, or Cases. The set of types that appear depends on what the Transaction is related to.",
+        "description": "Full representations of the objects referenced in `data.attributes.relationships` — the Transaction's Transaction Type, its reviewer (a Workflow Run, Workflow Step, or User), its Sentinel Session, and any related objects such as Accounts, Inquiries, Verifications, Reports, or Cases. The set of types that appear depends on what the Transaction is related to.",
         "items": {
           "type": "object",
           "additionalProperties": true,
@@ -66971,7 +67016,8 @@
                 "account",
                 "inquiry",
                 "workflow-run",
-                "report/watchlist"
+                "report/watchlist",
+                "sentinel-session"
               ]
             },
             "id": {
@@ -70643,6 +70689,9 @@
                       "id": "ver_ABC123"
                     }
                   ]
+                },
+                "sentinel-sessions": {
+                  "data": []
                 }
               }
             }
@@ -70728,6 +70777,9 @@
                     "id": "ver_ABC123"
                   }
                 ]
+              },
+              "sentinel-sessions": {
+                "data": []
               }
             }
           }
@@ -70808,6 +70860,9 @@
                     "id": "ver_ABC123"
                   }
                 ]
+              },
+              "sentinel-sessions": {
+                "data": []
               }
             }
           },
@@ -71391,6 +71446,9 @@
                     "id": "ver_ABC123"
                   }
                 ]
+              },
+              "sentinel-sessions": {
+                "data": []
               }
             }
           },
@@ -86341,6 +86399,14 @@
                           "id": "act_9yGqWZ8jK4pN2dR7sVxL3bTm"
                         }
                       ]
+                    },
+                    "sentinel-sessions": {
+                      "data": [
+                        {
+                          "type": "sentinel-session",
+                          "id": "snts_26wUfNNK6Ze7qkwyK6kuj7Rk"
+                        }
+                      ]
                     }
                   }
                 },
@@ -86353,6 +86419,34 @@
                       "created-at": "2023-06-29T23:54:35.293Z",
                       "updated-at": "2023-06-29T23:54:35.293Z",
                       "field-schemas": []
+                    }
+                  },
+                  {
+                    "type": "sentinel-session",
+                    "id": "snts_26wUfNNK6Ze7qkwyK6kuj7Rk",
+                    "attributes": {
+                      "status": "processed",
+                      "created-at": "2024-02-16T09:12:50.118Z",
+                      "updated-at": "2024-02-16T09:13:10.552Z",
+                      "ip-address": "139.178.128.13",
+                      "device-token": "dev_9yGqWZ8jK4pN2dR7sVxL3bTm",
+                      "device-fingerprint": "a1b2c3d4e5f6",
+                      "browser-fingerprint": "a1b2c3d4e5f6",
+                      "bot-score": 0.02,
+                      "threat-level": "low",
+                      "proxy": false,
+                      "tor": false,
+                      "datacenter": false,
+                      "vpn": false,
+                      "ip-connection-type": "residential",
+                      "ip-isp": "Comcast",
+                      "country-code": "US",
+                      "country-name": "United States",
+                      "region-code": "CA",
+                      "region-name": "California",
+                      "latitude": 37.7749,
+                      "longitude": -122.4194,
+                      "account-reference-id": null
                     }
                   }
                 ]

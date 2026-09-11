@@ -5252,18 +5252,31 @@ paths:
         | Attribute | Description |
         |-----------|-------------|
         | `template` | Case template (e.g., `ctmpl_ABC123`) |
+        | `case_template_id` | Case template (e.g., `ctmpl_ABC123`) |
         | `status` | Case status (e.g., `open`, `pending`, `resolved`) |
         | `state` | Case state |
+        | `resolution` | Case resolution |
         | `created_at` | Case creation timestamp |
         | `updated_at` | Case last updated timestamp |
         | `resolved_at` | Case resolution timestamp |
         | `sla_expires_at` | SLA expiration timestamp |
         | `assignee` | Assigned user (e.g., `user_ABC123`) |
         | `case_queue` | Case queue (e.g., `cqueue_ABC123`) |
+        | `case_queue_id` | Case queue (e.g., `cqueue_ABC123`) |
         | `resolver` | Resolver user |
+        | `account_id` | Related account (e.g., `act_ABC123`) |
+        | `inquiry_id` | Related inquiry (e.g., `inq_ABC123`) |
+        | `tag_id` | Related tag (e.g., `tag_ABC123`) |
         | `fields.*` | Custom case field (e.g., `fields.priority`) |
 
         **Note:** Custom fields (`fields.*`) must be configured as searchable on the Case Template to be queryable.
+
+        **Note:** `account_id`, `inquiry_id`, `tag_id`, `case_template_id`, `case_queue_id`, and
+        `resolution` cannot be used in `sort`.
+
+        **Note:** `account_id`, `inquiry_id`, and `tag_id` match against the 50 most recently added
+        accounts, inquiries, and tags on a case. A case related to more than 50 of one of these will not
+        match on the older ones.
       operationId: search-cases
       externalDocs:
         description: Full documentation for this API on the Persona website.
@@ -7279,7 +7292,7 @@ paths:
                             - string
                             - 'null'
                         theme-set-id:
-                          description: BETA FEATURE -- Theme Set ID for styling. Only available for Dynamic Flow Inquiries.
+                          description: Theme Set ID for styling. Only available for Dynamic Flow Inquiries.
                           examples:
                             - theset_ABC123
                           type:
@@ -28676,6 +28689,25 @@ components:
                           - act_ABC123
                           - inq_ABC123
                           - ver_ABC123
+            sentinel-sessions:
+              type: object
+              additionalProperties: false
+              description: The Sentinel sessions that collected device and network data for this Transaction. Present on every Transaction; `data` is empty unless the Transaction has one or more Sentinel sessions.
+              properties:
+                data:
+                  type: array
+                  items:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      type:
+                        type: string
+                        const: sentinel-session
+                      id:
+                        description: Unique identifier for this Sentinel Session. Starts with `snts_`.
+                        type: string
+                        examples:
+                          - snts_ABC123
     api-key-shared-attributes:
       x-inheritable: true
       type: object
@@ -39102,6 +39134,20 @@ components:
                     - string
                     - 'null'
                   format: date
+                right-to-work-start-date:
+                  description: Date from which the person may work in the UK.
+                  type:
+                    - string
+                    - 'null'
+                  format: date
+                  example: '2023-02-15'
+                right-to-work-end-date:
+                  description: Date until which the person may work in the UK.
+                  type:
+                    - string
+                    - 'null'
+                  format: date
+                  example: '2025-02-15'
         relationships:
           $ref: '#/components/schemas/verification-shared-relationships'
     verification-digital-id-world-id:
@@ -44390,7 +44436,7 @@ components:
           - $ref: '#/components/schemas/inquiry'
     transactions-included-objects:
       type: array
-      description: 'Full representations of the objects referenced in `data.attributes.relationships` — the Transaction''s Transaction Type, its reviewer (a Workflow Run, Workflow Step, or User), and any related objects such as Accounts, Inquiries, Verifications, Reports, or Cases. The set of types that appear depends on what the Transaction is related to.'
+      description: 'Full representations of the objects referenced in `data.attributes.relationships` — the Transaction''s Transaction Type, its reviewer (a Workflow Run, Workflow Step, or User), its Sentinel Session, and any related objects such as Accounts, Inquiries, Verifications, Reports, or Cases. The set of types that appear depends on what the Transaction is related to.'
       items:
         type: object
         additionalProperties: true
@@ -44408,6 +44454,7 @@ components:
               - inquiry
               - workflow-run
               - report/watchlist
+              - sentinel-session
           id:
             type: string
             description: Unique identifier for the included object.
@@ -47184,6 +47231,8 @@ components:
                     id: act_ABC123
                   - type: verification/government-id
                     id: ver_ABC123
+              sentinel-sessions:
+                data: []
         links:
           prev: null
           next: /api/v1/transactions?page%5Bafter%5D=txn_ABC123
@@ -47242,6 +47291,8 @@ components:
                   id: act_ABC123
                 - type: verification/government-id
                   id: ver_ABC123
+            sentinel-sessions:
+              data: []
     transaction-retrieve:
       value:
         data:
@@ -47297,6 +47348,8 @@ components:
                   id: act_ABC123
                 - type: verification/government-id
                   id: ver_ABC123
+            sentinel-sessions:
+              data: []
         included:
           - type: account
             id: act_ABC123
@@ -47712,6 +47765,8 @@ components:
                   id: act_ABC123
                 - type: verification/government-id
                   id: ver_ABC123
+            sentinel-sessions:
+              data: []
         included:
           - type: transaction-label
             id: txnl_ABC123
@@ -58732,6 +58787,10 @@ components:
                     data:
                       - type: account
                         id: act_9yGqWZ8jK4pN2dR7sVxL3bTm
+                  sentinel-sessions:
+                    data:
+                      - type: sentinel-session
+                        id: snts_26wUfNNK6Ze7qkwyK6kuj7Rk
               included:
                 - type: transaction-type
                   id: txntp_N1687FCwgERcW3M88M5U4mAt
@@ -58740,6 +58799,31 @@ components:
                     created-at: '2023-06-29T23:54:35.293Z'
                     updated-at: '2023-06-29T23:54:35.293Z'
                     field-schemas: []
+                - type: sentinel-session
+                  id: snts_26wUfNNK6Ze7qkwyK6kuj7Rk
+                  attributes:
+                    status: processed
+                    created-at: '2024-02-16T09:12:50.118Z'
+                    updated-at: '2024-02-16T09:13:10.552Z'
+                    ip-address: 139.178.128.13
+                    device-token: dev_9yGqWZ8jK4pN2dR7sVxL3bTm
+                    device-fingerprint: a1b2c3d4e5f6
+                    browser-fingerprint: a1b2c3d4e5f6
+                    bot-score: 0.02
+                    threat-level: low
+                    proxy: false
+                    tor: false
+                    datacenter: false
+                    vpn: false
+                    ip-connection-type: residential
+                    ip-isp: Comcast
+                    country-code: US
+                    country-name: United States
+                    region-code: CA
+                    region-name: California
+                    latitude: 37.7749
+                    longitude: -122.4194
+                    account-reference-id: null
             created-at: '2024-02-16T09:13:10.552Z'
     transaction-type-deleted-field-webhook-body:
       value:

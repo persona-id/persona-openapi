@@ -138,3 +138,27 @@ properties:
                     - act_ABC123
                     - inq_ABC123
                     - ver_ABC123
+      sentinel-sessions:
+        type: object
+        additionalProperties: false
+        description: >-
+          The Sentinel sessions that collected device and network data for this
+          Transaction. Present on every Transaction; `data` is empty unless the
+          Transaction has one or more Sentinel sessions.
+        properties:
+          data:
+            type: array
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                type:
+                  type: string
+                  const: sentinel-session
+                id:
+                  description: >-
+                    Unique identifier for this Sentinel Session. Starts with
+                    `snts_`.
+                  type: string
+                  examples:
+                    - snts_ABC123
