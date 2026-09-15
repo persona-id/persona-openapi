@@ -875,7 +875,7 @@ paths:
                   properties:
                     relation-schema-key:
                       type: string
-                      description: Key of the relation schema to add.
+                      description: 'Key of the relation schema to add. Valid keys are **defined by the relation schemas configured for your organization**, not by this API, so the accepted set varies per organization and per object type. A key outside that set is rejected with `No relation schema found for ''<key>''`.'
                     target-object-id:
                       type: string
                       description: ID of the target Account or Transaction to relate to.
@@ -16061,11 +16061,14 @@ paths:
         - $ref: '#/components/parameters/include-query-parameter'
         - $ref: '#/components/parameters/fields-query-parameter'
       requestBody:
+        required: true
         content:
           application/json:
             schema:
               type: object
               additionalProperties: false
+              required:
+                - data
               properties:
                 data:
                   type: object
@@ -16077,7 +16080,10 @@ paths:
                       properties:
                         transaction-type-id:
                           type: string
-                          description: Transaction type ID to create the transaction for.
+                          pattern: ^txntp_
+                          examples:
+                            - txntp_8kQvWmT3xLpR6yNzHdF2sJbC
+                          description: 'Transaction type ID to create the transaction for. Required. Must be the ID of an existing Transaction Type in your organization, which always begins with `txntp_`.'
                         fields:
                           description: JSON key-value pairs of field name to field value. Schema is defined by your transaction type.
                           examples:
@@ -16094,6 +16100,10 @@ paths:
                           type:
                             - array
                             - 'null'
+                      required:
+                        - transaction-type-id
+                  required:
+                    - attributes
                 meta:
                   type: object
                   additionalProperties: false
@@ -16492,6 +16502,7 @@ paths:
                           additionalProperties: true
                         status:
                           type: string
+                          description: 'The status to move the Transaction to. Valid values are configured on the Transaction Type, not fixed by this API, so they differ between transaction types and between organizations. This API does not expose the configured set; it is visible on the transaction type in the Dashboard. A value outside that set is rejected with `Status does not exist`.'
                         reference-id:
                           type: string
                           description: 'Reference ID on Account, refers to an entity in your user model.'
@@ -16581,7 +16592,7 @@ paths:
                   properties:
                     relation-schema-key:
                       type: string
-                      description: Key of the relation schema to add.
+                      description: 'Key of the relation schema to add. Valid keys are **defined by the relation schemas configured for your organization**, not by this API, so the accepted set varies per organization and per object type. A key outside that set is rejected with `No relation schema found for ''<key>''`.'
                     target-object-id:
                       type: string
                       description: ID of the target Account or Transaction to relate to.
