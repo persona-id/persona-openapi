@@ -22163,6 +22163,9 @@
                         "$ref": "#/components/schemas/report-profile-non-authoritative-request"
                       },
                       {
+                        "$ref": "#/components/schemas/report-screening-request"
+                      },
+                      {
                         "$ref": "#/components/schemas/report-social-media-request"
                       },
                       {
@@ -22250,6 +22253,9 @@
                 "examples": {
                   "Created": {
                     "$ref": "#/components/examples/report-watchlist"
+                  },
+                  "Screening": {
+                    "$ref": "#/components/examples/report-screening"
                   }
                 },
                 "schema": {
@@ -22364,6 +22370,9 @@
                 "examples": {
                   "Success": {
                     "$ref": "#/components/examples/report-watchlist"
+                  },
+                  "Screening": {
+                    "$ref": "#/components/examples/report-screening"
                   }
                 },
                 "schema": {
@@ -22473,6 +22482,9 @@
                 "examples": {
                   "Success": {
                     "$ref": "#/components/examples/report-watchlist"
+                  },
+                  "Screening": {
+                    "$ref": "#/components/examples/report-screening"
                   }
                 },
                 "schema": {
@@ -39880,6 +39892,433 @@
         }
       }
     },
+    "report/screening.ready": {
+      "post": {
+        "operationId": "webhook-report-screening-ready",
+        "summary": "Screening report ready",
+        "description": "Webhook for the `report/screening.ready` event. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).\n\nSent when a screening report finishes processing and its results are available (`status` is `ready`).\n\nThe payload is the polymorphic report object. Inspect `payload.data.type` (`report/screening`) to identify the report, and `payload.data.attributes` for its inputs and results.",
+        "tags": [
+          "Report events"
+        ],
+        "x-persona-product": "Reports",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "unevaluatedProperties": false,
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/webhook-body-shared-data"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "attributes": {
+                            "unevaluatedProperties": false,
+                            "allOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "const": "report/screening.ready"
+                                  },
+                                  "context": {
+                                    "$ref": "#/components/schemas/webhook-body-empty-context"
+                                  },
+                                  "payload": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "data": {
+                                        "$ref": "#/components/schemas/report-screening"
+                                      },
+                                      "included": {
+                                        "description": "Objects referenced by `payload.data.relationships` are included here when related-object inclusion is enabled for the webhook. When inclusion is off (the default), the `included` key is omitted entirely (it is not returned as an empty array).",
+                                        "$ref": "#/components/schemas/reports-included-objects"
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "$ref": "#/components/schemas/webhook-body-shared-attributes"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Example Body": {
+                  "$ref": "#/components/examples/report-screening-ready-webhook-body"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/success"
+          }
+        }
+      }
+    },
+    "report/screening.matched": {
+      "post": {
+        "operationId": "webhook-report-screening-matched",
+        "summary": "Screening report matched",
+        "description": "Webhook for the `report/screening.matched` event. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).\n\nSent when a screening report surfaces one or more matched records (`has-match` becomes `true`). For continuously-monitored reports this fires on the run that introduces a new match.\n\nThe payload is the polymorphic report object. Inspect `payload.data.type` (`report/screening`) to identify the report, and `payload.data.attributes` for its inputs and results.",
+        "tags": [
+          "Report events"
+        ],
+        "x-persona-product": "Reports",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "unevaluatedProperties": false,
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/webhook-body-shared-data"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "attributes": {
+                            "unevaluatedProperties": false,
+                            "allOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "const": "report/screening.matched"
+                                  },
+                                  "context": {
+                                    "$ref": "#/components/schemas/webhook-body-empty-context"
+                                  },
+                                  "payload": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "data": {
+                                        "$ref": "#/components/schemas/report-screening"
+                                      },
+                                      "included": {
+                                        "description": "Objects referenced by `payload.data.relationships` are included here when related-object inclusion is enabled for the webhook. When inclusion is off (the default), the `included` key is omitted entirely (it is not returned as an empty array).",
+                                        "$ref": "#/components/schemas/reports-included-objects"
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "$ref": "#/components/schemas/webhook-body-shared-attributes"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Example Body": {
+                  "$ref": "#/components/examples/report-screening-matched-webhook-body"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/success"
+          }
+        }
+      }
+    },
+    "report/screening.reviewed": {
+      "post": {
+        "operationId": "webhook-report-screening-reviewed",
+        "summary": "Screening report record reviewed",
+        "description": "Webhook for the `report/screening.reviewed` event. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).\n\nSent when a matched record on a screening report is reviewed (e.g. confirmed or dismissed) by a reviewer.\n\nThe payload is the polymorphic report object. Inspect `payload.data.type` (`report/screening`) to identify the report, and `payload.data.attributes.matched-records[].review-status` for the reviewed record's outcome.",
+        "tags": [
+          "Report events"
+        ],
+        "x-persona-product": "Reports",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "unevaluatedProperties": false,
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/webhook-body-shared-data"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "attributes": {
+                            "unevaluatedProperties": false,
+                            "allOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "const": "report/screening.reviewed"
+                                  },
+                                  "context": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "description": "Identifies the disposition applied and the reviewer's comment.",
+                                    "properties": {
+                                      "review-type": {
+                                        "type": [
+                                          "string",
+                                          "null"
+                                        ],
+                                        "description": "The scope of the review action.\n\nPossible values:\n- all_records\n- attribute\n- multiple_attributes\n- record\n\nDo not assume this is a static enumeration; Persona may add new\nvalues in the future without a versioned update.",
+                                        "examples": [
+                                          "record"
+                                        ]
+                                      },
+                                      "review-status": {
+                                        "type": [
+                                          "string",
+                                          "null"
+                                        ],
+                                        "description": "Possible values:\n- pending\n- indeterminate\n- true_positive\n- false_positive\n\nDo not assume this is a static enumeration; Persona may add new\nvalues in the future without a versioned update.",
+                                        "examples": [
+                                          "false_positive"
+                                        ]
+                                      },
+                                      "risk-level": {
+                                        "type": [
+                                          "string",
+                                          "null"
+                                        ],
+                                        "description": "Possible values:\n- material\n- immaterial\n\nDo not assume this is a static enumeration; Persona may add new\nvalues in the future without a versioned update.",
+                                        "examples": [
+                                          "material"
+                                        ]
+                                      },
+                                      "record-token": {
+                                        "type": [
+                                          "string",
+                                          "null"
+                                        ],
+                                        "description": "The token of the matched record this review applies to. Absent when the review applied to the whole report rather than a single record (`review-type` `all_records`, `attribute`, or `multiple_attributes`).",
+                                        "examples": [
+                                          "scrre_3EenGd9ZzeXLWBL11K5mnSBi"
+                                        ]
+                                      },
+                                      "comment": {
+                                        "type": [
+                                          "string",
+                                          "null"
+                                        ],
+                                        "description": "The reviewer's free-text comment explaining the disposition, if one was provided."
+                                      }
+                                    }
+                                  },
+                                  "payload": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "data": {
+                                        "$ref": "#/components/schemas/report-screening"
+                                      },
+                                      "included": {
+                                        "description": "Objects referenced by `payload.data.relationships` are included here when related-object inclusion is enabled for the webhook. When inclusion is off (the default), the `included` key is omitted entirely (it is not returned as an empty array).",
+                                        "$ref": "#/components/schemas/reports-included-objects"
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "$ref": "#/components/schemas/webhook-body-shared-attributes"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Example Body": {
+                  "$ref": "#/components/examples/report-screening-reviewed-webhook-body"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/success"
+          }
+        }
+      }
+    },
+    "report/screening.errored": {
+      "post": {
+        "operationId": "webhook-report-screening-errored",
+        "summary": "Screening report errored",
+        "description": "Webhook for the `report/screening.errored` event. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).\n\nSent when a screening report fails to complete processing (`status` is `errored`).\n\nThe payload is the polymorphic report object. Inspect `payload.data.type` (`report/screening`) to identify the report, and `payload.data.attributes` for its inputs and results.",
+        "tags": [
+          "Report events"
+        ],
+        "x-persona-product": "Reports",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/persona-signature-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-made"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-attempts-left"
+          },
+          {
+            "$ref": "#/components/parameters/persona-webhook-first-attempted-at"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "unevaluatedProperties": false,
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/webhook-body-shared-data"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "attributes": {
+                            "unevaluatedProperties": false,
+                            "allOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "const": "report/screening.errored"
+                                  },
+                                  "context": {
+                                    "$ref": "#/components/schemas/webhook-body-empty-context"
+                                  },
+                                  "payload": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "data": {
+                                        "$ref": "#/components/schemas/report-screening"
+                                      },
+                                      "included": {
+                                        "description": "Objects referenced by `payload.data.relationships` are included here when related-object inclusion is enabled for the webhook. When inclusion is off (the default), the `included` key is omitted entirely (it is not returned as an empty array).",
+                                        "$ref": "#/components/schemas/reports-included-objects"
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "$ref": "#/components/schemas/webhook-body-shared-attributes"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Example Body": {
+                  "$ref": "#/components/examples/report-screening-errored-webhook-body"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/success"
+          }
+        }
+      }
+    },
     "report/sentilink-scores.ready": {
       "post": {
         "operationId": "webhook-report-sentilink-scores-ready",
@@ -45107,6 +45546,11 @@
                 "items": {
                   "type": "string"
                 }
+              },
+              "signals": {
+                "description": "Risk signals computed for this Transaction, keyed by signal name. Only present for Transactions whose Transaction Type has Sentinel enabled; signals appear once the Sentinel session has been processed. Specific keys are not enumerated in the public spec and may be added or removed over time. Contact your Persona account team for more information.",
+                "type": "object",
+                "additionalProperties": true
               },
               "created-at": {
                 "type": "string",
@@ -62723,6 +63167,632 @@
           }
         }
       },
+      "report-screening": {
+        "title": "Screening Report",
+        "description": "A Screening Report",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report/screening"
+          },
+          "id": {
+            "type": "string",
+            "description": "The ID of the report",
+            "example": "rep_7WNzPaNcroBKLarNHBjYDLAp"
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/report-shared-attributes"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "additionalProperties": false,
+                    "description": "The input search parameters used for this report",
+                    "properties": {
+                      "name-first": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "The input first name of the search individual",
+                        "example": "Joe"
+                      },
+                      "name-middle": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "The input middle name of the search individual",
+                        "example": "N"
+                      },
+                      "name-last": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "The input last name of the search individual",
+                        "example": "Doe"
+                      },
+                      "term": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "The input combined term used for searching (first + middle + last name)",
+                        "example": "Joe N Doe"
+                      },
+                      "birthdate": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "The input DOB in YYYY-MM-DD format",
+                        "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+                        "example": "1991-10-07"
+                      },
+                      "address-street-1": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "The first line of the input search address",
+                        "example": "1 Persona Way"
+                      },
+                      "address-street-2": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "The second line of the input search address",
+                        "example": "Suite 100"
+                      },
+                      "address-city": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "The city of the input search address",
+                        "example": "San Francisco"
+                      },
+                      "address-subdivision": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "The state or subdivision of the input search address",
+                        "example": "CA"
+                      },
+                      "address-postal-code": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "The postal code of the input search address",
+                        "example": "94103"
+                      },
+                      "address-country-code": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "The country of the input search address, in alpha2 format",
+                        "example": "US"
+                      },
+                      "email": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "The input email address of the search individual",
+                        "example": "joe.doe@example.com"
+                      },
+                      "identification-number": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "The input government ID number of the search individual",
+                        "example": "123456789"
+                      }
+                    }
+                  },
+                  "matched-screening-types": {
+                    "type": [
+                      "array",
+                      "null"
+                    ],
+                    "description": "The types of screening (e.g. sanction, warning, PEP, adverse media) that produced at least one matched record on this report.\nDo not assume this is a static enumeration; Persona may add new values in the future without a versioned update.",
+                    "items": {
+                      "type": "string",
+                      "example": "sanction"
+                    }
+                  },
+                  "matched-records": {
+                    "type": [
+                      "array",
+                      "null"
+                    ],
+                    "description": "The records that matched from the search input, across all configured screening types",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "token": {
+                          "type": "string",
+                          "example": "scrre_7WNzPaNcroBKLarNHBjYDLAp"
+                        },
+                        "matched": {
+                          "type": "boolean"
+                        },
+                        "created-at": {
+                          "type": "string",
+                          "format": "date-time",
+                          "example": "2023-09-13T22:08:56.618Z"
+                        },
+                        "reviewed-at": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "format": "date-time",
+                          "example": "2023-09-14T18:02:11.000Z"
+                        },
+                        "review-status": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "description": "Possible values:\n- pending\n- indeterminate\n- true_positive\n- false_positive\n\nDo not assume this is a static enumeration; Persona may add new values in\nthe future without a versioned update."
+                        },
+                        "risk-level": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "description": "Possible values:\n- material\n- immaterial\n\nDo not assume this is a static enumeration; Persona may add new values in\nthe future without a versioned update.",
+                          "example": "material"
+                        },
+                        "present-in-last-run": {
+                          "type": "boolean",
+                          "description": "Whether this record was present in the most recent run of the report"
+                        },
+                        "notify-on-change": {
+                          "type": "boolean"
+                        },
+                        "record-types": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "example": "person"
+                          }
+                        },
+                        "names": {
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "type": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ],
+                                "example": "primary_name"
+                              },
+                              "name": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ],
+                                "example": "Jonathan Doe"
+                              }
+                            }
+                          }
+                        },
+                        "birthdates": {
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "start": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ],
+                                "example": "1964-07-01"
+                              },
+                              "end": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ],
+                                "example": "2018-07-01"
+                              }
+                            }
+                          }
+                        },
+                        "locations": {
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "address-street-1": {
+                                "type": "string"
+                              },
+                              "address-street-2": {
+                                "type": "string"
+                              },
+                              "address-city": {
+                                "type": "string"
+                              },
+                              "address-subdivision": {
+                                "type": "string"
+                              },
+                              "address-postal-code": {
+                                "type": "string"
+                              },
+                              "address-country-code": {
+                                "type": "string",
+                                "example": "US"
+                              },
+                              "type": {
+                                "type": "string",
+                                "example": "birthplace"
+                              }
+                            }
+                          }
+                        },
+                        "sexes": {
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "type": "string",
+                            "example": "male"
+                          }
+                        },
+                        "emails": {
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "type": "string",
+                            "example": "joe.doe@example.com"
+                          }
+                        },
+                        "identifications": {
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "passport"
+                              },
+                              "number": {
+                                "type": "string"
+                              },
+                              "country-code": {
+                                "type": "string",
+                                "example": "KP"
+                              },
+                              "issue-date": {
+                                "type": "string"
+                              },
+                              "expiration-date": {
+                                "type": "string"
+                              },
+                              "comment": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        },
+                        "details": {
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "type": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              },
+                              "value": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              }
+                            }
+                          }
+                        },
+                        "listings": {
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "token": {
+                                "type": "string",
+                                "example": "scatr_7WNzPaNcroBKLarNHBjYDLAp"
+                              },
+                              "name": {
+                                "type": "string",
+                                "example": "OFAC - Specially Designated Nationals (SDN) List"
+                              },
+                              "type": {
+                                "type": "string",
+                                "example": "sanction"
+                              },
+                              "url": {
+                                "type": "string"
+                              },
+                              "active": {
+                                "type": "boolean"
+                              },
+                              "created-at": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "deactivated-at": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ],
+                                "format": "date-time"
+                              },
+                              "reviewed-at": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ],
+                                "format": "date-time"
+                              },
+                              "review-status": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              }
+                            }
+                          }
+                        },
+                        "positions": {
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "name": {
+                                "type": "string",
+                                "example": "Minister of Foreign Affairs"
+                              },
+                              "country-code": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ],
+                                "example": "KP"
+                              },
+                              "classes": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                }
+                              },
+                              "topics": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                }
+                              },
+                              "active": {
+                                "type": "boolean"
+                              },
+                              "created-at": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "deactivated-at": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ],
+                                "format": "date-time"
+                              },
+                              "reviewed-at": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ],
+                                "format": "date-time"
+                              },
+                              "review-status": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              }
+                            }
+                          }
+                        },
+                        "pep-classes": {
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "pep-roles": {
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "topics": {
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "articles": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "title": {
+                                "type": "string"
+                              },
+                              "snippet": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              },
+                              "source": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              },
+                              "primary-source": {
+                                "type": [
+                                  "boolean",
+                                  "null"
+                                ]
+                              },
+                              "url": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              },
+                              "language": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              },
+                              "categories": {
+                                "type": [
+                                  "array",
+                                  "null"
+                                ],
+                                "items": {
+                                  "type": "string"
+                                }
+                              },
+                              "perpetrators": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "name": {
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
+                                    "type": {
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    }
+                                  }
+                                }
+                              },
+                              "victims": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "name": {
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
+                                    "type": {
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    }
+                                  }
+                                }
+                              },
+                              "publish-date": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "relationships": {
+            "$ref": "#/components/schemas/report-shared-relationships"
+          }
+        }
+      },
       "report": {
         "type": "object",
         "discriminator": {
@@ -62741,6 +63811,7 @@
             "report/politically-exposed-person": "#/components/schemas/report-politically-exposed-person",
             "report/profile": "#/components/schemas/report-profile",
             "report/profile-non-authoritative": "#/components/schemas/report-profile-non-authoritative",
+            "report/screening": "#/components/schemas/report-screening",
             "report/integration/sentilink-scores": "#/components/schemas/report-sentilink-scores",
             "report/social-media": "#/components/schemas/report-social-media",
             "report/synthetic": "#/components/schemas/report-synthetic",
@@ -62786,6 +63857,9 @@
           },
           {
             "$ref": "#/components/schemas/report-profile-non-authoritative"
+          },
+          {
+            "$ref": "#/components/schemas/report-screening"
           },
           {
             "$ref": "#/components/schemas/report-sentilink-scores"
@@ -63673,6 +64747,148 @@
           "attributes"
         ]
       },
+      "report-screening-request": {
+        "title": "Screening Report",
+        "description": "Fields required to create a Screening Report",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report/screening"
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/report-shared-request-attributes"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "description": "At least one of `name-first`, `name-middle`, `name-last`, `term`, `birthdate`, `address-street-1`, `address-street-2`, `address-city`, `address-subdivision`, `address-postal-code`, `address-country-code`, `email`, or `identification-number` is required.",
+                    "properties": {
+                      "name-first": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "The first name of the individual to search.",
+                        "example": "Joe"
+                      },
+                      "name-middle": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "The middle name of the individual to search.",
+                        "example": "N"
+                      },
+                      "name-last": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "The last name of the individual to search.",
+                        "example": "Doe"
+                      },
+                      "term": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "Custom search term instead of separate name parts of the individual (i.e. first + middle + last name). Must contain at least one letter.",
+                        "example": "Joe N Doe"
+                      },
+                      "birthdate": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "The birthdate of the individual, formatted as YYYY-MM-DD (ISO 8601).",
+                        "example": "1991-10-07"
+                      },
+                      "address-street-1": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "The first line of the address to search.",
+                        "example": "1 Persona Way"
+                      },
+                      "address-street-2": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "The second line of the address to search.",
+                        "example": "Suite 100"
+                      },
+                      "address-city": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "The city of the address to search.",
+                        "example": "San Francisco"
+                      },
+                      "address-subdivision": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "The state or subdivision of the address to search.",
+                        "example": "CA"
+                      },
+                      "address-postal-code": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "The postal code of the address to search.",
+                        "example": "94103"
+                      },
+                      "address-country-code": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "ISO 3166-1 alpha-2 country code of the address to search.",
+                        "example": "US"
+                      },
+                      "email": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "The email address of the individual to search.",
+                        "example": "joe.doe@example.com"
+                      },
+                      "identification-number": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "The government ID number of the individual to search.",
+                        "example": "123456789"
+                      }
+                    }
+                  }
+                },
+                "required": [
+                  "query"
+                ]
+              }
+            ]
+          }
+        },
+        "required": [
+          "attributes"
+        ]
+      },
       "report-social-media-request": {
         "title": "Social Media Report",
         "description": "Fields required to create a Social Media Report",
@@ -64349,6 +65565,62 @@
           }
         }
       },
+      "report-template-screening": {
+        "title": "Screening Report Template",
+        "description": "A Screening Report Template",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report-template/screening"
+          },
+          "id": {
+            "type": "string",
+            "description": "The ID of the Report Template",
+            "example": "rptp_7WNzPaNcroBKLarNHBjYDLAp"
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/report-template-shared-attributes"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "screening-coverage": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "description": "Which screening types this template's published configuration searches. Only present when explicitly requested.",
+                    "properties": {
+                      "person-watchlist": {
+                        "type": "boolean"
+                      },
+                      "business-watchlist": {
+                        "type": "boolean"
+                      },
+                      "politically-exposed-person": {
+                        "type": "boolean"
+                      },
+                      "person-adverse-media": {
+                        "type": "boolean"
+                      },
+                      "business-adverse-media": {
+                        "type": "boolean"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "meta": {
+            "unevaluatedProperties": false,
+            "$ref": "#/components/schemas/report-template-shared-meta"
+          }
+        }
+      },
       "report-template-sentilink-scores": {
         "title": "SentiLink Report Template",
         "description": "A SentiLink Report Template",
@@ -64493,6 +65765,7 @@
               "report-template/phone-number": "#/components/schemas/report-template-phone-risk",
               "report-template/politically-exposed-person": "#/components/schemas/report-template-politically-exposed-person",
               "report-template/profile": "#/components/schemas/report-template-profile",
+              "report-template/screening": "#/components/schemas/report-template-screening",
               "report-template/integration/sentilink-scores": "#/components/schemas/report-template-sentilink-scores",
               "report-template/social-media": "#/components/schemas/report-template-social-media",
               "report-template/synthetic": "#/components/schemas/report-template-synthetic",
@@ -64542,6 +65815,9 @@
             },
             {
               "$ref": "#/components/schemas/report-template-profile"
+            },
+            {
+              "$ref": "#/components/schemas/report-template-screening"
             },
             {
               "$ref": "#/components/schemas/report-template-sentilink-scores"
@@ -66111,6 +67387,7 @@
                     "report/screening.errored",
                     "report/screening.matched",
                     "report/screening.ready",
+                    "report/screening.reviewed",
                     "report/sec-action-lookup.errored",
                     "report/sec-action-lookup.ready",
                     "report/sentilink-application-risk.errored",
@@ -66993,6 +68270,11 @@
             }
           ]
         }
+      },
+      "webhook-body-empty-context": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Unused for this event; always an empty object."
       },
       "selfie-included-objects": {
         "description": "Objects referenced in `payload.data.relationships` may be provided in `included` when related-object inclusion is enabled for the webhook subscription. When inclusion is not enabled, the `included` key is omitted.",
@@ -70621,6 +71903,120 @@
               "report-template": {
                 "data": {
                   "type": "report-template/watchlist",
+                  "id": "rptp_2t2xwqxPDE1gw8DtYVFB9Vua"
+                }
+              }
+            }
+          }
+        }
+      },
+      "report-screening": {
+        "value": {
+          "data": {
+            "type": "report/screening",
+            "id": "rep_ARR4XUoYJRgQd7VMVaGEY2Gc",
+            "attributes": {
+              "status": "ready",
+              "created-at": "2026-06-07T14:12:16.000Z",
+              "completed-at": "2026-06-07T14:12:16.000Z",
+              "redacted-at": null,
+              "report-template-version-name": "v1",
+              "has-match": true,
+              "is-continuous": false,
+              "is-recurring": true,
+              "tags": [],
+              "query": {
+                "name-first": "Joe",
+                "name-middle": null,
+                "name-last": "Doe",
+                "term": "Joe Doe",
+                "birthdate": null,
+                "address-street-1": null,
+                "address-street-2": null,
+                "address-city": null,
+                "address-subdivision": null,
+                "address-postal-code": null,
+                "address-country-code": null,
+                "email": null,
+                "identification-number": null
+              },
+              "matched-screening-types": [
+                "sanction"
+              ],
+              "matched-records": [
+                {
+                  "token": "scrre_7WNzPaNcroBKLarNHBjYDLAp",
+                  "matched": true,
+                  "created-at": "2026-06-07T14:12:16.000Z",
+                  "reviewed-at": null,
+                  "review-status": "pending",
+                  "risk-level": "material",
+                  "present-in-last-run": true,
+                  "notify-on-change": true,
+                  "record-types": [
+                    "person"
+                  ],
+                  "names": [
+                    {
+                      "type": "primary_name",
+                      "name": "Jonathan Doe"
+                    }
+                  ],
+                  "birthdates": [
+                    {
+                      "start": "1964-07-01",
+                      "end": "2018-07-01"
+                    }
+                  ],
+                  "locations": [
+                    {
+                      "address-country-code": "US",
+                      "type": "birthplace"
+                    }
+                  ],
+                  "sexes": [
+                    "male"
+                  ],
+                  "emails": [],
+                  "identifications": [],
+                  "details": [],
+                  "listings": [
+                    {
+                      "token": "scatr_7WNzPaNcroBKLarNHBjYDLAp",
+                      "name": "OFAC - Specially Designated Nationals (SDN) List",
+                      "type": "sanction",
+                      "url": "https://sanctionssearch.ofac.treas.gov/",
+                      "active": true,
+                      "created-at": "2026-06-07T14:12:16.000Z",
+                      "deactivated-at": null,
+                      "reviewed-at": null,
+                      "review-status": null
+                    }
+                  ],
+                  "positions": [],
+                  "pep-classes": [],
+                  "pep-roles": [],
+                  "topics": [],
+                  "articles": []
+                }
+              ]
+            },
+            "relationships": {
+              "inquiry": {
+                "data": null
+              },
+              "account": {
+                "data": {
+                  "type": "account",
+                  "id": "act_rD4wFHtwhkgbpy2pc3o2G94a"
+                }
+              },
+              "transaction": {
+                "data": null
+              },
+              "report-template": {
+                "data": {
+                  "type": "report-template/screening",
                   "id": "rptp_2t2xwqxPDE1gw8DtYVFB9Vua"
                 }
               }
@@ -84793,6 +86189,408 @@
                 }
               },
               "created-at": "2024-02-15T23:48:17.732Z"
+            }
+          }
+        }
+      },
+      "report-screening-ready-webhook-body": {
+        "value": {
+          "data": {
+            "type": "event",
+            "id": "evt_H29QdkVRDr94kAJaHGxEkmzG",
+            "attributes": {
+              "name": "report/screening.ready",
+              "context": {},
+              "payload": {
+                "data": {
+                  "type": "report/screening",
+                  "id": "rep_h9dqK1fHRwzn5EJNBWuJvBSB",
+                  "attributes": {
+                    "status": "ready",
+                    "created-at": "2026-06-15T23:48:11.000Z",
+                    "completed-at": "2026-06-15T23:48:17.000Z",
+                    "redacted-at": null,
+                    "report-template-version-name": "v1",
+                    "has-match": false,
+                    "is-continuous": false,
+                    "is-recurring": true,
+                    "tags": [],
+                    "query": {
+                      "name-first": "Jane",
+                      "name-middle": null,
+                      "name-last": "Doe",
+                      "term": "Jane Doe",
+                      "birthdate": null,
+                      "address-street-1": null,
+                      "address-street-2": null,
+                      "address-city": null,
+                      "address-subdivision": null,
+                      "address-postal-code": null,
+                      "address-country-code": null,
+                      "email": null,
+                      "identification-number": null
+                    },
+                    "matched-screening-types": [],
+                    "matched-records": []
+                  },
+                  "relationships": {
+                    "inquiry": {
+                      "data": {
+                        "type": "inquiry",
+                        "id": "inq_2PqthYuCBRKPBenmQju6YqWp"
+                      }
+                    },
+                    "account": {
+                      "data": {
+                        "type": "account",
+                        "id": "act_wQUuFdsRMyxEeSgFJGLJEe5s"
+                      }
+                    },
+                    "transaction": {
+                      "data": null
+                    },
+                    "report-template": {
+                      "data": {
+                        "type": "report-template/screening",
+                        "id": "rptp_uXhRXnTQx3jqQbnAzy2jcVot"
+                      }
+                    }
+                  }
+                }
+              },
+              "created-at": "2026-06-15T23:48:17.000Z"
+            }
+          }
+        }
+      },
+      "report-screening-matched-webhook-body": {
+        "value": {
+          "data": {
+            "type": "event",
+            "id": "evt_fEG3T9cWCTwcyUhioYFkxeoV",
+            "attributes": {
+              "name": "report/screening.matched",
+              "context": {},
+              "payload": {
+                "data": {
+                  "type": "report/screening",
+                  "id": "rep_3a89rYD7zSLd8sPMAa2Bh5B6",
+                  "attributes": {
+                    "status": "ready",
+                    "created-at": "2026-06-15T23:48:11.000Z",
+                    "completed-at": "2026-06-15T23:48:17.000Z",
+                    "redacted-at": null,
+                    "report-template-version-name": "v1",
+                    "has-match": true,
+                    "is-continuous": false,
+                    "is-recurring": true,
+                    "tags": [],
+                    "query": {
+                      "name-first": "Jane",
+                      "name-middle": null,
+                      "name-last": "Doe",
+                      "term": "Jane Doe",
+                      "birthdate": null,
+                      "address-street-1": null,
+                      "address-street-2": null,
+                      "address-city": null,
+                      "address-subdivision": null,
+                      "address-postal-code": null,
+                      "address-country-code": null,
+                      "email": null,
+                      "identification-number": null
+                    },
+                    "matched-screening-types": [
+                      "sanction"
+                    ],
+                    "matched-records": [
+                      {
+                        "token": "scrre_fEG3T9cWCTwcyUhioYFkxeoV",
+                        "matched": true,
+                        "created-at": "2026-06-15T23:48:11.000Z",
+                        "reviewed-at": null,
+                        "review-status": "pending",
+                        "risk-level": "material",
+                        "present-in-last-run": true,
+                        "notify-on-change": true,
+                        "record-types": [
+                          "person"
+                        ],
+                        "names": [
+                          {
+                            "type": "primary_name",
+                            "name": "Jonathan Doe"
+                          }
+                        ],
+                        "birthdates": [
+                          {
+                            "start": "1964-07-01",
+                            "end": "2018-07-01"
+                          }
+                        ],
+                        "locations": [
+                          {
+                            "address-country-code": "US",
+                            "type": "birthplace"
+                          }
+                        ],
+                        "sexes": [
+                          "male"
+                        ],
+                        "emails": [],
+                        "identifications": [],
+                        "details": [],
+                        "listings": [
+                          {
+                            "token": "scatr_fEG3T9cWCTwcyUhioYFkxeoV",
+                            "name": "OFAC - Specially Designated Nationals (SDN) List",
+                            "type": "sanction",
+                            "url": "https://sanctionssearch.ofac.treas.gov/",
+                            "active": true,
+                            "created-at": "2026-06-15T23:48:11.000Z",
+                            "deactivated-at": null,
+                            "reviewed-at": null,
+                            "review-status": null
+                          }
+                        ],
+                        "positions": [],
+                        "pep-classes": [],
+                        "pep-roles": [],
+                        "topics": [],
+                        "articles": []
+                      }
+                    ]
+                  },
+                  "relationships": {
+                    "inquiry": {
+                      "data": {
+                        "type": "inquiry",
+                        "id": "inq_VVpTcAmqY1iHGYmB8gPrtNLf"
+                      }
+                    },
+                    "account": {
+                      "data": {
+                        "type": "account",
+                        "id": "act_mQFfJtWNAKkGy7DeQ1aCZ5CL"
+                      }
+                    },
+                    "transaction": {
+                      "data": null
+                    },
+                    "report-template": {
+                      "data": {
+                        "type": "report-template/screening",
+                        "id": "rptp_eKPgsbgE16U7irWYMwEWj9RV"
+                      }
+                    }
+                  }
+                }
+              },
+              "created-at": "2026-06-15T23:48:11.000Z"
+            }
+          }
+        }
+      },
+      "report-screening-reviewed-webhook-body": {
+        "value": {
+          "data": {
+            "type": "event",
+            "id": "evt_3EenGd9ZzeXLWBL11K5mnSBi",
+            "attributes": {
+              "name": "report/screening.reviewed",
+              "context": {
+                "review-type": "record",
+                "review-status": "false_positive",
+                "risk-level": "material",
+                "record-token": "scrre_3EenGd9ZzeXLWBL11K5mnSBi",
+                "comment": "Confirmed this is not a match to the sanctioned individual after manual review."
+              },
+              "payload": {
+                "data": {
+                  "type": "report/screening",
+                  "id": "rep_ovJKonLv97aSCLVUpsLBR75M",
+                  "attributes": {
+                    "status": "ready",
+                    "created-at": "2026-06-15T23:48:11.000Z",
+                    "completed-at": "2026-06-15T23:48:17.000Z",
+                    "redacted-at": null,
+                    "report-template-version-name": "v1",
+                    "has-match": true,
+                    "is-continuous": true,
+                    "is-recurring": true,
+                    "tags": [],
+                    "query": {
+                      "name-first": "Jane",
+                      "name-middle": null,
+                      "name-last": "Doe",
+                      "term": "Jane Doe",
+                      "birthdate": null,
+                      "address-street-1": null,
+                      "address-street-2": null,
+                      "address-city": null,
+                      "address-subdivision": null,
+                      "address-postal-code": null,
+                      "address-country-code": null,
+                      "email": null,
+                      "identification-number": null
+                    },
+                    "matched-screening-types": [
+                      "sanction"
+                    ],
+                    "matched-records": [
+                      {
+                        "token": "scrre_3EenGd9ZzeXLWBL11K5mnSBi",
+                        "matched": true,
+                        "created-at": "2026-06-15T23:48:11.000Z",
+                        "reviewed-at": "2026-06-16T10:00:00.000Z",
+                        "review-status": "false_positive",
+                        "risk-level": "material",
+                        "present-in-last-run": true,
+                        "notify-on-change": true,
+                        "record-types": [
+                          "person"
+                        ],
+                        "names": [
+                          {
+                            "type": "primary_name",
+                            "name": "Jonathan Doe"
+                          }
+                        ],
+                        "birthdates": [
+                          {
+                            "start": "1964-07-01",
+                            "end": "2018-07-01"
+                          }
+                        ],
+                        "locations": [
+                          {
+                            "address-country-code": "US",
+                            "type": "birthplace"
+                          }
+                        ],
+                        "sexes": [
+                          "male"
+                        ],
+                        "emails": [],
+                        "identifications": [],
+                        "details": [],
+                        "listings": [
+                          {
+                            "token": "scatr_3EenGd9ZzeXLWBL11K5mnSBi",
+                            "name": "OFAC - Specially Designated Nationals (SDN) List",
+                            "type": "sanction",
+                            "url": "https://sanctionssearch.ofac.treas.gov/",
+                            "active": true,
+                            "created-at": "2026-06-15T23:48:11.000Z",
+                            "deactivated-at": null,
+                            "reviewed-at": "2026-06-16T10:00:00.000Z",
+                            "review-status": "false_positive"
+                          }
+                        ],
+                        "positions": [],
+                        "pep-classes": [],
+                        "pep-roles": [],
+                        "topics": [],
+                        "articles": []
+                      }
+                    ]
+                  },
+                  "relationships": {
+                    "inquiry": {
+                      "data": {
+                        "type": "inquiry",
+                        "id": "inq_mrAQrPasWWNefviwRZbPnvmk"
+                      }
+                    },
+                    "account": {
+                      "data": {
+                        "type": "account",
+                        "id": "act_XtfNKtxNBpPghwNRj7h3LiUU"
+                      }
+                    },
+                    "transaction": {
+                      "data": null
+                    },
+                    "report-template": {
+                      "data": {
+                        "type": "report-template/screening",
+                        "id": "rptp_QY18iAaeJaXDhhhuzEe6WEAW"
+                      }
+                    }
+                  }
+                }
+              },
+              "created-at": "2026-06-16T10:00:00.000Z"
+            }
+          }
+        }
+      },
+      "report-screening-errored-webhook-body": {
+        "value": {
+          "data": {
+            "type": "event",
+            "id": "evt_usSNqySFixduY67JAnoDA3DN",
+            "attributes": {
+              "name": "report/screening.errored",
+              "context": {},
+              "payload": {
+                "data": {
+                  "type": "report/screening",
+                  "id": "rep_AXiYzt7DL79K3soo1MAVhXqW",
+                  "attributes": {
+                    "status": "errored",
+                    "created-at": "2026-06-15T23:48:11.000Z",
+                    "completed-at": null,
+                    "redacted-at": null,
+                    "report-template-version-name": "v1",
+                    "has-match": false,
+                    "is-continuous": false,
+                    "is-recurring": true,
+                    "tags": [],
+                    "query": {
+                      "name-first": "Jane",
+                      "name-middle": null,
+                      "name-last": "Doe",
+                      "term": "Jane Doe",
+                      "birthdate": null,
+                      "address-street-1": null,
+                      "address-street-2": null,
+                      "address-city": null,
+                      "address-subdivision": null,
+                      "address-postal-code": null,
+                      "address-country-code": null,
+                      "email": null,
+                      "identification-number": null
+                    },
+                    "matched-screening-types": [],
+                    "matched-records": []
+                  },
+                  "relationships": {
+                    "inquiry": {
+                      "data": {
+                        "type": "inquiry",
+                        "id": "inq_pZbB26BkXF8wjEEwNXdssDMT"
+                      }
+                    },
+                    "account": {
+                      "data": {
+                        "type": "account",
+                        "id": "act_7cwr22pxxSWHczLRgvy82Yri"
+                      }
+                    },
+                    "transaction": {
+                      "data": null
+                    },
+                    "report-template": {
+                      "data": {
+                        "type": "report-template/screening",
+                        "id": "rptp_aLdFtoSDFwUGpdu9xsvnH7Xn"
+                      }
+                    }
+                  }
+                }
+              },
+              "created-at": "2026-06-15T23:48:11.000Z"
             }
           }
         }

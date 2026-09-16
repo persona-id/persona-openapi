@@ -1,0 +1,38 @@
+title: Screening Report Template
+description: A Screening Report Template
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: report-template/screening
+  id:
+    type: string
+    description: The ID of the Report Template
+    example: rptp_7WNzPaNcroBKLarNHBjYDLAp
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./report-template-shared-attributes.yaml
+      - type: object
+        properties:
+          screening-coverage:
+            type: object
+            additionalProperties: false
+            description: >-
+              Which screening types this template's published configuration
+              searches. Only present when explicitly requested.
+            properties:
+              person-watchlist:
+                type: boolean
+              business-watchlist:
+                type: boolean
+              politically-exposed-person:
+                type: boolean
+              person-adverse-media:
+                type: boolean
+              business-adverse-media:
+                type: boolean
+  meta:
+    unevaluatedProperties: false
+    $ref: ./report-template-shared-meta.yaml
