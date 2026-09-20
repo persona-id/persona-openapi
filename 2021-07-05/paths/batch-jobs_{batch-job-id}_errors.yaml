@@ -1,0 +1,117 @@
+get:
+  tags:
+    - Importers
+  summary: Retrieve Batch Job errors
+  description: Retrieve global and per-row errors for an existing Batch Job.
+  operationId: retrieve-batch-job-errors
+  x-persona-product: Importers
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - name: batch-job-id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The ID of the Batch Job.
+    - in: query
+      name: page
+      style: deepObject
+      explode: true
+      schema:
+        type: object
+        additionalProperties: false
+        properties:
+          after:
+            description: >-
+              Row number cursor. Omit for the first page; pass the `row-number`
+              of the last row returned to fetch the next page. Cannot be
+              combined with `before`.
+            type: integer
+            examples:
+              - 25
+          before:
+            description: >-
+              Row number cursor. Pass the `row-number` of the first row of a
+              page to fetch the page immediately preceding it. Cannot be
+              combined with `after`.
+            type: integer
+            examples:
+              - 25
+          size:
+            description: Number of row errors to return, 1-100 (default 50).
+            type: integer
+            examples:
+              - 50
+  responses:
+    '200':
+      headers:
+        RateLimit-Limit:
+          $ref: ../components/headers/rate-limit-limit.yaml
+        RateLimit-Remaining:
+          $ref: ../components/headers/rate-limit-remaining.yaml
+        RateLimit-Reset:
+          $ref: ../components/headers/rate-limit-reset.yaml
+        Request-Id:
+          $ref: ../components/headers/request-id.yaml
+        Persona-Environment-Id:
+          $ref: ../components/headers/persona-environment-id.yaml
+        Persona-Organization-Id:
+          $ref: ../components/headers/persona-organization-id.yaml
+      description: This endpoint returns the errors for a Batch Job.
+      content:
+        application/json:
+          examples:
+            Success:
+              $ref: ../components/examples/batch-job-errors.yaml
+          schema:
+            type: object
+            additionalProperties: false
+            required:
+              - data
+              - meta
+              - links
+            properties:
+              data:
+                type: array
+                description: A page of row-level failures, ordered by `row-number`.
+                items:
+                  $ref: ../components/schemas/batch-job-row-error.yaml
+              meta:
+                $ref: ../components/schemas/batch-job-errors-meta.yaml
+              links:
+                type: object
+                additionalProperties: false
+                required:
+                  - prev
+                  - next
+                properties:
+                  prev:
+                    type:
+                      - string
+                      - 'null'
+                    examples:
+                      - null
+                    description: >-
+                      URL pointing to the previous page of row errors, or null
+                      if this is the first page.
+                  next:
+                    type:
+                      - string
+                      - 'null'
+                    examples:
+                      - >-
+                        /api/v1/batch-jobs/mprtpr_ABC123DEF456/errors?page%5Bafter%5D=25
+                    description: >-
+                      URL pointing to the next page of row errors, or null if
+                      there are no more.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml

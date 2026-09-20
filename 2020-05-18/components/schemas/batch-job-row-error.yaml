@@ -1,0 +1,33 @@
+type: object
+additionalProperties: false
+description: A single row-level failure within a Batch Job.
+properties:
+  type:
+    type: string
+    const: batch-job-row-error
+  id:
+    type: string
+    description: >-
+      Composite of the Batch Job's ID and the row's `row-number`, since row
+      numbers are only unique within a run.
+    examples:
+      - mprtpr_ABC123DEF456:4
+  attributes:
+    type: object
+    additionalProperties: false
+    properties:
+      row:
+        type: object
+        additionalProperties: true
+        description: The original row contents, as submitted.
+      error-message:
+        type:
+          - string
+          - 'null'
+        examples:
+          - No record found with unique id "a-123"
+      row-number:
+        type: integer
+        description: The 1-indexed position of this row within the submitted `rows` array.
+        examples:
+          - 4
