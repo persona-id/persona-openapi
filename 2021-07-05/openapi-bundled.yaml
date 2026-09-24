@@ -848,6 +848,99 @@ paths:
       tags:
         - Accounts
       x-persona-product: Accounts
+  '/accounts/{account-id}/add-objects':
+    post:
+      description: 'Adds Persona objects (such as inquiries, documents, or reports) to an Account. To link an Account to another Account or a Transaction, use add-relation instead.'
+      operationId: accounts-add-objects
+      externalDocs:
+        description: Full documentation for this API on the Persona website.
+        url: 'https://docs.withpersona.com/api-reference/accounts/add-persona-objects'
+      parameters:
+        - $ref: '#/components/parameters/key-inflection-header'
+        - $ref: '#/components/parameters/idempotency-key-header'
+        - $ref: '#/components/parameters/persona-version-header'
+        - $ref: '#/components/parameters/include-query-parameter'
+        - $ref: '#/components/parameters/fields-query-parameter'
+        - description: ID of the account to update
+          in: path
+          name: account-id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                meta:
+                  properties:
+                    object-ids:
+                      description: 'Array of Persona object IDs to attach to this account. The following object types are supported- authentications, documents, graph queries, inquiries, reports, report runs, sars, selfies, and verifications.'
+                      items:
+                        type: string
+                      type: array
+                      maxItems: 100
+                  type: object
+                  additionalProperties: false
+                  required:
+                    - object-ids
+              type: object
+              additionalProperties: false
+              required:
+                - meta
+            examples:
+              Success:
+                $ref: '#/components/examples/add-objects'
+      responses:
+        '200':
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/rate-limit-limit'
+            RateLimit-Remaining:
+              $ref: '#/components/headers/rate-limit-remaining'
+            RateLimit-Reset:
+              $ref: '#/components/headers/rate-limit-reset'
+            Request-Id:
+              $ref: '#/components/headers/request-id'
+            Persona-Environment-Id:
+              $ref: '#/components/headers/persona-environment-id'
+            Persona-Organization-Id:
+              $ref: '#/components/headers/persona-organization-id'
+          content:
+            application/json:
+              examples:
+                Success:
+                  $ref: '#/components/examples/account'
+              schema:
+                properties:
+                  data:
+                    $ref: '#/components/schemas/account'
+                  included:
+                    description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
+                    $ref: '#/components/schemas/accounts-included-objects'
+                type: object
+                additionalProperties: false
+                required:
+                  - data
+          description: This endpoint returns an Account object and (optionally) its related objects in `included`.
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not-found'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '422':
+          $ref: '#/components/responses/unprocessable-entity'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+      summary: Add Persona objects to an Account
+      tags:
+        - Accounts
+      x-persona-product: Accounts
   '/accounts/{account-id}/add-relation':
     post:
       description: Adds a relation from an Account to a target Account or Transaction
@@ -1239,6 +1332,99 @@ paths:
         '429':
           $ref: '#/components/responses/too-many-requests'
       summary: Get all relations for an Account
+      tags:
+        - Accounts
+      x-persona-product: Accounts
+  '/accounts/{account-id}/remove-objects':
+    post:
+      description: 'Removes Persona objects (such as inquiries, documents, or reports) from an Account. This operation is idempotent — removing an object that is not attached succeeds without modifying the account. To unlink an Account from another Account or a Transaction, use remove-relation instead.'
+      operationId: accounts-remove-objects
+      externalDocs:
+        description: Full documentation for this API on the Persona website.
+        url: 'https://docs.withpersona.com/api-reference/accounts/remove-persona-objects'
+      parameters:
+        - $ref: '#/components/parameters/key-inflection-header'
+        - $ref: '#/components/parameters/idempotency-key-header'
+        - $ref: '#/components/parameters/persona-version-header'
+        - $ref: '#/components/parameters/include-query-parameter'
+        - $ref: '#/components/parameters/fields-query-parameter'
+        - description: ID of the account to update
+          in: path
+          name: account-id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                meta:
+                  properties:
+                    object-ids:
+                      description: 'Array of Persona object IDs to detach from this account. The following object types are supported- documents, graph queries, inquiries, reports, report runs, sars, selfies, and verifications.'
+                      items:
+                        type: string
+                      type: array
+                      maxItems: 100
+                  type: object
+                  additionalProperties: false
+                  required:
+                    - object-ids
+              type: object
+              additionalProperties: false
+              required:
+                - meta
+            examples:
+              Success:
+                $ref: '#/components/examples/remove-objects'
+      responses:
+        '200':
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/rate-limit-limit'
+            RateLimit-Remaining:
+              $ref: '#/components/headers/rate-limit-remaining'
+            RateLimit-Reset:
+              $ref: '#/components/headers/rate-limit-reset'
+            Request-Id:
+              $ref: '#/components/headers/request-id'
+            Persona-Environment-Id:
+              $ref: '#/components/headers/persona-environment-id'
+            Persona-Organization-Id:
+              $ref: '#/components/headers/persona-organization-id'
+          content:
+            application/json:
+              examples:
+                Success:
+                  $ref: '#/components/examples/account'
+              schema:
+                properties:
+                  data:
+                    $ref: '#/components/schemas/account'
+                  included:
+                    description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
+                    $ref: '#/components/schemas/accounts-included-objects'
+                type: object
+                additionalProperties: false
+                required:
+                  - data
+          description: This endpoint returns an Account object and (optionally) its related objects in `included`.
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not-found'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '422':
+          $ref: '#/components/responses/unprocessable-entity'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+      summary: Remove Persona objects from an Account
       tags:
         - Accounts
       x-persona-product: Accounts
@@ -16867,6 +17053,99 @@ paths:
           $ref: '#/components/responses/unprocessable-entity'
         '429':
           $ref: '#/components/responses/too-many-requests'
+  '/transactions/{transaction-id}/add-objects':
+    post:
+      description: 'Adds Persona objects (such as inquiries or verifications) to a Transaction. To link a Transaction to an Account or another Transaction, use add-relation instead.'
+      operationId: transactions-add-objects
+      externalDocs:
+        description: Full documentation for this API on the Persona website.
+        url: 'https://docs.withpersona.com/api-reference/transactions/add-persona-objects'
+      parameters:
+        - $ref: '#/components/parameters/key-inflection-header'
+        - $ref: '#/components/parameters/idempotency-key-header'
+        - $ref: '#/components/parameters/persona-version-header'
+        - $ref: '#/components/parameters/include-query-parameter'
+        - $ref: '#/components/parameters/fields-query-parameter'
+        - description: ID of the transaction to update
+          in: path
+          name: transaction-id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                meta:
+                  properties:
+                    object-ids:
+                      description: 'Array of Persona object IDs to attach to this transaction. The following object types are supported- documents, inquiries, reports, and verifications.'
+                      items:
+                        type: string
+                      type: array
+                      maxItems: 100
+                  type: object
+                  additionalProperties: false
+                  required:
+                    - object-ids
+              type: object
+              additionalProperties: false
+              required:
+                - meta
+            examples:
+              Success:
+                $ref: '#/components/examples/add-objects-2'
+      responses:
+        '200':
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/rate-limit-limit'
+            RateLimit-Remaining:
+              $ref: '#/components/headers/rate-limit-remaining'
+            RateLimit-Reset:
+              $ref: '#/components/headers/rate-limit-reset'
+            Request-Id:
+              $ref: '#/components/headers/request-id'
+            Persona-Environment-Id:
+              $ref: '#/components/headers/persona-environment-id'
+            Persona-Organization-Id:
+              $ref: '#/components/headers/persona-organization-id'
+          content:
+            application/json:
+              examples:
+                Success:
+                  $ref: '#/components/examples/transaction'
+              schema:
+                properties:
+                  data:
+                    $ref: '#/components/schemas/transaction'
+                  included:
+                    description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
+                    $ref: '#/components/schemas/transactions-included-objects'
+                type: object
+                additionalProperties: false
+                required:
+                  - data
+          description: This endpoint returns a Transaction object and (optionally) its related objects in `included`.
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not-found'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '422':
+          $ref: '#/components/responses/unprocessable-entity'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+      summary: Add Persona objects to a Transaction
+      tags:
+        - Transactions
+      x-persona-product: Transactions
   '/transactions/{transaction-id}/add-relation':
     post:
       summary: Add relation to Transaction
@@ -17137,6 +17416,99 @@ paths:
           $ref: '#/components/responses/unprocessable-entity'
         '429':
           $ref: '#/components/responses/too-many-requests'
+  '/transactions/{transaction-id}/remove-objects':
+    post:
+      description: 'Removes Persona objects (such as inquiries or verifications) from a Transaction. This operation is idempotent — removing an object that is not attached succeeds without modifying the transaction. To unlink a Transaction from an Account or another Transaction, use remove-relation instead.'
+      operationId: transactions-remove-objects
+      externalDocs:
+        description: Full documentation for this API on the Persona website.
+        url: 'https://docs.withpersona.com/api-reference/transactions/remove-persona-objects'
+      parameters:
+        - $ref: '#/components/parameters/key-inflection-header'
+        - $ref: '#/components/parameters/idempotency-key-header'
+        - $ref: '#/components/parameters/persona-version-header'
+        - $ref: '#/components/parameters/include-query-parameter'
+        - $ref: '#/components/parameters/fields-query-parameter'
+        - description: ID of the transaction to update
+          in: path
+          name: transaction-id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                meta:
+                  properties:
+                    object-ids:
+                      description: 'Array of Persona object IDs to detach from this transaction. The following object types are supported- documents, inquiries, reports, and verifications.'
+                      items:
+                        type: string
+                      type: array
+                      maxItems: 100
+                  type: object
+                  additionalProperties: false
+                  required:
+                    - object-ids
+              type: object
+              additionalProperties: false
+              required:
+                - meta
+            examples:
+              Success:
+                $ref: '#/components/examples/remove-objects-2'
+      responses:
+        '200':
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/rate-limit-limit'
+            RateLimit-Remaining:
+              $ref: '#/components/headers/rate-limit-remaining'
+            RateLimit-Reset:
+              $ref: '#/components/headers/rate-limit-reset'
+            Request-Id:
+              $ref: '#/components/headers/request-id'
+            Persona-Environment-Id:
+              $ref: '#/components/headers/persona-environment-id'
+            Persona-Organization-Id:
+              $ref: '#/components/headers/persona-organization-id'
+          content:
+            application/json:
+              examples:
+                Success:
+                  $ref: '#/components/examples/transaction'
+              schema:
+                properties:
+                  data:
+                    $ref: '#/components/schemas/transaction'
+                  included:
+                    description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
+                    $ref: '#/components/schemas/transactions-included-objects'
+                type: object
+                additionalProperties: false
+                required:
+                  - data
+          description: This endpoint returns a Transaction object and (optionally) its related objects in `included`.
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not-found'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '422':
+          $ref: '#/components/responses/unprocessable-entity'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+      summary: Remove Persona objects from a Transaction
+      tags:
+        - Transactions
+      x-persona-product: Transactions
   '/transactions/{transaction-id}/remove-relation':
     post:
       summary: Remove relation from Transaction
@@ -40137,6 +40509,19 @@ components:
                     - 'null'
                   format: date
                   example: '2025-02-15'
+                right-to-work-digital-verification-service-provider-registration-confirmation:
+                  description: Persona's confirmation that it is registered as a Right to Work Digital Verification Service Provider.
+                  type: string
+                  const: 'Yes'
+                right-to-work-supplementary-code-compliance-confirmation:
+                  description: Persona's confirmation that the check follows the UK Supplementary Code for Digital Right to Work Checks.
+                  type: string
+                  const: 'Yes'
+                right-to-work-digital-verification-services-register-url:
+                  description: Link to Persona's entry in the UK Digital Verification Services Register.
+                  type: string
+                  format: uri
+                  const: 'https://www.access-dvs-register.service.gov.uk/register/service-details?serviceId=261'
         relationships:
           $ref: '#/components/schemas/verification-shared-relationships'
     verification-digital-id-world-id:
@@ -44519,6 +44904,32 @@ components:
               format: date-time
               examples:
                 - '2023-06-29T23:54:35.293Z'
+    transactions-included-objects:
+      type: array
+      description: 'Full representations of the objects referenced in `data.attributes.relationships` — the Transaction''s Transaction Type, its reviewer (a Workflow Run, Workflow Step, or User), its Sentinel Session, and any related objects such as Accounts, Inquiries, Verifications, Reports, or Cases. The set of types that appear depends on what the Transaction is related to.'
+      items:
+        type: object
+        additionalProperties: true
+        required:
+          - type
+          - id
+        properties:
+          type:
+            x-polymorphic: true
+            type: string
+            description: The type of the included object.
+            examples:
+              - transaction-type
+              - account
+              - inquiry
+              - workflow-run
+              - report/watchlist
+              - sentinel-session
+          id:
+            type: string
+            description: Unique identifier for the included object.
+            examples:
+              - txntp_ABC123
     transaction-type:
       type: object
       additionalProperties: false
@@ -46040,32 +46451,6 @@ components:
             inquiry: '#/components/schemas/inquiry'
         oneOf:
           - $ref: '#/components/schemas/inquiry'
-    transactions-included-objects:
-      type: array
-      description: 'Full representations of the objects referenced in `data.attributes.relationships` — the Transaction''s Transaction Type, its reviewer (a Workflow Run, Workflow Step, or User), its Sentinel Session, and any related objects such as Accounts, Inquiries, Verifications, Reports, or Cases. The set of types that appear depends on what the Transaction is related to.'
-      items:
-        type: object
-        additionalProperties: true
-        required:
-          - type
-          - id
-        properties:
-          type:
-            x-polymorphic: true
-            type: string
-            description: The type of the included object.
-            examples:
-              - transaction-type
-              - account
-              - inquiry
-              - workflow-run
-              - report/watchlist
-              - sentinel-session
-          id:
-            type: string
-            description: Unique identifier for the included object.
-            examples:
-              - txntp_ABC123
   headers:
     rate-limit-limit:
       description: The maximum number of requests permitted in the current rate limit window for the API key used to authenticate the request. Returned on every authenticated response.
@@ -46378,6 +46763,12 @@ components:
               data:
                 type: account-type
                 id: acttp_7X5W5w9GMtQntE6oPtKnj44c
+    add-objects:
+      value:
+        meta:
+          object-ids:
+            - inq_eGK41TM6GjcZgdcoox7x8Hh0
+            - rep_PN3xspEwWCWWRp1eGpedaSNj
     set-relation:
       value:
         meta:
@@ -46393,6 +46784,12 @@ components:
           source-account-ids:
             - act_1fVnCte2V9joRjYQ82QX8mPzKYzD
             - act_zWHTCWmYbjFL4fCQSDF6NqztWXDT
+    remove-objects:
+      value:
+        meta:
+          object-ids:
+            - inq_eGK41TM6GjcZgdcoox7x8Hh0
+            - rep_PN3xspEwWCWWRp1eGpedaSNj
     set-tags:
       value:
         meta:
@@ -47155,18 +47552,6 @@ components:
         data:
           attributes:
             case-template-id: ctmpl_Jumm3K4zHwaLBBdyLUCnHbBC
-    add-objects:
-      value:
-        meta:
-          object-ids:
-            - inq_eGK41TM6GjcZgdcoox7x8Hh0
-            - rep_PN3xspEwWCWWRp1eGpedaSNj
-    remove-objects:
-      value:
-        meta:
-          object-ids:
-            - inq_eGK41TM6GjcZgdcoox7x8Hh0
-            - rep_PN3xspEwWCWWRp1eGpedaSNj
     assign-case:
       value:
         meta:
@@ -49512,6 +49897,18 @@ components:
               model-version: 1.2.3
               created-at: '2023-06-29T23:54:35.293Z'
               updated-at: '2023-06-29T23:54:35.293Z'
+    add-objects-2:
+      value:
+        meta:
+          object-ids:
+            - inq_eGK41TM6GjcZgdcoox7x8Hh0
+            - ver_ixBrVPK2jKwg4qGmbWZvwMmw
+    remove-objects-2:
+      value:
+        meta:
+          object-ids:
+            - inq_eGK41TM6GjcZgdcoox7x8Hh0
+            - ver_ixBrVPK2jKwg4qGmbWZvwMmw
     transaction-type:
       value:
         data:
