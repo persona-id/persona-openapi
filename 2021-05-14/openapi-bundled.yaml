@@ -32735,6 +32735,108 @@ components:
                     additionalProperties: true
         relationships:
           $ref: '#/components/schemas/report-shared-relationships'
+    report-business-adverse-media-match:
+      description: A match that was found (and may have been dismissed) for a Business Adverse Media report
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+          example: FV933QHOUDG73V8
+        name:
+          type: string
+          example: Joe Doe
+        akas:
+          type: array
+          items:
+            type: string
+            example: Joey Doey
+        match-types:
+          type: array
+          items:
+            type: string
+            example: name_exact
+        birthdates:
+          type: array
+          items:
+            type:
+              - string
+              - 'null'
+        media:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              date:
+                type:
+                  - string
+                  - 'null'
+                format: date
+                example: '2022-11-12'
+              snippet:
+                type:
+                  - string
+                  - 'null'
+                description: Snippet from matched article
+                example: Joe Doe was ordered to jail on Friday after a judge revoked his bail for alleged witness tampering.
+              url:
+                type: string
+                description: URL of matched article
+                example: 'https://www.example.com/'
+              title:
+                type: string
+                description: Title of matched article
+                example: Joe Doe ordered to jail
+        sources:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              country-codes:
+                type: array
+                items:
+                  type: string
+                  example: FR
+              name:
+                type: string
+                example: Adverse Media
+              token:
+                type: string
+              types:
+                type: array
+                items:
+                  type: string
+                  example: adverse-media-v2-other-minor
+    report-business-adverse-media-ignore-list-entry:
+      description: A dismissed entity or media item on a Business Adverse Media report
+      type: object
+      additionalProperties: false
+      properties:
+        entity-id:
+          type: string
+          example: FV933QHOUDG73V8
+        ignored-at:
+          type: string
+          format: date-time
+          example: '2023-09-13T22:08:56.618Z'
+        run-history-completed-at:
+          type:
+            - string
+            - 'null'
+          format: date-time
+          example: '2023-08-11T20:36:04.291Z'
+        match:
+          $ref: '#/components/schemas/report-business-adverse-media-match'
+        ignore-reason:
+          type:
+            - string
+            - 'null'
+          example: false positive
+        user:
+          type: string
+          example: John Doe
     report-business-adverse-media:
       title: Business Adverse Media Report
       description: A report detailing adverse media findings for a business entity.
@@ -32831,6 +32933,16 @@ components:
                       id:
                         type: string
                         example: FV933QHOUDG73V8
+                ignore-list-media:
+                  type: array
+                  description: Media that have been individually dismissed for a matched entity.
+                  items:
+                    $ref: '#/components/schemas/report-business-adverse-media-ignore-list-entry'
+                ignore-list-entity:
+                  type: array
+                  description: 'Entities that have been fully dismissed, and the details of that dismissal.'
+                  items:
+                    $ref: '#/components/schemas/report-business-adverse-media-ignore-list-entry'
                 query:
                   type: object
                   additionalProperties: false
@@ -33733,6 +33845,86 @@ components:
                         type: string
                         format: uri
                         description: A URL with more information about the list.
+                ignore-list:
+                  type: array
+                  description: 'Matches that have been dismissed, and the details of that dismissal.'
+                  items:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      ignored-at:
+                        type: string
+                        format: date-time
+                        example: '2023-09-13T22:08:56.618Z'
+                      run-history-completed-at:
+                        type:
+                          - string
+                          - 'null'
+                        format: date-time
+                        example: '2023-08-11T20:36:04.291Z'
+                      match:
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          name:
+                            type: string
+                            example: Acme Sanctioned Holdings
+                          url:
+                            type:
+                              - string
+                              - 'null'
+                            format: uri
+                            example: 'https://sanctionslist.example.com/acme-sanctioned-holdings'
+                          list-type:
+                            type: string
+                            example: sanction
+                          list-types:
+                            type: array
+                            items:
+                              type: string
+                              example: sanction
+                          slug:
+                            type:
+                              - string
+                              - 'null'
+                            example: eu-ec-programme-prk
+                          country-code:
+                            type:
+                              - string
+                              - 'null'
+                            example: EU
+                          flag-code:
+                            type:
+                              - string
+                              - 'null'
+                            example: EU
+                          entities:
+                            type: array
+                            items:
+                              type: object
+                              additionalProperties: false
+                              properties:
+                                name:
+                                  type: string
+                                  example: Acme Sanctioned Holdings
+                                alias-type:
+                                  type:
+                                    - string
+                                    - 'null'
+                                  example: primary_name
+                                match-levels:
+                                  type: array
+                                  items:
+                                    type: string
+                                    example: name_exact
+                      user:
+                        type: string
+                        example: John Doe
+                      ignore-reason:
+                        type:
+                          - string
+                          - 'null'
+                        example: false positive
                 run-history:
                   type: array
                   deprecated: true
