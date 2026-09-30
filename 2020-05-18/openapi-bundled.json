@@ -22945,6 +22945,9 @@
                         "$ref": "#/components/schemas/report-business-lookup-request"
                       },
                       {
+                        "$ref": "#/components/schemas/report-business-search-request"
+                      },
+                      {
                         "$ref": "#/components/schemas/report-business-watchlist-request"
                       },
                       {
@@ -48207,6 +48210,37 @@
           }
         ]
       },
+      "source-data-report-adverse-media": {
+        "title": "Adverse Media Report Source Data",
+        "description": "PII-filtered snapshot of an Adverse Media report. The `peekable-attributes` bag carries\nwhichever PII-filtered scalar attributes the source organization's configuration allows.\nReport subtypes do not expose a nested `fields` sub-bucket.\n",
+        "unevaluatedProperties": false,
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/source-data-base"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "connect/source-data/report/adverse-media"
+              },
+              "id": {
+                "type": "string",
+                "examples": [
+                  "rep_ABC123"
+                ]
+              },
+              "peekable-attributes": {
+                "type": "object",
+                "additionalProperties": {
+                  "$ref": "#/components/schemas/source-data-peekable-attribute"
+                }
+              }
+            }
+          }
+        ]
+      },
       "source-data-report-watchlist": {
         "title": "Watchlist Report Source Data",
         "description": "PII-filtered snapshot of a Watchlist report. The `peekable-attributes` bag carries\nwhichever PII-filtered scalar attributes the source organization's configuration allows.\nReport subtypes do not expose a nested `fields` sub-bucket.\n",
@@ -48250,6 +48284,7 @@
             "connect/source-data/verification/email-address": "#/components/schemas/source-data-verification-email-address",
             "connect/source-data/account": "#/components/schemas/source-data-account",
             "connect/source-data/txn": "#/components/schemas/source-data-txn",
+            "connect/source-data/report/adverse-media": "#/components/schemas/source-data-report-adverse-media",
             "connect/source-data/report/watchlist": "#/components/schemas/source-data-report-watchlist"
           }
         },
@@ -48271,6 +48306,9 @@
           },
           {
             "$ref": "#/components/schemas/source-data-txn"
+          },
+          {
+            "$ref": "#/components/schemas/source-data-report-adverse-media"
           },
           {
             "$ref": "#/components/schemas/source-data-report-watchlist"
@@ -51333,147 +51371,6 @@
           }
         }
       },
-      "report-business-adverse-media-match": {
-        "description": "A match that was found (and may have been dismissed) for a Business Adverse Media report",
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string",
-            "example": "FV933QHOUDG73V8"
-          },
-          "name": {
-            "type": "string",
-            "example": "Joe Doe"
-          },
-          "akas": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "example": "Joey Doey"
-            }
-          },
-          "match-types": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "example": "name_exact"
-            }
-          },
-          "birthdates": {
-            "type": "array",
-            "items": {
-              "type": [
-                "string",
-                "null"
-              ]
-            }
-          },
-          "media": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "additionalProperties": false,
-              "properties": {
-                "date": {
-                  "type": [
-                    "string",
-                    "null"
-                  ],
-                  "format": "date",
-                  "example": "2022-11-12"
-                },
-                "snippet": {
-                  "type": [
-                    "string",
-                    "null"
-                  ],
-                  "description": "Snippet from matched article",
-                  "example": "Joe Doe was ordered to jail on Friday after a judge revoked his bail for alleged witness tampering."
-                },
-                "url": {
-                  "type": "string",
-                  "description": "URL of matched article",
-                  "example": "https://www.example.com/"
-                },
-                "title": {
-                  "type": "string",
-                  "description": "Title of matched article",
-                  "example": "Joe Doe ordered to jail"
-                }
-              }
-            }
-          },
-          "sources": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "additionalProperties": false,
-              "properties": {
-                "country-codes": {
-                  "type": "array",
-                  "items": {
-                    "type": "string",
-                    "example": "FR"
-                  }
-                },
-                "name": {
-                  "type": "string",
-                  "example": "Adverse Media"
-                },
-                "token": {
-                  "type": "string"
-                },
-                "types": {
-                  "type": "array",
-                  "items": {
-                    "type": "string",
-                    "example": "adverse-media-v2-other-minor"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "report-business-adverse-media-ignore-list-entry": {
-        "description": "A dismissed entity or media item on a Business Adverse Media report",
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "entity-id": {
-            "type": "string",
-            "example": "FV933QHOUDG73V8"
-          },
-          "ignored-at": {
-            "type": "string",
-            "format": "date-time",
-            "example": "2023-09-13T22:08:56.618Z"
-          },
-          "run-history-completed-at": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time",
-            "example": "2023-08-11T20:36:04.291Z"
-          },
-          "match": {
-            "$ref": "#/components/schemas/report-business-adverse-media-match"
-          },
-          "ignore-reason": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "example": "false positive"
-          },
-          "user": {
-            "type": "string",
-            "example": "John Doe"
-          }
-        }
-      },
       "report-business-adverse-media": {
         "title": "Business Adverse Media Report",
         "description": "A report detailing adverse media findings for a business entity.",
@@ -51603,20 +51500,6 @@
                           "example": "FV933QHOUDG73V8"
                         }
                       }
-                    }
-                  },
-                  "ignore-list-media": {
-                    "type": "array",
-                    "description": "Media that have been individually dismissed for a matched entity.",
-                    "items": {
-                      "$ref": "#/components/schemas/report-business-adverse-media-ignore-list-entry"
-                    }
-                  },
-                  "ignore-list-entity": {
-                    "type": "array",
-                    "description": "Entities that have been fully dismissed, and the details of that dismissal.",
-                    "items": {
-                      "$ref": "#/components/schemas/report-business-adverse-media-ignore-list-entry"
                     }
                   },
                   "query": {
@@ -52654,6 +52537,329 @@
           }
         }
       },
+      "report-business-search": {
+        "title": "Business Search Report",
+        "description": "A Business Search Report",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report/business-search"
+          },
+          "id": {
+            "type": "string",
+            "description": "The ID of the report",
+            "example": "rep_7WNzPaNcroBKLarNHBjYDLAp"
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/report-shared-attributes"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                      "country-code": {
+                        "type": "string",
+                        "example": "US"
+                      },
+                      "business-name": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "example": "Coffee Shop Inc"
+                      },
+                      "registration-number": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "example": "C1234567"
+                      },
+                      "address-street-1": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "example": "123 Funky St"
+                      },
+                      "address-street-2": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "address-city": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "example": "Funkyville"
+                      },
+                      "address-subdivision": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "example": "CA"
+                      },
+                      "address-postal-code": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "example": "12345"
+                      },
+                      "max-results": {
+                        "type": "integer",
+                        "example": 3
+                      }
+                    }
+                  },
+                  "result": {
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                      "error": {
+                        "description": "Set when the search could not be completed. Vendor error detail is not exposed.",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "example": "The business search could not be completed."
+                      },
+                      "businesses": {
+                        "description": "Candidate businesses matching the query, most relevant first.",
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "business-name": {
+                              "type": [
+                                "string",
+                                "null"
+                              ],
+                              "example": "Coffee Shop Inc"
+                            },
+                            "registration-number": {
+                              "description": "The registration number issued by the local business registry.",
+                              "type": [
+                                "string",
+                                "null"
+                              ],
+                              "example": "C1234567"
+                            },
+                            "employer-identification-number": {
+                              "description": "US federal tax identifier. Populated on United States results only.",
+                              "type": [
+                                "string",
+                                "null"
+                              ],
+                              "example": "452999888"
+                            },
+                            "entity-type": {
+                              "description": "Legal form of the business. Best effort — United States results resolved through Dun & Bradstreet do not carry one.",
+                              "type": [
+                                "string",
+                                "null"
+                              ],
+                              "example": "Corporation"
+                            },
+                            "incorporation-date": {
+                              "description": "ISO 8601 date of incorporation. Populated on international results only.",
+                              "type": [
+                                "string",
+                                "null"
+                              ],
+                              "example": "2015-04-23"
+                            },
+                            "addresses": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "type": {
+                                    "description": "Classification of the address, when the registry provides one. One of headquarters, mailing, registered, registered_agent, officer, site, or other. Null when the registry did not classify it.",
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ],
+                                    "example": "headquarters"
+                                  },
+                                  "street-1": {
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ],
+                                    "example": "123 Funky St"
+                                  },
+                                  "street-2": {
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ]
+                                  },
+                                  "city": {
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ],
+                                    "example": "Funkyville"
+                                  },
+                                  "subdivision": {
+                                    "description": "Subnational division of a country, such as a state or province.",
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ],
+                                    "example": "CA"
+                                  },
+                                  "postal-code": {
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ],
+                                    "example": "12345"
+                                  },
+                                  "country-code": {
+                                    "description": "ISO 3166-1 alpha-2 country code.",
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ],
+                                    "example": "US"
+                                  }
+                                }
+                              }
+                            },
+                            "ubos": {
+                              "description": "Ultimate Beneficial Owners. Only populated when the report template opts in.",
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "type": {
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ],
+                                    "example": "individual"
+                                  },
+                                  "name": {
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ],
+                                    "example": "Jane Doe"
+                                  },
+                                  "birthdate": {
+                                    "description": "ISO 8601 partial date — YYYY-MM-DD, YYYY-MM, or YYYY depending on the precision the registry provided.",
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ],
+                                    "example": "1985-04"
+                                  },
+                                  "address": {
+                                    "type": [
+                                      "object",
+                                      "null"
+                                    ],
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "street-1": {
+                                        "type": [
+                                          "string",
+                                          "null"
+                                        ]
+                                      },
+                                      "street-2": {
+                                        "type": [
+                                          "string",
+                                          "null"
+                                        ]
+                                      },
+                                      "city": {
+                                        "type": [
+                                          "string",
+                                          "null"
+                                        ]
+                                      },
+                                      "subdivision": {
+                                        "type": [
+                                          "string",
+                                          "null"
+                                        ]
+                                      },
+                                      "postal-code": {
+                                        "type": [
+                                          "string",
+                                          "null"
+                                        ]
+                                      },
+                                      "country-code": {
+                                        "type": [
+                                          "string",
+                                          "null"
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  "roles": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "object",
+                                      "additionalProperties": false,
+                                      "properties": {
+                                        "description": {
+                                          "type": [
+                                            "string",
+                                            "null"
+                                          ],
+                                          "example": "Shareholder"
+                                        },
+                                        "data": {
+                                          "type": [
+                                            "object",
+                                            "null"
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "relationships": {
+            "$ref": "#/components/schemas/report-shared-relationships"
+          }
+        }
+      },
       "report-business-watchlist": {
         "title": "Business Watchlist Report",
         "description": "A Business Watchlist Report",
@@ -52740,117 +52946,6 @@
                           "type": "string",
                           "format": "uri",
                           "description": "A URL with more information about the list."
-                        }
-                      }
-                    }
-                  },
-                  "ignore-list": {
-                    "type": "array",
-                    "description": "Matches that have been dismissed, and the details of that dismissal.",
-                    "items": {
-                      "type": "object",
-                      "additionalProperties": false,
-                      "properties": {
-                        "ignored-at": {
-                          "type": "string",
-                          "format": "date-time",
-                          "example": "2023-09-13T22:08:56.618Z"
-                        },
-                        "run-history-completed-at": {
-                          "type": [
-                            "string",
-                            "null"
-                          ],
-                          "format": "date-time",
-                          "example": "2023-08-11T20:36:04.291Z"
-                        },
-                        "match": {
-                          "type": "object",
-                          "additionalProperties": false,
-                          "properties": {
-                            "name": {
-                              "type": "string",
-                              "example": "Acme Sanctioned Holdings"
-                            },
-                            "url": {
-                              "type": [
-                                "string",
-                                "null"
-                              ],
-                              "format": "uri",
-                              "example": "https://sanctionslist.example.com/acme-sanctioned-holdings"
-                            },
-                            "list-type": {
-                              "type": "string",
-                              "example": "sanction"
-                            },
-                            "list-types": {
-                              "type": "array",
-                              "items": {
-                                "type": "string",
-                                "example": "sanction"
-                              }
-                            },
-                            "slug": {
-                              "type": [
-                                "string",
-                                "null"
-                              ],
-                              "example": "eu-ec-programme-prk"
-                            },
-                            "country-code": {
-                              "type": [
-                                "string",
-                                "null"
-                              ],
-                              "example": "EU"
-                            },
-                            "flag-code": {
-                              "type": [
-                                "string",
-                                "null"
-                              ],
-                              "example": "EU"
-                            },
-                            "entities": {
-                              "type": "array",
-                              "items": {
-                                "type": "object",
-                                "additionalProperties": false,
-                                "properties": {
-                                  "name": {
-                                    "type": "string",
-                                    "example": "Acme Sanctioned Holdings"
-                                  },
-                                  "alias-type": {
-                                    "type": [
-                                      "string",
-                                      "null"
-                                    ],
-                                    "example": "primary_name"
-                                  },
-                                  "match-levels": {
-                                    "type": "array",
-                                    "items": {
-                                      "type": "string",
-                                      "example": "name_exact"
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        },
-                        "user": {
-                          "type": "string",
-                          "example": "John Doe"
-                        },
-                        "ignore-reason": {
-                          "type": [
-                            "string",
-                            "null"
-                          ],
-                          "example": "false positive"
                         }
                       }
                     }
@@ -57779,6 +57874,7 @@
               "report/business-associated-persons": "#/components/schemas/report-business-associated-persons",
               "report/business-registrations-lookup": "#/components/schemas/report-business-registrations-lookup",
               "report/business-lookup": "#/components/schemas/report-business-lookup",
+              "report/business-search": "#/components/schemas/report-business-search",
               "report/business-watchlist": "#/components/schemas/report-business-watchlist",
               "report/crypto-address-watchlist": "#/components/schemas/report-crypto-address-watchlist",
               "report/email-address": "#/components/schemas/report-email-address",
@@ -57836,6 +57932,9 @@
             },
             {
               "$ref": "#/components/schemas/report-business-lookup"
+            },
+            {
+              "$ref": "#/components/schemas/report-business-search"
             },
             {
               "$ref": "#/components/schemas/report-business-registrations-lookup"
@@ -63566,6 +63665,7 @@
               "report/business-associated-persons": "#/components/schemas/report-business-associated-persons",
               "report/business-registrations-lookup": "#/components/schemas/report-business-registrations-lookup",
               "report/business-lookup": "#/components/schemas/report-business-lookup",
+              "report/business-search": "#/components/schemas/report-business-search",
               "report/business-watchlist": "#/components/schemas/report-business-watchlist",
               "report/crypto-address-watchlist": "#/components/schemas/report-crypto-address-watchlist",
               "report/email-address": "#/components/schemas/report-email-address",
@@ -63674,6 +63774,9 @@
             },
             {
               "$ref": "#/components/schemas/report-business-lookup"
+            },
+            {
+              "$ref": "#/components/schemas/report-business-search"
             },
             {
               "$ref": "#/components/schemas/report-business-registrations-lookup"
@@ -66684,6 +66787,7 @@
             "report/business-associated-persons": "#/components/schemas/report-business-associated-persons",
             "report/business-registrations-lookup": "#/components/schemas/report-business-registrations-lookup",
             "report/business-lookup": "#/components/schemas/report-business-lookup",
+            "report/business-search": "#/components/schemas/report-business-search",
             "report/business-watchlist": "#/components/schemas/report-business-watchlist",
             "report/crypto-address-watchlist": "#/components/schemas/report-crypto-address-watchlist",
             "report/email-address": "#/components/schemas/report-email-address",
@@ -66716,6 +66820,9 @@
           },
           {
             "$ref": "#/components/schemas/report-business-lookup"
+          },
+          {
+            "$ref": "#/components/schemas/report-business-search"
           },
           {
             "$ref": "#/components/schemas/report-business-watchlist"
@@ -67133,6 +67240,138 @@
                       "address-subdivision",
                       "address-postal-code"
                     ]
+                  }
+                },
+                "required": [
+                  "query"
+                ]
+              }
+            ]
+          }
+        },
+        "required": [
+          "attributes"
+        ]
+      },
+      "report-business-search-request": {
+        "title": "Business Search Report",
+        "description": "Fields required to create a Business Search Report",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report/business-search"
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/report-shared-request-attributes"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "object",
+                    "x-inheritable": true,
+                    "additionalProperties": false,
+                    "required": [
+                      "country-code"
+                    ],
+                    "anyOf": [
+                      {
+                        "required": [
+                          "business-name"
+                        ],
+                        "properties": {
+                          "business-name": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      },
+                      {
+                        "required": [
+                          "registration-number"
+                        ],
+                        "properties": {
+                          "registration-number": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      }
+                    ],
+                    "properties": {
+                      "country-code": {
+                        "description": "ISO 3166-1 alpha-2 country code. Determines which business registry is searched.",
+                        "type": "string",
+                        "example": "US"
+                      },
+                      "business-name": {
+                        "description": "The name of the business to search. Either business-name or registration-number is required.",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "example": "Coffee Shop Inc"
+                      },
+                      "registration-number": {
+                        "description": "The business registration number to search, as issued by the local registry. Either business-name or registration-number is required.",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "example": "C1234567"
+                      },
+                      "address-street-1": {
+                        "description": "Address line 1 (e.g., street, PO Box, or company name).",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "example": "123 Funky St"
+                      },
+                      "address-street-2": {
+                        "description": "Address line 2 (e.g., apartment, suite, unit, or building).",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "address-city": {
+                        "description": "City",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "example": "Funkyville"
+                      },
+                      "address-subdivision": {
+                        "description": "Subnational division of a country, such as a state or province.",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "example": "CA"
+                      },
+                      "address-postal-code": {
+                        "description": "ZIP or postal code",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "example": "12345"
+                      },
+                      "max-results": {
+                        "description": "Maximum number of candidate businesses to return. Defaults to 3 when omitted.",
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 10,
+                        "example": 3
+                      }
+                    }
                   }
                 },
                 "required": [
@@ -71209,7 +71448,7 @@
     },
     "headers": {
       "rate-limit-limit": {
-        "description": "The maximum number of requests permitted in the current rate limit window for the API key used to authenticate the request. Returned on every authenticated response.",
+        "description": "The maximum number of requests permitted in the current rate limit window. For an API key with its own rate limit, requests count against both the key's limit and the environment's limit, and this header reports whichever is closer to being reached, so it can change between responses. On a `429` response, it reports the limit that rejected the request. For an API key without its own rate limit, it reports the environment's limit. Returned on every authenticated response.",
         "schema": {
           "type": "integer",
           "examples": [
@@ -71218,7 +71457,7 @@
         }
       },
       "rate-limit-remaining": {
-        "description": "The number of requests remaining in the current rate limit window for the API key used to authenticate the request. Returned on every authenticated response.",
+        "description": "The number of requests remaining in the current rate limit window for the limit reported in `RateLimit-Limit`. Returned on every authenticated response.",
         "schema": {
           "type": "integer",
           "examples": [

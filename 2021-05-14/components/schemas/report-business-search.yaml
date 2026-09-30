@@ -1,0 +1,247 @@
+title: Business Search Report
+description: A Business Search Report
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: report/business-search
+  id:
+    type: string
+    description: The ID of the report
+    example: rep_7WNzPaNcroBKLarNHBjYDLAp
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./report-shared-attributes.yaml
+      - type: object
+        properties:
+          query:
+            type:
+              - object
+              - 'null'
+            additionalProperties: false
+            properties:
+              country-code:
+                type: string
+                example: US
+              business-name:
+                type:
+                  - string
+                  - 'null'
+                example: Coffee Shop Inc
+              registration-number:
+                type:
+                  - string
+                  - 'null'
+                example: C1234567
+              address-street-1:
+                type:
+                  - string
+                  - 'null'
+                example: 123 Funky St
+              address-street-2:
+                type:
+                  - string
+                  - 'null'
+              address-city:
+                type:
+                  - string
+                  - 'null'
+                example: Funkyville
+              address-subdivision:
+                type:
+                  - string
+                  - 'null'
+                example: CA
+              address-postal-code:
+                type:
+                  - string
+                  - 'null'
+                example: '12345'
+              max-results:
+                type: integer
+                example: 3
+          result:
+            type:
+              - object
+              - 'null'
+            additionalProperties: false
+            properties:
+              error:
+                description: >-
+                  Set when the search could not be completed. Vendor error
+                  detail is not exposed.
+                type:
+                  - string
+                  - 'null'
+                example: The business search could not be completed.
+              businesses:
+                description: Candidate businesses matching the query, most relevant first.
+                type: array
+                items:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    business-name:
+                      type:
+                        - string
+                        - 'null'
+                      example: Coffee Shop Inc
+                    registration-number:
+                      description: >-
+                        The registration number issued by the local business
+                        registry.
+                      type:
+                        - string
+                        - 'null'
+                      example: C1234567
+                    employer-identification-number:
+                      description: >-
+                        US federal tax identifier. Populated on United States
+                        results only.
+                      type:
+                        - string
+                        - 'null'
+                      example: '452999888'
+                    entity-type:
+                      description: >-
+                        Legal form of the business. Best effort — United States
+                        results resolved through Dun & Bradstreet do not carry
+                        one.
+                      type:
+                        - string
+                        - 'null'
+                      example: Corporation
+                    incorporation-date:
+                      description: >-
+                        ISO 8601 date of incorporation. Populated on
+                        international results only.
+                      type:
+                        - string
+                        - 'null'
+                      example: '2015-04-23'
+                    addresses:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          type:
+                            description: >-
+                              Classification of the address, when the registry
+                              provides one. One of headquarters, mailing,
+                              registered, registered_agent, officer, site, or
+                              other. Null when the registry did not classify it.
+                            type:
+                              - string
+                              - 'null'
+                            example: headquarters
+                          street-1:
+                            type:
+                              - string
+                              - 'null'
+                            example: 123 Funky St
+                          street-2:
+                            type:
+                              - string
+                              - 'null'
+                          city:
+                            type:
+                              - string
+                              - 'null'
+                            example: Funkyville
+                          subdivision:
+                            description: >-
+                              Subnational division of a country, such as a state
+                              or province.
+                            type:
+                              - string
+                              - 'null'
+                            example: CA
+                          postal-code:
+                            type:
+                              - string
+                              - 'null'
+                            example: '12345'
+                          country-code:
+                            description: ISO 3166-1 alpha-2 country code.
+                            type:
+                              - string
+                              - 'null'
+                            example: US
+                    ubos:
+                      description: >-
+                        Ultimate Beneficial Owners. Only populated when the
+                        report template opts in.
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          type:
+                            type:
+                              - string
+                              - 'null'
+                            example: individual
+                          name:
+                            type:
+                              - string
+                              - 'null'
+                            example: Jane Doe
+                          birthdate:
+                            description: >-
+                              ISO 8601 partial date — YYYY-MM-DD, YYYY-MM, or
+                              YYYY depending on the precision the registry
+                              provided.
+                            type:
+                              - string
+                              - 'null'
+                            example: 1985-04
+                          address:
+                            type:
+                              - object
+                              - 'null'
+                            additionalProperties: false
+                            properties:
+                              street-1:
+                                type:
+                                  - string
+                                  - 'null'
+                              street-2:
+                                type:
+                                  - string
+                                  - 'null'
+                              city:
+                                type:
+                                  - string
+                                  - 'null'
+                              subdivision:
+                                type:
+                                  - string
+                                  - 'null'
+                              postal-code:
+                                type:
+                                  - string
+                                  - 'null'
+                              country-code:
+                                type:
+                                  - string
+                                  - 'null'
+                          roles:
+                            type: array
+                            items:
+                              type: object
+                              additionalProperties: false
+                              properties:
+                                description:
+                                  type:
+                                    - string
+                                    - 'null'
+                                  example: Shareholder
+                                data:
+                                  type:
+                                    - object
+                                    - 'null'
+  relationships:
+    $ref: ./report-shared-relationships.yaml
