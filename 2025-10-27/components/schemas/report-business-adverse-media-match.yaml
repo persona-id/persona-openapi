@@ -1,0 +1,77 @@
+description: >-
+  A match that was found (and may have been dismissed) for a Business Adverse
+  Media report
+type: object
+additionalProperties: false
+properties:
+  id:
+    type: string
+    example: FV933QHOUDG73V8
+  name:
+    type: string
+    example: Joe Doe
+  akas:
+    type: array
+    items:
+      type: string
+      example: Joey Doey
+  match-types:
+    type: array
+    items:
+      type: string
+      example: name_exact
+  birthdates:
+    type: array
+    items:
+      type:
+        - string
+        - 'null'
+  media:
+    type: array
+    items:
+      type: object
+      additionalProperties: false
+      properties:
+        date:
+          type:
+            - string
+            - 'null'
+          format: date
+          example: '2022-11-12'
+        snippet:
+          type:
+            - string
+            - 'null'
+          description: Snippet from matched article
+          example: >-
+            Joe Doe was ordered to jail on Friday after a judge revoked his bail
+            for alleged witness tampering.
+        url:
+          type: string
+          description: URL of matched article
+          example: https://www.example.com/
+        title:
+          type: string
+          description: Title of matched article
+          example: Joe Doe ordered to jail
+  sources:
+    type: array
+    items:
+      type: object
+      additionalProperties: false
+      properties:
+        country-codes:
+          type: array
+          items:
+            type: string
+            example: FR
+        name:
+          type: string
+          example: Adverse Media
+        token:
+          type: string
+        types:
+          type: array
+          items:
+            type: string
+            example: adverse-media-v2-other-minor

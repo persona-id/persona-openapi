@@ -41,11 +41,6 @@ properties:
                     type:
                       - string
                       - 'null'
-                match_types:
-                  type: array
-                  items:
-                    type: string
-                    example: name_exact
                 media:
                   type: array
                   items:
@@ -79,11 +74,6 @@ properties:
                     type: object
                     additionalProperties: false
                     properties:
-                      country_codes:
-                        type: array
-                        items:
-                          type: string
-                          example: FR
                       name:
                         type: string
                         example: Adverse Media
@@ -94,9 +84,31 @@ properties:
                         items:
                           type: string
                           example: adverse-media-v2-other-minor
+                      country_codes:
+                        type: array
+                        items:
+                          type: string
+                          example: FR
                 id:
                   type: string
                   example: FV933QHOUDG73V8
+                match_types:
+                  type: array
+                  items:
+                    type: string
+                    example: name_exact
+          ignore-list-media:
+            type: array
+            description: Media that have been individually dismissed for a matched entity.
+            items:
+              $ref: ./report-business-adverse-media-ignore-list-entry.yaml
+          ignore-list-entity:
+            type: array
+            description: >-
+              Entities that have been fully dismissed, and the details of that
+              dismissal.
+            items:
+              $ref: ./report-business-adverse-media-ignore-list-entry.yaml
           query:
             type: object
             additionalProperties: false

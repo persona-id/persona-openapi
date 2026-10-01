@@ -66,6 +66,89 @@ properties:
                   type: string
                   format: uri
                   description: A URL with more information about the list.
+          ignore-list:
+            type: array
+            description: >-
+              Matches that have been dismissed, and the details of that
+              dismissal.
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                ignored-at:
+                  type: string
+                  format: date-time
+                  example: '2023-09-13T22:08:56.618Z'
+                run-history-completed-at:
+                  type:
+                    - string
+                    - 'null'
+                  format: date-time
+                  example: '2023-08-11T20:36:04.291Z'
+                match:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    name:
+                      type: string
+                      example: Acme Sanctioned Holdings
+                    url:
+                      type:
+                        - string
+                        - 'null'
+                      format: uri
+                      example: >-
+                        https://sanctionslist.example.com/acme-sanctioned-holdings
+                    list-type:
+                      type: string
+                      example: sanction
+                    list-types:
+                      type: array
+                      items:
+                        type: string
+                        example: sanction
+                    slug:
+                      type:
+                        - string
+                        - 'null'
+                      example: eu-ec-programme-prk
+                    country-code:
+                      type:
+                        - string
+                        - 'null'
+                      example: EU
+                    flag-code:
+                      type:
+                        - string
+                        - 'null'
+                      example: EU
+                    entities:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          name:
+                            type: string
+                            example: Acme Sanctioned Holdings
+                          alias-type:
+                            type:
+                              - string
+                              - 'null'
+                            example: primary_name
+                          match-levels:
+                            type: array
+                            items:
+                              type: string
+                              example: name_exact
+                user:
+                  type: string
+                  example: John Doe
+                ignore-reason:
+                  type:
+                    - string
+                    - 'null'
+                  example: false positive
           run-history:
             type: array
             deprecated: true
