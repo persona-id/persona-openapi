@@ -3132,6 +3132,8 @@ paths:
           $ref: '#/components/responses/unauthorized'
         '403':
           $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not-found'
         '409':
           $ref: '#/components/responses/conflict'
         '422':
@@ -30256,11 +30258,12 @@ components:
           properties:
             status:
               type: string
-              description: 'The current status of the connection. One of `pending`, `active`, or `inactive`.'
+              description: 'The current status of the connection. One of `pending`, `active`, `inactive`, or `archived`. An `archived` connection is never listed or retrievable directly; it only appears as the connection of an existing share token.'
               examples:
                 - pending
                 - active
                 - inactive
+                - archived
             destination-organization-id:
               type: string
               examples:
