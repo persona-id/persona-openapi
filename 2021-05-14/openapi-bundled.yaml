@@ -34194,6 +34194,12 @@ components:
             - $ref: '#/components/schemas/report-shared-attributes'
             - type: object
               properties:
+                term:
+                  type:
+                    - string
+                    - 'null'
+                  description: 'The search term for the business watchlist report, typically the name of the business.'
+                  example: Acme Corporation
                 matched-lists:
                   type: array
                   description: A list of slugs identifying the lists on which matches were found.
@@ -41814,6 +41820,16 @@ components:
                           type: string
                       type: object
                       additionalProperties: false
+                    - properties:
+                        type:
+                          const: scheduled-run
+                          type: string
+                        id:
+                          examples:
+                            - srrun_3VghhbvDc7UuUNT8uZrqZjsk
+                          type: string
+                      type: object
+                      additionalProperties: false
               type: object
               additionalProperties: false
             workflow:
@@ -46964,6 +46980,59 @@ components:
               additionalProperties: false
           type: object
           additionalProperties: false
+    scheduled-run:
+      type: object
+      additionalProperties: false
+      description: A Scheduled Run object
+      properties:
+        type:
+          const: scheduled-run
+          type: string
+        id:
+          examples:
+            - srrun_3VghhbvDc7UuUNT8uZrqZjsk
+          type: string
+        attributes:
+          type: object
+          additionalProperties: false
+          properties:
+            status:
+              examples:
+                - finished
+              type: string
+            scheduled-at:
+              examples:
+                - '2022-08-08T18:55:44.910Z'
+              type: string
+              format: date-time
+            started-at:
+              examples:
+                - '2022-08-08T18:55:44.910Z'
+              type:
+                - string
+                - 'null'
+              format: date-time
+            finished-at:
+              examples:
+                - '2022-08-08T18:55:44.910Z'
+              type:
+                - string
+                - 'null'
+              format: date-time
+            errored-at:
+              examples:
+                - null
+              type:
+                - string
+                - 'null'
+              format: date-time
+            canceled-at:
+              examples:
+                - null
+              type:
+                - string
+                - 'null'
+              format: date-time
     workflow-run-included-objects:
       type: array
       items:
@@ -46974,11 +47043,13 @@ components:
             workflow-version: '#/components/schemas/workflow-version'
             event: '#/components/schemas/event'
             user: '#/components/schemas/user'
+            scheduled-run: '#/components/schemas/scheduled-run'
         oneOf:
           - $ref: '#/components/schemas/workflow'
           - $ref: '#/components/schemas/workflow-version'
           - $ref: '#/components/schemas/event'
           - $ref: '#/components/schemas/user'
+          - $ref: '#/components/schemas/scheduled-run'
     webhook-body-shared-data:
       x-inheritable: true
       type: object
