@@ -7,6 +7,7 @@ value:
         description: Test reusable persona support
         status: draft
         live: false
+        deployments: []
         last-updater: taylor@example.com
         enabled-locales:
           - en-US
@@ -26,6 +27,22 @@ value:
         description: Add reusable persona support
         status: published
         live: true
+        version-tag:
+          name: v2
+          description: Initial production release
+          created-at: '2026-03-26T18:29:41.000Z'
+        deployments:
+          - resource-type: inquiry-template
+            template-id: itmpl_ABC123
+            environment:
+              token: env_AbcDeFGhIjKlMnOpQrStUvWxYz1
+              name: production
+            rules:
+              - strategy:
+                  type: constant
+                  version:
+                    token: itmplv_LIVE123
+                    tag: v2
         last-updater: alex@example.com
         enabled-locales:
           - en-US
@@ -45,6 +62,7 @@ value:
         description: Initial production version
         status: published
         live: false
+        deployments: []
         last-updater: null
         enabled-locales:
           - en-US

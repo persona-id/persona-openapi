@@ -28881,8 +28881,10 @@ components:
       type: string
       description: 'Server API version. More info on versioning can be found [here](https://docs.withpersona.com/versioning).'
       examples:
+        - '2026-09-29'
         - '2025-12-08'
       enum:
+        - '2026-09-29'
         - '2025-12-08'
         - '2025-10-27'
         - '2023-01-05'
@@ -38298,6 +38300,101 @@ components:
                       type: string
                       examples:
                         - itmplv_ABC123
+    deployment-route-criteria:
+      description: 'A deployment route criteria node: an `and`/`or`/`!` operator tree whose `origin` leaves are either `{ context }` or `{ resource-type, template-id, version }`. Version references carry the version token and its deployment tag (null when the version is untagged). Each operator''s operand may be a single node or a non-empty array of nodes.'
+      unevaluatedProperties: false
+      oneOf:
+        - type: object
+          additionalProperties: false
+          required:
+            - and
+          properties:
+            and:
+              x-inheritable: true
+              oneOf:
+                - $ref: '#/components/schemas/deployment-route-criteria'
+                - type: array
+                  minItems: 1
+                  items:
+                    $ref: '#/components/schemas/deployment-route-criteria'
+        - type: object
+          additionalProperties: false
+          required:
+            - or
+          properties:
+            or:
+              x-inheritable: true
+              oneOf:
+                - $ref: '#/components/schemas/deployment-route-criteria'
+                - type: array
+                  minItems: 1
+                  items:
+                    $ref: '#/components/schemas/deployment-route-criteria'
+        - type: object
+          additionalProperties: false
+          required:
+            - '!'
+          properties:
+            '!':
+              x-inheritable: true
+              oneOf:
+                - $ref: '#/components/schemas/deployment-route-criteria'
+                - type: array
+                  minItems: 1
+                  items:
+                    $ref: '#/components/schemas/deployment-route-criteria'
+        - type: object
+          additionalProperties: false
+          required:
+            - origin
+          properties:
+            origin:
+              x-inheritable: true
+              oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                    - context
+                  properties:
+                    context:
+                      type: string
+                      description: The request context the route matches on.
+                      examples:
+                        - mobile
+                - type: object
+                  additionalProperties: false
+                  required:
+                    - resource-type
+                    - template-id
+                  properties:
+                    resource-type:
+                      type: string
+                      description: The platform resource type the origin targets.
+                      examples:
+                        - inquiry-template
+                    template-id:
+                      type: string
+                      description: The token of the resource template the origin targets.
+                      examples:
+                        - itmpl_ABC123
+                    version:
+                      type:
+                        - object
+                        - 'null'
+                      additionalProperties: false
+                      required:
+                        - token
+                        - tag
+                      properties:
+                        token:
+                          type: string
+                        tag:
+                          type:
+                            - string
+                            - 'null'
+                          description: 'The version''s deployment tag, when one was minted.'
+                          examples:
+                            - '3'
     inquiry-template-version:
       type: object
       additionalProperties: false
@@ -38344,6 +38441,170 @@ components:
               description: Whether this is the Inquiry Template's current live published version.
               examples:
                 - true
+            version-tag:
+              description: The version's deployment-engine tag; null when the version is untagged. Omitted for organizations not on explicit deploy.
+              unevaluatedProperties: false
+              oneOf:
+                - type: 'null'
+                - type: object
+                  additionalProperties: false
+                  required:
+                    - name
+                    - description
+                    - created-at
+                  properties:
+                    name:
+                      type: string
+                    description:
+                      type:
+                        - string
+                        - 'null'
+                    created-at:
+                      type: string
+                      format: date-time
+              examples:
+                - name: v2
+                  description: Initial production release
+                  created-at: '2026-03-26T18:29:41.000Z'
+            deployments:
+              type: array
+              description: 'Deployment routes currently sending traffic to this version, one per environment; rules carry the strategy (constant today, weighted/conditional for partial rollouts) and version references carry each referenced version''s token and deployment tag. Omitted for organizations not on explicit deploy.'
+              items:
+                type: object
+                additionalProperties: false
+                required:
+                  - resource-type
+                  - template-id
+                  - environment
+                  - rules
+                properties:
+                  resource-type:
+                    type: string
+                    description: 'The platform resource type the route targets. Possible values are `inquiry-template`, `workflow`, and `scheduled-run-config`.'
+                    examples:
+                      - inquiry-template
+                  template-id:
+                    type: string
+                    description: The token of the resource template the route targets.
+                    examples:
+                      - itmpl_ABC123
+                  environment:
+                    type: object
+                    additionalProperties: false
+                    description: The environment the route applies to.
+                    required:
+                      - token
+                      - name
+                    properties:
+                      token:
+                        type: string
+                        description: The environment's token.
+                        examples:
+                          - env_AbcDeFGhIjKlMnOpQrStUvWxYz1
+                      name:
+                        type: string
+                        description: The environment's display name.
+                        examples:
+                          - production
+                  rules:
+                    type: array
+                    description: 'The routing rules evaluated for the environment. Each rule has a strategy and may have a criteria tree with `and`, `or`, and `!` operators over context or resource origins.'
+                    items:
+                      type: object
+                      additionalProperties: false
+                      required:
+                        - strategy
+                      properties:
+                        criteria:
+                          $ref: '#/components/schemas/deployment-route-criteria'
+                          description: 'An `and`/`or`/`!` tree whose `origin` leaves are either `{ context }` or `{ resource-type, template-id, version }`.'
+                          examples:
+                            - or:
+                                - origin:
+                                    context: mobile
+                                - origin:
+                                    resource-type: inquiry-template
+                                    template-id: itmpl_ABC123
+                                    version:
+                                      token: itmplv_LIVE123
+                                      tag: v2
+                        strategy:
+                          oneOf:
+                            - type: object
+                              additionalProperties: false
+                              required:
+                                - type
+                                - version
+                              properties:
+                                type:
+                                  type: string
+                                  const: constant
+                                version:
+                                  type: object
+                                  additionalProperties: false
+                                  required:
+                                    - token
+                                    - tag
+                                  properties:
+                                    token:
+                                      type: string
+                                    tag:
+                                      type:
+                                        - string
+                                        - 'null'
+                                      description: 'The version''s deployment tag, when one was minted.'
+                                      examples:
+                                        - v2
+                            - type: object
+                              additionalProperties: false
+                              required:
+                                - type
+                                - version-refs
+                              properties:
+                                type:
+                                  type: string
+                                  const: weighted-random
+                                version-refs:
+                                  type: array
+                                  items:
+                                    type: object
+                                    additionalProperties: false
+                                    required:
+                                      - version
+                                      - weight
+                                    properties:
+                                      version:
+                                        type: object
+                                        additionalProperties: false
+                                        required:
+                                          - token
+                                          - tag
+                                        properties:
+                                          token:
+                                            type: string
+                                          tag:
+                                            type:
+                                              - string
+                                              - 'null'
+                                            description: 'The version''s deployment tag, when one was minted.'
+                                            examples:
+                                              - '3'
+                                      weight:
+                                        type: integer
+                                        description: Relative share of traffic (0–100). Weights across all version-refs in the strategy must sum to 100.
+                          unevaluatedProperties: false
+              examples:
+                - - resource-type: inquiry-template
+                    template-id: itmpl_ABC123
+                    environment:
+                      token: env_AbcDeFGhIjKlMnOpQrStUvWxYz1
+                      name: production
+                    rules:
+                      - strategy:
+                          type: constant
+                          version:
+                            token: itmplv_LIVE123
+                            tag: v2
             last-updater:
               type:
                 - string
@@ -49578,6 +49839,7 @@ components:
               description: Test reusable persona support
               status: draft
               live: false
+              deployments: []
               last-updater: taylor@example.com
               enabled-locales:
                 - en-US
@@ -49597,6 +49859,22 @@ components:
               description: Add reusable persona support
               status: published
               live: true
+              version-tag:
+                name: v2
+                description: Initial production release
+                created-at: '2026-03-26T18:29:41.000Z'
+              deployments:
+                - resource-type: inquiry-template
+                  template-id: itmpl_ABC123
+                  environment:
+                    token: env_AbcDeFGhIjKlMnOpQrStUvWxYz1
+                    name: production
+                  rules:
+                    - strategy:
+                        type: constant
+                        version:
+                          token: itmplv_LIVE123
+                          tag: v2
               last-updater: alex@example.com
               enabled-locales:
                 - en-US
@@ -49616,6 +49894,7 @@ components:
               description: Initial production version
               status: published
               live: false
+              deployments: []
               last-updater: null
               enabled-locales:
                 - en-US
