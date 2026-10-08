@@ -23175,6 +23175,9 @@
                         "$ref": "#/components/schemas/report-business-lookup-request"
                       },
                       {
+                        "$ref": "#/components/schemas/report-business-nonprofit-request"
+                      },
+                      {
                         "$ref": "#/components/schemas/report-business-search-request"
                       },
                       {
@@ -42040,6 +42043,16 @@
                                           "scrre_3EenGd9ZzeXLWBL11K5mnSBi"
                                         ]
                                       },
+                                      "reviewer-token": {
+                                        "type": [
+                                          "string",
+                                          "null"
+                                        ],
+                                        "description": "The token of who performed the review: a user token (`user_` prefix) when a person reviewed it, or a workflow run token (`wfr_` prefix) when a workflow reviewed it. Null on events created before this field was added.",
+                                        "examples": [
+                                          "user_3VghhbvDc7UuUNT8uZrqZjsk"
+                                        ]
+                                      },
                                       "comment": {
                                         "type": [
                                           "string",
@@ -52894,6 +52907,442 @@
           }
         }
       },
+      "report-business-nonprofit": {
+        "title": "Business Nonprofit Report",
+        "description": "A Business Nonprofit Report",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report/business-nonprofit"
+          },
+          "id": {
+            "type": "string",
+            "description": "The ID of the report",
+            "example": "rep_7WNzPaNcroBKLarNHBjYDLAp"
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/report-shared-attributes"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                      "ein": {
+                        "type": "string",
+                        "description": "The Employer Identification Number used to search for the nonprofit.",
+                        "example": "12-3456789"
+                      }
+                    }
+                  },
+                  "result": {
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                      "organization-name": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "The legal name of the nonprofit.",
+                        "example": "Candid"
+                      },
+                      "organization-name-aka": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "Other names associated with the nonprofit.",
+                        "example": "The Foundation Center, Foundation Center, GuideStar, GuideStar USA"
+                      },
+                      "address": {
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                          "street-1": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "example": "32 Old Slip"
+                          },
+                          "street-2": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "example": "24th Floor"
+                          },
+                          "city": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "example": "New York"
+                          },
+                          "subdivision": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "example": "NY"
+                          },
+                          "postal-code": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "example": "10005"
+                          },
+                          "country-code": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "example": "US"
+                          }
+                        }
+                      },
+                      "foundation-type-code": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "example": "PC"
+                      },
+                      "foundation-type-description": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "example": "Public charity described in section 509(a)(1) or (2)"
+                      },
+                      "irs-filing-requirement-code": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "example": "010"
+                      },
+                      "irs-pub-78-details": {
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                          "church-message": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "organization-name": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "example": "Candid"
+                          },
+                          "ein": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "example": "12-3456789"
+                          },
+                          "verified": {
+                            "type": [
+                              "boolean",
+                              "null"
+                            ],
+                            "example": true
+                          },
+                          "city": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "example": "New York"
+                          },
+                          "state": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "example": "NY"
+                          },
+                          "organization-types": {
+                            "type": [
+                              "array",
+                              "null"
+                            ],
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "organization-type": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ],
+                                  "example": "A public charity (50% deductibility limitation)."
+                                },
+                                "deductibility-limitation": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ],
+                                  "example": "50%"
+                                },
+                                "deductibility-status-description": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ],
+                                  "example": "PC"
+                                }
+                              }
+                            }
+                          },
+                          "most-recent-pub78": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "example": "4/13/2021 4:00:00 AM"
+                          },
+                          "most-recent-irb": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "example": "4/26/2021 12:00:00 AM"
+                          },
+                          "bulletin-number": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "example": "2020-05"
+                          },
+                          "bulletin-url": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "format": "uri",
+                            "example": "https://www.irs.gov/pub/irs-irbs/irb20-05.pdf"
+                          }
+                        }
+                      },
+                      "irs-bmf-details": {
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                          "church-message": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "organization-name": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "example": "CANDID"
+                          },
+                          "ein": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "example": "12-3456789"
+                          },
+                          "status": {
+                            "type": [
+                              "boolean",
+                              "null"
+                            ],
+                            "example": true
+                          },
+                          "most-recent-bmf": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "example": "4/12/2021 4:00:00 AM"
+                          },
+                          "subsection": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "example": "03"
+                          },
+                          "subsection-description": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "example": "501(c)(3) Public Charity"
+                          },
+                          "ruling-month": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "example": "06"
+                          },
+                          "ruling-year": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "example": "1957"
+                          },
+                          "revocation-reason": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "example": "failure_to_file"
+                          },
+                          "revocation-date": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "example": "1/12/2021 2:23:09 PM"
+                          }
+                        }
+                      },
+                      "ca-ag-details": {
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                          "status": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "example": "May Operate or Solicit for Charitable Purposes"
+                          },
+                          "registry-status": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "example": "Current"
+                          },
+                          "state-charity-reg-num": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "example": "CT0257773"
+                          },
+                          "issue-date": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "example": "2018-05-15"
+                          },
+                          "last-renewal-date": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "example": "2018-05-15"
+                          },
+                          "status-set-date": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "example": "2018-09-12"
+                          },
+                          "as-of-date": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "example": "2023-05-17"
+                          },
+                          "most-recent-ag": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "example": "2023-04-19"
+                          }
+                        }
+                      },
+                      "ca-ftb-details": {
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                          "revocation-status": {
+                            "type": [
+                              "boolean",
+                              "null"
+                            ],
+                            "example": true
+                          },
+                          "revocation-status-date": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "example": "2017-03-28"
+                          },
+                          "most-recent-ftb": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "example": "2023-04-19"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "relationships": {
+            "$ref": "#/components/schemas/report-shared-relationships"
+          }
+        }
+      },
       "report-business-search": {
         "title": "Business Search Report",
         "description": "A Business Search Report",
@@ -58271,6 +58720,7 @@
               "report/business-associated-persons": "#/components/schemas/report-business-associated-persons",
               "report/business-registrations-lookup": "#/components/schemas/report-business-registrations-lookup",
               "report/business-lookup": "#/components/schemas/report-business-lookup",
+              "report/business-nonprofit": "#/components/schemas/report-business-nonprofit",
               "report/business-search": "#/components/schemas/report-business-search",
               "report/business-watchlist": "#/components/schemas/report-business-watchlist",
               "report/crypto-address-watchlist": "#/components/schemas/report-crypto-address-watchlist",
@@ -58329,6 +58779,9 @@
             },
             {
               "$ref": "#/components/schemas/report-business-lookup"
+            },
+            {
+              "$ref": "#/components/schemas/report-business-nonprofit"
             },
             {
               "$ref": "#/components/schemas/report-business-search"
@@ -64428,6 +64881,7 @@
               "report/business-associated-persons": "#/components/schemas/report-business-associated-persons",
               "report/business-registrations-lookup": "#/components/schemas/report-business-registrations-lookup",
               "report/business-lookup": "#/components/schemas/report-business-lookup",
+              "report/business-nonprofit": "#/components/schemas/report-business-nonprofit",
               "report/business-search": "#/components/schemas/report-business-search",
               "report/business-watchlist": "#/components/schemas/report-business-watchlist",
               "report/crypto-address-watchlist": "#/components/schemas/report-crypto-address-watchlist",
@@ -64537,6 +64991,9 @@
             },
             {
               "$ref": "#/components/schemas/report-business-lookup"
+            },
+            {
+              "$ref": "#/components/schemas/report-business-nonprofit"
             },
             {
               "$ref": "#/components/schemas/report-business-search"
@@ -67550,6 +68007,7 @@
             "report/business-associated-persons": "#/components/schemas/report-business-associated-persons",
             "report/business-registrations-lookup": "#/components/schemas/report-business-registrations-lookup",
             "report/business-lookup": "#/components/schemas/report-business-lookup",
+            "report/business-nonprofit": "#/components/schemas/report-business-nonprofit",
             "report/business-search": "#/components/schemas/report-business-search",
             "report/business-watchlist": "#/components/schemas/report-business-watchlist",
             "report/crypto-address-watchlist": "#/components/schemas/report-crypto-address-watchlist",
@@ -67583,6 +68041,9 @@
           },
           {
             "$ref": "#/components/schemas/report-business-lookup"
+          },
+          {
+            "$ref": "#/components/schemas/report-business-nonprofit"
           },
           {
             "$ref": "#/components/schemas/report-business-search"
@@ -68002,6 +68463,52 @@
                       "address-city",
                       "address-subdivision",
                       "address-postal-code"
+                    ]
+                  }
+                },
+                "required": [
+                  "query"
+                ]
+              }
+            ]
+          }
+        },
+        "required": [
+          "attributes"
+        ]
+      },
+      "report-business-nonprofit-request": {
+        "title": "Business Nonprofit Report",
+        "description": "Fields required to create a Business Nonprofit Report",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report/business-nonprofit"
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/report-shared-request-attributes"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "ein": {
+                        "type": "string",
+                        "description": "The nine-digit Employer Identification Number of the nonprofit.",
+                        "pattern": "^[0-9]{2}-?[0-9]{7}$",
+                        "example": "12-3456789"
+                      }
+                    },
+                    "required": [
+                      "ein"
                     ]
                   }
                 },
@@ -69272,6 +69779,31 @@
           }
         }
       },
+      "report-template-business-nonprofit": {
+        "title": "Business Nonprofit Report Template",
+        "description": "A Business Nonprofit Report Template",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report-template/business-nonprofit"
+          },
+          "id": {
+            "type": "string",
+            "description": "The ID of the Report Template",
+            "example": "rptp_7WNzPaNcroBKLarNHBjYDLAp"
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "$ref": "#/components/schemas/report-template-shared-attributes"
+          },
+          "meta": {
+            "unevaluatedProperties": false,
+            "$ref": "#/components/schemas/report-template-shared-meta"
+          }
+        }
+      },
       "report-template-business-registrations-lookup": {
         "title": "Business Registrations Lookup Report Template",
         "description": "A Business Registrations Lookup Report Template",
@@ -69640,6 +70172,7 @@
               "report-template/business-adverse-media": "#/components/schemas/report-template-business-adverse-media",
               "report-template/business-associated-persons": "#/components/schemas/report-template-business-associated-persons",
               "report-template/business-lookup": "#/components/schemas/report-template-business-lookup",
+              "report-template/business-nonprofit": "#/components/schemas/report-template-business-nonprofit",
               "report-template/business-registrations-lookup": "#/components/schemas/report-template-business-registrations-lookup",
               "report-template/business-watchlist": "#/components/schemas/report-template-business-watchlist",
               "report-template/crypto-address-watchlist": "#/components/schemas/report-template-crypto-address-watchlist",
@@ -69676,6 +70209,9 @@
             },
             {
               "$ref": "#/components/schemas/report-template-business-lookup"
+            },
+            {
+              "$ref": "#/components/schemas/report-template-business-nonprofit"
             },
             {
               "$ref": "#/components/schemas/report-template-business-registrations-lookup"
@@ -91344,6 +91880,7 @@
                 "review-status": "false_positive",
                 "risk-level": "material",
                 "record-token": "scrre_3EenGd9ZzeXLWBL11K5mnSBi",
+                "reviewer-token": "user_3VghhbvDc7UuUNT8uZrqZjsk",
                 "comment": "Confirmed this is not a match to the sanctioned individual after manual review."
               },
               "payload": {
