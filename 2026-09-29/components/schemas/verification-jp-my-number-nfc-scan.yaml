@@ -1,0 +1,127 @@
+title: JP My Number NFC Scan Verification
+description: A Japanese My Number Card NFC Scan Verification
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: verification/jp-my-number-nfc-scan
+  id:
+    type: string
+    description: The token of the verification
+    example: ver_ABC123
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./verification-shared-attributes.yaml
+      - type: object
+        properties:
+          operation:
+            description: The operation performed against the NFC card.
+            type:
+              - string
+              - 'null'
+          address:
+            type:
+              - string
+              - 'null'
+          birthdate:
+            type:
+              - string
+              - 'null'
+            format: date
+          expiration-date:
+            type:
+              - string
+              - 'null'
+            format: date
+          face-image:
+            description: >-
+              Face image extracted from the NFC card, when present. Deprecated
+              in favor of `selfie-photo`.
+            deprecated: true
+            type:
+              - object
+              - 'null'
+          selfie-photo:
+            description: >-
+              Portrait photo of the bearer extracted from the NFC card, when
+              present.
+            properties:
+              byte-size:
+                default: 0
+                examples:
+                  - 316802
+                type: integer
+              url:
+                examples:
+                  - https://files.withpersona.com/...
+                type: string
+            type:
+              - object
+              - 'null'
+          gender:
+            type:
+              - string
+              - 'null'
+            deprecated: true
+            description: Deprecated in favor of `sex`
+          identification-class:
+            description: >-
+              Persona-standard document class of the scanned card, derived from
+              the scan operation (e.g. "myn" for My Number card, "dl" for
+              driver's license, "rp" for residence card).
+            type:
+              - string
+              - 'null'
+          identification-number:
+            description: >-
+              Identification number on the scanned card — the driver's license
+              number (DL operations) or residence card number (res_read).
+            type:
+              - string
+              - 'null'
+          kana-name:
+            type:
+              - string
+              - 'null'
+          license-number:
+            type:
+              - string
+              - 'null'
+            deprecated: true
+            description: >-
+              Identification number scanned from drivers license. Deprecated in
+              favor of identification-number.
+          name-full:
+            type:
+              - string
+              - 'null'
+          sex:
+            description: Extracted sex designation from the scanned card.
+            type:
+              - string
+              - 'null'
+          vehicle-classes:
+            description: >-
+              Vehicle classes the bearer is licensed for, extracted from a
+              scanned driver's license.
+            type:
+              - object
+              - 'null'
+            additionalProperties:
+              type: object
+              additionalProperties: false
+              properties:
+                acquisition-date:
+                  type:
+                    - string
+                    - 'null'
+                  format: date
+            examples:
+              - semi-mid-sized:
+                  acquisition-date: '2023-11-22'
+                other:
+                  acquisition-date: '2023-11-22'
+  relationships:
+    $ref: ./verification-shared-relationships.yaml

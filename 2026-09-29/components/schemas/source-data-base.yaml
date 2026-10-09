@@ -1,0 +1,45 @@
+x-inheritable: true
+type: object
+properties:
+  type:
+    type: string
+    x-polymorphic: true
+    description: >-
+      Discriminator for the source-object type. Subtypes constrain this to a
+      specific value via `const`.
+  id:
+    type: string
+    description: The underlying source object's token.
+  peekable-attributes:
+    type: object
+    additionalProperties: true
+    description: >
+      Bag of source-object attributes exposed to the destination organization
+      per the source
+
+      organization's PII-share configuration. Each scalar entry (e.g. `status`,
+      `country-code`,
+
+      `id-class`) is a `{visibility, value}` wrapper; see
+      `source-data-peekable-attribute.yaml`.
+
+      Inquiry, Account, and Txn subtypes additionally expose a nested `fields`
+      sub-bucket
+
+      containing standard and custom user-space fields (e.g. `name-first`,
+      `birthdate`, org-defined
+
+      fields); verification subtypes do not. The source object's `status` (when
+      applicable to the
+
+      subtype) appears here as a peekable attribute, not as a top-level scalar.
+      Entries stripped
+
+      entirely by the configuration are omitted from the bag. The concrete shape
+      — including
+
+      which subtypes expose `fields` — is declared per-subtype.
+required:
+  - type
+  - id
+  - peekable-attributes

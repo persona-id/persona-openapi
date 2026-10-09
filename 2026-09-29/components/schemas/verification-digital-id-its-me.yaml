@@ -1,0 +1,88 @@
+title: Digital ID itsme Verification
+description: A Digital ID itsme Verification
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: verification/digital-id-its-me
+  id:
+    type: string
+    description: The token of the verification
+    example: ver_ABC123
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./verification-shared-attributes.yaml
+      - type: object
+        properties:
+          name-first:
+            type:
+              - string
+              - 'null'
+          name-last:
+            type:
+              - string
+              - 'null'
+          identification-number:
+            type:
+              - string
+              - 'null'
+          birthdate:
+            type:
+              - string
+              - 'null'
+            format: date
+          response-country:
+            type:
+              - string
+              - 'null'
+          response-status:
+            type:
+              - string
+              - 'null'
+          address:
+            description: Registered address as returned by itsme.
+            type:
+              - string
+              - 'null'
+          birth-place:
+            type:
+              - string
+              - 'null'
+          document-number:
+            type:
+              - string
+              - 'null'
+          email:
+            type:
+              - string
+              - 'null'
+          gender:
+            type:
+              - string
+              - 'null'
+          id-expiry-date:
+            type:
+              - string
+              - 'null'
+            format: date
+          id-picture:
+            description: Encoded portrait image returned by the provider.
+            type:
+              - string
+              - 'null'
+          language:
+            type:
+              - string
+              - 'null'
+          nationality:
+            type:
+              - string
+              - 'null'
+          phone:
+            type:
+              - string
+              - 'null'
+  relationships:
+    $ref: ./verification-shared-relationships.yaml

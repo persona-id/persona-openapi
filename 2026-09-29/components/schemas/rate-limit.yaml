@@ -1,0 +1,24 @@
+type: object
+additionalProperties: false
+description: The current rate limit for a resource.
+properties:
+  type:
+    type: string
+    enum:
+      - rate-limit/api
+  attributes:
+    type: object
+    additionalProperties: false
+    properties:
+      limit:
+        type: integer
+        description: The maximum number of requests allowed in the current time window
+        example: 300
+      remaining:
+        type: integer
+        description: The number of requests remaining in the current time window
+        example: 250
+      seconds-to-reset:
+        type: integer
+        description: The number of seconds until the rate limit resets
+        example: 60

@@ -1,0 +1,69 @@
+post:
+  operationId: webhook-inquiry-reusable-persona-created
+  summary: Inquiry reusable-persona created
+  description: >-
+    Webhook for the `inquiry.reusable-persona-created` event. Fired when a
+    reusable persona is first created from an Inquiry — i.e., the first time an
+    end user's verified identity from this Inquiry becomes available for reuse
+    on subsequent verifications.
+
+
+    The payload `data` is the Inquiry the reusable persona was created from,
+    typically in its terminal `approved` (or `completed`) status. For more info
+    see [Reusable Personas](https://docs.withpersona.com/reusable-personas) and
+    [Webhooks Overview](https://docs.withpersona.com/webhooks).
+  tags:
+    - Inquiry events
+  x-persona-product: Inquiries
+  parameters:
+    - $ref: ../components/parameters/persona-signature-header.yaml
+    - $ref: ../components/parameters/persona-webhook-attempts-made.yaml
+    - $ref: ../components/parameters/persona-webhook-attempts-left.yaml
+    - $ref: ../components/parameters/persona-webhook-first-attempted-at.yaml
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          additionalProperties: false
+          properties:
+            data:
+              type: object
+              unevaluatedProperties: false
+              allOf:
+                - $ref: ../components/schemas/webhook-body-shared-data.yaml
+                - type: object
+                  properties:
+                    attributes:
+                      unevaluatedProperties: false
+                      allOf:
+                        - type: object
+                          properties:
+                            name:
+                              type: string
+                              const: inquiry.reusable-persona-created
+                            payload:
+                              type: object
+                              additionalProperties: false
+                              properties:
+                                data:
+                                  $ref: ../components/schemas/inquiry.yaml
+                                included:
+                                  description: >-
+                                    Objects referenced in
+                                    `data.attributes.relationships` may be
+                                    provided in `included` when related-object
+                                    inclusion is enabled for this webhook
+                                    subscription. When inclusion is not enabled,
+                                    `included` will be empty.
+                                  $ref: >-
+                                    ../components/schemas/inquiry-included-objects.yaml
+                        - $ref: >-
+                            ../components/schemas/webhook-body-shared-attributes.yaml
+        examples:
+          Example Body:
+            $ref: >-
+              ../components/examples/inquiry-reusable-persona-created-webhook-body.yaml
+  responses:
+    '200':
+      $ref: ../components/responses/success.yaml

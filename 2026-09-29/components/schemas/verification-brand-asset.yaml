@@ -1,0 +1,30 @@
+title: Brand Asset Verification
+description: A Brand Asset Verification
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: verification/brand-asset
+  id:
+    type: string
+    description: The token of the verification
+    example: ver_ABC123
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./verification-shared-attributes.yaml
+      - type: object
+        properties:
+          business-name:
+            description: Name of the business associated with the brand asset.
+            type:
+              - string
+              - 'null'
+          business-website:
+            description: Website URL associated with the brand asset.
+            type:
+              - string
+              - 'null'
+  relationships:
+    $ref: ./verification-shared-relationships.yaml

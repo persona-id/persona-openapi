@@ -1,0 +1,42 @@
+description: Something went wrong on Persona’s end.
+headers:
+  RateLimit-Limit:
+    $ref: ../headers/rate-limit-limit.yaml
+  RateLimit-Remaining:
+    $ref: ../headers/rate-limit-remaining.yaml
+  RateLimit-Reset:
+    $ref: ../headers/rate-limit-reset.yaml
+  Request-Id:
+    $ref: ../headers/request-id.yaml
+  Persona-Environment-Id:
+    $ref: ../headers/persona-environment-id.yaml
+  Persona-Organization-Id:
+    $ref: ../headers/persona-organization-id.yaml
+content:
+  application/json:
+    examples:
+      Request Timeout:
+        value:
+          errors:
+            - title: Request Timeout
+              details: The server timed out waiting for the request
+    schema:
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              title:
+                description: Request Timeout
+                type: string
+              details:
+                type: string
+                examples:
+                  - The server timed out waiting for the request
+                  - >-
+                    Client did not produce a request within the time that the
+                    server was prepared to wait
+      type: object
+      additionalProperties: false

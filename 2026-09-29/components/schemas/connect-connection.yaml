@@ -1,0 +1,83 @@
+type: object
+additionalProperties: false
+description: >-
+  A Connect Connection object.
+
+
+  This object represents a connection between organizations for sharing access
+  to Persona objects.
+properties:
+  type:
+    type: string
+    const: connect/connection
+  id:
+    type: string
+    examples:
+      - cxn_ABC123
+  attributes:
+    additionalProperties: false
+    properties:
+      status:
+        type: string
+        description: >-
+          The current status of the connection. One of `pending`, `active`,
+          `inactive`, or `archived`. An `archived` connection is never listed or
+          retrievable directly; it only appears as the connection of an existing
+          share token.
+        examples:
+          - pending
+          - active
+          - inactive
+          - archived
+      destination-organization-id:
+        type: string
+        examples:
+          - org_XYZ789
+        description: The organization authorized to access objects through this connection.
+      source-organization-id:
+        type: string
+        examples:
+          - org_ABC123
+        description: The organization that created and owns this connection.
+      created-at:
+        format: date-time
+        examples:
+          - '2018-06-01T00:00:00.000Z'
+        type: string
+        description: The date and time when this connection was created
+      updated-at:
+        format: date-time
+        examples:
+          - '2018-06-01T00:00:00.000Z'
+        type: string
+        description: The date and time when this connection was last updated
+    type: object
+  relationships:
+    type: object
+    additionalProperties: false
+    properties:
+      creator:
+        type: object
+        additionalProperties: false
+        properties:
+          data:
+            type: object
+            additionalProperties: false
+            properties:
+              id:
+                examples:
+                  - user_ABC123
+                  - api_ABC123
+                type: string
+              type:
+                x-polymorphic: true
+                type: string
+                examples:
+                  - user
+                  - api-key
+                description: The type of the creator entity
+            required:
+              - id
+              - type
+        required:
+          - data

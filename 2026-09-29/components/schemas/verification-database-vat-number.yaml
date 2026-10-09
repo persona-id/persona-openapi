@@ -1,0 +1,81 @@
+title: Database VAT Number Verification
+description: A Database VAT Number Verification
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: verification/database-vat-number
+  id:
+    type: string
+    description: The token of the verification
+    example: ver_ABC123
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./verification-shared-attributes.yaml
+      - type: object
+        properties:
+          vat-number:
+            description: The VAT number being verified.
+            type:
+              - string
+              - 'null'
+          business-name:
+            description: Name of the business as supplied for verification.
+            type:
+              - string
+              - 'null'
+          address-street-1:
+            description: Street name of business address.
+            type:
+              - string
+              - 'null'
+          address-street-2:
+            description: Extension of business address.
+            type:
+              - string
+              - 'null'
+          address-city:
+            type:
+              - string
+              - 'null'
+          address-subdivision:
+            type:
+              - string
+              - 'null'
+          address-postal-code:
+            type:
+              - string
+              - 'null'
+          registered-business-name:
+            description: Business name as returned by the registered VAT record.
+            type:
+              - string
+              - 'null'
+          registered-address-street-1:
+            type:
+              - string
+              - 'null'
+          registered-address-street-2:
+            type:
+              - string
+              - 'null'
+          registered-address-city:
+            type:
+              - string
+              - 'null'
+          registered-address-subdivision:
+            type:
+              - string
+              - 'null'
+          registered-address-postal-code:
+            type:
+              - string
+              - 'null'
+          registered-address-country-code:
+            type:
+              - string
+              - 'null'
+  relationships:
+    $ref: ./verification-shared-relationships.yaml

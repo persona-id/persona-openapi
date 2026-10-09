@@ -1,0 +1,684 @@
+type: object
+additionalProperties: false
+description: An Inquiry Template Version object
+properties:
+  type:
+    type: string
+    const: inquiry-template-version
+  id:
+    type: string
+    examples:
+      - itmplv_HAVumeSgCxWxhVb8tTRjaiUB
+  attributes:
+    additionalProperties: false
+    type: object
+    properties:
+      name-display:
+        type:
+          - string
+          - 'null'
+        examples:
+          - Collect Government ID
+          - ''
+      description:
+        type:
+          - string
+          - 'null'
+        description: A description of the changes in this version.
+        examples:
+          - Add reusable persona support
+      status:
+        description: |-
+          Possible values:
+          - published
+          - draft
+
+          Do not assume this is a static enumeration; Persona may add new values
+          in the future without a versioned update.
+        type: string
+        examples:
+          - published
+      live:
+        type: boolean
+        description: >-
+          Whether this version is configured for any Inquiry creation in any or
+          all environments.
+        examples:
+          - true
+      version-tag:
+        description: >-
+          The version's deployment-engine tag; null when the version is
+          untagged. Omitted for organizations not on explicit deploy.
+        unevaluatedProperties: false
+        oneOf:
+          - type: 'null'
+          - type: object
+            additionalProperties: false
+            required:
+              - name
+              - description
+              - created-at
+            properties:
+              name:
+                type: string
+              description:
+                type:
+                  - string
+                  - 'null'
+              created-at:
+                type: string
+                format: date-time
+        examples:
+          - name: v2
+            description: Initial production release
+            created-at: '2026-03-26T18:29:41.000Z'
+      deployments:
+        type: array
+        description: >-
+          Deployment routes currently sending traffic to this version, one per
+          environment; rules carry the strategy (constant today,
+          weighted/conditional for partial rollouts) and version references
+          carry each referenced version's token and serialized deployment tag.
+          Omitted for organizations not on explicit deploy.
+        items:
+          type: object
+          additionalProperties: false
+          required:
+            - resource-type
+            - template-id
+            - environment
+            - rules
+          properties:
+            resource-type:
+              type: string
+              description: >-
+                The platform resource type the route targets. Possible values
+                are `inquiry-template`, `workflow`, and `scheduled-run-config`.
+              examples:
+                - inquiry-template
+            template-id:
+              type: string
+              description: The token of the resource template the route targets.
+              examples:
+                - itmpl_ABC123
+            environment:
+              type: object
+              additionalProperties: false
+              description: The environment the route applies to.
+              required:
+                - token
+                - name
+              properties:
+                token:
+                  type: string
+                  description: The environment's token.
+                  examples:
+                    - env_AbcDeFGhIjKlMnOpQrStUvWxYz1
+                name:
+                  type: string
+                  description: The environment's display name.
+                  examples:
+                    - production
+            rules:
+              type: array
+              description: >-
+                The routing rules evaluated for the environment. Each rule has a
+                strategy and may have a criteria tree with `and`, `or`, and `!`
+                operators over context or resource origins.
+              items:
+                type: object
+                additionalProperties: false
+                required:
+                  - strategy
+                properties:
+                  criteria:
+                    $ref: ./deployment-route-criteria.yaml
+                    description: >-
+                      An `and`/`or`/`!` tree whose `origin` leaves are either `{
+                      context }` or `{ resource-type, template-id, version }`.
+                    examples:
+                      - or:
+                          - origin:
+                              context: mobile
+                          - origin:
+                              resource-type: inquiry-template
+                              template-id: itmpl_ABC123
+                              version:
+                                token: itmplv_LIVE123
+                                tag:
+                                  name: v2
+                                  description: Initial production release
+                                  created-at: '2026-03-26T18:29:41.000Z'
+                  strategy:
+                    oneOf:
+                      - type: object
+                        additionalProperties: false
+                        required:
+                          - type
+                          - version
+                        properties:
+                          type:
+                            type: string
+                            const: constant
+                          version:
+                            type: object
+                            additionalProperties: false
+                            required:
+                              - token
+                              - tag
+                            properties:
+                              token:
+                                type: string
+                              tag:
+                                unevaluatedProperties: false
+                                oneOf:
+                                  - type: 'null'
+                                  - type: object
+                                    additionalProperties: false
+                                    required:
+                                      - name
+                                      - description
+                                      - created-at
+                                    properties:
+                                      name:
+                                        type: string
+                                      description:
+                                        type:
+                                          - string
+                                          - 'null'
+                                      created-at:
+                                        type: string
+                                        format: date-time
+                                description: >-
+                                  The version's serialized deployment tag, when
+                                  one was minted.
+                                examples:
+                                  - name: v2
+                                    description: Initial production release
+                                    created-at: '2026-03-26T18:29:41.000Z'
+                      - type: object
+                        additionalProperties: false
+                        required:
+                          - type
+                          - version-refs
+                        properties:
+                          type:
+                            type: string
+                            const: weighted-random
+                          version-refs:
+                            type: array
+                            items:
+                              type: object
+                              additionalProperties: false
+                              required:
+                                - version
+                                - weight
+                              properties:
+                                version:
+                                  type: object
+                                  additionalProperties: false
+                                  required:
+                                    - token
+                                    - tag
+                                  properties:
+                                    token:
+                                      type: string
+                                    tag:
+                                      unevaluatedProperties: false
+                                      oneOf:
+                                        - type: 'null'
+                                        - type: object
+                                          additionalProperties: false
+                                          required:
+                                            - name
+                                            - description
+                                            - created-at
+                                          properties:
+                                            name:
+                                              type: string
+                                            description:
+                                              type:
+                                                - string
+                                                - 'null'
+                                            created-at:
+                                              type: string
+                                              format: date-time
+                                      description: >-
+                                        The version's serialized deployment tag,
+                                        when one was minted.
+                                      examples:
+                                        - name: '3'
+                                          description: Initial production release
+                                          created-at: '2026-03-26T18:29:41.000Z'
+                                weight:
+                                  type: integer
+                                  description: >-
+                                    Relative share of traffic (0–100). Weights
+                                    across all version-refs in the strategy must
+                                    sum to 100.
+                    unevaluatedProperties: false
+        examples:
+          - - resource-type: inquiry-template
+              template-id: itmpl_ABC123
+              environment:
+                token: env_AbcDeFGhIjKlMnOpQrStUvWxYz1
+                name: production
+              rules:
+                - strategy:
+                    type: constant
+                    version:
+                      token: itmplv_LIVE123
+                      tag:
+                        name: v2
+                        description: Initial production release
+                        created-at: '2026-03-26T18:29:41.000Z'
+      last-updater:
+        type:
+          - string
+          - 'null'
+        description: The email address of the User who last updated this version.
+        examples:
+          - taylor@example.com
+      enabled-locales:
+        type: array
+        items:
+          type: string
+          examples:
+            - ar-EG
+            - ja
+            - fr
+            - en-US
+      created-at:
+        type: string
+        format: date-time
+        examples:
+          - '2022-11-09T00:22:59.828Z'
+      updated-at:
+        type:
+          - string
+          - 'null'
+        format: date-time
+        examples:
+          - '2023-02-15T23:15:06.034Z'
+      published-at:
+        type:
+          - string
+          - 'null'
+        format: date-time
+        examples:
+          - '2022-11-09T00:29:41.000Z'
+      theme:
+        additionalProperties: false
+        type: object
+        properties:
+          border-radius:
+            type:
+              - string
+              - 'null'
+          border-radius-input:
+            type:
+              - string
+              - 'null'
+          border-radius-modal:
+            type:
+              - string
+              - 'null'
+          border-width:
+            type:
+              - string
+              - 'null'
+          border-width-input:
+            type:
+              - string
+              - 'null'
+          button-background-image:
+            type:
+              - string
+              - 'null'
+          button-font-weight:
+            type:
+              - string
+              - 'null'
+          button-position:
+            type:
+              - string
+              - 'null'
+          button-shadow-strength:
+            type:
+              - string
+              - 'null'
+          button-text-transform:
+            type:
+              - string
+              - 'null'
+          color-button-primary:
+            type:
+              - string
+              - 'null'
+          color-button-secondary:
+            type:
+              - string
+              - 'null'
+          color-button-secondary-fill:
+            type:
+              - string
+              - 'null'
+          color-button-primary-fill-disabled:
+            type:
+              - string
+              - 'null'
+          color-button-secondary-fill-disabled:
+            type:
+              - string
+              - 'null'
+          color-error:
+            type:
+              - string
+              - 'null'
+          color-font:
+            type:
+              - string
+              - 'null'
+          color-font-button-primary:
+            type:
+              - string
+              - 'null'
+          color-font-button-secondary:
+            type:
+              - string
+              - 'null'
+          color-font-small:
+            type:
+              - string
+              - 'null'
+          color-font-title:
+            type:
+              - string
+              - 'null'
+          color-icon-header:
+            type:
+              - string
+              - 'null'
+          color-input-background:
+            type:
+              - string
+              - 'null'
+          color-input-border:
+            type:
+              - string
+              - 'null'
+          color-link:
+            type:
+              - string
+              - 'null'
+          color-modal-background:
+            type:
+              - string
+              - 'null'
+          color-primary:
+            type:
+              - string
+              - 'null'
+          color-progress-bar:
+            type:
+              - string
+              - 'null'
+          color-success:
+            type:
+              - string
+              - 'null'
+          color-warning:
+            type:
+              - string
+              - 'null'
+          color-divider:
+            type:
+              - string
+              - 'null'
+          color-dropdown-background:
+            type:
+              - string
+              - 'null'
+          color-dropdown-option:
+            type:
+              - string
+              - 'null'
+          font-family:
+            type:
+              - string
+              - 'null'
+          font-family-title:
+            type:
+              - string
+              - 'null'
+          font-url:
+            type:
+              - string
+              - 'null'
+          font-size-body:
+            type:
+              - string
+              - 'null'
+          font-size-header:
+            type:
+              - string
+              - 'null'
+          font-size-small:
+            type:
+              - string
+              - 'null'
+          line-height-body:
+            type:
+              - string
+              - 'null'
+          line-height-header:
+            type:
+              - string
+              - 'null'
+          line-height-small:
+            type:
+              - string
+              - 'null'
+          header-font-weight:
+            type:
+              - string
+              - 'null'
+          header-margin-bottom:
+            type:
+              - string
+              - 'null'
+          icon-color-primary:
+            type:
+              - string
+              - 'null'
+          icon-color-highlight:
+            type:
+              - string
+              - 'null'
+          icon-color-stroke:
+            type:
+              - string
+              - 'null'
+          icon-color-background:
+            type:
+              - string
+              - 'null'
+          icon-color-government-id-type:
+            type:
+              - string
+              - 'null'
+          icon-style:
+            type:
+              - string
+              - 'null'
+          input-style:
+            type:
+              - string
+              - 'null'
+          page-transition:
+            type:
+              - string
+              - 'null'
+          text-align:
+            type:
+              - string
+              - 'null'
+          text-decoration-line-link:
+            type:
+              - string
+              - 'null'
+          us-state-input-method:
+            type:
+              - string
+              - 'null'
+          vertical-options-style:
+            type:
+              - string
+              - 'null'
+          government-id-pictograph-position:
+            type:
+              - string
+              - 'null'
+          id-back-pictograph-height:
+            type:
+              - string
+              - 'null'
+          id-back-pictograph-url:
+            type:
+              - string
+              - 'null'
+          id-front-pictograph-height:
+            type:
+              - string
+              - 'null'
+          id-front-pictograph-url:
+            type:
+              - string
+              - 'null'
+          passport-front-pictograph-height:
+            type:
+              - string
+              - 'null'
+          passport-front-pictograph-url:
+            type:
+              - string
+              - 'null'
+          passport-signature-pictograph-height:
+            type:
+              - string
+              - 'null'
+          passport-signature-pictograph-url:
+            type:
+              - string
+              - 'null'
+          government-id-select-pictograph-height:
+            type:
+              - string
+              - 'null'
+          government-id-select-pictograph-url:
+            type:
+              - string
+              - 'null'
+          device-handoff-terms-text-position:
+            type:
+              - string
+              - 'null'
+          selfie-pictograph-url:
+            type:
+              - string
+              - 'null'
+          selfie-pictograph-height:
+            type:
+              - string
+              - 'null'
+          selfie-center-pictograph-url:
+            type:
+              - string
+              - 'null'
+          selfie-center-pictograph-height:
+            type:
+              - string
+              - 'null'
+          selfie-left-pictograph-url:
+            type:
+              - string
+              - 'null'
+          selfie-left-pictograph-height:
+            type:
+              - string
+              - 'null'
+          selfie-right-pictograph-url:
+            type:
+              - string
+              - 'null'
+          selfie-right-pictograph-height:
+            type:
+              - string
+              - 'null'
+          document-pictograph-position:
+            type:
+              - string
+              - 'null'
+          document-pictograph-height:
+            type:
+              - string
+              - 'null'
+          document-pictograph-url:
+            type:
+              - string
+              - 'null'
+          camera-support-pictograph-height:
+            type:
+              - string
+              - 'null'
+          camera-support-pictograph-url:
+            type:
+              - string
+              - 'null'
+          loading-pictograph-height:
+            type:
+              - string
+              - 'null'
+          loading-pictograph-url:
+            type:
+              - string
+              - 'null'
+          navbar-logo-display:
+            type:
+              - string
+              - 'null'
+          logo-url:
+            type:
+              - string
+              - 'null'
+          logo:
+            type:
+              - string
+              - 'null'
+          logo-data:
+            type:
+              - string
+              - 'null'
+          logo-filename:
+            type:
+              - string
+              - 'null'
+  relationships:
+    additionalProperties: false
+    type: object
+    properties:
+      inquiry-template:
+        additionalProperties: false
+        type: object
+        properties:
+          data:
+            additionalProperties: false
+            type: object
+            properties:
+              type:
+                type: string
+                const: inquiry-template
+              id:
+                type: string
+                examples:
+                  - itmpl_srQQ2Ui2gvNY353u65vD61gr

@@ -1,0 +1,89 @@
+title: Digital ID UK Sharecode Verification
+description: A Digital ID UK Sharecode Verification
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: verification/digital-id-uk-sharecode
+  id:
+    type: string
+    description: The token of the verification
+    example: ver_ABC123
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./verification-shared-attributes.yaml
+      - type: object
+        properties:
+          sharecode:
+            description: The UK share code used for verification.
+            type:
+              - string
+              - 'null'
+          birthdate:
+            type:
+              - string
+              - 'null'
+            format: date
+          name-full:
+            description: Full name returned by the provider.
+            type:
+              - string
+              - 'null'
+          reference-number:
+            type:
+              - string
+              - 'null'
+          immigration-status:
+            type:
+              - string
+              - 'null'
+          valid-from-date:
+            description: Date from which the immigration status is valid.
+            type:
+              - string
+              - 'null'
+            format: date
+          valid-until-date:
+            description: Date until which the immigration status is valid.
+            type:
+              - string
+              - 'null'
+            format: date
+          right-to-work-start-date:
+            description: Date from which the person may work in the UK.
+            type:
+              - string
+              - 'null'
+            format: date
+            example: '2023-02-15'
+          right-to-work-end-date:
+            description: Date until which the person may work in the UK.
+            type:
+              - string
+              - 'null'
+            format: date
+            example: '2025-02-15'
+          right-to-work-digital-verification-service-provider-registration-confirmation:
+            description: >-
+              Persona's confirmation that it is registered as a Right to Work
+              Digital Verification Service Provider.
+            type: string
+            const: 'Yes'
+          right-to-work-supplementary-code-compliance-confirmation:
+            description: >-
+              Persona's confirmation that the check follows the UK Supplementary
+              Code for Digital Right to Work Checks.
+            type: string
+            const: 'Yes'
+          right-to-work-digital-verification-services-register-url:
+            description: >-
+              Link to Persona's entry in the UK Digital Verification Services
+              Register.
+            type: string
+            format: uri
+            const: >-
+              https://www.access-dvs-register.service.gov.uk/register/service-details?serviceId=261
+  relationships:
+    $ref: ./verification-shared-relationships.yaml

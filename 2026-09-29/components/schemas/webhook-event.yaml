@@ -1,0 +1,77 @@
+type: object
+additionalProperties: false
+description: >-
+  A Webhook Event object — a single delivery record for one event to one
+  webhook.
+properties:
+  type:
+    type: string
+    const: webhook-event
+  id:
+    type: string
+    examples:
+      - wbhe_9f2a3cD4e5F6g7H8i9J0kLmN
+  attributes:
+    type: object
+    additionalProperties: false
+    properties:
+      status:
+        type: string
+        description: >-
+          Delivery status of the webhook event. Possible values: pending,
+          completed, failed, skipped.
+        examples:
+          - failed
+      event-name:
+        type: string
+        description: The name of the event that triggered this webhook delivery.
+        examples:
+          - inquiry.completed
+      webhook-id:
+        type: string
+        description: The token of the Webhook this event was delivered to.
+        examples:
+          - wbh_1a2b3c
+      event-id:
+        type:
+          - string
+          - 'null'
+        description: >-
+          The token of the Event this webhook event was created from, or null if
+          unavailable.
+        examples:
+          - evt_44c1d2
+      result-code:
+        type:
+          - integer
+          - 'null'
+        description: >-
+          HTTP status code returned by the destination endpoint on the most
+          recent delivery attempt, or null if no attempt has been made yet.
+        examples:
+          - 503
+      attempts-made:
+        type: integer
+        description: Number of delivery attempts made so far.
+        examples:
+          - 8
+      last-attempted-at:
+        type:
+          - string
+          - 'null'
+        format: date-time
+        description: >-
+          Timestamp of the most recent delivery attempt, or null if no attempt
+          has been made yet.
+        examples:
+          - '2026-04-24T09:15:44.000Z'
+      created-at:
+        type: string
+        format: date-time
+        examples:
+          - '2026-04-23T14:02:11.000Z'
+      updated-at:
+        type: string
+        format: date-time
+        examples:
+          - '2026-04-24T09:15:44.000Z'

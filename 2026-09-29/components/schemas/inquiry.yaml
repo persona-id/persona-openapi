@@ -1,0 +1,592 @@
+type: object
+additionalProperties: false
+description: An Inquiry object
+properties:
+  type:
+    const: inquiry
+    type: string
+  id:
+    examples:
+      - inq_5FrMN7NAGgFdGGysCDd7DaBW
+    type: string
+  attributes:
+    properties:
+      status:
+        description: |-
+          The status of the Inquiry
+
+          Possible values:
+          - created
+          - pending
+          - completed
+          - expired
+          - failed
+          - needs_review
+          - approved
+          - declined
+
+          Do not assume this is a static enumeration; Persona may add new
+          values in the future without a versioned update.
+        type: string
+      reference-id:
+        examples:
+          - ABC-123
+        type:
+          - string
+          - 'null'
+      note:
+        examples:
+          - A helpful note
+        type:
+          - string
+          - 'null'
+      behaviors:
+        description: |-
+          Risk signals surfaced to enterprise customers. Specific keys are not
+          enumerated in the public spec and may be added or removed over time.
+          Contact your Persona account team for more information.
+        additionalProperties: true
+        type:
+          - object
+          - 'null'
+      tags:
+        type: array
+        items:
+          type:
+            - string
+            - 'null'
+      creator:
+        examples:
+          - jane@doe.com
+        type: string
+      reviewer-comment:
+        examples:
+          - This is a comment for this inquiry!
+        type:
+          - string
+          - 'null'
+      created-at:
+        examples:
+          - '2023-03-28T18:34:32.000Z'
+        type: string
+        format: date-time
+      updated-at:
+        examples:
+          - '2023-03-28T18:34:32.000Z'
+        type: string
+        format: date-time
+      started-at:
+        examples:
+          - '2023-03-28T18:35:10.000Z'
+        type:
+          - string
+          - 'null'
+        format: date-time
+      expires-at:
+        examples:
+          - '2023-03-28T18:35:10.000Z'
+        type:
+          - string
+          - 'null'
+        format: date-time
+      completed-at:
+        examples:
+          - '2023-03-28T18:35:10.000Z'
+        type:
+          - string
+          - 'null'
+        format: date-time
+      failed-at:
+        description: >-
+          Set when an Inquiry transitions to `failed`. Not typically set on
+          `declined` Inquiries — those carry `completed-at` from the transition
+          that preceded the decision.
+        examples:
+          - '2023-03-28T18:35:10.000Z'
+        type:
+          - string
+          - 'null'
+        format: date-time
+      marked-for-review-at:
+        examples:
+          - '2023-03-28T18:35:10.000Z'
+        type:
+          - string
+          - 'null'
+        format: date-time
+      decisioned-at:
+        examples:
+          - '2023-03-28T18:35:10.000Z'
+        type:
+          - string
+          - 'null'
+        format: date-time
+      expired-at:
+        examples:
+          - '2023-03-28T18:35:10.000Z'
+        type:
+          - string
+          - 'null'
+        format: date-time
+      redacted-at:
+        examples:
+          - '2023-03-28T18:35:10.000Z'
+        type:
+          - string
+          - 'null'
+        format: date-time
+      previous-step-name:
+        examples:
+          - verification_government_id
+          - start
+        type:
+          - string
+          - 'null'
+      next-step-name:
+        examples:
+          - retry_verification_government_id
+        type:
+          - string
+          - 'null'
+      fields:
+        description: >-
+          JSON key-value pairs of field name to field value. Exact schema
+          depends on the configuration of the Inquiry template for this Inquiry.
+          Keys in `fields` are **not** key inflected.
+        properties:
+          name-first:
+            properties:
+              type:
+                examples:
+                  - string
+                type: string
+              value:
+                examples:
+                  - Jane
+                type:
+                  - string
+                  - 'null'
+            additionalProperties: false
+            type: object
+          name-middle:
+            properties:
+              type:
+                examples:
+                  - string
+                type: string
+              value:
+                examples:
+                  - Marie
+                type:
+                  - string
+                  - 'null'
+            additionalProperties: false
+            type: object
+          name-last:
+            properties:
+              type:
+                examples:
+                  - string
+                type: string
+              value:
+                examples:
+                  - Doe
+                type:
+                  - string
+                  - 'null'
+            additionalProperties: false
+            type: object
+          address-street-1:
+            properties:
+              type:
+                examples:
+                  - string
+                type: string
+              value:
+                examples:
+                  - 123 Main St
+                type:
+                  - string
+                  - 'null'
+            additionalProperties: false
+            type: object
+          address-street-2:
+            properties:
+              type:
+                examples:
+                  - string
+                type: string
+              value:
+                examples:
+                  - Apt
+                type:
+                  - string
+                  - 'null'
+            additionalProperties: false
+            type: object
+          address-city:
+            description: >-
+              City of residence address. Not all international addresses use
+              this attribute.
+            properties:
+              type:
+                examples:
+                  - string
+                type: string
+              value:
+                examples:
+                  - San Francisco
+                type:
+                  - string
+                  - 'null'
+            additionalProperties: false
+            type: object
+          address-subdivision:
+            description: >-
+              State or subdivision of residence address. In the US, this should
+              be the unabbreviated name. Not all international addresses use
+              this attribute.
+            properties:
+              type:
+                examples:
+                  - string
+                type: string
+              value:
+                examples:
+                  - California
+                type:
+                  - string
+                  - 'null'
+            additionalProperties: false
+            type: object
+          address-postal-code:
+            description: >-
+              ZIP or postal code of residence address. Not all international
+              addresses use this attribute.
+            properties:
+              type:
+                examples:
+                  - string
+                type: string
+              value:
+                examples:
+                  - '94111'
+                type:
+                  - string
+                  - 'null'
+            additionalProperties: false
+            type: object
+          address-country-code:
+            description: ISO 3166-1 alpha 2 country code.
+            properties:
+              type:
+                examples:
+                  - string
+                type: string
+              value:
+                examples:
+                  - US
+                type:
+                  - string
+                  - 'null'
+            additionalProperties: false
+            type: object
+          birthdate:
+            properties:
+              type:
+                examples:
+                  - date
+                type: string
+              value:
+                description: Date of birth in YYYY-MM-DD format
+                examples:
+                  - '1991-10-07'
+                type:
+                  - string
+                  - 'null'
+            additionalProperties: false
+            type: object
+          email-address:
+            properties:
+              type:
+                examples:
+                  - string
+                type: string
+              value:
+                examples:
+                  - test@emailaddress.com
+                type:
+                  - string
+                  - 'null'
+            additionalProperties: false
+            type: object
+          phone-number:
+            properties:
+              type:
+                examples:
+                  - string
+                type: string
+              value:
+                examples:
+                  - 111-222-3333
+                type:
+                  - string
+                  - 'null'
+            additionalProperties: false
+            type: object
+          identification-number:
+            properties:
+              type:
+                examples:
+                  - string
+                type: string
+              value:
+                examples:
+                  - YL123456
+                type:
+                  - string
+                  - 'null'
+            additionalProperties: false
+            type: object
+        additionalProperties: true
+        type: object
+    required:
+      - status
+      - reference-id
+      - note
+      - behaviors
+      - tags
+      - creator
+      - reviewer-comment
+      - created-at
+      - updated-at
+      - started-at
+      - expires-at
+      - completed-at
+      - failed-at
+      - marked-for-review-at
+      - decisioned-at
+      - expired-at
+      - redacted-at
+      - previous-step-name
+      - next-step-name
+      - fields
+    additionalProperties: false
+    type: object
+  relationships:
+    additionalProperties: false
+    type: object
+    properties:
+      account:
+        properties:
+          data:
+            properties:
+              id:
+                examples:
+                  - act_ABC123
+                type: string
+              type:
+                const: account
+                type: string
+            type:
+              - object
+              - 'null'
+        additionalProperties: false
+        type: object
+      documents:
+        properties:
+          data:
+            items:
+              properties:
+                id:
+                  examples:
+                    - doc_ABC123
+                  type: string
+                type:
+                  x-polymorphic: true
+                  examples:
+                    - document/government-id
+                  type: string
+              additionalProperties: false
+              type: object
+            type: array
+        additionalProperties: false
+        type: object
+      template:
+        description: Only present for Legacy 2.0 inquiries
+        properties:
+          data:
+            properties:
+              id:
+                examples:
+                  - tmpl_ABC123
+                type: string
+              type:
+                const: template
+                type: string
+            type:
+              - object
+              - 'null'
+        additionalProperties: false
+        type: object
+      inquiry-template:
+        description: Only present for Dynamic Flow inquiries
+        properties:
+          data:
+            properties:
+              id:
+                examples:
+                  - itmpl_ABC123
+                type: string
+              type:
+                const: inquiry-template
+                type: string
+            type:
+              - object
+              - 'null'
+        additionalProperties: false
+        type: object
+      inquiry-template-version:
+        description: Only present for Dynamic Flow inquiries
+        properties:
+          data:
+            properties:
+              id:
+                examples:
+                  - itmplv_ABC123
+                type: string
+              type:
+                const: inquiry-template-version
+                type: string
+            type:
+              - object
+              - 'null'
+        additionalProperties: false
+        type: object
+      reports:
+        properties:
+          data:
+            items:
+              properties:
+                id:
+                  examples:
+                    - rep_ABC123
+                  type: string
+                type:
+                  x-polymorphic: true
+                  examples:
+                    - report/address-lookup
+                    - report/watchlist
+                  type: string
+              additionalProperties: false
+              type: object
+            type: array
+        additionalProperties: false
+        type: object
+      transaction:
+        properties:
+          data:
+            properties:
+              id:
+                examples:
+                  - txn_ABC123
+                type: string
+              type:
+                const: transaction
+                type: string
+            type:
+              - object
+              - 'null'
+        additionalProperties: false
+        type: object
+      reviewer:
+        description: >-
+          Actor that decisioned the Inquiry. `data` is `null` while the Inquiry
+          has not been decisioned. Once decisioned, `data.type` and `data.id`
+          identify the reviewer: - `user` + `user_*` — a dashboard user reviewed
+          and decisioned the Inquiry. - `workflow` + `wfl_*` — Workflows 1.0
+          auto-decisioned the Inquiry. - `workflow-run` + `wfr_*` — Workflows
+          2.0 auto-decisioned the Inquiry
+            (the dominant case in automation-heavy organizations).
+        properties:
+          data:
+            properties:
+              id:
+                examples:
+                  - wfr_M7vXNqRpL3kBzW4tYcHdJgFs
+                type: string
+              type:
+                x-polymorphic: true
+                examples:
+                  - user
+                  - workflow
+                  - workflow-run
+                type: string
+                description: One of `user`, `workflow`, or `workflow-run`.
+            type:
+              - object
+              - 'null'
+        additionalProperties: false
+        type: object
+      selfies:
+        properties:
+          data:
+            items:
+              properties:
+                id:
+                  examples:
+                    - self_ABC123
+                  type: string
+                type:
+                  x-polymorphic: true
+                  examples:
+                    - selfie/profile-and-center
+                    - selfie/center-only
+                    - selfie/configurable-poses
+                  type: string
+              additionalProperties: false
+              type: object
+            type: array
+        additionalProperties: false
+        type: object
+      sessions:
+        properties:
+          data:
+            items:
+              properties:
+                id:
+                  examples:
+                    - iqse_ABC123
+                  type: string
+                type:
+                  const: inquiry-session
+                  type: string
+              additionalProperties: false
+              type: object
+            type: array
+        additionalProperties: false
+        type: object
+      verifications:
+        properties:
+          data:
+            items:
+              properties:
+                id:
+                  examples:
+                    - ver_ABC123
+                  type: string
+                type:
+                  x-polymorphic: true
+                  examples:
+                    - verification/government-id
+                  type: string
+              additionalProperties: false
+              type: object
+            type: array
+        additionalProperties: false
+        type: object
+required:
+  - type
+  - id
+  - attributes
+  - relationships

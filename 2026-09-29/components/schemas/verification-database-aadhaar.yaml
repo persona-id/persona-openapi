@@ -1,0 +1,36 @@
+title: Database Aadhaar Verification
+description: A Database Aadhaar Verification
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: verification/database-aadhaar
+  id:
+    type: string
+    description: The token of the verification
+    example: ver_ABC123
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./verification-shared-attributes.yaml
+      - type: object
+        properties:
+          name-first:
+            description: Given or first name.
+            type:
+              - string
+              - 'null'
+          name-last:
+            description: Family or last name.
+            type:
+              - string
+              - 'null'
+          birthdate:
+            description: Birthdate in YYYY-MM-DD format.
+            type:
+              - string
+              - 'null'
+            format: date
+  relationships:
+    $ref: ./verification-shared-relationships.yaml

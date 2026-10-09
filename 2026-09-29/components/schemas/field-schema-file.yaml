@@ -1,0 +1,51 @@
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: file
+  key:
+    type: string
+  label:
+    type:
+      - string
+      - 'null'
+  config:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./field-schema-default-config.yaml
+      - type: object
+        properties:
+          max-file-size-bytes:
+            type: integer
+            default: 10000000
+          min-file-size-bytes:
+            type: integer
+            default: 1
+          supported-mime-types:
+            type: array
+            items:
+              type: string
+            default:
+              - >-
+                image/jpg image/jpeg image/png image/heic image/heif image/tif
+                image/tiff image/gif image/svg+xml application/pdf text/plain
+                text/csv video/mp4 video/webm video/quicktime
+          page-count-limit-enabled:
+            description: Whether the document page-count limits are enforced.
+            type: boolean
+            default: false
+          page-count-min:
+            description: >-
+              Minimum allowed page count when `page-count-limit-enabled` is
+              true.
+            type:
+              - integer
+              - 'null'
+          page-count-max:
+            description: >-
+              Maximum allowed page count when `page-count-limit-enabled` is
+              true.
+            type:
+              - integer
+              - 'null'

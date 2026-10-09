@@ -1,0 +1,213 @@
+type: object
+additionalProperties: false
+description: >-
+  A Share Token resource. The specific attributes and relationships included may
+  vary based on the requesting organization's context.
+properties:
+  type:
+    const: connect/share-token
+    type: string
+  id:
+    examples:
+      - cnst_ABC123
+    type: string
+  attributes:
+    type: object
+    additionalProperties: false
+    properties:
+      status:
+        type: string
+        description: >-
+          The status of the share token. One of `created`, `pending`,
+          `redeemed`, `expired`, or `failed`.
+        examples:
+          - created
+          - pending
+          - redeemed
+          - expired
+          - failed
+      direction:
+        type: string
+        description: >-
+          Whether this share token is outbound (your organization is the source)
+          or inbound (your organization is the destination). One of `outbound`
+          or `inbound`.
+        examples:
+          - outbound
+          - inbound
+      created-at:
+        type: string
+        format: date-time
+        description: When this share token was created
+        examples:
+          - '2023-09-21T18:29:40.000Z'
+      updated-at:
+        type: string
+        format: date-time
+        description: When this share token was last updated
+        examples:
+          - '2023-09-21T18:29:40.000Z'
+      pending-at:
+        type:
+          - string
+          - 'null'
+        format: date-time
+        description: When this share token started processing
+        examples:
+          - '2023-09-21T18:35:20.000Z'
+          - null
+      redeemed-at:
+        type:
+          - string
+          - 'null'
+        format: date-time
+        description: When this share token was redeemed
+        examples:
+          - '2023-09-21T18:30:15.000Z'
+          - null
+      expires-at:
+        type:
+          - string
+          - 'null'
+        format: date-time
+        description: When this share token expires
+        examples:
+          - '2023-09-22T18:29:40.000Z'
+          - null
+      failed-at:
+        type:
+          - string
+          - 'null'
+        format: date-time
+        description: When this share token failed
+        examples:
+          - '2023-09-21T18:35:20.000Z'
+          - null
+      failure-reason:
+        type:
+          - string
+          - 'null'
+        description: >-
+          The reason the share token failed, if applicable. One of
+          `source_not_found`, `source_redacted`, `import_failed`, or
+          `unrecoverable_error`.
+        examples:
+          - source_not_found
+          - null
+      redeem-mode:
+        type:
+          - string
+          - 'null'
+        description: >
+          How this Share Token was redeemed. Set to `hydrate` when
+          `destination-id` is provided
+
+          or `clone` when `destination-id` is omitted. Null until redemption is
+          initiated.
+        examples:
+          - clone
+          - hydrate
+          - null
+      source-data:
+        description: |
+          PII-filtered snapshot of the share token's source object.
+          Present only when `peek-source-data=true` was passed on the
+          show endpoint, the caller is the destination organization, and
+          the destination organization has access to the source data
+          peek capability. Omitted from list responses.
+        unevaluatedProperties: false
+        allOf:
+          - $ref: ./source-data.yaml
+  relationships:
+    type: object
+    additionalProperties: false
+    properties:
+      connection:
+        type: object
+        additionalProperties: false
+        properties:
+          data:
+            type: object
+            additionalProperties: false
+            properties:
+              type:
+                type: string
+                const: connect/connection
+              id:
+                type: string
+                examples:
+                  - cxn_ABC123
+      creator:
+        type: object
+        additionalProperties: false
+        properties:
+          data:
+            type: object
+            additionalProperties: false
+            properties:
+              type:
+                type: string
+                x-polymorphic: true
+                examples:
+                  - user
+                  - api-key
+              id:
+                type: string
+                examples:
+                  - user_ABC123
+                  - api_DEF456
+      source:
+        type: object
+        additionalProperties: false
+        description: The object from which the shared data originated.
+        properties:
+          data:
+            type: object
+            additionalProperties: false
+            properties:
+              type:
+                type: string
+                x-polymorphic: true
+                examples:
+                  - account
+                  - inquiry
+                  - txn
+                  - verification
+              id:
+                type: string
+                examples:
+                  - act_ABC123
+                  - inq_DEF456
+                  - txn_GHI789
+      destination:
+        type: object
+        additionalProperties: false
+        description: >
+          The destination object associated with redemption. For hydration, this
+          is the object
+
+          specified by `destination-id`. For cloning, no destination is set
+          until Persona creates
+
+          the destination object.
+        properties:
+          data:
+            type:
+              - object
+              - 'null'
+            additionalProperties: false
+            properties:
+              type:
+                type: string
+                x-polymorphic: true
+                examples:
+                  - account
+                  - inquiry
+                  - txn
+                  - verification/database
+              id:
+                type: string
+                examples:
+                  - act_ABC123
+                  - inq_DEF456
+                  - txn_GHI789

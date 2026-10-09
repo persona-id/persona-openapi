@@ -1,0 +1,36 @@
+description: A entity that matched from a Watchlist
+type: object
+additionalProperties: false
+properties:
+  name:
+    type: string
+    example: Won Ho Ri
+  alias-type:
+    type: string
+    description: |-
+      Possible values:
+      - primary_name
+      - aka
+
+      Do not assume this is a static enumeration; Persona may add new values in
+      the future without a versioned update.
+  birthdates:
+    type: array
+    description: The birthdate of the entity
+    items:
+      type: object
+      additionalProperties: false
+      properties:
+        day:
+          type: string
+          example: '17'
+        year:
+          type: string
+          example: '1964'
+        month:
+          type: string
+          example: '07'
+        granularity:
+          type: string
+          description: Precision the birthday provided
+          example: day

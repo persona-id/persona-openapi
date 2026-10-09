@@ -1,0 +1,74 @@
+title: Digital ID SERPRO Verification
+description: A Digital ID SERPRO Verification
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: verification/digital-id-serpro
+  id:
+    type: string
+    description: The token of the verification
+    example: ver_ABC123
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./verification-shared-attributes.yaml
+      - type: object
+        properties:
+          qr-code-attachment:
+            description: QR code attachment returned by SERPRO, if present.
+            type:
+              - object
+              - 'null'
+          selfie-compare-image-url:
+            description: URL of the selfie comparison image, if present.
+            type:
+              - string
+              - 'null'
+          cpf:
+            description: Brazilian CPF identifier.
+            type:
+              - string
+              - 'null'
+          name:
+            type:
+              - string
+              - 'null'
+          birthdate:
+            type:
+              - string
+              - 'null'
+            format: date
+          identification-number:
+            type:
+              - string
+              - 'null'
+          expiration-date:
+            type:
+              - string
+              - 'null'
+            format: date
+          issue-date:
+            type:
+              - string
+              - 'null'
+            format: date
+          selfie-comparison-error-code:
+            type:
+              - string
+              - 'null'
+          serpro-selfie-available:
+            type:
+              - boolean
+              - 'null'
+          selfie-confidence-level:
+            type:
+              - string
+              - 'null'
+          selfie-similarity-score:
+            type:
+              - number
+              - 'null'
+  relationships:
+    $ref: ./verification-shared-relationships.yaml

@@ -1,0 +1,79 @@
+get:
+  tags:
+    - Connect
+  summary: Retrieve a Share Token
+  description: Retrieve the information for an existing Share Token.
+  operationId: retrieve-a-share-token
+  x-persona-product: Connect
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+    - name: share-token-id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The ID of the Share Token
+    - name: peek-source-data
+      in: query
+      required: false
+      schema:
+        type: boolean
+        default: false
+      description: >
+        When `true`, the caller is the destination organization, and the
+        destination organization
+
+        has access to the source data peek capability, the response's
+
+        `data.attributes.source-data` carries a PII-filtered source-data
+        envelope. Defaults to
+
+        `false`; omitted from list responses regardless.
+  responses:
+    '200':
+      headers:
+        RateLimit-Limit:
+          $ref: ../components/headers/rate-limit-limit.yaml
+        RateLimit-Remaining:
+          $ref: ../components/headers/rate-limit-remaining.yaml
+        RateLimit-Reset:
+          $ref: ../components/headers/rate-limit-reset.yaml
+        Request-Id:
+          $ref: ../components/headers/request-id.yaml
+        Persona-Environment-Id:
+          $ref: ../components/headers/persona-environment-id.yaml
+        Persona-Organization-Id:
+          $ref: ../components/headers/persona-organization-id.yaml
+      description: This endpoint returns a Share Token resource.
+      content:
+        application/json:
+          examples:
+            Success:
+              $ref: ../components/examples/connect-share-token-redeemed.yaml
+            Failed:
+              $ref: ../components/examples/connect-share-token-failed.yaml
+          schema:
+            type: object
+            additionalProperties: false
+            properties:
+              data:
+                $ref: ../components/schemas/connect-share-token.yaml
+              included:
+                $ref: ../components/schemas/empty-included-objects.yaml
+            required:
+              - data
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml

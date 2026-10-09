@@ -1,0 +1,100 @@
+title: Business Search Report
+description: Fields required to create a Business Search Report
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: report/business-search
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./report-shared-request-attributes.yaml
+      - type: object
+        properties:
+          query:
+            type: object
+            x-inheritable: true
+            additionalProperties: false
+            required:
+              - country-code
+            anyOf:
+              - required:
+                  - business-name
+                properties:
+                  business-name:
+                    type: string
+                    minLength: 1
+              - required:
+                  - registration-number
+                properties:
+                  registration-number:
+                    type: string
+                    minLength: 1
+            properties:
+              country-code:
+                description: >-
+                  ISO 3166-1 alpha-2 country code. Determines which business
+                  registry is searched.
+                type: string
+                example: US
+              business-name:
+                description: >-
+                  The name of the business to search. Either business-name or
+                  registration-number is required.
+                type:
+                  - string
+                  - 'null'
+                example: Coffee Shop Inc
+              registration-number:
+                description: >-
+                  The business registration number to search, as issued by the
+                  local registry. Either business-name or registration-number is
+                  required.
+                type:
+                  - string
+                  - 'null'
+                example: C1234567
+              address-street-1:
+                description: Address line 1 (e.g., street, PO Box, or company name).
+                type:
+                  - string
+                  - 'null'
+                example: 123 Funky St
+              address-street-2:
+                description: Address line 2 (e.g., apartment, suite, unit, or building).
+                type:
+                  - string
+                  - 'null'
+              address-city:
+                description: City
+                type:
+                  - string
+                  - 'null'
+                example: Funkyville
+              address-subdivision:
+                description: >-
+                  Subnational division of a country, such as a state or
+                  province.
+                type:
+                  - string
+                  - 'null'
+                example: CA
+              address-postal-code:
+                description: ZIP or postal code
+                type:
+                  - string
+                  - 'null'
+                example: '12345'
+              max-results:
+                description: >-
+                  Maximum number of candidate businesses to return. Defaults to
+                  3 when omitted.
+                type: integer
+                minimum: 1
+                maximum: 10
+                example: 3
+        required:
+          - query
+required:
+  - attributes

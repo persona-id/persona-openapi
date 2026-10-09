@@ -1,0 +1,19 @@
+type: array
+title: Report History
+description: The history of runs and actions for a report
+items:
+  type: object
+  discriminator:
+    propertyName: type
+    mapping:
+      run: ./report-history-run.yaml
+      dismiss: ./report-history-dismiss.yaml
+      pause: ./report-history-pause.yaml
+      resume: ./report-history-resume.yaml
+      review: ./report-history-review.yaml
+  oneOf:
+    - $ref: ./report-history-dismiss.yaml
+    - $ref: ./report-history-run.yaml
+    - $ref: ./report-history-review.yaml
+    - $ref: ./report-history-pause.yaml
+    - $ref: ./report-history-resume.yaml

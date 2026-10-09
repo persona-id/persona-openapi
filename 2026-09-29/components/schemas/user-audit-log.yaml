@@ -1,0 +1,114 @@
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: user-audit-log
+  id:
+    type: string
+    examples:
+      - ual_ABC123
+  attributes:
+    type: object
+    additionalProperties: false
+    properties:
+      path:
+        type: string
+        examples:
+          - /api/internal/dashboard/v1/cases/case_ABC123
+      method:
+        type: string
+        examples:
+          - GET
+          - POST
+      get-params:
+        type:
+          - object
+          - string
+        description: >
+          The GET params of the request. Schema depends on the action taken.
+          Note: For large payloads, the value may appear as [FILTERED] to
+          indicate redaction or truncation.
+        additionalProperties: true
+      post-params:
+        type:
+          - object
+          - string
+        description: >
+          The POST params of the request. Schema depends on the action taken.
+          Note: For large payloads, the value may appear as [FILTERED] to
+          indicate redaction or truncation.
+        additionalProperties: true
+      ip-address:
+        type: string
+        examples:
+          - 127.0.0.1
+      user-agent:
+        type: string
+        examples:
+          - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+      response-status:
+        type: integer
+        format: int32
+        examples:
+          - 200
+      created-at:
+        type: string
+        format: date-time
+        examples:
+          - '2023-10-03T19:41:30.155Z'
+      impersonator-email-address:
+        type:
+          - string
+          - 'null'
+        examples:
+          - user@withpersona.com
+      context:
+        type: object
+        properties:
+          inquiry-id:
+            type: string
+            description: >-
+              ID of the inquiry created -- this property is only present when
+              path is /api/internal/dashboard/v1/inquiries and method is POST
+            examples:
+              - inq_ABC123
+        additionalProperties: true
+        description: >-
+          Context of the audit log. Currently, this property is only present for
+          dashboard inquiry creation audit logs -- when path is
+          /api/internal/dashboard/v1/inquiries and method is POST.
+  relationships:
+    type: object
+    additionalProperties: false
+    properties:
+      user:
+        type: object
+        additionalProperties: false
+        properties:
+          data:
+            type: object
+            additionalProperties: false
+            properties:
+              type:
+                type: string
+                const: user
+              id:
+                type: string
+                examples:
+                  - user_ABC123
+      user-session:
+        type: object
+        additionalProperties: false
+        properties:
+          data:
+            type: object
+            additionalProperties: false
+            properties:
+              type:
+                type: string
+                const: user-session
+              id:
+                type: string
+                examples:
+                  - uses_ABC123

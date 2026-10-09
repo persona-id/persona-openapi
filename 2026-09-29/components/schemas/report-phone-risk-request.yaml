@@ -1,0 +1,28 @@
+title: Phone Risk Report
+description: Fields required to create a Phone Risk Report
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: report/phone-number
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./report-shared-request-attributes.yaml
+      - type: object
+        properties:
+          query:
+            type: object
+            additionalProperties: false
+            properties:
+              phone-number:
+                type: string
+                description: The phone number to search.
+                example: '+14169671111'
+            required:
+              - phone-number
+        required:
+          - query
+required:
+  - attributes

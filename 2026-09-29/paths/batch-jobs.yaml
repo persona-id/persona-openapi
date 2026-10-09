@@ -1,0 +1,166 @@
+post:
+  tags:
+    - Importers
+  summary: Create a Batch Job
+  description: >
+    Submits a batch of rows to update or upsert Accounts, or update Inquiries,
+    in bulk. Persona
+
+    processes the rows asynchronously as a Batch Job; poll the returned job or
+    retrieve its
+
+    errors to check progress.
+
+
+    - **`object: account`** supports `operation: update` (lookup by `token` or
+    `reference_id`) or
+      `operation: upsert` (lookup by `reference_id` only, and requires `account_type_id` on the
+      pipeline or on each row).
+    - **`object: inquiry`** only supports `operation: update` with
+    `lookup_field: token`.
+  operationId: create-a-batch-job
+  x-persona-product: Importers
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+  requestBody:
+    required: true
+    content:
+      application/json:
+        examples:
+          Success:
+            $ref: ../components/examples/create-batch-job.yaml
+        schema:
+          type: object
+          additionalProperties: false
+          required:
+            - data
+          properties:
+            data:
+              type: object
+              additionalProperties: false
+              required:
+                - attributes
+              properties:
+                attributes:
+                  type: object
+                  additionalProperties: false
+                  required:
+                    - operation
+                    - object
+                    - lookup-field
+                    - rows
+                  properties:
+                    operation:
+                      type: string
+                      description: >-
+                        Whether to only update existing objects, or create them
+                        if they don't already exist. One of `update` or
+                        `upsert`. `upsert` is only supported for `object:
+                        account`.
+                      examples:
+                        - update
+                    object:
+                      type: string
+                      description: >-
+                        The kind of object each row updates. One of `account` or
+                        `inquiry`.
+                      examples:
+                        - account
+                    lookup-field:
+                      type: string
+                      description: >-
+                        The field used to find the object each row applies to.
+                        One of `token` or `reference_id`. `token` is required
+                        for `object: inquiry`.
+                      examples:
+                        - reference_id
+                    emit-events:
+                      type: boolean
+                      description: >-
+                        Whether to emit events for objects affected by this run.
+                        Defaults to `true`. When `false` and `object` is
+                        `account`: suppresses the `account.updated-fields`
+                        event, and suppresses `account.tag-added` /
+                        `account.tag-removed` (so workflows and webhooks that
+                        trigger on those events do not run for this row). When
+                        `false` and `object` is `inquiry`: has no effect today,
+                        since updating an Inquiry's tags or fields through this
+                        endpoint does not emit any event regardless of this
+                        flag. In both cases, this only suppresses events -- it
+                        never affects the write itself, and Elasticsearch
+                        reindexing and the graph Kafka sync are not events and
+                        always run.
+                      default: true
+                      examples:
+                        - true
+                    account-type-id:
+                      type: string
+                      description: >-
+                        The default Account Type token to use for rows that
+                        create a new Account and don't specify their own
+                        `account_type_id`. Only applicable when `object` is
+                        `account`.
+                      examples:
+                        - acttp_ABC123
+                    rows:
+                      type: array
+                      description: >-
+                        The rows to process, up to 1000 rows per request. Each
+                        row is a flat object whose keys are field names (for
+                        example `reference_id`, `token`, `account_type_id`, or a
+                        custom field key) and whose values are the data to
+                        write.
+                      minItems: 1
+                      maxItems: 1000
+                      items:
+                        type: object
+                        additionalProperties: true
+                        examples:
+                          - reference_id: a-123
+                            account_type_id: acttp_ABC123
+                            name_first: Jane
+  responses:
+    '202':
+      headers:
+        RateLimit-Limit:
+          $ref: ../components/headers/rate-limit-limit.yaml
+        RateLimit-Remaining:
+          $ref: ../components/headers/rate-limit-remaining.yaml
+        RateLimit-Reset:
+          $ref: ../components/headers/rate-limit-reset.yaml
+        Request-Id:
+          $ref: ../components/headers/request-id.yaml
+        Persona-Environment-Id:
+          $ref: ../components/headers/persona-environment-id.yaml
+        Persona-Organization-Id:
+          $ref: ../components/headers/persona-organization-id.yaml
+      description: The Batch Job has been created and processing has started.
+      content:
+        application/json:
+          examples:
+            Success:
+              $ref: ../components/examples/batch-job.yaml
+          schema:
+            type: object
+            additionalProperties: false
+            required:
+              - data
+            properties:
+              data:
+                $ref: ../components/schemas/batch-job.yaml
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml

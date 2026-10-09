@@ -1,0 +1,473 @@
+title: Screening Report
+description: A Screening Report
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: report/screening
+  id:
+    type: string
+    description: The ID of the report
+    example: rep_7WNzPaNcroBKLarNHBjYDLAp
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./report-shared-attributes.yaml
+      - type: object
+        properties:
+          query:
+            type:
+              - object
+              - 'null'
+            additionalProperties: false
+            description: The input search parameters used for this report
+            properties:
+              name-first:
+                type:
+                  - string
+                  - 'null'
+                description: The input first name of the search individual
+                example: Joe
+              name-middle:
+                type:
+                  - string
+                  - 'null'
+                description: The input middle name of the search individual
+                example: 'N'
+              name-last:
+                type:
+                  - string
+                  - 'null'
+                description: The input last name of the search individual
+                example: Doe
+              term:
+                type:
+                  - string
+                  - 'null'
+                description: >-
+                  The input combined term used for searching (first + middle +
+                  last name)
+                example: Joe N Doe
+              birthdate:
+                type:
+                  - string
+                  - 'null'
+                description: The input DOB in YYYY-MM-DD format
+                pattern: ^\d{4}-\d{2}-\d{2}$
+                example: '1991-10-07'
+              address-street-1:
+                type:
+                  - string
+                  - 'null'
+                description: The first line of the input search address
+                example: 1 Persona Way
+              address-street-2:
+                type:
+                  - string
+                  - 'null'
+                description: The second line of the input search address
+                example: Suite 100
+              address-city:
+                type:
+                  - string
+                  - 'null'
+                description: The city of the input search address
+                example: San Francisco
+              address-subdivision:
+                type:
+                  - string
+                  - 'null'
+                description: The state or subdivision of the input search address
+                example: CA
+              address-postal-code:
+                type:
+                  - string
+                  - 'null'
+                description: The postal code of the input search address
+                example: '94103'
+              address-country-code:
+                type:
+                  - string
+                  - 'null'
+                description: The country of the input search address, in alpha2 format
+                example: US
+              email:
+                type:
+                  - string
+                  - 'null'
+                description: The input email address of the search individual
+                example: joe.doe@example.com
+              identification-number:
+                type:
+                  - string
+                  - 'null'
+                description: The input government ID number of the search individual
+                example: '123456789'
+          matched-screening-types:
+            type:
+              - array
+              - 'null'
+            description: >-
+              The types of screening (e.g. sanction, warning, PEP, adverse
+              media) that produced at least one matched record on this report.
+
+              Do not assume this is a static enumeration; Persona may add new
+              values in the future without a versioned update.
+            items:
+              type: string
+              example: sanction
+          matched-records:
+            type:
+              - array
+              - 'null'
+            description: >-
+              The records that matched from the search input, across all
+              configured screening types
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                token:
+                  type: string
+                  example: scrre_7WNzPaNcroBKLarNHBjYDLAp
+                matched:
+                  type: boolean
+                created-at:
+                  type: string
+                  format: date-time
+                  example: '2023-09-13T22:08:56.618Z'
+                reviewed-at:
+                  type:
+                    - string
+                    - 'null'
+                  format: date-time
+                  example: '2023-09-14T18:02:11.000Z'
+                review-status:
+                  type:
+                    - string
+                    - 'null'
+                  description: >-
+                    Possible values:
+
+                    - pending
+
+                    - indeterminate
+
+                    - true_positive
+
+                    - false_positive
+
+
+                    Do not assume this is a static enumeration; Persona may add
+                    new values in
+
+                    the future without a versioned update.
+                risk-level:
+                  type:
+                    - string
+                    - 'null'
+                  description: >-
+                    Possible values:
+
+                    - material
+
+                    - immaterial
+
+
+                    Do not assume this is a static enumeration; Persona may add
+                    new values in
+
+                    the future without a versioned update.
+                  example: material
+                present-in-last-run:
+                  type: boolean
+                  description: >-
+                    Whether this record was present in the most recent run of
+                    the report
+                notify-on-change:
+                  type: boolean
+                record-types:
+                  type: array
+                  items:
+                    type: string
+                    example: person
+                names:
+                  type:
+                    - array
+                    - 'null'
+                  items:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      type:
+                        type:
+                          - string
+                          - 'null'
+                        example: primary_name
+                      name:
+                        type:
+                          - string
+                          - 'null'
+                        example: Jonathan Doe
+                birthdates:
+                  type:
+                    - array
+                    - 'null'
+                  items:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      start:
+                        type:
+                          - string
+                          - 'null'
+                        example: '1964-07-01'
+                      end:
+                        type:
+                          - string
+                          - 'null'
+                        example: '2018-07-01'
+                locations:
+                  type:
+                    - array
+                    - 'null'
+                  items:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      address-street-1:
+                        type: string
+                      address-street-2:
+                        type: string
+                      address-city:
+                        type: string
+                      address-subdivision:
+                        type: string
+                      address-postal-code:
+                        type: string
+                      address-country-code:
+                        type: string
+                        example: US
+                      type:
+                        type: string
+                        example: birthplace
+                sexes:
+                  type:
+                    - array
+                    - 'null'
+                  items:
+                    type: string
+                    example: male
+                emails:
+                  type:
+                    - array
+                    - 'null'
+                  items:
+                    type: string
+                    example: joe.doe@example.com
+                identifications:
+                  type:
+                    - array
+                    - 'null'
+                  items:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      type:
+                        type: string
+                        example: passport
+                      number:
+                        type: string
+                      country-code:
+                        type: string
+                        example: KP
+                      issue-date:
+                        type: string
+                      expiration-date:
+                        type: string
+                      comment:
+                        type: string
+                details:
+                  type:
+                    - array
+                    - 'null'
+                  items:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      type:
+                        type:
+                          - string
+                          - 'null'
+                      value:
+                        type:
+                          - string
+                          - 'null'
+                listings:
+                  type:
+                    - array
+                    - 'null'
+                  items:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      token:
+                        type: string
+                        example: scatr_7WNzPaNcroBKLarNHBjYDLAp
+                      name:
+                        type: string
+                        example: OFAC - Specially Designated Nationals (SDN) List
+                      type:
+                        type: string
+                        example: sanction
+                      url:
+                        type: string
+                      active:
+                        type: boolean
+                      created-at:
+                        type: string
+                        format: date-time
+                      deactivated-at:
+                        type:
+                          - string
+                          - 'null'
+                        format: date-time
+                      reviewed-at:
+                        type:
+                          - string
+                          - 'null'
+                        format: date-time
+                      review-status:
+                        type:
+                          - string
+                          - 'null'
+                positions:
+                  type:
+                    - array
+                    - 'null'
+                  items:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      name:
+                        type: string
+                        example: Minister of Foreign Affairs
+                      country-code:
+                        type:
+                          - string
+                          - 'null'
+                        example: KP
+                      classes:
+                        type: array
+                        items:
+                          type: string
+                      topics:
+                        type: array
+                        items:
+                          type: string
+                      active:
+                        type: boolean
+                      created-at:
+                        type: string
+                        format: date-time
+                      deactivated-at:
+                        type:
+                          - string
+                          - 'null'
+                        format: date-time
+                      reviewed-at:
+                        type:
+                          - string
+                          - 'null'
+                        format: date-time
+                      review-status:
+                        type:
+                          - string
+                          - 'null'
+                pep-classes:
+                  type:
+                    - array
+                    - 'null'
+                  items:
+                    type: string
+                pep-roles:
+                  type:
+                    - array
+                    - 'null'
+                  items:
+                    type: string
+                topics:
+                  type:
+                    - array
+                    - 'null'
+                  items:
+                    type: string
+                articles:
+                  type: array
+                  items:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      title:
+                        type: string
+                      snippet:
+                        type:
+                          - string
+                          - 'null'
+                      source:
+                        type:
+                          - string
+                          - 'null'
+                      primary-source:
+                        type:
+                          - boolean
+                          - 'null'
+                      url:
+                        type:
+                          - string
+                          - 'null'
+                      language:
+                        type:
+                          - string
+                          - 'null'
+                      categories:
+                        type:
+                          - array
+                          - 'null'
+                        items:
+                          type: string
+                      perpetrators:
+                        type: array
+                        items:
+                          type: object
+                          additionalProperties: false
+                          properties:
+                            name:
+                              type:
+                                - string
+                                - 'null'
+                            type:
+                              type:
+                                - string
+                                - 'null'
+                      victims:
+                        type: array
+                        items:
+                          type: object
+                          additionalProperties: false
+                          properties:
+                            name:
+                              type:
+                                - string
+                                - 'null'
+                            type:
+                              type:
+                                - string
+                                - 'null'
+                      publish-date:
+                        type:
+                          - string
+                          - 'null'
+  relationships:
+    $ref: ./report-shared-relationships.yaml

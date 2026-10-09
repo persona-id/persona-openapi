@@ -15889,6 +15889,140 @@ paths:
       tags:
         - Reports
       x-persona-product: Reports
+  '/reports/{report-id}/review':
+    post:
+      description: 'Records a review decision on the matches of a Screening report. Review either every matched record at once, or a single matched record by its token from `matched-records`.'
+      operationId: review-matches
+      externalDocs:
+        description: Full documentation for this API on the Persona website.
+        url: 'https://docs.withpersona.com/api-reference/reports/review-matches'
+      parameters:
+        - $ref: '#/components/parameters/key-inflection-header'
+        - $ref: '#/components/parameters/idempotency-key-header'
+        - $ref: '#/components/parameters/persona-version-header'
+        - $ref: '#/components/parameters/include-query-parameter'
+        - $ref: '#/components/parameters/fields-query-parameter'
+        - name: report-id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  properties:
+                    attributes:
+                      properties:
+                        review-type:
+                          description: |-
+                            Possible values:
+                            - all_records: reviews every matched record on the report
+                            - record: reviews the single matched record identified by `record-token`
+                          examples:
+                            - record
+                          type: string
+                        review-status:
+                          description: |-
+                            Possible values:
+                            - pending
+                            - indeterminate
+                            - true_positive
+                            - false_positive
+                          examples:
+                            - false_positive
+                          type: string
+                        record-token:
+                          description: 'Token of the matched record to review, from `matched-records`. Required when `review-type` is `record`.'
+                          examples:
+                            - scrre_3EenGd9ZzeXLWBL11K5mnSBi
+                          type: string
+                        risk-level:
+                          description: |-
+                            Possible values:
+                            - material
+                            - immaterial
+                          examples:
+                            - material
+                          type:
+                            - string
+                            - 'null'
+                        comment:
+                          description: The reasoning behind the review decision.
+                          type:
+                            - string
+                            - 'null'
+                        notify-on-change:
+                          description: 'When true, the reviewed records return to `pending` if their data changes on a later run.'
+                          type: boolean
+                      required:
+                        - review-type
+                        - review-status
+                      type: object
+                      additionalProperties: false
+                  required:
+                    - attributes
+                  type: object
+                  additionalProperties: false
+              required:
+                - data
+              type: object
+              additionalProperties: false
+            examples:
+              Success:
+                $ref: '#/components/examples/review-matches'
+      responses:
+        '200':
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/rate-limit-limit'
+            RateLimit-Remaining:
+              $ref: '#/components/headers/rate-limit-remaining'
+            RateLimit-Reset:
+              $ref: '#/components/headers/rate-limit-reset'
+            Request-Id:
+              $ref: '#/components/headers/request-id'
+            Persona-Environment-Id:
+              $ref: '#/components/headers/persona-environment-id'
+            Persona-Organization-Id:
+              $ref: '#/components/headers/persona-organization-id'
+          content:
+            application/json:
+              examples:
+                Success:
+                  $ref: '#/components/examples/report-screening'
+              schema:
+                type: object
+                additionalProperties: false
+                required:
+                  - data
+                properties:
+                  data:
+                    $ref: '#/components/schemas/report'
+                  included:
+                    description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
+                    $ref: '#/components/schemas/reports-included-objects'
+          description: This endpoint returns a Report object and (optionally) its related objects in `included`.
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not-found'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '422':
+          $ref: '#/components/responses/unprocessable-entity'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+      summary: 'Report Action: Review Matches'
+      tags:
+        - Reports
+      x-persona-product: Reports
   '/reports/{report-id}/run':
     post:
       description: 'Re-runs a continuously monitored report immediately, outside of its existing recurrence schedule.'
@@ -26523,7 +26657,7 @@ webhooks:
                                       type:
                                         - string
                                         - 'null'
-                                      description: 'The token of who performed the review: a user token (`user_` prefix) when a person reviewed it, or a workflow run token (`wfr_` prefix) when a workflow reviewed it. Null on events created before this field was added.'
+                                      description: 'The token of who performed the review: a user token (`user_` prefix) when a person reviewed it, a workflow run token (`wfr_` prefix) when a workflow reviewed it, or an API key token (`api_` prefix) when it was reviewed through the API. Null on events created before this field was added.'
                                       examples:
                                         - user_3VghhbvDc7UuUNT8uZrqZjsk
                                     comment:
@@ -28896,6 +29030,7 @@ components:
           json: '#/components/schemas/field-schema-json'
           multi-choices: '#/components/schemas/field-schema-multi-choices'
           number: '#/components/schemas/field-schema-number'
+          platform-file: '#/components/schemas/field-schema-platform-file'
           string: '#/components/schemas/field-schema-string'
           relation-schema: '#/components/schemas/field-schema-relation'
       anyOf:
@@ -28911,6 +29046,7 @@ components:
         - $ref: '#/components/schemas/field-schema-json'
         - $ref: '#/components/schemas/field-schema-multi-choices'
         - $ref: '#/components/schemas/field-schema-number'
+        - $ref: '#/components/schemas/field-schema-platform-file'
         - $ref: '#/components/schemas/field-schema-string'
         - $ref: '#/components/schemas/field-schema-relation'
     field-schema-array:
@@ -29278,6 +29414,25 @@ components:
                   type: number
                 max:
                   type: number
+    field-schema-platform-file:
+      type: object
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+          const: platform-file
+        key:
+          type: string
+        label:
+          type:
+            - string
+            - 'null'
+        config:
+          unevaluatedProperties: false
+          allOf:
+            - $ref: '#/components/schemas/field-schema-default-config'
+            - type: object
+              properties: {}
     field-schema-string:
       type: object
       additionalProperties: false
@@ -38190,7 +38345,7 @@ components:
                       examples:
                         - itmplv_ABC123
     deployment-route-criteria:
-      description: 'A deployment route criteria node: an `and`/`or`/`!` operator tree whose `origin` leaves are either `{ context }` or `{ resource-type, template-id, version }`. Version references carry the version token and its deployment tag (null when the version is untagged). Each operator''s operand may be a single node or a non-empty array of nodes.'
+      description: 'A deployment route criteria node: an `and`/`or`/`!` operator tree whose `origin` leaves are either `{ context }` or `{ resource-type, template-id, version }`. Version references carry the version token and its serialized deployment tag (null when the version is untagged). Each operator''s operand may be a single node or a non-empty array of nodes.'
       unevaluatedProperties: false
       oneOf:
         - type: object
@@ -38278,12 +38433,30 @@ components:
                         token:
                           type: string
                         tag:
-                          type:
-                            - string
-                            - 'null'
-                          description: 'The version''s deployment tag, when one was minted.'
+                          unevaluatedProperties: false
+                          oneOf:
+                            - type: 'null'
+                            - type: object
+                              additionalProperties: false
+                              required:
+                                - name
+                                - description
+                                - created-at
+                              properties:
+                                name:
+                                  type: string
+                                description:
+                                  type:
+                                    - string
+                                    - 'null'
+                                created-at:
+                                  type: string
+                                  format: date-time
+                          description: 'The version''s serialized deployment tag, when one was minted.'
                           examples:
-                            - '3'
+                            - name: '3'
+                              description: Initial production release
+                              created-at: '2026-03-26T18:29:41.000Z'
     inquiry-template-version:
       type: object
       additionalProperties: false
@@ -38357,7 +38530,7 @@ components:
                   created-at: '2026-03-26T18:29:41.000Z'
             deployments:
               type: array
-              description: 'Deployment routes currently sending traffic to this version, one per environment; rules carry the strategy (constant today, weighted/conditional for partial rollouts) and version references carry each referenced version''s token and deployment tag. Omitted for organizations not on explicit deploy.'
+              description: 'Deployment routes currently sending traffic to this version, one per environment; rules carry the strategy (constant today, weighted/conditional for partial rollouts) and version references carry each referenced version''s token and serialized deployment tag. Omitted for organizations not on explicit deploy.'
               items:
                 type: object
                 additionalProperties: false
@@ -38416,7 +38589,10 @@ components:
                                     template-id: itmpl_ABC123
                                     version:
                                       token: itmplv_LIVE123
-                                      tag: v2
+                                      tag:
+                                        name: v2
+                                        description: Initial production release
+                                        created-at: '2026-03-26T18:29:41.000Z'
                         strategy:
                           oneOf:
                             - type: object
@@ -38438,12 +38614,30 @@ components:
                                     token:
                                       type: string
                                     tag:
-                                      type:
-                                        - string
-                                        - 'null'
-                                      description: 'The version''s deployment tag, when one was minted.'
+                                      unevaluatedProperties: false
+                                      oneOf:
+                                        - type: 'null'
+                                        - type: object
+                                          additionalProperties: false
+                                          required:
+                                            - name
+                                            - description
+                                            - created-at
+                                          properties:
+                                            name:
+                                              type: string
+                                            description:
+                                              type:
+                                                - string
+                                                - 'null'
+                                            created-at:
+                                              type: string
+                                              format: date-time
+                                      description: 'The version''s serialized deployment tag, when one was minted.'
                                       examples:
-                                        - v2
+                                        - name: v2
+                                          description: Initial production release
+                                          created-at: '2026-03-26T18:29:41.000Z'
                             - type: object
                               additionalProperties: false
                               required:
@@ -38472,12 +38666,30 @@ components:
                                           token:
                                             type: string
                                           tag:
-                                            type:
-                                              - string
-                                              - 'null'
-                                            description: 'The version''s deployment tag, when one was minted.'
+                                            unevaluatedProperties: false
+                                            oneOf:
+                                              - type: 'null'
+                                              - type: object
+                                                additionalProperties: false
+                                                required:
+                                                  - name
+                                                  - description
+                                                  - created-at
+                                                properties:
+                                                  name:
+                                                    type: string
+                                                  description:
+                                                    type:
+                                                      - string
+                                                      - 'null'
+                                                  created-at:
+                                                    type: string
+                                                    format: date-time
+                                            description: 'The version''s serialized deployment tag, when one was minted.'
                                             examples:
-                                              - '3'
+                                              - name: '3'
+                                                description: Initial production release
+                                                created-at: '2026-03-26T18:29:41.000Z'
                                       weight:
                                         type: integer
                                         description: Relative share of traffic (0–100). Weights across all version-refs in the strategy must sum to 100.
@@ -38493,7 +38705,10 @@ components:
                           type: constant
                           version:
                             token: itmplv_LIVE123
-                            tag: v2
+                            tag:
+                              name: v2
+                              description: Initial production release
+                              created-at: '2026-03-26T18:29:41.000Z'
             last-updater:
               type:
                 - string
@@ -47607,6 +47822,21 @@ components:
                   deactivated-at: null
                   min-date: null
                   max-date: null
+              - type: array
+                key: evidence_documents
+                label: Evidence Documents
+                config:
+                  required: false
+                  archived-at: null
+                  deactivated-at: null
+                  item-schema:
+                    type: platform-file
+                    key: ''
+                    label: ''
+                    config:
+                      required: false
+                      archived-at: null
+                      deactivated-at: null
         included: []
     account-list:
       value:
@@ -49687,7 +49917,10 @@ components:
                         type: constant
                         version:
                           token: itmplv_LIVE123
-                          tag: v2
+                          tag:
+                            name: v2
+                            description: Initial production release
+                            created-at: '2026-03-26T18:29:41.000Z'
               last-updater: alex@example.com
               enabled-locales:
                 - en-US
@@ -50257,6 +50490,15 @@ components:
               data:
                 type: report-template/screening
                 id: rptp_2t2xwqxPDE1gw8DtYVFB9Vua
+    review-matches:
+      value:
+        data:
+          attributes:
+            review-type: record
+            record-token: scrre_3EenGd9ZzeXLWBL11K5mnSBi
+            review-status: false_positive
+            risk-level: null
+            comment: Birthdate does not match the sanctioned individual.
     transaction-list:
       value:
         data:
@@ -51030,6 +51272,13 @@ components:
                   archived-at: null
                   deactivated-at: null
                   target: document-government-id
+              - type: platform-file
+                key: evidence_document
+                label: Evidence Document
+                config:
+                  required: false
+                  archived-at: null
+                  deactivated-at: null
     verification-aamva:
       value:
         data:

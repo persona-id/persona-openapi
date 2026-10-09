@@ -1,0 +1,53 @@
+description: >-
+  The request modifies the resource in an unacceptable way, often due to an
+  invalid action or parameter.
+headers:
+  RateLimit-Limit:
+    $ref: ../headers/rate-limit-limit.yaml
+  RateLimit-Remaining:
+    $ref: ../headers/rate-limit-remaining.yaml
+  RateLimit-Reset:
+    $ref: ../headers/rate-limit-reset.yaml
+  Request-Id:
+    $ref: ../headers/request-id.yaml
+  Persona-Environment-Id:
+    $ref: ../headers/persona-environment-id.yaml
+  Persona-Organization-Id:
+    $ref: ../headers/persona-organization-id.yaml
+content:
+  application/json:
+    examples:
+      Unprocessable Entity:
+        value:
+          errors:
+            - title: Unprocessable entity
+              details: Invalid confirmation code
+    schema:
+      properties:
+        errors:
+          type: array
+          items:
+            additionalProperties: false
+            properties:
+              title:
+                type: string
+                examples:
+                  - Unprocessable entity
+                  - Record invalid
+              details:
+                type: string
+                examples:
+                  - File must be under 2 bytes
+                  - Selected country code invalid selected country code of ZX
+                  - Invalid confirmation code
+              source:
+                type: object
+                additionalProperties: false
+                properties:
+                  pointer:
+                    type: string
+                    examples:
+                      - /data/attributes/files
+                      - /data/attributes/selected-country-code
+      type: object
+      additionalProperties: false

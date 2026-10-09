@@ -1,0 +1,57 @@
+title: Inquiry Source Data
+description: >
+  PII-filtered snapshot of an Inquiry source object. Carries the inquiry's
+  filtered scalar
+
+  attributes under `peekable-attributes`, the inquiry's standard and custom
+  user-space fields
+
+  under `peekable-attributes.fields`, and filtered snapshots of related source
+  objects
+
+  (verifications, accounts, etc.) inline under `related-objects`.
+unevaluatedProperties: false
+allOf:
+  - $ref: ./source-data-base.yaml
+  - type: object
+    properties:
+      type:
+        type: string
+        const: connect/source-data/inquiry
+      id:
+        type: string
+        examples:
+          - inq_ABC123
+      peekable-attributes:
+        type: object
+        properties:
+          fields:
+            type: object
+            additionalProperties:
+              $ref: ./source-data-peekable-attribute.yaml
+            description: >
+              Nested bag of standard and custom user-space fields (e.g.
+              `name-first`,
+
+              `birthdate`, org-defined fields). Each entry is a `{visibility,
+              value}` wrapper.
+
+              The set of keys varies by the inquiry template and by the source
+              organization's
+
+              PII-share configuration; clients should handle unknown keys
+              defensively.
+        additionalProperties:
+          $ref: ./source-data-peekable-attribute.yaml
+      related-objects:
+        type: array
+        description: >
+          Filtered snapshots of source objects related to this inquiry (e.g.
+          attached
+
+          verifications, the linked account). Each entry is itself a source-data
+          envelope
+
+          discriminated by its specific subtype.
+        items:
+          $ref: ./source-data-related-object.yaml

@@ -1,0 +1,136 @@
+type: object
+additionalProperties: false
+description: An Importer Pipeline Run object.
+properties:
+  type:
+    type: string
+    const: importer-pipeline-run
+  id:
+    type: string
+    examples:
+      - mprtpr_ABC123DEF456
+  attributes:
+    type: object
+    additionalProperties: false
+    properties:
+      reference-id:
+        type:
+          - string
+          - 'null'
+        description: Reference identifier for the pipeline run
+        examples:
+          - import-batch-001
+      status:
+        type: string
+        description: >-
+          Current status of the pipeline run. Possible values include `pending`,
+          `running`, `paused`, `canceled`, `completed`, `errored`, and `killed`.
+        examples:
+          - running
+      run-count:
+        type: integer
+        description: Number of times this pipeline run has been executed
+        examples:
+          - 1
+      started-at:
+        format: date-time
+        type:
+          - string
+          - 'null'
+        description: When the pipeline run started processing
+        examples:
+          - '2020-04-12T05:08:51.000Z'
+      ended-at:
+        format: date-time
+        type:
+          - string
+          - 'null'
+        description: When the pipeline run finished processing
+        examples:
+          - '2020-04-12T05:18:32.000Z'
+      created-at:
+        format: date-time
+        type: string
+        description: When the pipeline run was created
+        examples:
+          - '2020-04-12T05:08:51.000Z'
+      updated-at:
+        format: date-time
+        type: string
+        description: When the pipeline run was last updated
+        examples:
+          - '2020-04-13T00:23:57.000Z'
+      redacted-at:
+        format: date-time
+        type:
+          - string
+          - 'null'
+        description: When the pipeline run was redacted
+        examples:
+          - '2020-04-14T00:22:43.000Z'
+      run-data:
+        type: object
+        description: Runtime data and statistics for the pipeline run
+        properties:
+          column-names:
+            type: array
+            items:
+              type: string
+            description: Names of columns being processed
+          error-count:
+            type: integer
+            description: Number of errors encountered
+            examples:
+              - 0
+          rows-read:
+            type: integer
+            description: Number of rows read from the source
+            examples:
+              - 1000
+          row-count:
+            type: integer
+            description: Total number of rows processed
+            examples:
+              - 1000
+          success-count:
+            type: integer
+            description: Number of rows successfully processed
+            examples:
+              - 995
+          created-count:
+            type: integer
+            description: Number of new records created
+            examples:
+              - 500
+          updated-count:
+            type: integer
+            description: Number of existing records updated
+            examples:
+              - 495
+          estimated-total-count:
+            type:
+              - integer
+              - 'null'
+            description: Estimated total number of rows to process
+            examples:
+              - 1000
+        additionalProperties: true
+  relationships:
+    type: object
+    additionalProperties: false
+    properties:
+      importer-pipeline:
+        type: object
+        additionalProperties: false
+        properties:
+          data:
+            type: object
+            additionalProperties: false
+            properties:
+              id:
+                type: string
+                examples:
+                  - mprtp_XYZ789ABC123
+              type:
+                const: importer-pipeline
+                type: string

@@ -1,0 +1,117 @@
+title: Business Lookup Report
+description: Fields required to create a Business Lookup Report
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: report/business-lookup
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./report-shared-request-attributes.yaml
+      - type: object
+        properties:
+          query:
+            type: object
+            additionalProperties: false
+            properties:
+              business-name:
+                description: The name of the business to search.
+                type: string
+                example: Coffee Shop
+              phone-number:
+                description: The phone number of the business to search.
+                type:
+                  - string
+                  - 'null'
+              website:
+                description: The website of the business to search.
+                type:
+                  - string
+                  - 'null'
+              ein:
+                description: >-
+                  The Employer Identification Number (EIN) of the business to
+                  search.
+                type:
+                  - string
+                  - 'null'
+              address-street-1:
+                description: Address line 1 (e.g., street, PO Box, or company name).
+                type: string
+                example: 123 Funky St
+              address-street-2:
+                description: Address line 2 (e.g., apartment, suite, unit, or building).
+                type:
+                  - string
+                  - 'null'
+              address-city:
+                description: City
+                type: string
+                example: Funkyville
+              address-subdivision:
+                type: string
+                description: >-
+                  Subnational division of a country, such as a state or
+                  province.
+                example: CA
+              address-postal-code:
+                description: ZIP or postal code
+                type: string
+                example: '12345'
+              address-country-code:
+                description: ISO 3166-1 alpha-2 country code.
+                type: string
+                example: US
+              associated-people:
+                description: Officers or agents associated with the business.
+                type: array
+                items:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    name-full:
+                      description: >-
+                        The full name of an officer or agent associated with the
+                        business.
+                      type:
+                        - string
+                        - 'null'
+                      example: Jane Doe
+                    name-first:
+                      description: >-
+                        The first name of an officer or agent associated with
+                        the business.
+                      type:
+                        - string
+                        - 'null'
+                      example: Jane
+                    name-last:
+                      description: >-
+                        The last name of an officer or agent associated with the
+                        business.
+                      type:
+                        - string
+                        - 'null'
+                      example: Doe
+                    titles:
+                      description: >-
+                        Titles of an officer or agent associated with the
+                        business.
+                      type: array
+                      items:
+                        type:
+                          - string
+                          - 'null'
+                        example: CEO
+            required:
+              - business-name
+              - address-street-1
+              - address-city
+              - address-subdivision
+              - address-postal-code
+        required:
+          - query
+required:
+  - attributes

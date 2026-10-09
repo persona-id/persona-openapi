@@ -1,0 +1,67 @@
+get:
+  description: >-
+    Retrieves the details of a generic document that has been previously
+    created.
+  operationId: retrieve-a-generic-document
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: >-
+      https://docs.withpersona.com/api-reference/documents/retrieve-a-generic-document
+  parameters:
+    - in: path
+      name: document-id
+      required: true
+      schema:
+        type: string
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+  responses:
+    '200':
+      headers:
+        RateLimit-Limit:
+          $ref: ../components/headers/rate-limit-limit.yaml
+        RateLimit-Remaining:
+          $ref: ../components/headers/rate-limit-remaining.yaml
+        RateLimit-Reset:
+          $ref: ../components/headers/rate-limit-reset.yaml
+        Request-Id:
+          $ref: ../components/headers/request-id.yaml
+        Persona-Environment-Id:
+          $ref: ../components/headers/persona-environment-id.yaml
+        Persona-Organization-Id:
+          $ref: ../components/headers/persona-organization-id.yaml
+      content:
+        application/json:
+          examples:
+            Success:
+              $ref: ../components/examples/document-generic.yaml
+          schema:
+            properties:
+              data:
+                $ref: ../components/schemas/document-generic.yaml
+              included:
+                $ref: ../components/schemas/document-included-objects.yaml
+            type: object
+            additionalProperties: false
+            required:
+              - data
+      description: >-
+        This endpoint returns a Generic Document object and (optionally) its
+        related objects in `included`.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: Retrieve a Generic Document
+  tags:
+    - Documents
+  x-persona-product: Documents

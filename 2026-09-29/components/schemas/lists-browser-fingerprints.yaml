@@ -1,0 +1,27 @@
+type: object
+description: A Browser Fingerprint List object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: list/browser-fingerprint
+  id:
+    type: string
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./lists-shared-attributes.yaml
+  relationships:
+    additionalProperties: false
+    type: object
+    properties:
+      list-items:
+        additionalProperties: false
+        type: object
+        properties:
+          data:
+            type: array
+            items:
+              additionalProperties: false
+              type: object
+              description: Browser Fingerprint List items associated with this list.

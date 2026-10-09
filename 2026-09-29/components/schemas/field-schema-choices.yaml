@@ -1,0 +1,35 @@
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: choices
+  key:
+    type: string
+  label:
+    type:
+      - string
+      - 'null'
+  default-value:
+    description: Must be one of the values in `config.options`, or null.
+    type:
+      - string
+      - 'null'
+  config:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./field-schema-default-config.yaml
+      - type: object
+        properties:
+          allow-empty:
+            type: boolean
+            default: false
+          options:
+            type: array
+            items:
+              type: string
+          option-labels:
+            description: Display labels for each value in `options`, in the same order.
+            type: array
+            items:
+              type: string

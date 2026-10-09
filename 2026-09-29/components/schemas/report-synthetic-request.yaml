@@ -1,0 +1,103 @@
+title: Synthetic Report Report
+description: Fields required to create a Synthetic Report
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: report/synthetic
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./report-shared-request-attributes.yaml
+      - type: object
+        properties:
+          query:
+            type: object
+            additionalProperties: false
+            properties:
+              name-first:
+                type: string
+                description: The first name of the individual to search.
+                example: John
+              name-last:
+                type: string
+                description: The last name of the individual to search.
+                example: Doe
+              birthdate:
+                type: string
+                pattern: ^\d{4}-\d{2}-\d{2}$
+                description: >-
+                  The birthdate of the individual, formatted as YYYY-MM-DD (ISO
+                  8601).
+                example: '1980-07-15'
+              social-security-number:
+                type:
+                  - string
+                  - 'null'
+                pattern: ^\d{3}-\d{2}-\d{4}$
+                description: >-
+                  Social security number. One of `identification-number` or
+                  `social-security-number` is required.
+                example: 123-45-6789
+              identification-number:
+                type:
+                  - string
+                  - 'null'
+                description: >-
+                  Any identification number that is not a social security
+                  number. One of `identification-number` or
+                  `social-security-number` is required.
+              address-street-1:
+                type: string
+                description: Address line 1 (e.g., street, PO Box, or company name).
+                example: 456 Elm St
+              address-street-2:
+                type:
+                  - string
+                  - 'null'
+                description: Address line 2 (e.g., apartment, suite, unit, or building).
+                example: Suite 2
+              address-city:
+                type: string
+                description: City
+                example: Springfield
+              address-subdivision:
+                type: string
+                description: >-
+                  Subnational division of a country, such as a state or
+                  province. Unabbreviated.
+                example: California
+              address-postal-code:
+                type: string
+                description: ZIP or postal code.
+                example: '12345'
+              address-country-code:
+                type: string
+                description: ISO 3166-1 alpha-2 country code.
+                example: US
+              phone-number:
+                type:
+                  - string
+                  - 'null'
+                description: Phone number.
+                example: 555-555-1234
+              email-address:
+                type:
+                  - string
+                  - 'null'
+                description: Email address.
+                example: john.doe@example.com
+            required:
+              - name-first
+              - name-last
+              - birthdate
+              - address-street-1
+              - address-city
+              - address-subdivision
+              - address-postal-code
+              - address-country-code
+        required:
+          - query
+required:
+  - attributes

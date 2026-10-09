@@ -1,0 +1,16 @@
+type: array
+items:
+  discriminator:
+    propertyName: type
+    mapping:
+      workflow: ./workflow.yaml
+      workflow-version: ./workflow-version.yaml
+      event: ./event.yaml
+      user: ./user.yaml
+      scheduled-run: ./scheduled-run.yaml
+  oneOf:
+    - $ref: ./workflow.yaml
+    - $ref: ./workflow-version.yaml
+    - $ref: ./event.yaml
+    - $ref: ./user.yaml
+    - $ref: ./scheduled-run.yaml

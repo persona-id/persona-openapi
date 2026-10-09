@@ -1,0 +1,48 @@
+type: object
+additionalProperties: false
+description: A Theme Set object
+properties:
+  type:
+    type: string
+    const: theme-set
+  id:
+    type: string
+    description: Unique identifier of the theme set (starts with "theset_").
+    examples:
+      - theset_ABC123
+  attributes:
+    type: object
+    additionalProperties: false
+    properties:
+      name:
+        type: string
+        description: Display name of the theme set.
+        examples:
+          - Brand Default
+      status:
+        type: string
+        description: >-
+          Lifecycle status — one of "active" or "archived". Archived theme sets
+          are retained but no longer editable.
+        examples:
+          - active
+      styles:
+        $ref: ./theme-set-styles.yaml
+      created-at:
+        type: string
+        format: date-time
+        examples:
+          - '2026-01-01T00:00:00.000Z'
+      updated-at:
+        type: string
+        format: date-time
+        examples:
+          - '2026-01-01T00:00:00.000Z'
+      archived-at:
+        type:
+          - string
+          - 'null'
+        format: date-time
+        description: Set when the theme set is archived.
+        examples:
+          - '2026-01-01T00:00:00.000Z'

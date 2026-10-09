@@ -1,0 +1,116 @@
+type: object
+additionalProperties: false
+properties:
+  type:
+    const: network
+    type: string
+  id:
+    type: string
+    description: Unique identifier for this Network. Starts with `net_`.
+    examples:
+      - net_ABC123
+  attributes:
+    type: object
+    additionalProperties: false
+    properties:
+      created-at:
+        type: string
+        format: date-time
+        examples:
+          - '2023-09-22T17:13:50.000Z'
+      ip-address:
+        type:
+          - string
+          - 'null'
+        examples:
+          - 139.178.128.13
+      service-provider:
+        type:
+          - string
+          - 'null'
+        examples:
+          - Comcast Cable Communications
+      service-type:
+        description: |-
+          Possible values:
+          - residential
+          - mobile
+          - datacenter
+          - corporate
+          - education
+
+          Do not assume this is a static enumeration; Persona may add new values
+          in the future without a versioned update.
+        type:
+          - string
+          - 'null'
+        examples:
+          - residential
+      proxy-type:
+        description: |-
+          Possible values:
+          - residential
+          - mobile
+          - corporate
+          - vpn
+          - unknown
+          - tor
+
+          Do not assume this is a static enumeration; Persona may add new values
+          in the future without a versioned update.
+        type:
+          - string
+          - 'null'
+        examples:
+          - vpn
+      threat-level:
+        description: |-
+          Possible values:
+          - unknown
+          - low
+          - medium
+          - high
+
+          Do not assume this is a static enumeration; Persona may add new values
+          in the future without a versioned update.
+        type:
+          - string
+          - 'null'
+        examples:
+          - low
+      country-code:
+        type:
+          - string
+          - 'null'
+        examples:
+          - US
+      country-name:
+        type:
+          - string
+          - 'null'
+        examples:
+          - United States of America
+      region-code:
+        type:
+          - string
+          - 'null'
+        examples:
+          - CA
+      region-name:
+        type:
+          - string
+          - 'null'
+        examples:
+          - California
+      latitude:
+        type:
+          - number
+          - 'null'
+        examples:
+          - 37.32300186
+      longitude:
+        type:
+          - number
+          - 'null'
+        examples:
+          - -122.03218079

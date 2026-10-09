@@ -1,0 +1,257 @@
+title: Profile Non-Authoritative Report
+description: A Profile Non-Authoritative Report
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: report/profile-non-authoritative
+  id:
+    type: string
+    description: The ID of the report
+    example: rep_7WNzPaNcroBKLarNHBjYDLAp
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./report-shared-attributes.yaml
+      - type: object
+        properties:
+          query:
+            type:
+              - object
+              - 'null'
+            additionalProperties: false
+            properties:
+              name-first:
+                type:
+                  - string
+                  - 'null'
+                description: The input first name of the search individual
+                example: Joe
+              name-middle:
+                type:
+                  - string
+                  - 'null'
+                description: The input middle name of the search individual
+                example: 'N'
+              name-last:
+                type:
+                  - string
+                  - 'null'
+                description: The input last name of the search individual
+                example: Doe
+              address-city:
+                type:
+                  - string
+                  - 'null'
+                description: The locality of the search individual
+                example: San Francisco
+              address-subdivision:
+                type:
+                  - string
+                  - 'null'
+                description: The subdivision of the search individual
+                example: CA
+              address-postal-code:
+                type:
+                  - string
+                  - 'null'
+                description: The postal code of the search individual
+                example: '94016'
+              address-street-1:
+                type:
+                  - string
+                  - 'null'
+                description: The street address of the search individual
+                example: 455 Fake St
+              address-street-2:
+                type:
+                  - string
+                  - 'null'
+                description: The address line 2 of the search individual
+                example: Apartment 12
+              address-country-code:
+                type:
+                  - string
+                  - 'null'
+                description: The country code of the search individual
+                example: US
+              email-address:
+                type:
+                  - string
+                  - 'null'
+                description: The email address of the search individual
+                example: address@domain.com
+              phone-number:
+                type:
+                  - string
+                  - 'null'
+                description: The phone number of the search individual
+              birthdate:
+                type:
+                  - string
+                  - 'null'
+                description: Date of birth in YYYY-MM-DD format
+                example: '1991-10-07'
+          result:
+            type:
+              - object
+              - 'null'
+            additionalProperties: false
+            properties:
+              name:
+                type:
+                  - string
+                  - 'null'
+                example: Norman Osborn
+              birthdate:
+                type:
+                  - string
+                  - 'null'
+                description: Date of birth in YYYY-MM-DD format
+                example: '1991-10-07'
+              emails:
+                type:
+                  - array
+                  - 'null'
+                items:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    address:
+                      type:
+                        - string
+                        - 'null'
+                      example: address@domain.com
+                    type:
+                      type:
+                        - string
+                        - 'null'
+                      example: professional
+              phone-numbers:
+                type:
+                  - array
+                  - 'null'
+                items:
+                  type:
+                    - string
+              location:
+                type:
+                  - object
+                  - 'null'
+                additionalProperties: false
+                properties:
+                  locality:
+                    type:
+                      - string
+                      - 'null'
+                    example: san francisco
+                  region:
+                    type:
+                      - string
+                      - 'null'
+                    example: california
+                  country:
+                    type:
+                      - string
+                      - 'null'
+                    example: united states
+                  continent:
+                    type:
+                      - string
+                      - 'null'
+                    example: north america
+                  street-address:
+                    type:
+                      - string
+                      - 'null'
+                    example: 1234 Funky St
+                  address-line-2:
+                    type:
+                      - string
+                      - 'null'
+                    example: suite 1670
+                  postal-code:
+                    type:
+                      - string
+                      - 'null'
+                    example: '94105'
+              education:
+                type:
+                  - array
+                  - 'null'
+                items:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    start-date:
+                      type:
+                        - string
+                        - 'null'
+                      example: '2017'
+                    end-date:
+                      type:
+                        - string
+                        - 'null'
+                      example: '2021'
+                    school-name:
+                      type:
+                        - string
+                        - 'null'
+                      example: university of california, berkeley
+                    school-type:
+                      type:
+                        - string
+                        - 'null'
+                      example: college
+              experience:
+                type:
+                  - array
+                  - 'null'
+                items:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    end-date:
+                      type:
+                        - string
+                        - 'null'
+                      example: '2021'
+                    start-date:
+                      type:
+                        - string
+                        - 'null'
+                      example: '2017'
+                    company-name:
+                      type:
+                        - string
+                        - 'null'
+                      example: persona
+                    title-name:
+                      type:
+                        - string
+                        - 'null'
+                      example: software engineer
+              social-media-profiles:
+                type:
+                  - array
+                  - 'null'
+                items:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    network:
+                      type: string
+                      example: linkedin
+                    url:
+                      type:
+                        - string
+                        - 'null'
+                      example: linkedin.com/in/person-a
+                    username:
+                      type:
+                        - string
+                        - 'null'
+                      example: persona
+  relationships:
+    $ref: ./report-shared-relationships.yaml

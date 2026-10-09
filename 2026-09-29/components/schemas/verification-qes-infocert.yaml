@@ -1,0 +1,28 @@
+title: QES InfoCert Verification
+description: A Qualified Electronic Signature (QES) Verification via InfoCert
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: verification/qes-infocert
+  id:
+    type: string
+    description: The token of the verification
+    example: ver_ABC123
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./verification-shared-attributes.yaml
+      - type: object
+        properties:
+          tentative-sub-state:
+            description: >-
+              An InfoCert-specific sub-state describing why the verification is
+              in a tentative status. Only populated when the verification status
+              is `tentatively_passed` or `tentatively_failed`.
+            type:
+              - string
+              - 'null'
+  relationships:
+    $ref: ./verification-shared-relationships.yaml

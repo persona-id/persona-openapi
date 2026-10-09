@@ -1,0 +1,38 @@
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: json
+  key:
+    type: string
+  label:
+    type:
+      - string
+      - 'null'
+  default-value:
+    description: |-
+      JSON-typed fields don't expose a default-value through this API (the
+      stored value is a free-form JSON document; the default is `null`).
+    type: 'null'
+  config:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./field-schema-default-config.yaml
+      - type: object
+        properties:
+          json-schema:
+            description: >-
+              A JSON Schema document (Draft 7 syntax) describing the shape of
+              values
+
+              stored in this field. Synthesized server-side by some verification
+
+              types (e.g. `government-id` writes a map of national
+              identification
+
+              numbers); the schema is informational and may evolve without a
+
+              versioned update.
+            type: object
+            additionalProperties: true
