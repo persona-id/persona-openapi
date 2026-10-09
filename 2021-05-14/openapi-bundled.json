@@ -24602,6 +24602,198 @@
         "x-persona-product": "Reports"
       }
     },
+    "/reports/{report-id}/review": {
+      "post": {
+        "description": "Records a review decision on the matches of a Screening report. Review either every matched record at once, or a single matched record by its token from `matched-records`.",
+        "operationId": "review-matches",
+        "externalDocs": {
+          "description": "Full documentation for this API on the Persona website.",
+          "url": "https://docs.withpersona.com/api-reference/reports/review-matches"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/key-inflection-header"
+          },
+          {
+            "$ref": "#/components/parameters/idempotency-key-header"
+          },
+          {
+            "$ref": "#/components/parameters/persona-version-header"
+          },
+          {
+            "$ref": "#/components/parameters/include-query-parameter"
+          },
+          {
+            "$ref": "#/components/parameters/fields-query-parameter"
+          },
+          {
+            "name": "report-id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "data": {
+                    "properties": {
+                      "attributes": {
+                        "properties": {
+                          "review-type": {
+                            "description": "Possible values:\n- all_records: reviews every matched record on the report\n- record: reviews the single matched record identified by `record-token`",
+                            "examples": [
+                              "record"
+                            ],
+                            "type": "string"
+                          },
+                          "review-status": {
+                            "description": "Possible values:\n- pending\n- indeterminate\n- true_positive\n- false_positive",
+                            "examples": [
+                              "false_positive"
+                            ],
+                            "type": "string"
+                          },
+                          "record-token": {
+                            "description": "Token of the matched record to review, from `matched-records`. Required when `review-type` is `record`.",
+                            "examples": [
+                              "scrre_3EenGd9ZzeXLWBL11K5mnSBi"
+                            ],
+                            "type": "string"
+                          },
+                          "risk-level": {
+                            "description": "Possible values:\n- material\n- immaterial",
+                            "examples": [
+                              "material"
+                            ],
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "comment": {
+                            "description": "The reasoning behind the review decision.",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "notify-on-change": {
+                            "description": "When true, the reviewed records return to `pending` if their data changes on a later run.",
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "review-type",
+                          "review-status"
+                        ],
+                        "type": "object",
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "attributes"
+                    ],
+                    "type": "object",
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "type": "object",
+                "additionalProperties": false
+              },
+              "examples": {
+                "Success": {
+                  "$ref": "#/components/examples/review-matches"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "headers": {
+              "RateLimit-Limit": {
+                "$ref": "#/components/headers/rate-limit-limit"
+              },
+              "RateLimit-Remaining": {
+                "$ref": "#/components/headers/rate-limit-remaining"
+              },
+              "RateLimit-Reset": {
+                "$ref": "#/components/headers/rate-limit-reset"
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/request-id"
+              },
+              "Persona-Environment-Id": {
+                "$ref": "#/components/headers/persona-environment-id"
+              },
+              "Persona-Organization-Id": {
+                "$ref": "#/components/headers/persona-organization-id"
+              }
+            },
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Success": {
+                    "$ref": "#/components/examples/report-screening"
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "data"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/report"
+                    },
+                    "included": {
+                      "description": "Objects that _may_ be returned if specified via the `include` query parameter in the request.",
+                      "$ref": "#/components/schemas/reports-included-objects"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "This endpoint returns a Report object and (optionally) its related objects in `included`."
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          },
+          "409": {
+            "$ref": "#/components/responses/conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessable-entity"
+          },
+          "429": {
+            "$ref": "#/components/responses/too-many-requests"
+          }
+        },
+        "summary": "Report Action: Review Matches",
+        "tags": [
+          "Reports"
+        ],
+        "x-persona-product": "Reports"
+      }
+    },
     "/reports/{report-id}/run": {
       "post": {
         "description": "Re-runs a continuously monitored report immediately, outside of its existing recurrence schedule.",
@@ -42040,7 +42232,7 @@
                                           "string",
                                           "null"
                                         ],
-                                        "description": "The token of who performed the review: a user token (`user_` prefix) when a person reviewed it, or a workflow run token (`wfr_` prefix) when a workflow reviewed it. Null on events created before this field was added.",
+                                        "description": "The token of who performed the review: a user token (`user_` prefix) when a person reviewed it, a workflow run token (`wfr_` prefix) when a workflow reviewed it, or an API key token (`api_` prefix) when it was reviewed through the API. Null on events created before this field was added.",
                                         "examples": [
                                           "user_3VghhbvDc7UuUNT8uZrqZjsk"
                                         ]
@@ -45991,6 +46183,7 @@
             "json": "#/components/schemas/field-schema-json",
             "multi-choices": "#/components/schemas/field-schema-multi-choices",
             "number": "#/components/schemas/field-schema-number",
+            "platform-file": "#/components/schemas/field-schema-platform-file",
             "string": "#/components/schemas/field-schema-string",
             "relation-schema": "#/components/schemas/field-schema-relation"
           }
@@ -46031,6 +46224,9 @@
           },
           {
             "$ref": "#/components/schemas/field-schema-number"
+          },
+          {
+            "$ref": "#/components/schemas/field-schema-platform-file"
           },
           {
             "$ref": "#/components/schemas/field-schema-string"
@@ -46601,6 +46797,37 @@
                     "type": "number"
                   }
                 }
+              }
+            ]
+          }
+        }
+      },
+      "field-schema-platform-file": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "platform-file"
+          },
+          "key": {
+            "type": "string"
+          },
+          "label": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "config": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/field-schema-default-config"
+              },
+              {
+                "type": "object",
+                "properties": {}
               }
             ]
           }
@@ -48134,6 +48361,130 @@
           }
         ]
       },
+      "source-data-verification-database-tin": {
+        "title": "Database TIN Verification Source Data",
+        "description": "PII-filtered snapshot of a Database TIN verification. The `peekable-attributes` bag carries\nwhichever PII-filtered scalar attributes the source organization's configuration allows.\nVerification subtypes do not expose a nested `fields` sub-bucket.\n",
+        "unevaluatedProperties": false,
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/source-data-base"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "connect/source-data/verification/database-tin"
+              },
+              "id": {
+                "type": "string",
+                "examples": [
+                  "ver_ABC123"
+                ]
+              },
+              "peekable-attributes": {
+                "type": "object",
+                "additionalProperties": {
+                  "$ref": "#/components/schemas/source-data-peekable-attribute"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "source-data-verification-database-business": {
+        "title": "Database Business Verification Source Data",
+        "description": "PII-filtered snapshot of a Database Business verification. The `peekable-attributes` bag carries\nwhichever PII-filtered scalar attributes the source organization's configuration allows.\nVerification subtypes do not expose a nested `fields` sub-bucket.\n",
+        "unevaluatedProperties": false,
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/source-data-base"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "connect/source-data/verification/database-business"
+              },
+              "id": {
+                "type": "string",
+                "examples": [
+                  "ver_ABC123"
+                ]
+              },
+              "peekable-attributes": {
+                "type": "object",
+                "additionalProperties": {
+                  "$ref": "#/components/schemas/source-data-peekable-attribute"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "source-data-verification-business-website": {
+        "title": "Business Website Verification Source Data",
+        "description": "PII-filtered snapshot of a Business Website verification. The `peekable-attributes` bag carries\nwhichever PII-filtered scalar attributes the source organization's configuration allows.\nVerification subtypes do not expose a nested `fields` sub-bucket.\n",
+        "unevaluatedProperties": false,
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/source-data-base"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "connect/source-data/verification/business-website"
+              },
+              "id": {
+                "type": "string",
+                "examples": [
+                  "ver_ABC123"
+                ]
+              },
+              "peekable-attributes": {
+                "type": "object",
+                "additionalProperties": {
+                  "$ref": "#/components/schemas/source-data-peekable-attribute"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "source-data-verification-database-uk-dvla": {
+        "title": "Database UK DVLA Verification Source Data",
+        "description": "PII-filtered snapshot of a Database UK DVLA verification. The `peekable-attributes` bag carries\nwhichever PII-filtered scalar attributes the source organization's configuration allows.\nVerification subtypes do not expose a nested `fields` sub-bucket.\n",
+        "unevaluatedProperties": false,
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/source-data-base"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "connect/source-data/verification/database-uk-dvla"
+              },
+              "id": {
+                "type": "string",
+                "examples": [
+                  "ver_ABC123"
+                ]
+              },
+              "peekable-attributes": {
+                "type": "object",
+                "additionalProperties": {
+                  "$ref": "#/components/schemas/source-data-peekable-attribute"
+                }
+              }
+            }
+          }
+        ]
+      },
       "source-data-verification-phone-number": {
         "title": "Phone Number Verification Source Data",
         "description": "PII-filtered snapshot of a Phone Number verification. The `peekable-attributes` bag carries\nwhichever PII-filtered scalar attributes the source organization's configuration allows —\nsee `Verification::PhoneNumber` in the share-token PII filter for the current allowlist.\nVerification subtypes do not expose a nested `fields` sub-bucket.\n",
@@ -48335,6 +48686,10 @@
           "propertyName": "type",
           "mapping": {
             "connect/source-data/verification/database": "#/components/schemas/source-data-verification-database",
+            "connect/source-data/verification/database-tin": "#/components/schemas/source-data-verification-database-tin",
+            "connect/source-data/verification/database-business": "#/components/schemas/source-data-verification-database-business",
+            "connect/source-data/verification/business-website": "#/components/schemas/source-data-verification-business-website",
+            "connect/source-data/verification/database-uk-dvla": "#/components/schemas/source-data-verification-database-uk-dvla",
             "connect/source-data/verification/phone-number": "#/components/schemas/source-data-verification-phone-number",
             "connect/source-data/verification/email-address": "#/components/schemas/source-data-verification-email-address",
             "connect/source-data/verification/government-id": "#/components/schemas/source-data-verification-government-id",
@@ -48346,6 +48701,18 @@
         "oneOf": [
           {
             "$ref": "#/components/schemas/source-data-verification-database"
+          },
+          {
+            "$ref": "#/components/schemas/source-data-verification-database-tin"
+          },
+          {
+            "$ref": "#/components/schemas/source-data-verification-database-business"
+          },
+          {
+            "$ref": "#/components/schemas/source-data-verification-business-website"
+          },
+          {
+            "$ref": "#/components/schemas/source-data-verification-database-uk-dvla"
           },
           {
             "$ref": "#/components/schemas/source-data-verification-phone-number"
@@ -48524,6 +48891,10 @@
           "mapping": {
             "connect/source-data/inquiry": "#/components/schemas/source-data-inquiry",
             "connect/source-data/verification/database": "#/components/schemas/source-data-verification-database",
+            "connect/source-data/verification/database-tin": "#/components/schemas/source-data-verification-database-tin",
+            "connect/source-data/verification/database-business": "#/components/schemas/source-data-verification-database-business",
+            "connect/source-data/verification/business-website": "#/components/schemas/source-data-verification-business-website",
+            "connect/source-data/verification/database-uk-dvla": "#/components/schemas/source-data-verification-database-uk-dvla",
             "connect/source-data/verification/phone-number": "#/components/schemas/source-data-verification-phone-number",
             "connect/source-data/verification/email-address": "#/components/schemas/source-data-verification-email-address",
             "connect/source-data/account": "#/components/schemas/source-data-account",
@@ -48538,6 +48909,18 @@
           },
           {
             "$ref": "#/components/schemas/source-data-verification-database"
+          },
+          {
+            "$ref": "#/components/schemas/source-data-verification-database-tin"
+          },
+          {
+            "$ref": "#/components/schemas/source-data-verification-database-business"
+          },
+          {
+            "$ref": "#/components/schemas/source-data-verification-business-website"
+          },
+          {
+            "$ref": "#/components/schemas/source-data-verification-database-uk-dvla"
           },
           {
             "$ref": "#/components/schemas/source-data-verification-phone-number"
@@ -59408,7 +59791,7 @@
         }
       },
       "deployment-route-criteria": {
-        "description": "A deployment route criteria node: an `and`/`or`/`!` operator tree whose `origin` leaves are either `{ context }` or `{ resource-type, template-id, version }`. Version references carry the version token and its deployment tag (null when the version is untagged). Each operator's operand may be a single node or a non-empty array of nodes.",
+        "description": "A deployment route criteria node: an `and`/`or`/`!` operator tree whose `origin` leaves are either `{ context }` or `{ resource-type, template-id, version }`. Version references carry the version token and its serialized deployment tag (null when the version is untagged). Each operator's operand may be a single node or a non-empty array of nodes.",
         "unevaluatedProperties": false,
         "oneOf": [
           {
@@ -59546,13 +59929,43 @@
                             "type": "string"
                           },
                           "tag": {
-                            "type": [
-                              "string",
-                              "null"
+                            "unevaluatedProperties": false,
+                            "oneOf": [
+                              {
+                                "type": "null"
+                              },
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": [
+                                  "name",
+                                  "description",
+                                  "created-at"
+                                ],
+                                "properties": {
+                                  "name": {
+                                    "type": "string"
+                                  },
+                                  "description": {
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ]
+                                  },
+                                  "created-at": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                  }
+                                }
+                              }
                             ],
-                            "description": "The version's deployment tag, when one was minted.",
+                            "description": "The version's serialized deployment tag, when one was minted.",
                             "examples": [
-                              "3"
+                              {
+                                "name": "3",
+                                "description": "Initial production release",
+                                "created-at": "2026-03-26T18:29:41.000Z"
+                              }
                             ]
                           }
                         }
@@ -59613,7 +60026,7 @@
               },
               "live": {
                 "type": "boolean",
-                "description": "Whether this is the Inquiry Template's current live published version.",
+                "description": "Whether this version is configured for any Inquiry creation in any or all environments.",
                 "examples": [
                   true
                 ]
@@ -59660,7 +60073,7 @@
               },
               "deployments": {
                 "type": "array",
-                "description": "Deployment routes currently sending traffic to this version, one per environment; rules carry the strategy (constant today, weighted/conditional for partial rollouts) and version references carry each referenced version's token and deployment tag. Omitted for organizations not on explicit deploy.",
+                "description": "Deployment routes currently sending traffic to this version, one per environment; rules carry the strategy (constant today, weighted/conditional for partial rollouts) and version references carry each referenced version's token and serialized deployment tag. Omitted for organizations not on explicit deploy.",
                 "items": {
                   "type": "object",
                   "additionalProperties": false,
@@ -59737,7 +60150,11 @@
                                       "template-id": "itmpl_ABC123",
                                       "version": {
                                         "token": "itmplv_LIVE123",
-                                        "tag": "v2"
+                                        "tag": {
+                                          "name": "v2",
+                                          "description": "Initial production release",
+                                          "created-at": "2026-03-26T18:29:41.000Z"
+                                        }
                                       }
                                     }
                                   }
@@ -59771,13 +60188,43 @@
                                         "type": "string"
                                       },
                                       "tag": {
-                                        "type": [
-                                          "string",
-                                          "null"
+                                        "unevaluatedProperties": false,
+                                        "oneOf": [
+                                          {
+                                            "type": "null"
+                                          },
+                                          {
+                                            "type": "object",
+                                            "additionalProperties": false,
+                                            "required": [
+                                              "name",
+                                              "description",
+                                              "created-at"
+                                            ],
+                                            "properties": {
+                                              "name": {
+                                                "type": "string"
+                                              },
+                                              "description": {
+                                                "type": [
+                                                  "string",
+                                                  "null"
+                                                ]
+                                              },
+                                              "created-at": {
+                                                "type": "string",
+                                                "format": "date-time"
+                                              }
+                                            }
+                                          }
                                         ],
-                                        "description": "The version's deployment tag, when one was minted.",
+                                        "description": "The version's serialized deployment tag, when one was minted.",
                                         "examples": [
-                                          "v2"
+                                          {
+                                            "name": "v2",
+                                            "description": "Initial production release",
+                                            "created-at": "2026-03-26T18:29:41.000Z"
+                                          }
                                         ]
                                       }
                                     }
@@ -59818,13 +60265,43 @@
                                               "type": "string"
                                             },
                                             "tag": {
-                                              "type": [
-                                                "string",
-                                                "null"
+                                              "unevaluatedProperties": false,
+                                              "oneOf": [
+                                                {
+                                                  "type": "null"
+                                                },
+                                                {
+                                                  "type": "object",
+                                                  "additionalProperties": false,
+                                                  "required": [
+                                                    "name",
+                                                    "description",
+                                                    "created-at"
+                                                  ],
+                                                  "properties": {
+                                                    "name": {
+                                                      "type": "string"
+                                                    },
+                                                    "description": {
+                                                      "type": [
+                                                        "string",
+                                                        "null"
+                                                      ]
+                                                    },
+                                                    "created-at": {
+                                                      "type": "string",
+                                                      "format": "date-time"
+                                                    }
+                                                  }
+                                                }
                                               ],
-                                              "description": "The version's deployment tag, when one was minted.",
+                                              "description": "The version's serialized deployment tag, when one was minted.",
                                               "examples": [
-                                                "3"
+                                                {
+                                                  "name": "3",
+                                                  "description": "Initial production release",
+                                                  "created-at": "2026-03-26T18:29:41.000Z"
+                                                }
                                               ]
                                             }
                                           }
@@ -59861,7 +60338,11 @@
                             "type": "constant",
                             "version": {
                               "token": "itmplv_LIVE123",
-                              "tag": "v2"
+                              "tag": {
+                                "name": "v2",
+                                "description": "Initial production release",
+                                "created-at": "2026-03-26T18:29:41.000Z"
+                              }
                             }
                           }
                         }
@@ -73037,6 +73518,26 @@
                     "min-date": null,
                     "max-date": null
                   }
+                },
+                {
+                  "type": "array",
+                  "key": "evidence_documents",
+                  "label": "Evidence Documents",
+                  "config": {
+                    "required": false,
+                    "archived-at": null,
+                    "deactivated-at": null,
+                    "item-schema": {
+                      "type": "platform-file",
+                      "key": "",
+                      "label": "",
+                      "config": {
+                        "required": false,
+                        "archived-at": null,
+                        "deactivated-at": null
+                      }
+                    }
+                  }
                 }
               ]
             }
@@ -76105,7 +76606,11 @@
                           "type": "constant",
                           "version": {
                             "token": "itmplv_LIVE123",
-                            "tag": "v2"
+                            "tag": {
+                              "name": "v2",
+                              "description": "Initial production release",
+                              "created-at": "2026-03-26T18:29:41.000Z"
+                            }
                           }
                         }
                       }
@@ -76897,6 +77402,19 @@
                   "id": "rptp_2t2xwqxPDE1gw8DtYVFB9Vua"
                 }
               }
+            }
+          }
+        }
+      },
+      "review-matches": {
+        "value": {
+          "data": {
+            "attributes": {
+              "review-type": "record",
+              "record-token": "scrre_3EenGd9ZzeXLWBL11K5mnSBi",
+              "review-status": "false_positive",
+              "risk-level": null,
+              "comment": "Birthdate does not match the sanctioned individual."
             }
           }
         }
@@ -77985,6 +78503,16 @@
                     "archived-at": null,
                     "deactivated-at": null,
                     "target": "document-government-id"
+                  }
+                },
+                {
+                  "type": "platform-file",
+                  "key": "evidence_document",
+                  "label": "Evidence Document",
+                  "config": {
+                    "required": false,
+                    "archived-at": null,
+                    "deactivated-at": null
                   }
                 }
               ]

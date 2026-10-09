@@ -1,9 +1,9 @@
 description: >-
   A deployment route criteria node: an `and`/`or`/`!` operator tree whose
   `origin` leaves are either `{ context }` or `{ resource-type, template-id,
-  version }`. Version references carry the version token and its deployment tag
-  (null when the version is untagged). Each operator's operand may be a single
-  node or a non-empty array of nodes.
+  version }`. Version references carry the version token and its serialized
+  deployment tag (null when the version is untagged). Each operator's operand
+  may be a single node or a non-empty array of nodes.
 unevaluatedProperties: false
 oneOf:
   - type: object
@@ -91,9 +91,29 @@ oneOf:
                   token:
                     type: string
                   tag:
-                    type:
-                      - string
-                      - 'null'
-                    description: The version's deployment tag, when one was minted.
+                    unevaluatedProperties: false
+                    oneOf:
+                      - type: 'null'
+                      - type: object
+                        additionalProperties: false
+                        required:
+                          - name
+                          - description
+                          - created-at
+                        properties:
+                          name:
+                            type: string
+                          description:
+                            type:
+                              - string
+                              - 'null'
+                          created-at:
+                            type: string
+                            format: date-time
+                    description: >-
+                      The version's serialized deployment tag, when one was
+                      minted.
                     examples:
-                      - '3'
+                      - name: '3'
+                        description: Initial production release
+                        created-at: '2026-03-26T18:29:41.000Z'

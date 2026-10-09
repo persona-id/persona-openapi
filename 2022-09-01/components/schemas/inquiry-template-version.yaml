@@ -40,7 +40,9 @@ properties:
           - published
       live:
         type: boolean
-        description: Whether this is the Inquiry Template's current live published version.
+        description: >-
+          Whether this version is configured for any Inquiry creation in any or
+          all environments.
         examples:
           - true
       version-tag:
@@ -76,8 +78,8 @@ properties:
           Deployment routes currently sending traffic to this version, one per
           environment; rules carry the strategy (constant today,
           weighted/conditional for partial rollouts) and version references
-          carry each referenced version's token and deployment tag. Omitted for
-          organizations not on explicit deploy.
+          carry each referenced version's token and serialized deployment tag.
+          Omitted for organizations not on explicit deploy.
         items:
           type: object
           additionalProperties: false
@@ -143,7 +145,10 @@ properties:
                               template-id: itmpl_ABC123
                               version:
                                 token: itmplv_LIVE123
-                                tag: v2
+                                tag:
+                                  name: v2
+                                  description: Initial production release
+                                  created-at: '2026-03-26T18:29:41.000Z'
                   strategy:
                     oneOf:
                       - type: object
@@ -165,14 +170,32 @@ properties:
                               token:
                                 type: string
                               tag:
-                                type:
-                                  - string
-                                  - 'null'
+                                unevaluatedProperties: false
+                                oneOf:
+                                  - type: 'null'
+                                  - type: object
+                                    additionalProperties: false
+                                    required:
+                                      - name
+                                      - description
+                                      - created-at
+                                    properties:
+                                      name:
+                                        type: string
+                                      description:
+                                        type:
+                                          - string
+                                          - 'null'
+                                      created-at:
+                                        type: string
+                                        format: date-time
                                 description: >-
-                                  The version's deployment tag, when one was
-                                  minted.
+                                  The version's serialized deployment tag, when
+                                  one was minted.
                                 examples:
-                                  - v2
+                                  - name: v2
+                                    description: Initial production release
+                                    created-at: '2026-03-26T18:29:41.000Z'
                       - type: object
                         additionalProperties: false
                         required:
@@ -201,14 +224,32 @@ properties:
                                     token:
                                       type: string
                                     tag:
-                                      type:
-                                        - string
-                                        - 'null'
+                                      unevaluatedProperties: false
+                                      oneOf:
+                                        - type: 'null'
+                                        - type: object
+                                          additionalProperties: false
+                                          required:
+                                            - name
+                                            - description
+                                            - created-at
+                                          properties:
+                                            name:
+                                              type: string
+                                            description:
+                                              type:
+                                                - string
+                                                - 'null'
+                                            created-at:
+                                              type: string
+                                              format: date-time
                                       description: >-
-                                        The version's deployment tag, when one
-                                        was minted.
+                                        The version's serialized deployment tag,
+                                        when one was minted.
                                       examples:
-                                        - '3'
+                                        - name: '3'
+                                          description: Initial production release
+                                          created-at: '2026-03-26T18:29:41.000Z'
                                 weight:
                                   type: integer
                                   description: >-
@@ -227,7 +268,10 @@ properties:
                     type: constant
                     version:
                       token: itmplv_LIVE123
-                      tag: v2
+                      tag:
+                        name: v2
+                        description: Initial production release
+                        created-at: '2026-03-26T18:29:41.000Z'
       last-updater:
         type:
           - string

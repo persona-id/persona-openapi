@@ -1,0 +1,149 @@
+post:
+  description: >-
+    Records a review decision on the matches of a Screening report. Review
+    either every matched record at once, or a single matched record by its token
+    from `matched-records`.
+  operationId: review-matches
+  externalDocs:
+    description: Full documentation for this API on the Persona website.
+    url: https://docs.withpersona.com/api-reference/reports/review-matches
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/include-query-parameter.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+    - name: report-id
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            data:
+              properties:
+                attributes:
+                  properties:
+                    review-type:
+                      description: >-
+                        Possible values:
+
+                        - all_records: reviews every matched record on the
+                        report
+
+                        - record: reviews the single matched record identified
+                        by `record-token`
+                      examples:
+                        - record
+                      type: string
+                    review-status:
+                      description: |-
+                        Possible values:
+                        - pending
+                        - indeterminate
+                        - true_positive
+                        - false_positive
+                      examples:
+                        - false_positive
+                      type: string
+                    record-token:
+                      description: >-
+                        Token of the matched record to review, from
+                        `matched-records`. Required when `review-type` is
+                        `record`.
+                      examples:
+                        - scrre_3EenGd9ZzeXLWBL11K5mnSBi
+                      type: string
+                    risk-level:
+                      description: |-
+                        Possible values:
+                        - material
+                        - immaterial
+                      examples:
+                        - material
+                      type:
+                        - string
+                        - 'null'
+                    comment:
+                      description: The reasoning behind the review decision.
+                      type:
+                        - string
+                        - 'null'
+                    notify-on-change:
+                      description: >-
+                        When true, the reviewed records return to `pending` if
+                        their data changes on a later run.
+                      type: boolean
+                  required:
+                    - review-type
+                    - review-status
+                  type: object
+                  additionalProperties: false
+              required:
+                - attributes
+              type: object
+              additionalProperties: false
+          required:
+            - data
+          type: object
+          additionalProperties: false
+        examples:
+          Success:
+            $ref: ../components/examples/review-matches.yaml
+  responses:
+    '200':
+      headers:
+        RateLimit-Limit:
+          $ref: ../components/headers/rate-limit-limit.yaml
+        RateLimit-Remaining:
+          $ref: ../components/headers/rate-limit-remaining.yaml
+        RateLimit-Reset:
+          $ref: ../components/headers/rate-limit-reset.yaml
+        Request-Id:
+          $ref: ../components/headers/request-id.yaml
+        Persona-Environment-Id:
+          $ref: ../components/headers/persona-environment-id.yaml
+        Persona-Organization-Id:
+          $ref: ../components/headers/persona-organization-id.yaml
+      content:
+        application/json:
+          examples:
+            Success:
+              $ref: ../components/examples/report-screening.yaml
+          schema:
+            type: object
+            additionalProperties: false
+            required:
+              - data
+            properties:
+              data:
+                $ref: ../components/schemas/report.yaml
+              included:
+                description: >-
+                  Objects that _may_ be returned if specified via the `include`
+                  query parameter in the request.
+                $ref: ../components/schemas/reports-included-objects.yaml
+      description: >-
+        This endpoint returns a Report object and (optionally) its related
+        objects in `included`.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: 'Report Action: Review Matches'
+  tags:
+    - Reports
+  x-persona-product: Reports
