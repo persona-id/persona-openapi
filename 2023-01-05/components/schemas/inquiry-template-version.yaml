@@ -41,14 +41,17 @@ properties:
       live:
         type: boolean
         description: >-
-          Whether this version is configured for any Inquiry creation in any or
-          all environments.
+          Whether this version is deployed in at least one environment. Reflects
+          organization-wide state, so the value is the same for Sandbox and
+          Production API keys.
         examples:
           - true
       version-tag:
         description: >-
-          The version's deployment-engine tag; null when the version is
-          untagged. Omitted for organizations not on explicit deploy.
+          The version's tag; null when the version is untagged. Omitted for
+          Sandbox API keys and for API keys without `inquiry_template.read` on
+          the parent Inquiry Template (for example, when this version is
+          included in an Inquiry response).
         unevaluatedProperties: false
         oneOf:
           - type: 'null'
@@ -79,7 +82,7 @@ properties:
           environment; rules carry the strategy (constant today,
           weighted/conditional for partial rollouts) and version references
           carry each referenced version's token and serialized deployment tag.
-          Omitted for organizations not on explicit deploy.
+          Omitted under the same conditions as `version-tag`.
         items:
           type: object
           additionalProperties: false

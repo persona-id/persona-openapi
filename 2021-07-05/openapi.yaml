@@ -30,6 +30,8 @@ tags:
     description: Interact with Persona Connect objects
   - name: Devices
     description: Interact with Persona Device objects
+  - name: Deployments
+    description: Interact with Persona Deployment objects
   - name: Documents
     description: Interact with Persona Document objects
   - name: Events
@@ -190,6 +192,10 @@ paths:
     $ref: paths/devices.yaml
   /devices/{device-id}:
     $ref: paths/devices_{device-id}.yaml
+  /deployments:
+    $ref: paths/deployments.yaml
+  /deployments/{deployment-id}:
+    $ref: paths/deployments_{deployment-id}.yaml
   /document/generics/{document-id}:
     $ref: paths/document_generics_{document-id}.yaml
   /document/government-ids/{document-id}:
@@ -511,6 +517,8 @@ webhooks:
     $ref: webhooks/case.updated-fields.yaml
   case.updated-tags:
     $ref: webhooks/case.updated-tags.yaml
+  deployment.completed:
+    $ref: webhooks/deployment.completed.yaml
   document.created:
     $ref: webhooks/document.created.yaml
   document.submitted:

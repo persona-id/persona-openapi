@@ -1,0 +1,52 @@
+post:
+  operationId: webhook-deployment-completed
+  summary: Deployment completed
+  description: >-
+    Webhook for the `deployment.completed` event. For more info see [Webhooks
+    Overview](https://docs.withpersona.com/webhooks).
+
+    This webhook is delivered only to production environments.
+  tags:
+    - Deployment events
+  x-persona-product: Deployments
+  parameters:
+    - $ref: ../components/parameters/persona-signature-header.yaml
+    - $ref: ../components/parameters/persona-webhook-attempts-made.yaml
+    - $ref: ../components/parameters/persona-webhook-attempts-left.yaml
+    - $ref: ../components/parameters/persona-webhook-first-attempted-at.yaml
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          additionalProperties: false
+          properties:
+            data:
+              type: object
+              unevaluatedProperties: false
+              allOf:
+                - $ref: ../components/schemas/webhook-body-shared-data.yaml
+                - type: object
+                  properties:
+                    attributes:
+                      unevaluatedProperties: false
+                      allOf:
+                        - type: object
+                          properties:
+                            name:
+                              type: string
+                              const: deployment.completed
+                            payload:
+                              type: object
+                              additionalProperties: false
+                              properties:
+                                data:
+                                  $ref: ../components/schemas/deployment.yaml
+                        - $ref: >-
+                            ../components/schemas/webhook-body-shared-attributes.yaml
+        examples:
+          Example Body:
+            $ref: ../components/examples/deployment-completed-webhook-body.yaml
+  responses:
+    '200':
+      $ref: ../components/responses/success.yaml

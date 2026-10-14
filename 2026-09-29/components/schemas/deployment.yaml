@@ -1,0 +1,151 @@
+type: object
+additionalProperties: false
+description: >-
+  A Deployment object. A deployment is an atomic, immutable write of routing
+  rules across a set of (resource, environment) keys — the state the deployment
+  engine serves traffic from.
+properties:
+  type:
+    type: string
+    const: deployment
+  id:
+    type: string
+    examples:
+      - dply_7KqH4xVnR2bPmYwL9sTgD3cE
+  attributes:
+    type: object
+    additionalProperties: false
+    properties:
+      created-at:
+        type: string
+        format: date-time
+        examples:
+          - '2026-10-01T18:34:17.000Z'
+      routes:
+        type: array
+        description: >-
+          The routes this deployment puts in force. Each route binds a (resource
+          template, environment) key to a rules tree. Without
+          `filter[changes-only]` this is the effective state as of the
+          deployment — including routes written by earlier deployments — so a
+          route whose `source-deployment-id` is set was authored by the
+          deployment named there. With `filter[changes-only]` it is exactly the
+          rows this deployment wrote.
+        items:
+          type: object
+          additionalProperties: false
+          properties:
+            resource-type:
+              type: string
+              description: >-
+                The platform resource type the route targets. `inquiry-template`
+                is the only supported resource type today; `workflow` and
+                `scheduled-run-config` support is planned for a future
+                deploy-manager release.
+              examples:
+                - inquiry-template
+            template-id:
+              type: string
+              description: The token of the resource template the route targets.
+              examples:
+                - itmpl_H5wJqL8vNrXmPyKsTdGc2Vz
+            environment:
+              type: object
+              additionalProperties: false
+              required:
+                - token
+                - name
+              description: The environment the route applies to.
+              properties:
+                token:
+                  type: string
+                  examples:
+                    - env_2VpXc7nMqZwKjRfLsGdYb8Ht
+                name:
+                  type: string
+                  examples:
+                    - production
+            rules:
+              type: array
+              description: >-
+                The routing rules evaluated for the key. An empty list undeploys
+                the resource from the environment. Each rule has a strategy and
+                may have a criteria tree with `and`, `or`, and `!` operators
+                over context or resource origins.
+              items:
+                type: object
+                additionalProperties: false
+                required:
+                  - strategy
+                properties:
+                  criteria:
+                    $ref: ./route-criteria.yaml
+                  strategy:
+                    unevaluatedProperties: false
+                    oneOf:
+                      - type: object
+                        additionalProperties: false
+                        required:
+                          - type
+                          - version
+                        properties:
+                          type:
+                            type: string
+                            const: constant
+                          version:
+                            type: object
+                            additionalProperties: false
+                            required:
+                              - token
+                              - tag
+                            properties:
+                              token:
+                                type: string
+                                description: The resource version's token.
+                                examples:
+                                  - itmplv_LIVE123
+                              tag:
+                                $ref: ./version-tag.yaml
+                      - type: object
+                        additionalProperties: false
+                        required:
+                          - type
+                          - version-refs
+                        properties:
+                          type:
+                            type: string
+                            const: weighted-random
+                          version-refs:
+                            type: array
+                            items:
+                              type: object
+                              additionalProperties: false
+                              required:
+                                - version
+                                - weight
+                              properties:
+                                version:
+                                  type: object
+                                  additionalProperties: false
+                                  required:
+                                    - token
+                                    - tag
+                                  properties:
+                                    token:
+                                      type: string
+                                    tag:
+                                      $ref: ./version-tag.yaml
+                                weight:
+                                  type: integer
+                                  description: The ref's weight within the weighted split.
+                                  examples:
+                                    - 80
+            source-deployment-id:
+              type:
+                - string
+                - 'null'
+              description: >-
+                The token of the deployment that wrote this route, when it
+                predates this deployment; null when this deployment wrote it.
+              examples:
+                - dply_1AbCdEfGhIjKlMnOpQrStUv

@@ -1,0 +1,113 @@
+get:
+  description: >-
+    Returns a list of your organization's deployments, newest first. Results are
+    returned in reverse chronological order.
+
+    Each deployment's `routes` carry the effective state as of that deployment —
+    the newest route per (resource template, environment) key at or before it.
+    Pass `filter[changes-only]=true` to render only the rows each deployment
+    wrote, so the list reads as a change history. `filter[environment-id]` and
+    `filter[template-id]` narrow both the deployments listed and the routes each
+    one carries.
+
+    This endpoint requires a production API key; sandbox API keys receive 401.
+  operationId: list-all-deployments
+  parameters:
+    - $ref: ../components/parameters/key-inflection-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/persona-version-header.yaml
+    - $ref: ../components/parameters/pagination-query-params.yaml
+    - $ref: ../components/parameters/fields-query-parameter.yaml
+    - in: query
+      name: filter
+      style: deepObject
+      explode: true
+      schema:
+        type: object
+        additionalProperties: false
+        properties:
+          environment-id:
+            description: Filter deployments and routes to a single environment.
+            examples:
+              - env_2VpXc7nMqZwKjRfLsGdYb8Ht
+            type: string
+          template-id:
+            description: Filter deployments and routes to a single resource template.
+            examples:
+              - itmpl_H5wJqL8vNrXmPyKsTdGc2Vz
+            type: string
+          changes-only:
+            description: >-
+              When true, each deployment renders only the routes it wrote rather
+              than the effective state as of it.
+            examples:
+              - true
+            type: boolean
+  responses:
+    '200':
+      headers:
+        RateLimit-Limit:
+          $ref: ../components/headers/rate-limit-limit.yaml
+        RateLimit-Remaining:
+          $ref: ../components/headers/rate-limit-remaining.yaml
+        RateLimit-Reset:
+          $ref: ../components/headers/rate-limit-reset.yaml
+        Request-Id:
+          $ref: ../components/headers/request-id.yaml
+        Persona-Environment-Id:
+          $ref: ../components/headers/persona-environment-id.yaml
+        Persona-Organization-Id:
+          $ref: ../components/headers/persona-organization-id.yaml
+      content:
+        application/json:
+          examples:
+            Success:
+              $ref: ../components/examples/deployment-list.yaml
+          schema:
+            properties:
+              data:
+                items:
+                  $ref: ../components/schemas/deployment.yaml
+                type: array
+                description: An array of Deployments
+              links:
+                properties:
+                  next:
+                    examples:
+                      - >-
+                        /api/v1/deployments?page%5Bafter%5D=dply_7KqH4xVnR2bPmYwL9sTgD3cE
+                    type:
+                      - string
+                      - 'null'
+                  prev:
+                    examples:
+                      - >-
+                        /api/v1/deployments?page%5Bbefore%5D=dply_4JnT2wQrZ8vYbLpKxMsNh6dC
+                    type:
+                      - string
+                      - 'null'
+                type: object
+                additionalProperties: false
+                required:
+                  - next
+                  - prev
+            type: object
+            additionalProperties: false
+            required:
+              - data
+              - links
+      description: This endpoint returns a collection of Deployment objects.
+    '400':
+      $ref: ../components/responses/bad-request.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/not-found.yaml
+    '429':
+      $ref: ../components/responses/too-many-requests.yaml
+  summary: List all Deployments
+  tags:
+    - Deployments
+  x-persona-product: Deployments
