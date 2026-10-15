@@ -15,8 +15,10 @@ properties:
     additionalProperties: false
     properties:
       message:
-        type: string
-        description: The comment message
+        type:
+          - string
+          - 'null'
+        description: The comment message. Null once the comment has been redacted.
         examples:
           - This is a case comment
       created-at:
@@ -29,6 +31,17 @@ properties:
         type: string
         format: date-time
         description: The time the comment was last updated
+        examples:
+          - '2021-03-25T07:04:16.667Z'
+      redacted-at:
+        type:
+          - string
+          - 'null'
+        format: date-time
+        description: >-
+          The time the comment was redacted, or null if it has not been
+          redacted. A redacted comment keeps its identifiers and timestamps but
+          its message is cleared.
         examples:
           - '2021-03-25T07:04:16.667Z'
       commenter-id:

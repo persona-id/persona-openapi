@@ -46111,8 +46111,90 @@
                                   },
                                   "context": {
                                     "type": "object",
-                                    "description": "Additional context for the event. Always `{}` for `workflow-run.errored`.",
-                                    "additionalProperties": true
+                                    "description": "Additional context for the event. Describes the step that caused the workflow run to error and why. Being rolled out gradually: until it is enabled for your organization, this is `{}`.",
+                                    "additionalProperties": true,
+                                    "properties": {
+                                      "errored-step": {
+                                        "type": [
+                                          "object",
+                                          "null"
+                                        ],
+                                        "description": "The step that errored. `null` when the run failed as a whole rather than at a step (for example, it expired), or when the run errored before this field existed.",
+                                        "additionalProperties": false,
+                                        "properties": {
+                                          "name": {
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
+                                            "description": "Display name of the step in the workflow.",
+                                            "examples": [
+                                              "Run report"
+                                            ]
+                                          },
+                                          "key": {
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
+                                            "description": "Identifier of the step in the workflow version's configuration.",
+                                            "examples": [
+                                              "action_run_report"
+                                            ]
+                                          },
+                                          "type": {
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
+                                            "description": "Kind of step, for example `action`, `conditional`, `parallel`, `loop`, `module` or `wait`.",
+                                            "examples": [
+                                              "action"
+                                            ]
+                                          },
+                                          "action-key": {
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
+                                            "description": "The action the step runs. `null` unless `type` is `action`.",
+                                            "examples": [
+                                              "run_report"
+                                            ]
+                                          }
+                                        }
+                                      },
+                                      "error": {
+                                        "type": [
+                                          "object",
+                                          "null"
+                                        ],
+                                        "description": "Why the run errored. `null` when the run errored before this field existed.",
+                                        "additionalProperties": false,
+                                        "properties": {
+                                          "type": {
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
+                                            "description": "Category of the error, for example `missing-input-error`, `invalid-input-error`, `configuration-error`, `resource-error` or `unknown-error`. `run-failure` when the run failed as a whole rather than at a step.",
+                                            "examples": [
+                                              "missing-input-error"
+                                            ]
+                                          },
+                                          "message": {
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
+                                            "description": "Human-readable description of the error. Only shown for configuration and input errors; every other type reads \"An error occurred while executing this step\".",
+                                            "examples": [
+                                              "Required information is missing for report_template_id"
+                                            ]
+                                          }
+                                        }
+                                      }
+                                    }
                                   }
                                 }
                               },
@@ -50312,8 +50394,11 @@
             "additionalProperties": false,
             "properties": {
               "message": {
-                "type": "string",
-                "description": "The comment message",
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "The comment message. Null once the comment has been redacted.",
                 "examples": [
                   "This is a case comment"
                 ]
@@ -50330,6 +50415,17 @@
                 "type": "string",
                 "format": "date-time",
                 "description": "The time the comment was last updated",
+                "examples": [
+                  "2021-03-25T07:04:16.667Z"
+                ]
+              },
+              "redacted-at": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time",
+                "description": "The time the comment was redacted, or null if it has not been redacted. A redacted comment keeps its identifiers and timestamps but its message is cleared.",
                 "examples": [
                   "2021-03-25T07:04:16.667Z"
                 ]
@@ -61539,7 +61635,7 @@
               },
               "context": {
                 "type": "object",
-                "description": "Additional context populated for some event types.",
+                "description": "Additional context populated for some event types. For a custom event, the context you supplied when creating it, or empty if you supplied none.",
                 "additionalProperties": true
               }
             }
@@ -64688,6 +64784,46 @@
                     ],
                     "format": "date"
                   },
+                  "my-number-card-expiration-date": {
+                    "description": "Expiration date read from the My Number card, set when a My Number card read operation was performed.",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "format": "date"
+                  },
+                  "signing-cert-expiration-date": {
+                    "description": "Expiration date of the signing certificate read from the card, set when a digital signature operation was performed.",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "format": "date"
+                  },
+                  "auth-cert-expiration-date": {
+                    "description": "Expiration date of the authentication certificate read from the card, set when an authentication signature operation was performed.",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "format": "date"
+                  },
+                  "drivers-license-expiration-date": {
+                    "description": "Expiration date read from a driver's license, set when a driver's license read operation was performed.",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "format": "date"
+                  },
+                  "residence-card-expiration-date": {
+                    "description": "Expiration date read from a residence card, set when a residence card read operation was performed.",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "format": "date"
+                  },
                   "face-image": {
                     "description": "Face image extracted from the NFC card, when present. Deprecated in favor of `selfie-photo`.",
                     "deprecated": true,
@@ -64753,6 +64889,16 @@
                     ],
                     "deprecated": true,
                     "description": "Identification number scanned from drivers license. Deprecated in favor of identification-number."
+                  },
+                  "license-restrictions": {
+                    "description": "Restrictions in effect on the bearer's driver's license, captured as free text from a scanned driver's license.",
+                    "type": [
+                      "array",
+                      "null"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
                   },
                   "name-full": {
                     "type": [
@@ -68116,6 +68262,15 @@
                         "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
                         "example": "1991-10-07"
                       },
+                      "formation-date": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "format": "date",
+                        "description": "Optional business formation date. Business adverse-media articles published before this date are excluded when the report is processed. Articles on this date and undated articles remain eligible under other configured filters. This date is separate from the date used for identity matching. Returns null when unset, with no formation-date cutoff applied.",
+                        "example": "2000-01-01"
+                      },
                       "address-street-1": {
                         "type": [
                           "string",
@@ -69872,6 +70027,15 @@
                         ],
                         "description": "The birthdate of the individual, formatted as YYYY-MM-DD (ISO 8601).",
                         "example": "1991-10-07"
+                      },
+                      "formation-date": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "format": "date",
+                        "description": "Optional business formation date. Business adverse-media articles published before this date are excluded when the report is processed. Articles on this date and undated articles remain eligible under other configured filters. This date is separate from the date used for identity matching.",
+                        "example": "2000-01-01"
                       },
                       "address-street-1": {
                         "type": [
@@ -77349,6 +77513,7 @@
                 "name-last": "Doe",
                 "term": "Joe Doe",
                 "birthdate": null,
+                "formation-date": null,
                 "address-street-1": null,
                 "address-street-2": null,
                 "address-city": null,
@@ -95753,7 +95918,18 @@
                 ]
               },
               "created-at": "2025-11-15T13:32:35.000Z",
-              "context": {}
+              "context": {
+                "errored-step": {
+                  "name": "Run report",
+                  "key": "action_run_report",
+                  "type": "action",
+                  "action-key": "run_report"
+                },
+                "error": {
+                  "type": "missing-input-error",
+                  "message": "Required information is missing for report_template_id"
+                }
+              }
             }
           }
         }
