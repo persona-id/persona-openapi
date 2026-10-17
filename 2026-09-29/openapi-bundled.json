@@ -48672,6 +48672,99 @@
           }
         ]
       },
+      "source-data-verification-database-standard": {
+        "title": "Database Standard Verification Source Data",
+        "description": "PII-filtered snapshot of a Database Standard verification. The `peekable-attributes` bag carries\nwhichever PII-filtered scalar attributes the source organization's configuration allows.\nVerification subtypes do not expose a nested `fields` sub-bucket.\n",
+        "unevaluatedProperties": false,
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/source-data-base"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "connect/source-data/verification/database-standard"
+              },
+              "id": {
+                "type": "string",
+                "examples": [
+                  "ver_ABC123"
+                ]
+              },
+              "peekable-attributes": {
+                "type": "object",
+                "additionalProperties": {
+                  "$ref": "#/components/schemas/source-data-peekable-attribute"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "source-data-verification-database-phone-carrier": {
+        "title": "Database Phone Carrier Verification Source Data",
+        "description": "PII-filtered snapshot of a Database Phone Carrier verification. The `peekable-attributes` bag carries\nwhichever PII-filtered scalar attributes the source organization's configuration allows.\nVerification subtypes do not expose a nested `fields` sub-bucket.\n",
+        "unevaluatedProperties": false,
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/source-data-base"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "connect/source-data/verification/database-phone-carrier"
+              },
+              "id": {
+                "type": "string",
+                "examples": [
+                  "ver_ABC123"
+                ]
+              },
+              "peekable-attributes": {
+                "type": "object",
+                "additionalProperties": {
+                  "$ref": "#/components/schemas/source-data-peekable-attribute"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "source-data-verification-phone-number-silent-network-authentication": {
+        "title": "Phone Number Silent Network Authentication Verification Source Data",
+        "description": "PII-filtered snapshot of a Phone Number Silent Network Authentication verification. The\n`peekable-attributes` bag carries whichever PII-filtered scalar attributes the source organization's\nconfiguration allows. Verification subtypes do not expose a nested `fields` sub-bucket.\n",
+        "unevaluatedProperties": false,
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/source-data-base"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "connect/source-data/verification/phone-number-silent-network-authentication"
+              },
+              "id": {
+                "type": "string",
+                "examples": [
+                  "ver_ABC123"
+                ]
+              },
+              "peekable-attributes": {
+                "type": "object",
+                "additionalProperties": {
+                  "$ref": "#/components/schemas/source-data-peekable-attribute"
+                }
+              }
+            }
+          }
+        ]
+      },
       "source-data-verification-phone-number": {
         "title": "Phone Number Verification Source Data",
         "description": "PII-filtered snapshot of a Phone Number verification. The `peekable-attributes` bag carries\nwhichever PII-filtered scalar attributes the source organization's configuration allows —\nsee `Verification::PhoneNumber` in the share-token PII filter for the current allowlist.\nVerification subtypes do not expose a nested `fields` sub-bucket.\n",
@@ -48877,6 +48970,9 @@
             "connect/source-data/verification/database-business": "#/components/schemas/source-data-verification-database-business",
             "connect/source-data/verification/business-website": "#/components/schemas/source-data-verification-business-website",
             "connect/source-data/verification/database-uk-dvla": "#/components/schemas/source-data-verification-database-uk-dvla",
+            "connect/source-data/verification/database-standard": "#/components/schemas/source-data-verification-database-standard",
+            "connect/source-data/verification/database-phone-carrier": "#/components/schemas/source-data-verification-database-phone-carrier",
+            "connect/source-data/verification/phone-number-silent-network-authentication": "#/components/schemas/source-data-verification-phone-number-silent-network-authentication",
             "connect/source-data/verification/phone-number": "#/components/schemas/source-data-verification-phone-number",
             "connect/source-data/verification/email-address": "#/components/schemas/source-data-verification-email-address",
             "connect/source-data/verification/government-id": "#/components/schemas/source-data-verification-government-id",
@@ -48900,6 +48996,15 @@
           },
           {
             "$ref": "#/components/schemas/source-data-verification-database-uk-dvla"
+          },
+          {
+            "$ref": "#/components/schemas/source-data-verification-database-standard"
+          },
+          {
+            "$ref": "#/components/schemas/source-data-verification-database-phone-carrier"
+          },
+          {
+            "$ref": "#/components/schemas/source-data-verification-phone-number-silent-network-authentication"
           },
           {
             "$ref": "#/components/schemas/source-data-verification-phone-number"
@@ -49082,6 +49187,9 @@
             "connect/source-data/verification/database-business": "#/components/schemas/source-data-verification-database-business",
             "connect/source-data/verification/business-website": "#/components/schemas/source-data-verification-business-website",
             "connect/source-data/verification/database-uk-dvla": "#/components/schemas/source-data-verification-database-uk-dvla",
+            "connect/source-data/verification/database-standard": "#/components/schemas/source-data-verification-database-standard",
+            "connect/source-data/verification/database-phone-carrier": "#/components/schemas/source-data-verification-database-phone-carrier",
+            "connect/source-data/verification/phone-number-silent-network-authentication": "#/components/schemas/source-data-verification-phone-number-silent-network-authentication",
             "connect/source-data/verification/phone-number": "#/components/schemas/source-data-verification-phone-number",
             "connect/source-data/verification/email-address": "#/components/schemas/source-data-verification-email-address",
             "connect/source-data/account": "#/components/schemas/source-data-account",
@@ -49108,6 +49216,15 @@
           },
           {
             "$ref": "#/components/schemas/source-data-verification-database-uk-dvla"
+          },
+          {
+            "$ref": "#/components/schemas/source-data-verification-database-standard"
+          },
+          {
+            "$ref": "#/components/schemas/source-data-verification-database-phone-carrier"
+          },
+          {
+            "$ref": "#/components/schemas/source-data-verification-phone-number-silent-network-authentication"
           },
           {
             "$ref": "#/components/schemas/source-data-verification-phone-number"
@@ -56666,6 +56783,17 @@
                             "example": "sanction"
                           }
                         },
+                        "match-types": {
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "description": "The types of matching criteria satisfied by the search input.",
+                          "items": {
+                            "type": "string",
+                            "example": "name_exact"
+                          }
+                        },
                         "slug": {
                           "type": "string",
                           "example": "eu-ec-programme-prk"
@@ -56721,6 +56849,17 @@
                               "items": {
                                 "type": "string",
                                 "example": "sanction"
+                              }
+                            },
+                            "match-types": {
+                              "type": [
+                                "array",
+                                "null"
+                              ],
+                              "description": "The types of matching criteria satisfied by the search input.",
+                              "items": {
+                                "type": "string",
+                                "example": "name_exact"
                               }
                             },
                             "slug": {
@@ -77457,7 +77596,7 @@
               "completed-at": "2023-06-07T14:12:16.000Z",
               "redacted-at": null,
               "report-template-version-name": "v1",
-              "has-match": false,
+              "has-match": true,
               "is-continuous": false,
               "tags": [],
               "name-first": "Jane",
@@ -77466,8 +77605,51 @@
               "term": "Jane Doe",
               "birthdate": null,
               "country-code": null,
-              "matched-lists": [],
-              "ignore-list": []
+              "matched-lists": [
+                {
+                  "name": "EU - EC - Programme PRK - North Korea",
+                  "slug": "eu-ec-programme-prk",
+                  "list-type": "sanction",
+                  "list-types": [
+                    "sanction"
+                  ],
+                  "match-types": [
+                    "name_exact"
+                  ],
+                  "entities": [
+                    {
+                      "name": "Jane Doe",
+                      "alias-type": "primary_name",
+                      "birthdates": []
+                    }
+                  ]
+                }
+              ],
+              "ignore-list": [
+                {
+                  "ignored-at": "2023-06-07T14:12:16.000Z",
+                  "run-history-completed-at": "2023-06-07T14:12:16.000Z",
+                  "match": {
+                    "name": "EU - EC - Programme PRK - North Korea",
+                    "slug": "eu-ec-programme-prk",
+                    "list-type": "sanction",
+                    "list-types": [
+                      "sanction"
+                    ],
+                    "match-types": null,
+                    "entities": [
+                      {
+                        "name": "Jane Doe",
+                        "alias-type": "aka",
+                        "birthdates": [],
+                        "group-id": "EU:110286"
+                      }
+                    ]
+                  },
+                  "user": "John Doe",
+                  "ignore-reason": "false positive"
+                }
+              ]
             },
             "relationships": {
               "inquiry": {

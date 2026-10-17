@@ -1,0 +1,27 @@
+title: Phone Number Silent Network Authentication Verification Source Data
+description: >
+  PII-filtered snapshot of a Phone Number Silent Network Authentication
+  verification. The
+
+  `peekable-attributes` bag carries whichever PII-filtered scalar attributes the
+  source organization's
+
+  configuration allows. Verification subtypes do not expose a nested `fields`
+  sub-bucket.
+unevaluatedProperties: false
+allOf:
+  - $ref: ./source-data-base.yaml
+  - type: object
+    properties:
+      type:
+        type: string
+        const: >-
+          connect/source-data/verification/phone-number-silent-network-authentication
+      id:
+        type: string
+        examples:
+          - ver_ABC123
+      peekable-attributes:
+        type: object
+        additionalProperties:
+          $ref: ./source-data-peekable-attribute.yaml
