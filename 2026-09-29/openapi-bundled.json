@@ -49144,6 +49144,99 @@
           }
         ]
       },
+      "source-data-report-email-address": {
+        "title": "Email Address Report Source Data",
+        "description": "PII-filtered snapshot of an Email Address report. The `peekable-attributes` bag carries\nwhichever PII-filtered scalar attributes the source organization's configuration allows.\nReport subtypes do not expose a nested `fields` sub-bucket.\n",
+        "unevaluatedProperties": false,
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/source-data-base"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "connect/source-data/report/email-address"
+              },
+              "id": {
+                "type": "string",
+                "examples": [
+                  "rep_ABC123"
+                ]
+              },
+              "peekable-attributes": {
+                "type": "object",
+                "additionalProperties": {
+                  "$ref": "#/components/schemas/source-data-peekable-attribute"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "source-data-report-politically-exposed-person": {
+        "title": "Politically Exposed Person Report Source Data",
+        "description": "PII-filtered snapshot of a Politically Exposed Person report. The `peekable-attributes` bag carries\nwhichever PII-filtered scalar attributes the source organization's configuration allows.\nReport subtypes do not expose a nested `fields` sub-bucket.\n",
+        "unevaluatedProperties": false,
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/source-data-base"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "connect/source-data/report/politically-exposed-person"
+              },
+              "id": {
+                "type": "string",
+                "examples": [
+                  "rep_ABC123"
+                ]
+              },
+              "peekable-attributes": {
+                "type": "object",
+                "additionalProperties": {
+                  "$ref": "#/components/schemas/source-data-peekable-attribute"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "source-data-report-screening": {
+        "title": "Screening Report Source Data",
+        "description": "PII-filtered snapshot of a Screening report. The `peekable-attributes` bag carries\nwhichever PII-filtered scalar attributes the source organization's configuration allows.\nReport subtypes do not expose a nested `fields` sub-bucket.\n",
+        "unevaluatedProperties": false,
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/source-data-base"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "connect/source-data/report/screening"
+              },
+              "id": {
+                "type": "string",
+                "examples": [
+                  "rep_ABC123"
+                ]
+              },
+              "peekable-attributes": {
+                "type": "object",
+                "additionalProperties": {
+                  "$ref": "#/components/schemas/source-data-peekable-attribute"
+                }
+              }
+            }
+          }
+        ]
+      },
       "source-data-report-watchlist": {
         "title": "Watchlist Report Source Data",
         "description": "PII-filtered snapshot of a Watchlist report. The `peekable-attributes` bag carries\nwhichever PII-filtered scalar attributes the source organization's configuration allows.\nReport subtypes do not expose a nested `fields` sub-bucket.\n",
@@ -49195,6 +49288,9 @@
             "connect/source-data/account": "#/components/schemas/source-data-account",
             "connect/source-data/txn": "#/components/schemas/source-data-txn",
             "connect/source-data/report/adverse-media": "#/components/schemas/source-data-report-adverse-media",
+            "connect/source-data/report/email-address": "#/components/schemas/source-data-report-email-address",
+            "connect/source-data/report/politically-exposed-person": "#/components/schemas/source-data-report-politically-exposed-person",
+            "connect/source-data/report/screening": "#/components/schemas/source-data-report-screening",
             "connect/source-data/report/watchlist": "#/components/schemas/source-data-report-watchlist"
           }
         },
@@ -49240,6 +49336,15 @@
           },
           {
             "$ref": "#/components/schemas/source-data-report-adverse-media"
+          },
+          {
+            "$ref": "#/components/schemas/source-data-report-email-address"
+          },
+          {
+            "$ref": "#/components/schemas/source-data-report-politically-exposed-person"
+          },
+          {
+            "$ref": "#/components/schemas/source-data-report-screening"
           },
           {
             "$ref": "#/components/schemas/source-data-report-watchlist"
@@ -49451,7 +49556,10 @@
                           "account",
                           "inquiry",
                           "txn",
-                          "verification"
+                          "verification",
+                          "report/email-address",
+                          "report/politically-exposed-person",
+                          "report/screening"
                         ]
                       },
                       "id": {
@@ -49459,7 +49567,8 @@
                         "examples": [
                           "act_ABC123",
                           "inq_DEF456",
-                          "txn_GHI789"
+                          "txn_GHI789",
+                          "rep_ABC123"
                         ]
                       }
                     }
@@ -49485,7 +49594,10 @@
                           "account",
                           "inquiry",
                           "txn",
-                          "verification/database"
+                          "verification/database",
+                          "report/email-address",
+                          "report/politically-exposed-person",
+                          "report/screening"
                         ]
                       },
                       "id": {
@@ -49493,7 +49605,8 @@
                         "examples": [
                           "act_ABC123",
                           "inq_DEF456",
-                          "txn_GHI789"
+                          "txn_GHI789",
+                          "rep_ABC123"
                         ]
                       }
                     }
