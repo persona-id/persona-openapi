@@ -22,7 +22,11 @@ properties:
   account:
     type: object
     additionalProperties: false
-    description: The account linked to the report
+    description: >-
+      The report's home account, or the first linked account when it has no home
+      account. It returns only one account and is kept for backwards
+      compatibility; use `accounts` to see every associated account. Including
+      it does not require the `account.read` permission.
     properties:
       data:
         type:
@@ -36,6 +40,35 @@ properties:
           type:
             const: account
             type: string
+  accounts:
+    type: object
+    additionalProperties: false
+    description: >-
+      Every account associated with the report, meaning its home account plus
+      all linked accounts, deduplicated and listed in account creation order.
+      Use this when a report can be linked to more than one account; `account`
+      is kept for backwards compatibility and returns only one. The list is not
+      paginated or capped, and is empty when the report has no accounts.
+      Expanding it with `include=accounts` requires the `account.read`
+      permission; the linkage ids do not.
+    required:
+      - data
+    properties:
+      data:
+        type: array
+        items:
+          type: object
+          additionalProperties: false
+          required:
+            - id
+            - type
+          properties:
+            id:
+              example: act_9e3yoAUApTRMjgNoPAC7TNtz
+              type: string
+            type:
+              const: account
+              type: string
   transaction:
     type: object
     additionalProperties: false

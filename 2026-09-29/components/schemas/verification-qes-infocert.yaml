@@ -24,5 +24,35 @@ properties:
             type:
               - string
               - 'null'
+          attestation-pdf:
+            description: >-
+              The signed attestation document. Null unless the verification
+              passed and the signed document is available.
+            $ref: ./file.yaml
+          infocert-reject-reason:
+            description: >-
+              Code for why the verification was rejected. Null unless the
+              verification was rejected.
+            type:
+              - string
+              - 'null'
+            examples:
+              - reject.invalidIdentityDocument.documentExpired
+          infocert-reject-reason-description:
+            description: >-
+              Readable description of `infocert-reject-reason`. Null if there is
+              no reject reason or the code is not recognized.
+            type:
+              - string
+              - 'null'
+            examples:
+              - Identity document expired
+          infocert-reason-note:
+            description: >-
+              Free-text note explaining the rejection. Null if no note was
+              provided.
+            type:
+              - string
+              - 'null'
   relationships:
     $ref: ./verification-shared-relationships.yaml
