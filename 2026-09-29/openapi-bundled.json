@@ -9767,7 +9767,7 @@
     },
     "/deployments/{deployment-id}": {
       "get": {
-        "description": "Retrieves a deployment. Its `routes` carry the effective state as of it — the newest route per (resource template, environment) key at or before the deployment — including routes written by earlier deployments.\nThis endpoint requires a production API key; sandbox API keys receive 401.",
+        "description": "Retrieves a single deployment. Its `routes` carry the effective state as of it — the newest route per (resource template, environment) key at or before the deployment, across every environment and template — including routes written by earlier deployments. Because the response is a snapshot, it can look similar to the list endpoint; it does not list other deployments.\nThis endpoint does not accept filters. To see only the routes a deployment wrote, use the list endpoint with `filter[changes-only]=true`.\nThis endpoint requires a production API key; sandbox API keys receive 401.",
         "operationId": "retrieve-a-deployment",
         "parameters": [
           {
@@ -23722,6 +23722,9 @@
                   },
                   "Screening": {
                     "$ref": "#/components/examples/report-screening"
+                  },
+                  "BusinessNonprofit": {
+                    "$ref": "#/components/examples/report-business-nonprofit"
                   }
                 },
                 "schema": {
@@ -53955,6 +53958,14 @@
                             ],
                             "example": "2018-05-15"
                           },
+                          "initial-registration-date": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "description": "The initial California charity registration date, when supplied by the Persona registry lookup. Null for Candid-sourced reports.",
+                            "example": "2010-03-12"
+                          },
                           "last-renewal-date": {
                             "type": [
                               "string",
@@ -72833,6 +72844,7 @@
                     "agent-conversation.created",
                     "agent-conversation.errored",
                     "agent-conversation.message-added",
+                    "authentication-template.authentication-errored",
                     "authentication.completed",
                     "authentication.created",
                     "authentication.expired",
@@ -77993,6 +78005,42 @@
                 "data": {
                   "type": "report-template/screening",
                   "id": "rptp_2t2xwqxPDE1gw8DtYVFB9Vua"
+                }
+              }
+            }
+          }
+        }
+      },
+      "report-business-nonprofit": {
+        "value": {
+          "data": {
+            "type": "report/business-nonprofit",
+            "id": "rep_7WNzPaNcroBKLarNHBjYDLAp",
+            "attributes": {
+              "status": "ready",
+              "created-at": "2026-10-22T18:30:00.000Z",
+              "completed-at": "2026-10-22T18:30:00.000Z",
+              "redacted-at": null,
+              "report-template-version-name": "v1",
+              "has-match": true,
+              "is-continuous": false,
+              "is-recurring": false,
+              "tags": [],
+              "query": {
+                "ein": "12-3456789"
+              },
+              "result": {
+                "organization-name": "Example Foundation",
+                "ca-ag-details": {
+                  "status": null,
+                  "registry-status": "Exempt",
+                  "state-charity-reg-num": "CT0000002",
+                  "issue-date": "2026-04-13",
+                  "initial-registration-date": "2010-03-12",
+                  "last-renewal-date": null,
+                  "status-set-date": null,
+                  "as-of-date": "2026-10-22",
+                  "most-recent-ag": "10/22/2026 12:00:00 AM"
                 }
               }
             }

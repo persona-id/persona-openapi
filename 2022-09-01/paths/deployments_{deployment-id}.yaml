@@ -1,8 +1,13 @@
 get:
   description: >-
-    Retrieves a deployment. Its `routes` carry the effective state as of it —
-    the newest route per (resource template, environment) key at or before the
-    deployment — including routes written by earlier deployments.
+    Retrieves a single deployment. Its `routes` carry the effective state as of
+    it — the newest route per (resource template, environment) key at or before
+    the deployment, across every environment and template — including routes
+    written by earlier deployments. Because the response is a snapshot, it can
+    look similar to the list endpoint; it does not list other deployments.
+
+    This endpoint does not accept filters. To see only the routes a deployment
+    wrote, use the list endpoint with `filter[changes-only]=true`.
 
     This endpoint requires a production API key; sandbox API keys receive 401.
   operationId: retrieve-a-deployment
