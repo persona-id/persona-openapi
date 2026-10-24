@@ -130,6 +130,49 @@ post:
               type: object
               additionalProperties: false
               properties:
+                account-id:
+                  type: string
+                  description: >
+                    Existing Account ID in the destination environment to link
+                    to the cloned Inquiry.
+
+                    Only applies when cloning an Inquiry. Cannot be combined
+                    with
+
+                    auto-create-account-reference-id or
+                    data.attributes.destination-id.
+                  example: act_ABC123
+                auto-create-account-reference-id:
+                  type: string
+                  description: >
+                    Links the cloned Inquiry to the Account with this reference
+                    ID in the destination
+
+                    environment, or creates a new Account with this reference ID
+                    if none exists.
+
+                    Only applies when cloning an Inquiry. Cannot be combined
+                    with account-id or
+
+                    data.attributes.destination-id.
+
+
+                    Unlike `POST /inquiries`, creating a new Account requires
+
+                    auto-create-account-type-id; there is no default Account
+                    type.
+                  example: customer-123
+                auto-create-account-type-id:
+                  type: string
+                  description: >
+                    The Account Type to use when
+                    auto-create-account-reference-id creates a new
+
+                    Account. Also limits the reference ID lookup to Accounts of
+                    this type.
+
+                    Requires auto-create-account-reference-id.
+                  example: acttp_ABC123
                 field-mappings:
                   type: array
                   description: >

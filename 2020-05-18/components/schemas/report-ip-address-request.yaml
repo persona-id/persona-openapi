@@ -1,0 +1,30 @@
+title: IP Address Report
+description: Fields required to create an IP Address Report
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: report/ip-address
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./report-shared-request-attributes.yaml
+      - type: object
+        properties:
+          query:
+            type: object
+            additionalProperties: false
+            properties:
+              ip-address:
+                type: string
+                description: >-
+                  A single IPv4 or IPv6 host address to look up. CIDR ranges,
+                  netmasks and zone indexes are rejected.
+                example: 203.0.113.7
+            required:
+              - ip-address
+        required:
+          - query
+required:
+  - attributes

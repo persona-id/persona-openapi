@@ -3367,6 +3367,31 @@ paths:
                   type: object
                   additionalProperties: false
                   properties:
+                    account-id:
+                      type: string
+                      description: |
+                        Existing Account ID in the destination environment to link to the cloned Inquiry.
+                        Only applies when cloning an Inquiry. Cannot be combined with
+                        auto-create-account-reference-id or data.attributes.destination-id.
+                      example: act_ABC123
+                    auto-create-account-reference-id:
+                      type: string
+                      description: |
+                        Links the cloned Inquiry to the Account with this reference ID in the destination
+                        environment, or creates a new Account with this reference ID if none exists.
+                        Only applies when cloning an Inquiry. Cannot be combined with account-id or
+                        data.attributes.destination-id.
+
+                        Unlike `POST /inquiries`, creating a new Account requires
+                        auto-create-account-type-id; there is no default Account type.
+                      example: customer-123
+                    auto-create-account-type-id:
+                      type: string
+                      description: |
+                        The Account Type to use when auto-create-account-reference-id creates a new
+                        Account. Also limits the reference ID lookup to Accounts of this type.
+                        Requires auto-create-account-reference-id.
+                      example: acttp_ABC123
                     field-mappings:
                       type: array
                       description: |
@@ -4146,6 +4171,11 @@ paths:
                             - preferred-name: Albert
                           additionalProperties: true
                           type: object
+                        tags:
+                          description: Names of tags to add to this case. Tags that don't exist are created.
+                          items:
+                            type: string
+                          type: array
                       required:
                         - case-template-id
                       type: object
@@ -15156,6 +15186,7 @@ paths:
                     - $ref: '#/components/schemas/report-business-watchlist-request'
                     - $ref: '#/components/schemas/report-crypto-address-watchlist-request'
                     - $ref: '#/components/schemas/report-email-address-request'
+                    - $ref: '#/components/schemas/report-ip-address-request'
                     - $ref: '#/components/schemas/report-phone-risk-request'
                     - $ref: '#/components/schemas/report-politically-exposed-person-request'
                     - $ref: '#/components/schemas/report-profile-request'
@@ -15218,6 +15249,8 @@ paths:
                   $ref: '#/components/examples/report-watchlist'
                 Screening:
                   $ref: '#/components/examples/report-screening'
+                IpAddress:
+                  $ref: '#/components/examples/report-ip-address'
               schema:
                 type: object
                 additionalProperties: false
@@ -15366,6 +15399,8 @@ paths:
                   $ref: '#/components/examples/report-screening'
                 BusinessNonprofit:
                   $ref: '#/components/examples/report-business-nonprofit'
+                IpAddress:
+                  $ref: '#/components/examples/report-ip-address'
               schema:
                 properties:
                   data:
@@ -35394,6 +35429,128 @@ components:
                   example: gmail.com
         relationships:
           $ref: '#/components/schemas/report-shared-relationships'
+    report-ip-address:
+      title: IP Address Report
+      description: An IP Address Report. The outcome is exposed through the shared `status` (`ready` or `errored`) and `has-match` attributes; `result.error` describes why an errored report could not complete.
+      type: object
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+          const: report/ip-address
+        id:
+          type: string
+          description: The ID of the report
+          example: rep_7WNzPaNcroBKLarNHBjYDLAp
+        attributes:
+          unevaluatedProperties: false
+          allOf:
+            - $ref: '#/components/schemas/report-shared-attributes'
+            - type: object
+              properties:
+                query:
+                  type:
+                    - object
+                    - 'null'
+                  additionalProperties: false
+                  properties:
+                    ip-address:
+                      type: string
+                      description: The IP address that was looked up.
+                      example: 203.0.113.7
+                result:
+                  description: IP intelligence for the queried address. Null until the report has been processed.
+                  type:
+                    - object
+                    - 'null'
+                  additionalProperties: false
+                  properties:
+                    service-type:
+                      type:
+                        - string
+                        - 'null'
+                      description: 'The connection type of the IP address. Known values include RESIDENTIAL, DATACENTER, CORPORATE, MOBILE, EDUCATION, SATELLITE, IN_FLIGHT_WIFI and GOOGLE. Persona may add new values without a versioned update.'
+                      example: RESIDENTIAL
+                    vpn-detected:
+                      type:
+                        - boolean
+                        - 'null'
+                      description: Whether the IP address belongs to a VPN.
+                      example: false
+                    proxy-detected:
+                      type:
+                        - boolean
+                        - 'null'
+                      description: Whether the IP address is a proxy.
+                      example: false
+                    tor-exit-node:
+                      type:
+                        - string
+                        - 'null'
+                      description: 'Whether the IP address is a Tor exit node. One of MATCHED, CLEARED or ERRORED (the Tor exit list lookup failed).'
+                      example: CLEARED
+                    datacenter-ip:
+                      type:
+                        - boolean
+                        - 'null'
+                      description: Whether the IP address belongs to a known cloud provider (AWS or GCP).
+                      example: false
+                    isp:
+                      type:
+                        - string
+                        - 'null'
+                      description: The internet service provider of the IP address.
+                      example: Comcast Cable
+                    mobile-ip:
+                      type:
+                        - boolean
+                        - 'null'
+                      description: Whether the IP address belongs to a mobile carrier.
+                      example: false
+                    country-code:
+                      type:
+                        - string
+                        - 'null'
+                      description: The ISO 3166-1 alpha-2 country code of the IP address location.
+                      example: US
+                    country-name:
+                      type:
+                        - string
+                        - 'null'
+                      description: The country name of the IP address location.
+                      example: United States
+                    city:
+                      type:
+                        - string
+                        - 'null'
+                      description: The city of the IP address location.
+                      example: Mountain View
+                    region-name:
+                      type:
+                        - string
+                        - 'null'
+                      description: The region (subdivision) of the IP address location.
+                      example: California
+                    latitude:
+                      type:
+                        - string
+                        - 'null'
+                      description: The approximate latitude of the IP address location.
+                      example: '37.3861'
+                    longitude:
+                      type:
+                        - string
+                        - 'null'
+                      description: The approximate longitude of the IP address location.
+                      example: '-122.0839'
+                    error:
+                      type:
+                        - string
+                        - 'null'
+                      description: 'Set when the IP address lookup could not be completed, in which case the report status is errored. Vendor error detail is not exposed.'
+                      example: null
+        relationships:
+          $ref: '#/components/schemas/report-shared-relationships'
     report-phone-risk:
       title: Phone Risk Report
       description: A Phone Risk Report
@@ -38493,6 +38650,7 @@ components:
             report/business-watchlist: '#/components/schemas/report-business-watchlist'
             report/crypto-address-watchlist: '#/components/schemas/report-crypto-address-watchlist'
             report/email-address: '#/components/schemas/report-email-address'
+            report/ip-address: '#/components/schemas/report-ip-address'
             report/phone-number: '#/components/schemas/report-phone-risk'
             report/politically-exposed-person: '#/components/schemas/report-politically-exposed-person'
             report/profile: '#/components/schemas/report-profile'
@@ -38532,6 +38690,7 @@ components:
           - $ref: '#/components/schemas/report-business-watchlist'
           - $ref: '#/components/schemas/report-crypto-address-watchlist'
           - $ref: '#/components/schemas/report-email-address'
+          - $ref: '#/components/schemas/report-ip-address'
           - $ref: '#/components/schemas/report-phone-risk'
           - $ref: '#/components/schemas/report-politically-exposed-person'
           - $ref: '#/components/schemas/report-profile'
@@ -43109,6 +43268,7 @@ components:
             report/business-watchlist: '#/components/schemas/report-business-watchlist'
             report/crypto-address-watchlist: '#/components/schemas/report-crypto-address-watchlist'
             report/email-address: '#/components/schemas/report-email-address'
+            report/ip-address: '#/components/schemas/report-ip-address'
             report/phone-number: '#/components/schemas/report-phone-risk'
             report/politically-exposed-person: '#/components/schemas/report-politically-exposed-person'
             report/profile: '#/components/schemas/report-profile'
@@ -43191,6 +43351,7 @@ components:
           - $ref: '#/components/schemas/report-business-watchlist'
           - $ref: '#/components/schemas/report-crypto-address-watchlist'
           - $ref: '#/components/schemas/report-email-address'
+          - $ref: '#/components/schemas/report-ip-address'
           - $ref: '#/components/schemas/report-phone-risk'
           - $ref: '#/components/schemas/report-politically-exposed-person'
           - $ref: '#/components/schemas/report-profile'
@@ -45134,6 +45295,7 @@ components:
           report/business-watchlist: '#/components/schemas/report-business-watchlist'
           report/crypto-address-watchlist: '#/components/schemas/report-crypto-address-watchlist'
           report/email-address: '#/components/schemas/report-email-address'
+          report/ip-address: '#/components/schemas/report-ip-address'
           report/phone-number: '#/components/schemas/report-phone-risk'
           report/politically-exposed-person: '#/components/schemas/report-politically-exposed-person'
           report/profile: '#/components/schemas/report-profile'
@@ -45155,6 +45317,7 @@ components:
         - $ref: '#/components/schemas/report-business-watchlist'
         - $ref: '#/components/schemas/report-crypto-address-watchlist'
         - $ref: '#/components/schemas/report-email-address'
+        - $ref: '#/components/schemas/report-ip-address'
         - $ref: '#/components/schemas/report-phone-risk'
         - $ref: '#/components/schemas/report-politically-exposed-person'
         - $ref: '#/components/schemas/report-profile'
@@ -45649,6 +45812,35 @@ components:
                       example: example@domain.com
                   required:
                     - email-address
+              required:
+                - query
+      required:
+        - attributes
+    report-ip-address-request:
+      title: IP Address Report
+      description: Fields required to create an IP Address Report
+      type: object
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+          const: report/ip-address
+        attributes:
+          unevaluatedProperties: false
+          allOf:
+            - $ref: '#/components/schemas/report-shared-request-attributes'
+            - type: object
+              properties:
+                query:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    ip-address:
+                      type: string
+                      description: 'A single IPv4 or IPv6 host address to look up. CIDR ranges, netmasks and zone indexes are rejected.'
+                      example: 203.0.113.7
+                  required:
+                    - ip-address
               required:
                 - query
       required:
@@ -51432,6 +51624,38 @@ components:
               data:
                 type: report-template/screening
                 id: rptp_2t2xwqxPDE1gw8DtYVFB9Vua
+    report-ip-address:
+      value:
+        data:
+          type: report/ip-address
+          id: rep_7WNzPaNcroBKLarNHBjYDLAp
+          attributes:
+            status: ready
+            created-at: '2026-10-23T18:30:00.000Z'
+            completed-at: '2026-10-23T18:30:01.000Z'
+            redacted-at: null
+            report-template-version-name: v1
+            has-match: true
+            is-continuous: false
+            is-recurring: false
+            tags: []
+            query:
+              ip-address: 203.0.113.7
+            result:
+              service-type: RESIDENTIAL
+              vpn-detected: false
+              proxy-detected: false
+              tor-exit-node: CLEARED
+              datacenter-ip: false
+              isp: Comcast Cable
+              mobile-ip: false
+              country-code: US
+              country-name: United States
+              city: Mountain View
+              region-name: California
+              latitude: '37.3861'
+              longitude: '-122.0839'
+              error: null
     report-business-nonprofit:
       value:
         data:
@@ -51461,6 +51685,10 @@ components:
                 status-set-date: null
                 as-of-date: '2026-10-22'
                 most-recent-ag: '10/22/2026 12:00:00 AM'
+              ca-ftb-details:
+                revocation-status: true
+                revocation-status-date: '12/31/2005 12:00:00 AM'
+                most-recent-ftb: '10/21/2026 12:00:00 AM'
     review-matches:
       value:
         data:

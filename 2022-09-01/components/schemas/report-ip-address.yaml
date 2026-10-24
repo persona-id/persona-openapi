@@ -1,0 +1,139 @@
+title: IP Address Report
+description: >-
+  An IP Address Report. The outcome is exposed through the shared `status`
+  (`ready` or `errored`) and `has-match` attributes; `result.error` describes
+  why an errored report could not complete.
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: report/ip-address
+  id:
+    type: string
+    description: The ID of the report
+    example: rep_7WNzPaNcroBKLarNHBjYDLAp
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./report-shared-attributes.yaml
+      - type: object
+        properties:
+          query:
+            type:
+              - object
+              - 'null'
+            additionalProperties: false
+            properties:
+              ip-address:
+                type: string
+                description: The IP address that was looked up.
+                example: 203.0.113.7
+          result:
+            description: >-
+              IP intelligence for the queried address. Null until the report has
+              been processed.
+            type:
+              - object
+              - 'null'
+            additionalProperties: false
+            properties:
+              service-type:
+                type:
+                  - string
+                  - 'null'
+                description: >-
+                  The connection type of the IP address. Known values include
+                  RESIDENTIAL, DATACENTER, CORPORATE, MOBILE, EDUCATION,
+                  SATELLITE, IN_FLIGHT_WIFI and GOOGLE. Persona may add new
+                  values without a versioned update.
+                example: RESIDENTIAL
+              vpn-detected:
+                type:
+                  - boolean
+                  - 'null'
+                description: Whether the IP address belongs to a VPN.
+                example: false
+              proxy-detected:
+                type:
+                  - boolean
+                  - 'null'
+                description: Whether the IP address is a proxy.
+                example: false
+              tor-exit-node:
+                type:
+                  - string
+                  - 'null'
+                description: >-
+                  Whether the IP address is a Tor exit node. One of MATCHED,
+                  CLEARED or ERRORED (the Tor exit list lookup failed).
+                example: CLEARED
+              datacenter-ip:
+                type:
+                  - boolean
+                  - 'null'
+                description: >-
+                  Whether the IP address belongs to a known cloud provider (AWS
+                  or GCP).
+                example: false
+              isp:
+                type:
+                  - string
+                  - 'null'
+                description: The internet service provider of the IP address.
+                example: Comcast Cable
+              mobile-ip:
+                type:
+                  - boolean
+                  - 'null'
+                description: Whether the IP address belongs to a mobile carrier.
+                example: false
+              country-code:
+                type:
+                  - string
+                  - 'null'
+                description: >-
+                  The ISO 3166-1 alpha-2 country code of the IP address
+                  location.
+                example: US
+              country-name:
+                type:
+                  - string
+                  - 'null'
+                description: The country name of the IP address location.
+                example: United States
+              city:
+                type:
+                  - string
+                  - 'null'
+                description: The city of the IP address location.
+                example: Mountain View
+              region-name:
+                type:
+                  - string
+                  - 'null'
+                description: The region (subdivision) of the IP address location.
+                example: California
+              latitude:
+                type:
+                  - string
+                  - 'null'
+                description: The approximate latitude of the IP address location.
+                example: '37.3861'
+              longitude:
+                type:
+                  - string
+                  - 'null'
+                description: The approximate longitude of the IP address location.
+                example: '-122.0839'
+              error:
+                type:
+                  - string
+                  - 'null'
+                description: >-
+                  Set when the IP address lookup could not be completed, in
+                  which case the report status is errored. Vendor error detail
+                  is not exposed.
+                example: null
+  relationships:
+    $ref: ./report-shared-relationships.yaml
