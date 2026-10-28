@@ -31,7 +31,11 @@ post:
                   pattern: ^accac_[a-zA-Z0-9]{24,28}$
                 parameters:
                   type: object
-                  description: Parameters required by the account action
+                  description: >-
+                    Parameters required by the account action. File values must
+                    be uploaded as an object with `filename` and base64-encoded
+                    `data`; references to existing stored files are rejected
+                    with a 400.
                   additionalProperties: true
               required:
                 - account-action-id

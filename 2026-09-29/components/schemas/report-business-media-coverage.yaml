@@ -1,0 +1,143 @@
+title: Business Media Coverage Report
+description: A Business Media Coverage Report
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: report/business-media-coverage
+  id:
+    type: string
+    description: The ID of the report
+    example: rep_7WNzPaNcroBKLarNHBjYDLAp
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./report-shared-attributes.yaml
+      - type: object
+        properties:
+          query:
+            type:
+              - object
+              - 'null'
+            additionalProperties: false
+            properties:
+              business-name:
+                type:
+                  - string
+                  - 'null'
+                example: Acme Corporation
+              website:
+                type:
+                  - string
+                  - 'null'
+                example: https://example.com
+              address-street-1:
+                type:
+                  - string
+                  - 'null'
+                example: 123 Main St
+              address-street-2:
+                type:
+                  - string
+                  - 'null'
+                example: Suite 100
+              address-city:
+                type:
+                  - string
+                  - 'null'
+                example: San Francisco
+              address-subdivision:
+                type:
+                  - string
+                  - 'null'
+                example: CA
+              address-postal-code:
+                type:
+                  - string
+                  - 'null'
+                example: '94105'
+              address-country-code:
+                type:
+                  - string
+                  - 'null'
+                example: US
+          result:
+            type:
+              - object
+              - 'null'
+            additionalProperties: false
+            properties:
+              homepage:
+                type:
+                  - string
+                  - 'null'
+                description: The homepage of the business, if found.
+                example: https://example.com
+              summary:
+                type:
+                  - string
+                  - 'null'
+                description: A summary of the media coverage found for the business.
+                example: >-
+                  Acme Corporation has received coverage for its recent funding
+                  and international expansion.
+              topics:
+                type: array
+                description: Media coverage grouped by topic.
+                items:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    title:
+                      type:
+                        - string
+                        - 'null'
+                      example: Series B funding
+                    summary:
+                      type:
+                        - string
+                        - 'null'
+                      example: >-
+                        Acme Corporation raised $50 million to expand
+                        internationally.
+                    start-date:
+                      type:
+                        - string
+                        - 'null'
+                      example: '2025-04-30'
+                    end-date:
+                      type:
+                        - string
+                        - 'null'
+                      example: '2025-05-02'
+                    articles:
+                      type: array
+                      items:
+                        $ref: ./report-business-media-coverage-article.yaml
+              irrelevant-articles:
+                type: array
+                description: >-
+                  Articles excluded because they are not about the queried
+                  business.
+                items:
+                  $ref: ./report-business-media-coverage-article.yaml
+              nonreputable-articles:
+                type: array
+                description: Articles excluded because their source is not reputable.
+                items:
+                  $ref: ./report-business-media-coverage-article.yaml
+              out-of-range-articles:
+                type: array
+                description: >-
+                  Articles excluded because they fall outside the template's
+                  article age window.
+                items:
+                  $ref: ./report-business-media-coverage-article.yaml
+              error-message:
+                type:
+                  - string
+                  - 'null'
+                description: Set when the report errored.
+  relationships:
+    $ref: ./report-shared-relationships.yaml

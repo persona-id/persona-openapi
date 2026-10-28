@@ -1,0 +1,55 @@
+description: A news article found for a Business Media Coverage report
+type: object
+additionalProperties: false
+properties:
+  title:
+    type:
+      - string
+      - 'null'
+    example: Acme Corporation raises $50M Series B
+  summary:
+    type:
+      - string
+      - 'null'
+    example: >-
+      Acme Corporation announced a $50 million Series B round to expand
+      internationally.
+  dates:
+    type: array
+    items:
+      type: object
+      additionalProperties: false
+      properties:
+        date:
+          type:
+            - string
+            - 'null'
+          example: '2025-05-01'
+        type:
+          type:
+            - string
+            - 'null'
+          example: published
+  published-date:
+    type:
+      - string
+      - 'null'
+    description: The date the article was published, in YYYY-MM-DD format.
+    example: '2025-05-01'
+  source:
+    type:
+      - string
+      - 'null'
+    description: The URL of the article.
+    example: https://news.example.com/acme-series-b
+  publisher:
+    type:
+      - string
+      - 'null'
+    example: Example News
+  relevance:
+    description: Whether the article is about the queried business.
+    $ref: ./report-business-media-coverage-analysis.yaml
+  reputation:
+    description: Whether the article comes from a reputable source.
+    $ref: ./report-business-media-coverage-analysis.yaml

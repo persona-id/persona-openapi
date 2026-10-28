@@ -1,0 +1,52 @@
+title: Business Media Coverage Report
+description: Fields required to create a Business Media Coverage Report
+type: object
+additionalProperties: false
+properties:
+  type:
+    type: string
+    const: report/business-media-coverage
+  attributes:
+    unevaluatedProperties: false
+    allOf:
+      - $ref: ./report-shared-request-attributes.yaml
+      - type: object
+        properties:
+          query:
+            type: object
+            additionalProperties: false
+            properties:
+              business-name:
+                type: string
+                description: The name of the business.
+                example: Acme Corporation
+              address-country-code:
+                type: string
+                description: The ISO 3166-1 alpha-2 country code of the business.
+                example: US
+              website:
+                type: string
+                description: The website of the business. Improves match accuracy.
+                example: https://example.com
+              address-street-1:
+                type: string
+                example: 123 Main St
+              address-street-2:
+                type: string
+                example: Suite 100
+              address-city:
+                type: string
+                example: San Francisco
+              address-subdivision:
+                type: string
+                example: CA
+              address-postal-code:
+                type: string
+                example: '94105'
+            required:
+              - business-name
+              - address-country-code
+        required:
+          - query
+required:
+  - attributes

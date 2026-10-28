@@ -2695,7 +2695,7 @@
                       },
                       "parameters": {
                         "type": "object",
-                        "description": "Parameters required by the account action",
+                        "description": "Parameters required by the account action. File values must be uploaded as an object with `filename` and base64-encoded `data`; references to existing stored files are rejected with a 400.",
                         "additionalProperties": true
                       }
                     },
@@ -16526,6 +16526,14 @@
                           "value": {
                             "description": "Browser fingerprint to add to list.",
                             "type": "string"
+                          },
+                          "note": {
+                            "description": "Optional free-text note to attach to the list item. Maximum 255 characters.",
+                            "type": [
+                              "null",
+                              "string"
+                            ],
+                            "maxLength": 255
                           }
                         },
                         "type": "object",
@@ -16871,6 +16879,14 @@
                           "list-id": {
                             "description": "ID of the list to add this item to. List must be a Country List.",
                             "type": "string"
+                          },
+                          "note": {
+                            "description": "Optional free-text note to attach to the list item. Maximum 255 characters.",
+                            "type": [
+                              "null",
+                              "string"
+                            ],
+                            "maxLength": 255
                           }
                         },
                         "type": "object",
@@ -17216,6 +17232,14 @@
                           "value": {
                             "description": "Device fingerprint to add to list.",
                             "type": "string"
+                          },
+                          "note": {
+                            "description": "Optional free-text note to attach to the list item. Maximum 255 characters.",
+                            "type": [
+                              "null",
+                              "string"
+                            ],
+                            "maxLength": 255
                           }
                         },
                         "type": "object",
@@ -17565,6 +17589,14 @@
                           "value": {
                             "description": "Email address to add.",
                             "type": "string"
+                          },
+                          "note": {
+                            "description": "Optional free-text note to attach to the list item. Maximum 255 characters.",
+                            "type": [
+                              "null",
+                              "string"
+                            ],
+                            "maxLength": 255
                           }
                         },
                         "type": "object",
@@ -17910,6 +17942,14 @@
                           "field-value": {
                             "description": "Field value to add to the list.",
                             "type": "string"
+                          },
+                          "note": {
+                            "description": "Optional free-text note to attach to the list item. Maximum 255 characters.",
+                            "type": [
+                              "null",
+                              "string"
+                            ],
+                            "maxLength": 255
                           }
                         },
                         "type": "object",
@@ -18266,6 +18306,14 @@
                             "description": "Radius in meters from point to be considered for match distance.",
                             "format": "float",
                             "type": "number"
+                          },
+                          "note": {
+                            "description": "Optional free-text note to attach to the list item. Maximum 255 characters.",
+                            "type": [
+                              "null",
+                              "string"
+                            ],
+                            "maxLength": 255
                           }
                         },
                         "type": "object",
@@ -18615,6 +18663,14 @@
                           "list-id": {
                             "description": "ID of the list to add this item to. List must be a Government ID Number List.",
                             "type": "string"
+                          },
+                          "note": {
+                            "description": "Optional free-text note to attach to the list item. Maximum 255 characters.",
+                            "type": [
+                              "null",
+                              "string"
+                            ],
+                            "maxLength": 255
                           }
                         },
                         "type": "object",
@@ -18960,6 +19016,14 @@
                           "value": {
                             "description": "IP address to add. IPv4 and IPv6 are supported.",
                             "type": "string"
+                          },
+                          "note": {
+                            "description": "Optional free-text note to attach to the list item. Maximum 255 characters.",
+                            "type": [
+                              "null",
+                              "string"
+                            ],
+                            "maxLength": 255
                           }
                         },
                         "type": "object",
@@ -19309,6 +19373,14 @@
                           "name-last": {
                             "description": "Last name of the name to add to the list.",
                             "type": "string"
+                          },
+                          "note": {
+                            "description": "Optional free-text note to attach to the list item. Maximum 255 characters.",
+                            "type": [
+                              "null",
+                              "string"
+                            ],
+                            "maxLength": 255
                           }
                         },
                         "type": "object",
@@ -19654,6 +19726,14 @@
                           "value": {
                             "description": "Phone number to add.",
                             "type": "string"
+                          },
+                          "note": {
+                            "description": "Optional free-text note to attach to the list item. Maximum 255 characters.",
+                            "type": [
+                              "null",
+                              "string"
+                            ],
+                            "maxLength": 255
                           }
                         },
                         "type": "object",
@@ -19999,6 +20079,14 @@
                           "value": {
                             "description": "String value to add to the list.",
                             "type": "string"
+                          },
+                          "note": {
+                            "description": "Optional free-text note to attach to the list item. Maximum 255 characters.",
+                            "type": [
+                              "null",
+                              "string"
+                            ],
+                            "maxLength": 255
                           }
                         },
                         "type": "object",
@@ -23396,6 +23484,9 @@
                       },
                       {
                         "$ref": "#/components/schemas/report-business-lookup-request"
+                      },
+                      {
+                        "$ref": "#/components/schemas/report-business-media-coverage-request"
                       },
                       {
                         "$ref": "#/components/schemas/report-business-nonprofit-request"
@@ -32440,7 +32531,7 @@
                       "attributes": {
                         "properties": {
                           "fields": {
-                            "description": "JSON key-value pairs of field name to field value. Schema is defined by the trigger payload schema on your Workflow Version.",
+                            "description": "JSON key-value pairs of field name to field value. Schema is defined by the trigger payload schema on your Workflow Version. File values must be uploaded as an object with `filename` and base64-encoded `data`; references to existing stored files are rejected with a 400.",
                             "examples": [
                               {
                                 "preferred-name": "Albert",
@@ -53627,6 +53718,307 @@
           }
         }
       },
+      "report-business-media-coverage-analysis": {
+        "description": "An assessment of a Business Media Coverage article",
+        "type": [
+          "object",
+          "null"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "value": {
+            "type": [
+              "boolean",
+              "null"
+            ],
+            "example": true
+          },
+          "confidence": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "example": "high"
+          },
+          "analysis": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "example": "The article is about the queried business and matches its location."
+          }
+        }
+      },
+      "report-business-media-coverage-article": {
+        "description": "A news article found for a Business Media Coverage report",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "title": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "example": "Acme Corporation raises $50M Series B"
+          },
+          "summary": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "example": "Acme Corporation announced a $50 million Series B round to expand internationally."
+          },
+          "dates": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "date": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "example": "2025-05-01"
+                },
+                "type": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "example": "published"
+                }
+              }
+            }
+          },
+          "published-date": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The date the article was published, in YYYY-MM-DD format.",
+            "example": "2025-05-01"
+          },
+          "source": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The URL of the article.",
+            "example": "https://news.example.com/acme-series-b"
+          },
+          "publisher": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "example": "Example News"
+          },
+          "relevance": {
+            "description": "Whether the article is about the queried business.",
+            "$ref": "#/components/schemas/report-business-media-coverage-analysis"
+          },
+          "reputation": {
+            "description": "Whether the article comes from a reputable source.",
+            "$ref": "#/components/schemas/report-business-media-coverage-analysis"
+          }
+        }
+      },
+      "report-business-media-coverage": {
+        "title": "Business Media Coverage Report",
+        "description": "A Business Media Coverage Report",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report/business-media-coverage"
+          },
+          "id": {
+            "type": "string",
+            "description": "The ID of the report",
+            "example": "rep_7WNzPaNcroBKLarNHBjYDLAp"
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/report-shared-attributes"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                      "business-name": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "example": "Acme Corporation"
+                      },
+                      "website": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "example": "https://example.com"
+                      },
+                      "address-street-1": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "example": "123 Main St"
+                      },
+                      "address-street-2": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "example": "Suite 100"
+                      },
+                      "address-city": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "example": "San Francisco"
+                      },
+                      "address-subdivision": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "example": "CA"
+                      },
+                      "address-postal-code": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "example": "94105"
+                      },
+                      "address-country-code": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "example": "US"
+                      }
+                    }
+                  },
+                  "result": {
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                      "homepage": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "The homepage of the business, if found.",
+                        "example": "https://example.com"
+                      },
+                      "summary": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "A summary of the media coverage found for the business.",
+                        "example": "Acme Corporation has received coverage for its recent funding and international expansion."
+                      },
+                      "topics": {
+                        "type": "array",
+                        "description": "Media coverage grouped by topic.",
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "title": {
+                              "type": [
+                                "string",
+                                "null"
+                              ],
+                              "example": "Series B funding"
+                            },
+                            "summary": {
+                              "type": [
+                                "string",
+                                "null"
+                              ],
+                              "example": "Acme Corporation raised $50 million to expand internationally."
+                            },
+                            "start-date": {
+                              "type": [
+                                "string",
+                                "null"
+                              ],
+                              "example": "2025-04-30"
+                            },
+                            "end-date": {
+                              "type": [
+                                "string",
+                                "null"
+                              ],
+                              "example": "2025-05-02"
+                            },
+                            "articles": {
+                              "type": "array",
+                              "items": {
+                                "$ref": "#/components/schemas/report-business-media-coverage-article"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "irrelevant-articles": {
+                        "type": "array",
+                        "description": "Articles excluded because they are not about the queried business.",
+                        "items": {
+                          "$ref": "#/components/schemas/report-business-media-coverage-article"
+                        }
+                      },
+                      "nonreputable-articles": {
+                        "type": "array",
+                        "description": "Articles excluded because their source is not reputable.",
+                        "items": {
+                          "$ref": "#/components/schemas/report-business-media-coverage-article"
+                        }
+                      },
+                      "out-of-range-articles": {
+                        "type": "array",
+                        "description": "Articles excluded because they fall outside the template's article age window.",
+                        "items": {
+                          "$ref": "#/components/schemas/report-business-media-coverage-article"
+                        }
+                      },
+                      "error-message": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "Set when the report errored."
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "relationships": {
+            "$ref": "#/components/schemas/report-shared-relationships"
+          }
+        }
+      },
       "report-business-nonprofit": {
         "title": "Business Nonprofit Report",
         "description": "A Business Nonprofit Report",
@@ -59510,6 +59902,7 @@
               "report/business-associated-persons": "#/components/schemas/report-business-associated-persons",
               "report/business-registrations-lookup": "#/components/schemas/report-business-registrations-lookup",
               "report/business-lookup": "#/components/schemas/report-business-lookup",
+              "report/business-media-coverage": "#/components/schemas/report-business-media-coverage",
               "report/business-nonprofit": "#/components/schemas/report-business-nonprofit",
               "report/business-search": "#/components/schemas/report-business-search",
               "report/business-watchlist": "#/components/schemas/report-business-watchlist",
@@ -59570,6 +59963,9 @@
             },
             {
               "$ref": "#/components/schemas/report-business-lookup"
+            },
+            {
+              "$ref": "#/components/schemas/report-business-media-coverage"
             },
             {
               "$ref": "#/components/schemas/report-business-nonprofit"
@@ -66256,6 +66652,7 @@
               "report/business-associated-persons": "#/components/schemas/report-business-associated-persons",
               "report/business-registrations-lookup": "#/components/schemas/report-business-registrations-lookup",
               "report/business-lookup": "#/components/schemas/report-business-lookup",
+              "report/business-media-coverage": "#/components/schemas/report-business-media-coverage",
               "report/business-nonprofit": "#/components/schemas/report-business-nonprofit",
               "report/business-search": "#/components/schemas/report-business-search",
               "report/business-watchlist": "#/components/schemas/report-business-watchlist",
@@ -66367,6 +66764,9 @@
             },
             {
               "$ref": "#/components/schemas/report-business-lookup"
+            },
+            {
+              "$ref": "#/components/schemas/report-business-media-coverage"
             },
             {
               "$ref": "#/components/schemas/report-business-nonprofit"
@@ -66849,6 +67249,17 @@
               0
             ],
             "type": "integer"
+          },
+          "note": {
+            "description": "Optional free-text note attached to the list item.",
+            "examples": [
+              "Added after a confirmed chargeback"
+            ],
+            "type": [
+              "null",
+              "string"
+            ],
+            "maxLength": 255
           }
         }
       },
@@ -69390,6 +69801,7 @@
             "report/business-associated-persons": "#/components/schemas/report-business-associated-persons",
             "report/business-registrations-lookup": "#/components/schemas/report-business-registrations-lookup",
             "report/business-lookup": "#/components/schemas/report-business-lookup",
+            "report/business-media-coverage": "#/components/schemas/report-business-media-coverage",
             "report/business-nonprofit": "#/components/schemas/report-business-nonprofit",
             "report/business-search": "#/components/schemas/report-business-search",
             "report/business-watchlist": "#/components/schemas/report-business-watchlist",
@@ -69425,6 +69837,9 @@
           },
           {
             "$ref": "#/components/schemas/report-business-lookup"
+          },
+          {
+            "$ref": "#/components/schemas/report-business-media-coverage"
           },
           {
             "$ref": "#/components/schemas/report-business-nonprofit"
@@ -69850,6 +70265,82 @@
                       "address-city",
                       "address-subdivision",
                       "address-postal-code"
+                    ]
+                  }
+                },
+                "required": [
+                  "query"
+                ]
+              }
+            ]
+          }
+        },
+        "required": [
+          "attributes"
+        ]
+      },
+      "report-business-media-coverage-request": {
+        "title": "Business Media Coverage Report",
+        "description": "Fields required to create a Business Media Coverage Report",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report/business-media-coverage"
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/report-shared-request-attributes"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "business-name": {
+                        "type": "string",
+                        "description": "The name of the business.",
+                        "example": "Acme Corporation"
+                      },
+                      "address-country-code": {
+                        "type": "string",
+                        "description": "The ISO 3166-1 alpha-2 country code of the business.",
+                        "example": "US"
+                      },
+                      "website": {
+                        "type": "string",
+                        "description": "The website of the business. Improves match accuracy.",
+                        "example": "https://example.com"
+                      },
+                      "address-street-1": {
+                        "type": "string",
+                        "example": "123 Main St"
+                      },
+                      "address-street-2": {
+                        "type": "string",
+                        "example": "Suite 100"
+                      },
+                      "address-city": {
+                        "type": "string",
+                        "example": "San Francisco"
+                      },
+                      "address-subdivision": {
+                        "type": "string",
+                        "example": "CA"
+                      },
+                      "address-postal-code": {
+                        "type": "string",
+                        "example": "94105"
+                      }
+                    },
+                    "required": [
+                      "business-name",
+                      "address-country-code"
                     ]
                   }
                 },
@@ -71220,6 +71711,31 @@
           }
         }
       },
+      "report-template-business-media-coverage": {
+        "title": "Business Media Coverage Report Template",
+        "description": "A Business Media Coverage Report Template",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "report-template/business-media-coverage"
+          },
+          "id": {
+            "type": "string",
+            "description": "The ID of the Report Template",
+            "example": "rptp_7WNzPaNcroBKLarNHBjYDLAp"
+          },
+          "attributes": {
+            "unevaluatedProperties": false,
+            "$ref": "#/components/schemas/report-template-shared-attributes"
+          },
+          "meta": {
+            "unevaluatedProperties": false,
+            "$ref": "#/components/schemas/report-template-shared-meta"
+          }
+        }
+      },
       "report-template-business-nonprofit": {
         "title": "Business Nonprofit Report Template",
         "description": "A Business Nonprofit Report Template",
@@ -71613,6 +72129,7 @@
               "report-template/business-adverse-media": "#/components/schemas/report-template-business-adverse-media",
               "report-template/business-associated-persons": "#/components/schemas/report-template-business-associated-persons",
               "report-template/business-lookup": "#/components/schemas/report-template-business-lookup",
+              "report-template/business-media-coverage": "#/components/schemas/report-template-business-media-coverage",
               "report-template/business-nonprofit": "#/components/schemas/report-template-business-nonprofit",
               "report-template/business-registrations-lookup": "#/components/schemas/report-template-business-registrations-lookup",
               "report-template/business-watchlist": "#/components/schemas/report-template-business-watchlist",
@@ -71650,6 +72167,9 @@
             },
             {
               "$ref": "#/components/schemas/report-template-business-lookup"
+            },
+            {
+              "$ref": "#/components/schemas/report-template-business-media-coverage"
             },
             {
               "$ref": "#/components/schemas/report-template-business-nonprofit"
@@ -77580,6 +78100,7 @@
               "updated-at": "2020-09-18T18:06:40.515Z",
               "created-at": "2020-09-18T18:06:40.515Z",
               "match-count": 0,
+              "note": "Added after a confirmed chargeback",
               "value": "3082c312c9bfc8f0a43bc7173b18afe6"
             },
             "relationships": {
@@ -77601,6 +78122,7 @@
               "updated-at": "2020-09-18T18:06:40.515Z",
               "created-at": "2020-09-18T18:06:40.515Z",
               "match-count": 0,
+              "note": null,
               "value": "3082c312c9bfc8f0a43bc7173b18afe6"
             },
             "relationships": {
@@ -77623,6 +78145,7 @@
               "updated-at": "2020-09-18T17:58:06.866Z",
               "created-at": "2020-09-18T17:58:06.866Z",
               "match-count": 0,
+              "note": "Added after a confirmed chargeback",
               "country-code": "US"
             },
             "relationships": {
@@ -77644,6 +78167,7 @@
               "updated-at": "2020-09-18T17:58:06.866Z",
               "created-at": "2020-09-18T17:58:06.866Z",
               "match-count": 0,
+              "note": null,
               "country-code": "US"
             },
             "relationships": {
@@ -77666,6 +78190,7 @@
               "updated-at": "2020-09-18T18:06:40.515Z",
               "created-at": "2020-09-18T18:06:40.515Z",
               "match-count": 0,
+              "note": "Added after a confirmed chargeback",
               "value": "3082c312c9bfc8f0a43bc7173b18afe6"
             },
             "relationships": {
@@ -77687,6 +78212,7 @@
               "updated-at": "2020-09-18T18:06:40.515Z",
               "created-at": "2020-09-18T18:06:40.515Z",
               "match-count": 0,
+              "note": null,
               "value": "3082c312c9bfc8f0a43bc7173b18afe6"
             },
             "relationships": {
@@ -77709,6 +78235,7 @@
               "updated-at": "2020-09-18T17:58:06.866Z",
               "created-at": "2020-09-18T17:58:06.866Z",
               "match-count": 0,
+              "note": "Added after a confirmed chargeback",
               "value": "joe-imposter@yahoo.com",
               "match-type": "email_address"
             },
@@ -77731,6 +78258,7 @@
               "updated-at": "2020-09-18T17:58:06.866Z",
               "created-at": "2020-09-18T17:58:06.866Z",
               "match-count": 0,
+              "note": null,
               "value": "joe-imposter@yahoo.com",
               "match-type": "email_address"
             },
@@ -77754,6 +78282,7 @@
               "updated-at": "2020-09-18T18:07:53.000Z",
               "created-at": "2020-09-18T18:07:53.000Z",
               "match-count": 0,
+              "note": "Added after a confirmed chargeback",
               "field-value": "abc123"
             },
             "relationships": {
@@ -77775,6 +78304,7 @@
               "updated-at": "2020-09-18T18:07:53.000Z",
               "created-at": "2020-09-18T18:07:53.000Z",
               "match-count": 0,
+              "note": null,
               "field-value": "abc123"
             },
             "relationships": {
@@ -77797,6 +78327,7 @@
               "updated-at": "2020-09-18T18:03:30.324Z",
               "created-at": "2020-09-18T18:03:30.324Z",
               "match-count": 0,
+              "note": "Added after a confirmed chargeback",
               "latitude": 37.7879461,
               "longitude": -122.3977409,
               "radius-meters": 10
@@ -77820,6 +78351,7 @@
               "updated-at": "2020-09-18T18:03:30.324Z",
               "created-at": "2020-09-18T18:03:30.324Z",
               "match-count": 0,
+              "note": null,
               "latitude": 37.7879461,
               "longitude": -122.3977409,
               "radius-meters": 10
@@ -77844,6 +78376,7 @@
               "updated-at": "2020-09-18T18:07:53.000Z",
               "created-at": "2020-09-18T18:07:53.000Z",
               "match-count": 0,
+              "note": "Added after a confirmed chargeback",
               "id-class": "dl",
               "id-number": "F4K3NUM"
             },
@@ -77866,6 +78399,7 @@
               "updated-at": "2020-09-18T18:07:53.000Z",
               "created-at": "2020-09-18T18:07:53.000Z",
               "match-count": 0,
+              "note": null,
               "id-class": "dl",
               "id-number": "F4K3NUM"
             },
@@ -77889,6 +78423,7 @@
               "updated-at": "2020-09-18T18:07:53.000Z",
               "created-at": "2020-09-18T18:07:53.000Z",
               "match-count": 0,
+              "note": "Added after a confirmed chargeback",
               "value": "127.0.0.0/24"
             },
             "relationships": {
@@ -77910,6 +78445,7 @@
               "updated-at": "2020-09-18T18:07:53.000Z",
               "created-at": "2020-09-18T18:07:53.000Z",
               "match-count": 0,
+              "note": null,
               "value": "127.0.0.0/24"
             },
             "relationships": {
@@ -77932,6 +78468,7 @@
               "updated-at": "2020-09-18T18:07:53.000Z",
               "created-at": "2020-09-18T18:07:53.000Z",
               "match-count": 0,
+              "note": "Added after a confirmed chargeback",
               "name-first": "Joe",
               "name-last": "Imposter"
             },
@@ -77954,6 +78491,7 @@
               "updated-at": "2020-09-18T18:07:53.000Z",
               "created-at": "2020-09-18T18:07:53.000Z",
               "match-count": 0,
+              "note": null,
               "name-first": "Joe",
               "name-last": "Imposter"
             },
@@ -77977,6 +78515,7 @@
               "updated-at": "2020-09-18T18:07:53.000Z",
               "created-at": "2020-09-18T18:07:53.000Z",
               "match-count": 0,
+              "note": "Added after a confirmed chargeback",
               "value": "18006009777"
             },
             "relationships": {
@@ -77998,6 +78537,7 @@
               "updated-at": "2020-09-18T18:07:53.000Z",
               "created-at": "2020-09-18T18:07:53.000Z",
               "match-count": 0,
+              "note": null,
               "value": "18006009777"
             },
             "relationships": {
@@ -78020,6 +78560,7 @@
               "updated-at": "2020-09-18T18:07:53.000Z",
               "created-at": "2020-09-18T18:07:53.000Z",
               "match-count": 0,
+              "note": "Added after a confirmed chargeback",
               "value": "abc123"
             },
             "relationships": {
@@ -78041,6 +78582,7 @@
               "updated-at": "2020-09-18T18:07:53.000Z",
               "created-at": "2020-09-18T18:07:53.000Z",
               "match-count": 0,
+              "note": null,
               "value": "abc123"
             },
             "relationships": {
