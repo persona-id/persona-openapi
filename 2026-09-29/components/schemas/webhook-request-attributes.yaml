@@ -26,7 +26,6 @@ properties:
         - type: string
           enum:
             - '*'
-            - account-property.redacted
             - account-type.deleted-field
             - account.added-relation
             - account.archived
@@ -70,15 +69,8 @@ properties:
             - case.resolved
             - case.sla-expired
             - case.status-updated
-            - case.updated
             - case.updated-fields
             - case.updated-tags
-            - checkpoint.completed
-            - checkpoint.created
-            - checkpoint.expired
-            - checkpoint.failed
-            - checkpoint.reusable-persona-used
-            - checkpoint.started
             - connect/share-token.inbound-created
             - connect/share-token.inbound-redeemed
             - connect/share-token.outbound-created
@@ -96,7 +88,6 @@ properties:
             - graph-query.completed
             - graph-query.errored
             - graph-query.reran
-            - graph-query.submitted
             - graph-query.timed-out
             - importer-pipeline-run.canceled
             - importer-pipeline-run.completed
@@ -132,7 +123,6 @@ properties:
             - report/adverse-media.errored
             - report/adverse-media.matched
             - report/adverse-media.ready
-            - report/background-check.ready
             - report/better-business-bureau.errored
             - report/better-business-bureau.ready
             - report/business-adverse-media.dismissed
@@ -147,13 +137,8 @@ properties:
             - report/business-enforcement-action.errored
             - report/business-enforcement-action.ready
             - report/business-enforcement-action.submitted
-            - report/business-industry-classification.errored
-            - report/business-industry-classification.ready
-            - report/business-industry-classification.submitted
             - report/business-liens-lookup.errored
             - report/business-liens-lookup.ready
-            - report/business-lookup-eu.errored
-            - report/business-lookup-eu.ready
             - report/business-lookup.errored
             - report/business-lookup.ready
             - report/business-media-coverage.errored
@@ -188,22 +173,15 @@ properties:
             - report/community-safety.errored
             - report/community-safety.matched
             - report/community-safety.ready
-            - report/comply-advantage-search.ready
-            - report/comprehensive-profile.ready
             - report/crypto-address-watchlist.errored
             - report/crypto-address-watchlist.matched
             - report/crypto-address-watchlist.ready
-            - report/crypto_address.matched
-            - report/crypto_address.ready
             - report/custom-list.dismissed
             - report/custom-list.errored
             - report/custom-list.matched
             - report/custom-list.ready
             - report/email-address.errored
             - report/email-address.ready
-            - report/employer-lookup.ready
-            - report/equifax-oneview.errored
-            - report/equifax-oneview.ready
             - report/finra-broker-check.errored
             - report/finra-broker-check.ready
             - report/kyckr-business-lookup.errored
@@ -217,10 +195,8 @@ properties:
             - report/nces.ready
             - report/novacredit-cash-atlas.errored
             - report/novacredit-cash-atlas.ready
-            - report/novacredit-cash-atlas.submitted
             - report/novacredit-credit-passport.errored
             - report/novacredit-credit-passport.ready
-            - report/novacredit-credit-passport.submitted
             - report/phone-number.errored
             - report/phone-number.ready
             - report/politically-exposed-person.dismissed
@@ -294,6 +270,36 @@ properties:
           maxLength: 128
           examples:
             - custom.object.processed
+        - type: string
+          deprecated: true
+          description: >-
+            Retired events. Still accepted so existing webhooks keep working;
+            not recommended for new webhooks.
+          enum:
+            - account-property.redacted
+            - case.updated
+            - checkpoint.completed
+            - checkpoint.created
+            - checkpoint.expired
+            - checkpoint.failed
+            - checkpoint.reusable-persona-used
+            - checkpoint.started
+            - graph-query.submitted
+            - report/background-check.ready
+            - report/business-industry-classification.errored
+            - report/business-industry-classification.ready
+            - report/business-industry-classification.submitted
+            - report/business-lookup-eu.errored
+            - report/business-lookup-eu.ready
+            - report/comply-advantage-search.ready
+            - report/comprehensive-profile.ready
+            - report/crypto_address.matched
+            - report/crypto_address.ready
+            - report/employer-lookup.ready
+            - report/equifax-oneview.errored
+            - report/equifax-oneview.ready
+            - report/novacredit-cash-atlas.submitted
+            - report/novacredit-credit-passport.submitted
     type: array
   api-version:
     description: >-

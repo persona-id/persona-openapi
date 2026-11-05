@@ -22802,7 +22802,7 @@ webhooks:
       summary: Deployment completed
       description: |-
         Webhook for the `deployment.completed` event. For more info see [Webhooks Overview](https://docs.withpersona.com/webhooks).
-        This webhook is delivered only to production environments.
+        This webhook is delivered only to production environments. A deploy that changes only workflow routes is delivered only to the production environments whose route it changed.
       tags:
         - Deployment events
       x-persona-product: Deployments
@@ -39724,7 +39724,7 @@ components:
                 properties:
                   resource-type:
                     type: string
-                    description: The platform resource type the route targets. `inquiry-template` is the only supported resource type today; `workflow` and `scheduled-run-config` support is planned for a future deploy-manager release.
+                    description: The platform resource type the route targets. The deployments endpoints return `inquiry-template` routes only; a `deployment.completed` event also carries `workflow` routes. `scheduled-run-config` support is planned for a future deploy-manager release.
                     examples:
                       - inquiry-template
                   template-id:
@@ -39766,11 +39766,16 @@ components:
                               additionalProperties: false
                               required:
                                 - type
+                                - ref-type
                                 - version
                               properties:
                                 type:
                                   type: string
                                   const: constant
+                                ref-type:
+                                  type: string
+                                  const: version
+                                  description: The strategy runs the named version.
                                 version:
                                   type: object
                                   additionalProperties: false
@@ -39789,6 +39794,19 @@ components:
                               additionalProperties: false
                               required:
                                 - type
+                                - ref-type
+                              properties:
+                                type:
+                                  type: string
+                                  const: constant
+                                ref-type:
+                                  type: string
+                                  const: noop
+                                  description: The strategy starts no run ("don't run") and names no version.
+                            - type: object
+                              additionalProperties: false
+                              required:
+                                - type
                                 - version-refs
                               properties:
                                 type:
@@ -39797,28 +39815,50 @@ components:
                                 version-refs:
                                   type: array
                                   items:
-                                    type: object
-                                    additionalProperties: false
-                                    required:
-                                      - version
-                                      - weight
-                                    properties:
-                                      version:
-                                        type: object
+                                    unevaluatedProperties: false
+                                    oneOf:
+                                      - type: object
                                         additionalProperties: false
                                         required:
-                                          - token
-                                          - tag
+                                          - ref-type
+                                          - version
+                                          - weight
                                         properties:
-                                          token:
+                                          ref-type:
                                             type: string
-                                          tag:
-                                            $ref: '#/components/schemas/version-tag'
-                                      weight:
-                                        type: integer
-                                        description: The ref's weight within the weighted split.
-                                        examples:
-                                          - 80
+                                            const: version
+                                            description: This share of runs gets the named version.
+                                          version:
+                                            type: object
+                                            additionalProperties: false
+                                            required:
+                                              - token
+                                              - tag
+                                            properties:
+                                              token:
+                                                type: string
+                                              tag:
+                                                $ref: '#/components/schemas/version-tag'
+                                          weight:
+                                            type: integer
+                                            description: The ref's weight within the weighted split.
+                                            examples:
+                                              - 80
+                                      - type: object
+                                        additionalProperties: false
+                                        required:
+                                          - ref-type
+                                          - weight
+                                        properties:
+                                          ref-type:
+                                            type: string
+                                            const: noop
+                                            description: This share of runs starts no run ("don't run") and names no version.
+                                          weight:
+                                            type: integer
+                                            description: The ref's weight within the weighted split.
+                                            examples:
+                                              - 90
                   source-deployment-id:
                     type:
                       - string
@@ -48826,7 +48866,6 @@ components:
               - type: string
                 enum:
                   - '*'
-                  - account-property.redacted
                   - account-type.deleted-field
                   - account.added-relation
                   - account.archived
@@ -48870,15 +48909,8 @@ components:
                   - case.resolved
                   - case.sla-expired
                   - case.status-updated
-                  - case.updated
                   - case.updated-fields
                   - case.updated-tags
-                  - checkpoint.completed
-                  - checkpoint.created
-                  - checkpoint.expired
-                  - checkpoint.failed
-                  - checkpoint.reusable-persona-used
-                  - checkpoint.started
                   - connect/share-token.inbound-created
                   - connect/share-token.inbound-redeemed
                   - connect/share-token.outbound-created
@@ -48896,7 +48928,6 @@ components:
                   - graph-query.completed
                   - graph-query.errored
                   - graph-query.reran
-                  - graph-query.submitted
                   - graph-query.timed-out
                   - importer-pipeline-run.canceled
                   - importer-pipeline-run.completed
@@ -48932,7 +48963,6 @@ components:
                   - report/adverse-media.errored
                   - report/adverse-media.matched
                   - report/adverse-media.ready
-                  - report/background-check.ready
                   - report/better-business-bureau.errored
                   - report/better-business-bureau.ready
                   - report/business-adverse-media.dismissed
@@ -48947,13 +48977,8 @@ components:
                   - report/business-enforcement-action.errored
                   - report/business-enforcement-action.ready
                   - report/business-enforcement-action.submitted
-                  - report/business-industry-classification.errored
-                  - report/business-industry-classification.ready
-                  - report/business-industry-classification.submitted
                   - report/business-liens-lookup.errored
                   - report/business-liens-lookup.ready
-                  - report/business-lookup-eu.errored
-                  - report/business-lookup-eu.ready
                   - report/business-lookup.errored
                   - report/business-lookup.ready
                   - report/business-media-coverage.errored
@@ -48988,22 +49013,15 @@ components:
                   - report/community-safety.errored
                   - report/community-safety.matched
                   - report/community-safety.ready
-                  - report/comply-advantage-search.ready
-                  - report/comprehensive-profile.ready
                   - report/crypto-address-watchlist.errored
                   - report/crypto-address-watchlist.matched
                   - report/crypto-address-watchlist.ready
-                  - report/crypto_address.matched
-                  - report/crypto_address.ready
                   - report/custom-list.dismissed
                   - report/custom-list.errored
                   - report/custom-list.matched
                   - report/custom-list.ready
                   - report/email-address.errored
                   - report/email-address.ready
-                  - report/employer-lookup.ready
-                  - report/equifax-oneview.errored
-                  - report/equifax-oneview.ready
                   - report/finra-broker-check.errored
                   - report/finra-broker-check.ready
                   - report/kyckr-business-lookup.errored
@@ -49017,10 +49035,8 @@ components:
                   - report/nces.ready
                   - report/novacredit-cash-atlas.errored
                   - report/novacredit-cash-atlas.ready
-                  - report/novacredit-cash-atlas.submitted
                   - report/novacredit-credit-passport.errored
                   - report/novacredit-credit-passport.ready
-                  - report/novacredit-credit-passport.submitted
                   - report/phone-number.errored
                   - report/phone-number.ready
                   - report/politically-exposed-person.dismissed
@@ -49091,6 +49107,34 @@ components:
                 maxLength: 128
                 examples:
                   - custom.object.processed
+              - type: string
+                deprecated: true
+                description: Retired events. Still accepted so existing webhooks keep working; not recommended for new webhooks.
+                enum:
+                  - account-property.redacted
+                  - case.updated
+                  - checkpoint.completed
+                  - checkpoint.created
+                  - checkpoint.expired
+                  - checkpoint.failed
+                  - checkpoint.reusable-persona-used
+                  - checkpoint.started
+                  - graph-query.submitted
+                  - report/background-check.ready
+                  - report/business-industry-classification.errored
+                  - report/business-industry-classification.ready
+                  - report/business-industry-classification.submitted
+                  - report/business-lookup-eu.errored
+                  - report/business-lookup-eu.ready
+                  - report/comply-advantage-search.ready
+                  - report/comprehensive-profile.ready
+                  - report/crypto_address.matched
+                  - report/crypto_address.ready
+                  - report/employer-lookup.ready
+                  - report/equifax-oneview.errored
+                  - report/equifax-oneview.ready
+                  - report/novacredit-cash-atlas.submitted
+                  - report/novacredit-credit-passport.submitted
           type: array
         api-version:
           description: API version that will be used for incoming webhook requests. Defaults to the API version used when making this request.
@@ -51027,6 +51071,7 @@ components:
                           version: null
                       strategy:
                         type: constant
+                        ref-type: version
                         version:
                           token: itv_C7kNmQr9wJxYtHvLgPsBd4Fz
                           tag:
@@ -51058,6 +51103,7 @@ components:
                         version: null
                     strategy:
                       type: constant
+                      ref-type: version
                       version:
                         token: itv_C7kNmQr9wJxYtHvLgPsBd4Fz
                         tag:
@@ -58212,6 +58258,7 @@ components:
                               version: null
                           strategy:
                             type: constant
+                            ref-type: version
                             version:
                               token: itv_C7kNmQr9wJxYtHvLgPsBd4Fz
                               tag:

@@ -38,8 +38,9 @@ properties:
             resource-type:
               type: string
               description: >-
-                The platform resource type the route targets. `inquiry-template`
-                is the only supported resource type today; `workflow` and
+                The platform resource type the route targets. The deployments
+                endpoints return `inquiry-template` routes only; a
+                `deployment.completed` event also carries `workflow` routes.
                 `scheduled-run-config` support is planned for a future
                 deploy-manager release.
               examples:
@@ -87,11 +88,16 @@ properties:
                         additionalProperties: false
                         required:
                           - type
+                          - ref-type
                           - version
                         properties:
                           type:
                             type: string
                             const: constant
+                          ref-type:
+                            type: string
+                            const: version
+                            description: The strategy runs the named version.
                           version:
                             type: object
                             additionalProperties: false
@@ -110,6 +116,21 @@ properties:
                         additionalProperties: false
                         required:
                           - type
+                          - ref-type
+                        properties:
+                          type:
+                            type: string
+                            const: constant
+                          ref-type:
+                            type: string
+                            const: noop
+                            description: >-
+                              The strategy starts no run ("don't run") and names
+                              no version.
+                      - type: object
+                        additionalProperties: false
+                        required:
+                          - type
                           - version-refs
                         properties:
                           type:
@@ -118,28 +139,58 @@ properties:
                           version-refs:
                             type: array
                             items:
-                              type: object
-                              additionalProperties: false
-                              required:
-                                - version
-                                - weight
-                              properties:
-                                version:
-                                  type: object
+                              unevaluatedProperties: false
+                              oneOf:
+                                - type: object
                                   additionalProperties: false
                                   required:
-                                    - token
-                                    - tag
+                                    - ref-type
+                                    - version
+                                    - weight
                                   properties:
-                                    token:
+                                    ref-type:
                                       type: string
-                                    tag:
-                                      $ref: ./version-tag.yaml
-                                weight:
-                                  type: integer
-                                  description: The ref's weight within the weighted split.
-                                  examples:
-                                    - 80
+                                      const: version
+                                      description: >-
+                                        This share of runs gets the named
+                                        version.
+                                    version:
+                                      type: object
+                                      additionalProperties: false
+                                      required:
+                                        - token
+                                        - tag
+                                      properties:
+                                        token:
+                                          type: string
+                                        tag:
+                                          $ref: ./version-tag.yaml
+                                    weight:
+                                      type: integer
+                                      description: >-
+                                        The ref's weight within the weighted
+                                        split.
+                                      examples:
+                                        - 80
+                                - type: object
+                                  additionalProperties: false
+                                  required:
+                                    - ref-type
+                                    - weight
+                                  properties:
+                                    ref-type:
+                                      type: string
+                                      const: noop
+                                      description: >-
+                                        This share of runs starts no run ("don't
+                                        run") and names no version.
+                                    weight:
+                                      type: integer
+                                      description: >-
+                                        The ref's weight within the weighted
+                                        split.
+                                      examples:
+                                        - 90
             source-deployment-id:
               type:
                 - string
