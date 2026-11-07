@@ -1,0 +1,202 @@
+type: object
+additionalProperties: false
+description: >-
+  A Deployment Route object: the routing rules one environment's current
+  deployment applies to a resource template.
+properties:
+  type:
+    type: string
+    const: deployment-route
+  id:
+    type: string
+    examples:
+      - dplr_4MqX8vNcR2bPwYkL9sTgD3eH
+  attributes:
+    type: object
+    additionalProperties: false
+    properties:
+      resource-type:
+        type: string
+        description: The platform resource type the route targets.
+        examples:
+          - workflow
+      template-id:
+        type: string
+        description: The token of the resource template the route targets.
+        examples:
+          - wfl_3JqAR9ddLRVZLK5z4yD8oeHB
+      environment:
+        type: object
+        additionalProperties: false
+        required:
+          - token
+          - name
+        description: The environment the route applies to.
+        properties:
+          token:
+            type: string
+            examples:
+              - env_2VpXc7nMqZwKjRfLsGdYb8Ht
+          name:
+            type: string
+            examples:
+              - production
+      rules:
+        type: array
+        description: >-
+          The routing rules evaluated for the key. A `noop` ref runs nothing,
+          and a weighted split's refs carry the label of their arm, `treatment`
+          or `control`.
+        items:
+          type: object
+          additionalProperties: false
+          required:
+            - strategy
+          properties:
+            criteria:
+              $ref: ./route-criteria.yaml
+            strategy:
+              unevaluatedProperties: false
+              oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                    - type
+                    - ref-type
+                    - version
+                  properties:
+                    type:
+                      type: string
+                      const: constant
+                    ref-type:
+                      type: string
+                      const: version
+                      description: The strategy runs the named version.
+                    version:
+                      type: object
+                      additionalProperties: false
+                      required:
+                        - token
+                        - tag
+                      properties:
+                        token:
+                          type: string
+                          description: The resource version's token.
+                          examples:
+                            - wfv_ZW6bqnQGWw1fzT3N3Brd8mKS
+                        tag:
+                          $ref: ./version-tag.yaml
+                - type: object
+                  additionalProperties: false
+                  required:
+                    - type
+                    - ref-type
+                  properties:
+                    type:
+                      type: string
+                      const: constant
+                    ref-type:
+                      type: string
+                      const: noop
+                      description: >-
+                        The strategy starts no run ("don't run") and names no
+                        version.
+                - type: object
+                  additionalProperties: false
+                  required:
+                    - type
+                    - version-refs
+                  properties:
+                    type:
+                      type: string
+                      const: weighted-random
+                    version-refs:
+                      type: array
+                      items:
+                        unevaluatedProperties: false
+                        oneOf:
+                          - type: object
+                            additionalProperties: false
+                            required:
+                              - ref-type
+                              - version
+                              - weight
+                            properties:
+                              ref-type:
+                                type: string
+                                const: version
+                                description: This share of runs gets the named version.
+                              version:
+                                type: object
+                                additionalProperties: false
+                                required:
+                                  - token
+                                  - tag
+                                properties:
+                                  token:
+                                    type: string
+                                    description: The resource version's token.
+                                    examples:
+                                      - wfv_ZW6bqnQGWw1fzT3N3Brd8mKS
+                                  tag:
+                                    $ref: ./version-tag.yaml
+                              weight:
+                                type: integer
+                                description: The ref's weight within the weighted split.
+                                examples:
+                                  - 10
+                              label:
+                                type: string
+                                description: >-
+                                  The arm of the split this ref is, `treatment`
+                                  or `control`.
+                                examples:
+                                  - treatment
+                          - type: object
+                            additionalProperties: false
+                            required:
+                              - ref-type
+                              - weight
+                            properties:
+                              ref-type:
+                                type: string
+                                const: noop
+                                description: >-
+                                  This share of runs starts no run ("don't run")
+                                  and names no version.
+                              weight:
+                                type: integer
+                                description: The ref's weight within the weighted split.
+                                examples:
+                                  - 90
+                              label:
+                                type: string
+                                description: >-
+                                  The arm of the split this ref is, `treatment`
+                                  or `control`.
+                                examples:
+                                  - control
+      created-at:
+        type: string
+        format: date-time
+        description: When this environment's route was written.
+        examples:
+          - '2026-10-29T11:00:00.000Z'
+  relationships:
+    type: object
+    additionalProperties: false
+    properties:
+      deployment:
+        type: object
+        description: The deployment that wrote the route.
+        additionalProperties: false
+        properties:
+          data:
+            type: object
+            additionalProperties: false
+            properties:
+              type:
+                const: deployment
+                type: string
+              id:
+                type: string

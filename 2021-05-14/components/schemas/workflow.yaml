@@ -52,7 +52,8 @@ properties:
                 type: string
       active-deployment:
         type: object
-        description: latest active deployment
+        description: latest active deployment. Deprecated; use `deployment-routes`.
+        deprecated: true
         additionalProperties: false
         properties:
           data:
@@ -60,3 +61,23 @@ properties:
               - type: 'null'
               - $ref: ./workflow-deployment.yaml
             unevaluatedProperties: false
+      deployment-routes:
+        type: object
+        description: >-
+          The workflow's current deployment route in the caller's environment:
+          the API key's on a request, the webhook's on a delivery. Empty when
+          the workflow isn't deployed there. Visible to any credential that can
+          read the workflow, as `active-deployment` is.
+        additionalProperties: false
+        properties:
+          data:
+            type: array
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                type:
+                  const: deployment-route
+                  type: string
+                id:
+                  type: string

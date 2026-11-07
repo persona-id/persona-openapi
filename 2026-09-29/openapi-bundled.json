@@ -22778,8 +22778,25 @@
                       "live_human_presence"
                     ]
                   },
+                  "encryption-key-jwk": {
+                    "description": "Recommended. RSA public key as a JWK (2048-4096 bits) with `kty` `RSA`, `alg` `RSA-OAEP-256`, and `n` and `e`, where `e` must be odd and at least 65537 (`AQAB`). `use`, if present, must be `enc`; `key_ops`, if present, must include `encrypt` or `wrapKey`; private key members are rejected. Claim payloads returned by subsequent reads are compact JWEs (`alg` `RSA-OAEP-256`, `enc` `A256GCM`). An empty or invalid JWK is rejected with a 400. Pass `null` to receive unencrypted claim payloads. At least one of `encryption-key-jwk` or `encryption-key-pem` must be sent, and both cannot be non-null.",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "examples": [
+                      {
+                        "kty": "RSA",
+                        "alg": "RSA-OAEP-256",
+                        "use": "enc",
+                        "n": "0vx7agoebGcQSuuPiLJXZptN9nndrQmbXEps2aiAFbWhM78LhWx4cbbfAAtVT86zwu1RK7aPFFxuhDR1L6tSoc_BJECPebWKRXjBZCiFV4n3oknjhMstn64tZ_2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w6Cf0h4QyQ5v-65YGjQR0_FDW2QvzqY368QQMicAtaSqzs8KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn1n91CbOpbISD08qNLyrdkt-bFTWhAI4vMQFh6WeZu0fM4lFd2NcRwr3XPksINHaQ-G_xBniIqbw0Ls1jF44-csFCur-kEgU8awapJzKnqDKgw",
+                        "e": "AQAB"
+                      }
+                    ]
+                  },
                   "encryption-key-pem": {
-                    "description": "RSA public key (PEM-encoded, 2048-4096 bits). When non-null, claim payloads returned by subsequent reads will be encrypted with RSA OAEP. Pass `null` to receive unencrypted claim payloads.",
+                    "deprecated": true,
+                    "description": "Deprecated; use `encryption-key-jwk`. RSA public key (PEM-encoded, 2048-4096 bits). When non-null, claim payloads returned by subsequent reads will be encrypted with RSA OAEP (SHA-1), which limits the payload to about 214 bytes for a 2048-bit key. Pass `null` to receive unencrypted claim payloads.",
                     "type": [
                       "string",
                       "null"
@@ -22796,8 +22813,7 @@
                 "additionalProperties": false,
                 "type": "object",
                 "required": [
-                  "claim-type",
-                  "encryption-key-pem"
+                  "claim-type"
                 ]
               },
               "examples": {
@@ -23154,6 +23170,7 @@
                   "Success": {
                     "value": {
                       "claim-payload": "{\"claim_type\":\"live_human_presence\",\"claim_result\":\"passed\",\"methodology\":[]}",
+                      "claim-payload-encryption": "none",
                       "token-consumed": true
                     }
                   }
@@ -23161,8 +23178,15 @@
                 "schema": {
                   "properties": {
                     "claim-payload": {
-                      "description": "The claim payload. If an `encryption-key-pem` was provided at Relay creation, this\nis a base64-encoded RSA OAEP ciphertext that must be decrypted client-side.\nOtherwise, this is a JSON string containing `claim_type`, `claim_result`, and an\noptional `methodology` array.",
+                      "description": "The claim payload. If an `encryption-key-jwk` was provided at Relay creation, this\nis a compact JWE (`RSA-OAEP-256` / `A256GCM`). If an `encryption-key-pem` was\nprovided, this is a base64-encoded RSA OAEP (SHA-1) ciphertext. Either must be\ndecrypted client-side. Otherwise, this is a JSON string containing `claim_type`,\n`claim_result`, and an optional `methodology` array.",
                       "type": "string"
+                    },
+                    "claim-payload-encryption": {
+                      "description": "How `claim-payload` is encrypted. Possible values:\n- jwe: compact JWE, from `encryption-key-jwk`\n- rsa_oaep: base64 RSA OAEP (SHA-1) ciphertext, from `encryption-key-pem`\n- none: unencrypted JSON string\n\nDo not assume this is a static enumeration; Persona may add new values in the\nfuture without a versioned update.",
+                      "type": "string",
+                      "examples": [
+                        "jwe"
+                      ]
                     },
                     "token-consumed": {
                       "description": "`true` if the Privacy Pass token was consumed by this request. `false` if the underlying claim did not pass and the token was refunded to the client.",
@@ -23173,6 +23197,7 @@
                   "type": "object",
                   "required": [
                     "claim-payload",
+                    "claim-payload-encryption",
                     "token-consumed"
                   ]
                 }
@@ -66615,7 +66640,8 @@
               },
               "active-deployment": {
                 "type": "object",
-                "description": "latest active deployment",
+                "description": "latest active deployment. Deprecated; use `deployment-routes`.",
+                "deprecated": true,
                 "additionalProperties": false,
                 "properties": {
                   "data": {
@@ -66628,6 +66654,304 @@
                       }
                     ],
                     "unevaluatedProperties": false
+                  }
+                }
+              },
+              "deployment-routes": {
+                "type": "object",
+                "description": "The workflow's current deployment route in the caller's environment: the API key's on a request, the webhook's on a delivery. Empty when the workflow isn't deployed there. Visible to any credential that can read the workflow, as `active-deployment` is.",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "type": {
+                          "const": "deployment-route",
+                          "type": "string"
+                        },
+                        "id": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "deployment-route": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "A Deployment Route object: the routing rules one environment's current deployment applies to a resource template.",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "deployment-route"
+          },
+          "id": {
+            "type": "string",
+            "examples": [
+              "dplr_4MqX8vNcR2bPwYkL9sTgD3eH"
+            ]
+          },
+          "attributes": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "resource-type": {
+                "type": "string",
+                "description": "The platform resource type the route targets.",
+                "examples": [
+                  "workflow"
+                ]
+              },
+              "template-id": {
+                "type": "string",
+                "description": "The token of the resource template the route targets.",
+                "examples": [
+                  "wfl_3JqAR9ddLRVZLK5z4yD8oeHB"
+                ]
+              },
+              "environment": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "token",
+                  "name"
+                ],
+                "description": "The environment the route applies to.",
+                "properties": {
+                  "token": {
+                    "type": "string",
+                    "examples": [
+                      "env_2VpXc7nMqZwKjRfLsGdYb8Ht"
+                    ]
+                  },
+                  "name": {
+                    "type": "string",
+                    "examples": [
+                      "production"
+                    ]
+                  }
+                }
+              },
+              "rules": {
+                "type": "array",
+                "description": "The routing rules evaluated for the key. A `noop` ref runs nothing, and a weighted split's refs carry the label of their arm, `treatment` or `control`.",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "strategy"
+                  ],
+                  "properties": {
+                    "criteria": {
+                      "$ref": "#/components/schemas/route-criteria"
+                    },
+                    "strategy": {
+                      "unevaluatedProperties": false,
+                      "oneOf": [
+                        {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "type",
+                            "ref-type",
+                            "version"
+                          ],
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "const": "constant"
+                            },
+                            "ref-type": {
+                              "type": "string",
+                              "const": "version",
+                              "description": "The strategy runs the named version."
+                            },
+                            "version": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "required": [
+                                "token",
+                                "tag"
+                              ],
+                              "properties": {
+                                "token": {
+                                  "type": "string",
+                                  "description": "The resource version's token.",
+                                  "examples": [
+                                    "wfv_ZW6bqnQGWw1fzT3N3Brd8mKS"
+                                  ]
+                                },
+                                "tag": {
+                                  "$ref": "#/components/schemas/version-tag"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "type",
+                            "ref-type"
+                          ],
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "const": "constant"
+                            },
+                            "ref-type": {
+                              "type": "string",
+                              "const": "noop",
+                              "description": "The strategy starts no run (\"don't run\") and names no version."
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "type",
+                            "version-refs"
+                          ],
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "const": "weighted-random"
+                            },
+                            "version-refs": {
+                              "type": "array",
+                              "items": {
+                                "unevaluatedProperties": false,
+                                "oneOf": [
+                                  {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "required": [
+                                      "ref-type",
+                                      "version",
+                                      "weight"
+                                    ],
+                                    "properties": {
+                                      "ref-type": {
+                                        "type": "string",
+                                        "const": "version",
+                                        "description": "This share of runs gets the named version."
+                                      },
+                                      "version": {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": [
+                                          "token",
+                                          "tag"
+                                        ],
+                                        "properties": {
+                                          "token": {
+                                            "type": "string",
+                                            "description": "The resource version's token.",
+                                            "examples": [
+                                              "wfv_ZW6bqnQGWw1fzT3N3Brd8mKS"
+                                            ]
+                                          },
+                                          "tag": {
+                                            "$ref": "#/components/schemas/version-tag"
+                                          }
+                                        }
+                                      },
+                                      "weight": {
+                                        "type": "integer",
+                                        "description": "The ref's weight within the weighted split.",
+                                        "examples": [
+                                          10
+                                        ]
+                                      },
+                                      "label": {
+                                        "type": "string",
+                                        "description": "The arm of the split this ref is, `treatment` or `control`.",
+                                        "examples": [
+                                          "treatment"
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "required": [
+                                      "ref-type",
+                                      "weight"
+                                    ],
+                                    "properties": {
+                                      "ref-type": {
+                                        "type": "string",
+                                        "const": "noop",
+                                        "description": "This share of runs starts no run (\"don't run\") and names no version."
+                                      },
+                                      "weight": {
+                                        "type": "integer",
+                                        "description": "The ref's weight within the weighted split.",
+                                        "examples": [
+                                          90
+                                        ]
+                                      },
+                                      "label": {
+                                        "type": "string",
+                                        "description": "The arm of the split this ref is, `treatment` or `control`.",
+                                        "examples": [
+                                          "control"
+                                        ]
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              "created-at": {
+                "type": "string",
+                "format": "date-time",
+                "description": "When this environment's route was written.",
+                "examples": [
+                  "2026-10-29T11:00:00.000Z"
+                ]
+              }
+            }
+          },
+          "relationships": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "deployment": {
+                "type": "object",
+                "description": "The deployment that wrote the route.",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "type": {
+                        "const": "deployment",
+                        "type": "string"
+                      },
+                      "id": {
+                        "type": "string"
+                      }
+                    }
                   }
                 }
               }
@@ -66909,6 +67233,7 @@
               "verification/selfie": "#/components/schemas/verification-selfie",
               "verification/verifiable-credential": "#/components/schemas/verification-verifiable-credential",
               "workflow": "#/components/schemas/workflow",
+              "deployment-route": "#/components/schemas/deployment-route",
               "workflow-run": "#/components/schemas/workflow-run"
             }
           },
@@ -67152,6 +67477,9 @@
             },
             {
               "$ref": "#/components/schemas/workflow"
+            },
+            {
+              "$ref": "#/components/schemas/deployment-route"
             },
             {
               "$ref": "#/components/schemas/workflow-run"
@@ -74593,7 +74921,8 @@
               "workflow-version": "#/components/schemas/workflow-version",
               "event": "#/components/schemas/event",
               "user": "#/components/schemas/user",
-              "scheduled-run": "#/components/schemas/scheduled-run"
+              "scheduled-run": "#/components/schemas/scheduled-run",
+              "deployment-route": "#/components/schemas/deployment-route"
             }
           },
           "oneOf": [
@@ -74611,6 +74940,9 @@
             },
             {
               "$ref": "#/components/schemas/scheduled-run"
+            },
+            {
+              "$ref": "#/components/schemas/deployment-route"
             }
           ]
         }

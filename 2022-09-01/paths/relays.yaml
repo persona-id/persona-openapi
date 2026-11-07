@@ -47,12 +47,36 @@ post:
               type: string
               examples:
                 - live_human_presence
-            encryption-key-pem:
+            encryption-key-jwk:
               description: >-
-                RSA public key (PEM-encoded, 2048-4096 bits). When non-null,
-                claim payloads returned by subsequent reads will be encrypted
-                with RSA OAEP. Pass `null` to receive unencrypted claim
-                payloads.
+                Recommended. RSA public key as a JWK (2048-4096 bits) with `kty`
+                `RSA`, `alg` `RSA-OAEP-256`, and `n` and `e`, where `e` must be
+                odd and at least 65537 (`AQAB`). `use`, if present, must be
+                `enc`; `key_ops`, if present, must include `encrypt` or
+                `wrapKey`; private key members are rejected. Claim payloads
+                returned by subsequent reads are compact JWEs (`alg`
+                `RSA-OAEP-256`, `enc` `A256GCM`). An empty or invalid JWK is
+                rejected with a 400. Pass `null` to receive unencrypted claim
+                payloads. At least one of `encryption-key-jwk` or
+                `encryption-key-pem` must be sent, and both cannot be non-null.
+              type:
+                - object
+                - 'null'
+              examples:
+                - kty: RSA
+                  alg: RSA-OAEP-256
+                  use: enc
+                  'n': >-
+                    0vx7agoebGcQSuuPiLJXZptN9nndrQmbXEps2aiAFbWhM78LhWx4cbbfAAtVT86zwu1RK7aPFFxuhDR1L6tSoc_BJECPebWKRXjBZCiFV4n3oknjhMstn64tZ_2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w6Cf0h4QyQ5v-65YGjQR0_FDW2QvzqY368QQMicAtaSqzs8KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn1n91CbOpbISD08qNLyrdkt-bFTWhAI4vMQFh6WeZu0fM4lFd2NcRwr3XPksINHaQ-G_xBniIqbw0Ls1jF44-csFCur-kEgU8awapJzKnqDKgw
+                  e: AQAB
+            encryption-key-pem:
+              deprecated: true
+              description: >-
+                Deprecated; use `encryption-key-jwk`. RSA public key
+                (PEM-encoded, 2048-4096 bits). When non-null, claim payloads
+                returned by subsequent reads will be encrypted with RSA OAEP
+                (SHA-1), which limits the payload to about 214 bytes for a
+                2048-bit key. Pass `null` to receive unencrypted claim payloads.
               type:
                 - string
                 - 'null'
@@ -70,7 +94,6 @@ post:
           type: object
           required:
             - claim-type
-            - encryption-key-pem
         examples:
           Created:
             value:

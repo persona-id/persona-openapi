@@ -64,22 +64,45 @@ post:
               value:
                 claim-payload: >-
                   {"claim_type":"live_human_presence","claim_result":"passed","methodology":[]}
+                claim-payload-encryption: none
                 token-consumed: true
           schema:
             properties:
               claim-payload:
                 description: >-
-                  The claim payload. If an `encryption-key-pem` was provided at
+                  The claim payload. If an `encryption-key-jwk` was provided at
                   Relay creation, this
 
-                  is a base64-encoded RSA OAEP ciphertext that must be decrypted
-                  client-side.
+                  is a compact JWE (`RSA-OAEP-256` / `A256GCM`). If an
+                  `encryption-key-pem` was
 
-                  Otherwise, this is a JSON string containing `claim_type`,
-                  `claim_result`, and an
+                  provided, this is a base64-encoded RSA OAEP (SHA-1)
+                  ciphertext. Either must be
 
-                  optional `methodology` array.
+                  decrypted client-side. Otherwise, this is a JSON string
+                  containing `claim_type`,
+
+                  `claim_result`, and an optional `methodology` array.
                 type: string
+              claim-payload-encryption:
+                description: >-
+                  How `claim-payload` is encrypted. Possible values:
+
+                  - jwe: compact JWE, from `encryption-key-jwk`
+
+                  - rsa_oaep: base64 RSA OAEP (SHA-1) ciphertext, from
+                  `encryption-key-pem`
+
+                  - none: unencrypted JSON string
+
+
+                  Do not assume this is a static enumeration; Persona may add
+                  new values in the
+
+                  future without a versioned update.
+                type: string
+                examples:
+                  - jwe
               token-consumed:
                 description: >-
                   `true` if the Privacy Pass token was consumed by this request.
@@ -90,6 +113,7 @@ post:
             type: object
             required:
               - claim-payload
+              - claim-payload-encryption
               - token-consumed
     '400':
       $ref: ../components/responses/bad-request.yaml
