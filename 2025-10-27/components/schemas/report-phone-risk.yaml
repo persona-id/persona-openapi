@@ -107,5 +107,31 @@ properties:
 
               Do not assume this is a static enumeration; Persona may add new
               values in the future without a versioned update.
+          compliance-blocked:
+            type: boolean
+            description: >-
+              Whether the phone data provider declined to process this phone
+              number for
+
+              legal compliance reasons, for example because the consumer
+              submitted a data
+
+              deletion or opt-out request under a privacy law such as the
+              California Delete
+
+              Act.
+
+
+              When `true`, the report is `ready` with `has-match` set to `false`
+              and no phone
+
+              or risk data. This is not the same as a phone number that was
+              looked up and not
+
+              found: treat it as "consumer opted out" rather than "no match",
+              and route the
+
+              individual to manual review or an alternate verification method.
+            example: false
   relationships:
     $ref: ./report-shared-relationships.yaml

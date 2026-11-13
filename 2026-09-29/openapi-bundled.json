@@ -51178,6 +51178,21 @@
                 ],
                 "format": "date-time"
               },
+              "pdf-snapshot": {
+                "description": "PDF rendering of the Inquiry as decided, stored together with the decision by the Approve Inquiry and Record Snapshot PDF or Decline Inquiry and Record Snapshot PDF workflow action. `null` unless one of those actions is enabled for the organization and has stored a PDF. When the action decides the Inquiry without a PDF because rendering failed, it removes any earlier PDF and tags the Inquiry `PDF SNAPSHOT FAILED`; the tag is removed when a later decision by the action stores a PDF. The `url` is signed and expires on the same schedule as image file URLs.",
+                "$ref": "#/components/schemas/file"
+              },
+              "pdf-snapshot-at": {
+                "description": "When `pdf-snapshot` was recorded. The PDF is stored in the same write as the decision it shows, so this equals that decision's `decisioned-at`. A later decision made other than by those actions leaves it unchanged. `null` when `pdf-snapshot` is.",
+                "examples": [
+                  "2023-03-28T18:35:10.000Z"
+                ],
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time"
+              },
               "previous-step-name": {
                 "examples": [
                   "verification_government_id",
@@ -55815,6 +55830,11 @@
                       "null"
                     ],
                     "description": "The risk of a fraudulent SIM swap\n\nPossible values:\n- very-low\n- low\n- medium\n- high\n- N/A\n\nDo not assume this is a static enumeration; Persona may add new\nvalues in the future without a versioned update."
+                  },
+                  "compliance-blocked": {
+                    "type": "boolean",
+                    "description": "Whether the phone data provider declined to process this phone number for\nlegal compliance reasons, for example because the consumer submitted a data\ndeletion or opt-out request under a privacy law such as the California Delete\nAct.\n\nWhen `true`, the report is `ready` with `has-match` set to `false` and no phone\nor risk data. This is not the same as a phone number that was looked up and not\nfound: treat it as \"consumer opted out\" rather than \"no match\", and route the\nindividual to manual review or an alternate verification method.",
+                    "example": false
                   }
                 }
               }
@@ -77367,6 +77387,8 @@
                 "decisioned-at": null,
                 "expired-at": null,
                 "redacted-at": null,
+                "pdf-snapshot": null,
+                "pdf-snapshot-at": null,
                 "updated-at": "2023-03-30T19:07:01.000Z",
                 "previous-step-name": "start",
                 "next-step-name": "verification_document",
@@ -77511,6 +77533,8 @@
               "decisioned-at": null,
               "expired-at": null,
               "redacted-at": null,
+              "pdf-snapshot": null,
+              "pdf-snapshot-at": null,
               "previous-step-name": "start",
               "next-step-name": "verification_document",
               "fields": {
@@ -77648,6 +77672,8 @@
               "decisioned-at": null,
               "expired-at": null,
               "redacted-at": null,
+              "pdf-snapshot": null,
+              "pdf-snapshot-at": null,
               "previous-step-name": "start",
               "next-step-name": "verification_document",
               "fields": {
@@ -77839,6 +77865,8 @@
               "decisioned-at": null,
               "expired-at": null,
               "redacted-at": null,
+              "pdf-snapshot": null,
+              "pdf-snapshot-at": null,
               "previous-step-name": "start",
               "next-step-name": "verification_document",
               "fields": {
@@ -77970,6 +77998,8 @@
               "decisioned-at": null,
               "expired-at": null,
               "redacted-at": null,
+              "pdf-snapshot": null,
+              "pdf-snapshot-at": null,
               "updated-at": "2023-03-30T19:07:01.000Z",
               "previous-step-name": "start",
               "next-step-name": "verification_document",
@@ -78104,6 +78134,8 @@
               "decisioned-at": null,
               "expired-at": null,
               "redacted-at": null,
+              "pdf-snapshot": null,
+              "pdf-snapshot-at": null,
               "previous-step-name": "start",
               "next-step-name": "verification_document",
               "fields": {
@@ -78239,6 +78271,8 @@
                 "decisioned-at": null,
                 "expired-at": null,
                 "redacted-at": null,
+                "pdf-snapshot": null,
+                "pdf-snapshot-at": null,
                 "updated-at": "2023-03-30T19:07:01.000Z",
                 "previous-step-name": "start",
                 "next-step-name": "verification_document",
@@ -79840,7 +79874,9 @@
                       "no_account"
                     ],
                     "requirement": "not_required",
-                    "metadata": {}
+                    "metadata": {
+                      "check-requirements": []
+                    }
                   },
                   {
                     "name": "id_age_comparison",
@@ -93606,7 +93642,8 @@
                     "tags": [],
                     "phone-number": "+14169671111",
                     "phone-type": "MOBILE",
-                    "phone-carrier": "Rogers Communications Canada Inc."
+                    "phone-carrier": "Rogers Communications Canada Inc.",
+                    "compliance-blocked": false
                   },
                   "relationships": {
                     "inquiry": {
@@ -93669,7 +93706,8 @@
                     "tags": [],
                     "phone-number": "+14169671111",
                     "phone-type": "MOBILE",
-                    "phone-carrier": "Rogers Communications Canada Inc."
+                    "phone-carrier": "Rogers Communications Canada Inc.",
+                    "compliance-blocked": false
                   },
                   "relationships": {
                     "inquiry": {

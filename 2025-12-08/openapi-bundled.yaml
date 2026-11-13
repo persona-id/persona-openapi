@@ -32604,6 +32604,17 @@ components:
                 - string
                 - 'null'
               format: date-time
+            pdf-snapshot:
+              description: 'PDF rendering of the Inquiry as decided, stored together with the decision by the Approve Inquiry and Record Snapshot PDF or Decline Inquiry and Record Snapshot PDF workflow action. `null` unless one of those actions is enabled for the organization and has stored a PDF. When the action decides the Inquiry without a PDF because rendering failed, it removes any earlier PDF and tags the Inquiry `PDF SNAPSHOT FAILED`; the tag is removed when a later decision by the action stores a PDF. The `url` is signed and expires on the same schedule as image file URLs.'
+              $ref: '#/components/schemas/file'
+            pdf-snapshot-at:
+              description: 'When `pdf-snapshot` was recorded. The PDF is stored in the same write as the decision it shows, so this equals that decision''s `decisioned-at`. A later decision made other than by those actions leaves it unchanged. `null` when `pdf-snapshot` is.'
+              examples:
+                - '2023-03-28T18:35:10.000Z'
+              type:
+                - string
+                - 'null'
+              format: date-time
             previous-step-name:
               examples:
                 - verification_government_id
@@ -36054,6 +36065,19 @@ components:
 
                     Do not assume this is a static enumeration; Persona may add new
                     values in the future without a versioned update.
+                compliance-blocked:
+                  type: boolean
+                  description: |-
+                    Whether the phone data provider declined to process this phone number for
+                    legal compliance reasons, for example because the consumer submitted a data
+                    deletion or opt-out request under a privacy law such as the California Delete
+                    Act.
+
+                    When `true`, the report is `ready` with `has-match` set to `false` and no phone
+                    or risk data. This is not the same as a phone number that was looked up and not
+                    found: treat it as "consumer opted out" rather than "no match", and route the
+                    individual to manual review or an alternate verification method.
+                  example: false
         relationships:
           $ref: '#/components/schemas/report-shared-relationships'
     report-politically-exposed-person:
@@ -50956,6 +50980,8 @@ components:
               decisioned-at: null
               expired-at: null
               redacted-at: null
+              pdf-snapshot: null
+              pdf-snapshot-at: null
               updated-at: '2023-03-30T19:07:01.000Z'
               previous-step-name: start
               next-step-name: verification_document
@@ -51059,6 +51085,8 @@ components:
             decisioned-at: null
             expired-at: null
             redacted-at: null
+            pdf-snapshot: null
+            pdf-snapshot-at: null
             previous-step-name: start
             next-step-name: verification_document
             fields:
@@ -51159,6 +51187,8 @@ components:
             decisioned-at: null
             expired-at: null
             redacted-at: null
+            pdf-snapshot: null
+            pdf-snapshot-at: null
             previous-step-name: start
             next-step-name: verification_document
             fields:
@@ -51302,6 +51332,8 @@ components:
             decisioned-at: null
             expired-at: null
             redacted-at: null
+            pdf-snapshot: null
+            pdf-snapshot-at: null
             previous-step-name: start
             next-step-name: verification_document
             fields:
@@ -51397,6 +51429,8 @@ components:
             decisioned-at: null
             expired-at: null
             redacted-at: null
+            pdf-snapshot: null
+            pdf-snapshot-at: null
             updated-at: '2023-03-30T19:07:01.000Z'
             previous-step-name: start
             next-step-name: verification_document
@@ -51495,6 +51529,8 @@ components:
             decisioned-at: null
             expired-at: null
             redacted-at: null
+            pdf-snapshot: null
+            pdf-snapshot-at: null
             previous-step-name: start
             next-step-name: verification_document
             fields:
@@ -51592,6 +51628,8 @@ components:
               decisioned-at: null
               expired-at: null
               redacted-at: null
+              pdf-snapshot: null
+              pdf-snapshot-at: null
               updated-at: '2023-03-30T19:07:01.000Z'
               previous-step-name: start
               next-step-name: verification_document
@@ -52750,7 +52788,8 @@ components:
                   reasons:
                     - no_account
                   requirement: not_required
-                  metadata: {}
+                  metadata:
+                    check-requirements: []
                 - name: id_age_comparison
                   category: user_action_required
                   status: not_applicable
@@ -62569,6 +62608,7 @@ components:
                   phone-number: '+14169671111'
                   phone-type: MOBILE
                   phone-carrier: Rogers Communications Canada Inc.
+                  compliance-blocked: false
                 relationships:
                   inquiry:
                     data:
@@ -62613,6 +62653,7 @@ components:
                   phone-number: '+14169671111'
                   phone-type: MOBILE
                   phone-carrier: Rogers Communications Canada Inc.
+                  compliance-blocked: false
                 relationships:
                   inquiry:
                     data:
