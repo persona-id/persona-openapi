@@ -1,0 +1,25 @@
+title: Business Registrations Lookup Report Source Data
+description: >
+  PII-filtered snapshot of a Business Registrations Lookup report. The
+  `peekable-attributes` bag carries
+
+  whichever PII-filtered scalar attributes the source organization's
+  configuration allows.
+
+  Report subtypes do not expose a nested `fields` sub-bucket.
+unevaluatedProperties: false
+allOf:
+  - $ref: ./source-data-base.yaml
+  - type: object
+    properties:
+      type:
+        type: string
+        const: connect/source-data/report/business-registrations-lookup
+      id:
+        type: string
+        examples:
+          - rep_ABC123
+      peekable-attributes:
+        type: object
+        additionalProperties:
+          $ref: ./source-data-peekable-attribute.yaml
