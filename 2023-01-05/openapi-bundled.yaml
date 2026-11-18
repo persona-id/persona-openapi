@@ -5101,15 +5101,15 @@ paths:
                         resolution: null
                         created-at: '2021-06-30T20:37:18.678Z'
                         updated-at: '2021-08-26T18:24:19.695Z'
-                        assigned-at: null
+                        assigned-at: '2021-08-26T18:24:19.695Z'
                         resolved-at: null
                         redacted-at: null
                         sla-expires-at: null
                         creator-id: wfl_yKynZZiuPz1R5qm9JFyBnnLB
                         creator-type: workflow-run
                         assignee-id: foo@bar.com
-                        assigner-id: foo@bar.com
-                        assigner-type: user
+                        assigner-id: null
+                        assigner-type: null
                         resolver-id: null
                         resolver-type: null
                         updater-id: null
@@ -5169,6 +5169,162 @@ paths:
         '429':
           $ref: '#/components/responses/too-many-requests'
       summary: Assign a Case
+      tags:
+        - Cases
+      x-persona-product: Cases
+  '/cases/{case-id}/request-agent-review':
+    post:
+      description: 'Has an AI agent review a Case. If the agent is already reviewing the Case, it re-reviews it with the latest case information. This does not change the Case''s assignee.'
+      operationId: request-agent-review-for-a-case
+      externalDocs:
+        description: Full documentation for this API on the Persona website.
+        url: 'https://docs.withpersona.com/api-reference/cases/request-agent-review-for-a-case'
+      parameters:
+        - $ref: '#/components/parameters/key-inflection-header'
+        - $ref: '#/components/parameters/idempotency-key-header'
+        - $ref: '#/components/parameters/persona-version-header'
+        - $ref: '#/components/parameters/include-query-parameter'
+        - $ref: '#/components/parameters/fields-query-parameter'
+        - description: ID of the case to update
+          in: path
+          name: case-id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                meta:
+                  properties:
+                    agent-id:
+                      description: ID of the AI agent that should review this case
+                      type: string
+                  required:
+                    - agent-id
+                  type: object
+                  additionalProperties: false
+              required:
+                - meta
+              type: object
+              additionalProperties: false
+            examples:
+              Success:
+                $ref: '#/components/examples/request-agent-review'
+      responses:
+        '200':
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/rate-limit-limit'
+            RateLimit-Remaining:
+              $ref: '#/components/headers/rate-limit-remaining'
+            RateLimit-Reset:
+              $ref: '#/components/headers/rate-limit-reset'
+            Request-Id:
+              $ref: '#/components/headers/request-id'
+            Persona-Environment-Id:
+              $ref: '#/components/headers/persona-environment-id'
+            Persona-Organization-Id:
+              $ref: '#/components/headers/persona-organization-id'
+          content:
+            application/json:
+              examples:
+                Success:
+                  value:
+                    data:
+                      type: case
+                      id: case_3maVhdLzdGftRZCvxfqazVL1
+                      attributes:
+                        status: open
+                        name: WATC-16
+                        resolution: null
+                        created-at: '2021-06-30T20:37:18.678Z'
+                        updated-at: '2021-08-26T18:24:19.695Z'
+                        assigned-at: '2021-08-26T18:24:19.695Z'
+                        resolved-at: null
+                        redacted-at: null
+                        sla-expires-at: null
+                        creator-id: wfl_yKynZZiuPz1R5qm9JFyBnnLB
+                        creator-type: workflow-run
+                        assignee-id: foo@bar.com
+                        assigner-id: null
+                        assigner-type: null
+                        resolver-id: null
+                        resolver-type: null
+                        updater-id: null
+                        updater-type: null
+                        tags: []
+                        fields: {}
+                        attachments: []
+                      relationships:
+                        case-template:
+                          data:
+                            type: case-template
+                            id: ctmpl_6HheND7s14a2o7fg33iHqhg7
+                        case-queue:
+                          data:
+                            type: case-queue
+                            id: cqueue_7JRbkcdbx9fTossK98NJvRZcmk1
+                        case-comments:
+                          data: []
+                        accounts:
+                          data: []
+                        inquiries:
+                          data:
+                            - type: inquiry
+                              id: inq_29Yd6kF6xWVFgemm5WTxhxvf
+                        reports:
+                          data:
+                            - type: report/watchlist
+                              id: rep_PN3xspEwWCWWRp1eGpedaSNj
+                        verifications:
+                          data: []
+                        txns:
+                          data: []
+                    meta:
+                      agent-conversation-id: agc_FHq6TkhMFNcxPh4bHvo1r5Ks
+              schema:
+                properties:
+                  data:
+                    $ref: '#/components/schemas/case'
+                  included:
+                    description: Objects that _may_ be returned if specified via the `include` query parameter in the request.
+                    $ref: '#/components/schemas/cases-included-objects'
+                  meta:
+                    properties:
+                      agent-conversation-id:
+                        description: ID of the agent conversation reviewing the case.
+                        examples:
+                          - agc_FHq6TkhMFNcxPh4bHvo1r5Ks
+                        type: string
+                    required:
+                      - agent-conversation-id
+                    type: object
+                    additionalProperties: false
+                required:
+                  - data
+                  - meta
+                type: object
+                additionalProperties: false
+          description: This endpoint returns a Case object and (optionally) its related objects in `included`.
+        '400':
+          $ref: '#/components/responses/bad-request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not-found'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '422':
+          $ref: '#/components/responses/unprocessable-entity'
+        '429':
+          $ref: '#/components/responses/too-many-requests'
+        '503':
+          $ref: '#/components/responses/service-unavailable'
+      summary: Request an agent review of a Case
       tags:
         - Cases
       x-persona-product: Cases
@@ -32909,10 +33065,10 @@ components:
                 - 'null'
               format: date-time
             pdf-snapshot:
-              description: 'PDF rendering of the Inquiry as decided, stored together with the decision by the Approve Inquiry and Record Snapshot PDF or Decline Inquiry and Record Snapshot PDF workflow action. `null` unless one of those actions is enabled for the organization and has stored a PDF. When the action decides the Inquiry without a PDF because rendering failed, it removes any earlier PDF and tags the Inquiry `PDF SNAPSHOT FAILED`; the tag is removed when a later decision by the action stores a PDF. The `url` is signed and expires on the same schedule as image file URLs.'
+              description: 'PDF rendering of the Inquiry as decided, stored together with the decision by the Approve Inquiry and Record Snapshot PDF, Decline Inquiry and Record Snapshot PDF or Mark Inquiry for Review and Record Snapshot PDF workflow action. `null` unless one of those actions is enabled for the organization and has stored a PDF. When the action decides the Inquiry without a PDF because rendering failed, it removes any earlier PDF and tags the Inquiry `PDF SNAPSHOT FAILED`; the tag is removed when a later decision by the action stores a PDF. The `url` is signed and expires on the same schedule as image file URLs.'
               $ref: '#/components/schemas/file'
             pdf-snapshot-at:
-              description: 'When `pdf-snapshot` was recorded. The PDF is stored in the same write as the decision it shows, so this equals that decision''s `decisioned-at`. A later decision made other than by those actions leaves it unchanged. `null` when `pdf-snapshot` is.'
+              description: 'When `pdf-snapshot` was recorded. The PDF is stored in the same write as the decision it shows, so this equals that decision''s `decisioned-at`, or `marked-for-review-at` when the Inquiry was marked for review. A later decision made other than by those actions leaves it unchanged. `null` when `pdf-snapshot` is.'
               examples:
                 - '2023-03-28T18:35:10.000Z'
               type:
@@ -51203,6 +51359,10 @@ components:
       value:
         meta:
           user-email-address: name@domain.com
+    request-agent-review:
+      value:
+        meta:
+          agent-id: agt_ZDrKwC3pVzSMZLJ7bEvBuSqU
     set-status:
       value:
         meta:
