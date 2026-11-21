@@ -10,6 +10,8 @@ value:
         live: false
         rollout-label: null
         rollout-percentage: null
+        version-tag: null
+        deployments: []
         last-updater: taylor@example.com
         inputs:
           - name: account_id
@@ -35,6 +37,37 @@ value:
         live: true
         rollout-label: treatment
         rollout-percentage: 25
+        version-tag:
+          name: '5'
+          description: Add manual review escalation
+          created-at: '2026-03-26T18:29:41.000Z'
+        deployments:
+          - resource-type: workflow
+            template-id: wfl_3VghhbvDc7UuUNT8uZrqZjsk
+            environment:
+              token: env_2VpXc7nMqZwKjRfLsGdYb8Ht
+              name: production
+            rules:
+              - strategy:
+                  type: weighted-random
+                  version-refs:
+                    - ref-type: version
+                      version:
+                        token: wfv_TREATMENT123
+                        tag:
+                          name: '5'
+                          description: Add manual review escalation
+                          created-at: '2026-03-26T18:29:41.000Z'
+                      weight: 25
+                    - ref-type: version
+                      version:
+                        token: wfv_CONTROL123
+                        tag:
+                          name: '4'
+                          description: Initial published version
+                          created-at: '2026-03-20T18:29:41.000Z'
+                      weight: 75
+            source-deployment-id: dply_7KqH4xVnR2bPmYwL9sTgD3cE
         last-updater: alex@example.com
         inputs:
           - name: account_id
@@ -60,6 +93,37 @@ value:
         live: true
         rollout-label: control
         rollout-percentage: 75
+        version-tag:
+          name: '4'
+          description: Initial published version
+          created-at: '2026-03-20T18:29:41.000Z'
+        deployments:
+          - resource-type: workflow
+            template-id: wfl_3VghhbvDc7UuUNT8uZrqZjsk
+            environment:
+              token: env_2VpXc7nMqZwKjRfLsGdYb8Ht
+              name: production
+            rules:
+              - strategy:
+                  type: weighted-random
+                  version-refs:
+                    - ref-type: version
+                      version:
+                        token: wfv_TREATMENT123
+                        tag:
+                          name: '5'
+                          description: Add manual review escalation
+                          created-at: '2026-03-26T18:29:41.000Z'
+                      weight: 25
+                    - ref-type: version
+                      version:
+                        token: wfv_CONTROL123
+                        tag:
+                          name: '4'
+                          description: Initial published version
+                          created-at: '2026-03-20T18:29:41.000Z'
+                      weight: 75
+            source-deployment-id: dply_7KqH4xVnR2bPmYwL9sTgD3cE
         last-updater: null
         inputs:
           - name: account_id

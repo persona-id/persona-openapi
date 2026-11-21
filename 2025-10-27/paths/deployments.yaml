@@ -8,7 +8,8 @@ get:
     Pass `filter[changes-only]=true` to render only the rows each deployment
     wrote, so the list reads as a change history. `filter[environment-id]` and
     `filter[template-id]` narrow both the deployments listed and the routes each
-    one carries.
+    one carries. A deployment can carry at most 1,000 routes; when one would
+    carry more, the request returns 422, and these filters narrow it.
 
     This endpoint requires a production API key; sandbox API keys receive 401.
   operationId: list-all-deployments
@@ -32,7 +33,11 @@ get:
               - env_2VpXc7nMqZwKjRfLsGdYb8Ht
             type: string
           template-id:
-            description: Filter deployments and routes to a single resource template.
+            description: >-
+              Only deployments that changed a route of this Inquiry Template or
+              Workflow, each with only that resource's routes. A Workflow lists
+              nothing for an organization that doesn't use the Workflow
+              Deployment Manager.
             examples:
               - itmpl_H5wJqL8vNrXmPyKsTdGc2Vz
             type: string
@@ -105,6 +110,8 @@ get:
       $ref: ../components/responses/forbidden.yaml
     '404':
       $ref: ../components/responses/not-found.yaml
+    '422':
+      $ref: ../components/responses/unprocessable-entity.yaml
     '429':
       $ref: ../components/responses/too-many-requests.yaml
   summary: List all Deployments

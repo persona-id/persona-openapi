@@ -111,6 +111,34 @@ properties:
           share.
         examples:
           - 100
+      version-tag:
+        description: >-
+          The version's tag: its number (`name`), the note it was published with
+          (`description`), and when it was tagged. Null when the version is
+          untagged. The note stays as published even if the version's
+          description is edited later. Omitted for an organization that doesn't
+          use the Workflow Deployment Manager, for Sandbox API keys, and for API
+          keys without `workflow.read` on the parent Workflow.
+        $ref: ./version-tag.yaml
+        examples:
+          - name: '4'
+            description: Route high-risk inquiries to manual review
+            created-at: '2026-09-28T16:02:11.000Z'
+      deployments:
+        type: array
+        description: >-
+          Deployment routes currently sending traffic to this version, one per
+          environment. A paused or archived workflow sends no traffic, and
+          `live` says whether this version is running. Its routes stay listed
+          unless deactivating it replaced them with routes that run nothing. A
+          route runs one version, or splits traffic between two (one of which
+          may run nothing), and its version references carry each version's
+          token and tag. Each item has the same shape as a route in a
+          Deployment's `routes` from the Deployments API, and its
+          `source-deployment-id` names the deployment that wrote it. Omitted
+          under the same conditions as `version-tag`.
+        items:
+          $ref: ./deployment-route.yaml
       last-updater:
         type:
           - string

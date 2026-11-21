@@ -32,4 +32,30 @@ value:
                           description: Initial production release
                           created-at: '2026-03-26T18:29:41.000Z'
                 source-deployment-id: null
+              - resource-type: workflow
+                template-id: wfl_p6YpUH4NhqVf8n4ducnoPSVa
+                environment:
+                  token: env_2VpXc7nMqZwKjRfLsGdYb8Ht
+                  name: production
+                rules:
+                  - strategy:
+                      type: weighted-random
+                      version-refs:
+                        - ref-type: version
+                          version:
+                            token: wfv_8NqRt3WxLmKpYvHdGs5JcBzF
+                            tag:
+                              name: '4'
+                              description: Route high-risk inquiries to manual review
+                              created-at: '2026-09-28T16:02:11.000Z'
+                          weight: 80
+                        - ref-type: version
+                          version:
+                            token: wfv_2HtVxQm7NpLrKcYwDs9GbJfZ
+                            tag:
+                              name: '5'
+                              description: Add a sanctions check before approval
+                              created-at: '2026-10-01T18:20:05.000Z'
+                          weight: 20
+                source-deployment-id: null
       created-at: '2026-10-01T18:34:18.032Z'

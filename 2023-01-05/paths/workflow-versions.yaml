@@ -10,6 +10,15 @@ get:
     belongs to: a version live in Production is not live in Sandbox. Sandbox API
     keys are supported, and report `live: false` for every version of a Workflow
     that is only deployed to Production.
+
+
+    For an organization that uses the Workflow Deployment Manager, a Production
+    API key that can read the Workflow also gets each version's `deployments`
+    and `version-tag`. Sandbox API keys don't. `live`, `rollout-label` and
+    `rollout-percentage` still describe your API key's environment only. Each of
+    a version's `deployments` has the same shape as a route in a Deployment's
+    `routes` from the Deployments API, not the shape of an Inquiry Template
+    Version's `deployments`.
   operationId: list-all-workflow-versions
   externalDocs:
     description: Full documentation for this API on the Persona website.

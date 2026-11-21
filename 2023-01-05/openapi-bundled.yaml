@@ -6533,7 +6533,7 @@ paths:
     get:
       description: |-
         Returns a list of your organization's deployments, newest first. Results are returned in reverse chronological order.
-        Each deployment's `routes` carry the effective state as of that deployment — the newest route per (resource template, environment) key at or before it. Pass `filter[changes-only]=true` to render only the rows each deployment wrote, so the list reads as a change history. `filter[environment-id]` and `filter[template-id]` narrow both the deployments listed and the routes each one carries.
+        Each deployment's `routes` carry the effective state as of that deployment — the newest route per (resource template, environment) key at or before it. Pass `filter[changes-only]=true` to render only the rows each deployment wrote, so the list reads as a change history. `filter[environment-id]` and `filter[template-id]` narrow both the deployments listed and the routes each one carries. A deployment can carry at most 1,000 routes; when one would carry more, the request returns 422, and these filters narrow it.
         This endpoint requires a production API key; sandbox API keys receive 401.
       operationId: list-all-deployments
       parameters:
@@ -6556,7 +6556,7 @@ paths:
                   - env_2VpXc7nMqZwKjRfLsGdYb8Ht
                 type: string
               template-id:
-                description: Filter deployments and routes to a single resource template.
+                description: 'Only deployments that changed a route of this Inquiry Template or Workflow, each with only that resource''s routes. A Workflow lists nothing for an organization that doesn''t use the Workflow Deployment Manager.'
                 examples:
                   - itmpl_H5wJqL8vNrXmPyKsTdGc2Vz
                 type: string
@@ -6625,6 +6625,8 @@ paths:
           $ref: '#/components/responses/forbidden'
         '404':
           $ref: '#/components/responses/not-found'
+        '422':
+          $ref: '#/components/responses/unprocessable-entity'
         '429':
           $ref: '#/components/responses/too-many-requests'
       summary: List all Deployments
@@ -6635,7 +6637,7 @@ paths:
     get:
       description: |-
         Retrieves a single deployment. Its `routes` carry the effective state as of it — the newest route per (resource template, environment) key at or before the deployment, across every environment and template — including routes written by earlier deployments. Because the response is a snapshot, it can look similar to the list endpoint; it does not list other deployments.
-        This endpoint does not accept filters. To see only the routes a deployment wrote, use the list endpoint with `filter[changes-only]=true`.
+        This endpoint does not accept filters. To see only the routes a deployment wrote, use the list endpoint with `filter[changes-only]=true`. A deployment can carry at most 1,000 routes; when its state spans more, this endpoint returns 422, and the list endpoint's filters narrow it.
         This endpoint requires a production API key; sandbox API keys receive 401.
       operationId: retrieve-a-deployment
       parameters:
@@ -6685,6 +6687,8 @@ paths:
           $ref: '#/components/responses/forbidden'
         '404':
           $ref: '#/components/responses/not-found'
+        '422':
+          $ref: '#/components/responses/unprocessable-entity'
         '429':
           $ref: '#/components/responses/too-many-requests'
       summary: Retrieve a Deployment
@@ -21587,6 +21591,8 @@ paths:
         Retrieves the published versions and current draft version of a Workflow. Archived versions are not returned.
 
         Provide the Workflow ID in `filter[workflow-id]`, which you can copy from the Workflow in your Persona dashboard. The `live`, `rollout-label`, and `rollout-percentage` attributes are relative to the environment your API key belongs to: a version live in Production is not live in Sandbox. Sandbox API keys are supported, and report `live: false` for every version of a Workflow that is only deployed to Production.
+
+        For an organization that uses the Workflow Deployment Manager, a Production API key that can read the Workflow also gets each version's `deployments` and `version-tag`. Sandbox API keys don't. `live`, `rollout-label` and `rollout-percentage` still describe your API key's environment only. Each of a version's `deployments` has the same shape as a route in a Deployment's `routes` from the Deployments API, not the shape of an Inquiry Template Version's `deployments`.
       operationId: list-all-workflow-versions
       externalDocs:
         description: Full documentation for this API on the Persona website.
@@ -39953,6 +39959,155 @@ components:
         - name: v2
           description: Initial production release
           created-at: '2026-03-26T18:29:41.000Z'
+    deployment-route:
+      type: object
+      additionalProperties: false
+      properties:
+        resource-type:
+          type: string
+          description: 'The platform resource type the route targets: `inquiry-template`, or `workflow` for an organization that uses the Workflow Deployment Manager. A `deployment.completed` event keeps the routes it was sent with. `scheduled-run-config` support is planned for a future deploy-manager release.'
+          examples:
+            - inquiry-template
+            - workflow
+        template-id:
+          type: string
+          description: 'The token of the resource template the route targets: an Inquiry Template or a Workflow.'
+          examples:
+            - itmpl_H5wJqL8vNrXmPyKsTdGc2Vz
+        environment:
+          type: object
+          additionalProperties: false
+          required:
+            - token
+            - name
+          description: The environment the route applies to.
+          properties:
+            token:
+              type: string
+              examples:
+                - env_2VpXc7nMqZwKjRfLsGdYb8Ht
+            name:
+              type: string
+              examples:
+                - production
+        rules:
+          type: array
+          description: 'The routing rules evaluated for the key. An empty list undeploys the resource from the environment. Each rule has a strategy and may have a criteria tree with `and`, `or`, and `!` operators over context or resource origins.'
+          items:
+            type: object
+            additionalProperties: false
+            required:
+              - strategy
+            properties:
+              criteria:
+                $ref: '#/components/schemas/route-criteria'
+              strategy:
+                unevaluatedProperties: false
+                oneOf:
+                  - type: object
+                    additionalProperties: false
+                    required:
+                      - type
+                      - ref-type
+                      - version
+                    properties:
+                      type:
+                        type: string
+                        const: constant
+                      ref-type:
+                        type: string
+                        const: version
+                        description: The strategy runs the named version.
+                      version:
+                        type: object
+                        additionalProperties: false
+                        required:
+                          - token
+                          - tag
+                        properties:
+                          token:
+                            type: string
+                            description: The resource version's token.
+                            examples:
+                              - itmplv_LIVE123
+                          tag:
+                            $ref: '#/components/schemas/version-tag'
+                  - type: object
+                    additionalProperties: false
+                    required:
+                      - type
+                      - ref-type
+                    properties:
+                      type:
+                        type: string
+                        const: constant
+                      ref-type:
+                        type: string
+                        const: noop
+                        description: The strategy starts no run ("don't run") and names no version.
+                  - type: object
+                    additionalProperties: false
+                    required:
+                      - type
+                      - version-refs
+                    properties:
+                      type:
+                        type: string
+                        const: weighted-random
+                      version-refs:
+                        type: array
+                        items:
+                          unevaluatedProperties: false
+                          oneOf:
+                            - type: object
+                              additionalProperties: false
+                              required:
+                                - ref-type
+                                - version
+                                - weight
+                              properties:
+                                ref-type:
+                                  type: string
+                                  const: version
+                                  description: This share of runs gets the named version.
+                                version:
+                                  type: object
+                                  additionalProperties: false
+                                  required:
+                                    - token
+                                    - tag
+                                  properties:
+                                    token:
+                                      type: string
+                                    tag:
+                                      $ref: '#/components/schemas/version-tag'
+                                weight:
+                                  type: integer
+                                  description: The ref's weight within the weighted split.
+                                  examples:
+                                    - 80
+                            - type: object
+                              additionalProperties: false
+                              required:
+                                - ref-type
+                                - weight
+                              properties:
+                                ref-type:
+                                  type: string
+                                  const: noop
+                                  description: This share of runs starts no run ("don't run") and names no version.
+                                weight:
+                                  type: integer
+                                  description: The ref's weight within the weighted split.
+                                  examples:
+                                    - 90
+        source-deployment-id:
+          type:
+            - string
+            - 'null'
+          description: 'The token of the deployment that wrote this route. On a Deployment, set only when the route predates that deployment, and null when that deployment wrote it.'
+          examples:
+            - dply_1AbCdEfGhIjKlMnOpQrStUv
     deployment:
       type: object
       additionalProperties: false
@@ -39978,153 +40133,7 @@ components:
               type: array
               description: 'The routes this deployment puts in force. Each route binds a (resource template, environment) key to a rules tree. Without `filter[changes-only]` this is the effective state as of the deployment — including routes written by earlier deployments — so a route whose `source-deployment-id` is set was authored by the deployment named there. With `filter[changes-only]` it is exactly the rows this deployment wrote.'
               items:
-                type: object
-                additionalProperties: false
-                properties:
-                  resource-type:
-                    type: string
-                    description: The platform resource type the route targets. The deployments endpoints return `inquiry-template` routes only; a `deployment.completed` event also carries `workflow` routes. `scheduled-run-config` support is planned for a future deploy-manager release.
-                    examples:
-                      - inquiry-template
-                  template-id:
-                    type: string
-                    description: The token of the resource template the route targets.
-                    examples:
-                      - itmpl_H5wJqL8vNrXmPyKsTdGc2Vz
-                  environment:
-                    type: object
-                    additionalProperties: false
-                    required:
-                      - token
-                      - name
-                    description: The environment the route applies to.
-                    properties:
-                      token:
-                        type: string
-                        examples:
-                          - env_2VpXc7nMqZwKjRfLsGdYb8Ht
-                      name:
-                        type: string
-                        examples:
-                          - production
-                  rules:
-                    type: array
-                    description: 'The routing rules evaluated for the key. An empty list undeploys the resource from the environment. Each rule has a strategy and may have a criteria tree with `and`, `or`, and `!` operators over context or resource origins.'
-                    items:
-                      type: object
-                      additionalProperties: false
-                      required:
-                        - strategy
-                      properties:
-                        criteria:
-                          $ref: '#/components/schemas/route-criteria'
-                        strategy:
-                          unevaluatedProperties: false
-                          oneOf:
-                            - type: object
-                              additionalProperties: false
-                              required:
-                                - type
-                                - ref-type
-                                - version
-                              properties:
-                                type:
-                                  type: string
-                                  const: constant
-                                ref-type:
-                                  type: string
-                                  const: version
-                                  description: The strategy runs the named version.
-                                version:
-                                  type: object
-                                  additionalProperties: false
-                                  required:
-                                    - token
-                                    - tag
-                                  properties:
-                                    token:
-                                      type: string
-                                      description: The resource version's token.
-                                      examples:
-                                        - itmplv_LIVE123
-                                    tag:
-                                      $ref: '#/components/schemas/version-tag'
-                            - type: object
-                              additionalProperties: false
-                              required:
-                                - type
-                                - ref-type
-                              properties:
-                                type:
-                                  type: string
-                                  const: constant
-                                ref-type:
-                                  type: string
-                                  const: noop
-                                  description: The strategy starts no run ("don't run") and names no version.
-                            - type: object
-                              additionalProperties: false
-                              required:
-                                - type
-                                - version-refs
-                              properties:
-                                type:
-                                  type: string
-                                  const: weighted-random
-                                version-refs:
-                                  type: array
-                                  items:
-                                    unevaluatedProperties: false
-                                    oneOf:
-                                      - type: object
-                                        additionalProperties: false
-                                        required:
-                                          - ref-type
-                                          - version
-                                          - weight
-                                        properties:
-                                          ref-type:
-                                            type: string
-                                            const: version
-                                            description: This share of runs gets the named version.
-                                          version:
-                                            type: object
-                                            additionalProperties: false
-                                            required:
-                                              - token
-                                              - tag
-                                            properties:
-                                              token:
-                                                type: string
-                                              tag:
-                                                $ref: '#/components/schemas/version-tag'
-                                          weight:
-                                            type: integer
-                                            description: The ref's weight within the weighted split.
-                                            examples:
-                                              - 80
-                                      - type: object
-                                        additionalProperties: false
-                                        required:
-                                          - ref-type
-                                          - weight
-                                        properties:
-                                          ref-type:
-                                            type: string
-                                            const: noop
-                                            description: This share of runs starts no run ("don't run") and names no version.
-                                          weight:
-                                            type: integer
-                                            description: The ref's weight within the weighted split.
-                                            examples:
-                                              - 90
-                  source-deployment-id:
-                    type:
-                      - string
-                      - 'null'
-                    description: 'The token of the deployment that wrote this route, when it predates this deployment; null when this deployment wrote it.'
-                    examples:
-                      - dply_1AbCdEfGhIjKlMnOpQrStUv
+                $ref: '#/components/schemas/deployment-route'
     document-shared-attributes:
       x-inheritable: true
       type: object
@@ -44268,7 +44277,7 @@ components:
                         type: string
                       id:
                         type: string
-    deployment-route:
+    deployment-route-2:
       type: object
       additionalProperties: false
       description: 'A Deployment Route object: the routing rules one environment''s current deployment applies to a resource template.'
@@ -44668,7 +44677,7 @@ components:
             verification/selfie: '#/components/schemas/verification-selfie'
             verification/verifiable-credential: '#/components/schemas/verification-verifiable-credential'
             workflow: '#/components/schemas/workflow'
-            deployment-route: '#/components/schemas/deployment-route'
+            deployment-route: '#/components/schemas/deployment-route-2'
             workflow-run: '#/components/schemas/workflow-run'
         oneOf:
           - $ref: '#/components/schemas/account'
@@ -44751,7 +44760,7 @@ components:
           - $ref: '#/components/schemas/verification-selfie'
           - $ref: '#/components/schemas/verification-verifiable-credential'
           - $ref: '#/components/schemas/workflow'
-          - $ref: '#/components/schemas/deployment-route'
+          - $ref: '#/components/schemas/deployment-route-2'
           - $ref: '#/components/schemas/workflow-run'
     inquiry-status-action:
       title: Inquiry Status Action
@@ -49803,6 +49812,18 @@ components:
               description: The share of traffic this version receives in the environment of the requesting API key or delivering webhook. Null when the version is not live — including while the Workflow is paused or archived — and for organizations whose deployments do not model a per-version traffic share.
               examples:
                 - 100
+            version-tag:
+              description: 'The version''s tag: its number (`name`), the note it was published with (`description`), and when it was tagged. Null when the version is untagged. The note stays as published even if the version''s description is edited later. Omitted for an organization that doesn''t use the Workflow Deployment Manager, for Sandbox API keys, and for API keys without `workflow.read` on the parent Workflow.'
+              $ref: '#/components/schemas/version-tag'
+              examples:
+                - name: '4'
+                  description: Route high-risk inquiries to manual review
+                  created-at: '2026-09-28T16:02:11.000Z'
+            deployments:
+              type: array
+              description: 'Deployment routes currently sending traffic to this version, one per environment. A paused or archived workflow sends no traffic, and `live` says whether this version is running. Its routes stay listed unless deactivating it replaced them with routes that run nothing. A route runs one version, or splits traffic between two (one of which may run nothing), and its version references carry each version''s token and tag. Each item has the same shape as a route in a Deployment''s `routes` from the Deployments API, and its `source-deployment-id` names the deployment that wrote it. Omitted under the same conditions as `version-tag`.'
+              items:
+                $ref: '#/components/schemas/deployment-route'
             last-updater:
               type:
                 - string
@@ -49948,14 +49969,14 @@ components:
             event: '#/components/schemas/event'
             user: '#/components/schemas/user'
             scheduled-run: '#/components/schemas/scheduled-run'
-            deployment-route: '#/components/schemas/deployment-route'
+            deployment-route: '#/components/schemas/deployment-route-2'
         oneOf:
           - $ref: '#/components/schemas/workflow'
           - $ref: '#/components/schemas/workflow-version'
           - $ref: '#/components/schemas/event'
           - $ref: '#/components/schemas/user'
           - $ref: '#/components/schemas/scheduled-run'
-          - $ref: '#/components/schemas/deployment-route'
+          - $ref: '#/components/schemas/deployment-route-2'
     webhook-body-shared-data:
       x-inheritable: true
       type: object
@@ -55043,6 +55064,8 @@ components:
               live: false
               rollout-label: null
               rollout-percentage: null
+              version-tag: null
+              deployments: []
               last-updater: taylor@example.com
               inputs:
                 - name: account_id
@@ -55068,6 +55091,37 @@ components:
               live: true
               rollout-label: treatment
               rollout-percentage: 25
+              version-tag:
+                name: '5'
+                description: Add manual review escalation
+                created-at: '2026-03-26T18:29:41.000Z'
+              deployments:
+                - resource-type: workflow
+                  template-id: wfl_3VghhbvDc7UuUNT8uZrqZjsk
+                  environment:
+                    token: env_2VpXc7nMqZwKjRfLsGdYb8Ht
+                    name: production
+                  rules:
+                    - strategy:
+                        type: weighted-random
+                        version-refs:
+                          - ref-type: version
+                            version:
+                              token: wfv_TREATMENT123
+                              tag:
+                                name: '5'
+                                description: Add manual review escalation
+                                created-at: '2026-03-26T18:29:41.000Z'
+                            weight: 25
+                          - ref-type: version
+                            version:
+                              token: wfv_CONTROL123
+                              tag:
+                                name: '4'
+                                description: Initial published version
+                                created-at: '2026-03-20T18:29:41.000Z'
+                            weight: 75
+                  source-deployment-id: dply_7KqH4xVnR2bPmYwL9sTgD3cE
               last-updater: alex@example.com
               inputs:
                 - name: account_id
@@ -55093,6 +55147,37 @@ components:
               live: true
               rollout-label: control
               rollout-percentage: 75
+              version-tag:
+                name: '4'
+                description: Initial published version
+                created-at: '2026-03-20T18:29:41.000Z'
+              deployments:
+                - resource-type: workflow
+                  template-id: wfl_3VghhbvDc7UuUNT8uZrqZjsk
+                  environment:
+                    token: env_2VpXc7nMqZwKjRfLsGdYb8Ht
+                    name: production
+                  rules:
+                    - strategy:
+                        type: weighted-random
+                        version-refs:
+                          - ref-type: version
+                            version:
+                              token: wfv_TREATMENT123
+                              tag:
+                                name: '5'
+                                description: Add manual review escalation
+                                created-at: '2026-03-26T18:29:41.000Z'
+                            weight: 25
+                          - ref-type: version
+                            version:
+                              token: wfv_CONTROL123
+                              tag:
+                                name: '4'
+                                description: Initial published version
+                                created-at: '2026-03-20T18:29:41.000Z'
+                            weight: 75
+                  source-deployment-id: dply_7KqH4xVnR2bPmYwL9sTgD3cE
               last-updater: null
               inputs:
                 - name: account_id
@@ -58689,6 +58774,32 @@ components:
                                 name: v2
                                 description: Initial production release
                                 created-at: '2026-03-26T18:29:41.000Z'
+                      source-deployment-id: null
+                    - resource-type: workflow
+                      template-id: wfl_p6YpUH4NhqVf8n4ducnoPSVa
+                      environment:
+                        token: env_2VpXc7nMqZwKjRfLsGdYb8Ht
+                        name: production
+                      rules:
+                        - strategy:
+                            type: weighted-random
+                            version-refs:
+                              - ref-type: version
+                                version:
+                                  token: wfv_8NqRt3WxLmKpYvHdGs5JcBzF
+                                  tag:
+                                    name: '4'
+                                    description: Route high-risk inquiries to manual review
+                                    created-at: '2026-09-28T16:02:11.000Z'
+                                weight: 80
+                              - ref-type: version
+                                version:
+                                  token: wfv_2HtVxQm7NpLrKcYwDs9GbJfZ
+                                  tag:
+                                    name: '5'
+                                    description: Add a sanctions check before approval
+                                    created-at: '2026-10-01T18:20:05.000Z'
+                                weight: 20
                       source-deployment-id: null
             created-at: '2026-10-01T18:34:18.032Z'
     document-created-webhook-body:
