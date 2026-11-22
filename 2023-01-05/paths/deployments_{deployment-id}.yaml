@@ -4,12 +4,15 @@ get:
     it — the newest route per (resource template, environment) key at or before
     the deployment, across every environment and template — including routes
     written by earlier deployments. Because the response is a snapshot, it can
-    look similar to the list endpoint; it does not list other deployments.
+    look similar to the list endpoint; it does not list other deployments. For
+    an organization that doesn't use the Workflow Deployment Manager, workflow
+    routes appear only on a deployment that changed only workflows, and only the
+    routes it wrote; the list endpoint leaves such a deployment out.
 
-    This endpoint does not accept filters. To see only the routes a deployment
-    wrote, use the list endpoint with `filter[changes-only]=true`. A deployment
-    can carry at most 1,000 routes; when its state spans more, this endpoint
-    returns 422, and the list endpoint's filters narrow it.
+    This endpoint does not accept filters. To see only the routes a listed
+    deployment wrote, use the list endpoint with `filter[changes-only]=true`. A
+    deployment can carry at most 1,000 routes; when its state spans more, this
+    endpoint returns 422, and the list endpoint's filters narrow it.
 
     This endpoint requires a production API key; sandbox API keys receive 401.
   operationId: retrieve-a-deployment
